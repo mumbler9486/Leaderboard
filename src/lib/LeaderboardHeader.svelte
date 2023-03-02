@@ -1,0 +1,165 @@
+<script lang="ts">
+    import { t } from 'svelte-i18n';
+    import { locale, locales } from 'svelte-i18n';
+    import { onMount } from "svelte";
+
+let userInfo = null;
+
+    onMount(async () => {
+        const response = await fetch('/.auth/me');
+        const payload = await response.json();
+        const { clientPrincipal } = payload;
+        userInfo = clientPrincipal;
+  
+    });
+
+    function storeLocale(localeReference) {
+        let consentPreferences = (localStorage.getItem("consent-preferences") ?? false) === 'true';
+        if (consentPreferences === true) {
+            localStorage.setItem("language",localeReference.toString())
+        }
+    }
+
+    function cleanLocale(localeReference) {
+        const languageList = `{
+            "en":"English (Global)",
+            "en-alt":"English (Japan)",
+            "ja":"日本語"
+        }`;
+        let cleanedLanguage = JSON.parse(languageList);
+        return cleanedLanguage[localeReference];
+    }
+</script>
+
+<header class="z-50 sticky top-0 border-b border-b-secondary" style="background-color:RGBA(5,15,29,0.8);">
+    <div class="container mx-auto px-2">
+        <div class="navbar">
+            <div class="navbar-start">
+                <a href="/">
+                    <img class="object-contain h-9" src="/logos/logo.png" alt="{$t('shared.siteName')}">
+                </a>
+            </div>
+            
+            <div class="navbar-end">
+                <div class="dropdown dropdown-end">
+                    <label tabindex="0" class="btn no-animation btn-ghost rounded-none"><span class="flex whitespace-nowrap"><i class="bi bi-card-list mr-2"></i>{$t('navigation.viewRuns')}<i class="bi bi-caret-down ml-2"></i></span></label>
+                    <ul tabindex="-1" class="border border-secondary dropdown-content menu shadow bg-neutral whitespace-nowrap">
+                        <span class="text-center m-2 text-xs font-semibold uppercase flex"><img src="/icons/quests/trigger.png" class="mr-2">Purple Triggers</span>
+                        <li>
+                            <a href="/run/purple/solo" tabindex="0" style="border-radius: 0px">
+                                Solo
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/run/purple/duo" tabindex="0" style="border-radius: 0px">
+                                Duo
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/run/purple/party" tabindex="0" style="border-radius: 0px">
+                                Party
+                            </a>
+                        </li>
+                        <span class="text-xs m-2 font-semibold uppercase text-center flex"><img src="/icons/quests/uq.png" class="mr-2">Dark Falz Aegis</span>
+                        <li>
+                            <a href="/run/dfa/solo" tabindex="0" style="border-radius: 0px">
+                                Solo
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/run/dfa/duo" tabindex="0" style="border-radius: 0px">
+                                Duo
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/run/dfa/party" tabindex="0" style="border-radius: 0px">
+                                Multi-Party
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <a href="/settings" class="btn no-animation btn-ghost rounded-none">
+                    <i class="bi bi-gear mr-2"></i>
+                    <span>{$t('navigation.settings')}</span>
+                </a>
+                <!--{#if userInfo != null && userInfo.userRoles.includes('user') }-->
+                <a href="/submit" class="btn no-animation btn-ghost rounded-none">
+                    <i class="bi bi-envelope-paper mr-2"></i>
+                    <span>{$t('navigation.submitRun')}</span>
+                </a>
+                <!--{/if}
+                {#if userInfo != null && (userInfo.userRoles.includes('moderator') || userInfo.userRoles.includes('administrator')) }-->
+                <div class="dropdown dropdown-end">
+                    <label tabindex="0" class="btn no-animation btn-ghost rounded-none"><span class="flex"><i class="bi bi-shield-shaded mr-2"></i>Moderation<i class="bi bi-caret-down ml-2"></i></span></label>
+                    <ul tabindex="-1" class="border border-secondary dropdown-content menu shadow bg-neutral whitespace-nowrap">
+                        <li>
+                            <a href="/moderator/submissions" tabindex="0" style="border-radius: 0px">
+                                <i class="bi bi-inboxes mr-0"></i>{$t('navigation.modadmin.submissionQueue')}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!--{/if}
+                {#if userInfo == null}-->
+                <a href="/login" class="btn no-animation btn-ghost rounded-none">
+                    <i class="bi bi-box-arrow-in-right mr-2"></i>
+                    <span>{$t('navigation.login')}</span>
+                </a>
+                <!--{/if}
+                {#if userInfo != null && userInfo.userRoles.includes('user') }-->
+                <div class="dropdown dropdown-end">
+                    <label tabindex="0" class="btn no-animation btn-ghost rounded-none"><span class="flex" style="font-weight:bold; text-transform: none;">{$t('common.loading')}<i class="bi bi-caret-down ml-2"></i></span></label>
+                    <ul tabindex="-1" class="border border-secondary dropdown-content menu shadow bg-neutral whitespace-nowrap">
+                        <li>
+                            <a href="/profile" tabindex="0" style="border-radius: 0px">
+                                <i class="bi bi-person-vcard mr-0"></i>{$t('navigation.profile')}
+                            </a>
+                        </li>
+                        <!--ForLater<li>
+                            <a tabindex="0" style="border-radius: 0px">
+                                <i class="bi bi-inbox mr-0"></i>{$t('navigation.submissionStatus')}
+                            </a>
+                        </li>-->
+                        <li>
+                            <a href="/logout" tabindex="0" style="border-radius: 0px">
+                                <i class="bi bi-box-arrow-right mr-0"></i>{$t('navigation.logout')}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!--{/if}-->
+                
+            </div>
+            <label for="modal-lang" class="btn no-animation btn-ghost rounded-none"><i class="bi bi-translate"></i></label>
+        </div>
+    </div>
+</header>
+
+<input type="checkbox" id="modal-lang" class="modal-toggle" />
+<div class="modal">
+  <div class="modal-box relative rounded max-w-4xl">
+    <div class="flex flex-row">
+        <span class="flex-1 font-light text-3xl md:text-4xl self-center">Language</span>
+        <label for="modal-lang" class="flex-initial btn btn-sm btn-square rounded btn-outline btn-secondary self-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </label>
+    </div>
+    <div class="divider -mx-6"></div>
+    <div class="flex flex-row flex-wrap gap-1 justify-center">
+        {#each $locales as localeref}
+            {#each [cleanLocale(localeref)] as cleanedLocale}
+            <label class="label cursor-pointer border border-neutral-content/25 rounded bg-neutral gap-2 px-2 w-64">
+                <span class="label-text text-neutral-content">{cleanedLocale}</span> 
+                <input type="radio" bind:group={$locale} id="radio-classFilter-force" value={localeref} name="radio-shared-languagePreference" class="radio radio-sm checked:bg-[#DBDBDB] rounded border-neutral-content/25" on:click={() => storeLocale(localeref)}/>
+            </label>
+            {/each}
+        {/each}
+    </div>
+    <div class="divider -mx-6"></div>
+    <div class="modal-action">
+        <label for="modal-lang" class="btn md:btn-sm btn-secondary btn-outline rounded">Close</label>
+    </div>
+  </div>
+</div>

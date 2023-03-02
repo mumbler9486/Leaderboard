@@ -1,0 +1,13 @@
+{
+  "leaderboard": {
+    "halphiaLake": "Dark Falz Aegis"
+  },
+  "common": {
+    "weapons": {
+      "soaring_blades": "Dual Blades",
+      "partisan": "Partizan",
+      "bow": "Bullet Bow",
+      "takt": "Takt"
+    }
+  }
+}
