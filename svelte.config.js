@@ -5,9 +5,10 @@ import { vitePreprocess } from '@sveltejs/kit/vite';
 const config = {
 	kit: {
 		adapter: azure({
+			apiDir: 'api',
 			customStaticWebAppConfig: {
 				auth: {
-				rolesSource: "/api/LoginGetRolesPSO2",
+				rolesSource: "/api/pso2getroles",
 				identityProviders: {
 					customOpenIdConnectProviders: {
 					aadb2c: {
