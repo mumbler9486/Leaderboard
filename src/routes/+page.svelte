@@ -7,6 +7,7 @@
     import LeaderboardFooter from "$lib/LeaderboardFooter.svelte";
     import HomeNews from "$lib/NewsComponents/HomeNews.svelte";
     import HomeNew10 from "$lib/LeaderboardComponents/HomeNew10.svelte";
+    import HomeNewAegis5 from '$lib/LeaderboardComponents/HomeNewAegis5.svelte';
     import SoloPurpleStats from "$lib/StatComponents/SoloPurpleStats.svelte";
     import DiscordWidget from "$lib/DiscordComponents/DiscordWidget.svelte";
     import MeteornRecordCountdown from '$lib/LeaderboardComponents/MeteornRecordCountdown.svelte';
@@ -100,6 +101,9 @@
                         <DiscordWidget/>
                     </div>
                     {/if}
+                    <div class="bg-base-100 mt-0 m-2 md:ml-0 px-8 p-4 border-secondary border rounded-md grow">
+                        <HomeNewAegis5/>
+                    </div>
                     <div class="bg-base-100 mt-0 m-2 md:ml-0 px-8 p-4 border-secondary border rounded-md grow">
                         <HomeNew10/>
                         <div class="divider -mx-8"></div>

@@ -1,7 +1,8 @@
 {
   "page": {
     "home": {
-      "newestRuns": "Newest 10 Solo Runs"
+      "newestRuns": "Newest 10 Solo Runs",
+      "newestRunsAegis": "Newest 5 DFA MPA Runs"
     }
   },
   "navigation": {
