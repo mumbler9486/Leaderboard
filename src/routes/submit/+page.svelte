@@ -195,7 +195,7 @@ async function submitRun() {
         }
         input.Notes = document.getElementById("notes-form").value;
         submitting = true;
-        console.log(input);
+        //console.log(input);
         const response = await fetch('/ngs-api/SubmitRun', {
             method: 'POST',
             headers: {
@@ -204,7 +204,7 @@ async function submitRun() {
             body: JSON.stringify(input)
         });
         var complete = await response.json()
-        console.log(complete)
+        //console.log(complete)
         if (complete.Code == "error") {
             submitting = false;
         }
