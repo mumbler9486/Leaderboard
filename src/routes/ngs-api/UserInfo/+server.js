@@ -74,7 +74,7 @@ export async function GET({ url }) {
         //}
         if (returner[0].AllianceID != null && returner[0].AllianceID != '') {
             var params = '?aid=' + returner[0].AllianceID;
-            const response = await fetch('http://localhost:5173/ngs-api/UserAllianceInfo' + params, {
+            const response = await fetch('/ngs-api/UserAllianceInfo' + params, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
