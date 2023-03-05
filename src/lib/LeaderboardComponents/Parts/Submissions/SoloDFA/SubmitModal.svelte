@@ -70,6 +70,27 @@
         }
     }
 
+    async function denyRun() {
+        d.ModNotes = document.getElementById('modnote-form').value;
+        d.ModNotes == '' ? d.ModNotes = null : null
+        processing = true;
+        const response = await fetch('/ngs-api/DenyRun?type=dfasolo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(d)
+        });
+        var complete = await response.json()
+        //console.log(complete)
+        if (complete.Code == "error") {
+            processing = false;
+        }
+        else if (complete.Code == "success") {
+            closeModalUpdate();
+        }
+    }
+
     function generateEmbedYoutube() {
         var urls = [
 				d.Link
@@ -262,7 +283,7 @@
       <div class="divider -mx-6"></div>
       <div class="modal-action">
             {#if d.RunID !== undefined && !processing}
-            <label on:click={closeModal} class="btn md:btn-sm btn-error btn-outline rounded">Deny</label>
+            <label on:click={denyRun} class="btn md:btn-sm btn-error btn-outline rounded">Deny</label>
             <label on:click={approveRun} class="btn md:btn-sm btn-success btn-outline rounded">Approve</label>
             <label on:click={closeModal} class="btn md:btn-sm btn-secondary btn-outline rounded">Close</label>
             {/if}
