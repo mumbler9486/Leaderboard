@@ -80,7 +80,7 @@
         generatePlayer(data.sub);
         subTime = new Date(data.shared.SubmissionTime).toDateString() + ' @ ' + new Date(data.shared.SubmissionTime).toTimeString().slice(0,8);
         notes = noteGenerate(data.shared.notes);
-        timeMapped = timeSplit[0] + "m " + timeSplit[1] + "s"
+        timeMapped = timeSplit[0] + "h " + timeSplit[1] + "m " + timeSplit[2] + "s"
     });
 
     function openRunMessage() {

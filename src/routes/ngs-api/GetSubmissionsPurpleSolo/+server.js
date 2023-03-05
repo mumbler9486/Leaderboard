@@ -166,13 +166,13 @@ export async function GET({ request }) {
                 Players.Information AS pi4 ON submit.P4PlayerID = pi4.PlayerID
 
                 INNER JOIN
-                Players.Information AS pi5 ON submit.P1PlayerID = pi5.PlayerID
+                Players.Information AS pi5 ON submit.P5PlayerID = pi5.PlayerID
                 INNER JOIN
-                Players.Information AS pi6 ON submit.P2PlayerID = pi6.PlayerID
+                Players.Information AS pi6 ON submit.P6PlayerID = pi6.PlayerID
                 INNER JOIN
-                Players.Information AS pi7 ON submit.P3PlayerID = pi7.PlayerID
+                Players.Information AS pi7 ON submit.P7PlayerID = pi7.PlayerID
                 INNER JOIN
-                Players.Information AS pi8 ON submit.P4PlayerID = pi8.PlayerID
+                Players.Information AS pi8 ON submit.P8PlayerID = pi8.PlayerID
         
                 INNER JOIN
                 Players.Customization AS pc1 ON submit.P1PlayerID = pc1.PlayerID
