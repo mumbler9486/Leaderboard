@@ -51,14 +51,14 @@ export async function POST({ request }) {
         // Check the run type validity
 
         if(!runTypes.includes(data.RunType)) {
-            return json({'Code' : 'error'});
+            return json({'Code' : 'error', 'Message' : 'RunType was a problem'});
         }
 
         // Check the trigger option validity
 
         if(data.Trigger && Number(data.Trigger) != 1 && Number(data.Trigger) != 0) {
             //console.log('trig error');
-            return json({'Code' : 'error'});
+            return json({'Code' : 'error', 'Message' : 'Trigger was a problem'});
         }
 
 
@@ -66,7 +66,7 @@ export async function POST({ request }) {
 
         if(data.Buff && !buffList.includes(data.Buff)) {
             //console.log('buff error');
-            return json({'Code' : 'error'});
+            return json({'Code' : 'error', 'Message' : 'Buff was a problem'});
         }
 
 
