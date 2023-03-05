@@ -23,7 +23,7 @@ const config = {
 						},
 						login: {
 						nameClaimType: "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
-						scopes: ["openid","profile","email"],
+						scopes: ["openid","profile"],
 						loginParameterNames: []
 						}
 					}

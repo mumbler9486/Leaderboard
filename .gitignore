@@ -14,3 +14,4 @@ vite.config.ts.timestamp-*
 /.vscode
 package-lock.json
 swa-cli.config.json
+api/sk_render

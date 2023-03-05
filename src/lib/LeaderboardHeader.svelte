@@ -2,9 +2,12 @@
     import { t } from 'svelte-i18n';
     import { locale, locales } from 'svelte-i18n';
     import { onMount } from "svelte";
+    import { browser } from '$app/environment';
 
-let userInfo = null;
-let userinfoName;
+    let storedUser = (browser ? localStorage.getItem("loginreference-last") ?? null : null);
+    let storedName = (browser ? localStorage.getItem("playerreference-name") ?? null : null)
+    let storedStyle = (browser ? localStorage.getItem("playerreference-style") ?? null : null)
+    let userInfo = null;
 
     onMount(async () => {
         const response = await fetch('/.auth/me');
@@ -12,18 +15,23 @@ let userinfoName;
         const { clientPrincipal } = payload;
         userInfo = clientPrincipal;
 
-        if (userInfo != null)
+        if (userInfo != null && storedUser != userInfo.userDetails)
         {
-            //console.log(userInfo.userDetails);
-            const iterator = userInfo.claims.values();
-    
-            for (const value of iterator) {
-                //console.log(value.typ);
-                if (value.typ == "extension_playerDisplayname")
-                {
-                    userinfoName = value.val;
+            var params = '?asdf=' + userInfo.userId;
+            const response2 = await fetch('/ngs-api/CreateNavName' + params , {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
                 }
-            }
+            });
+            const MyPlayer = await response2.json();
+            console.log(MyPlayer)
+            localStorage.setItem("loginreference-last",(userInfo.userDetails).toString())
+            localStorage.setItem("playerreference-name",(MyPlayer.PlayerName).toString())
+            localStorage.setItem("playerreference-style",(MyPlayer.PlayerStyle).toString())
+            storedUser = (browser ? localStorage.getItem("loginreference-last") ?? null : null);
+            storedName = (browser ? localStorage.getItem("playerreference-name") ?? null : null)
+            storedStyle = (browser ? localStorage.getItem("playerreference-style") ?? null : null)
         }
   
     });
@@ -196,10 +204,10 @@ let userinfoName;
                 {/if}
                 {#if userInfo != null && userInfo.userRoles.includes('user') }
                 <div class="dropdown dropdown-end">
-                    {#if userinfoName == undefined}
+                    {#if storedName == undefined || storedName == null}
                     <label tabindex="0" class="btn no-animation btn-ghost rounded-none"><span class="flex" style="font-weight:bold; text-transform: none;">{$t('common.loading')}<i class="bi bi-caret-down ml-2"></i></span></label>
                     {:else}
-                    <label tabindex="0" class="btn no-animation btn-ghost rounded-none"><span class="flex" style="font-weight:bold; text-transform: none;">{userinfoName}<i class="bi bi-caret-down ml-2"></i></span></label>
+                    <label tabindex="0" class="btn no-animation btn-ghost rounded-none"><span class="flex font-bold" style={storedStyle}>{storedName}</span><i class="bi bi-caret-down ml-2"></i></label>
                     {/if}
                     <ul tabindex="-1" class="border border-secondary dropdown-content menu shadow bg-neutral whitespace-nowrap">
                         <li>
