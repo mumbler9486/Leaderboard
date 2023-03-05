@@ -37,7 +37,7 @@
 
     <LeaderboardTitle category="{$t('leaderboard.halphiaLake')}" subCategory="{$t('common.playerCount.mpa')}"/>
         
-    <MeteornRecordCountdown recordType='aegis-party' endDate='Mar 8, 2023' linkActive={false}/>
+    <MeteornRecordCountdown recordType='aegis-party' endDate='Mar 15, 2023' linkActive={false}/>
 
     <div class="content-center grow">
         <div class="container mx-auto bg-base-100/75 border-secondary border rounded-md mb-16 mt-2">

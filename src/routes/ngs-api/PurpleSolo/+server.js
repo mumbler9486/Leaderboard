@@ -30,7 +30,7 @@ export async function GET({ url }) {
         var classQuery = '';
         var videoQuery = ` AND NOT COALESCE(VideoTag,'none') = 'partial'`;
 
-        // console.log(data);
+        // //console.log(data);
 
         if (data.get('patch') != null && data.get('patch') != '') {
             if (data.get('patch') == 'P60') {
@@ -107,7 +107,7 @@ export async function GET({ url }) {
 		var results = await poolConnection.request().input('ServerInput',sql.VarChar,data.get('server')).input('ClassInput',sql.VarChar,data.get('class')).input('PatchInput',sql.VarChar,data.get('patch')).input('RegionInput',sql.VarChar,data.get('region')).input('RankInput', sql.Int, data.get('rank')).query(sqlQuery);
 
 		var returner = results.recordset;
-		//console.log(returner);
+		////console.log(returner);
 		// @ts-ignore
 		// poolConnection.close();
 

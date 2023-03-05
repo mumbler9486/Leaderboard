@@ -41,7 +41,7 @@
         d = {'Error':1}
     }
     
-    console.log(d);
+    //console.log(d);
     generateNames();
     checkDescription();
     d.shipSrc = shipGenerate();

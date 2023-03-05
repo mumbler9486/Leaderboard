@@ -25,7 +25,7 @@
     
     dataStorage = await response.json();
     loading = 0;
-    console.log(dataStorage)
+    //console.log(dataStorage)
   }
 
   function scream(agony) {

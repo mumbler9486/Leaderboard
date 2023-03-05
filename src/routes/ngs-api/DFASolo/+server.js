@@ -31,7 +31,7 @@ export async function GET({ url }) {
         var classQuery = '';
         var videoQuery = ` AND NOT COALESCE(VideoTag,'none') = 'partial'`;
 
-        // console.log(data);
+        // //console.log(data);
 
         if (data.get('buff') != null && data.get('buff') != '') {
             buffQuery = ` AND Buff = @BuffInput`;
@@ -92,7 +92,7 @@ export async function GET({ url }) {
     WHERE
         Players.Information.PlayerID = DFAegis.Solo.PlayerID
         AND
-        [Trigger] = @RegionInput
+        [Drill] = @RegionInput
         ` + classQuery + buffQuery + serverQuery + videoQuery + `
         
     ORDER BY time ASC, SubmissionTime ASC`;
@@ -101,7 +101,7 @@ export async function GET({ url }) {
 		var results = await poolConnection.request().input('RegionInput',sql.VarChar,data.get('trigger')).input('ServerInput',sql.VarChar,data.get('server')).input('ClassInput',sql.VarChar,data.get('class')).input('BuffInput',sql.VarChar,data.get('buff')).query(sqlQuery);
 
 		var returner = results.recordset;
-		//console.log(returner);
+		////console.log(returner);
 		// @ts-ignore
 		// poolConnection.close();
 

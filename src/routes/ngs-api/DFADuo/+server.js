@@ -28,7 +28,7 @@ export async function GET({ url }) {
         var buffQuery = ``;
         var serverQuery = ``;
 
-        // console.log(data);
+        // //console.log(data);
 
         if (data.get('buff') != null && data.get('buff') != '') {
             buffQuery = ` AND Buff = @BuffInput`;
@@ -73,6 +73,8 @@ export async function GET({ url }) {
 
     WHERE
         PartySize = 2
+        AND
+        [Drill] = @RegionInput
         ` + buffQuery + serverQuery + `
        
     GROUP BY DFAegis.Party.RunID
@@ -80,7 +82,7 @@ export async function GET({ url }) {
     ORDER BY MAX(time) ASC, MAX(SubmissionTime) ASC`;
 
 		// @ts-ignore
-		var results = await poolConnection.request().input('ServerInput',sql.VarChar,data.get('server')).input('buffInput',sql.VarChar,data.get('buff')).input('RegionInput',sql.VarChar,data.get('region')).input('RankInput', sql.Int, data.get('rank')).query(sqlQuery);
+		var results = await poolConnection.request().input('ServerInput',sql.VarChar,data.get('server')).input('buffInput',sql.VarChar,data.get('buff')).input('RegionInput',sql.VarChar,data.get('trigger')).input('RankInput', sql.Int, data.get('rank')).query(sqlQuery);
 
 		var returner = results.recordset;
         var returnArray = [];

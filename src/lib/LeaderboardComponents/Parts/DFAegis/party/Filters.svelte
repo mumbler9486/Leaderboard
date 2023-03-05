@@ -62,7 +62,7 @@
       </label>
 
       <label class="label cursor-pointer border border-neutral-content/25 rounded bg-neutral gap-2 px-2 w-32 md:w-[10.1rem]">
-        <img src="/icons/dfa/aina-manon.png" alt="Aina & Manon">
+        <img src="/icons/dfa/ainamanon.png" alt="Aina & Manon">
         <span class="label-text text-neutral-content">Aina & Manon</span> 
         <input type="radio" id="radio-buffFilter-ainamanon" value="ainamanon" name="radio-buffFilter" class="radio radio-sm checked:bg-[#DBDBDB] rounded border-neutral-content/25" />
       </label>

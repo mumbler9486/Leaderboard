@@ -124,7 +124,7 @@
     }
 
     function videoAlertGenerate(videoMod) {
-        console.log(videoMod);
+        //console.log(videoMod);
         var smile = '';
         if (videoMod != null && videoMod != '' && videoMod != 'none') {
             if(videoMod == 'partial') {
@@ -145,7 +145,7 @@
     function generateWeaponImages(input, id) {
 	const input2 = input.toLowerCase();
 	var inputArray = input2.split(' ');
-	//console.log(inputArray);
+	////console.log(inputArray);
 	let result = '';
 	inputArray.forEach((weapon) => {
 		switch (weapon) {

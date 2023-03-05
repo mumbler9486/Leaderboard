@@ -46,7 +46,7 @@
         generateMainName(player3);
         generateMainName(player4);
         generateMainName(submitter);
-        console.log(submitter)
+        //console.log(submitter)
 
     }
 
@@ -54,6 +54,7 @@
         if (player.PlayerID == submitter.PlayerID) {
             player.RunCharacterName = player.CharacterName;
         }
+        player.PreferredName = (player.PreferredName).toString();
         switch (player.PreferredName) {
             // Main Character Name
             case '1':
@@ -73,6 +74,7 @@
         }
         if (player.PlayerID != ('106' || '107')) {
             player.CSS = `font-weight: bold; `;
+            player.NameType = (player.NameType).toString();
             switch (player.NameType) {
             case '1':
                 player.CSS += `color: #` + player.NameColor1 + `;`

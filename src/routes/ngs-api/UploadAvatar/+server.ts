@@ -20,8 +20,8 @@ export async function POST({ request }) {
         const player = data.get("player");
         const fileBlob = data.get("file") as File;
         const file = await fileBlob.arrayBuffer();
-        console.log(file)
-        console.log("Uploading files...");
+        //console.log(file)
+        //console.log("Uploading files...");
         const promises = [];
 
         const blockBlobClient = containerClient.getBlockBlobClient('userAvatars/' + player + '.jpg');
@@ -29,12 +29,12 @@ export async function POST({ request }) {
         promises.push(blockBlobClient.uploadData(file,{ blobHTTPHeaders: {blobContentType: "image/jpg"}}));
 
         await Promise.all(promises);
-        console.log("Done.");
+        //console.log("Done.");
         return 'done'
 
     }
     catch (error) {
-            console.log(error.message);
+            //console.log(error.message);
             return 'error'
     }
 }*/

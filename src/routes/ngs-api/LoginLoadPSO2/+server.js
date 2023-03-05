@@ -24,10 +24,10 @@ export async function POST({ req }) {
 
 	try {
 		var poolConnection = await sql.connect(config);
-        //console.log(req.body);
+        ////console.log(req.body);
         const userID = req.body;
-        //console.log(userID.userId);
-        //console.log("BLEP")
+        ////console.log(userID.userId);
+        ////console.log("BLEP")
 
 		var sqlQuery = `
 
@@ -55,14 +55,14 @@ export async function POST({ req }) {
 		var results = await poolConnection.request().input('UserID',sql.NVarChar, userID.objectId).query(sqlQuery);
 		
 		var returner = results.recordset;
-		//console.log(results);
+		////console.log(results);
 		poolConnection.close();
 
         var displayName = 'b';
         var nameType = 'b';
         var nameColor1 = 'b';
         var nameColor2 = 'b';
-        //console.log(returner);
+        ////console.log(returner);
 
         nameType = returner[0].NameType;
         nameColor1 = returner[0].NameColor1;
@@ -95,7 +95,7 @@ export async function POST({ req }) {
         }
     
         nameType = nameType.toString();
-        //console.log(returner[0]);
+        ////console.log(returner[0]);
 
         var data = {
             "version": "1.0.0",
@@ -111,7 +111,7 @@ export async function POST({ req }) {
 
         //data = JSON.stringify(data);
         //data = JSON.parse(data);
-        //console.log(data);
+        ////console.log(data);
         return json(data);
 
     }

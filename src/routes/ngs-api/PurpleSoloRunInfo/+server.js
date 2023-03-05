@@ -86,7 +86,7 @@ export async function GET({ url }) {
 		var results = await poolConnection.request().input('runID',sql.Int,data.get('GetRunID')).query(sqlQuery);
 
 		var returner = results.recordset;
-		//console.log(returner);
+		////console.log(returner);
 		// @ts-ignore
 		// poolConnection.close();
 

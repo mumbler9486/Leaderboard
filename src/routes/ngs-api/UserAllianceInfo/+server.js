@@ -25,7 +25,7 @@ export async function GET({ url }) {
 		// @ts-ignore
 		var poolConnection = await sql.connect(config);
 
-        // console.log(data);
+        // //console.log(data);
 
 		var sqlQuery = `
 
@@ -46,7 +46,7 @@ export async function GET({ url }) {
         //if (returner[0].AllianceIcon != null && returner[0].AllianceIcon != '') {
         //    returner[0].AllianceIcon = 'https://blobcdn.blob.core.windows.net/pso2cdn/allianceIcons/' + returner[0].AllianceID + '.png';
         //}
-		//console.log(returner);
+		////console.log(returner);
 		// @ts-ignore
 		// poolConnection.close();
 

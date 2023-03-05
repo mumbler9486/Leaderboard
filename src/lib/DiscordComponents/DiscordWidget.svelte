@@ -23,7 +23,7 @@
     presence = dataStorage.presence_count;
     inviteLink = dataStorage.instant_invite;
     serverName = dataStorage.name;
-    console.log(dataStorage)
+    ////console.log(dataStorage)
     }
 </script>
 

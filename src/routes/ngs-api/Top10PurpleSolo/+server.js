@@ -74,7 +74,7 @@ export async function GET({ request }) {
 		var results = await poolConnection.request().query(sqlQuery);
 		
 		var returner = results.recordset;
-		//console.log(returner);
+		////console.log(returner);
 		// @ts-ignore
 		poolConnection.close();
 

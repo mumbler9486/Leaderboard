@@ -9,7 +9,7 @@
 </script>
 
 <svelte:head>
-    <title>{$t('shared.siteName')} - 404 Not Found</title>
+    <title>{$t('shared.siteName')} | Privacy Policy</title>
 </svelte:head>
 
 <div class="flex flex-col min-h-screen">

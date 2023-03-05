@@ -36,7 +36,7 @@
         
         d = await response.json();
         d = d[0];
-        console.log(d)
+        //console.log(d)
         cssOutputMain = generateMainName(d.PlayerID,d.NamePref,d.NameType);
         cssOutputSub = generateSubName(d.SubPlayerID,d.SubNamePref,d.SubNameType);
 
@@ -52,7 +52,7 @@
 			
 		for (i = 0; i < urls.length; ++i) {
 			r = urls[i].match(rx);
-			//console.log(r[1]);
+			////console.log(r[1]);
 			videoCode = r[1];
 		}
 

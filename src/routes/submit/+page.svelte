@@ -92,10 +92,10 @@
 
     function testValue(i) {
         if((document.getElementById("playerName-datalist"+(i+1)).options.namedItem(''.concat(document.getElementById("playername-form"+(i+1)).value.toString(), (i + 1).toString()))) == null) {
-            console.log("It was null")
+            //console.log("It was null")
         }
         else {
-            console.log(document.getElementById("playerName-datalist"+(i+1)).options.namedItem(''.concat(document.getElementById("playername-form"+(i+1)).value.toString(), (i + 1).toString())).dataset.player)
+            //console.log(document.getElementById("playerName-datalist"+(i+1)).options.namedItem(''.concat(document.getElementById("playername-form"+(i+1)).value.toString(), (i + 1).toString())).dataset.player)
 
         }
     }
@@ -109,7 +109,7 @@
             }
         });
         userList = await response.json()
-        console.log(regex)
+        //console.log(regex)
 
     });
 
@@ -126,20 +126,88 @@
 
 async function submitRun() {
         submitting = true;
+
+
+        var input = {};
+
+        const res = await fetch('/.auth/me');
+        const payload = await res.json();
+        const { clientPrincipal } = payload;
+        var userInfo = clientPrincipal;
+
+        input.SubmitterID = userInfo.userID;
+
+        // Get the run category.
+        input.RunType = document.getElementById('runcategory-form').value;
+        // Get party size.
+        input.PartySize = document.getElementById('partysize-form').value;
+        switch(input.RunType) {
+            case "aegis":
+                input.Buff = document.getElementById('buffselect-form').value;
+
+                input.Trigger = document.getElementById('triggerselect-form').value;
+
+                input.TimeHours = document.getElementById('time-form-hours').value;
+                input.TimeMinutes = document.getElementById('time-form-minutes').value;
+                input.TimeSeconds = document.getElementById('time-form-seconds').value;
+                break;
+
+            case "purple":
+                input.Region = document.getElementById('regionselect-form').value;
+
+                input.Rank = document.getElementById('rankselect-form').value;
+
+                input.TimeMinutes = document.getElementById('time-form-minutes').value;
+                input.TimeSeconds = document.getElementById('time-form-seconds').value;
+                break;
+        }
+        Number(input.PartySize) > 1 ? input.RunServer = document.getElementById('runserver-form').value : null;
+
+        for (let i = 0; i < Number(input.PartySize); i++) {
+            input["Player" + (i+1)] = {};
+            if ((document.getElementById("playerName-datalist"+(i+1)).options.namedItem(''.concat(document.getElementById("playername-form"+(i+1)).value.toString(), (i + 1).toString()))) != null) {
+                input["Player" + (i+1)].PlayerID = (document.getElementById("playerName-datalist"+(i+1)).options.namedItem(''.concat(document.getElementById("playername-form"+(i+1)).value.toString(), (i + 1).toString())).dataset.player)
+            }
+            else {
+                switch (document.getElementById("playerserver-form"+(i+1)).value) {
+                    case "japan":
+                        input["Player" + (i+1)].PlayerID = '107';
+                        break;
+                    case "global":
+                        input["Player" + (i+1)].PlayerID = '106';
+                        break;
+                }
+            }
+            
+            input["Player" + (i+1)].Name = document.getElementById("playername-form"+(i+1)).value;
+            input["Player" + (i+1)].VideoName = document.getElementById("charactername-form"+(i+1)).value;
+            input["Player" + (i+1)].Server = document.getElementById("playerserver-form"+(i+1)).value;
+            input["Player" + (i+1)].MainClass = document.querySelector('input[name="radio-mainclass' + (i+1) + '"]:checked').value;
+            input["Player" + (i+1)].SubClass = document.querySelector('input[name="radio-subclass' + (i+1) + '"]:checked').value;
+        
+            if(Number(input.PartySize) == 1) {
+                input["Player" + (i+1)].Weapons = selectedWeapons;
+            }
+
+            input["Player" + (i+1)].Video = document.getElementById("video-form"+(i+1)).value;
+
+            
+        }
+        input.Notes = document.getElementById("notes-form").value;
+
         const response = await fetch('/ngs-api/SubmitRun', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                'boop' : 'bap'
-            })
+            body: JSON.stringify(input)
         });
         var complete = await response.json()
-        if (complete.Code = "error") {
+        //console.log(complete)
+        if (complete.Code == "error") {
             submitting = false;
         }
-        else if (complete.Code = "success") {
+        else if (complete.Code == "success") {
             submitted = true;
         }
         
@@ -245,23 +313,55 @@ async function submitRun() {
                                     <span>:</span>
                                     <input id="time-form-seconds" placeholder="SS" type="number" class="input input-bordered w-full" min='0' max='59' maxlength="2" required />
                                 </label>
+                                <label class="label">
+                                    <span class="label-text">This is the total time taken on your run.<br><span class="text-warning">Simplified time entry coming soon!</span></span>
+                                </label>
                             </div>
 
                         </div>
 
                         {:else if selectedCategory && selectedCategory == 'aegis' }
 
-                        <div class="form-control">
-                            <label class="label">
-                                <span class="label-text">Time</span>
-                            </label>
-                            <label class="input-group">
-                                <input id="time-form-hours" placeholder="H" type="number" class="input input-bordered w-full" min='0' max='1' maxlength="1" required />
-                                <span>:</span>
-                                <input id="time-form-minutes" placeholder="MM" type="number" class="input input-bordered w-full" min='0' max='59' maxlength="2" required />
-                                <span>:</span>
-                                <input id="time-form-seconds" placeholder="SS" type="number" class="input input-bordered w-full" min='0' max='59' maxlength="2" required />
-                            </label>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+
+                            <div class="form-control">
+                                <label class="label" for="triggerselect-form">
+                                <span class="label-text">Mode</span>
+                                </label>
+                                <select name="triggerselect" id="triggerselect-form" class="select select-bordered" required >
+                                    <option value="" disabled selected>Select a Mode...</option>
+                                <option value='0'>Urgent Quest</option>
+                                <option value='1'>Trigger / Drill</option>
+                                </select>
+                            </div>
+                            <div class="form-control">
+                                <label class="label" for="buffselect-form">
+                                <span class="label-text">Support</span>
+                                </label>
+                                <select name="buffselect" id="buffselect-form" class="select select-bordered" required >
+                                    <option value="" disabled selected>Select a Support...</option>
+                                <option value='nadereh'>Nadereh</option>
+                                <option value='ainamanon'>Aina & Manon</option>
+                                <option value='ilma'>Ilma</option>
+                                <option value='glen'>Glen</option>
+                                </select>
+                            </div>
+
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">Time</span>
+                                </label>
+                                <label class="input-group">
+                                    <input id="time-form-hours" placeholder="H" type="number" class="input input-bordered w-full" min='0' max='1' maxlength="1" required />
+                                    <span>:</span>
+                                    <input id="time-form-minutes" placeholder="MM" type="number" class="input input-bordered w-full" min='0' max='59' maxlength="2" required />
+                                    <span>:</span>
+                                    <input id="time-form-seconds" placeholder="SS" type="number" class="input input-bordered w-full" min='0' max='59' maxlength="2" required />
+                                </label>
+                                <label class="label">
+                                    <span class="label-text">This is the time shown at the end of the quest.</span>
+                                </label>
+                            </div>
                         </div>
 
                         {/if}
@@ -272,8 +372,8 @@ async function submitRun() {
                                 <span class="label-text">Run Server</span>
                             </label>
                             <select id="runserver-form" class="select select-bordered">
-                                <option selected>Global</option>
-                                <option>Japan</option>
+                                <option value="global" selected>Global</option>
+                                <option value="japan">Japan</option>
                               </select>
                             <label class="label">
                                 <span class="label-text-alt">This is the server the run was recorded on.</span>
@@ -326,8 +426,8 @@ async function submitRun() {
                                             <span class="label-text">Player Server</span>
                                         </label>
                                         <select id={"playerserver-form"+(i+1)} class="select select-bordered">
-                                            <option selected>Global</option>
-                                            <option>Japan</option>
+                                            <option value="global" selected>Global</option>
+                                            <option value="japan">Japan</option>
                                           </select>
                                         <label class="label">
                                             <span class="label-text-alt text-warning">This only applies to manual name entries! If you picked an existing player, ignore this!</span>

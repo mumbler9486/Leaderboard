@@ -235,7 +235,7 @@ export async function GET({ url }) {
             };
             returnArray.push(dataReturn);
         });
-		//console.log(returner);
+		////console.log(returner);
 		// @ts-ignore
 		// poolConnection.close();
 

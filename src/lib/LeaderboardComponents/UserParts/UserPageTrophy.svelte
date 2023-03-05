@@ -16,7 +16,7 @@
         trophyName = trophiesJson[trophyID].name;
         trophySource = trophiesJson[trophyID].img;
         trophyDescription = trophiesJson[trophyID].description;
-        console.log(trophiesJson[trophyID])
+        //console.log(trophiesJson[trophyID])
     });
 
 

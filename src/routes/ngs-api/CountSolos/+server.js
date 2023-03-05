@@ -32,7 +32,7 @@ export async function GET({ request }) {
 		var results = await poolConnection.request().query(sqlQuery);
 		
 		var returner = results.recordset[0];
-		//console.log(returner);
+		////console.log(returner);
 		// @ts-ignore
 		poolConnection.close();
 

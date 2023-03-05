@@ -85,7 +85,7 @@
 
     <div class="flex flex-col grow content-center">
         <img class="my-16 md:my-0 mx-8 drop-shadow-[2px_4px_6px_rgba(0,0,0,0.8)] object-scale-down" alt="{$t('shared.siteName')}" src="/logos/logo.png">
-        <MeteornRecordCountdown recordType='aegis-party' endDate='Mar 8, 2023' linkActive={true}/>
+        <MeteornRecordCountdown recordType='aegis-party' endDate='Mar 15, 2023' linkActive={true}/>
         <div class="container mx-auto bg-base-100/75 border-secondary border rounded-md mb-16">
             <div class="flex flex-col md:flex-row align-center">
                 <div class="basis-full md:basis-2/3 bg-base-100 m-2 px-8 p-4 border-secondary border rounded-md">

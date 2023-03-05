@@ -57,8 +57,8 @@ export async function GET({ url }) {
         MAX(sc.Ship) as sShip,
         MAX(sc.Flag) as sFlag,
         MAX(sc.NameType) as sNameType,
-        MAX(sc.NameColor1) as sNameColor1,
-        MAX(sc.NameColor2) as sNameColor2,
+        MAX(sc.NameColor1) as subNameColor1,
+        MAX(sc.NameColor2) as subNameColor2,
 
         MAX(run.ModNotes) as ModNotes
 
@@ -73,7 +73,7 @@ export async function GET({ url }) {
         INNER JOIN
         Players.Customization as pc ON runPlayers.PlayerID = pc.PlayerID
         INNER JOIN
-        Players.Customization as sc ON runPlayers.PlayerID = sc.PlayerID
+        Players.Customization as sc ON run.SubmitterID = sc.PlayerID
 
         WHERE
         run.RunID = @runID
@@ -160,8 +160,8 @@ export async function GET({ url }) {
                     Ship: data.sShip,
                     Flag: data.sFlag,
                     NameType: data.sNameType,
-                    NameColor1: data.sNameColor1,
-                    NameColor2: data.sNameColor2
+                    NameColor1: data.subNameColor1,
+                    NameColor2: data.subNameColor2
                 },
                 shared: {
                     RunID: data.RunID,
@@ -171,14 +171,14 @@ export async function GET({ url }) {
             };
             returnArray.push(dataReturn);
         });
-		//console.log(returner);
+		////console.log(returner);
 		// @ts-ignore
 		// poolConnection.close();
 
 		//returner = context.req.body;
 		
         // context.res.status(200).json(returner);
-        console.log(returnArray)
+        //console.log(returnArray)
         return json(returnArray);
 	
 	}

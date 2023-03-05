@@ -25,7 +25,7 @@
           localStorage.setItem("consent-twitch",'true');
           localStorage.setItem("consent-google",'true');
           localStorage.setItem("consent-discord",'true');
-          console.log('all');
+          //console.log('all');
           break;
         case 'necessary':
           localStorage.setItem("consent","closed");
@@ -34,7 +34,7 @@
           localStorage.setItem("consent-twitch",'false');
           localStorage.setItem("consent-google",'false');
           localStorage.setItem("consent-discord",'false');
-          console.log('necessary');
+          //console.log('necessary');
           break;
         case 'selected':
           localStorage.setItem("consent","closed");
@@ -48,7 +48,7 @@
           localStorage.setItem("consent-twitch",consentTwitch.toString());
           localStorage.setItem("consent-google",consentGoogle.toString());
           localStorage.setItem("consent-discord",consentDiscord.toString());
-          console.log('selected');
+          //console.log('selected');
           break;
       }
     }
@@ -65,7 +65,7 @@
   </script>
 
 <svelte:head>
-    <title>{$t('shared.siteName')} - 404 Not Found</title>
+    <title>{$t('shared.siteName')} | Settings</title>
 </svelte:head>
 
 <div class="flex flex-col min-h-screen">

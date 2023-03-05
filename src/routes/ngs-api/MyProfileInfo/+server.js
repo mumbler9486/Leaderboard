@@ -62,7 +62,7 @@ export async function GET({ url }) {
 		var results = await poolConnection.request().input('INuserID', sql.NVarChar, userID).query(sqlQuery);
 
 		var returner = results.recordset;
-        console.log(returner)
+        //console.log(returner)
         //if (returner[0].Avatar != null && returner[0].Avatar != '') {
         //    returner[0].Avatar = 'https://blobcdn.blob.core.windows.net/pso2cdn/userAvatars/' + returner[0].PlayerID + '.jpg';
         //}
@@ -96,7 +96,7 @@ export async function GET({ url }) {
                 returner[0].Trophies = returner[0].Trophies.split("/");
             }
             
-		//console.log(returner);
+		////console.log(returner);
 		// @ts-ignore
 		poolConnection.close();
 

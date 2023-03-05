@@ -38,7 +38,7 @@
         generateMainName(player1);
         generateMainName(player2);
         generateMainName(submitter);
-        console.log(submitter)
+        //console.log(submitter)
 
     }
 

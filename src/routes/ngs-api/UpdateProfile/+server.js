@@ -21,7 +21,7 @@ export async function PUT({ request }) {
     
     const data = await request.json();
 	try {
-        console.log(data);
+        //console.log(data);
 
         var CharacterName = data.newCharacterName;
         if(CharacterName == '') {
@@ -102,7 +102,7 @@ export async function PUT({ request }) {
     
         await poolConnection.request().input('0',sql.Int, results.recordset[0].PlayerID).input('1',sql.NVarChar,CharacterName).input('2',sql.NVarChar,YT1Link).input('3',sql.NVarChar,YT2Link).input('4',sql.NVarChar,TwitchLink).input('5',sql.NVarChar,TwitterLink).input('6',sql.NVarChar,DiscordLink).input('7',sql.NVarChar,userDesc).query(sqlUpdate);
 
-        //console.log("PASSED");
+        ////console.log("PASSED");
 		
 		sqlUpdate = `
         
@@ -124,7 +124,7 @@ export async function PUT({ request }) {
 		await poolConnection.request().input('0',sql.Int, results.recordset[0].PlayerID).input('1',sql.Int, NamePref).input('2',sql.Int, ShipSelected).input('3',sql.NVarChar, country).input('4',sql.Int, NameColorMode).input('5',sql.NVarChar, color1).input('6',sql.NVarChar, color2).query(sqlUpdate);
 		
 
-		//console.log(returner);
+		////console.log(returner);
 		poolConnection.close();
 
 		return json( { "Successful" : "Aye" } )

@@ -39,7 +39,7 @@ export async function GET({ url }) {
 		var results = await poolConnection.request().query(sqlQuery);
 		
 		var returner = results.recordset;
-		//console.log(returner);
+		////console.log(returner);
 		poolConnection.close();
 
 		//returner = context.req.body;

@@ -41,7 +41,7 @@
     const buffIcon = {
         "glen" : "/icons/dfa/glen.png",
         "ilma" : "/icons/dfa/ilma.png",
-        "ainamanon" : "/icons/dfa/aina-manon.png",
+        "ainamanon" : "/icons/dfa/ainamanon.png",
         "nadereh" : "/icons/dfa/nadereh.png"
     }
 
@@ -115,7 +115,7 @@
         else {
             urlRef += "?trigger=0";
             filters.trigger = '0';
-            console.log(filters.trigger)
+            //console.log(filters.trigger)
         }
 
         if(filters.class != null && allowedClasses.includes(filters.class)) {

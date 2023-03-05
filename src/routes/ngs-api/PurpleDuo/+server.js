@@ -28,7 +28,7 @@ export async function GET({ url }) {
         var patchQuery = ` AND Patch = '60R'`;
         var serverQuery = ``;
 
-        // console.log(data);
+        // //console.log(data);
 
         if (data.get('patch') != null && data.get('patch') != '') {
             if (data.get('patch') == 'P60') {

@@ -26,10 +26,10 @@ export async function POST({ req }) {
 
 		// @ts-ignore
 		var poolConnection = await sql.connect(config);
-        //console.log(req.body);
+        ////console.log(req.body);
         const userID = req.body;
-        //console.log(userID.userId);
-        //console.log("BLEP")
+        ////console.log(userID.userId);
+        ////console.log("BLEP")
 
 		var sqlQuery = `
 
@@ -48,10 +48,10 @@ export async function POST({ req }) {
 		var results = await poolConnection.request().input('UserID',sql.NVarChar, userID.userId).query(sqlQuery);
 		
 		var returner = results.recordset;
-		//console.log(results);
+		////console.log(results);
 		poolConnection.close();
 
-        //console.log(returner[0]);
+        ////console.log(returner[0]);
 
         var exrole = returner[0].ExtraRole;
         var role = returner[0].Role;
@@ -75,7 +75,7 @@ export async function POST({ req }) {
 
         //data = JSON.stringify(data);
         //data = JSON.parse(data);
-        //console.log(data);
+        ////console.log(data);
         return json(data)
 
     }

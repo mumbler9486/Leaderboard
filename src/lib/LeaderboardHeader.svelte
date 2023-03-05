@@ -40,7 +40,78 @@ let userInfo = null;
                 </a>
             </div>
             
-            <div class="navbar-end">
+            <div class="dropdown dropdown-end ml-auto md:hidden">
+                <label tabindex="0" class="btn btn-ghost rounded-btn">Menu</label>
+                <ul tabindex="0" class="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+                    <span class="text-center m-2 text-xs font-semibold uppercase flex"><img src="/icons/quests/trigger.png" class="mr-2">Purple Triggers</span>
+                    <li>
+                        <a href="/run/purple/solo" tabindex="0" style="border-radius: 0px">
+                            Solo
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/run/purple/duo" tabindex="0" style="border-radius: 0px">
+                            Duo
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/run/purple/party" tabindex="0" style="border-radius: 0px">
+                            Party
+                        </a>
+                    </li>
+                    <span class="text-xs m-2 font-semibold uppercase text-center flex"><img src="/icons/quests/uq.png" class="mr-2">Dark Falz Aegis</span>
+                    <li>
+                        <a href="/run/dfa/solo" tabindex="0" style="border-radius: 0px">
+                            Solo
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/run/dfa/duo" tabindex="0" style="border-radius: 0px">
+                            Duo
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/run/dfa/party" tabindex="0" style="border-radius: 0px">
+                            Multi-Party
+                        </a>
+                    </li> 
+                    {#if userInfo != null && userInfo.userRoles.includes('user') }
+                    <li>
+                    <a href="/submit" tabindex="0" style="border-radius: 0px">
+                        <i class="bi bi-envelope-paper mr-2"></i>
+                        <span>{$t('navigation.submitRun')}</span>
+                    </a></li>{/if}
+                    {#if userInfo != null && (userInfo.userRoles.includes('moderator') || userInfo.userRoles.includes('administrator')) }
+                    <li>
+                    <a href="/moderator/submissions" tabindex="0" style="border-radius: 0px">
+                        <i class="bi bi-inboxes mr-0"></i>{$t('navigation.modadmin.submissionQueue')}
+                    </a></li>{/if}
+                    {#if userInfo != null && userInfo.userRoles.includes('user') }
+                    <li>
+                        <a href="/profile" tabindex="0" style="border-radius: 0px">
+                            <i class="bi bi-person-vcard mr-0"></i>{$t('navigation.profile')}
+                        </a>
+                    </li>
+                    {/if}
+                    {#if userInfo == null}
+                    <li>
+                    <a href="/login" tabindex="0" style="border-radius: 0px">
+                        <i class="bi bi-box-arrow-in-right mr-2"></i>
+                        <span>{$t('navigation.login')}</span>
+                    </a>
+                    </li>
+                    {/if}
+                    {#if userInfo != null && userInfo.userRoles.includes('user') }
+                    <li>
+                        <a href="/logout" tabindex="0" style="border-radius: 0px">
+                            <i class="bi bi-box-arrow-right mr-0"></i>{$t('navigation.logout')}
+                        </a>
+                    </li>
+                    {/if}
+                </ul>
+              </div>
+
+            <div class="hidden md:flex navbar-end">
                 <div class="dropdown dropdown-end">
                     <label tabindex="0" class="btn no-animation btn-ghost rounded-none"><span class="flex whitespace-nowrap"><i class="bi bi-card-list mr-2"></i>{$t('navigation.viewRuns')}<i class="bi bi-caret-down ml-2"></i></span></label>
                     <ul tabindex="-1" class="border border-secondary dropdown-content menu shadow bg-neutral whitespace-nowrap">
@@ -78,17 +149,19 @@ let userInfo = null;
                         </li>
                     </ul>
                 </div>
+                {#if userInfo != null && !userInfo.userRoles.includes('user') }
                 <a href="/settings" class="btn no-animation btn-ghost rounded-none">
                     <i class="bi bi-gear mr-2"></i>
                     <span>{$t('navigation.settings')}</span>
                 </a>
-                <!--{#if userInfo != null && userInfo.userRoles.includes('user') }-->
+                {/if}
+                {#if userInfo != null && userInfo.userRoles.includes('user') }
                 <a href="/submit" class="btn no-animation btn-ghost rounded-none">
                     <i class="bi bi-envelope-paper mr-2"></i>
                     <span>{$t('navigation.submitRun')}</span>
                 </a>
-                <!--{/if}
-                {#if userInfo != null && (userInfo.userRoles.includes('moderator') || userInfo.userRoles.includes('administrator')) }-->
+                {/if}
+                {#if userInfo != null && (userInfo.userRoles.includes('moderator') || userInfo.userRoles.includes('administrator')) }
                 <div class="dropdown dropdown-end">
                     <label tabindex="0" class="btn no-animation btn-ghost rounded-none"><span class="flex"><i class="bi bi-shield-shaded mr-2"></i>Moderation<i class="bi bi-caret-down ml-2"></i></span></label>
                     <ul tabindex="-1" class="border border-secondary dropdown-content menu shadow bg-neutral whitespace-nowrap">
@@ -99,14 +172,14 @@ let userInfo = null;
                         </li>
                     </ul>
                 </div>
-                <!--{/if}
-                {#if userInfo == null}-->
+                {/if}
+                {#if userInfo == null}
                 <a href="/login" class="btn no-animation btn-ghost rounded-none">
                     <i class="bi bi-box-arrow-in-right mr-2"></i>
                     <span>{$t('navigation.login')}</span>
                 </a>
-                <!--{/if}
-                {#if userInfo != null && userInfo.userRoles.includes('user') }-->
+                {/if}
+                {#if userInfo != null && userInfo.userRoles.includes('user') }
                 <div class="dropdown dropdown-end">
                     <label tabindex="0" class="btn no-animation btn-ghost rounded-none"><span class="flex" style="font-weight:bold; text-transform: none;">{$t('common.loading')}<i class="bi bi-caret-down ml-2"></i></span></label>
                     <ul tabindex="-1" class="border border-secondary dropdown-content menu shadow bg-neutral whitespace-nowrap">
@@ -115,11 +188,12 @@ let userInfo = null;
                                 <i class="bi bi-person-vcard mr-0"></i>{$t('navigation.profile')}
                             </a>
                         </li>
-                        <!--ForLater<li>
-                            <a tabindex="0" style="border-radius: 0px">
-                                <i class="bi bi-inbox mr-0"></i>{$t('navigation.submissionStatus')}
+                        <li>
+                            <a href="/settings" tabindex="0" style="border-radius: 0px">
+                                <i class="bi bi-gear mr-0"></i>
+                                {$t('navigation.settings')}
                             </a>
-                        </li>-->
+                        </li>
                         <li>
                             <a href="/logout" tabindex="0" style="border-radius: 0px">
                                 <i class="bi bi-box-arrow-right mr-0"></i>{$t('navigation.logout')}
@@ -127,11 +201,19 @@ let userInfo = null;
                         </li>
                     </ul>
                 </div>
-                <!--{/if}-->
+                {/if}
                 
             </div>
             <label for="modal-lang" class="btn no-animation btn-ghost rounded-none"><i class="bi bi-translate"></i></label>
         </div>
+        {#if userInfo != null && !userInfo.userRoles.includes('user') }
+        <a href="/setup" class="alert alert-warning shadow-lg m-2">
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+              <span class="font-bold">You must finish user setup to upload runs and access certain other features! Click or Tap here to do so!</span>
+            </div>
+        </a>
+        {/if}
     </div>
 </header>
 
