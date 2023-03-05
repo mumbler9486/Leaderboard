@@ -7,7 +7,7 @@ const config = {
 		adapter: azure({
 			customStaticWebAppConfig: {
 				auth: {
-				rolesSource: "/ngs-api/LoginGetRolesPSO2",
+				rolesSource: "/api/LoginGetRolesPSO2",
 				identityProviders: {
 					customOpenIdConnectProviders: {
 					aadb2c: {
