@@ -125,7 +125,7 @@
 }
 
 async function submitRun() {
-        submitting = true;
+        
 
 
         var input = {};
@@ -194,7 +194,7 @@ async function submitRun() {
             
         }
         input.Notes = document.getElementById("notes-form").value;
-
+        submitting = true;
         const response = await fetch('/ngs-api/SubmitRun', {
             method: 'POST',
             headers: {
