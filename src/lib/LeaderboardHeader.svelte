@@ -4,12 +4,27 @@
     import { onMount } from "svelte";
 
 let userInfo = null;
+let userinfoName;
 
     onMount(async () => {
         const response = await fetch('/.auth/me');
         const payload = await response.json();
         const { clientPrincipal } = payload;
         userInfo = clientPrincipal;
+
+        if (userInfo != null)
+        {
+            //console.log(userInfo.userDetails);
+            const iterator = userInfo.claims.values();
+    
+            for (const value of iterator) {
+                //console.log(value.typ);
+                if (value.typ == "extension_playerDisplayname")
+                {
+                    userinfoName = value.val;
+                }
+            }
+        }
   
     });
 
@@ -181,7 +196,11 @@ let userInfo = null;
                 {/if}
                 {#if userInfo != null && userInfo.userRoles.includes('user') }
                 <div class="dropdown dropdown-end">
+                    {#if userinfoName == undefined}
                     <label tabindex="0" class="btn no-animation btn-ghost rounded-none"><span class="flex" style="font-weight:bold; text-transform: none;">{$t('common.loading')}<i class="bi bi-caret-down ml-2"></i></span></label>
+                    {:else}
+                    <label tabindex="0" class="btn no-animation btn-ghost rounded-none"><span class="flex" style="font-weight:bold; text-transform: none;">{userinfoName}<i class="bi bi-caret-down ml-2"></i></span></label>
+                    {/if}
                     <ul tabindex="-1" class="border border-secondary dropdown-content menu shadow bg-neutral whitespace-nowrap">
                         <li>
                             <a href="/profile" tabindex="0" style="border-radius: 0px">
