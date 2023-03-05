@@ -89,9 +89,15 @@ const config = {
 				},
 				{
 					route: "/logout",
-					redirect: "/.auth/logout"
+					rewrite: "/.auth/logout"
 				}
-				]
+				],
+				responseOverrides: {
+				  401: {
+					rewrite: "/api/__render",
+					statusCode: 401
+				  }
+				}
 			}
 		  })
 	},
