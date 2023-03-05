@@ -75,6 +75,23 @@
     if (browser) {
         consentDiscord = (localStorage.getItem("consent-discord") ?? false) === 'true'
     }
+
+    function tabUpdate(tab) {
+        switch(tab) {
+            case 'purp':
+                document.getElementById('tab1')?.classList.add('tab-active')
+                document.getElementById('tab2')?.classList.remove('tab-active')
+                document.getElementById('tabcontent1')?.classList.remove('hidden')
+                document.getElementById('tabcontent2')?.classList.add('hidden')
+                break
+            case 'dfa':
+                document.getElementById('tab2')?.classList.add('tab-active')
+                document.getElementById('tab1')?.classList.remove('tab-active')
+                document.getElementById('tabcontent1')?.classList.add('hidden')
+                document.getElementById('tabcontent2')?.classList.remove('hidden')
+                break
+        }
+    }
 </script>
 
 <svelte:head>
@@ -101,13 +118,20 @@
                         <DiscordWidget/>
                     </div>
                     {/if}
-                    <div class="bg-base-100 mt-0 m-2 md:ml-0 px-8 p-4 border-secondary border rounded-md grow">
-                        <HomeNewAegis5/>
-                    </div>
-                    <div class="bg-base-100 mt-0 m-2 md:ml-0 px-8 p-4 border-secondary border rounded-md grow">
-                        <HomeNew10/>
-                        <div class="divider -mx-8"></div>
-                        <SoloPurpleStats/>
+                    <div class="bg-base-100 mt-0 m-2 md:ml-0 px-8 p-4 border-secondary border rounded-md grow h-full">
+                        <div class="tabs tabs-boxed flex grow mb-4">
+                            <a id="tab1" class="tab grow" on:click={() => tabUpdate('purp')}>Newest 10 Solo Purple Runs</a> 
+                            <a id="tab2" class="tab tab-active grow" on:click={() => tabUpdate('dfa')}>Newest 5 DFA MPA Runs</a> 
+                          </div>
+                          <span id="tabcontent2">
+                            <HomeNewAegis5/>
+                          </span>
+                          <span id="tabcontent1" class="hidden">
+                            <HomeNew10/>
+                            <div class="divider -mx-8"></div>
+                            <SoloPurpleStats/>
+                          </span>
+                        
                     </div>
                 </div>
             </div>
