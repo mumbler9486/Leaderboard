@@ -27,20 +27,15 @@ module.exports = async function (context, req) {
         //console.log("BLEP")
 
 		var sqlQuery = `
-
         SELECT
             ui.UserID,
             ui.PlayerID,
-
             pi.PlayerName,
             pi.CharacterName,
-
             pc.PreferredName,
             pc.NameType,
             pc.NameColor1,
             pc.NameColor2
-
-
         FROM Users.Information as ui
             INNER JOIN Players.Information AS pi
             ON pi.PlayerID = ui.PlayerID
