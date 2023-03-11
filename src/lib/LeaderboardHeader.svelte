@@ -15,7 +15,7 @@
         const { clientPrincipal } = payload;
         userInfo = clientPrincipal;
 
-        if (userInfo != null && storedUser != userInfo.userDetails)
+        if (userInfo != null && storedUser != userInfo.userDetails && userInfo.userRoles.includes('user') )
         {
             var params = '?asdf=' + userInfo.userId;
             const response2 = await fetch('/ngs-api/CreateNavName' + params , {

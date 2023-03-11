@@ -19,22 +19,31 @@ import { onMount } from "svelte";
 
     async function submitChanges() {
 
-    const response = await fetch('/ngs-api/FinishSetup', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          "setupServer": document.getElementById('server-form').value,
-          "setupName": document.getElementById('charname-form').value,
-          "setupPlayerName": userInfo.userDetails,
-          "setupUserID": userInfo.userId
-        })
-    });
-    var evt = await response.json();
-    if (evt.Successful && evt.Successful == 'Aye') {
-        window.location.replace("/logout");
-    }
+        let data = {
+            "setupServer" : null,
+            "setupName" : null,
+            "setupPlayerName" : null,
+            "setupUserID" : null
+        };
+
+        data.setupServer = document.getElementById('server-form').value;
+        data.setupName = document.getElementById('charname-form').value;
+        data.setupPlayerName = userInfo.userDetails;
+        data.setupUserID = userInfo.userId;
+
+        console.log(data)
+
+        const response = await fetch('/ngs-api/FinishSetup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        var evt = await response.json();
+        if (evt.Successful && evt.Successful == 'Aye') {
+            window.location.replace("/logout");
+        }
 }
 
 

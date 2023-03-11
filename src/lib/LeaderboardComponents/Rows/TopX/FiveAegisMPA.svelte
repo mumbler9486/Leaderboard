@@ -117,7 +117,7 @@
         if (player.PrimaryName == player.SecondaryName) {
             player.SecondaryName = null;
         }
-        player.CSS += `cursor: pointer;`;
+        player.CSS += ``;
 
     }
 

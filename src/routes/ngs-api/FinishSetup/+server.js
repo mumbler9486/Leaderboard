@@ -18,13 +18,17 @@ const config = {
 	}
 }
 
-export async function POST({ req }) {
-	try {
-        var input = await req.json();
-        var CharacterName = input.setupName;
-        var ServerID = input.setupServer;
-        var PlayerName = input.setupPlayerName;
-        var userID = input.setupUserID;
+export async function POST({ request }) {
+	const data = await request.json();
+    console.log(data)
+    
+    try {
+        
+        console.log('Test Passed')
+        var CharacterName = data.setupName;
+        var ServerID = data.setupServer;
+        var PlayerName = data.setupPlayerName;
+        var userID = data.setupUserID;
 
         var poolConnection = await sql.connect(config);
 
@@ -94,7 +98,7 @@ export async function POST({ req }) {
 		//returner = context.req.body;
 		
         	// context.res.status(200).json(returner);
-        return json({"done" : ":)"});
+        return json({"Successful" : "Aye"});
 	
 	}
 	catch (err) {
