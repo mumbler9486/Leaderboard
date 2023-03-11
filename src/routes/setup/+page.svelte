@@ -83,7 +83,7 @@ import { onMount } from "svelte";
                             <span class="label-text-alt">You can change this from your profile later.</span>
                         </label>
                     </div>
-                    <div class="flex place-content-end"><button class="btn md:btn-sm btn-success btn-outline rounded" type="submit" form="editingForm">Confirm</button></div>
+                    <div class="flex place-content-end"><span class="text-warning mr-2">You will need to log in again after finishing setup.</span><button class="btn md:btn-sm btn-success btn-outline rounded" type="submit" form="editingForm">Confirm</button></div>
                     
                 </form>
                 {/if}
