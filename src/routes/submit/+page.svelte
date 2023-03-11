@@ -44,6 +44,7 @@
 
     let submitting = false;
     let submitted = false;
+    let errored = false;
 
     /*
     *
@@ -206,7 +207,7 @@ async function submitRun() {
         var complete = await response.json()
         //console.log(complete)
         if (complete.Code == "error") {
-            submitting = false;
+            errored = true;
         }
         else if (complete.Code == "success") {
             submitted = true;
@@ -228,10 +229,12 @@ async function submitRun() {
             <div class="flex flex-col grow bg-base-100 m-2 px-8 p-4 border-secondary border rounded-md gap-1">
                 <div class="text-4xl font-light text-center">Submit a Run</div>
                 <div class="divider -mx-8"></div>
-                {#if submitting && !submitted}
+                {#if submitting && !submitted && !errored}
                 <div class="flex flex-col basis-full place-content-center place-items-center gap-1">Submitting - Please Wait...<br><progress class="progress border border-neutral-content/20 progress-primary w-56"></progress></div>
                 {:else if submitted}
                 <div class="flex flex-col basis-full place-content-center place-items-center gap-1">Your run has been submitted and will be reviewed as soon as possible!<br><a class="link link-primary" href="/">Click here to return to the home page!</a></div>
+                {:else if errored}
+                <div class="flex flex-col basis-full place-content-center place-items-center gap-1">A issue occured, please refresh and try again.</div>
                 {:else}
                 <form id="submitForm" on:submit={submitRun}>
 
