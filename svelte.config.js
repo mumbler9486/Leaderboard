@@ -38,6 +38,11 @@ const config = {
 					rewrite: "/api/__render"
 				},
 				{
+					route: "/profile/integrations",
+					allowedRoles: ["administrator"],
+					rewrite: "/api/__render"
+				},
+				{
 					route: "/admin*",
 					allowedRoles: ["administrator"],
 					rewrite: "/api/__render"
