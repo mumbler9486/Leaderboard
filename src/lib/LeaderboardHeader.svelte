@@ -68,45 +68,45 @@
                 <ul tabindex="0" class="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
                     <span class="text-center m-2 text-xs font-semibold uppercase flex"><img src="/icons/quests/trigger.png" class="mr-2">Purple Triggers</span>
                     <li>
-                        <a href="/run/purple/solo" tabindex="0" style="border-radius: 0px">
+                        <a href="/leaderboard/run/purple/solo" tabindex="0" style="border-radius: 0px">
                             Solo
                         </a>
                     </li>
                     <li>
-                        <a href="/run/purple/duo" tabindex="0" style="border-radius: 0px">
+                        <a href="/leaderboard/run/purple/duo" tabindex="0" style="border-radius: 0px">
                             Duo
                         </a>
                     </li>
                     <li>
-                        <a href="/run/purple/party" tabindex="0" style="border-radius: 0px">
+                        <a href="/leaderboard/run/purple/party" tabindex="0" style="border-radius: 0px">
                             Party
                         </a>
                     </li>
                     <span class="text-xs m-2 font-semibold uppercase text-center flex"><img src="/icons/quests/uq.png" class="mr-2">Dark Falz Aegis</span>
                     <li>
-                        <a href="/run/dfa/solo" tabindex="0" style="border-radius: 0px">
+                        <a href="/leaderboard/run/dfa/solo" tabindex="0" style="border-radius: 0px">
                             Solo
                         </a>
                     </li>
                     <li>
-                        <a href="/run/dfa/duo" tabindex="0" style="border-radius: 0px">
+                        <a href="/leaderboard/run/dfa/duo" tabindex="0" style="border-radius: 0px">
                             Duo
                         </a>
                     </li>
                     <li>
-                        <a href="/run/dfa/party" tabindex="0" style="border-radius: 0px">
+                        <a href="/leaderboard/run/dfa/party" tabindex="0" style="border-radius: 0px">
                             Multi-Party
                         </a>
                     </li> 
                     {#if userInfo != null && userInfo.userRoles.includes('user') }
                     <li>
-                    <a href="/submit" tabindex="0" style="border-radius: 0px">
+                    <a href="/leaderboard/submit" tabindex="0" style="border-radius: 0px">
                         <i class="bi bi-envelope-paper mr-2"></i>
                         <span>{$t('navigation.submitRun')}</span>
                     </a></li>{/if}
                     {#if userInfo != null && (userInfo.userRoles.includes('moderator') || userInfo.userRoles.includes('administrator')) }
                     <li>
-                    <a href="/moderator/submissions" tabindex="0" style="border-radius: 0px">
+                    <a href="leaderboard/moderator/submissions" tabindex="0" style="border-radius: 0px">
                         <i class="bi bi-inboxes mr-0"></i>{$t('navigation.modadmin.submissionQueue')}
                     </a></li>{/if}
                     {#if userInfo != null && userInfo.userRoles.includes('user') }
@@ -140,33 +140,33 @@
                     <ul tabindex="-1" class="border border-secondary dropdown-content menu shadow bg-neutral whitespace-nowrap">
                         <span class="text-center m-2 text-xs font-semibold uppercase flex"><img src="/icons/quests/trigger.png" class="mr-2">Purple Triggers</span>
                         <li>
-                            <a href="/run/purple/solo" tabindex="0" style="border-radius: 0px">
+                            <a href="/leaderboard/run/purple/solo" tabindex="0" style="border-radius: 0px">
                                 Solo
                             </a>
                         </li>
                         <li>
-                            <a href="/run/purple/duo" tabindex="0" style="border-radius: 0px">
+                            <a href="/leaderboard/run/purple/duo" tabindex="0" style="border-radius: 0px">
                                 Duo
                             </a>
                         </li>
                         <li>
-                            <a href="/run/purple/party" tabindex="0" style="border-radius: 0px">
+                            <a href="/leaderboard/run/purple/party" tabindex="0" style="border-radius: 0px">
                                 Party
                             </a>
                         </li>
                         <span class="text-xs m-2 font-semibold uppercase text-center flex"><img src="/icons/quests/uq.png" class="mr-2">Dark Falz Aegis</span>
                         <li>
-                            <a href="/run/dfa/solo" tabindex="0" style="border-radius: 0px">
+                            <a href="/leaderboard/run/dfa/solo" tabindex="0" style="border-radius: 0px">
                                 Solo
                             </a>
                         </li>
                         <li>
-                            <a href="/run/dfa/duo" tabindex="0" style="border-radius: 0px">
+                            <a href="/leaderboard/run/dfa/duo" tabindex="0" style="border-radius: 0px">
                                 Duo
                             </a>
                         </li>
                         <li>
-                            <a href="/run/dfa/party" tabindex="0" style="border-radius: 0px">
+                            <a href="/leaderboard/run/dfa/party" tabindex="0" style="border-radius: 0px">
                                 Multi-Party
                             </a>
                         </li>
@@ -179,7 +179,7 @@
                 </a>
                 {/if}
                 {#if userInfo != null && userInfo.userRoles.includes('user') }
-                <a href="/submit" class="btn no-animation btn-ghost rounded-none">
+                <a href="/leaderboard/submit" class="btn no-animation btn-ghost rounded-none">
                     <i class="bi bi-envelope-paper mr-2"></i>
                     <span>{$t('navigation.submitRun')}</span>
                 </a>
@@ -189,7 +189,7 @@
                     <label tabindex="0" class="btn no-animation btn-ghost rounded-none"><span class="flex"><i class="bi bi-shield-shaded mr-2"></i>Moderation<i class="bi bi-caret-down ml-2"></i></span></label>
                     <ul tabindex="-1" class="border border-secondary dropdown-content menu shadow bg-neutral whitespace-nowrap">
                         <li>
-                            <a href="/moderator/submissions" tabindex="0" style="border-radius: 0px">
+                            <a href="leaderboard/moderator/submissions" tabindex="0" style="border-radius: 0px">
                                 <i class="bi bi-inboxes mr-0"></i>{$t('navigation.modadmin.submissionQueue')}
                             </a>
                         </li>

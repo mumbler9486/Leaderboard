@@ -114,7 +114,7 @@
         <div class="md:flex-1 m-1"><label for="modal-filters" class="rounded btn btn-sm btn-outline btn-primary" on:click={() => modalFilters.openRefresh()}><i class="bi bi-funnel mr-2"></i>Filters</label></div>
         <div class="md:flex-initial m-1"><label for="modal-rules" class="rounded btn btn-sm btn-outline btn-primary"><i class="bi bi-journal-check mr-2"></i>Rules</label></div>
         {#if userInfo != null && userInfo.userRoles.includes('user') }
-        <div class="md:flex-initial m-1"><a href="/submit" class="rounded btn btn-sm btn-outline btn-primary"><i class="bi bi-envelope-paper mr-2"></i>Submit</a></div>
+        <div class="md:flex-initial m-1"><a href="/leaderboard/submit" class="rounded btn btn-sm btn-outline btn-primary"><i class="bi bi-envelope-paper mr-2"></i>Submit</a></div>
         {/if}
     </div>
     <!-- DIVIDER FOR FANCINESS. NOT SURE HOW TO BEST SHORTEN THIS -->
