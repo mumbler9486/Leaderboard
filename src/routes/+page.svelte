@@ -1,5 +1,3 @@
-<script src="https://apis.google.com/js/api.js"></script>
-
 <script lang="ts">
     import { t } from 'svelte-i18n'
     import { browser } from '$app/environment';
@@ -8,7 +6,7 @@
     import BackgroundRandomizer from "$lib/BackgroundRandomizer.svelte";
     import LeaderboardFooter from "$lib/LeaderboardFooter.svelte";
 
-    function attemptAuth() {
+    async function attemptAuth() {
         const response = await fetch('https://pso2central.azure-api.net/channels/channels?part=id&mine=true', {
             method: 'GET',
             headers: {
