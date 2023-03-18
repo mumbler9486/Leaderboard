@@ -1,3 +1,5 @@
+<script src="https://apis.google.com/js/api.js"></script>
+
 <script lang="ts">
     import { t } from 'svelte-i18n'
     import { browser } from '$app/environment';
@@ -5,6 +7,17 @@
     import LeaderboardHeader from "$lib/LeaderboardHeader.svelte";
     import BackgroundRandomizer from "$lib/BackgroundRandomizer.svelte";
     import LeaderboardFooter from "$lib/LeaderboardFooter.svelte";
+
+    function attemptAuth() {
+        const response = await fetch('https://pso2central.azure-api.net/channels/channels?part=id&mine=true', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        var complete = await response.json();
+        console.log(complete);
+    }
 
 </script>
 
@@ -21,7 +34,7 @@
             <div class="flex flex-col md:flex-row align-center">
                 <div class="basis-full bg-base-100 m-2 px-8 p-4 border-secondary border rounded-md">
                     <p>Placeholder landing page. We can get banners in later.</p>
-                    <a href="https://pso2central.azure-api.net/channels/channels?part=id&mine=true&Accept=application/json">testing</a><br>
+                    <button class="btn" on:click={attemptAuth}>Test the API</button>
                     <a href="/leaderboard" class="link link-primary">Leaderboard</a><br>
                     <a href="/gear" class="link link-primary">Gear Sim</a>
                 </div>
