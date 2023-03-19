@@ -4,8 +4,6 @@ import { json } from '@sveltejs/kit';
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-const api : URL = new URL(process.env.PATHFIX_YOUTUBE_URL!)
-
 // @ts-ignore
 // @ts-ignore
 export async function GET({ url }) {
@@ -18,7 +16,7 @@ export async function GET({ url }) {
             },
             "method": "GET"
         }
-        const response = await fetch(api, {
+        const response = await fetch('https://labs.pathfix.com/oauth/method/youtube/call?' + process.env.PATHFIX_YOUTUBE_URL, {
         method: 'POST',
         body: JSON.stringify(d)
         });
