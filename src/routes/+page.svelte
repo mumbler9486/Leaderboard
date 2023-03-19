@@ -16,9 +16,6 @@
                     }
         const response = await fetch('https://labs.pathfix.com/oauth/method/youtube/call', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
             body: JSON.stringify(d)
         });
         var complete = await response.json()
