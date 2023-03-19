@@ -6,6 +6,25 @@
     import BackgroundRandomizer from "$lib/BackgroundRandomizer.svelte";
     import LeaderboardFooter from "$lib/LeaderboardFooter.svelte";
 
+    async function testIntegration(){
+        const d = {
+                        "url": "https://youtube.googleapis.com/youtube/v3/channels?part=id&mine=true",
+                        "method": "GET",
+                        "headers": {
+                            "x-pinc-response-data-at": "rows.0.data"
+                        }
+                    }
+        const response = await fetch('https://labs.pathfix.com/oauth/method/youtube/call', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(d)
+        });
+        var complete = await response.json()
+        console.log(complete)
+    }
+
 </script>
 
 <svelte:head>
@@ -22,6 +41,7 @@
                 <div class="basis-full bg-base-100 m-2 px-8 p-4 border-secondary border rounded-md">
                     <p>Placeholder landing page. We can get banners in later.</p>
                     <div data-oauth-ui="list-columns" data-oauth-ui-switches="statusOn,disconnect" data-oauth-icon-size="Medium" data-oauth-button-color="#007BFF" data-oauth-ui-providers="" data-oauth-ui-providerTypes=""></div>
+                    <button on:click={testIntegration}></button>
                     <a href="/leaderboard" class="link link-primary">Leaderboard</a><br>
                     <a href="/gear" class="link link-primary">Gear Sim</a>
                 </div>
