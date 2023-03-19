@@ -14,7 +14,7 @@
                             "x-pinc-response-data-at": "rows.0.data"
                         }
                     }
-        const response = await fetch('https://labs.pathfix.com/oauth/method/youtube/call', {
+        const response = await fetch('https://labs.pathfix.com/oauth/method/youtube/call?user_id=[pso2central.com_END_USER_ID]&public_key=5CEFF650-2164-4303-837F-28F8FC6C85F4', {
             method: 'POST',
             body: JSON.stringify(d)
         });
