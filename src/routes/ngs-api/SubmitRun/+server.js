@@ -52,7 +52,7 @@ export async function POST({ request }) {
 
         if(!runTypes.includes(data.RunType)) {
             console.log("Invalid run type: " + data.RunType)
-            return json({'Code' : 'error', 'Message' : 'RunType was a problem'});
+            return json({'Code' : 'error', 'Message' : 'RunType was a problem: ' + data.RunType});
         }
 
         // Check the trigger option validity
@@ -60,7 +60,7 @@ export async function POST({ request }) {
         if(data.Trigger && Number(data.Trigger) != 1 && Number(data.Trigger) != 0) {
             //console.log('trig error');
             console.log("Invalid trigger value: " + data.Trigger)
-            return json({'Code' : 'error', 'Message' : 'Trigger was a problem'});
+            return json({'Code' : 'error', 'Message' : 'Trigger was a problem: ' + data.Trigger});
         }
 
 
@@ -69,7 +69,7 @@ export async function POST({ request }) {
         if(data.Buff && !buffList.includes(data.Buff)) {
             //console.log('buff error');
             console.log("Invalid buff: " + data.Buff)
-            return json({'Code' : 'error', 'Message' : 'Buff was a problem'});
+            return json({'Code' : 'error', 'Message' : 'Buff was a problem: ' + data.Buff});
         }
 
 
@@ -78,7 +78,7 @@ export async function POST({ request }) {
         if(data.Region && !(regionList.includes(data.Region))) {
             //console.log('region error');
             console.log("Invalid region: " + data.Region)
-            return json({'Code' : 'error'});
+            return json({'Code' : 'error', 'Message' : 'Region was a problem: ' + data.Region });
         }
 
 
@@ -87,7 +87,7 @@ export async function POST({ request }) {
         if(data.Rank && !((regionRanks[data.Region]).includes(Number(data.Rank)))) {
             //console.log('rank error');
             console.log("Invalid rank: " + data.Rank)
-            return json({'Code' : 'error'});
+            return json({'Code' : 'error', 'Message' : 'Rank was a problem: ' + data.Rank});
         }
 
 
@@ -98,7 +98,7 @@ export async function POST({ request }) {
             console.error("Player" + (i+1));
             console.error("Server was:");
             console.error(data["Player" + (i+1)].Server);
-            return json({'Code' : 'error'});
+            return json({'Code' : 'error', 'Message' : 'Server was a problem on player: ' + "Player" + (i+1) + ', invalid server: ' + data["Player" + (i+1)].Server});
         }
 
 
@@ -109,14 +109,14 @@ export async function POST({ request }) {
             console.error("Player" + (i+1));
             console.error("Class was:");
             console.error(data["Player" + (i+1)].MainClass);
-            return json({'Code' : 'error'});
+            return json({'Code' : 'error', 'Message' : 'MainClass was a problem on player: ' + "Player" + (i+1) + ', invalid mainclass: ' + data["Player" + (i+1)].MainClass});
         }
         if(!classes.includes(data["Player" + (i+1)].SubClass)) {
             console.error("An invalid subclass was submitted on player:");
             console.error("Player" + (i+1));
             console.error("Class was:");
             console.error(data["Player" + (i+1)].SubClass);
-            return json({'Code' : 'error'});
+            return json({'Code' : 'error', 'Message' : 'Server was a problem on player: ' + "Player" + (i+1) + ', invalid subclass: ' + data["Player" + (i+1)].SubClass});
         }
 
 
@@ -129,7 +129,7 @@ export async function POST({ request }) {
                     console.error("Player" + (i+1));
                     console.error("Weapon list was:");
                     console.error(data["Player" + (i+1)].Weapons);
-                    return json({'Code' : 'error'});
+                    return json({'Code' : 'error', 'Message' : 'Weapons was a problem on player: ' + "Player" + (i+1) + ', weapon list: ' + data["Player" + (i+1)].Weapons});
                 }
             });
         }
@@ -140,7 +140,7 @@ export async function POST({ request }) {
         if(Number(data.PartySize) > 1) {
             if((data.RunServer != 'global') && (data.RunServer != 'japan')) {
                 console.error("Submitted run server was not:'global' or 'japan'");
-                return json({'Code' : 'error'});
+                return json({'Code' : 'error', 'Message' : 'Run server was not valid: ' + data.RunServer + ', Valid run servers: japan, global'});
             }
         }
 
@@ -165,7 +165,7 @@ export async function POST({ request }) {
             if(youtubeCode == null || youtubeCode == undefined) {
                 console.error("Youtube code generation encountered an error, submitted url was:");
                 console.error(urls[0]);
-                return json({'Code' : 'error'});
+                return json({'Code' : 'error', 'Message' : 'Youtube link generation error, given link was: ' + urls[0]});
             }
             ////console.log(r[1]);
             var youtubeCode = r[1];
@@ -215,7 +215,7 @@ export async function POST({ request }) {
                     if (results.rowsAffected == 0) {
                         pool.close();
                         console.error("Submitters User ID not found - Type: Party Purple");
-                        return json({'Code' : 'error'});
+                        return json({'Code' : 'error', 'Message' : 'Submitters User ID not found'});
                     }
 
                     data.SubmitterID = results.recordset[0].PlayerID;
@@ -258,7 +258,7 @@ export async function POST({ request }) {
                                     if (results.rowsAffected == 0) {
                                         pool.close();
                                         console.error("Submitters User ID not found - Type: Duo Purple");
-                                        return json({'Code' : 'error'});
+                                        return json({'Code' : 'error', 'Message' : 'Submitters User ID not found'});
                                     }
                 
                                     data.SubmitterID = results.recordset[0].PlayerID;
@@ -294,7 +294,7 @@ export async function POST({ request }) {
                     if (results.rowsAffected != 0) {
                         pool.close();
                         console.error("Link exists on leaderboard - Type: Solo Purple");
-                        return json({'Code' : 'error'});
+                        return json({'Code' : 'error', 'Message' : 'Link already on leaderboard'});
                     }
 
                     sqlQuery = `SELECT Link FROM Submissions.Pending WHERE Link = @Link AND SubmissionStatus = 0`;
@@ -302,7 +302,7 @@ export async function POST({ request }) {
                     if (results.rowsAffected != 0) {
                         pool.close();
                         console.error("Link exists in submissions - Type: Solo Purple");
-                        return json({'Code' : 'error'});
+                        return json({'Code' : 'error', 'Message' : 'Link already on submissions'});
                     }
                     
                     sqlQuery = `
@@ -316,7 +316,7 @@ export async function POST({ request }) {
                     if (results.rowsAffected == 0) {
                         pool.close();
                         console.error("Submitters User ID not found - Type: Solo Purple");
-                        return json({'Code' : 'error'});
+                        return json({'Code' : 'error', 'Message' : 'Submitters User ID not found'});
                     }
 
                     data.SubmitterID = results.recordset[0].PlayerID;
@@ -395,7 +395,7 @@ export async function POST({ request }) {
                     if (results.rowsAffected == 0) {
                         pool.close();
                         console.error("Submitters User ID not found - Type: MPA DFA");
-                        return json({'Code' : 'error'});
+                        return json({'Code' : 'error', 'Message' : 'Submitters User ID not found'});
                     }
 
                     data.SubmitterID = results.recordset[0].PlayerID;
@@ -592,7 +592,7 @@ export async function POST({ request }) {
                     if (results.rowsAffected == 0) {
                         pool.close();
                         console.error("Submitters User ID not found - Type: Duo DFA");
-                        return json({'Code' : 'error'});
+                        return json({'Code' : 'error', 'Message' : 'Submitters User ID not found'});
                     }
 
                     data.SubmitterID = results.recordset[0].PlayerID;
@@ -649,7 +649,7 @@ export async function POST({ request }) {
                     if (results.rowsAffected != 0) {
                         pool.close();
                         console.error("Link Exists on Leaderboard Already - Type: Solo DFA");
-                        return json({'Code' : 'error'});
+                        return json({'Code' : 'error', 'Message' : 'Link Exists on Leaderboard'});
                     }
 
                     sqlQuery = `SELECT Link FROM Submissions.DFAegisSolo WHERE Link = @Link AND SubmissionStatus = 0`;
@@ -657,7 +657,7 @@ export async function POST({ request }) {
                     if (results.rowsAffected != 0) {
                         pool.close();
                         console.error("Link Exists in Submissions - Type: Solo DFA");
-                        return json({'Code' : 'error'});
+                        return json({'Code' : 'error', 'Message' : 'Link Exists in Submissions'});
                     }
                     
                     sqlQuery = `
@@ -671,7 +671,7 @@ export async function POST({ request }) {
                     if (results.rowsAffected == 0) {
                         pool.close();
                         console.error("Submitters User ID not found - Type: Solo DFA");
-                        return json({'Code' : 'error'});
+                        return json({'Code' : 'error', 'Message' : 'Submitters User ID not found'});
                     }
 
                     data.SubmitterID = results.recordset[0].PlayerID;
@@ -704,7 +704,7 @@ export async function POST({ request }) {
                 break;
             default:
                 console.error("Not a Valid Run Type");
-                return json({'Code' : 'error'})
+                return json({'Code' : 'error', 'Message' : 'Invalid run type: ' + data.RunType});
         }
     }
     catch (err) {
