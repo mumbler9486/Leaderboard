@@ -4,7 +4,7 @@ import { json } from '@sveltejs/kit';
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-const api = new URL(process.env.PATHFIX_YOUTUBE_URL)
+const api : URL = new URL(process.env.PATHFIX_YOUTUBE_URL!)
 
 // @ts-ignore
 // @ts-ignore
