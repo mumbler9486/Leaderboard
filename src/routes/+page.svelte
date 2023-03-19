@@ -8,13 +8,14 @@
 
     async function testIntegration(){
         const d = {
-                        "url": "https://youtube.googleapis.com/youtube/v3/channels?part=id&mine=true",
-                        "method": "GET",
-                        "headers": {
-                            "x-pinc-response-data-at": "rows.0.data"
-                        }
+                        "url": "https://youtube.googleapis.com/youtube/v3/channels",
+                        "queryString": {
+                            "part": "id",
+                            "mine": "true"
+                        },
+                        "method": "GET"
                     }
-        const response = await fetch('https://labs.pathfix.com/oauth/method/youtube/call?user_id=[pso2central.com_END_USER_ID]&public_key=5CEFF650-2164-4303-837F-28F8FC6C85F4', {
+        const response = await fetch('https://labs.pathfix.com/oauth/method/youtube/call?user_id=testID&public_key=5CEFF650-2164-4303-837F-28F8FC6C85F4', {
             method: 'POST',
             body: JSON.stringify(d)
         });
@@ -38,7 +39,7 @@
                 <div class="basis-full bg-base-100 m-2 px-8 p-4 border-secondary border rounded-md">
                     <p>Placeholder landing page. We can get banners in later.</p>
                     <div data-oauth-ui="list-columns" data-oauth-ui-switches="statusOn,disconnect" data-oauth-icon-size="Medium" data-oauth-button-color="#007BFF" data-oauth-ui-providers="" data-oauth-ui-providerTypes=""></div>
-                    <button on:click={testIntegration}></button>
+                    <button on:click={testIntegration}>TEST IT</button>
                     <a href="/leaderboard" class="link link-primary">Leaderboard</a><br>
                     <a href="/gear" class="link link-primary">Gear Sim</a>
                 </div>
