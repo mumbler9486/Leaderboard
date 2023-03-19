@@ -7,20 +7,14 @@
     import LeaderboardFooter from "$lib/LeaderboardFooter.svelte";
 
     async function testIntegration(){
-        const d = {
-                        "url": "https://youtube.googleapis.com/youtube/v3/channels",
-                        "queryString": {
-                            "part": "id",
-                            "mine": "true"
-                        },
-                        "method": "GET"
-                    }
-        const response = await fetch('https://labs.pathfix.com/oauth/method/youtube/call?user_id=testID&public_key=5CEFF650-2164-4303-837F-28F8FC6C85F4', {
-            method: 'POST',
-            body: JSON.stringify(d)
-        });
-        var complete = await response.json()
-        console.log(complete)
+        const response2 = await fetch('/ngs-api/YoutubeTester', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+                }
+            });
+            const MyPlayer = await response2.json();
+            console.log(MyPlayer)
     }
 
 </script>
