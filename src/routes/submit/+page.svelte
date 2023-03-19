@@ -45,6 +45,7 @@
     let submitting = false;
     let submitted = false;
     let errored = false;
+    let approvalwait = false;
 
     /*
     *
@@ -209,6 +210,9 @@ async function submitRun() {
         if (complete.Code == "error") {
             errored = true;
         }
+        else if (complete.Code == "awaiting_approval") {
+            approvalwait = true;
+        }
         else if (complete.Code == "success") {
             submitted = true;
         }
@@ -229,12 +233,14 @@ async function submitRun() {
             <div class="flex flex-col grow bg-base-100 m-2 px-8 p-4 border-secondary border rounded-md gap-1">
                 <div class="text-4xl font-light text-center">Submit a Run</div>
                 <div class="divider -mx-8"></div>
-                {#if submitting && !submitted && !errored}
+                {#if submitting && !submitted && !errored && !approvalwait}
                 <div class="flex flex-col basis-full place-content-center place-items-center gap-1">Submitting - Please Wait...<br><progress class="progress border border-neutral-content/20 progress-primary w-56"></progress></div>
                 {:else if submitted}
                 <div class="flex flex-col basis-full place-content-center place-items-center gap-1">Your run has been submitted and will be reviewed as soon as possible!<br><a class="link link-primary" href="/">Click here to return to the home page!</a></div>
                 {:else if errored}
                 <div class="flex flex-col basis-full place-content-center place-items-center gap-1">A issue occured, please refresh and try again.</div>
+                {:else if approvalwait}
+                <div class="flex flex-col basis-full place-content-center place-items-center gap-1">Your run is still awaiting approval. If it's been a while, poke us on the discord!</div>
                 {:else}
                 <form id="submitForm" on:submit={submitRun}>
 
