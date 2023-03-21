@@ -721,7 +721,7 @@ export async function POST({ request }) {
 }
 
 const notifyDiscord = async (userName, quest) => {
-    const webhookUrl = process.env.RUN_APPROVAL_DISCORD_WEBHOOK_URL;
+    const webhookUrl = process.env.RUN_SUBMITTED_DISCORD_WEBHOOK_URL;
     if (!webhookUrl) return;
 
     const thumbnail = quest.toLowerCase().startsWith("dfa") ?
