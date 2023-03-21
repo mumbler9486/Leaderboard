@@ -134,6 +134,7 @@ export async function POST({ request }) {
                     return json({'Code' : 'success'});
             
                 }
+                notifyDiscord("<Moderator_Name>", "<Player_Name>", "DFA Duo");
             catch (err) {
                 console.error(err.message);
                 return json({'Code' : 'error'});
@@ -302,6 +303,7 @@ export async function POST({ request }) {
                     return json({'Code' : 'success'});
             
                 }
+                notifyDiscord("<Moderator_Name>", "<Player_Name>", "DFA Party");
             catch (err) {
                 console.error(err.message);
                 return json({'Code' : 'error'});
@@ -434,6 +436,7 @@ export async function POST({ request }) {
                     return json({'Code' : 'error'});
                 }
                 break;
+                notifyDiscord("<Moderator_Name>", "<Player_Name>", "Purple Party");
 
         case 'purpleduo':
             try {
@@ -539,6 +542,7 @@ export async function POST({ request }) {
                     return json({'Code' : 'success'});
             
                 }
+                notifyDiscord("<Moderator_Name>", "<Player_Name>", "Purple Duo");
             catch (err) {
                 console.error(err.message);
                 return json({'Code' : 'error'});
@@ -677,6 +681,7 @@ export async function POST({ request }) {
                     return json({'Code' : 'success'});
             
                 }
+                notifyDiscord("<Moderator_Name>", "<Player_Name>", "DFA Solo");
             catch (err) {
                 console.error(err.message);
                 return json({'Code' : 'error'});
@@ -815,6 +820,7 @@ export async function POST({ request }) {
                     return json({'Code' : 'success'});
             
                 }
+                notifyDiscord("<Moderator_Name>", "<Player_Name>", "");
             catch (err) {
                 console.error(err.message);
                 return json({'Code' : 'error'});
@@ -823,3 +829,43 @@ export async function POST({ request }) {
 
     }
 }
+
+const notifyDiscord = async (moderatorName, playerName, quest) => {
+    const webhookUrl = process.env.RUN_APPROVAL_DISCORD_WEBHOOK_URL;
+    if (!webhookUrl) return;
+
+    const thumbnail = quest.toLowerCase().startsWith("dfa") ?
+        process.env.RUN_APPROVAL_THUMBNAIL_DFA :
+        process.env.RUN_APPROVAL_THUMBNAIL_STIA_PURPLE;
+    try {
+        fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "username": "PSO2 Central Leaderboard",
+                "embeds": [
+                    {
+                        "title": "A new run has been approved :white_check_mark:",
+                        "url": "https://leaderboard.pso2central.com",
+                        "description": `A new **${quest}** run from \`${playerName}\` has been approved by \`${moderatorName}\` and added to the leaderboard.`,
+                        "color": 54300,
+                        "thumbnail": {
+                            "url": process.env.RUN_APPROVAL_WEBHOOK_USER_IMG
+                        },
+                        "image": {
+                            "url": thumbnail
+                        },
+                        "footer": {
+                            "text": "PSO2 Central Leaderboard"
+                        }
+                    }
+                ]
+            })
+        });
+    }
+    catch (err) {
+        console.error(err);
+    }
+};

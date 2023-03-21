@@ -232,6 +232,7 @@ export async function POST({ request }) {
                     pool.close();
 
                     return json({'Code' : 'success'});
+                    notifyDiscord("<Player_name>", "Purple Party");
 
 
                 break;
@@ -281,6 +282,7 @@ export async function POST({ request }) {
                 
                 
                                 }
+                    notifyDiscord("<Player_name>", "Purple Duo");
 
                 /*
                 * SOLO RUN LOGIC
@@ -342,6 +344,7 @@ export async function POST({ request }) {
                     pool.close();
 
                     return json({'Code' : 'success'});
+                    notifyDiscord("<Player_name>", "Purple Solo");
                 }
 
                 break;
@@ -565,6 +568,7 @@ export async function POST({ request }) {
 
                     return json({'Code' : 'success'});
 
+                        notifyDiscord("<Player_name>", "DFA Party");
 
                 break;
 
@@ -631,6 +635,7 @@ export async function POST({ request }) {
 
 
                 break;
+                        notifyDiscord("<Player_name>", "DFA Duo");
 
 
                 }
@@ -699,6 +704,7 @@ export async function POST({ request }) {
                     pool.close();
 
                     return json({'Code' : 'success'});
+                    notifyDiscord("<Player_name>", "DFA Solo");
                 }
 
                 break;
@@ -712,4 +718,43 @@ export async function POST({ request }) {
 		console.error(err.message);
         return json({'Code' : 'error'})
 	}
-}
+}        console.error(err.message);
+const notifyDiscord = async (userName, quest) => {
+    const webhookUrl = process.env.RUN_APPROVAL_DISCORD_WEBHOOK_URL;
+    if (!webhookUrl) return;
+
+    const thumbnail = quest.toLowerCase().startsWith("dfa") ?
+        process.env.RUN_APPROVAL_THUMBNAIL_DFA :
+        process.env.RUN_APPROVAL_THUMBNAIL_STIA_PURPLE;
+
+    try {
+        fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "username": "PSO2 Central Leaderboard",
+                "embeds": [
+                    {
+                        "title": "A new run has been submitted :hourglass_flowing_sand:",
+                        "url": "https://leaderboard.pso2central.com",
+                        "description": `A new **${quest}** run has been submitted by \`${userName}\` to the leaderboard and awaits approval.`,
+                        "color": 16765294,
+                        "thumbnail": {
+                            "url": process.env.RUN_APPROVAL_WEBHOOK_USER_IMG
+                        },
+                        "image": {
+                            "url": thumbnail
+                        },
+                        "footer": {
+                            "text": "PSO2 Central Leaderboard"
+                        }
+                    }
+                ]
+            })
+        });
+    } catch (err) {
+        console.error(err);
+    }
+};
