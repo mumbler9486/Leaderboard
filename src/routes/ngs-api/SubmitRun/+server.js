@@ -231,6 +231,7 @@ export async function POST({ request }) {
             
                     pool.close();
 
+                    notifyDiscord("<Player_Name>", "Purple Party");
                     return json({'Code' : 'success'});
 
 
@@ -273,7 +274,8 @@ export async function POST({ request }) {
                                     await pool.request().input('p1pid',sql.Int,data["Player1"].PlayerID).input('p2pid',sql.Int,data["Player2"].PlayerID).input('p1rc',sql.NVarChar,data["Player1"].VideoName).input('p2rc',sql.NVarChar,data["Player2"].VideoName).input('patch',sql.NVarChar,'60R').input('region',sql.NVarChar,data.Region).input('rank',sql.Int,data.Rank).input('time',sql.NVarChar,data.Time).input('p1mc',sql.NVarChar,data["Player1"].MainClass).input('p2mc',sql.NVarChar,data["Player2"].MainClass).input('p1sc',sql.NVarChar,data["Player1"].SubClass).input('p2sc',sql.NVarChar,data["Player2"].SubClass).input('partysize',sql.Int,data.PartySize).input('p1link',sql.NVarChar,data["Player1"].Video).input('p2link',sql.NVarChar,data["Player2"].Video).input('notes',sql.NVarChar,data.Notes).input('subtime',sql.DateTime,date).input('subpid',sql.Int,data.SubmitterID).input('serverid',sql.NVarChar,data.RunServer).query(sqlQuery);
                             
                                     pool.close();
-                
+
+                                    notifyDiscord("<Player_Name>", "Purple Duo");
                                     return json({'Code' : 'success'});
                 
                 
@@ -341,6 +343,7 @@ export async function POST({ request }) {
             
                     pool.close();
 
+                    notifyDiscord("<Player_Name>", "Purple Solo");
                     return json({'Code' : 'success'});
                 }
 
@@ -563,6 +566,7 @@ export async function POST({ request }) {
 
                     pool.close();
 
+                    notifyDiscord("<Player_Name>", "DFA Party");
                     return json({'Code' : 'success'});
 
 
@@ -627,6 +631,7 @@ export async function POST({ request }) {
             
                     pool.close();
 
+                    notifyDiscord("<Player_Name>", "DFA Duo");
                     return json({'Code' : 'success'});
 
 
@@ -698,6 +703,7 @@ export async function POST({ request }) {
             
                     pool.close();
 
+                    notifyDiscord("<Player_Name>", "DFA Solo");
                     return json({'Code' : 'success'});
                 }
 
@@ -713,3 +719,43 @@ export async function POST({ request }) {
         return json({'Code' : 'error'})
 	}
 }
+
+const notifyDiscord = async (userName, quest) => {
+    const webhookUrl = process.env.RUN_APPROVAL_DISCORD_WEBHOOK_URL;
+    if (!webhookUrl) return;
+
+    const thumbnail = quest.toLowerCase().startsWith("dfa") ?
+        process.env.RUN_APPROVAL_THUMBNAIL_DFA :
+        process.env.RUN_APPROVAL_THUMBNAIL_STIA_PURPLE;
+
+    try {
+        fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "username": "PSO2 Central Leaderboard",
+                "embeds": [
+                    {
+                        "title": "A new run has been submitted :hourglass_flowing_sand:",
+                        "url": "https://leaderboard.pso2central.com",
+                        "description": `A new **${quest}** run has been submitted by \`${userName}\` to the leaderboard and awaits approval.`,
+                        "color": 16765294,
+                        "thumbnail": {
+                            "url": process.env.RUN_APPROVAL_WEBHOOK_USER_IMG
+                        },
+                        "image": {
+                            "url": thumbnail
+                        },
+                        "footer": {
+                            "text": "PSO2 Central Leaderboard"
+                        }
+                    }
+                ]
+            })
+        });
+    } catch (err) {
+        console.error(err);
+    }
+};
