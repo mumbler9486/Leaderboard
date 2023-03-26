@@ -7,7 +7,8 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch"
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
+		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"devDependencies": {
 		"@beyonk/gdpr-cookie-consent-banner": "^9.1.1",
@@ -15,6 +16,9 @@
 		"@sveltejs/kit": "^1.7.2",
 		"autoprefixer": "^10.4.13",
 		"postcss": "^8.4.21",
+		"prettier": "^2.8.7",
+		"prettier-plugin-svelte": "^2.10.0",
+		"prettier-plugin-tailwindcss": "^0.2.5",
 		"svelte": "^3.55.1",
 		"svelte-adapter-azure-swa": "^0.13.0",
 		"svelte-check": "^3.0.3",

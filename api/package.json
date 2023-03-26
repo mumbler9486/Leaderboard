@@ -1,17 +1,17 @@
 {
-  "name": "leaderboard",
-  "version": "1.0.0",
-  "engines": {
-    "node": ">=16.16.0"
-  },
-  "description": "NodeJS implementation for the NGS leaderboard",
-  "scripts": {
-    "build": ""
-  },
-  "author": "SliWhist",
-  "license": "ISC",
-  "dependencies": {
-    "dotenv": "^16.0.3",
-    "mssql": "^9.0.1"
-  }
+	"name": "leaderboard",
+	"version": "1.0.0",
+	"engines": {
+		"node": ">=16.16.0"
+	},
+	"description": "NodeJS implementation for the NGS leaderboard",
+	"scripts": {
+		"build": ""
+	},
+	"author": "SliWhist",
+	"license": "ISC",
+	"dependencies": {
+		"dotenv": "^16.0.3",
+		"mssql": "^9.0.1"
+	}
 }

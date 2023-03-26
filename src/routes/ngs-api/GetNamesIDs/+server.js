@@ -1,9 +1,9 @@
-import sql from "mssql";
+import sql from 'mssql';
 import { json } from '@sveltejs/kit';
 
-import * as dotenv from 'dotenv'
+import * as dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
 const config = {
 	user: process.env.DB_USER, // better stored in an app setting such as process.env.DB_USER
@@ -16,12 +16,11 @@ const config = {
 	options: {
 		encrypt: true
 	}
-}
+};
 
 export async function GET({ url }) {
 	try {
-
-        var poolConnection = await sql.connect(config);
+		var poolConnection = await sql.connect(config);
 
 		var sqlQuery = `
 
@@ -35,20 +34,18 @@ export async function GET({ url }) {
         PlayerID != 106 AND PlayerID != 107
 		
         ORDER BY PlayerName ASC`;
-			
+
 		var results = await poolConnection.request().query(sqlQuery);
-		
+
 		var returner = results.recordset;
 		////console.log(returner);
 		poolConnection.close();
 
 		//returner = context.req.body;
-		
-        	// context.res.status(200).json(returner);
+
+		// context.res.status(200).json(returner);
 		return json(returner);
-	
-	}
-	catch (err) {
+	} catch (err) {
 		console.error(err.message);
 	}
 }

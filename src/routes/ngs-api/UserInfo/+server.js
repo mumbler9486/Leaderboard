@@ -1,8 +1,8 @@
-import sql from "mssql";
+import sql from 'mssql';
 import { json } from '@sveltejs/kit';
 
-import * as dotenv from 'dotenv'
-dotenv.config()
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 const config = {
 	user: process.env.DB_USER, // better stored in an app setting such as process.env.DB_USER
@@ -15,17 +15,17 @@ const config = {
 	options: {
 		encrypt: true
 	}
-}
+};
 
 // @ts-ignore
 // @ts-ignore
 export async function GET({ url }) {
-    const data = await url.searchParams;
+	const data = await url.searchParams;
 	try {
 		// @ts-ignore
 		var poolConnection = await sql.connect(config);
 
-        // //console.log(data);
+		// //console.log(data);
 
 		var sqlQuery = `
 
@@ -65,55 +65,56 @@ export async function GET({ url }) {
         Players.Information.PlayerID = @PlayerID`;
 
 		// @ts-ignore
-		var results = await poolConnection.request().input('PlayerID',sql.VarChar,data.get('id')).query(sqlQuery);
+		var results = await poolConnection
+			.request()
+			.input('PlayerID', sql.VarChar, data.get('id'))
+			.query(sqlQuery);
 
 		var returner = results.recordset;
-        //console.log(returner)
-        //if (returner[0].Avatar != null && returner[0].Avatar != '') {
-        //    returner[0].Avatar = 'https://blobcdn.blob.core.windows.net/pso2cdn/userAvatars/' + returner[0].PlayerID + '.jpg';
-        //}
-        if (returner[0].AllianceID != null && returner[0].AllianceID != '') {
-            var params = '?aid=' + returner[0].AllianceID;
-            const response = await fetch('/ngs-api/UserAllianceInfo' + params, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-            });
-    
-            const d = await response.json();
-            returner[0].AllianceName = d[0].AllianceName;
-            returner[0].AllianceIcon = d[0].AllianceIcon;
-        }
-            switch (returner[0].ExtraRole) {
-                case 'administrator':
-                    returner[0].UserLevel = '101'
-                    delete returner[0].ExtraRole
-                    break
-                case 'moderator':
-                    returner[0].UserLevel = '201'
-                    delete returner[0].ExtraRole
-                    break
-                default:
-                    delete returner[0].ExtraRole
-                    break
-            }
-            if(returner[0].Trophies != null && returner[0].Trophies != '') {
-                returner[0].Trophies = returner[0].Trophies.split("/");
-            }
-            
+		//console.log(returner)
+		//if (returner[0].Avatar != null && returner[0].Avatar != '') {
+		//    returner[0].Avatar = 'https://blobcdn.blob.core.windows.net/pso2cdn/userAvatars/' + returner[0].PlayerID + '.jpg';
+		//}
+		if (returner[0].AllianceID != null && returner[0].AllianceID != '') {
+			var params = '?aid=' + returner[0].AllianceID;
+			const response = await fetch('/ngs-api/UserAllianceInfo' + params, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
+
+			const d = await response.json();
+			returner[0].AllianceName = d[0].AllianceName;
+			returner[0].AllianceIcon = d[0].AllianceIcon;
+		}
+		switch (returner[0].ExtraRole) {
+			case 'administrator':
+				returner[0].UserLevel = '101';
+				delete returner[0].ExtraRole;
+				break;
+			case 'moderator':
+				returner[0].UserLevel = '201';
+				delete returner[0].ExtraRole;
+				break;
+			default:
+				delete returner[0].ExtraRole;
+				break;
+		}
+		if (returner[0].Trophies != null && returner[0].Trophies != '') {
+			returner[0].Trophies = returner[0].Trophies.split('/');
+		}
+
 		////console.log(returner);
 		// @ts-ignore
 		// poolConnection.close();
 
 		//returner = context.req.body;
-		
-        // context.res.status(200).json(returner);
 
-        return json(returner);
-	
-	}
-	catch (err) {
+		// context.res.status(200).json(returner);
+
+		return json(returner);
+	} catch (err) {
 		// @ts-ignore
 		console.error(err.message);
 	}

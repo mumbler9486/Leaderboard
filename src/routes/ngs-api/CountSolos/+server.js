@@ -1,7 +1,7 @@
-import sql from "mssql";
+import sql from 'mssql';
 
-import * as dotenv from 'dotenv'
-dotenv.config()
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 const config = {
 	user: process.env.DB_USER, // better stored in an app setting such as process.env.DB_USER
@@ -14,7 +14,7 @@ const config = {
 	options: {
 		encrypt: true
 	}
-}
+};
 
 // @ts-ignore
 // @ts-ignore
@@ -22,7 +22,6 @@ export async function GET({ request }) {
 	try {
 		// @ts-ignore
 		var poolConnection = await sql.connect(config);
-		
 
 		var sqlQuery = `
 
@@ -30,19 +29,17 @@ export async function GET({ request }) {
 
 		// @ts-ignore
 		var results = await poolConnection.request().query(sqlQuery);
-		
+
 		var returner = results.recordset[0];
 		////console.log(returner);
 		// @ts-ignore
 		poolConnection.close();
 
 		//returner = context.req.body;
-		
-        // context.res.status(200).json(returner);
-        return new Response(returner.RunTotal);
-	
-	}
-	catch (err) {
+
+		// context.res.status(200).json(returner);
+		return new Response(returner.RunTotal);
+	} catch (err) {
 		// @ts-ignore
 		console.error(err.message);
 	}

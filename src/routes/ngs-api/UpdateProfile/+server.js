@@ -1,8 +1,8 @@
-import sql from "mssql";
+import sql from 'mssql';
 import { json } from '@sveltejs/kit';
 
-import * as dotenv from 'dotenv'
-dotenv.config()
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 const config = {
 	user: process.env.DB_SUBMIT_USER, // better stored in an app setting such as process.env.DB_USER
@@ -15,62 +15,61 @@ const config = {
 	options: {
 		encrypt: true
 	}
-}
+};
 
 export async function PUT({ request }) {
-    
-    const data = await request.json();
+	const data = await request.json();
 	try {
-        //console.log(data);
+		//console.log(data);
 
-        var CharacterName = data.newCharacterName;
-        if(CharacterName == '') {
-			return json( {"ERROR" : "PANIK"} )
-		}       
-        var NamePref = data.newPreferredName;
-        var ShipSelected = data.newShip;
-        if(ShipSelected == '') {
+		var CharacterName = data.newCharacterName;
+		if (CharacterName == '') {
+			return json({ ERROR: 'PANIK' });
+		}
+		var NamePref = data.newPreferredName;
+		var ShipSelected = data.newShip;
+		if (ShipSelected == '') {
 			ShipSelected = null;
-		}       
-        var country = data.newCountry;
-        if(country == '') {
+		}
+		var country = data.newCountry;
+		if (country == '') {
 			country = null;
 		}
-        var color1 = data.newNameC1;
-        if(color1 == '') {
-			color1 = "FFFFFF";
+		var color1 = data.newNameC1;
+		if (color1 == '') {
+			color1 = 'FFFFFF';
 		}
-        var color2 = data.newNameC2;
-        if(color2 == '') {
-			color2 = "FFFFFF";
+		var color2 = data.newNameC2;
+		if (color2 == '') {
+			color2 = 'FFFFFF';
 		}
-        var NameColorMode = data.newNameEffect;
-        var YT1Link = data.newYT1;
-        if(YT1Link == '') {
+		var NameColorMode = data.newNameEffect;
+		var YT1Link = data.newYT1;
+		if (YT1Link == '') {
 			YT1Link = null;
 		}
-        var YT2Link = data.newYT2;
-        if(YT2Link == '') {
+		var YT2Link = data.newYT2;
+		if (YT2Link == '') {
 			YT2Link = null;
 		}
-        var TwitchLink = data.newTwitch;
-        if(TwitchLink == '') {
+		var TwitchLink = data.newTwitch;
+		if (TwitchLink == '') {
 			TwitchLink = null;
 		}
-        var TwitterLink = data.newTwitter;
-        if(TwitterLink == '') {
+		var TwitterLink = data.newTwitter;
+		if (TwitterLink == '') {
 			TwitterLink = null;
 		}
-        var DiscordLink = data.newDiscord;
-        if(DiscordLink == '') {
+		var DiscordLink = data.newDiscord;
+		if (DiscordLink == '') {
 			DiscordLink = null;
 		}
-        var userDesc = data.newDescription;
-        var userID = data.pidReference;
+		var userDesc = data.newDescription;
+		var userID = data.pidReference;
 
-        var poolConnection = await sql.connect(config);
+		var poolConnection = await sql.connect(config);
 
-        var sqlGetID = `
+		var sqlGetID = `
         
         SELECT
         PlayerID
@@ -79,10 +78,10 @@ export async function PUT({ request }) {
         WHERE
         UserID = @0
 
-        `
-        var results = await poolConnection.request().input('0',sql.NVarChar, userID).query(sqlGetID);
+        `;
+		var results = await poolConnection.request().input('0', sql.NVarChar, userID).query(sqlGetID);
 
-        var sqlUpdate = `
+		var sqlUpdate = `
         
             UPDATE Players.Information
 
@@ -98,12 +97,22 @@ export async function PUT({ request }) {
 
             WHERE PlayerID = @0;
             
-         `
-    
-        await poolConnection.request().input('0',sql.Int, results.recordset[0].PlayerID).input('1',sql.NVarChar,CharacterName).input('2',sql.NVarChar,YT1Link).input('3',sql.NVarChar,YT2Link).input('4',sql.NVarChar,TwitchLink).input('5',sql.NVarChar,TwitterLink).input('6',sql.NVarChar,DiscordLink).input('7',sql.NVarChar,userDesc).query(sqlUpdate);
+         `;
 
-        ////console.log("PASSED");
-		
+		await poolConnection
+			.request()
+			.input('0', sql.Int, results.recordset[0].PlayerID)
+			.input('1', sql.NVarChar, CharacterName)
+			.input('2', sql.NVarChar, YT1Link)
+			.input('3', sql.NVarChar, YT2Link)
+			.input('4', sql.NVarChar, TwitchLink)
+			.input('5', sql.NVarChar, TwitterLink)
+			.input('6', sql.NVarChar, DiscordLink)
+			.input('7', sql.NVarChar, userDesc)
+			.query(sqlUpdate);
+
+		////console.log("PASSED");
+
 		sqlUpdate = `
         
             UPDATE Players.Customization
@@ -119,19 +128,24 @@ export async function PUT({ request }) {
 
             WHERE PlayerID = @0;
             
-         `
-			
-		await poolConnection.request().input('0',sql.Int, results.recordset[0].PlayerID).input('1',sql.Int, NamePref).input('2',sql.Int, ShipSelected).input('3',sql.NVarChar, country).input('4',sql.Int, NameColorMode).input('5',sql.NVarChar, color1).input('6',sql.NVarChar, color2).query(sqlUpdate);
-		
+         `;
+
+		await poolConnection
+			.request()
+			.input('0', sql.Int, results.recordset[0].PlayerID)
+			.input('1', sql.Int, NamePref)
+			.input('2', sql.Int, ShipSelected)
+			.input('3', sql.NVarChar, country)
+			.input('4', sql.Int, NameColorMode)
+			.input('5', sql.NVarChar, color1)
+			.input('6', sql.NVarChar, color2)
+			.query(sqlUpdate);
 
 		////console.log(returner);
 		poolConnection.close();
 
-		return json( { "Successful" : "Aye" } )
-
-	
-	}
-	catch (err) {
+		return json({ Successful: 'Aye' });
+	} catch (err) {
 		console.error(err.message);
 	}
 }

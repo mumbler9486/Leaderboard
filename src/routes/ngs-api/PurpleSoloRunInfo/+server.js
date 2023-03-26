@@ -1,8 +1,8 @@
-import sql from "mssql";
+import sql from 'mssql';
 import { json } from '@sveltejs/kit';
 
-import * as dotenv from 'dotenv'
-dotenv.config()
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 const config = {
 	user: process.env.DB_USER, // better stored in an app setting such as process.env.DB_USER
@@ -15,12 +15,12 @@ const config = {
 	options: {
 		encrypt: true
 	}
-}
+};
 
 // @ts-ignore
 // @ts-ignore
 export async function GET({ url }) {
-    const data = await url.searchParams;
+	const data = await url.searchParams;
 
 	try {
 		// @ts-ignore
@@ -83,7 +83,10 @@ export async function GET({ url }) {
         WHERE RunID = @runID`;
 
 		// @ts-ignore
-		var results = await poolConnection.request().input('runID',sql.Int,data.get('GetRunID')).query(sqlQuery);
+		var results = await poolConnection
+			.request()
+			.input('runID', sql.Int, data.get('GetRunID'))
+			.query(sqlQuery);
 
 		var returner = results.recordset;
 		////console.log(returner);
@@ -91,13 +94,11 @@ export async function GET({ url }) {
 		// poolConnection.close();
 
 		//returner = context.req.body;
-		
-        // context.res.status(200).json(returner);
 
-        return json(returner);
-	
-	}
-	catch (err) {
+		// context.res.status(200).json(returner);
+
+		return json(returner);
+	} catch (err) {
 		// @ts-ignore
 		console.error(err.message);
 	}

@@ -1,35 +1,32 @@
-import sql from "mssql";
+import sql from 'mssql';
 
-import * as dotenv from 'dotenv'
+import * as dotenv from 'dotenv';
 
 import { json } from '@sveltejs/kit';
 
-
-dotenv.config()
+dotenv.config();
 
 const config = {
-	user: process.env["DB_USER"], // better stored in an app setting such as process.env.DB_USER
-	password: process.env["DB_PASSWORD"], // better stored in an app setting such as process.env.DB_PASSWORD
-	server: process.env["DB_SERVER"], // better stored in an app setting such as process.env.DB_SERVER
-	database: process.env["DB_NAME"], // better stored in an app setting such as process.env.DB_NAME
+	user: process.env['DB_USER'], // better stored in an app setting such as process.env.DB_USER
+	password: process.env['DB_PASSWORD'], // better stored in an app setting such as process.env.DB_PASSWORD
+	server: process.env['DB_SERVER'], // better stored in an app setting such as process.env.DB_SERVER
+	database: process.env['DB_NAME'], // better stored in an app setting such as process.env.DB_NAME
 	authentication: {
 		type: 'default'
 	},
 	options: {
 		encrypt: true
 	}
-}
+};
 
 export async function POST({ req }) {
-
 	try {
-
 		// @ts-ignore
 		var poolConnection = await sql.connect(config);
-        ////console.log(req.body);
-        const userID = req.body;
-        ////console.log(userID.userId);
-        ////console.log("BLEP")
+		////console.log(req.body);
+		const userID = req.body;
+		////console.log(userID.userId);
+		////console.log("BLEP")
 
 		var sqlQuery = `
 
@@ -44,47 +41,44 @@ export async function POST({ req }) {
             ON pc.PlayerID = ui.PlayerID
         WHERE
             ui.UserID = @UserID`;
-			
-		var results = await poolConnection.request().input('UserID',sql.NVarChar, userID.userId).query(sqlQuery);
-		
+
+		var results = await poolConnection
+			.request()
+			.input('UserID', sql.NVarChar, userID.userId)
+			.query(sqlQuery);
+
 		var returner = results.recordset;
 		////console.log(results);
 		poolConnection.close();
 
-        ////console.log(returner[0]);
+		////console.log(returner[0]);
 
-        var exrole = returner[0].ExtraRole;
-        var role = returner[0].Role;
+		var exrole = returner[0].ExtraRole;
+		var role = returner[0].Role;
 
-        if (role == null) {
-            role = ' ';
-        }
-        if (exrole == null) {
-            exrole = ' ';
-        }
+		if (role == null) {
+			role = ' ';
+		}
+		if (exrole == null) {
+			exrole = ' ';
+		}
 
-        var data = {
-          "roles": [
-            role,
-            exrole
-          ]
-        }
+		var data = {
+			roles: [role, exrole]
+		};
 
-        data = JSON.stringify(data);
-        data = JSON.parse(data);
+		data = JSON.stringify(data);
+		data = JSON.parse(data);
 
-        //data = JSON.stringify(data);
-        //data = JSON.parse(data);
-        ////console.log(data);
-        return json(data)
-
-    }
-    catch (err) {
+		//data = JSON.stringify(data);
+		//data = JSON.parse(data);
+		////console.log(data);
+		return json(data);
+	} catch (err) {
 		console.error(err.message);
-        var data = {
-            "version": "1.0.0",
-            "action": "Continue",
-        }
+		var data = {
+			version: '1.0.0',
+			action: 'Continue'
+		};
 	}
-
 }
