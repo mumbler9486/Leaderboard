@@ -1,28 +1,28 @@
 {
-  "leaderboard": {
-    "purpleTriggers": "バトルディア：パープル"
-  },
-  "common": {
-    "playerCount": {
-      "solo": "ソロ"
-    },
-    "region": "リージョン",
-    "regions": {
-      "aelio": "エアリオ",
-      "retem": "リテム",
-      "kvaris": "クヴァリス",
-      "stia": "スティア"
-    },
-    "classes": {
-      "hunter": "ハンター",
-      "fighter": "ファイター",
-      "ranger": "レンジャー",
-      "gunner": "ガンナー",
-      "force": "フォース",
-      "techter": "テクター",
-      "braver": "ブレイバー",
-      "bouncer": "バウンサー",
-      "waker": "ウェイカー"
-    }
-  }
+	"leaderboard": {
+		"purpleTriggers": "バトルディア：パープル"
+	},
+	"common": {
+		"playerCount": {
+			"solo": "ソロ"
+		},
+		"region": "リージョン",
+		"regions": {
+			"aelio": "エアリオ",
+			"retem": "リテム",
+			"kvaris": "クヴァリス",
+			"stia": "スティア"
+		},
+		"classes": {
+			"hunter": "ハンター",
+			"fighter": "ファイター",
+			"ranger": "レンジャー",
+			"gunner": "ガンナー",
+			"force": "フォース",
+			"techter": "テクター",
+			"braver": "ブレイバー",
+			"bouncer": "バウンサー",
+			"waker": "ウェイカー"
+		}
+	}
 }
