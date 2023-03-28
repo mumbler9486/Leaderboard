@@ -461,6 +461,13 @@
 				{/if}
 			</p>
 			<p class="mt-1">
+				{#if player2.LinkPOV != null && player2.LinkPOV != ''}
+					{@html player2.LinkReference}
+				{:else}
+					<span class="text-base-content/50">No POV</span>
+				{/if}
+			</p>
+			<p class="mt-1">
 				{#if player3.LinkPOV != null && player3.LinkPOV != ''}
 					{@html player3.LinkReference}
 				{:else}
@@ -484,13 +491,6 @@
 			<p class="mt-1">
 				{#if player6.LinkPOV != null && player6.LinkPOV != ''}
 					{@html player6.LinkReference}
-				{:else}
-					<span class="text-base-content/50">No POV</span>
-				{/if}
-			</p>
-			<p class="mt-1">
-				{#if player7.LinkPOV != null && player7.LinkPOV != ''}
-					{@html player7.LinkReference}
 				{:else}
 					<span class="text-base-content/50">No POV</span>
 				{/if}
