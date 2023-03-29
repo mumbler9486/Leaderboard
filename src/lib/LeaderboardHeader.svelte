@@ -95,6 +95,29 @@
 					<li>
 						<a href="/run/dfa/party" tabindex="0" style="border-radius: 0px"> Multi-Party </a>
 					</li>
+					<span class="m-2 flex text-center text-xs font-semibold uppercase"
+						><span class="mr-2">⚔️</span>Indomitable</span
+					>
+					<li>
+						<a href="/run/indomitable/nexaelio" tabindex="0" style="border-radius: 0px">
+							Nex Aelio
+						</a>
+					</li>
+					<li>
+						<a href="/run/indomitable/renusretem" tabindex="0" style="border-radius: 0px">
+							Renus Retem
+						</a>
+					</li>
+					<li>
+						<a href="/run/indomitable/amskvaris" tabindex="0" style="border-radius: 0px">
+							Ams Kvaris
+						</a>
+					</li>
+					<li>
+						<a href="/run/indomitable/nilsstia" tabindex="0" style="border-radius: 0px">
+							Nils Stia
+						</a>
+					</li>
 					{#if userInfo != null && userInfo.userRoles.includes('user')}
 						<li>
 							<a href="/submit" tabindex="0" style="border-radius: 0px">
@@ -137,18 +160,14 @@
 				<div class="dropdown-end dropdown">
 					<label tabindex="0" class="btn-ghost no-animation btn rounded-none"
 						><span class="flex whitespace-nowrap"
-							><i class="bi bi-card-list mr-2" />{$t('navigation.viewRuns')}<i
-								class="bi bi-caret-down ml-2"
-							/></span
+							><img src="/icons/quests/trigger.png" class="mr-2" />
+							{$t('navigation.purpleTriggers')}<i class="bi bi-caret-down ml-2" /></span
 						></label
 					>
 					<ul
 						tabindex="-1"
 						class="dropdown-content menu whitespace-nowrap border border-secondary bg-neutral shadow"
 					>
-						<span class="m-2 flex text-center text-xs font-semibold uppercase"
-							><img src="/icons/quests/trigger.png" class="mr-2" />Purple Triggers</span
-						>
 						<li>
 							<a href="/run/purple/solo" tabindex="0" style="border-radius: 0px"> Solo </a>
 						</li>
@@ -158,9 +177,20 @@
 						<li>
 							<a href="/run/purple/party" tabindex="0" style="border-radius: 0px"> Party </a>
 						</li>
-						<span class="m-2 flex text-center text-xs font-semibold uppercase"
-							><img src="/icons/quests/uq.png" class="mr-2" />Dark Falz Aegis</span
-						>
+					</ul>
+				</div>
+				<div class="dropdown-end dropdown">
+					<label tabindex="0" class="btn-ghost no-animation btn rounded-none"
+						><span class="flex whitespace-nowrap"
+							><img src="/icons/quests/uq.png" class="mr-2" />{$t('navigation.darkFalzAegis')}<i
+								class="bi bi-caret-down ml-2"
+							/></span
+						></label
+					>
+					<ul
+						tabindex="-1"
+						class="dropdown-content menu whitespace-nowrap border border-secondary bg-neutral shadow"
+					>
 						<li>
 							<a href="/run/dfa/solo" tabindex="0" style="border-radius: 0px"> Solo </a>
 						</li>
@@ -169,6 +199,40 @@
 						</li>
 						<li>
 							<a href="/run/dfa/party" tabindex="0" style="border-radius: 0px"> Multi-Party </a>
+						</li>
+					</ul>
+				</div>
+				<div class="dropdown-end dropdown">
+					<label tabindex="0" class="btn-ghost no-animation btn rounded-none"
+						><span class="flex whitespace-nowrap"
+							><span class="mr-2">⚔️</span>{$t('navigation.indomitables')}<i
+								class="bi bi-caret-down ml-2"
+							/></span
+						></label
+					>
+					<ul
+						tabindex="-1"
+						class="dropdown-content menu whitespace-nowrap border border-secondary bg-neutral shadow"
+					>
+						<li>
+							<a href="/run/indomitable/nexaelio" tabindex="0" style="border-radius: 0px">
+								Nex Aelio
+							</a>
+						</li>
+						<li>
+							<a href="/run/indomitable/renusretem" tabindex="0" style="border-radius: 0px">
+								Renus Retem
+							</a>
+						</li>
+						<li>
+							<a href="/run/indomitable/amskvaris" tabindex="0" style="border-radius: 0px">
+								Ams Kvaris
+							</a>
+						</li>
+						<li>
+							<a href="/run/indomitable/nilsstia" tabindex="0" style="border-radius: 0px">
+								Nils Stia
+							</a>
 						</li>
 					</ul>
 				</div>
