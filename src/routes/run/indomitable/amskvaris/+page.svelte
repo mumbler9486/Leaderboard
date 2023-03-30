@@ -7,7 +7,7 @@
 	import LeaderboardFooter from '$lib/LeaderboardFooter.svelte';
 	import LeaderboardTitle from '$lib/LeaderboardComponents/Parts/LeaderboardTitle.svelte';
 
-	import IndomitableRunFilters from '$lib/LeaderboardComponents/Parts/Indomitable/IndomitableRunFilters.svelte';
+	import IndomitableRunFilters from '../IndomitableRunFilters.svelte';
 
 	let parameterArray = {};
 
@@ -36,15 +36,12 @@
 <div class="flex min-h-screen flex-col">
 	<LeaderboardHeader />
 
-	<LeaderboardTitle category={$t('leaderboard.indomitableAmsKvaris')} subCategory={''} />
+	<LeaderboardTitle category={$t('leaderboard.indomitableAmsKvaris')} />
 
 	<div class="grow content-center">
 		<div class="container mx-auto mb-16 mt-2 rounded-md border border-secondary bg-base-100/75">
 			<div class="m-2 space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8">
-				<IndomitableRunFilters
-					bind:filters={parameterArray}
-					on:msgReload={() => boardBody.reloadData()}
-				/>
+				<IndomitableRunFilters />
 				<!--LeaderboardSolo bind:data={parameterArray} bind:this={boardBody} /-->
 			</div>
 		</div>

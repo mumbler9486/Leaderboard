@@ -1,6 +1,6 @@
-<script>
-	export let category = 'No Assigned Title';
-	export let subCategory = 'Yell at SliWhist';
+<script lang="ts">
+	export let category: string = 'No Assigned Title';
+	export let subCategory: string = '';
 </script>
 
 <div
@@ -9,7 +9,9 @@
 	<span
 		class="text-center text-4xl font-light drop-shadow-[2px_4px_6px_rgba(0,0,0,0.8)] md:text-8xl"
 		>{category}
-		<div class="divider" />
+		{#if subCategory !== ''}
+			<div class="divider" />
+		{/if}
 		{subCategory}</span
 	>
 </div>
