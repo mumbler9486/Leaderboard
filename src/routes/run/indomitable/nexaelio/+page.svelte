@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { browser } from '$app/environment';
 
 	import LeaderboardHeader from '$lib/LeaderboardHeader.svelte';
 	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
@@ -8,21 +7,7 @@
 	import LeaderboardTitle from '$lib/LeaderboardComponents/Parts/LeaderboardTitle.svelte';
 
 	import IndomitableRunFilters from '../IndomitableRunFilters.svelte';
-
-	let parameterArray = {};
-
-	let boardBody: any;
-
-	if (browser) {
-		let filter = new URLSearchParams(window.location.search);
-		parameterArray.class = filter.get('class');
-		parameterArray.videos = filter.get('videos');
-		parameterArray.server = filter.get('server');
-		parameterArray.patch = filter.get('patch');
-		parameterArray.rank = filter.get('rank');
-		parameterArray.region = filter.get('region');
-		parameterArray.weapons = filter.get('weapons');
-	}
+	import RunsTable from '../RunsTable.svelte';
 </script>
 
 <svelte:head>
@@ -42,7 +27,7 @@
 		<div class="container mx-auto mb-16 mt-2 rounded-md border border-secondary bg-base-100/75">
 			<div class="m-2 space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8">
 				<IndomitableRunFilters />
-				<!--LeaderboardSolo bind:data={parameterArray} bind:this={boardBody} /-->
+				<RunsTable />
 			</div>
 		</div>
 	</div>
