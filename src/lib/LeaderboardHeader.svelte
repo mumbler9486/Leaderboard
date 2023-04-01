@@ -96,7 +96,7 @@
 						<a href="/run/dfa/party" tabindex="0" style="border-radius: 0px"> Multi-Party </a>
 					</li>
 					<span class="m-2 flex text-center text-xs font-semibold uppercase"
-						><span class="mr-2">⚔️</span>Indomitable</span
+						><span class="mr-2">⚔️</span>Duels</span
 					>
 					<li>
 						<a href="/run/indomitable/nexaelio" tabindex="0" style="border-radius: 0px">
@@ -205,7 +205,7 @@
 				<div class="dropdown-end dropdown">
 					<label tabindex="0" class="btn-ghost no-animation btn rounded-none"
 						><span class="flex whitespace-nowrap"
-							><span class="mr-2">⚔️</span>{$t('navigation.indomitables')}<i
+							><span class="mr-2">⚔️</span>{$t('navigation.duels')}<i
 								class="bi bi-caret-down ml-2"
 							/></span
 						></label
