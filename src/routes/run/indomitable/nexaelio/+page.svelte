@@ -1,7 +1,4 @@
 <script lang="ts">
-	import { t } from 'svelte-i18n';
-	export let data;
-
 	import LeaderboardHeader from '$lib/LeaderboardHeader.svelte';
 	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
 	import LeaderboardFooter from '$lib/LeaderboardFooter.svelte';
@@ -12,25 +9,12 @@
 	import type { IndomitableRun, IndomitableSearchFilter } from '$lib/types/api/duels/indomitable';
 	import { pageFilters } from '$lib/stores/indomitableFilterStore';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
+	import { fetchGetApi } from '$lib/utils/fetch';
+	import { t } from 'svelte-i18n';
 
 	const fetchRuns = async (filters: IndomitableSearchFilter) => {
-		const searchParams = new URLSearchParams(filters);
-		try {
-			const response = await fetch(
-				`/ngs-api/duels/indomitable/nexAelio?${searchParams.toString()}`,
-				{
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json'
-					}
-				}
-			);
-			const runs = await response.json();
-			return (runs as IndomitableRun[]) ?? [];
-		} catch (err) {
-			console.error(err);
-		}
-		return [];
+		const basePath = '/ngs-api/duels/indomitable/nexaelio';
+		return (await fetchGetApi<IndomitableRun[]>(basePath, filters)) ?? [];
 	};
 </script>
 

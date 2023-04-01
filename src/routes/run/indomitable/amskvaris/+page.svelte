@@ -1,28 +1,21 @@
 <script lang="ts">
-	import { t } from 'svelte-i18n';
-	import { browser } from '$app/environment';
-
 	import LeaderboardHeader from '$lib/LeaderboardHeader.svelte';
 	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
 	import LeaderboardFooter from '$lib/LeaderboardFooter.svelte';
 	import LeaderboardTitle from '$lib/LeaderboardComponents/Parts/LeaderboardTitle.svelte';
 
 	import IndomitableRunFilters from '../IndomitableRunFilters.svelte';
+	import RunsTable from '../RunsTable.svelte';
+	import type { IndomitableRun, IndomitableSearchFilter } from '$lib/types/api/duels/indomitable';
+	import { pageFilters } from '$lib/stores/indomitableFilterStore';
+	import LoadingBar from '$lib/Components/LoadingBar.svelte';
+	import { fetchGetApi } from '$lib/utils/fetch';
+	import { t } from 'svelte-i18n';
 
-	let parameterArray = {};
-
-	let boardBody: any;
-
-	if (browser) {
-		let filter = new URLSearchParams(window.location.search);
-		parameterArray.class = filter.get('class');
-		parameterArray.videos = filter.get('videos');
-		parameterArray.server = filter.get('server');
-		parameterArray.patch = filter.get('patch');
-		parameterArray.rank = filter.get('rank');
-		parameterArray.region = filter.get('region');
-		parameterArray.weapons = filter.get('weapons');
-	}
+	const fetchRuns = async (filters: IndomitableSearchFilter) => {
+		const basePath = '/ngs-api/duels/indomitable/amskvaris';
+		return (await fetchGetApi<IndomitableRun[]>(basePath, filters)) ?? [];
+	};
 </script>
 
 <svelte:head>
@@ -42,7 +35,11 @@
 		<div class="container mx-auto mb-16 mt-2 rounded-md border border-secondary bg-base-100/75">
 			<div class="m-2 space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8">
 				<IndomitableRunFilters />
-				<!--LeaderboardSolo bind:data={parameterArray} bind:this={boardBody} /-->
+				{#await fetchRuns($pageFilters)}
+					<LoadingBar />
+				{:then runs}
+					<RunsTable {runs} />
+				{/await}
 			</div>
 		</div>
 	</div>
