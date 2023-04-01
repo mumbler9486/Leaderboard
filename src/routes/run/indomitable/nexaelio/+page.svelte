@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
+	export let data;
 
 	import LeaderboardHeader from '$lib/LeaderboardHeader.svelte';
 	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
@@ -8,6 +9,29 @@
 
 	import IndomitableRunFilters from '../IndomitableRunFilters.svelte';
 	import RunsTable from '../RunsTable.svelte';
+	import type { IndomitableRun, IndomitableSearchFilter } from '$lib/types/api/duels/indomitable';
+	import { pageFilters } from '$lib/stores/indomitableFilterStore';
+	import LoadingBar from '$lib/Components/LoadingBar.svelte';
+
+	const fetchRuns = async (filters: IndomitableSearchFilter) => {
+		const searchParams = new URLSearchParams(filters);
+		try {
+			const response = await fetch(
+				`/ngs-api/duels/indomitable/nexAelio?${searchParams.toString()}`,
+				{
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				}
+			);
+			const runs = await response.json();
+			return (runs as IndomitableRun[]) ?? [];
+		} catch (err) {
+			console.error(err);
+		}
+		return [];
+	};
 </script>
 
 <svelte:head>
@@ -27,7 +51,11 @@
 		<div class="container mx-auto mb-16 mt-2 rounded-md border border-secondary bg-base-100/75">
 			<div class="m-2 space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8">
 				<IndomitableRunFilters />
-				<RunsTable />
+				{#await fetchRuns($pageFilters)}
+					<LoadingBar />
+				{:then runs}
+					<RunsTable {runs} />
+				{/await}
 			</div>
 		</div>
 	</div>

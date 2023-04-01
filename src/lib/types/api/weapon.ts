@@ -1,0 +1,21 @@
+export enum Weapon {
+	Sword = 'Sword',
+	WiredLance = 'Wired Lance',
+	Partisan = 'Partisan',
+	TwinDaggers = 'Twin Daggers',
+	DoubleSabers = 'Double Sabers',
+	Knuckles = 'Knuckles',
+	Katana = 'Katana',
+	SoaringBlades = 'Soaring Blades',
+	Gunblade = 'Gunblade',
+	AssaultRifle = 'Assault Rifle',
+	Launcher = 'Launcher',
+	TwinMachineGuns = 'Twin Machine Guns',
+	Bow = 'Bow',
+	Rod = 'Rod',
+	Talis = 'Talis',
+	Wand = 'Wand',
+	JetBoots = 'Jet Boots',
+	Harmonizer = 'Harmonizer',
+	Unknown = 'Unknown'
+}
