@@ -1,6 +1,6 @@
 {
 	"editor.formatOnSave": true,
-	"debug.toolBarLocation": "hidden",
+	"debug.toolBarLocation": "docked",
 	"i18n-ally.localesPaths": ["src/lib/i18n", "src/lib/i18n/locales"],
 	"[svelte]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
