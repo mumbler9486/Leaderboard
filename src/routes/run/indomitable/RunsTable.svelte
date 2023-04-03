@@ -35,6 +35,7 @@
 				<tr>
 					<th class="w-2 bg-neutral text-center text-neutral-content">#</th>
 					<th class="bg-neutral text-neutral-content">Player</th>
+					<th class="bg-neutral text-center text-neutral-content">Augments</th>
 					<th class="bg-neutral text-center text-neutral-content">Main Class</th>
 					<th class="bg-neutral text-center text-neutral-content">Sub-Class</th>
 					<th class="bg-neutral text-center text-neutral-content">Weapon(s)</th>
@@ -54,7 +55,8 @@
 				{#each runs as run}
 					<tr class="hover border-t border-t-secondary/20">
 						<td class="text-center font-bold">{run.rank}</td>
-						<td class=" font-bold">{run.playerName}</td>
+						<td class="font-bold">{run.playerName}</td>
+						<td class="text-center font-bold">-</td>
 						<td class="text-center">
 							<ClassIcon combatClass={run.mainClass} showLabel />
 						</td>
