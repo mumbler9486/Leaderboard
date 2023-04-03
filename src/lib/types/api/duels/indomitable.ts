@@ -17,4 +17,5 @@ export type IndomitableRun = {
 export type IndomitableSearchFilter = {
 	server: string;
 	class: string;
+	augmentation: string;
 };

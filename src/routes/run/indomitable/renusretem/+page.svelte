@@ -13,7 +13,7 @@
 	import { t } from 'svelte-i18n';
 
 	const fetchRuns = async (filters: IndomitableSearchFilter) => {
-		const basePath = '/ngs-api/duels/indomitable/nexaelio';
+		const basePath = '/ngs-api/duels/indomitable/renusretem';
 		return (await fetchGetApi<IndomitableRun[]>(basePath, filters)) ?? [];
 	};
 </script>
