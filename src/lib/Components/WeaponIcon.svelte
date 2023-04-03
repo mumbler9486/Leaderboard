@@ -2,7 +2,7 @@
 	import { Weapon } from '$lib/types/api/weapon';
 	import Tooltip from './Tooltip.svelte';
 
-	export let weapon: Weapon;
+	export let weapon: Weapon | undefined;
 	export let showLabel: boolean = false;
 
 	const weaponsMap = {
@@ -27,7 +27,7 @@
 		[Weapon.Unknown]: { name: 'Unknown', icon: '' }
 	};
 
-	$: weaponInfo = weaponsMap[weapon];
+	$: weaponInfo = weaponsMap[weapon ?? Weapon.Unknown];
 </script>
 
 <Tooltip tip={weaponInfo.name}>

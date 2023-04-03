@@ -1,21 +1,26 @@
+import { stringEnumToMap } from '$lib/utils/enum';
+
 export enum Weapon {
-	Sword = 'Sword',
-	WiredLance = 'Wired Lance',
-	Partisan = 'Partisan',
-	TwinDaggers = 'Twin Daggers',
-	DoubleSabers = 'Double Sabers',
-	Knuckles = 'Knuckles',
-	Katana = 'Katana',
-	SoaringBlades = 'Soaring Blades',
-	Gunblade = 'Gunblade',
-	AssaultRifle = 'Assault Rifle',
-	Launcher = 'Launcher',
-	TwinMachineGuns = 'Twin Machine Guns',
-	Bow = 'Bow',
-	Rod = 'Rod',
-	Talis = 'Talis',
-	Wand = 'Wand',
-	JetBoots = 'Jet Boots',
-	Harmonizer = 'Harmonizer',
-	Unknown = 'Unknown'
+	Sword = 'sword',
+	WiredLance = 'wired lance',
+	Partisan = 'partisan',
+	TwinDaggers = 'twin daggers',
+	DoubleSabers = 'double sabers',
+	Knuckles = 'knuckles',
+	Katana = 'katana',
+	SoaringBlades = 'soaring blades',
+	Gunblade = 'gunblade',
+	AssaultRifle = 'assault rifle',
+	Launcher = 'launcher',
+	TwinMachineGuns = 'twin machine guns',
+	Bow = 'bow',
+	Rod = 'rod',
+	Talis = 'talis',
+	Wand = 'wand',
+	JetBoots = 'jet boots',
+	Harmonizer = 'harmonizer',
+	Unknown = 'unknown'
 }
+
+const weaponMap = stringEnumToMap<Weapon>(Weapon);
+export const parseWeapon = (str: string) => (!str ? undefined : weaponMap[str.toLowerCase()]);

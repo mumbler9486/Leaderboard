@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 
-	export let combatClass: NgsPlayerClass;
+	export let combatClass: NgsPlayerClass | undefined;
 	export let showLabel: boolean = false;
 
 	const classMap = {
@@ -18,7 +18,7 @@
 		[NgsPlayerClass.Unknown]: { name: 'Unknown', icon: '/icons/class/class-unknown.png' }
 	};
 
-	$: classInfo = classMap[combatClass];
+	$: classInfo = classMap[combatClass ?? NgsPlayerClass.Unknown];
 </script>
 
 <img src={classInfo.icon} class="inline w-[16px] object-none" alt={classInfo.name} />

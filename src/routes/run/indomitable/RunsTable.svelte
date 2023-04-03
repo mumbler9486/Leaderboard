@@ -21,7 +21,7 @@
 	export let runs: IndomitableRun[];
 
 	const formatIgt = (time: RunTime) => {
-		let hours = time.hours == 0 ? `${time.hours}h` : '';
+		let hours = time.hours > 0 ? `${time.hours}h` : '';
 		return `${hours} ${time.minutes}m ${time.seconds}s`.trim();
 	};
 </script>
