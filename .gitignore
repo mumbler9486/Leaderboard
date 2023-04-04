@@ -11,5 +11,4 @@ node_modules
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 package-lock.json
-swa-cli.config.json
 api/sk_render
