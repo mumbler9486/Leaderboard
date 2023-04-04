@@ -3,11 +3,10 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "vite dev --open",
-		"dev:mock": "swa start leaderboard-dev",
+		"dev": "swa start http://localhost:5173 --api-location api --run \"vite dev\"",
+		"dev:mock": "vite dev",
 		"build": "vite build",
-		"previewrun": "vite preview --open",
-		"preview": "swa start leaderboard",
+		"preview": "swa start http://localhost:4173 --api-location api --run \"vite preview\" --open",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
 		"format": "prettier --plugin-search-dir . --write ."
