@@ -2,14 +2,14 @@
 	import { Weapon } from '$lib/types/api/weapon';
 	import { runForm } from './runStore';
 
-	export let playerNumber: number;
+	export let playerIndex: number;
 	export let maxSelections: number = 6;
 
 	let selectedWeapons: { [weaponKey: string]: boolean } = {};
 	let selectionHistory: string[] = [];
 
 	$: runForm.update((s) => {
-		s.players[playerNumber - 1].weapons = selectionHistory;
+		s.players[playerIndex].weapons = selectionHistory;
 		return s;
 	});
 
@@ -58,12 +58,12 @@
 		<label
 			class="label cursor-pointer rounded border border-secondary/50 bg-base-100 p-2"
 			class:bg-secondary={selectedWeapons[weaponKey]}
-			for={`player${playerNumber}-${weapon.name}-select`}
+			for={`player${playerIndex}-${weapon.name}-select`}
 		>
 			<img src={weapon.icon} alt={weapon.name} />
 			<span class="label-text">{weapon.name}</span>
 			<input
-				id={`player${playerNumber}-${weapon.name}-select`}
+				id={`player${playerIndex}-${weapon.name}-select`}
 				type="checkbox"
 				value={weaponKey}
 				class="checkbox rounded"

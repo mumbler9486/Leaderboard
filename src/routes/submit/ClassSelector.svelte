@@ -3,7 +3,7 @@
 	import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 	import { runForm } from './runStore';
 
-	export let playerNumber: number;
+	export let playerIndex: number;
 	export let selectedMainClass: string | undefined = undefined;
 	export let selectedSubClass: string | undefined = undefined;
 
@@ -75,8 +75,8 @@
 		...c,
 		disabled: selectedMainClass == c.value
 	}));
-	$: $runForm.players[playerNumber - 1].mainClass = selectedMainClass ?? '';
-	$: $runForm.players[playerNumber - 1].subClass = selectedSubClass ?? '';
+	$: $runForm.players[playerIndex].mainClass = selectedMainClass ?? '';
+	$: $runForm.players[playerIndex].subClass = selectedSubClass ?? '';
 </script>
 
 <div class="form-control">

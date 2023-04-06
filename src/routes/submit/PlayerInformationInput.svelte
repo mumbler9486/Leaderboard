@@ -4,7 +4,7 @@
 	import { runForm } from './runStore';
 	import WeaponSelector from './WeaponSelector.svelte';
 
-	export let playerNumber: number;
+	export let playerIndex: number;
 
 	let playerName = '';
 	let inVideoName = '';
@@ -22,12 +22,11 @@
 	];
 
 	$: runForm.update((s) => {
-		s.players[playerNumber - 1].playerName = playerName;
-		s.players[playerNumber - 1].inVideoName = inVideoName;
-		s.players[playerNumber - 1].playerServer = playerServer;
+		s.players[playerIndex].playerName = playerName;
+		s.players[playerIndex].inVideoName = inVideoName;
+		s.players[playerIndex].playerServer = playerServer;
 		return s;
 	});
-	//$: $runForm.time = {};
 </script>
 
 <div class="form-control">
@@ -88,11 +87,11 @@
 				>
 			</div>
 		</div>
-		<ClassSelector {playerNumber} />
+		<ClassSelector {playerIndex} />
 	</div>
 	<div class="mt-4">
 		<div class="mt-4 text-center text-lg font-semibold">Weapons Used</div>
 		<div class="mb-4 text-center text-warning">Maximum of 6</div>
-		<WeaponSelector {playerNumber} />
+		<WeaponSelector {playerIndex} />
 	</div>
 </div>

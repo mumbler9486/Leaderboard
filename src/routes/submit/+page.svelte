@@ -124,7 +124,7 @@
 								<div class="text-center text-xl font-semibold">Player {i + 1}</div>
 								<Divider />
 								<div class="text-center text-lg font-semibold">Information</div>
-								<PlayerInformationInput playerNumber={i + 1} />
+								<PlayerInformationInput playerIndex={i} />
 							</div>
 						{/each}
 						<div class="m-2 gap-1 rounded-md border border-secondary bg-secondary/10 p-4 px-8">
