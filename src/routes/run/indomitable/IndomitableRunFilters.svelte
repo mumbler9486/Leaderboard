@@ -40,7 +40,6 @@
 	<div class="flex flex-row flex-wrap place-content-center items-stretch gap-2">
 		<div class="flex grow flex-col">
 			<Dropdown
-				id="drop-augmentations"
 				label="Augmentations"
 				options={[
 					{ label: 'No Filter', value: 'No Filter' },
@@ -52,7 +51,7 @@
 			/>
 		</div>
 		<div class="flex grow flex-col">
-			<Dropdown id="drop-rank" label="Rank" options={[{ label: '1', value: 1 }]} />
+			<Dropdown label="Rank" options={[{ label: '1', value: 1 }]} />
 		</div>
 	</div>
 
