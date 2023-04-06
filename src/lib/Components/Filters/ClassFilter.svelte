@@ -16,7 +16,8 @@
 		{ name: 'Techter', icon: '/icons/class/class-techter.png' },
 		{ name: 'Braver', icon: '/icons/class/class-braver.png' },
 		{ name: 'Bouncer', icon: '/icons/class/class-bouncer.png' },
-		{ name: 'Waker', icon: '/icons/class/class-waker.png' }
+		{ name: 'Waker', icon: '/icons/class/class-waker.png' },
+		{ name: 'Slayer', icon: '/icons/class/class-slayer.png' }
 	];
 </script>
 

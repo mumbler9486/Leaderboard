@@ -65,7 +65,7 @@
 		[NgsPlayerClass.Slayer]: {
 			label: 'Slayer',
 			value: 'slayer',
-			icon: '/icons/class/class-gunblade.png',
+			icon: '/icons/class/class-slayer.png',
 			disabled: false
 		}
 	};

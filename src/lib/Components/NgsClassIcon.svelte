@@ -14,7 +14,7 @@
 		[NgsPlayerClass.Braver]: { name: 'Braver', icon: '/icons/class/class-braver.png' },
 		[NgsPlayerClass.Bouncer]: { name: 'Bouncer', icon: '/icons/class/class-bouncer.png' },
 		[NgsPlayerClass.Waker]: { name: 'Waker', icon: '/icons/class/class-waker.png' },
-		[NgsPlayerClass.Slayer]: { name: 'Slayer', icon: '/icons/class/class-gunblade.png' },
+		[NgsPlayerClass.Slayer]: { name: 'Slayer', icon: '/icons/class/class-slayer.png' },
 		[NgsPlayerClass.Unknown]: { name: 'Unknown', icon: '/icons/class/class-unknown.png' }
 	};
 
