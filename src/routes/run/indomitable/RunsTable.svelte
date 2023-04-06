@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import ClassIcon from '$lib/Components/NgsClassIcon.svelte';
+	import RankingBadge from '$lib/Components/RankingBadge.svelte';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
 	import type { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 	import type { RunTime } from '$lib/types/api/runTime';
@@ -54,7 +55,9 @@
 			<tbody>
 				{#each runs as run}
 					<tr class="hover border-t border-t-secondary/20">
-						<td class="text-center font-bold">{run.rank}</td>
+						<td class="text-center font-bold">
+							<RankingBadge rank={run.rank} />
+						</td>
 						<td class="font-bold">{run.playerName}</td>
 						<td class="text-center font-bold">-</td>
 						<td class="text-center">

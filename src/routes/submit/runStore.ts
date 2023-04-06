@@ -48,3 +48,6 @@ export const resetForm = () => {
 	purpleForm.set({} as PurpleRun);
 };
 
+runForm.subscribe((s) => console.log(s));
+dfaForm.subscribe((s) => console.log(s));
+purpleForm.subscribe((s) => console.log(s));
