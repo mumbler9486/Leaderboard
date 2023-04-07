@@ -1,4 +1,4 @@
-export const nope="nah"
+export const nope = "nah";
 /*import { BlobServiceClient } from "@azure/storage-blob";
 
 const blobSasUrl = "nope"

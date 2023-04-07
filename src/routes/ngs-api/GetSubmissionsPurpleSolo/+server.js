@@ -1,35 +1,33 @@
 import sql from "mssql";
-import { json } from '@sveltejs/kit';
+import { json } from "@sveltejs/kit";
 
-import * as dotenv from 'dotenv'
+import * as dotenv from "dotenv";
 
-dotenv.config()
+dotenv.config();
 
 const config = {
-	user: process.env.DB_SUBMIT_USER, // better stored in an app setting such as process.env.DB_USER
-	password: process.env.DB_SUBMIT_PASSWORD, // better stored in an app setting such as process.env.DB_PASSWORD
-	server: process.env.DB_SERVER, // better stored in an app setting such as process.env.DB_SERVER
-	database: process.env.DB_NAME, // better stored in an app setting such as process.env.DB_NAME
-	authentication: {
-		type: 'default'
-	},
-	options: {
-		encrypt: true
-	}
-}
+  user: process.env.DB_SUBMIT_USER, // better stored in an app setting such as process.env.DB_USER
+  password: process.env.DB_SUBMIT_PASSWORD, // better stored in an app setting such as process.env.DB_PASSWORD
+  server: process.env.DB_SERVER, // better stored in an app setting such as process.env.DB_SERVER
+  database: process.env.DB_NAME, // better stored in an app setting such as process.env.DB_NAME
+  authentication: {
+    type: "default",
+  },
+  options: {
+    encrypt: true,
+  },
+};
 
-export async function GET({ request }) { 
+export async function GET({ request }) {
+  const urlInfo = await request.url;
+  let params = new URL(urlInfo).searchParams;
+  //console.log(params)
 
-    const urlInfo = await request.url;
-    let params = new URL(urlInfo).searchParams
-    //console.log(params)
-
-    switch(params.get('type')) {
-
-        case 'dfaparty':
-            try {
-                var poolConnection = await sql.connect(config);
-                var sqlQuery = `
+  switch (params.get("type")) {
+    case "dfaparty":
+      try {
+        var poolConnection = await sql.connect(config);
+        var sqlQuery = `
         
                 SELECT
                 submit.RunID, 
@@ -203,170 +201,168 @@ export async function GET({ request }) {
                 PartySize = 8
         
                 ORDER BY SubmissionTime DESC`;
-                    
-                var results = await poolConnection.request().query(sqlQuery);
 
-                var returner = results.recordset;
-                var returnArray = [];
-                returner.forEach(data => {
-                    var dataReturn = {
-                        p1: { 
-                            PlayerID: data.P1PlayerID,
-                            PlayerName: data.P1PlayerName,
-                            CharacterName: data.P1PlayerCName,
-                            PreferredName: data.P1PlayerPrefN,
-                            RunCharacterName: data.P1RunCharacter,
-                            MainClass: data.P1MainClass,
-                            SubClass: data.P1SubClass,
-                            LinkPOV: data.P1Link,
-                            Server: data.P1PlayerServer,
-                            NameType: data.P1PlayerNameType,
-                            NameColor1: data.P1PlayerNameColor1,
-                            NameColor2: data.P1PlayerNameColor2
-                        },
-                        p2: {
-                            PlayerID: data.P2PlayerID,
-                            PlayerName: data.P2PlayerName,
-                            CharacterName: data.P2PlayerCName,
-                            PreferredName: data.P2PlayerPrefN,
-                            RunCharacterName: data.P2RunCharacter,
-                            MainClass: data.P2MainClass,
-                            SubClass: data.P2SubClass,
-                            LinkPOV: data.P2Link,
-                            Server: data.P2PlayerServer,
-                            NameType: data.P2PlayerNameType,
-                            NameColor1: data.P2PlayerNameColor1,
-                            NameColor2: data.P2PlayerNameColor2
-                        },
-                        p3: {
-                            PlayerID: data.P3PlayerID,
-                            PlayerName: data.P3PlayerName,
-                            CharacterName: data.P3PlayerCName,
-                            PreferredName: data.P3PlayerPrefN,
-                            RunCharacterName: data.P3RunCharacter,
-                            MainClass: data.P3MainClass,
-                            SubClass: data.P3SubClass,
-                            LinkPOV: data.P3Link,
-                            Server: data.P3PlayerServer,
-                            NameType: data.P3PlayerNameType,
-                            NameColor1: data.P3PlayerNameColor1,
-                            NameColor2: data.P3PlayerNameColor2
-                        },
-                        p4: {
-                            PlayerID: data.P4PlayerID,
-                            PlayerName: data.P4PlayerName,
-                            CharacterName: data.P4PlayerCName,
-                            PreferredName: data.P4PlayerPrefN,
-                            RunCharacterName: data.P4RunCharacter,
-                            MainClass: data.P4MainClass,
-                            SubClass: data.P4SubClass,
-                            LinkPOV: data.P4Link,
-                            Server: data.P4PlayerServer,
-                            NameType: data.P4PlayerNameType,
-                            NameColor1: data.P4PlayerNameColor1,
-                            NameColor2: data.P4PlayerNameColor2
-                        },
-                        p5: {
-                            PlayerID: data.P5PlayerID,
-                            PlayerName: data.P5PlayerName,
-                            CharacterName: data.P5PlayerCName,
-                            PreferredName: data.P5PlayerPrefN,
-                            RunCharacterName: data.P5RunCharacter,
-                            MainClass: data.P5MainClass,
-                            SubClass: data.P5SubClass,
-                            LinkPOV: data.P5Link,
-                            Server: data.P5PlayerServer,
-                            NameType: data.P5PlayerNameType,
-                            NameColor1: data.P5PlayerNameColor1,
-                            NameColor2: data.P5PlayerNameColor2
-                        },
-                        p6: {
-                            PlayerID: data.P6PlayerID,
-                            PlayerName: data.P6PlayerName,
-                            CharacterName: data.P6PlayerCName,
-                            PreferredName: data.P6PlayerPrefN,
-                            RunCharacterName: data.P6RunCharacter,
-                            MainClass: data.P6MainClass,
-                            SubClass: data.P6SubClass,
-                            LinkPOV: data.P6Link,
-                            Server: data.P6PlayerServer,
-                            NameType: data.P6PlayerNameType,
-                            NameColor1: data.P6PlayerNameColor1,
-                            NameColor2: data.P6PlayerNameColor2
-                        },
-                        p7: {
-                            PlayerID: data.P7PlayerID,
-                            PlayerName: data.P7PlayerName,
-                            CharacterName: data.P7PlayerCName,
-                            PreferredName: data.P7PlayerPrefN,
-                            RunCharacterName: data.P7RunCharacter,
-                            MainClass: data.P7MainClass,
-                            SubClass: data.P7SubClass,
-                            LinkPOV: data.P7Link,
-                            Server: data.P7PlayerServer,
-                            NameType: data.P7PlayerNameType,
-                            NameColor1: data.P7PlayerNameColor1,
-                            NameColor2: data.P7PlayerNameColor2
-                        },
-                        p8: {
-                            PlayerID: data.P8PlayerID,
-                            PlayerName: data.P8PlayerName,
-                            CharacterName: data.P8PlayerCName,
-                            PreferredName: data.P8PlayerPrefN,
-                            RunCharacterName: data.P8RunCharacter,
-                            MainClass: data.P8MainClass,
-                            SubClass: data.P8SubClass,
-                            LinkPOV: data.P8Link,
-                            Server: data.P8PlayerServer,
-                            NameType: data.P8PlayerNameType,
-                            NameColor1: data.P8PlayerNameColor1,
-                            NameColor2: data.P8PlayerNameColor2
-                        },
-                        sub: {
-                            PlayerID: data.SubmitterID,
-                            PlayerName: data.SubmitterName,
-                            CharacterName: data.SubmitterCName,
-                            RunCharacterName: data.SubmitterCName,
-                            PreferredName: data.SubmitterPrefN,
-                            NameType: data.SubmitterNameType,
-                            NameColor1: data.SubmitterNameColor1,
-                            NameColor2: data.SubmitterNameColor2
-                        },
-                        shared: {
-                            RunID: data.RunID,
-                            Time: data.Time,
-                            Notes: data.Notes,
-                            Patch: data.Patch,
-                            Drill: (data.Drill).toString(),
-                            Buff: data.Buff,
-                            SubmissionTime: data.SubmissionTime,
-                            SubmitterID: data.SubmitterID,
-                            PartySize: data.PartySize,
-                            ServerID: data.ServerID
-                        }
-                    };
-                    returnArray.push(dataReturn);
-                });
+        var results = await poolConnection.request().query(sqlQuery);
 
-                ////console.log(returner);
-                poolConnection.close();
-        
-                //returner = context.req.body;
-                //console.log(returnArray)
-                
-                return json(returnArray)
-            
-            }
-            catch (err) {
-                console.error(err.message);
-                break;
-            }
-            break;   
+        var returner = results.recordset;
+        var returnArray = [];
+        returner.forEach((data) => {
+          var dataReturn = {
+            p1: {
+              PlayerID: data.P1PlayerID,
+              PlayerName: data.P1PlayerName,
+              CharacterName: data.P1PlayerCName,
+              PreferredName: data.P1PlayerPrefN,
+              RunCharacterName: data.P1RunCharacter,
+              MainClass: data.P1MainClass,
+              SubClass: data.P1SubClass,
+              LinkPOV: data.P1Link,
+              Server: data.P1PlayerServer,
+              NameType: data.P1PlayerNameType,
+              NameColor1: data.P1PlayerNameColor1,
+              NameColor2: data.P1PlayerNameColor2,
+            },
+            p2: {
+              PlayerID: data.P2PlayerID,
+              PlayerName: data.P2PlayerName,
+              CharacterName: data.P2PlayerCName,
+              PreferredName: data.P2PlayerPrefN,
+              RunCharacterName: data.P2RunCharacter,
+              MainClass: data.P2MainClass,
+              SubClass: data.P2SubClass,
+              LinkPOV: data.P2Link,
+              Server: data.P2PlayerServer,
+              NameType: data.P2PlayerNameType,
+              NameColor1: data.P2PlayerNameColor1,
+              NameColor2: data.P2PlayerNameColor2,
+            },
+            p3: {
+              PlayerID: data.P3PlayerID,
+              PlayerName: data.P3PlayerName,
+              CharacterName: data.P3PlayerCName,
+              PreferredName: data.P3PlayerPrefN,
+              RunCharacterName: data.P3RunCharacter,
+              MainClass: data.P3MainClass,
+              SubClass: data.P3SubClass,
+              LinkPOV: data.P3Link,
+              Server: data.P3PlayerServer,
+              NameType: data.P3PlayerNameType,
+              NameColor1: data.P3PlayerNameColor1,
+              NameColor2: data.P3PlayerNameColor2,
+            },
+            p4: {
+              PlayerID: data.P4PlayerID,
+              PlayerName: data.P4PlayerName,
+              CharacterName: data.P4PlayerCName,
+              PreferredName: data.P4PlayerPrefN,
+              RunCharacterName: data.P4RunCharacter,
+              MainClass: data.P4MainClass,
+              SubClass: data.P4SubClass,
+              LinkPOV: data.P4Link,
+              Server: data.P4PlayerServer,
+              NameType: data.P4PlayerNameType,
+              NameColor1: data.P4PlayerNameColor1,
+              NameColor2: data.P4PlayerNameColor2,
+            },
+            p5: {
+              PlayerID: data.P5PlayerID,
+              PlayerName: data.P5PlayerName,
+              CharacterName: data.P5PlayerCName,
+              PreferredName: data.P5PlayerPrefN,
+              RunCharacterName: data.P5RunCharacter,
+              MainClass: data.P5MainClass,
+              SubClass: data.P5SubClass,
+              LinkPOV: data.P5Link,
+              Server: data.P5PlayerServer,
+              NameType: data.P5PlayerNameType,
+              NameColor1: data.P5PlayerNameColor1,
+              NameColor2: data.P5PlayerNameColor2,
+            },
+            p6: {
+              PlayerID: data.P6PlayerID,
+              PlayerName: data.P6PlayerName,
+              CharacterName: data.P6PlayerCName,
+              PreferredName: data.P6PlayerPrefN,
+              RunCharacterName: data.P6RunCharacter,
+              MainClass: data.P6MainClass,
+              SubClass: data.P6SubClass,
+              LinkPOV: data.P6Link,
+              Server: data.P6PlayerServer,
+              NameType: data.P6PlayerNameType,
+              NameColor1: data.P6PlayerNameColor1,
+              NameColor2: data.P6PlayerNameColor2,
+            },
+            p7: {
+              PlayerID: data.P7PlayerID,
+              PlayerName: data.P7PlayerName,
+              CharacterName: data.P7PlayerCName,
+              PreferredName: data.P7PlayerPrefN,
+              RunCharacterName: data.P7RunCharacter,
+              MainClass: data.P7MainClass,
+              SubClass: data.P7SubClass,
+              LinkPOV: data.P7Link,
+              Server: data.P7PlayerServer,
+              NameType: data.P7PlayerNameType,
+              NameColor1: data.P7PlayerNameColor1,
+              NameColor2: data.P7PlayerNameColor2,
+            },
+            p8: {
+              PlayerID: data.P8PlayerID,
+              PlayerName: data.P8PlayerName,
+              CharacterName: data.P8PlayerCName,
+              PreferredName: data.P8PlayerPrefN,
+              RunCharacterName: data.P8RunCharacter,
+              MainClass: data.P8MainClass,
+              SubClass: data.P8SubClass,
+              LinkPOV: data.P8Link,
+              Server: data.P8PlayerServer,
+              NameType: data.P8PlayerNameType,
+              NameColor1: data.P8PlayerNameColor1,
+              NameColor2: data.P8PlayerNameColor2,
+            },
+            sub: {
+              PlayerID: data.SubmitterID,
+              PlayerName: data.SubmitterName,
+              CharacterName: data.SubmitterCName,
+              RunCharacterName: data.SubmitterCName,
+              PreferredName: data.SubmitterPrefN,
+              NameType: data.SubmitterNameType,
+              NameColor1: data.SubmitterNameColor1,
+              NameColor2: data.SubmitterNameColor2,
+            },
+            shared: {
+              RunID: data.RunID,
+              Time: data.Time,
+              Notes: data.Notes,
+              Patch: data.Patch,
+              Drill: data.Drill.toString(),
+              Buff: data.Buff,
+              SubmissionTime: data.SubmissionTime,
+              SubmitterID: data.SubmitterID,
+              PartySize: data.PartySize,
+              ServerID: data.ServerID,
+            },
+          };
+          returnArray.push(dataReturn);
+        });
 
-        case 'dfaduo':
-            try {
-                var poolConnection = await sql.connect(config);
-                var sqlQuery = `
+        ////console.log(returner);
+        poolConnection.close();
+
+        //returner = context.req.body;
+        //console.log(returnArray)
+
+        return json(returnArray);
+      } catch (err) {
+        console.error(err.message);
+        break;
+      }
+      break;
+
+    case "dfaduo":
+      try {
+        var poolConnection = await sql.connect(config);
+        var sqlQuery = `
         
                 SELECT
                 submit.RunID, 
@@ -443,86 +439,84 @@ export async function GET({ request }) {
                 PartySize = 2
         
                 ORDER BY SubmissionTime DESC`;
-                    
-                var results = await poolConnection.request().query(sqlQuery);
 
-                var returner = results.recordset;
-                var returnArray = [];
-                returner.forEach(data => {
-                    var dataReturn = {
-                        p1: { 
-                            PlayerID: data.P1PlayerID,
-                            PlayerName: data.P1PlayerName,
-                            CharacterName: data.P1PlayerCName,
-                            PreferredName: data.P1PlayerPrefN,
-                            RunCharacterName: data.P1RunCharacter,
-                            MainClass: data.P1MainClass,
-                            SubClass: data.P1SubClass,
-                            LinkPOV: data.P1Link,
-                            Server: data.P1PlayerServer,
-                            NameType: data.P1PlayerNameType,
-                            NameColor1: data.P1PlayerNameColor1,
-                            NameColor2: data.P1PlayerNameColor2
-                        },
-                        p2: {
-                            PlayerID: data.P2PlayerID,
-                            PlayerName: data.P2PlayerName,
-                            CharacterName: data.P2PlayerCName,
-                            PreferredName: data.P2PlayerPrefN,
-                            RunCharacterName: data.P2RunCharacter,
-                            MainClass: data.P2MainClass,
-                            SubClass: data.P2SubClass,
-                            LinkPOV: data.P2Link,
-                            Server: data.P2PlayerServer,
-                            NameType: data.P2PlayerNameType,
-                            NameColor1: data.P2PlayerNameColor1,
-                            NameColor2: data.P2PlayerNameColor2
-                        },
-                        sub: {
-                            PlayerID: data.SubmitterID,
-                            PlayerName: data.SubmitterName,
-                            CharacterName: data.SubmitterCName,
-                            RunCharacterName: data.SubmitterCName,
-                            PreferredName: data.SubmitterPrefN,
-                            NameType: data.SubmitterNameType,
-                            NameColor1: data.SubmitterNameColor1,
-                            NameColor2: data.SubmitterNameColor2
-                        },
-                        shared: {
-                            RunID: data.RunID,
-                            Time: data.Time,
-                            Notes: data.Notes,
-                            Patch: data.Patch,
-                            Drill: (data.Drill).toString(),
-                            Buff: data.Buff,
-                            SubmissionTime: data.SubmissionTime,
-                            SubmitterID: data.SubmitterID,
-                            PartySize: data.PartySize,
-                            ServerID: data.ServerID
-                        }
-                    };
-                    returnArray.push(dataReturn);
-                });
+        var results = await poolConnection.request().query(sqlQuery);
 
-                ////console.log(returner);
-                poolConnection.close();
-        
-                //returner = context.req.body;
-                //console.log(returnArray)
-                
-                return json(returnArray)
-            
-            }
-            catch (err) {
-                console.error(err.message);
-                break;
-            }
-            break;   
+        var returner = results.recordset;
+        var returnArray = [];
+        returner.forEach((data) => {
+          var dataReturn = {
+            p1: {
+              PlayerID: data.P1PlayerID,
+              PlayerName: data.P1PlayerName,
+              CharacterName: data.P1PlayerCName,
+              PreferredName: data.P1PlayerPrefN,
+              RunCharacterName: data.P1RunCharacter,
+              MainClass: data.P1MainClass,
+              SubClass: data.P1SubClass,
+              LinkPOV: data.P1Link,
+              Server: data.P1PlayerServer,
+              NameType: data.P1PlayerNameType,
+              NameColor1: data.P1PlayerNameColor1,
+              NameColor2: data.P1PlayerNameColor2,
+            },
+            p2: {
+              PlayerID: data.P2PlayerID,
+              PlayerName: data.P2PlayerName,
+              CharacterName: data.P2PlayerCName,
+              PreferredName: data.P2PlayerPrefN,
+              RunCharacterName: data.P2RunCharacter,
+              MainClass: data.P2MainClass,
+              SubClass: data.P2SubClass,
+              LinkPOV: data.P2Link,
+              Server: data.P2PlayerServer,
+              NameType: data.P2PlayerNameType,
+              NameColor1: data.P2PlayerNameColor1,
+              NameColor2: data.P2PlayerNameColor2,
+            },
+            sub: {
+              PlayerID: data.SubmitterID,
+              PlayerName: data.SubmitterName,
+              CharacterName: data.SubmitterCName,
+              RunCharacterName: data.SubmitterCName,
+              PreferredName: data.SubmitterPrefN,
+              NameType: data.SubmitterNameType,
+              NameColor1: data.SubmitterNameColor1,
+              NameColor2: data.SubmitterNameColor2,
+            },
+            shared: {
+              RunID: data.RunID,
+              Time: data.Time,
+              Notes: data.Notes,
+              Patch: data.Patch,
+              Drill: data.Drill.toString(),
+              Buff: data.Buff,
+              SubmissionTime: data.SubmissionTime,
+              SubmitterID: data.SubmitterID,
+              PartySize: data.PartySize,
+              ServerID: data.ServerID,
+            },
+          };
+          returnArray.push(dataReturn);
+        });
 
-        case 'purpleparty':
-            try {
-                var poolConnection = await sql.connect(config);
-                var sqlQuery = `
+        ////console.log(returner);
+        poolConnection.close();
+
+        //returner = context.req.body;
+        //console.log(returnArray)
+
+        return json(returnArray);
+      } catch (err) {
+        console.error(err.message);
+        break;
+      }
+      break;
+
+    case "purpleparty":
+      try {
+        var poolConnection = await sql.connect(config);
+        var sqlQuery = `
         
                 SELECT
                 submit.RunID, 
@@ -626,114 +620,112 @@ export async function GET({ request }) {
                 PartySize = 4
         
                 ORDER BY SubmissionTime DESC`;
-                    
-                var results = await poolConnection.request().query(sqlQuery);
 
-                var returner = results.recordset;
-                var returnArray = [];
-                returner.forEach(data => {
-                    var dataReturn = {
-                        p1: { 
-                            PlayerID: data.P1PlayerID,
-                            PlayerName: data.P1PlayerName,
-                            CharacterName: data.P1PlayerCName,
-                            PreferredName: data.P1PlayerPrefN,
-                            RunCharacterName: data.P1RunCharacter,
-                            MainClass: data.P1MainClass,
-                            SubClass: data.P1SubClass,
-                            LinkPOV: data.P1Link,
-                            Server: data.P1PlayerServer,
-                            NameType: data.P1PlayerNameType,
-                            NameColor1: data.P1PlayerNameColor1,
-                            NameColor2: data.P1PlayerNameColor2
-                        },
-                        p2: {
-                            PlayerID: data.P2PlayerID,
-                            PlayerName: data.P2PlayerName,
-                            CharacterName: data.P2PlayerCName,
-                            PreferredName: data.P2PlayerPrefN,
-                            RunCharacterName: data.P2RunCharacter,
-                            MainClass: data.P2MainClass,
-                            SubClass: data.P2SubClass,
-                            LinkPOV: data.P2Link,
-                            Server: data.P2PlayerServer,
-                            NameType: data.P2PlayerNameType,
-                            NameColor1: data.P2PlayerNameColor1,
-                            NameColor2: data.P2PlayerNameColor2
-                        },
-                        p3: {
-                            PlayerID: data.P3PlayerID,
-                            PlayerName: data.P3PlayerName,
-                            CharacterName: data.P3PlayerCName,
-                            PreferredName: data.P3PlayerPrefN,
-                            RunCharacterName: data.P3RunCharacter,
-                            MainClass: data.P3MainClass,
-                            SubClass: data.P3SubClass,
-                            LinkPOV: data.P3Link,
-                            Server: data.P3PlayerServer,
-                            NameType: data.P3PlayerNameType,
-                            NameColor1: data.P3PlayerNameColor1,
-                            NameColor2: data.P3PlayerNameColor2
-                        },
-                        p4: {
-                            PlayerID: data.P4PlayerID,
-                            PlayerName: data.P4PlayerName,
-                            CharacterName: data.P4PlayerCName,
-                            PreferredName: data.P4PlayerPrefN,
-                            RunCharacterName: data.P4RunCharacter,
-                            MainClass: data.P4MainClass,
-                            SubClass: data.P4SubClass,
-                            LinkPOV: data.P4Link,
-                            Server: data.P4PlayerServer,
-                            NameType: data.P4PlayerNameType,
-                            NameColor1: data.P4PlayerNameColor1,
-                            NameColor2: data.P4PlayerNameColor2
-                        },
-                        sub: {
-                            PlayerID: data.SubmitterID,
-                            PlayerName: data.SubmitterName,
-                            CharacterName: data.SubmitterCName,
-                            RunCharacterName: data.SubmitterCName,
-                            PreferredName: data.SubmitterPrefN,
-                            NameType: data.SubmitterNameType,
-                            NameColor1: data.SubmitterNameColor1,
-                            NameColor2: data.SubmitterNameColor2
-                        },
-                        shared: {
-                            RunID: data.RunID,
-                            Time: data.Time,
-                            Notes: data.Notes,
-                            Patch: data.Patch,
-                            Region: data.Region,
-                            Rank: data.Rank,
-                            SubmissionTime: data.SubmissionTime,
-                            SubmitterID: data.SubmitterID,
-                            PartySize: data.PartySize,
-                            ServerID: data.ServerID
-                        }
-                    };
-                    returnArray.push(dataReturn);
-                });
+        var results = await poolConnection.request().query(sqlQuery);
 
-                ////console.log(returner);
-                poolConnection.close();
-        
-                //returner = context.req.body;
-                //console.log(returnArray)
-                
-                return json(returnArray)
-            
-            }
-            catch (err) {
-                console.error(err.message);
-                break;
-            }
-            break;   
+        var returner = results.recordset;
+        var returnArray = [];
+        returner.forEach((data) => {
+          var dataReturn = {
+            p1: {
+              PlayerID: data.P1PlayerID,
+              PlayerName: data.P1PlayerName,
+              CharacterName: data.P1PlayerCName,
+              PreferredName: data.P1PlayerPrefN,
+              RunCharacterName: data.P1RunCharacter,
+              MainClass: data.P1MainClass,
+              SubClass: data.P1SubClass,
+              LinkPOV: data.P1Link,
+              Server: data.P1PlayerServer,
+              NameType: data.P1PlayerNameType,
+              NameColor1: data.P1PlayerNameColor1,
+              NameColor2: data.P1PlayerNameColor2,
+            },
+            p2: {
+              PlayerID: data.P2PlayerID,
+              PlayerName: data.P2PlayerName,
+              CharacterName: data.P2PlayerCName,
+              PreferredName: data.P2PlayerPrefN,
+              RunCharacterName: data.P2RunCharacter,
+              MainClass: data.P2MainClass,
+              SubClass: data.P2SubClass,
+              LinkPOV: data.P2Link,
+              Server: data.P2PlayerServer,
+              NameType: data.P2PlayerNameType,
+              NameColor1: data.P2PlayerNameColor1,
+              NameColor2: data.P2PlayerNameColor2,
+            },
+            p3: {
+              PlayerID: data.P3PlayerID,
+              PlayerName: data.P3PlayerName,
+              CharacterName: data.P3PlayerCName,
+              PreferredName: data.P3PlayerPrefN,
+              RunCharacterName: data.P3RunCharacter,
+              MainClass: data.P3MainClass,
+              SubClass: data.P3SubClass,
+              LinkPOV: data.P3Link,
+              Server: data.P3PlayerServer,
+              NameType: data.P3PlayerNameType,
+              NameColor1: data.P3PlayerNameColor1,
+              NameColor2: data.P3PlayerNameColor2,
+            },
+            p4: {
+              PlayerID: data.P4PlayerID,
+              PlayerName: data.P4PlayerName,
+              CharacterName: data.P4PlayerCName,
+              PreferredName: data.P4PlayerPrefN,
+              RunCharacterName: data.P4RunCharacter,
+              MainClass: data.P4MainClass,
+              SubClass: data.P4SubClass,
+              LinkPOV: data.P4Link,
+              Server: data.P4PlayerServer,
+              NameType: data.P4PlayerNameType,
+              NameColor1: data.P4PlayerNameColor1,
+              NameColor2: data.P4PlayerNameColor2,
+            },
+            sub: {
+              PlayerID: data.SubmitterID,
+              PlayerName: data.SubmitterName,
+              CharacterName: data.SubmitterCName,
+              RunCharacterName: data.SubmitterCName,
+              PreferredName: data.SubmitterPrefN,
+              NameType: data.SubmitterNameType,
+              NameColor1: data.SubmitterNameColor1,
+              NameColor2: data.SubmitterNameColor2,
+            },
+            shared: {
+              RunID: data.RunID,
+              Time: data.Time,
+              Notes: data.Notes,
+              Patch: data.Patch,
+              Region: data.Region,
+              Rank: data.Rank,
+              SubmissionTime: data.SubmissionTime,
+              SubmitterID: data.SubmitterID,
+              PartySize: data.PartySize,
+              ServerID: data.ServerID,
+            },
+          };
+          returnArray.push(dataReturn);
+        });
 
-        case 'purpleduo':
-                try {
-                    var poolConnection = await sql.connect(config);
-                    var sqlQuery = `
+        ////console.log(returner);
+        poolConnection.close();
+
+        //returner = context.req.body;
+        //console.log(returnArray)
+
+        return json(returnArray);
+      } catch (err) {
+        console.error(err.message);
+        break;
+      }
+      break;
+
+    case "purpleduo":
+      try {
+        var poolConnection = await sql.connect(config);
+        var sqlQuery = `
             
                     SELECT
                     submit.RunID, 
@@ -804,114 +796,112 @@ export async function GET({ request }) {
                     PartySize = 2
             
                     ORDER BY SubmissionTime DESC`;
-                        
-                    var results = await poolConnection.request().query(sqlQuery);
-    
-                    var returner = results.recordset;
-                    var returnArray = [];
-                    returner.forEach(data => {
-                        var dataReturn = {
-                            p1: { 
-                                PlayerID: data.P1PlayerID,
-                                PlayerName: data.P1PlayerName,
-                                CharacterName: data.P1PlayerCName,
-                                PreferredName: data.P1PlayerPrefN,
-                                RunCharacterName: data.P1RunCharacter,
-                                MainClass: data.P1MainClass,
-                                SubClass: data.P1SubClass,
-                                LinkPOV: data.P1Link,
-                                Server: data.P1PlayerServer,
-                                NameType: data.P1PlayerNameType,
-                                NameColor1: data.P1PlayerNameColor1,
-                                NameColor2: data.P1PlayerNameColor2
-                            },
-                            p2: {
-                                PlayerID: data.P2PlayerID,
-                                PlayerName: data.P2PlayerName,
-                                CharacterName: data.P2PlayerCName,
-                                PreferredName: data.P2PlayerPrefN,
-                                RunCharacterName: data.P2RunCharacter,
-                                MainClass: data.P2MainClass,
-                                SubClass: data.P2SubClass,
-                                LinkPOV: data.P2Link,
-                                Server: data.P2PlayerServer,
-                                NameType: data.P2PlayerNameType,
-                                NameColor1: data.P2PlayerNameColor1,
-                                NameColor2: data.P2PlayerNameColor2
-                            },
-                            p3: {
-                                PlayerID: data.P3PlayerID,
-                                PlayerName: data.P3PlayerName,
-                                CharacterName: data.P3PlayerCName,
-                                PreferredName: data.P3PlayerPrefN,
-                                RunCharacterName: data.P3RunCharacter,
-                                MainClass: data.P3MainClass,
-                                SubClass: data.P3SubClass,
-                                LinkPOV: data.P3Link,
-                                Server: data.P3PlayerServer,
-                                NameType: data.P3PlayerNameType,
-                                NameColor1: data.P3PlayerNameColor1,
-                                NameColor2: data.P3PlayerNameColor2
-                            },
-                            p4: {
-                                PlayerID: data.P4PlayerID,
-                                PlayerName: data.P4PlayerName,
-                                CharacterName: data.P4PlayerCName,
-                                PreferredName: data.P4PlayerPrefN,
-                                RunCharacterName: data.P4RunCharacter,
-                                MainClass: data.P4MainClass,
-                                SubClass: data.P4SubClass,
-                                LinkPOV: data.P4Link,
-                                Server: data.P4PlayerServer,
-                                NameType: data.P4PlayerNameType,
-                                NameColor1: data.P4PlayerNameColor1,
-                                NameColor2: data.P4PlayerNameColor2
-                            },
-                            sub: {
-                                PlayerID: data.SubmitterID,
-                                PlayerName: data.SubmitterName,
-                                CharacterName: data.SubmitterCName,
-                                RunCharacterName: data.SubmitterCName,
-                                PreferredName: data.SubmitterPrefN,
-                                NameType: data.SubmitterNameType,
-                                NameColor1: data.SubmitterNameColor1,
-                                NameColor2: data.SubmitterNameColor2
-                            },
-                            shared: {
-                                RunID: data.RunID,
-                                Time: data.Time,
-                                Notes: data.Notes,
-                                Patch: data.Patch,
-                                Region: data.Region,
-                                Rank: data.Rank,
-                                SubmissionTime: data.SubmissionTime,
-                                SubmitterID: data.SubmitterID,
-                                PartySize: data.PartySize,
-                                ServerID: data.ServerID
-                            }
-                        };
-                        returnArray.push(dataReturn);
-                    });
-    
-                    ////console.log(returner);
-                    poolConnection.close();
-            
-                    //returner = context.req.body;
-                    //console.log(returnArray)
-                    
-                    return json(returnArray)
-                
-                }
-                catch (err) {
-                    console.error(err.message);
-                    break;
-                }
-                break;   
 
-        case 'dfasolo':
-            try {
-                var poolConnection = await sql.connect(config);
-                var sqlQuery = `
+        var results = await poolConnection.request().query(sqlQuery);
+
+        var returner = results.recordset;
+        var returnArray = [];
+        returner.forEach((data) => {
+          var dataReturn = {
+            p1: {
+              PlayerID: data.P1PlayerID,
+              PlayerName: data.P1PlayerName,
+              CharacterName: data.P1PlayerCName,
+              PreferredName: data.P1PlayerPrefN,
+              RunCharacterName: data.P1RunCharacter,
+              MainClass: data.P1MainClass,
+              SubClass: data.P1SubClass,
+              LinkPOV: data.P1Link,
+              Server: data.P1PlayerServer,
+              NameType: data.P1PlayerNameType,
+              NameColor1: data.P1PlayerNameColor1,
+              NameColor2: data.P1PlayerNameColor2,
+            },
+            p2: {
+              PlayerID: data.P2PlayerID,
+              PlayerName: data.P2PlayerName,
+              CharacterName: data.P2PlayerCName,
+              PreferredName: data.P2PlayerPrefN,
+              RunCharacterName: data.P2RunCharacter,
+              MainClass: data.P2MainClass,
+              SubClass: data.P2SubClass,
+              LinkPOV: data.P2Link,
+              Server: data.P2PlayerServer,
+              NameType: data.P2PlayerNameType,
+              NameColor1: data.P2PlayerNameColor1,
+              NameColor2: data.P2PlayerNameColor2,
+            },
+            p3: {
+              PlayerID: data.P3PlayerID,
+              PlayerName: data.P3PlayerName,
+              CharacterName: data.P3PlayerCName,
+              PreferredName: data.P3PlayerPrefN,
+              RunCharacterName: data.P3RunCharacter,
+              MainClass: data.P3MainClass,
+              SubClass: data.P3SubClass,
+              LinkPOV: data.P3Link,
+              Server: data.P3PlayerServer,
+              NameType: data.P3PlayerNameType,
+              NameColor1: data.P3PlayerNameColor1,
+              NameColor2: data.P3PlayerNameColor2,
+            },
+            p4: {
+              PlayerID: data.P4PlayerID,
+              PlayerName: data.P4PlayerName,
+              CharacterName: data.P4PlayerCName,
+              PreferredName: data.P4PlayerPrefN,
+              RunCharacterName: data.P4RunCharacter,
+              MainClass: data.P4MainClass,
+              SubClass: data.P4SubClass,
+              LinkPOV: data.P4Link,
+              Server: data.P4PlayerServer,
+              NameType: data.P4PlayerNameType,
+              NameColor1: data.P4PlayerNameColor1,
+              NameColor2: data.P4PlayerNameColor2,
+            },
+            sub: {
+              PlayerID: data.SubmitterID,
+              PlayerName: data.SubmitterName,
+              CharacterName: data.SubmitterCName,
+              RunCharacterName: data.SubmitterCName,
+              PreferredName: data.SubmitterPrefN,
+              NameType: data.SubmitterNameType,
+              NameColor1: data.SubmitterNameColor1,
+              NameColor2: data.SubmitterNameColor2,
+            },
+            shared: {
+              RunID: data.RunID,
+              Time: data.Time,
+              Notes: data.Notes,
+              Patch: data.Patch,
+              Region: data.Region,
+              Rank: data.Rank,
+              SubmissionTime: data.SubmissionTime,
+              SubmitterID: data.SubmitterID,
+              PartySize: data.PartySize,
+              ServerID: data.ServerID,
+            },
+          };
+          returnArray.push(dataReturn);
+        });
+
+        ////console.log(returner);
+        poolConnection.close();
+
+        //returner = context.req.body;
+        //console.log(returnArray)
+
+        return json(returnArray);
+      } catch (err) {
+        console.error(err.message);
+        break;
+      }
+      break;
+
+    case "dfasolo":
+      try {
+        var poolConnection = await sql.connect(config);
+        var sqlQuery = `
         
                 SELECT
                 submit.RunID, 
@@ -968,28 +958,26 @@ export async function GET({ request }) {
                 WHERE SubmissionStatus = 0
         
                 ORDER BY SubmissionTime DESC`;
-                    
-                var results = await poolConnection.request().query(sqlQuery);
-                
-                var returner = results.recordset;
-                ////console.log(returner);
-                poolConnection.close();
-        
-                //returner = context.req.body;
-                
-                return json(returner)
-            
-            }
-            catch (err) {
-                console.error(err.message);
-                break;
-            }
-            break;   
-        
-        default:
-            try {
-                var poolConnection = await sql.connect(config);
-                var sqlQuery = `
+
+        var results = await poolConnection.request().query(sqlQuery);
+
+        var returner = results.recordset;
+        ////console.log(returner);
+        poolConnection.close();
+
+        //returner = context.req.body;
+
+        return json(returner);
+      } catch (err) {
+        console.error(err.message);
+        break;
+      }
+      break;
+
+    default:
+      try {
+        var poolConnection = await sql.connect(config);
+        var sqlQuery = `
         
                 SELECT
                 submit.RunID, 
@@ -1046,24 +1034,20 @@ export async function GET({ request }) {
                 WHERE SubmissionStatus = 0
         
                 ORDER BY SubmissionTime DESC`;
-                    
-                var results = await poolConnection.request().query(sqlQuery);
-                
-                var returner = results.recordset;
-                ////console.log(returner);
-                poolConnection.close();
-        
-                //returner = context.req.body;
-                
-                return json(returner)
-            
-            }
-            catch (err) {
-                console.error(err.message);
-                break;
-            }   
-            break;
 
+        var results = await poolConnection.request().query(sqlQuery);
 
-    }
+        var returner = results.recordset;
+        ////console.log(returner);
+        poolConnection.close();
+
+        //returner = context.req.body;
+
+        return json(returner);
+      } catch (err) {
+        console.error(err.message);
+        break;
+      }
+      break;
+  }
 }

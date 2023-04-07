@@ -1,46 +1,60 @@
 <script lang="ts">
-    import { t } from 'svelte-i18n'
-    import { browser } from '$app/environment';
+  import { t } from "svelte-i18n";
+  import { browser } from "$app/environment";
 
-    import LeaderboardHeader from "$lib/LeaderboardHeader.svelte";
-    import BackgroundRandomizer from "$lib/BackgroundRandomizer.svelte";
-    import LeaderboardFooter from "$lib/LeaderboardFooter.svelte";
+  import LeaderboardHeader from "$lib/LeaderboardHeader.svelte";
+  import BackgroundRandomizer from "$lib/BackgroundRandomizer.svelte";
+  import LeaderboardFooter from "$lib/LeaderboardFooter.svelte";
 
-    async function testIntegration(){
-        const response2 = await fetch('/ngs-api/YoutubeTester', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-                }
-            });
-            const MyPlayer = await response2.json();
-            console.log(MyPlayer)
-    }
-
+  async function testIntegration() {
+    const response2 = await fetch("/ngs-api/YoutubeTester", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const MyPlayer = await response2.json();
+    console.log(MyPlayer);
+  }
 </script>
 
 <svelte:head>
-	<title>{$t('shared.siteName')}</title>
+  <title>{$t("shared.siteName")}</title>
 </svelte:head>
 
-<div class="flex flex-col min-h-screen">
-    <LeaderboardHeader/>
+<div class="flex min-h-screen flex-col">
+  <LeaderboardHeader />
 
-    <div class="flex flex-col grow content-center">
-        <img class="my-16 md:my-0 mx-8 drop-shadow-[2px_4px_6px_rgba(0,0,0,0.8)] object-scale-down" alt="{$t('shared.siteName')}" src="/logos/logo.png">
-        <div class="container mx-auto bg-base-100/75 border-secondary border rounded-md mb-16">
-            <div class="flex flex-col md:flex-row align-center">
-                <div class="basis-full bg-base-100 m-2 px-8 p-4 border-secondary border rounded-md">
-                    <p>Placeholder landing page. We can get banners in later.</p>
-                    <div data-oauth-ui="list-columns" data-oauth-ui-switches="statusOn,disconnect" data-oauth-icon-size="Medium" data-oauth-button-color="#007BFF" data-oauth-ui-providers="" data-oauth-ui-providerTypes=""></div>
-                    <button on:click={testIntegration}>TEST IT</button>
-                    <a href="/leaderboard" class="link link-primary">Leaderboard</a><br>
-                    <a href="/gear" class="link link-primary">Gear Sim</a>
-                </div>
-            </div>
+  <div class="flex grow flex-col content-center">
+    <img
+      class="mx-8 my-16 object-scale-down drop-shadow-[2px_4px_6px_rgba(0,0,0,0.8)] md:my-0"
+      alt={$t("shared.siteName")}
+      src="/logos/logo.png"
+    />
+    <div
+      class="container mx-auto mb-16 rounded-md border border-secondary bg-base-100/75"
+    >
+      <div class="align-center flex flex-col md:flex-row">
+        <div
+          class="m-2 basis-full rounded-md border border-secondary bg-base-100 p-4 px-8"
+        >
+          <p>Placeholder landing page. We can get banners in later.</p>
+          <div
+            data-oauth-ui="list-columns"
+            data-oauth-ui-switches="statusOn,disconnect"
+            data-oauth-icon-size="Medium"
+            data-oauth-button-color="#007BFF"
+            data-oauth-ui-providers=""
+            data-oauth-ui-providerTypes=""
+          />
+          <button on:click={testIntegration}>TEST IT</button>
+          <a href="/leaderboard" class="link-primary link">Leaderboard</a><br />
+          <a href="/gear" class="link-primary link">Gear Sim</a>
         </div>
+      </div>
     </div>
-    <LeaderboardFooter/>
+  </div>
+  <LeaderboardFooter />
 </div>
 
-<BackgroundRandomizer/>
+<BackgroundRandomizer />

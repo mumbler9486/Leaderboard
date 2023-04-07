@@ -1,32 +1,32 @@
 import sql from "mssql";
-import { json } from '@sveltejs/kit';
+import { json } from "@sveltejs/kit";
 
-import * as dotenv from 'dotenv'
-dotenv.config()
+import * as dotenv from "dotenv";
+dotenv.config();
 
 const config = {
-	user: process.env.DB_USER, // better stored in an app setting such as process.env.DB_USER
-	password: process.env.DB_PASSWORD, // better stored in an app setting such as process.env.DB_PASSWORD
-	server: process.env.DB_SERVER, // better stored in an app setting such as process.env.DB_SERVER
-	database: process.env.DB_NAME, // better stored in an app setting such as process.env.DB_NAME
-	authentication: {
-		type: 'default'
-	},
-	options: {
-		encrypt: true
-	}
-}
+  user: process.env.DB_USER, // better stored in an app setting such as process.env.DB_USER
+  password: process.env.DB_PASSWORD, // better stored in an app setting such as process.env.DB_PASSWORD
+  server: process.env.DB_SERVER, // better stored in an app setting such as process.env.DB_SERVER
+  database: process.env.DB_NAME, // better stored in an app setting such as process.env.DB_NAME
+  authentication: {
+    type: "default",
+  },
+  options: {
+    encrypt: true,
+  },
+};
 
 // @ts-ignore
 // @ts-ignore
 export async function GET({ url }) {
-    const data = await url.searchParams;
+  const data = await url.searchParams;
 
-	try {
-		// @ts-ignore
-		var poolConnection = await sql.connect(config);
+  try {
+    // @ts-ignore
+    var poolConnection = await sql.connect(config);
 
-		var sqlQuery = `
+    var sqlQuery = `
 
         SELECT 
 
@@ -82,23 +82,24 @@ export async function GET({ url }) {
 
         WHERE RunID = @runID`;
 
-		// @ts-ignore
-		var results = await poolConnection.request().input('runID',sql.Int,data.get('GetRunID')).query(sqlQuery);
+    // @ts-ignore
+    var results = await poolConnection
+      .request()
+      .input("runID", sql.Int, data.get("GetRunID"))
+      .query(sqlQuery);
 
-		var returner = results.recordset;
-		////console.log(returner);
-		// @ts-ignore
-		// poolConnection.close();
+    var returner = results.recordset;
+    ////console.log(returner);
+    // @ts-ignore
+    // poolConnection.close();
 
-		//returner = context.req.body;
-		
-        // context.res.status(200).json(returner);
+    //returner = context.req.body;
 
-        return json(returner);
-	
-	}
-	catch (err) {
-		// @ts-ignore
-		console.error(err.message);
-	}
+    // context.res.status(200).json(returner);
+
+    return json(returner);
+  } catch (err) {
+    // @ts-ignore
+    console.error(err.message);
+  }
 }

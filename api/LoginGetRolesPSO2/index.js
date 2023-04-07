@@ -1,32 +1,31 @@
-const sql = require('mssql');
+const sql = require("mssql");
 
-const path = require('path');
+const path = require("path");
 
-require('dotenv').config()
+require("dotenv").config();
 
 const config = {
-	user: process.env["DB_USER"], // better stored in an app setting such as process.env.DB_USER
-	password: process.env["DB_PASSWORD"], // better stored in an app setting such as process.env.DB_PASSWORD
-	server: process.env["DB_SERVER"], // better stored in an app setting such as process.env.DB_SERVER
-	database: process.env["DB_NAME"], // better stored in an app setting such as process.env.DB_NAME
-	authentication: {
-		type: 'default'
-	},
-	options: {
-		encrypt: true
-	}
-}
+  user: process.env["DB_USER"], // better stored in an app setting such as process.env.DB_USER
+  password: process.env["DB_PASSWORD"], // better stored in an app setting such as process.env.DB_PASSWORD
+  server: process.env["DB_SERVER"], // better stored in an app setting such as process.env.DB_SERVER
+  database: process.env["DB_NAME"], // better stored in an app setting such as process.env.DB_NAME
+  authentication: {
+    type: "default",
+  },
+  options: {
+    encrypt: true,
+  },
+};
 
 module.exports = async function (context, req) {
+  try {
+    var poolConnection = await sql.connect(config);
+    //console.log(req.body);
+    const userID = req.body;
+    //console.log(userID.userId);
+    //console.log("BLEP")
 
-	try {
-		var poolConnection = await sql.connect(config);
-        //console.log(req.body);
-        const userID = req.body;
-        //console.log(userID.userId);
-        //console.log("BLEP")
-
-		var sqlQuery = `
+    var sqlQuery = `
 
         SELECT
             ui.Role,
@@ -39,51 +38,48 @@ module.exports = async function (context, req) {
             ON pc.PlayerID = ui.PlayerID
         WHERE
             ui.UserID = @UserID`;
-			
-		var results = await poolConnection.request().input('UserID',sql.NVarChar, userID.userId).query(sqlQuery);
-		
-		var returner = results.recordset;
-		//console.log(results);
-		poolConnection.close();
 
-        //console.log(returner[0]);
+    var results = await poolConnection
+      .request()
+      .input("UserID", sql.NVarChar, userID.userId)
+      .query(sqlQuery);
 
-        var exrole = returner[0].ExtraRole;
-        var role = returner[0].Role;
+    var returner = results.recordset;
+    //console.log(results);
+    poolConnection.close();
 
-        if (role == null) {
-            role = ' ';
-        }
-        if (exrole == null) {
-            exrole = ' ';
-        }
+    //console.log(returner[0]);
 
-        var data = {
-          "roles": [
-            role,
-            exrole
-          ]
-        }
+    var exrole = returner[0].ExtraRole;
+    var role = returner[0].Role;
 
-        data = JSON.stringify(data);
-        data = JSON.parse(data);
-
-        //data = JSON.stringify(data);
-        //data = JSON.parse(data);
-        //console.log(data);
-        context.res = {
-            contentType: "application/json",
-                status: 200, /* Defaults to 200 */
-                body: data
-        };
-
+    if (role == null) {
+      role = " ";
     }
-    catch (err) {
-		console.error(err.message);
-        var data = {
-            "version": "1.0.0",
-            "action": "Continue",
-        }
-	}
+    if (exrole == null) {
+      exrole = " ";
+    }
 
-}
+    var data = {
+      roles: [role, exrole],
+    };
+
+    data = JSON.stringify(data);
+    data = JSON.parse(data);
+
+    //data = JSON.stringify(data);
+    //data = JSON.parse(data);
+    //console.log(data);
+    context.res = {
+      contentType: "application/json",
+      status: 200 /* Defaults to 200 */,
+      body: data,
+    };
+  } catch (err) {
+    console.error(err.message);
+    var data = {
+      version: "1.0.0",
+      action: "Continue",
+    };
+  }
+};

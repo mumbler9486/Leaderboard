@@ -1,59 +1,58 @@
 import sql from "mssql";
-import { json } from '@sveltejs/kit';
+import { json } from "@sveltejs/kit";
 
-import * as dotenv from 'dotenv'
-dotenv.config()
+import * as dotenv from "dotenv";
+dotenv.config();
 
 const config = {
-	user: process.env.DB_USER, // better stored in an app setting such as process.env.DB_USER
-	password: process.env.DB_PASSWORD, // better stored in an app setting such as process.env.DB_PASSWORD
-	server: process.env.DB_SERVER, // better stored in an app setting such as process.env.DB_SERVER
-	database: process.env.DB_NAME, // better stored in an app setting such as process.env.DB_NAME
-	authentication: {
-		type: 'default'
-	},
-	options: {
-		encrypt: true
-	}
-}
+  user: process.env.DB_USER, // better stored in an app setting such as process.env.DB_USER
+  password: process.env.DB_PASSWORD, // better stored in an app setting such as process.env.DB_PASSWORD
+  server: process.env.DB_SERVER, // better stored in an app setting such as process.env.DB_SERVER
+  database: process.env.DB_NAME, // better stored in an app setting such as process.env.DB_NAME
+  authentication: {
+    type: "default",
+  },
+  options: {
+    encrypt: true,
+  },
+};
 
 // @ts-ignore
 // @ts-ignore
 export async function GET({ url }) {
-    const data = await url.searchParams;
-	try {
-		// @ts-ignore
-		var poolConnection = await sql.connect(config);
-		
-        var patchQuery = ` AND Patch = '60R'`;
-        var serverQuery = ``;
-        var classQuery = '';
-        var videoQuery = ` AND NOT COALESCE(VideoTag,'none') = 'partial'`;
+  const data = await url.searchParams;
+  try {
+    // @ts-ignore
+    var poolConnection = await sql.connect(config);
 
-        // //console.log(data);
+    var patchQuery = ` AND Patch = '60R'`;
+    var serverQuery = ``;
+    var classQuery = "";
+    var videoQuery = ` AND NOT COALESCE(VideoTag,'none') = 'partial'`;
 
-        if (data.get('patch') != null && data.get('patch') != '') {
-            if (data.get('patch') == 'P60') {
-                patchQuery = ` AND Patch IS NULL`;
-            }
-            else {
-                patchQuery = ' AND Patch = @PatchInput';
-            }
-            
-        };
-        if (data.get('videos') != null && data.get('videos') != '') {
-            if (data.get('videos') == '1') {
-                videoQuery = ``;
-            }
-        };
-        if (data.get('class') != null && data.get('class') != '') {
-            classQuery = ' AND MainClass = @ClassInput';
-        };
-        if (data.get('server') != null && data.get('server') != '') {
-            serverQuery = ' AND Server = @ServerInput';
-        };
+    // //console.log(data);
 
-		var sqlQuery = `
+    if (data.get("patch") != null && data.get("patch") != "") {
+      if (data.get("patch") == "P60") {
+        patchQuery = ` AND Patch IS NULL`;
+      } else {
+        patchQuery = " AND Patch = @PatchInput";
+      }
+    }
+    if (data.get("videos") != null && data.get("videos") != "") {
+      if (data.get("videos") == "1") {
+        videoQuery = ``;
+      }
+    }
+    if (data.get("class") != null && data.get("class") != "") {
+      classQuery = " AND MainClass = @ClassInput";
+    }
+    if (data.get("server") != null && data.get("server") != "") {
+      serverQuery = " AND Server = @ServerInput";
+    }
+
+    var sqlQuery =
+      `
 
         SELECT
         [Players].[Information].[PlayerID],
@@ -99,37 +98,47 @@ export async function GET({ url }) {
         Rank = @RankInput
         AND
         Region = @RegionInput
-        ` + classQuery + patchQuery + serverQuery + videoQuery + `
+        ` +
+      classQuery +
+      patchQuery +
+      serverQuery +
+      videoQuery +
+      `
         
     ORDER BY time ASC, SubmissionTime ASC`;
 
-		// @ts-ignore
-		var results = await poolConnection.request().input('ServerInput',sql.VarChar,data.get('server')).input('ClassInput',sql.VarChar,data.get('class')).input('PatchInput',sql.VarChar,data.get('patch')).input('RegionInput',sql.VarChar,data.get('region')).input('RankInput', sql.Int, data.get('rank')).query(sqlQuery);
+    // @ts-ignore
+    var results = await poolConnection
+      .request()
+      .input("ServerInput", sql.VarChar, data.get("server"))
+      .input("ClassInput", sql.VarChar, data.get("class"))
+      .input("PatchInput", sql.VarChar, data.get("patch"))
+      .input("RegionInput", sql.VarChar, data.get("region"))
+      .input("RankInput", sql.Int, data.get("rank"))
+      .query(sqlQuery);
 
-		var returner = results.recordset;
-		////console.log(returner);
-		// @ts-ignore
-		// poolConnection.close();
+    var returner = results.recordset;
+    ////console.log(returner);
+    // @ts-ignore
+    // poolConnection.close();
 
-		//returner = context.req.body;
-		
-        // context.res.status(200).json(returner);
+    //returner = context.req.body;
 
-        if(!data.get('weapons')) {
-            var temp=[ ]
-            returner=returner.filter((item)=>{
-                if(!temp.includes(item.Filtration)){
-                    temp.push(item.Filtration)
-                    return true;
-                }
-            })
+    // context.res.status(200).json(returner);
+
+    if (!data.get("weapons")) {
+      var temp = [];
+      returner = returner.filter((item) => {
+        if (!temp.includes(item.Filtration)) {
+          temp.push(item.Filtration);
+          return true;
         }
+      });
+    }
 
-        return json(returner);
-	
-	}
-	catch (err) {
-		// @ts-ignore
-		console.error(err.message);
-	}
+    return json(returner);
+  } catch (err) {
+    // @ts-ignore
+    console.error(err.message);
+  }
 }

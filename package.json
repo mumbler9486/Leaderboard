@@ -1,33 +1,39 @@
 {
-	"name": "leaderboard",
-	"version": "0.0.1",
-	"private": true,
-	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build",
-		"preview": "vite preview",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch"
-	},
-	"devDependencies": {
-		"@beyonk/gdpr-cookie-consent-banner": "^9.1.1",
-		"@sveltejs/adapter-auto": "^2.0.0",
-		"@sveltejs/kit": "^1.7.2",
-		"autoprefixer": "^10.4.13",
-		"postcss": "^8.4.21",
-		"svelte": "^3.55.1",
-		"svelte-adapter-azure-swa": "^0.13.0",
-		"svelte-check": "^3.0.3",
-		"tailwindcss": "^3.2.7",
-		"typescript": "^4.9.5",
-		"vite": "^4.1.2"
-	},
-	"type": "module",
-	"dependencies": {
-		"@azure/storage-blob": "^12.12.0",
-		"daisyui": "^2.50.1",
-		"dotenv": "^16.0.3",
-		"mssql": "^9.1.1",
-		"svelte-i18n": "^3.6.0"
-	}
+  "name": "leaderboard",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "swa start http://localhost:5173 --api-location api --run \"vite dev\"",
+    "dev:mock": "vite dev",
+    "build": "vite build",
+    "preview": "swa start http://localhost:4173 --api-location api --run \"vite preview\" --open",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
+    "format": "prettier --plugin-search-dir . --write ."
+  },
+  "devDependencies": {
+    "@azure/static-web-apps-cli": "^1.1.1",
+    "@beyonk/gdpr-cookie-consent-banner": "^9.1.1",
+    "@sveltejs/adapter-auto": "^2.0.0",
+    "@sveltejs/kit": "^1.7.2",
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.21",
+    "prettier": "^2.8.7",
+    "prettier-plugin-svelte": "^2.10.0",
+    "prettier-plugin-tailwindcss": "^0.2.7",
+    "svelte": "^3.55.1",
+    "svelte-adapter-azure-swa": "^0.13.0",
+    "svelte-check": "^3.0.3",
+    "tailwindcss": "^3.2.7",
+    "typescript": "^4.9.5",
+    "vite": "^4.1.2"
+  },
+  "type": "module",
+  "dependencies": {
+    "@azure/storage-blob": "^12.12.0",
+    "daisyui": "^2.50.1",
+    "dotenv": "^16.0.3",
+    "mssql": "^9.1.1",
+    "svelte-i18n": "^3.6.0"
+  }
 }
