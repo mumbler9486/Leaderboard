@@ -1,0 +1,18 @@
+{
+	"editor.formatOnSave": true,
+	"debug.toolBarLocation": "hidden",
+	"i18n-ally.localesPaths": ["src/lib/i18n", "src/lib/i18n/locales"],
+	"[svelte]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"i18n-ally.keystyle": "nested"
+}
