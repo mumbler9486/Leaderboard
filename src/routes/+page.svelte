@@ -1,6 +1,6 @@
 <script lang="ts">
     import { t } from 'svelte-i18n'
-    import { browser } from '$app/environment';+-
+    import { browser } from '$app/environment';
 
     import LeaderboardHeader from "$lib/LeaderboardHeader.svelte";
     import BackgroundRandomizer from "$lib/BackgroundRandomizer.svelte";
