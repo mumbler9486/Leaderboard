@@ -4,14 +4,13 @@ const { subscribe, set, update } = writable({});
 
 export const userContext = { subscribe };
 
-async function fetchData() {
-	fetch('/.auth/me')
-		.then((response) => response.json())
-		.then((data) => {
-			const { clientPrincipal } = data;
-			set({ userId: clientPrincipal.userId });
-		})
-		.catch((error) => console.error(error));
+export async function fetchData() {
+  try {
+    const response = await fetch('/.auth/me');
+    const data = await response.json();
+    const { clientPrincipal } = data;
+    set({ userId: clientPrincipal.userId });
+  } catch (error) {
+    console.error(error);
+  }
 }
-
-export const userData = fetchData();
