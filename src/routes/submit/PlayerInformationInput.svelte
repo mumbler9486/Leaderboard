@@ -3,12 +3,14 @@
 	import ClassSelector from './ClassSelector.svelte';
 	import { runForm } from './runStore';
 	import WeaponSelector from './WeaponSelector.svelte';
+	import { userInfo } from './playerInfoStore';
 
 	export let playerIndex: number;
 
 	let playerName = '';
 	let inVideoName = '';
 	let playerServer = 'global';
+	let videoLink = '';
 
 	const serverOptions = [
 		{
@@ -25,6 +27,9 @@
 		s.players[playerIndex].playerName = playerName;
 		s.players[playerIndex].inVideoName = inVideoName;
 		s.players[playerIndex].playerServer = playerServer;
+		s.players[playerIndex].povVideoLink = videoLink;
+		s.players[playerIndex].playerId =
+			$userInfo.find((x) => x.PlayerName == playerName)?.PlayerID ?? -1;
 		return s;
 	});
 </script>
@@ -37,7 +42,7 @@
 			>
 			<input
 				placeholder="Search or enter name..."
-				list="playerName-datalist1"
+				list="playerName-datalist{playerIndex}"
 				name="player-name-form1"
 				class="input-bordered input"
 				bind:value={playerName}
@@ -50,19 +55,18 @@
 					></span
 				>
 			</div>
-			<datalist id="playerName-datalist1">
-				<option value="Adds Man" data-player="1">Adds Man</option>
-				<option value="Big Bubba" data-player="2">Big Bubba</option>
-				<option value="ZeroXX" data-player="3">ZeroXX</option>
+			<datalist id="playerName-datalist{playerIndex}">
+				{#each $userInfo as user}
+					<option value={user.PlayerName} data-player={user.PlayerID}>{user.CharacterName}</option>
+				{/each}
 			</datalist>
 		</div>
 		<div class="form-control">
-			<label class="label" for="charactername-form1"
-				><span class="label-text text-base font-semibold">In-Video Character Name</span></label
-			>
+			<div class="label">
+				<span class="label-text text-base font-semibold">In-Video Character Name</span>
+			</div>
 			<input
 				placeholder="Enter character name..."
-				id="charactername-form1"
 				class="input-bordered input"
 				type="text"
 				required
@@ -89,9 +93,23 @@
 		</div>
 		<ClassSelector {playerIndex} />
 	</div>
-	<div class="mt-4">
-		<div class="mt-4 text-center text-lg font-semibold">Weapons Used</div>
-		<div class="mb-4 text-center text-warning">Maximum of 6</div>
-		<WeaponSelector {playerIndex} />
+	<div class="form-control mt-4">
+		<div class="label">
+			<span class="label-text text-base font-semibold">POV Video Link</span>
+		</div>
+		<input
+			placeholder="Youtube video URL"
+			class="input-bordered input"
+			type="text"
+			required
+			bind:value={videoLink}
+		/>
 	</div>
+	{#if $runForm.players.length == 1}
+		<div class="mt-4">
+			<div class="mt-4 text-center text-lg font-semibold">Weapons Used</div>
+			<div class="mb-4 text-center text-warning">Maximum of 6</div>
+			<WeaponSelector {playerIndex} />
+		</div>
+	{/if}
 </div>

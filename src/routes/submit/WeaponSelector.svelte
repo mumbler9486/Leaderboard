@@ -8,10 +8,13 @@
 	let selectedWeapons: { [weaponKey: string]: boolean } = {};
 	let selectionHistory: string[] = [];
 
-	$: runForm.update((s) => {
-		s.players[playerIndex].weapons = selectionHistory;
-		return s;
-	});
+	$: updateForm(selectedWeapons);
+	const updateForm = (...watch: any) => {
+		runForm.update((s) => {
+			s.players[playerIndex].weapons = selectionHistory;
+			return s;
+		});
+	};
 
 	const weaponsMap = {
 		[Weapon.Sword]: { name: 'Sword', icon: '/icons/weapon/weapon-sword.png' },

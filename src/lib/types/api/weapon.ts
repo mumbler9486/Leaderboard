@@ -1,4 +1,4 @@
-import { stringEnumToMap } from '$lib/utils/enum';
+import { stringEnumValuesToMap } from '$lib/utils/enum';
 
 export enum Weapon {
 	Sword = 'sword',
@@ -22,5 +22,5 @@ export enum Weapon {
 	Unknown = 'unknown'
 }
 
-const weaponMap = stringEnumToMap<Weapon>(Weapon);
+export const weaponMap = stringEnumValuesToMap<Weapon>(Weapon);
 export const parseWeapon = (str: string) => (!str ? undefined : weaponMap[str.toLowerCase()]);

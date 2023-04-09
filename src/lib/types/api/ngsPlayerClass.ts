@@ -1,4 +1,4 @@
-import { stringEnumToMap } from '$lib/utils/enum';
+import { stringEnumValuesToMap } from '$lib/utils/enum';
 
 export enum NgsPlayerClass {
 	Hunter = 'hunter',
@@ -14,7 +14,7 @@ export enum NgsPlayerClass {
 	Unknown = 'unknown'
 }
 
-const playerClassMap = stringEnumToMap<NgsPlayerClass>(NgsPlayerClass);
+const playerClassMap = stringEnumValuesToMap<NgsPlayerClass>(NgsPlayerClass);
 
 export const parseNgsPlayerClass = (str: string) =>
 	!str ? undefined : playerClassMap[str.toLowerCase()];
