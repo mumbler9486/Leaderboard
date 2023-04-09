@@ -191,7 +191,7 @@ const insertSoloRun = async (run: PurpleRunRequest) => {
 		.input('subClass', sql.NVarChar, player1.subClass)
 		.input('link', sql.NVarChar, player1.povVideoLink)
 		.input('notes', sql.NVarChar, run.notes)
-		//.input('submissionTime', sql.DateTime, submissionTime)
+		.input('submissionTime', sql.DateTime, submissionTime)
 		.input('submitterID', sql.Int, player1.playerId)
 		.input('w1', sql.NVarChar, player1.weapons[0])
 		.input('w2', sql.NVarChar, player1.weapons[1])
@@ -199,15 +199,14 @@ const insertSoloRun = async (run: PurpleRunRequest) => {
 		.input('w4', sql.NVarChar, player1.weapons[3])
 		.input('w5', sql.NVarChar, player1.weapons[4])
 		.input('w6', sql.NVarChar, player1.weapons[5]);
-	console.log(request);
+
 	const result = await request.query(
 		`INSERT INTO 
 		 Submissions.Pending (PlayerID,RunCharacter,Patch,Region,Rank,Time,MainClass,SubClass,W1,W2,W3,W4,W5,W6,Link,Notes,SubmissionTime,SubmitterID)
-		 VALUES (@playerID,@runCharacter,@patch,@region,@rank,@time,@mainClass,@subClass,@w1,@w2,@w3,@w4,@w5,@w6,@link,@notes,SYSUTCDATETIME(),@submitterID);
+		 VALUES (@playerID,@runCharacter,@patch,@region,@rank,@time,@mainClass,@subClass,@w1,@w2,@w3,@w4,@w5,@w6,@link,@notes,@submissionTime,@submitterID);
 		`
 	);
 
-	console.log(request.pstatement);
 	if (result.rowsAffected[0] == 0) {
 		throw Error(`Run insertion failed. ${run.region}`);
 	}
