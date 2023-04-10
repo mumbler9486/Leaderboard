@@ -1,5 +1,4 @@
 import sql from 'mssql';
-import { parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 import { Weapon, parseWeapon } from '$lib/types/api/weapon';
 import { leaderboardDb } from '$lib/server/db/db';
 import { json } from '@sveltejs/kit';
@@ -140,7 +139,7 @@ export async function POST({ params, request }) {
 
 const checkRunData = async (run: PurpleRunRequest) => {
 	const pool = await leaderboardDb.connect();
-	const errorList = [];
+	const errorList: string[] = [];
 
 	// Video links not already in use
 	const videoLinks = run.players
@@ -178,10 +177,11 @@ const checkRunData = async (run: PurpleRunRequest) => {
 			FROM Submissions.Party
 			WHERE P4Link IN (${paramList.join(',')});`);
 
-	console.log(videoLinksResults.recordset);
 	if (videoLinksResults.recordset.length > 0) {
-		const videosInUse = videoLinksResults.recordset.map((r) => r.Link as string).join('\n');
-		errorList.push(`Video already used in another run. Video(s) in use: \n${videosInUse}`);
+		const videosInUse = videoLinksResults.recordset.map((r) => r.Link as string);
+		videosInUse.forEach((element) => {
+			errorList.push(`Video already used in another run. VideoUrl=${videosInUse}`);
+		});
 	}
 
 	return errorList;
