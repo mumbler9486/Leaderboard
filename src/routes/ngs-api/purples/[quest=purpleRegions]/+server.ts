@@ -81,6 +81,14 @@ const weaponsToDbValMap: { [key: string]: string } = {
 	[Weapon.Gunblade]: 'gb'
 };
 
+// For webhook notify
+const partyTypeMap: { [key: number]: string } = {
+	1: 'Solo',
+	2: 'Duo',
+	3: 'Party',
+	4: 'Party'
+};
+
 export async function POST({ params, request }) {
 	const quest = params.quest ?? '';
 
@@ -104,11 +112,10 @@ export async function POST({ params, request }) {
 	parsedRun.players.forEach((p) => {
 		p.weapons = p.weapons.map((w) => weaponsToDbValMap[parseWeapon(w) ?? '']);
 	});
-	console.log(parsedRun.players);
 
 	// Check run data
 	const validationErrors = await checkRunData(parsedRun);
-	if (validationErrors) {
+	if (validationErrors.length > 0) {
 		return jsonError(400, { error: 'bad_request', details: validationErrors });
 	}
 
@@ -121,7 +128,9 @@ export async function POST({ params, request }) {
 		}
 
 		const player1Name = parsedRun.username;
-		//notifyDiscordNewRunSubmitted(player1Name, `${validRegion} Purple`);
+		const questName = quest.charAt(0).toUpperCase() + quest.slice(1);
+		const partyType = partyTypeMap[parsedRun.players.length] ?? '';
+		notifyDiscordNewRunSubmitted(player1Name, `${questName} Purple (${partyType})`);
 		return json({ data: 'success' });
 	} catch (err) {
 		console.error(err);
