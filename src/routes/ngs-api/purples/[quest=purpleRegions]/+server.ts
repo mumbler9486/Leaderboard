@@ -1,14 +1,12 @@
 import sql from 'mssql';
-import type { IndomitableRun } from '$lib/types/api/duels/indomitable';
 import { parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
-import { Weapon, parseWeapon, weaponMap } from '$lib/types/api/weapon';
+import { Weapon, parseWeapon } from '$lib/types/api/weapon';
 import { leaderboardDb } from '$lib/server/db/db';
-import { error, json } from '@sveltejs/kit';
+import { json } from '@sveltejs/kit';
 import { type InferType, string, number, object, array } from 'yup';
 import { notifyDiscordNewRunSubmitted } from '$lib/server/discordNotify';
 import { normalizeYoutubeLink, youtubeUrlRegex } from '$lib/utils/youtube';
 import { jsonError } from '$lib/server/error.js';
-import type { run } from 'svelte/internal';
 
 const purpleRequestSchema = object({
 	userId: string().required(),
@@ -24,15 +22,15 @@ const purpleRequestSchema = object({
 	}),
 	players: array(
 		object({
-			playerId: number().required(),
+			playerId: number().nullable(),
 			povVideoLink: string()
 				.matches(youtubeUrlRegex)
 				.nullable()
 				.transform((value, originalVal) => normalizeYoutubeLink(originalVal))
 				.max(128),
 			playerName: string().required(),
-			inVideoName: string().nullable(),
-			playerServer: string().required(),
+			inVideoName: string().required(),
+			playerServer: string().nullable(),
 			mainClass: string().required(),
 			subClass: string().required(),
 			weapons: array(
@@ -40,13 +38,22 @@ const purpleRequestSchema = object({
 					.required()
 					.test((w) => !!parseWeapon(w.toLowerCase()))
 			)
-				.min(1)
+				.max(6)
 				.required()
 		})
 	)
 		.min(1)
+		.max(4)
 		.test('has_video', 'At least one player must have a video', (players) =>
 			players?.some((p) => p.povVideoLink !== undefined)
+		)
+		.test(
+			'player1_has_id',
+			'Player 1 must be an existing user',
+			(players) => players?.at(0)?.playerId !== undefined
+		)
+		.test('solo_requires_weapon', 'Solo requires weapon definition', (players) =>
+			players?.length == 1 ? players?.at(0)?.weapons[0] !== undefined : true
 		)
 		.required()
 });
@@ -93,6 +100,7 @@ export async function POST({ params, request }) {
 	}
 
 	// Transform data
+	parsedRun.region = quest.toLowerCase();
 	parsedRun.players.forEach((p) => {
 		p.weapons = p.weapons.map((w) => weaponsToDbValMap[parseWeapon(w) ?? '']);
 	});
@@ -109,7 +117,7 @@ export async function POST({ params, request }) {
 		if (parsedRun.players.length == 1) {
 			await insertSoloRun(parsedRun);
 		} else {
-			//await insertPartyRun(parsedRun);
+			await insertPartyRun(parsedRun);
 		}
 
 		const player1Name = parsedRun.username;
@@ -123,6 +131,7 @@ export async function POST({ params, request }) {
 
 const checkRunData = async (run: PurpleRunRequest) => {
 	const pool = await leaderboardDb.connect();
+	const errorList = [];
 
 	// Video links not already in use
 	const videoLinks = run.players
@@ -163,10 +172,10 @@ const checkRunData = async (run: PurpleRunRequest) => {
 	console.log(videoLinksResults.recordset);
 	if (videoLinksResults.recordset.length > 0) {
 		const videosInUse = videoLinksResults.recordset.map((r) => r.Link as string).join('\n');
-		return `Video already used in another run. Video(s) in use: \n${videosInUse}`;
+		errorList.push(`Video already used in another run. Video(s) in use: \n${videosInUse}`);
 	}
 
-	return undefined;
+	return errorList;
 };
 
 const insertSoloRun = async (run: PurpleRunRequest) => {
@@ -175,7 +184,7 @@ const insertSoloRun = async (run: PurpleRunRequest) => {
 	// Get player info
 	const player1 = run.players[0];
 
-	const runTime = serializeTime(run.time);
+	const runTime = serializeTimeToSqlTime(run.time);
 
 	const submissionTime = new Date();
 
@@ -221,7 +230,7 @@ const insertPartyRun = async (run: PurpleRunRequest) => {
 	const player3 = run.players[2];
 	const player4 = run.players[3];
 
-	const runTime = serializeTime(run.time);
+	const runTime = serializeTimeToSqlTime(run.time);
 
 	const submissionTime = new Date();
 
@@ -232,7 +241,7 @@ const insertPartyRun = async (run: PurpleRunRequest) => {
 		.input('rank', sql.Int, run.rank)
 		.input('time', sql.NVarChar, runTime)
 		.input('subtime', sql.DateTime, submissionTime)
-		.input('subpid', sql.Int, run.userId)
+		.input('subpid', sql.Int, player1.playerId)
 		.input('serverid', sql.NVarChar, run.serverRegion)
 		.input('notes', sql.NVarChar, run.notes)
 		.input('partysize', sql.Int, run.players.length);
@@ -271,10 +280,10 @@ const insertPartyRun = async (run: PurpleRunRequest) => {
      VALUES (@p1pid,@p2pid,@p3pid,@p4pid,@p1rc,@p2rc,@p3rc,@p4rc,@patch,@region,@rank,@time,@p1mc,@p2mc,@p3mc,@p4mc,@p1sc,@p2sc,@p3sc,@p4sc,@partysize,@p1link,@p2link,@p3link,@p4link,@notes,@subtime,@subpid,@serverid);`
 	);
 
-	if (!result.output) {
+	if (result.rowsAffected[0] == 0) {
 		throw Error(`Run insertion failed. ${run.region}`);
 	}
 };
 
-const serializeTime = (runTime: PurpleRunRequest['time']) =>
+const serializeTimeToSqlTime = (runTime: PurpleRunRequest['time']) =>
 	`${runTime.minutes.toString().padStart(2)}:${runTime.seconds.toString().padStart(2)}:00`;

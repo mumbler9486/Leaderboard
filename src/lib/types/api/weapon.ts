@@ -22,5 +22,5 @@ export enum Weapon {
 	Unknown = 'unknown'
 }
 
-export const weaponMap = stringEnumValuesToMap<Weapon>(Weapon);
+const weaponMap = stringEnumValuesToMap<Weapon>(Weapon);
 export const parseWeapon = (str: string) => (!str ? undefined : weaponMap[str.toLowerCase()]);
