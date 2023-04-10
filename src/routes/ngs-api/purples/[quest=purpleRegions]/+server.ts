@@ -35,7 +35,11 @@ const purpleRequestSchema = object({
 			weapons: array(
 				string()
 					.required()
-					.test((w) => !!parseWeapon(w.toLowerCase()))
+					.test(
+						'known_weapon',
+						(w) => `${w.path} must be a valid weapon type`,
+						(w) => !!parseWeapon(w.toLowerCase())
+					)
 			)
 				.max(6)
 				.required()
@@ -51,7 +55,7 @@ const purpleRequestSchema = object({
 			'Player 1 must be an existing user',
 			(players) => players?.at(0)?.playerId !== undefined
 		)
-		.test('solo_requires_weapon', 'Solo requires weapon definition', (players) =>
+		.test('solo_requires_weapon', 'Solo requires at least 1 weapon used', (players) =>
 			players?.length == 1 ? players?.at(0)?.weapons[0] !== undefined : true
 		)
 		.required()
