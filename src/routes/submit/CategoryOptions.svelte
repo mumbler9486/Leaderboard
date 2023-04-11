@@ -1,6 +1,15 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
-	import { runForm, dfaForm } from './runStore';
+	import { runForm, resetForm } from './runStore';
+
+	let category: string = 'purples';
+
+	$: $runForm.category = category;
+
+	const categoryChanged = () => {
+		resetForm();
+		$runForm.category = category;
+	};
 
 	const options = [
 		{ label: 'Purple Triggers', value: 'purples' },
@@ -13,5 +22,6 @@
 	label="Category"
 	placeholder="Select a category"
 	{options}
-	bind:value={$runForm.category}
+	on:change={categoryChanged}
+	bind:value={category}
 />
