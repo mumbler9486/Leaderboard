@@ -26,6 +26,7 @@
 		['braver']: '/icons/class/class-braver.png',
 		['bouncer']: '/icons/class/class-bouncer.png',
 		['waker']: '/icons/class/class-waker.png',
+		['slayer']: '/icons/class/class-slayer.png',
 		['?']: '/icons/class/class-unknown.png'
 	} as { [id: string]: string };
 
@@ -39,6 +40,7 @@
 		['braver']: 'Braver',
 		['bouncer']: 'Bouncer',
 		['waker']: 'Waker',
+		['slayer']: 'Slayer',
 		['?']: 'Unknown'
 	} as { [id: string]: string };
 
@@ -59,7 +61,8 @@
 		['talis']: '/icons/weapon/weapon-talis.png',
 		['wand']: '/icons/weapon/weapon-wand.png',
 		['jb']: '/icons/weapon/weapon-boots.png',
-		['takt']: '/icons/weapon/weapon-takt.png'
+		['takt']: '/icons/weapon/weapon-takt.png',
+		['gb']: '/icons/weapon/weapon-gunblade.png'
 	} as { [id: string]: string };
 
 	const weaponNameMap = {
@@ -79,7 +82,8 @@
 		['talis']: 'Talis',
 		['wand']: 'Wand',
 		['jb']: 'Jet Boots',
-		['takt']: 'Harmonizer'
+		['takt']: 'Harmonizer',
+		['gb']: 'Gunblade'
 	} as { [id: string]: string };
 
 	const patchCodes = {
