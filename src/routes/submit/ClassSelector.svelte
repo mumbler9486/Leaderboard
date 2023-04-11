@@ -70,7 +70,10 @@
 		}
 	};
 
-	$: selectableMainClasses = Object.values(options);
+	$: selectableMainClasses = Object.values(options).map((c) => ({
+		...c,
+		disabled: selectedSubClass == c.value
+	}));
 	$: selectableSubClasses = Object.values(options).map((c) => ({
 		...c,
 		disabled: selectedMainClass == c.value
