@@ -183,8 +183,8 @@ const checkRunData = async (run: PurpleRunRequest) => {
 
 	if (videoLinksResults.recordset.length > 0) {
 		const videosInUse = videoLinksResults.recordset.map((r) => r.Link as string);
-		videosInUse.forEach((element) => {
-			errorList.push(`Video already used in another run. VideoUrl=${videosInUse}`);
+		videosInUse.forEach((l) => {
+			errorList.push(`Video already used in another run. VideoUrl=${l}`);
 		});
 	}
 
@@ -230,7 +230,7 @@ const insertSoloRun = async (run: PurpleRunRequest) => {
 	);
 
 	if (result.rowsAffected[0] == 0) {
-		throw Error(`Run insertion failed. ${run.region}`);
+		throw Error(`Purple Solo Run insertion failed. Submission from ${run.username}`);
 	}
 };
 
@@ -294,7 +294,7 @@ const insertPartyRun = async (run: PurpleRunRequest) => {
 	);
 
 	if (result.rowsAffected[0] == 0) {
-		throw Error(`Run insertion failed. ${run.region}`);
+		throw Error(`Purple Party Run insertion failed. Submission from ${run.username}`);
 	}
 };
 
