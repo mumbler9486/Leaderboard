@@ -70,9 +70,7 @@
 
 <div class="flex min-h-screen flex-col">
 	<LeaderboardHeader />
-	{#if serverErrorMessage}
-		<Alert type="error" message={serverErrorMessage} />
-	{/if}
+
 	<div class="flex grow flex-col content-center">
 		<div class="container m-16 mx-auto flex grow rounded-md border border-secondary bg-base-100/75">
 			<div
@@ -80,13 +78,7 @@
 			>
 				<div class="text-center text-4xl font-light">Submit a Run</div>
 				<div class="divider -mx-8" />
-				{#if submitting}
-					<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
-						Submitting - Please Wait...<br /><progress
-							class="progress progress-primary w-56 border border-neutral-content/20"
-						/>
-					</div>
-				{:else if submitFinish}
+				{#if submitFinish}
 					<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
 						Your run has been submitted and will be reviewed as soon as possible!<br /><a
 							class="link-primary link"
@@ -136,8 +128,20 @@
 							</div>
 						</div>
 
+						{#if serverErrorMessage}
+							<Alert type="error" message={serverErrorMessage} />
+						{/if}
+						{#if submitting}
+							<Alert type="info" message="Submitting - Please Wait..." />
+							<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
+								Submitting - Please Wait...<br /><progress
+									class="progress progress-primary w-56 border border-neutral-content/20"
+								/>
+							</div>
+						{/if}
 						<div class="grid grid-cols-1 text-center">
 							<button
+								disabled={submitting}
 								class="btn-outline btn-success btn mt-4 w-1/2 justify-self-center"
 								on:click={submitRun}>Submit Run</button
 							>
