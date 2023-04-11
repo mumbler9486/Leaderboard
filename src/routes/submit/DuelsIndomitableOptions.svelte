@@ -1,4 +1,4 @@
 <script lang="ts">
 </script>
 
-<div>derp</div>
+<div>Not yet available. Check back later :)</div>

@@ -68,6 +68,8 @@ export const submitForm = async () => {
 		const purpleReq = get(purpleForm);
 		runSpecifics = purpleReq;
 		submitPath += `purples/${purpleReq.region}`;
+	} else {
+		return;
 	}
 
 	const request = {
