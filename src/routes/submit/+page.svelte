@@ -32,12 +32,10 @@
 
 	const setLoginInfoToForm = async () => {
 		try {
-			//const res = await fetch('/.auth/me');
-			//const clientPrincipal = (await res.json()).clientPrincipal;
-			//$runForm.userId = clientPrincipal.userId as string;
-			//$runForm.username = clientPrincipal.userDetails as string;
-			$runForm.userId = '';
-			$runForm.username = '';
+			const res = await fetch('/.auth/me');
+			const clientPrincipal = (await res.json()).clientPrincipal;
+			$runForm.userId = clientPrincipal.userId as string;
+			$runForm.username = clientPrincipal.userDetails as string;
 		} catch (err) {
 			console.error('Failed to get user login', err);
 			throw err;
