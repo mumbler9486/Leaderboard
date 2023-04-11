@@ -1,12 +1,14 @@
-import { DB_USER, DB_PASSWORD, DB_SERVER, DB_NAME } from '$env/static/private';
 import type { ConnectionPool, config } from 'mssql';
 import sql from 'mssql';
 
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 const dbConfig: config = {
-	user: DB_USER,
-	password: DB_PASSWORD,
-	server: DB_SERVER,
-	database: DB_NAME,
+	user: process.env.DB_USER,
+	password: process.env.DB_PASSWORD,
+	server: process.env.DB_SERVER,
+	database: process.env.DB_NAME,
 	options: {
 		encrypt: true, // For Azure
 		trustServerCertificate: true
