@@ -43,6 +43,7 @@
 		['braver']: '/icons/class/class-braver.png',
 		['bouncer']: '/icons/class/class-bouncer.png',
 		['waker']: '/icons/class/class-waker.png',
+		['slayer']: '/icons/class/class-slayer.png',
 		['?']: '/icons/class/class-unknown.png'
 	} as { [id: string]: string };
 
@@ -56,6 +57,7 @@
 		['braver']: 'Braver',
 		['bouncer']: 'Bouncer',
 		['waker']: 'Waker',
+		['slayer']: 'Slayer',
 		['?']: 'Unknown'
 	} as { [id: string]: string };
 

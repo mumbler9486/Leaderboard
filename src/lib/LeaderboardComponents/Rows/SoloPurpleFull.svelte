@@ -393,7 +393,7 @@
 			case 'waker':
 				return '/icons/class/class-waker.png';
 				break;
-			case 'gunblade-placeholder':
+			case 'slayer':
 				return '/icons/class/class-slayer.png';
 				break;
 			case '?':
@@ -435,8 +435,8 @@
 			case 'waker':
 				return $t('common.classes.waker');
 				break;
-			case 'gunblade-placeholder':
-				return $t('common.classes.placeholder_gunblade');
+			case 'slayer':
+				return $t('common.classes.slayer');
 				break;
 			case '?':
 				return $t('shared.unknown');

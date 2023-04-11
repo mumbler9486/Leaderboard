@@ -14,7 +14,8 @@
 		'techter',
 		'braver',
 		'bouncer',
-		'waker'
+		'waker',
+		'slayer'
 	];
 
 	export let filters = {};
@@ -243,6 +244,20 @@
 					type="radio"
 					id="radio-classFilter-waker"
 					value="waker"
+					name="radio-classFilter"
+					class="radio radio-sm rounded border-neutral-content/25 checked:bg-[#FF794A]"
+				/>
+			</label>
+
+			<label
+				class="label w-32 cursor-pointer gap-2 rounded border border-neutral-content/25 bg-neutral px-2 md:w-[10.1rem]"
+			>
+				<img src="/icons/class/class-slayer.png" alt="Slayer" />
+				<span class="label-text text-neutral-content">{$t('common.classes.slayer')}</span>
+				<input
+					type="radio"
+					id="radio-classFilter-slayer"
+					value="slayer"
 					name="radio-classFilter"
 					class="radio radio-sm rounded border-neutral-content/25 checked:bg-[#FF794A]"
 				/>
