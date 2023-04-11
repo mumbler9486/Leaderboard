@@ -25,9 +25,8 @@ const dfaRequestSchema = object({
 		object({
 			playerId: number().nullable(),
 			povVideoLink: string()
-				.matches(youtubeUrlRegex)
+				.matches(youtubeUrlRegex, (w) => `${w.path} must a valid youtube link`)
 				.nullable()
-				.transform((value, originalVal) => normalizeYoutubeLink(originalVal))
 				.max(128),
 			playerName: string().required(),
 			inVideoName: string().required(),
@@ -117,6 +116,7 @@ export async function POST({ request }) {
 
 	// Transform data
 	parsedRun.players.forEach((p) => {
+		p.povVideoLink = p.povVideoLink ? normalizeYoutubeLink(p.povVideoLink) : null;
 		p.weapons = p.weapons.map((w) => weaponsToDbValMap[parseWeapon(w) ?? '']);
 	});
 
