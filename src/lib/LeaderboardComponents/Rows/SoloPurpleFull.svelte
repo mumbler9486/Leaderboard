@@ -289,7 +289,7 @@
 						'"><img src="/icons/weapon/weapon-takt.png" class="inline object-none w-[16px]"></div>' +
 						' ';
 					break;
-				case 'gunblade':
+				case 'gb':
 					result =
 						result +
 						'<div class="tooltip tooltip-info font-semibold" data-tip="' +
