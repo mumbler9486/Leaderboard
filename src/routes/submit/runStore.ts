@@ -36,7 +36,7 @@ export interface RunTime {
 
 export interface PlayerInfo {
 	playerId: number;
-	povVideoLink: string;
+	povVideoLink?: string;
 	playerName: string;
 	inVideoName: string;
 	playerServer: string;
@@ -56,7 +56,11 @@ export const resetForm = () => {
 };
 
 export const submitForm = async () => {
-	const form = get(runForm);
+	let form = get(runForm);
+
+	form.players.forEach((p) => {
+		p.povVideoLink = p.povVideoLink === '' ? undefined : p.povVideoLink;
+	});
 
 	let submitPath: string = '/ngs-api/';
 	let runSpecifics: any = {};
@@ -77,8 +81,6 @@ export const submitForm = async () => {
 		...runSpecifics
 	};
 
-	console.log(submitPath, request);
-
 	const response = await fetch(submitPath, {
 		method: 'POST',
 		headers: {
@@ -91,7 +93,3 @@ export const submitForm = async () => {
 	console.log(responseBody);
 	return responseBody;
 };
-
-runForm.subscribe((s) => console.log(s));
-dfaForm.subscribe((s) => console.log(s));
-purpleForm.subscribe((s) => console.log(s));

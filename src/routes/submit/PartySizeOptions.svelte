@@ -15,6 +15,8 @@
 
 	$: options = sizes.map((s) => partySizes[s]);
 	$: $runForm.players = [...Array(parseInt(selectedPartySize)).keys()].map((p) => ({
+		playerId: -1,
+		povVideoLink: undefined,
 		playerName: '',
 		inVideoName: '',
 		playerServer: '',
