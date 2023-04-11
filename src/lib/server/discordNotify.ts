@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv';
-import { each } from 'svelte/internal';
+dotenv.config();
 
 const RUN_SUBMITTED_DISCORD_WEBHOOK_URL = process.env.RUN_SUBMITTED_DISCORD_WEBHOOK_URL;
 const RUN_APPROVAL_THUMBNAIL_DFA = process.env.RUN_APPROVAL_THUMBNAIL_DFA;

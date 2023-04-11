@@ -14,19 +14,40 @@
 	import { loadPlayerInfo } from './playerInfoStore';
 	import { onMount } from 'svelte';
 	import ServerRegionSelector from './ServerRegionSelector.svelte';
+	import Alert from '$lib/Components/Alert.svelte';
 
 	let notes: string;
+	let submitting: boolean = false;
+	let serverErrorMessage: string | undefined = undefined;
+	let submitFinish = false;
 
 	$: $runForm.notes = notes;
 
 	onMount(loadPlayerInfo);
 
 	async function submitRun() {
+		if (submitting) {
+			return;
+		}
+
 		try {
+			serverErrorMessage = undefined;
+			submitting = true;
 			await setLoginInfoToForm();
 			const response = await submitForm();
+			if (response.error) {
+				serverErrorMessage = response.details[0];
+			}
+			if (response.code == 'unexpected') {
+				serverErrorMessage = 'Unexpected error, please contact site admin.';
+			}
+			if (response.data == 'success') {
+				submitFinish = true;
+			}
 		} catch (err) {
 			console.error(err);
+		} finally {
+			submitting = false;
 		}
 	}
 
@@ -49,7 +70,9 @@
 
 <div class="flex min-h-screen flex-col">
 	<LeaderboardHeader />
-
+	{#if serverErrorMessage}
+		<Alert type="error" message={serverErrorMessage} />
+	{/if}
 	<div class="flex grow flex-col content-center">
 		<div class="container m-16 mx-auto flex grow rounded-md border border-secondary bg-base-100/75">
 			<div
@@ -57,29 +80,21 @@
 			>
 				<div class="text-center text-4xl font-light">Submit a Run</div>
 				<div class="divider -mx-8" />
-				{#if false}
+				{#if submitting}
 					<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
 						Submitting - Please Wait...<br /><progress
 							class="progress progress-primary w-56 border border-neutral-content/20"
 						/>
 					</div>
-				{:else if false}
+				{:else if submitFinish}
 					<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
 						Your run has been submitted and will be reviewed as soon as possible!<br /><a
 							class="link-primary link"
 							href="/">Click here to return to the home page!</a
 						>
 					</div>
-				{:else if false}
-					<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
-						A issue occured, please refresh and try again.
-					</div>
-				{:else if false}
-					<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
-						Your run is still awaiting approval. If it's been a while, poke us on the discord!
-					</div>
 				{:else}
-					<form id="submitForm" on:submit={submitRun}>
+					<form id="submitForm" on:submit|preventDefault={submitRun}>
 						<div class="m-2 gap-1 rounded-md border border-secondary bg-secondary/10 p-4 px-8">
 							<div class="text-center text-xl font-semibold">Run</div>
 							<Divider />
