@@ -101,7 +101,7 @@
 			placeholder="Youtube video URL"
 			class="input-bordered input"
 			type="text"
-			required
+			required={playerIndex == 0}
 			bind:value={videoLink}
 		/>
 	</div>
