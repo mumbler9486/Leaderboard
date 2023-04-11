@@ -1,9 +1,10 @@
-import {
-	RUN_SUBMITTED_DISCORD_WEBHOOK_URL,
-	RUN_APPROVAL_THUMBNAIL_DFA,
-	RUN_APPROVAL_THUMBNAIL_STIA_PURPLE,
-	RUN_APPROVAL_WEBHOOK_USER_IMG
-} from '$env/static/private';
+import * as dotenv from 'dotenv';
+import { each } from 'svelte/internal';
+
+const RUN_SUBMITTED_DISCORD_WEBHOOK_URL = process.env.RUN_SUBMITTED_DISCORD_WEBHOOK_URL;
+const RUN_APPROVAL_THUMBNAIL_DFA = process.env.RUN_APPROVAL_THUMBNAIL_DFA;
+const RUN_APPROVAL_THUMBNAIL_STIA_PURPLE = process.env.RUN_APPROVAL_THUMBNAIL_STIA_PURPLE;
+const RUN_APPROVAL_WEBHOOK_USER_IMG = process.env.RUN_APPROVAL_WEBHOOK_USER_IMG;
 
 export const notifyDiscordNewRunSubmitted = async (userName: string, quest: string) => {
 	const webhookUrl = RUN_SUBMITTED_DISCORD_WEBHOOK_URL;
