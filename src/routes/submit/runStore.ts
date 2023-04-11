@@ -10,7 +10,7 @@ export const dfaForm = writable({} as DfaRun);
 export const purpleForm = writable({} as PurpleRun);
 
 export interface DfaRun {
-	mode: string;
+	type: string;
 	support: string;
 }
 export interface PurpleRun {
@@ -63,7 +63,7 @@ export const submitForm = async () => {
 	if (form.category == 'dfa') {
 		const dfaReq = get(dfaForm);
 		runSpecifics = dfaReq;
-		submitPath += `dfa/${dfaReq.mode}`;
+		submitPath += `dfa`;
 	} else if (form.category == 'purples') {
 		const purpleReq = get(purpleForm);
 		runSpecifics = purpleReq;

@@ -2,11 +2,7 @@
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import PartySizeOptions from './PartySizeOptions.svelte';
 	import RunTimeInput from './RunTimeInput.svelte';
-	import { dfaForm, runForm } from './runStore';
-
-	let selectedPartySize: string = '1';
-	let selectedMode: string = 'trigger';
-	let value: any;
+	import { dfaForm } from './runStore';
 </script>
 
 <div class="form-control">
@@ -18,10 +14,10 @@
 			label="Mode"
 			placeholder="Select a mode"
 			options={[
-				{ label: 'Triggers / Drill', value: 'triggers' },
+				{ label: 'Triggers / Drill', value: 'trigger' },
 				{ label: 'Urgent Quest', value: 'urgent' }
 			]}
-			bind:value={$dfaForm.mode}
+			bind:value={$dfaForm.type}
 		/>
 	</div>
 
