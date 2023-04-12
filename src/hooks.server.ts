@@ -1,5 +1,5 @@
 // hooks.server.ts
-import type { Handle } from '@sveltejs/kit';
+import type { Handle, HandleServerError } from '@sveltejs/kit';
 import { browser } from '$app/environment';
 import { locale } from 'svelte-i18n';
 
@@ -34,3 +34,11 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 	return resolve(event);
 };
+
+export const handleError = (({ error, event }) => {
+	console.error(error);
+	return {
+		message: 'Internal Server Error',
+		code: 'unexpected'
+	};
+}) satisfies HandleServerError;

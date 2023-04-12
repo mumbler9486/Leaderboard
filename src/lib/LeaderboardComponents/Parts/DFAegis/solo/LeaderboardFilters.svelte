@@ -22,7 +22,8 @@
 		'techter',
 		'braver',
 		'bouncer',
-		'waker'
+		'waker',
+		'slayer'
 	];
 
 	let allowedBuffs = ['ilma', 'glen', 'ainamanon', 'nadereh'];

@@ -28,7 +28,8 @@ const classes = [
 	'techter',
 	'bouncer',
 	'braver',
-	'waker'
+	'waker',
+	'slayer'
 ];
 const weapons = [
 	'sword',
@@ -47,7 +48,8 @@ const weapons = [
 	'talis',
 	'wand',
 	'jb',
-	'takt'
+	'takt',
+	'gb'
 ];
 const runTypes = ['aegis', 'purple'];
 const buffList = ['glen', 'ilma', 'ainamanon', 'nadereh'];

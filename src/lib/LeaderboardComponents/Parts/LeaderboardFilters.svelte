@@ -22,7 +22,8 @@
 		'techter',
 		'braver',
 		'bouncer',
-		'waker'
+		'waker',
+		'slayer'
 	];
 	let allowedPatches = ['P60'];
 	let patchNames = {

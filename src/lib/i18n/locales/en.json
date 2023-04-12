@@ -1,91 +1,99 @@
 {
-	"page": {
-		"home": {
-			"newestRuns": "Newest 10 Solo Runs",
-			"newestRunsAegis": "Newest 5 DFA MPA Runs"
-		}
-	},
-	"navigation": {
-		"login": "Log in",
-		"logout": "Log out",
-		"viewRuns": "View Runs",
-		"submitRun": "Submit a Run",
-		"submissionStatus": "Submission Status",
-		"profile": "Profile",
-		"modadmin": {
-			"submissionQueue": "Submission Queue",
-			"alerts": "Alerts"
-		},
-		"settings": "Settings"
-	},
-	"common": {
-		"loading": "Loading...",
-		"enemies": {
-			"darkFalzAegis": "Dark Falz Aegis"
-		},
-		"weapons": {
-			"sword": "Sword",
-			"wired_lance": "Wired Lance",
-			"partisan": "Partisan",
-			"twin_daggers": "Twin Daggers",
-			"double_saber": "Double Saber",
-			"knuckles": "Knuckles",
-			"katana": "Katana",
-			"soaring_blades": "Soaring Blades",
-			"rifle": "Assault Rifle",
-			"launcher": "Launcher",
-			"tmgs": "Twin Machine Guns",
-			"bow": "Bow",
-			"rod": "Rod",
-			"talis": "Talis",
-			"wand": "Wand",
-			"takt": "Harmonizer",
-			"gunblade": "Gunblade",
-			"jet_boots": "Jet Boots"
-		},
-		"classes": {
-			"hunter": "Hunter",
-			"fighter": "Fighter",
-			"ranger": "Ranger",
-			"gunner": "Gunner",
-			"force": "Force",
-			"techter": "Techter",
-			"braver": "Braver",
-			"bouncer": "Bouncer",
-			"waker": "Waker",
-			"placeholder_gunblade": "!! GUNBLADE CLASS PLACEHOLDER !!"
-		},
-		"playerCount": {
-			"solo": "Solo",
-			"duo": "Duo",
-			"trio": "Trio",
-			"quad": "Quad",
-			"party": "Full Party",
-			"mpa": "Full Multi-Party"
-		},
-		"region": "Region",
-		"regions": {
-			"stia": "Stia",
-			"kvaris": "Kvaris",
-			"retem": "Retem",
-			"aelio": "Aelio"
-		}
-	},
-	"leaderboard": {
-		"meteornRecords": "Meteorn Records",
-		"purpleTriggers": "Purple Triggers",
-		"halphiaLake": "Dark Falz Aegis",
-		"shared": {
-			"player": "Player",
-			"time": "Time",
-			"category": "Category"
-		}
-	},
-	"shared": {
-		"siteName": "Unofficial NGS Leaderboards",
-		"unknown": "Unknown",
-		"stats": {
-			"totalSolo": "Total Solo Runs"
-		}
-	}
+  "page": {
+    "home": {
+      "newestRuns": "Newest 10 Solo Runs",
+      "newestRunsAegis": "Newest 5 DFA MPA Runs"
+    }
+  },
+  "navigation": {
+    "login": "Log in",
+    "logout": "Log out",
+    "viewRuns": "View Runs",
+    "submitRun": "Submit a Run",
+    "submissionStatus": "Submission Status",
+    "profile": "Profile",
+    "modadmin": {
+      "submissionQueue": "Submission Queue",
+      "alerts": "Alerts"
+    },
+    "settings": "Settings",
+    "purpleTriggers": "Purple Triggers",
+    "darkFalzAegis": "Dark Falz Aegis",
+    "indomitables": "Indomitables",
+    "duels": "Duels"
+  },
+  "common": {
+    "loading": "Loading...",
+    "enemies": {
+      "darkFalzAegis": "Dark Falz Aegis"
+    },
+    "weapons": {
+      "sword": "Sword",
+      "wired_lance": "Wired Lance",
+      "partisan": "Partisan",
+      "twin_daggers": "Twin Daggers",
+      "double_saber": "Double Saber",
+      "knuckles": "Knuckles",
+      "katana": "Katana",
+      "soaring_blades": "Soaring Blades",
+      "rifle": "Assault Rifle",
+      "launcher": "Launcher",
+      "tmgs": "Twin Machine Guns",
+      "bow": "Bow",
+      "rod": "Rod",
+      "talis": "Talis",
+      "wand": "Wand",
+      "takt": "Harmonizer",
+      "gunblade": "Gunblade",
+      "jet_boots": "Jet Boots"
+    },
+    "classes": {
+      "hunter": "Hunter",
+      "fighter": "Fighter",
+      "ranger": "Ranger",
+      "gunner": "Gunner",
+      "force": "Force",
+      "techter": "Techter",
+      "braver": "Braver",
+      "bouncer": "Bouncer",
+      "waker": "Waker",
+      "slayer": "Slayer"
+    },
+    "playerCount": {
+      "solo": "Solo",
+      "duo": "Duo",
+      "trio": "Trio",
+      "quad": "Quad",
+      "party": "Full Party",
+      "mpa": "Full Multi-Party"
+    },
+    "region": "Region",
+    "regions": {
+      "stia": "Stia",
+      "kvaris": "Kvaris",
+      "retem": "Retem",
+      "aelio": "Aelio"
+    }
+  },
+  "leaderboard": {
+    "meteornRecords": "Meteorn Records",
+    "purpleTriggers": "Purple Triggers",
+    "halphiaLake": "Dark Falz Aegis",
+    "shared": {
+      "player": "Player",
+      "time": "Time",
+      "category": "Category"
+    },
+    "indomitableAmsKvaris": "Indomitable Ams Kvaris",
+    "indomitableNexAelio": "Indomitable Nex Aelio",
+    "indomitableNilsStia": "Indomitable Nils Stia",
+    "indomitableRenusRetem": "Indomitable Renus Retem"
+  },
+  "shared": {
+    "siteName": "Unofficial NGS Leaderboards",
+    "unknown": "Unknown",
+    "stats": {
+      "totalSolo": "Total Solo Runs"
+    }
+  }
 }

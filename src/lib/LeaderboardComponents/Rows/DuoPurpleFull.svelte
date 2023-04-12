@@ -23,6 +23,7 @@
 		['braver']: '/icons/class/class-braver.png',
 		['bouncer']: '/icons/class/class-bouncer.png',
 		['waker']: '/icons/class/class-waker.png',
+		['slayer']: '/icons/class/class-slayer.png',
 		['?']: '/icons/class/class-unknown.png'
 	} as { [id: string]: string };
 
@@ -36,6 +37,7 @@
 		['braver']: 'Braver',
 		['bouncer']: 'Bouncer',
 		['waker']: 'Waker',
+		['slayer']: 'Slayer',
 		['?']: 'Unknown'
 	} as { [id: string]: string };
 
@@ -222,8 +224,8 @@
 			case 'waker':
 				return '/icons/class/class-waker.png';
 				break;
-			case 'gunblade-placeholder':
-				return '/icons/class/class-gunblade.png';
+			case 'slayer':
+				return '/icons/class/class-slayer.png';
 				break;
 			case '?':
 				return '/icons/class/class-unknown.png';
@@ -264,8 +266,8 @@
 			case 'waker':
 				return $t('common.classes.waker');
 				break;
-			case 'gunblade-placeholder':
-				return $t('common.classes.placeholder_gunblade');
+			case 'slayer':
+				return $t('common.classes.slayer');
 				break;
 			case '?':
 				return $t('shared.unknown');

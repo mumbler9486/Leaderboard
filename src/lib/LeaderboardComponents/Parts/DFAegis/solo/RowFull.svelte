@@ -306,7 +306,7 @@
 						'"><img src="/icons/weapon/weapon-takt.png" class="inline object-none w-[16px]"></div>' +
 						' ';
 					break;
-				case 'gunblade':
+				case 'gb':
 					result =
 						result +
 						'<div class="tooltip tooltip-info font-semibold" data-tip="' +
@@ -410,8 +410,8 @@
 			case 'waker':
 				return '/icons/class/class-waker.png';
 				break;
-			case 'gunblade-placeholder':
-				return '/icons/class/class-gunblade.png';
+			case 'slayer':
+				return '/icons/class/class-slayer.png';
 				break;
 			case '?':
 				return '/icons/class/class-unknown.png';
@@ -452,8 +452,8 @@
 			case 'waker':
 				return $t('common.classes.waker');
 				break;
-			case 'gunblade-placeholder':
-				return $t('common.classes.placeholder_gunblade');
+			case 'slayer':
+				return $t('common.classes.slayer');
 				break;
 			case '?':
 				return $t('shared.unknown');

@@ -114,8 +114,8 @@
 			case 'waker':
 				return '/icons/class/class-waker.png';
 				break;
-			case 'gunblade-placeholder':
-				return '/icons/class/class-gunblade.png';
+			case 'slayer':
+				return '/icons/class/class-slayer.png';
 				break;
 			case '?':
 				return '/icons/class/class-unknown.png';
