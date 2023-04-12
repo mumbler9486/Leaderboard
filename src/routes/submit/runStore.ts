@@ -8,6 +8,7 @@ export const runForm = writable({
 } as Run);
 export const dfaForm = writable({} as DfaRun);
 export const purpleForm = writable({} as PurpleRun);
+export const indomitableForm = writable({} as IndomitableRun);
 
 export interface DfaRun {
 	type: string;
@@ -15,6 +16,11 @@ export interface DfaRun {
 }
 export interface PurpleRun {
 	region: string;
+	rank: number;
+}
+
+export interface IndomitableRun {
+	boss: string;
 	rank: number;
 }
 
@@ -46,13 +52,16 @@ export interface PlayerInfo {
 }
 
 export const resetForm = () => {
+	const form = get(runForm);
+
 	runForm.set({
-		category: '',
+		category: form.category,
 		players: [] as PlayerInfo[],
 		time: {}
 	} as Run);
 	dfaForm.set({} as DfaRun);
 	purpleForm.set({} as PurpleRun);
+	indomitableForm.set({} as IndomitableRun);
 };
 
 export const submitForm = async () => {
@@ -72,8 +81,11 @@ export const submitForm = async () => {
 		const purpleReq = get(purpleForm);
 		runSpecifics = purpleReq;
 		submitPath += `purples/${purpleReq.region}`;
-	} else {
-		return;
+	} else if (form.category == 'duels-indomitables') {
+		const indomitableReq = get(indomitableForm);
+		indomitableReq.rank = 1;
+		runSpecifics = indomitableReq;
+		submitPath += `duels/indomitable/${indomitableReq.boss}`;
 	}
 
 	const request = {
@@ -90,6 +102,26 @@ export const submitForm = async () => {
 	});
 
 	const responseBody = await response.json();
-	console.log(responseBody);
 	return responseBody;
+};
+
+export const resetPlayerSize = (players: number) => {
+	runForm.update((f) => {
+		if (players == 0) {
+			f.players = [];
+			return f;
+		}
+
+		f.players = [...Array(players).keys()].map((p) => ({
+			playerId: -1,
+			povVideoLink: undefined,
+			playerName: '',
+			inVideoName: '',
+			playerServer: '',
+			mainClass: '',
+			subClass: '',
+			weapons: []
+		}));
+		return f;
+	});
 };

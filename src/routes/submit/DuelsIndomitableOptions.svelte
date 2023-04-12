@@ -1,4 +1,28 @@
 <script lang="ts">
+	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import RunTimeInput from './RunTimeInput.svelte';
+	import { indomitableForm } from './runStore';
+
+	const bossOptions = [
+		{ label: 'Nex Aelio', value: 'nexaelio' },
+		{ label: 'Renus Retem', value: 'renusretem' },
+		{ label: 'Ams Kvaris', value: 'amskvaris' },
+		{ label: 'Nils Stia', value: 'nilsstia' }
+	];
 </script>
 
-<div>Not yet available. Check back later :)</div>
+<div class="grid grid-cols-1 gap-2 md:grid-cols-3">
+	<div class="form-control">
+		<Dropdown label="Boss" options={bossOptions} bind:value={$indomitableForm.boss} />
+	</div>
+
+	<div class="form-control">
+		<div class="label justify-center">
+			<span class="label-text text-center text-base font-semibold">Rank</span>
+		</div>
+		<input class="input-bordered input" value="1" type="text" disabled />
+	</div>
+	<div class="form-control">
+		<RunTimeInput />
+	</div>
+</div>
