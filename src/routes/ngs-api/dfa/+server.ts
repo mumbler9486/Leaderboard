@@ -6,6 +6,7 @@ import { type InferType, string, number, object, array } from 'yup';
 import { notifyDiscordNewRunSubmitted } from '$lib/server/discordNotify';
 import { normalizeYoutubeLink, youtubeUrlRegex } from '$lib/utils/youtube';
 import { jsonError } from '$lib/server/error.js';
+import { weaponsToDbValMap } from '$lib/server/db/util/weaponType.js';
 
 const dfaRequestSchema = object({
 	userId: string().required(),
@@ -59,27 +60,6 @@ const dfaRequestSchema = object({
 });
 
 type DfaRunRequest = InferType<typeof dfaRequestSchema>;
-
-const weaponsToDbValMap: { [key: string]: string } = {
-	[Weapon.Sword]: 'sword',
-	[Weapon.WiredLance]: 'wl',
-	[Weapon.Partisan]: 'partisan',
-	[Weapon.TwinDaggers]: 'td',
-	[Weapon.DoubleSabers]: 'ds',
-	[Weapon.Knuckles]: 'knuckles',
-	[Weapon.Katana]: 'katana',
-	[Weapon.SoaringBlades]: 'sb',
-	[Weapon.AssaultRifle]: 'rifle',
-	[Weapon.Launcher]: 'launcher',
-	[Weapon.TwinMachineGuns]: 'tmg',
-	[Weapon.Bow]: 'bow',
-	[Weapon.Rod]: 'rod',
-	[Weapon.Talis]: 'talis',
-	[Weapon.Wand]: 'wand',
-	[Weapon.JetBoots]: 'jb',
-	[Weapon.Harmonizer]: 'takt',
-	[Weapon.Gunblade]: 'gb'
-};
 
 const triggerDbMap: { [key: string]: number } = {
 	trigger: 1,
