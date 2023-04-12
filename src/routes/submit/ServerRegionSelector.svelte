@@ -2,10 +2,6 @@
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import { runForm } from './runStore';
 
-	let serverRegion = '';
-
-	$: $runForm.serverRegion = serverRegion;
-
 	const serverOptions = [
 		{
 			label: 'Global',
@@ -18,4 +14,4 @@
 	];
 </script>
 
-<Dropdown label="Run Server Region" options={serverOptions} bind:value={serverRegion} />
+<Dropdown label="Run Server Region" options={serverOptions} bind:value={$runForm.serverRegion} />
