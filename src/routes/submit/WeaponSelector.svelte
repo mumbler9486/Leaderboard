@@ -52,7 +52,6 @@
 			const lastAdded = selectionHistory.shift();
 			if (lastAdded) selectedWeapons[lastAdded] = false;
 		}
-		console.log(weaponKey, selectionHistory, selectedWeapons);
 	};
 </script>
 
