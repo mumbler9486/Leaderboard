@@ -71,6 +71,7 @@ const partyTypeMap: { [key: number]: string } = {
 	4: 'Party'
 };
 
+/** @type {import('./$types').RequestHandler} */
 export async function POST({ params, request }) {
 	const quest = params.quest ?? '';
 

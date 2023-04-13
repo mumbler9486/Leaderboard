@@ -17,6 +17,7 @@ const indomitableTables: { [key: string]: string } = {
 	nilsstia: 'IndomitableNilsStiaRuns'
 };
 
+/** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
 	const quest = params.boss ?? '';
 	const mainClass = url.searchParams.get('class');
@@ -147,6 +148,7 @@ const indomitableBosses: { [key: string]: string } = {
 	nilsstia: 'Nils Stia'
 };
 
+/** @type {import('./$types').RequestHandler} */
 export async function POST({ params, request }) {
 	const boss = params.boss ?? '';
 

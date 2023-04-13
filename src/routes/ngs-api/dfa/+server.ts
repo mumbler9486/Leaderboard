@@ -78,6 +78,7 @@ const questTypeMap: { [key: string]: string } = {
 	urgent: 'Urgent Quest'
 };
 
+/** @type {import('./$types').RequestHandler} */
 export async function POST({ request }) {
 	// Validate request
 	const body = await request.json();
