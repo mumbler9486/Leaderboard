@@ -1,3 +1,4 @@
+import sql from 'mssql';
 import type { IndomitableRun } from '$lib/types/api/duels/indomitable';
 import { parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 import { parseWeapon } from '$lib/types/api/weapon';
@@ -30,8 +31,6 @@ export async function GET({ params, url }) {
 	}
 
 	// Get data
-	console.log(params, url.searchParams);
-
 	try {
 		const pool = await leaderboardDb.connect();
 		let request = await pool.request();
@@ -91,7 +90,9 @@ const indomitableRequestSchema = object({
 	username: string().required(),
 	boss: string().required(),
 	serverRegion: string().required(),
-	rank: number().required(),
+	rank: number()
+		.required()
+		.test((r) => r == 1),
 	notes: string().max(500).nullable(),
 	time: object({
 		hours: number().required(),
@@ -146,6 +147,11 @@ const indomitableBosses: { [key: string]: string } = {
 	renusretem: 'Renus Retem',
 	amskvaris: 'Ams Kvaris',
 	nilsstia: 'Nils Stia'
+};
+
+const challengeDbMap = {
+	augment: 'augment',
+	noaugment: 'no-augment'
 };
 
 /** @type {import('./$types').RequestHandler} */
@@ -218,15 +224,15 @@ const checkRunData = async (run: IndomitableRunRequest) => {
 			FROM Submissions.IndomitableNexAelioRuns 
 			WHERE Link IN (${paramList.join(',')})
 		UNION
-		SELECT P1Link
+		SELECT Link
 			FROM Submissions.IndomitableRenusRetemRuns
 			WHERE Link IN (${paramList.join(',')})
 		UNION
-		SELECT P2Link
+		SELECT Link
 			FROM Submissions.IndomitableAmsKvarisRuns
 			WHERE Link IN (${paramList.join(',')})
 		UNION
-		SELECT P3Link
+		SELECT Link
 			FROM Submissions.IndomitableNilsStiaRuns
 			WHERE Link IN (${paramList.join(',')});`);
 
@@ -240,6 +246,60 @@ const checkRunData = async (run: IndomitableRunRequest) => {
 	return errorList;
 };
 
-const insertSoloRun = (run: IndomitableRunRequest) => {
-	console.log('Pretend run was submitted');
+const submissionTables: { [key: string]: string } = {
+	nexaelio: 'IndomitableNexAelioRuns',
+	renusretem: 'IndomitableRenusRetemRuns',
+	amskvaris: 'IndomitableAmsKvarisRuns',
+	nilsstia: 'IndomitableNilsStiaRuns'
 };
+
+const insertSoloRun = async (run: IndomitableRunRequest) => {
+	const insertTable = submissionTables[run.boss.toLowerCase()];
+	if (!insertTable) {
+		throw Error(`Invalid boss ${run.boss}`);
+	}
+
+	const pool = await leaderboardDb.connect();
+
+	// Get player info
+	const player1 = run.players[0];
+	const runTime = serializeTimeToSqlTime(run.time);
+	const submissionTime = new Date();
+
+	let request = pool
+		.request()
+		.input('playerId', sql.Int, player1.playerId)
+		.input('runCharacter', sql.NVarChar, player1.inVideoName)
+		.input('patch', sql.NVarChar, '60R')
+		.input('rank', sql.Int, run.rank)
+		//.input('challenge', sql.Int, triggerDbMap[run.type])
+		.input('time', sql.NVarChar, runTime)
+		.input('mainClass', sql.NVarChar, player1.mainClass)
+		.input('subClass', sql.NVarChar, player1.subClass)
+		.input('w1', sql.NVarChar, player1.weapons[0])
+		.input('w2', sql.NVarChar, player1.weapons[1])
+		.input('w3', sql.NVarChar, player1.weapons[2])
+		.input('w4', sql.NVarChar, player1.weapons[3])
+		.input('w5', sql.NVarChar, player1.weapons[4])
+		.input('w6', sql.NVarChar, player1.weapons[5])
+		.input('link', sql.NVarChar, player1.povVideoLink)
+		.input('notes', sql.NVarChar, run.notes)
+		.input('submissionTime', sql.DateTime, submissionTime)
+		.input('submitterId', sql.Int, player1.playerId);
+
+	const result = await request.query(
+		`INSERT INTO
+		 Submissions.${insertTable} (PlayerID,RunCharacterName,Patch,Rank,RunTime,MainClass,SubClass,WeaponInfo1,WeaponInfo2,WeaponInfo3,WeaponInfo4,WeaponInfo5,WeaponInfo6,Link,Notes,SubmissionTime,SubmitterID)
+		 VALUES (@playerId,@runCharacter,@patch,@rank,@time,@mainClass,@subClass,@w1,@w2,@w3,@w4,@w5,@w6,@link,@notes,@submissionTime,@submitterId);
+		`
+	);
+
+	if (result.rowsAffected[0] == 0) {
+		throw Error(`Indomitable Run insertion failed. Submission from: ${run.username}`);
+	}
+};
+
+const serializeTimeToSqlTime = (runTime: IndomitableRunRequest['time']) =>
+	`${runTime.hours.toString().padStart(2)}:${runTime.minutes
+		.toString()
+		.padStart(2)}:${runTime.seconds.toString().padStart(2)}`;

@@ -1,5 +1,5 @@
 import sql from 'mssql';
-import { Weapon, parseWeapon } from '$lib/types/api/weapon';
+import { parseWeapon } from '$lib/types/api/weapon';
 import { leaderboardDb } from '$lib/server/db/db';
 import { json } from '@sveltejs/kit';
 import { type InferType, string, number, object, array } from 'yup';
@@ -197,9 +197,7 @@ const insertSoloRun = async (run: DfaRunRequest) => {
 
 	// Get player info
 	const player1 = run.players[0];
-
 	const runTime = serializeTimeToSqlTime(run.time);
-
 	const submissionTime = new Date();
 
 	let request = pool
