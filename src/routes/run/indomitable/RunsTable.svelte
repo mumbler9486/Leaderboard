@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import ClassIcon from '$lib/Components/NgsClassIcon.svelte';
 	import RankingBadge from '$lib/Components/RankingBadge.svelte';
+	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
+	import VideoLink from '$lib/Components/VideoLink.svelte';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
 	import type { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 	import type { RunTime } from '$lib/types/api/runTime';
@@ -20,11 +21,6 @@
 	};
 
 	export let runs: IndomitableRun[];
-
-	const formatIgt = (time: RunTime) => {
-		let hours = time.hours > 0 ? `${time.hours}h` : '';
-		return `${hours} ${time.minutes}m ${time.seconds}s`.trim();
-	};
 </script>
 
 {#if !runs || runs.length == 0}
@@ -73,14 +69,11 @@
 								</div>
 							{/each}
 						</td>
-						<td class="text-center">{formatIgt(run.time)}</td>
 						<td class="text-center">
-							<a
-								href={run.videoUrl}
-								target="_blank"
-								rel="noreferrer noopener"
-								class="link-accent link no-underline"><i class="bi bi-youtube" /> Link</a
-							>
+							<TimeDisplay time={run.time} />
+						</td>
+						<td class="text-center">
+							<VideoLink url={run.videoUrl} />
 						</td>
 						<td class="text-center">
 							{#if run.notes != undefined}

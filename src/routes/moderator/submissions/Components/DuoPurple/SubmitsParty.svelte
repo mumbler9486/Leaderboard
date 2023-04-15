@@ -1,6 +1,6 @@
 <script>
-	import SoloPurpleFull from '$lib/LeaderboardComponents/Parts/Submissions/DuoPurple/PartyPurpleFull.svelte';
-	import PurplesoloModalRuninfo from '$lib/LeaderboardComponents/Parts/Submissions/DuoPurple/SubmitModal.svelte';
+	import SoloPurpleFull from './PartyPurpleFull.svelte';
+	import PurplesoloModalRuninfo from './SubmitModal.svelte';
 
 	import { onMount } from 'svelte';
 

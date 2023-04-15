@@ -1,36 +1,40 @@
-<script>
-	import RowSubmitsSolo from '$lib/LeaderboardComponents/Parts/Submissions/SoloDFA/RowSubmitsSolo.svelte';
-	import PurplesoloModalRuninfo from '$lib/LeaderboardComponents/Parts/Submissions/SoloDFA/SubmitModal.svelte';
+<script lang="ts">
+	import RunInformationModal from '$lib/Components/RunInformationModal.svelte';
+	import type { PurpleSubmission } from '$lib/types/api/submissions/submissions';
+	import RowSubmitsSolo from './RowSubmitsSolo.svelte';
 
 	import { onMount } from 'svelte';
 
-	var dataStorage = [];
-	var loading = 1;
+	let submissions: PurpleSubmission[] = [];
+	let loading = true;
 
-	let runInfoModal;
+	let submissionModal: RunInformationModal;
 
 	onMount(async () => {
 		reloadData();
 	});
 
 	async function reloadData() {
-		dataStorage = [];
-		loading = 1;
-		const response = await fetch('/ngs-api/GetSubmissionsPurpleSolo?type=dfasolo', {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
+		loading = true;
+		try {
+			const response = await fetch('/ngs-api/submissions/purpleSolo', {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
 
-		dataStorage = await response.json();
-		loading = 0;
-		//console.log(dataStorage)
+			submissions = (await response.json()) as PurpleSubmission[];
+		} catch (err) {
+			console.error(err);
+		} finally {
+			loading = false;
+		}
 	}
 
-	function runInfoOpen(event) {
-		runInfoModal.openRunInfo(event.detail.Data);
-	}
+	const runInfoOpen = () => {
+		submissionModal;
+	};
 </script>
 
 <div class="-mx-6 overflow-x-auto overflow-y-hidden md:mx-0">
@@ -38,8 +42,8 @@
 		<thead>
 			<tr>
 				<th class="bg-neutral text-neutral-content">Player</th>
-				<th class="bg-neutral text-center text-neutral-content">Trigger</th>
-				<th class="bg-neutral text-center text-neutral-content">Support</th>
+				<th class="bg-neutral text-center text-neutral-content">Region</th>
+				<th class="bg-neutral text-center text-neutral-content">Rank</th>
 				<th class="bg-neutral text-center text-neutral-content">Patch</th>
 				<th class="bg-neutral text-center text-neutral-content">Main Class</th>
 				<th class="bg-neutral text-center text-neutral-content">Sub-Class</th>
@@ -58,19 +62,19 @@
 				<!-- NOTE ICON -->
 			</tr>
 		</thead>
-		{#if loading == 0}
+		{#if !loading}
 			<tbody>
-				{#each dataStorage as data}
-					<RowSubmitsSolo on:openRunInfo={runInfoOpen} {data} />
+				{#each submissions as data}
+					<RowSubmitsSolo on:openRunInfo={runInfoOpen} submission={data} />
 				{/each}
 			</tbody>
 		{/if}
 	</table>
 </div>
-{#if loading == 0 && !dataStorage[0]}
+{#if !loading && !submissions[0]}
 	<span class="flex justify-center">There are no runs in the selected queue.</span>
 {/if}
-{#if loading == 1}
+{#if loading}
 	<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
 		Loading - Please Wait...<br /><progress
 			class="progress progress-primary w-56 border border-neutral-content/20"
@@ -78,4 +82,4 @@
 	</div>
 {/if}
 
-<PurplesoloModalRuninfo on:refreshData={reloadData} bind:this={runInfoModal} />
+<RunInformationModal bind:this={submissionModal} submission={{}} />

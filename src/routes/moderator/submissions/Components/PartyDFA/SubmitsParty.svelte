@@ -1,6 +1,6 @@
 <script>
-	import SoloPurpleFull from '$lib/LeaderboardComponents/Parts/Submissions/DuoDFA/PartyPurpleFull.svelte';
-	import PurplesoloModalRuninfo from '$lib/LeaderboardComponents/Parts/Submissions/DuoDFA/SubmitModal.svelte';
+	import SoloPurpleFull from './PartyPurpleFull.svelte';
+	import PurplesoloModalRuninfo from './SubmitModal.svelte';
 
 	import { onMount } from 'svelte';
 
@@ -16,7 +16,7 @@
 	async function reloadData() {
 		dataStorage = [];
 		loading = 1;
-		const response = await fetch('/ngs-api/GetSubmissionsPurpleSolo?type=dfaduo', {
+		const response = await fetch('/ngs-api/GetSubmissionsPurpleSolo?type=dfaparty', {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'

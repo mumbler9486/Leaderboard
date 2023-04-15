@@ -1,6 +1,6 @@
 <script>
-	import SoloPurpleFull from '$lib/LeaderboardComponents/Parts/Submissions/PartyDFA/PartyPurpleFull.svelte';
-	import PurplesoloModalRuninfo from '$lib/LeaderboardComponents/Parts/Submissions/PartyDFA/SubmitModal.svelte';
+	import RowSubmitsSolo from './RowSubmitsSolo.svelte';
+	import PurplesoloModalRuninfo from './SubmitModal.svelte';
 
 	import { onMount } from 'svelte';
 
@@ -16,7 +16,7 @@
 	async function reloadData() {
 		dataStorage = [];
 		loading = 1;
-		const response = await fetch('/ngs-api/GetSubmissionsPurpleSolo?type=dfaparty', {
+		const response = await fetch('/ngs-api/GetSubmissionsPurpleSolo?type=dfasolo', {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
@@ -37,12 +37,13 @@
 	<table class="table-zebra table-compact table w-full">
 		<thead>
 			<tr>
-				<th class="bg-neutral text-neutral-content">Players</th>
+				<th class="bg-neutral text-neutral-content">Player</th>
 				<th class="bg-neutral text-center text-neutral-content">Trigger</th>
 				<th class="bg-neutral text-center text-neutral-content">Support</th>
 				<th class="bg-neutral text-center text-neutral-content">Patch</th>
-				<th class="bg-neutral text-center text-neutral-content">Main Classes</th>
-				<th class="bg-neutral text-center text-neutral-content">Sub-Classes</th>
+				<th class="bg-neutral text-center text-neutral-content">Main Class</th>
+				<th class="bg-neutral text-center text-neutral-content">Sub-Class</th>
+				<th class="bg-neutral text-center text-neutral-content">Weapon(s)</th>
 				<th class="bg-neutral text-center text-neutral-content"
 					>IGT <div
 						class="tooltip tooltip-bottom tooltip-info font-semibold normal-case"
@@ -60,7 +61,7 @@
 		{#if loading == 0}
 			<tbody>
 				{#each dataStorage as data}
-					<SoloPurpleFull on:openRunInfo={runInfoOpen} {data} />
+					<RowSubmitsSolo on:openRunInfo={runInfoOpen} {data} />
 				{/each}
 			</tbody>
 		{/if}

@@ -20,3 +20,24 @@ export const weaponsToDbValMap: { [key: string]: string } = {
 	[Weapon.Harmonizer]: 'takt',
 	[Weapon.Gunblade]: 'gb'
 };
+
+export const dbValToWeaponsMap: { [key: string]: Weapon } = {
+	['sword']: Weapon.Sword,
+	['wl']: Weapon.WiredLance,
+	['partisan']: Weapon.Partisan,
+	['td']: Weapon.TwinDaggers,
+	['ds']: Weapon.DoubleSabers,
+	['knuckles']: Weapon.Knuckles,
+	['katana']: Weapon.Katana,
+	['sb']: Weapon.SoaringBlades,
+	['rifle']: Weapon.AssaultRifle,
+	['launcher']: Weapon.Launcher,
+	['tmg']: Weapon.TwinMachineGuns,
+	['bow']: Weapon.Bow,
+	['rod']: Weapon.Rod,
+	['talis']: Weapon.Talis,
+	['wand']: Weapon.Wand,
+	['jb']: Weapon.JetBoots,
+	['takt']: Weapon.Harmonizer,
+	['gb']: Weapon.Gunblade
+};

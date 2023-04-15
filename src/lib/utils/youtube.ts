@@ -10,12 +10,26 @@ export const normalizeYoutubeLink = (url: string) => {
 		return undefined;
 	}
 
+	const youtubeCode = extractYoutubeCode(url);
+	const youtubeLink = `https://youtu.be/` + youtubeCode;
+	return youtubeLink;
+};
+
+export const getYoutubeEmbedUrl = (url: string) => {
+	if (!url) {
+		return undefined;
+	}
+
+	const youtubeCode = extractYoutubeCode(url);
+	return `https://www.youtube-nocookie.com/embed/${youtubeCode}`;
+};
+
+const extractYoutubeCode = (url: string) => {
 	const match = url.match(youtubeUrlRegex);
 	if (!match) {
 		return undefined;
 	}
 
 	const youtubeCode = match[1];
-	const youtubeLink = `https://youtu.be/` + youtubeCode;
-	return youtubeLink;
+	return youtubeCode;
 };

@@ -4,6 +4,7 @@
 	export let region: 'global' | 'japan' | undefined;
 	export let playerId: number;
 	export let player: PlayerNameDisplay;
+	export let hasLink: boolean = false;
 
 	interface PlayerNameDisplay {
 		playerName: string;
@@ -101,6 +102,7 @@
 		<span
 			style={playerNameStyle}
 			class="truncate transition ease-in-out hover:brightness-125"
+			class:cursor-pointer={hasLink}
 			on:click
 			on:keyup
 		>
