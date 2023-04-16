@@ -7,6 +7,7 @@ import type {
 } from '$lib/types/api/submissions/submissions.js';
 import { dbValToWeaponsMap } from '$lib/server/db/util/weaponType.js';
 import { dbValToClassMap } from '$lib/server/db/util/ngsClass.js';
+import { convertTimeToRunTime } from '$lib/server/db/util/datetime.js';
 
 const validCategories: { [key: string]: boolean } = {
 	dfaparty: true,
@@ -990,7 +991,7 @@ export async function GET({ params, url }) {
                 submit.Patch, 
                 submit.Region, 
                 submit.Rank, 
-                CONVERT(VARCHAR(5), submit.Time, 108) as Time, 
+                submit.Time, 
                 submit.MainClass, 
                 submit.SubClass, 
                 submit.W1,
@@ -1067,7 +1068,7 @@ export async function GET({ params, url }) {
 							submit.RunCharacterName, 
 							submit.Patch, 
 							submit.Rank, 
-							CONVERT(VARCHAR(5), submit.RunTime, 108) as Time, 
+							submit.RunTime, 
 							submit.MainClass, 
 							submit.SubClass, 
 							submit.WeaponInfo1,
@@ -1174,20 +1175,14 @@ const mapPurpleSolo = (recordset: any[]): PurpleSubmission[] => {
 
 		const players = [player1];
 
-		const timeSplit = s.Time.split(':');
-		const minutes = parseInt(timeSplit[0]);
-		const seconds = parseInt(timeSplit[1]);
+		const runTime = convertTimeToRunTime(new Date(s.Time));
 
 		const submission: PurpleSubmission = {
 			runId: parseInt(s.RunID),
 			patch: s.Patch,
 			region: s.Region,
 			rank: parseInt(s.Rank),
-			time: {
-				hours: 0,
-				minutes: minutes,
-				seconds: seconds
-			},
+			time: runTime,
 			players: players,
 			partySize: players.length,
 			submitter: submitter,
@@ -1228,7 +1223,6 @@ const mapIndomitableDuel = (boss: string, recordset: any[]): IndomitableSubmissi
 				.map((w) => dbValToWeaponsMap[w == 'soaring blades' ? 'sb' : w]) //TODO make this weapon definition consistent
 		};
 
-		// TODO Turn this into player1
 		const submitter: SubmissionPlayerInfo = {
 			playerId: parseInt(s.SubmitterID),
 			playerName: s.SubmitterName,
@@ -1247,20 +1241,14 @@ const mapIndomitableDuel = (boss: string, recordset: any[]): IndomitableSubmissi
 
 		const players = [player1];
 
-		const timeSplit = s.Time.split(':');
-		const minutes = parseInt(timeSplit[0]);
-		const seconds = parseInt(timeSplit[1]);
+		const runTime = convertTimeToRunTime(new Date(s.RunTime));
 
 		const submission: IndomitableSubmission = {
 			runId: parseInt(s.SubmissionId),
 			patch: s.Patch,
 			boss: boss,
 			rank: parseInt(s.Rank),
-			time: {
-				hours: 0,
-				minutes: minutes,
-				seconds: seconds
-			},
+			time: runTime,
 			players: players,
 			partySize: players.length,
 			submitter: submitter,
