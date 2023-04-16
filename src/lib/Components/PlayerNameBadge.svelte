@@ -16,7 +16,7 @@
 
 <script lang="ts">
 	export let player: PlayerNameDisplay;
-	export let hasLink: boolean = false;
+	export let showLink: boolean = false;
 
 	let primaryName: string;
 	let secondaryName: string;
@@ -102,19 +102,30 @@
 				alt="ship{player.ship}-{player.region}"
 			/>
 		{/if}
-		<span
-			style={playerNameStyle}
-			class="truncate transition ease-in-out hover:brightness-125"
-			class:cursor-pointer={hasLink}
-			on:click
-			on:keyup
-		>
-			{primaryName}
-			{#if secondaryName && isPlayerAnon}
-				<p class="ml-1 truncate text-xs">
-					({secondaryName})
+		{#if showLink}
+			<a
+				href="/users?id={player.playerId}"
+				target="_blank"
+				rel="noreferrer noopener"
+				class="flex place-content-center"
+				><p style={playerNameStyle} class="inline place-self-center">
+					{primaryName}
 				</p>
-			{/if}
-		</span>
+			</a>
+		{:else}
+			<span
+				style={playerNameStyle}
+				class="cursor-pointer truncate transition ease-in-out hover:brightness-125"
+				on:click
+				on:keyup
+			>
+				{primaryName}
+				{#if secondaryName && isPlayerAnon}
+					<p class="ml-1 truncate text-xs">
+						({secondaryName})
+					</p>
+				{/if}
+			</span>
+		{/if}
 	</span>
 </div>

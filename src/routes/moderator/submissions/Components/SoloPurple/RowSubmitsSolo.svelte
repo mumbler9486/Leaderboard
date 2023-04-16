@@ -32,7 +32,7 @@
 
 <tr class="hover border-t border-t-secondary/20">
 	<th>
-		<PlayerNameBadge hasLink player={nameDisplay} on:click={openModal} />
+		<PlayerNameBadge player={nameDisplay} on:click={openModal} />
 	</th>
 	<td class="text-center">{regionCodes[submission.region]}</td>
 	<td class="text-center">{submission.rank}</td>
@@ -47,7 +47,7 @@
 	<td class="text-center">
 		<TimeDisplay time={submission.time} />
 	</td>
-	<td> <PlayerNameBadge hasLink player={nameDisplay} on:click={openModal} /></td>
+	<td> <PlayerNameBadge player={nameDisplay} on:click={openModal} /></td>
 	<td class="text-center">
 		{new Date(submission.submissionTime).toLocaleString()}
 	</td>

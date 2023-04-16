@@ -104,15 +104,16 @@
 	<div class="flex flex-col gap-2 p-2 md:flex-row md:gap-0">
 		<div class="flex basis-full flex-col justify-center md:flex-row">
 			<span class="flex place-content-center md:mr-1">Run By:</span>
-			<PlayerNameBadge player={submission ? mapToNamePref(submission?.players[0]) : {}} />
+			<PlayerNameBadge showLink player={submission ? mapToNamePref(submission?.players[0]) : {}} />
 		</div>
 
 		<div class="flex basis-full flex-col justify-center md:flex-row">
 			<span class="flex place-content-center md:mr-1">Submitted By:</span>
-			<PlayerNameBadge player={submission ? mapToNamePref(submission?.submitter) : {}} />
+			<PlayerNameBadge showLink player={submission ? mapToNamePref(submission?.submitter) : {}} />
 		</div>
 
 		{#if false}
+			<!-- TODO add video tags -->
 			<div class="flex basis-full justify-center">
 				<span><i class="bi bi-film mr-1" /> Low Video Quality</span>
 			</div>
