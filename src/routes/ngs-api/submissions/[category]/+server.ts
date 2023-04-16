@@ -1,6 +1,7 @@
 import { error, json } from '@sveltejs/kit';
 import { leaderboardDb } from '$lib/server/db/db';
 import type {
+	IndomitableSubmission,
 	PurpleSubmission,
 	SubmissionPlayerInfo
 } from '$lib/types/api/submissions/submissions.js';
@@ -13,11 +14,19 @@ const validCategories: { [key: string]: boolean } = {
 	dfasolo: true,
 	purpleparty: true,
 	purpleduo: true,
-	purplesolo: true
+	purplesolo: true,
+	duelindomitable: true
+};
+
+const validDuelTables: { [key: string]: string } = {
+	nexaelio: 'IndomitableNexAelioRuns',
+	renusretem: 'IndomitableRenusRetemRuns',
+	amskvaris: 'IndomitableAmsKvarisRuns',
+	nilsstia: 'IndomitableNilsStiaRuns'
 };
 
 /** @type {import('./$types').RequestHandler} */
-export async function GET({ params }) {
+export async function GET({ params, url }) {
 	const category = params.category?.toLowerCase() ?? '';
 	if (!validCategories[category]) {
 		throw error(404, 'not_found');
@@ -1042,13 +1051,91 @@ export async function GET({ params }) {
 			}
 			break;
 
+		case 'duelindomitable':
+			try {
+				const boss = url.searchParams.get('boss') ?? '';
+				const duelTable = validDuelTables[boss];
+				if (!duelTable) {
+					throw error(400, 'bad_request');
+				}
+
+				var sqlQuery = `
+			
+							SELECT
+							submit.SubmissionId, 
+							submit.PlayerID, 
+							submit.RunCharacterName, 
+							submit.Patch, 
+							submit.Rank, 
+							CONVERT(VARCHAR(5), submit.RunTime, 108) as Time, 
+							submit.MainClass, 
+							submit.SubClass, 
+							submit.WeaponInfo1,
+							submit.WeaponInfo2,
+							submit.WeaponInfo3,
+							submit.WeaponInfo4,
+							submit.WeaponInfo5,
+							submit.WeaponInfo6,
+							CONCAT_WS(' ', submit.WeaponInfo1,submit.WeaponInfo2,submit.WeaponInfo3,submit.WeaponInfo4,submit.WeaponInfo5,submit.WeaponInfo6) as WeaponInfo, 
+							submit.Link, 
+							submit.Notes, 
+							submit.SubmissionTime, 
+							submit.SubmitterID,
+							submit.VideoTag,
+							submit.ModNotes,
+			
+							pi.PlayerName as PlayerName,
+							pi.CharacterName as PlayerCName,
+							pc.NameType as PlayerNameType,
+							pc.NameColor1 as PlayerNameColor1,
+							pc.NameColor2 as PlayerNameColor2,
+							pc.Server as PlayerServer,
+							pc.PreferredName as PlayerPrefN,
+			
+							si.PlayerName as SubmitterName,
+							si.CharacterName as SubmitterCName,
+							sc.NameType as SubmitterNameType,
+							sc.NameColor1 as SubmitterNameColor1,
+							sc.NameColor2 as SubmitterNameColor2,
+							sc.PreferredName as SubmitterPrefN
+			
+							FROM Submissions.${duelTable} AS submit
+									
+							INNER JOIN
+			
+							Players.Information AS pi ON submit.PlayerID = pi.PlayerID
+			
+							INNER JOIN
+							Players.Customization AS pc ON submit.PlayerID = pc.PlayerID
+			
+							INNER JOIN
+							Players.Information AS si ON submit.SubmitterID = si.PlayerID
+			
+							INNER JOIN
+							Players.Customization AS sc ON submit.SubmitterID = sc.PlayerID
+			
+							WHERE SubmissionStatus = 0
+			
+							ORDER BY SubmissionTime DESC`;
+
+				var results = await poolConnection.request().query(sqlQuery);
+
+				var returner = results.recordset;
+
+				const ret: IndomitableSubmission[] = mapIndomitableDuel(boss, results.recordset);
+				return json(ret);
+			} catch (err) {
+				console.error(err);
+				break;
+			}
+			break;
 		default:
 			throw error(404, 'not_found');
 			break;
 	}
 }
 
-const mapPurpleSolo = (recordset: any[]) => {
+const mapPurpleSolo = (recordset: any[]): PurpleSubmission[] => {
 	const mapped = recordset.map((s: { [key: string]: string }) => {
 		const player1: SubmissionPlayerInfo = {
 			playerId: parseInt(s.PlayerID),
@@ -1063,7 +1150,7 @@ const mapPurpleSolo = (recordset: any[]) => {
 			nameType: parseInt(s.PlayerNameType),
 			nameColor1: s.PlayerNameColor1,
 			nameColor2: s.PlayerNameColor2,
-			weapons: [s.W1, s.W2, s.W3, s.W4, s.W5, s.W6, s.WS]
+			weapons: [s.W1, s.W2, s.W3, s.W4, s.W5, s.W6]
 				.filter((w) => !!w)
 				.map((w) => dbValToWeaponsMap[w == 'soaring blades' ? 'sb' : w]) //TODO make this weapon definition consistent
 		};
@@ -1086,7 +1173,6 @@ const mapPurpleSolo = (recordset: any[]) => {
 		};
 
 		const players = [player1];
-		console.log(s);
 
 		const timeSplit = s.Time.split(':');
 		const minutes = parseInt(timeSplit[0]);
@@ -1096,6 +1182,79 @@ const mapPurpleSolo = (recordset: any[]) => {
 			runId: parseInt(s.RunID),
 			patch: s.Patch,
 			region: s.Region,
+			rank: parseInt(s.Rank),
+			time: {
+				hours: 0,
+				minutes: minutes,
+				seconds: seconds
+			},
+			players: players,
+			partySize: players.length,
+			submitter: submitter,
+			notes: s.Notes,
+			submissionTime: s.SubmissionTime,
+			server: ''
+		};
+
+		return submission;
+	});
+	return mapped;
+};
+
+const mapIndomitableDuel = (boss: string, recordset: any[]): IndomitableSubmission[] => {
+	const mapped = recordset.map((s: { [key: string]: string }) => {
+		const player1: SubmissionPlayerInfo = {
+			playerId: parseInt(s.PlayerID),
+			playerName: s.PlayerName,
+			characterName: s.PlayerCName,
+			preferredName: s.PlayerPrefN,
+			runCharacterName: s.RunCharacter,
+			mainClass: dbValToClassMap[s.MainClass],
+			subClass: dbValToClassMap[s.SubClass],
+			linkPov: s.Link,
+			server: s.PlayerServer,
+			nameType: parseInt(s.PlayerNameType),
+			nameColor1: s.PlayerNameColor1,
+			nameColor2: s.PlayerNameColor2,
+			weapons: [
+				s.WeaponInfo1,
+				s.WeaponInfo2,
+				s.WeaponInfo3,
+				s.WeaponInfo4,
+				s.WeaponInfo5,
+				s.WeaponInfo6
+			]
+				.filter((w) => !!w)
+				.map((w) => dbValToWeaponsMap[w == 'soaring blades' ? 'sb' : w]) //TODO make this weapon definition consistent
+		};
+
+		// TODO Turn this into player1
+		const submitter: SubmissionPlayerInfo = {
+			playerId: parseInt(s.SubmitterID),
+			playerName: s.SubmitterName,
+			characterName: s.SubmitterCName,
+			preferredName: s.SubmitterPrefN,
+			runCharacterName: '',
+			mainClass: dbValToClassMap[s.MainClass],
+			subClass: dbValToClassMap[s.SubClass],
+			linkPov: '',
+			server: '',
+			nameType: parseInt(s.SubmitterNameType),
+			nameColor1: s.SubmitterNameColor1,
+			nameColor2: s.SubmitterNameColor2,
+			weapons: []
+		};
+
+		const players = [player1];
+
+		const timeSplit = s.Time.split(':');
+		const minutes = parseInt(timeSplit[0]);
+		const seconds = parseInt(timeSplit[1]);
+
+		const submission: IndomitableSubmission = {
+			runId: parseInt(s.SubmissionId),
+			patch: s.Patch,
+			boss: boss,
 			rank: parseInt(s.Rank),
 			time: {
 				hours: 0,

@@ -8,7 +8,7 @@ import { convertTimeToRunTime } from '$lib/server/db/util/datetime';
 import { type InferType, string, number, object, array } from 'yup';
 import { normalizeYoutubeLink, youtubeUrlRegex } from '$lib/utils/youtube.js';
 import { jsonError } from '$lib/server/error.js';
-import { weaponsToDbValMap } from '$lib/server/db/util/weaponType.js';
+import { dbValToWeaponsMap, weaponsToDbValMap } from '$lib/server/db/util/weaponType.js';
 import { notifyDiscordNewRunSubmitted } from '$lib/server/discordNotify.js';
 
 const indomitableTables: { [key: string]: string } = {
@@ -80,7 +80,7 @@ const mapData = (queryData: any[]): IndomitableRun[] => {
 			server: run.Region,
 			time: convertTimeToRunTime(run.RunTime),
 			videoUrl: run.Link,
-			weapons: weapons.filter((w) => !!w).map((w) => parseWeapon(w))
+			weapons: weapons.filter((w) => !!w).map((w) => dbValToWeaponsMap[w])
 		} as IndomitableRun;
 	});
 };
@@ -293,6 +293,7 @@ const insertSoloRun = async (run: IndomitableRunRequest) => {
 		 VALUES (@playerId,@runCharacter,@patch,@rank,@time,@mainClass,@subClass,@w1,@w2,@w3,@w4,@w5,@w6,@link,@notes,@submissionTime,@submitterId);
 		`
 	);
+	console.log(run, insertTable);
 
 	if (result.rowsAffected[0] == 0) {
 		throw Error(`Indomitable Run insertion failed. Submission from: ${run.username}`);

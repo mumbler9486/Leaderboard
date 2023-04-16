@@ -10,6 +10,7 @@
 	import SubmitsPartyPurple from './Components/PartyPurple/SubmitsParty.svelte';
 	import SubmitsPartyAegis from './Components/PartyDFA/SubmitsParty.svelte';
 	import Old_SubmitsSoloPurple from './Components/SoloPurple/Old_SubmitsSolo.svelte';
+	import SubmitsIndomitable from './Components/Indomitable/SubmitsSolo.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 
 	let selectedCategoryRuns = 'purplesolo';
@@ -27,17 +28,17 @@
 		{ value: 'indomitable_nilsstia', label: 'Indomitable Nils Stia' }
 	];
 
-	const submitsMap: { [key: string]: { component: any } } = {
+	const submitsMap: { [key: string]: { component: any; boss?: string } } = {
 		['purplesolo']: { component: Old_SubmitsSoloPurple },
 		['purpleduo']: { component: SubmitsDuoPurple },
 		['purpleparty']: { component: SubmitsPartyPurple },
 		['aegissolo']: { component: SubmitsSoloAegis },
 		['aegisduo']: { component: SubmitsDuoAegis },
 		['aegisparty']: { component: SubmitsPartyAegis },
-		['indomitable_nexaelio']: { component: SubmitsSoloPurple },
-		['indomitable_renusretem']: { component: SubmitsSoloPurple },
-		['indomitable_amskvaris']: { component: SubmitsSoloPurple },
-		['indomitable_nilsstia']: { component: SubmitsSoloPurple }
+		['indomitable_nexaelio']: { component: SubmitsIndomitable, boss: 'nexaelio' },
+		['indomitable_renusretem']: { component: SubmitsIndomitable, boss: 'renusretem' },
+		['indomitable_amskvaris']: { component: SubmitsIndomitable, boss: 'amskvaris' },
+		['indomitable_nilsstia']: { component: SubmitsIndomitable, boss: 'nilsstia' }
 	};
 
 	$: tableComponent = submitsMap[selectedCategoryRuns];
@@ -72,7 +73,7 @@
 				<div
 					class="m-0 grow space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8 md:m-2"
 				>
-					<svelte:component this={tableComponent.component} />
+					<svelte:component this={tableComponent.component} boss={tableComponent.boss} />
 				</div>
 			</div>
 		</div>

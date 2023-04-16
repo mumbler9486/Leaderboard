@@ -39,3 +39,8 @@ export interface DfaSubmission extends Submission {
 	drill: string;
 	buff: string;
 }
+
+export interface IndomitableSubmission extends Submission {
+	boss: string;
+	rank: number;
+}
