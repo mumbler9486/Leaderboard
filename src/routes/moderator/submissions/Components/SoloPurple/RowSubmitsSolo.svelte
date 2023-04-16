@@ -1,15 +1,15 @@
 <script lang="ts">
-	import type { PurpleSoloRunSubmission } from '$lib/types/api/purples/purples';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
 	import NgsClassIcon from '$lib/Components/NgsClassIcon.svelte';
-	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
+	import PlayerNameBadge, { type PlayerNameDisplay } from '$lib/Components/PlayerNameBadge.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import type { PurpleSubmission } from '$lib/types/api/submissions/submissions';
-	import RunInformationModal from '$lib/Components/RunInformationModal.svelte';
+	import { createEventDispatcher } from 'svelte';
+
+	const dispatcher = createEventDispatcher();
 
 	export let submission: PurpleSubmission;
-
-	let modal: RunInformationModal;
+	export let nameDisplay: PlayerNameDisplay;
 
 	const patchCodes = {
 		['60r']: '+60 Release',
@@ -26,29 +26,13 @@
 	$: player1 = submission.players[0];
 
 	const openModal = () => {
-		modal.showModal();
+		dispatcher('openRunInfo', submission.runId);
 	};
 </script>
 
 <tr class="hover border-t border-t-secondary/20">
 	<th>
-		<PlayerNameBadge
-			region={'global'}
-			ship={1}
-			playerId={123}
-			flag="us"
-			hasLink
-			player={{
-				playerName: 'asdf',
-				runCharacterName: 'asdf',
-				characterName: 'asfd',
-				namePreference: 1,
-				nameType: 1,
-				nameColor1: '',
-				nameColor2: ''
-			}}
-			on:click={openModal}
-		/>
+		<PlayerNameBadge hasLink player={nameDisplay} on:click={openModal} />
 	</th>
 	<td class="text-center">{regionCodes[submission.region]}</td>
 	<td class="text-center">{submission.rank}</td>
@@ -63,25 +47,7 @@
 	<td class="text-center">
 		<TimeDisplay time={submission.time} />
 	</td>
-	<td>
-		<PlayerNameBadge
-			region={player1.server}
-			ship={1}
-			playerId={123}
-			flag="us"
-			hasLink
-			player={{
-				playerName: 'Yeah',
-				runCharacterName: 'asdfs',
-				characterName: 'asdf',
-				namePreference: 1,
-				nameType: 1,
-				nameColor1: '',
-				nameColor2: ''
-			}}
-			on:click={openModal}
-		/></td
-	>
+	<td> <PlayerNameBadge hasLink player={nameDisplay} on:click={openModal} /></td>
 	<td class="text-center">
 		{new Date(submission.submissionTime).toLocaleString()}
 	</td>
@@ -91,5 +57,3 @@
 		{/if}
 	</td>
 </tr>
-
-<RunInformationModal submission={{}} bind:this={modal} />

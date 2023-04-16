@@ -1048,7 +1048,7 @@ export async function GET({ params }) {
 }
 
 const mapPurpleSolo = (recordset: any[]) => {
-	const mapped = recordset.map((s) => {
+	const mapped = recordset.map((s: { [key: string]: string }) => {
 		const player1: SubmissionPlayerInfo = {
 			playerId: parseInt(s.PlayerID),
 			playerName: s.PlayerName,
@@ -1059,7 +1059,7 @@ const mapPurpleSolo = (recordset: any[]) => {
 			subClass: s.SubClass,
 			linkPov: s.Link,
 			server: s.PlayerServer,
-			nameType: s.PlayerNameType,
+			nameType: parseInt(s.PlayerNameType),
 			nameColor1: s.PlayerNameColor1,
 			nameColor2: s.PlayerNameColor2,
 			weapons: [s.W1, s.W2, s.W3, s.W4, s.W5, s.W6, s.WS]
@@ -1078,7 +1078,7 @@ const mapPurpleSolo = (recordset: any[]) => {
 			subClass: s.SubClass,
 			linkPov: '',
 			server: '',
-			nameType: s.SubmitterNameType,
+			nameType: parseInt(s.SubmitterNameType),
 			nameColor1: s.SubmitterNameColor1,
 			nameColor2: s.SubmitterNameColor2,
 			weapons: []
@@ -1095,7 +1095,7 @@ const mapPurpleSolo = (recordset: any[]) => {
 			runId: parseInt(s.RunID),
 			patch: s.Patch,
 			region: s.Region,
-			rank: s.Rank,
+			rank: parseInt(s.Rank),
 			time: {
 				hours: 0,
 				minutes: minutes,

@@ -1,10 +1,15 @@
 <script lang="ts">
+	import type { Submission } from '$lib/types/api/submissions/submissions';
+	import { mapToNamePref } from '../../routes/moderator/submissions/mapNamePref';
+
 	import Button from './Button.svelte';
 	import Modal from './Modal.svelte';
 	import PlayerNameBadge from './PlayerNameBadge.svelte';
 	import VideoPlayer from './VideoPlayer.svelte';
 
-	export let submission: any;
+	export let submission: Submission | undefined;
+
+	$: player1 = submission?.players[0];
 
 	let modal: Modal;
 	let modNotes: string;
@@ -91,54 +96,23 @@
 	>
 		<div class="flex flex-col text-center">
 			<span class="text-lg font-semibold"><i class="bi bi-youtube" />Video Link:</span>
-			<a
-				class="link-primary link"
-				href={submission.videoLink}
-				target="_blank"
-				rel="noreferrer noopener">{submission.videoLink}</a
+			<a class="link-primary link" href={player1?.linkPov} target="_blank" rel="noreferrer noopener"
+				>{player1?.linkPov}</a
 			>
 		</div>
 	</div>
 	<div class="flex flex-col gap-2 p-2 md:flex-row md:gap-0">
 		<div class="flex basis-full flex-col justify-center md:flex-row">
 			<span class="flex place-content-center md:mr-1">Run By:</span>
-			<PlayerNameBadge
-				region={'global'}
-				ship={1}
-				playerId={123}
-				flag="us"
-				player={{
-					playerName: '',
-					runCharacterName: '',
-					characterName: '',
-					namePreference: 1,
-					nameType: 1,
-					nameColor1: '',
-					nameColor2: ''
-				}}
-			/>
+			<PlayerNameBadge player={submission ? mapToNamePref(submission?.players[0]) : {}} />
 		</div>
 
 		<div class="flex basis-full flex-col justify-center md:flex-row">
 			<span class="flex place-content-center md:mr-1">Submitted By:</span>
-			<PlayerNameBadge
-				region={'global'}
-				ship={1}
-				playerId={123}
-				flag="us"
-				player={{
-					playerName: '',
-					runCharacterName: '',
-					characterName: '',
-					namePreference: 1,
-					nameType: 1,
-					nameColor1: '',
-					nameColor2: ''
-				}}
-			/>
+			<PlayerNameBadge player={submission ? mapToNamePref(submission?.submitter) : {}} />
 		</div>
 
-		{#if submission.VideoTag}
+		{#if false}
 			<div class="flex basis-full justify-center">
 				<span><i class="bi bi-film mr-1" /> Low Video Quality</span>
 			</div>
@@ -150,7 +124,7 @@
 		>
 			<div class="flex grow flex-col">
 				<span class="text-center text-lg font-semibold">Runner's Notes:</span>
-				<div class="whitespace-pre-wrap p-2">{submission.notes ?? ''}</div>
+				<div class="whitespace-pre-wrap p-2">{submission?.notes ?? ''}</div>
 			</div>
 		</div>
 		<div
@@ -162,6 +136,7 @@
 					<textarea
 						class="widget-discord textarea-bordered textarea w-full grow"
 						placeholder="(Optional) Type any moderator notes you want to display here!"
+						maxlength="500"
 						bind:value={modNotes}
 					/>
 				</div>

@@ -7,7 +7,7 @@ export interface Submission {
 	time: RunTime;
 	notes: string;
 	patch: string;
-	submissionTime: Date;
+	submissionTime: string;
 	partySize: number;
 	server: string;
 	players: SubmissionPlayerInfo[];
@@ -24,7 +24,7 @@ export interface SubmissionPlayerInfo {
 	subClass: NgsPlayerClass;
 	linkPov: string;
 	server: string;
-	nameType: string;
+	nameType: number;
 	nameColor1: string;
 	nameColor2: string;
 	weapons: Weapon[];

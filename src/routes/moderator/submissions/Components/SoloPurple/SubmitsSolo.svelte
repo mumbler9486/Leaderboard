@@ -1,6 +1,11 @@
 <script lang="ts">
 	import RunInformationModal from '$lib/Components/RunInformationModal.svelte';
-	import type { PurpleSubmission } from '$lib/types/api/submissions/submissions';
+	import type {
+		PurpleSubmission,
+		Submission,
+		SubmissionPlayerInfo
+	} from '$lib/types/api/submissions/submissions';
+	import { mapToNamePref } from '../../mapNamePref';
 	import RowSubmitsSolo from './RowSubmitsSolo.svelte';
 
 	import { onMount } from 'svelte';
@@ -9,6 +14,7 @@
 	let loading = true;
 
 	let submissionModal: RunInformationModal;
+	let viewSubmission: Submission;
 
 	onMount(async () => {
 		reloadData();
@@ -32,8 +38,16 @@
 		}
 	}
 
-	const runInfoOpen = () => {
-		submissionModal;
+	const runInfoOpen = (e: CustomEvent) => {
+		const runId = e.detail as number;
+		const run = submissions.find((r) => r.runId == runId);
+		if (!run) {
+			console.error(`RunId=${runId} does not exist.`);
+			return;
+		}
+
+		viewSubmission = run;
+		submissionModal.showModal();
 	};
 </script>
 
@@ -64,8 +78,12 @@
 		</thead>
 		{#if !loading}
 			<tbody>
-				{#each submissions as data}
-					<RowSubmitsSolo on:openRunInfo={runInfoOpen} submission={data} />
+				{#each submissions as submission}
+					<RowSubmitsSolo
+						on:openRunInfo={runInfoOpen}
+						{submission}
+						nameDisplay={mapToNamePref(submission.players[0])}
+					/>
 				{/each}
 			</tbody>
 		{/if}
@@ -82,4 +100,4 @@
 	</div>
 {/if}
 
-<RunInformationModal bind:this={submissionModal} submission={{}} />
+<RunInformationModal bind:this={submissionModal} submission={viewSubmission} />
