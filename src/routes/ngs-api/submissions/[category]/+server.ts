@@ -5,6 +5,7 @@ import type {
 	SubmissionPlayerInfo
 } from '$lib/types/api/submissions/submissions.js';
 import { dbValToWeaponsMap } from '$lib/server/db/util/weaponType.js';
+import { dbValToClassMap } from '$lib/server/db/util/ngsClass.js';
 
 const validCategories: { [key: string]: boolean } = {
 	dfaparty: true,
@@ -1055,8 +1056,8 @@ const mapPurpleSolo = (recordset: any[]) => {
 			characterName: s.PlayerCName,
 			preferredName: s.PlayerPrefN,
 			runCharacterName: s.RunCharacter,
-			mainClass: s.MainClass,
-			subClass: s.SubClass,
+			mainClass: dbValToClassMap[s.MainClass],
+			subClass: dbValToClassMap[s.SubClass],
 			linkPov: s.Link,
 			server: s.PlayerServer,
 			nameType: parseInt(s.PlayerNameType),
@@ -1074,8 +1075,8 @@ const mapPurpleSolo = (recordset: any[]) => {
 			characterName: s.SubmitterCName,
 			preferredName: s.SubmitterPrefN,
 			runCharacterName: '',
-			mainClass: s.MainClass,
-			subClass: s.SubClass,
+			mainClass: dbValToClassMap[s.MainClass],
+			subClass: dbValToClassMap[s.SubClass],
 			linkPov: '',
 			server: '',
 			nameType: parseInt(s.SubmitterNameType),

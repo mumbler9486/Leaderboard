@@ -7,8 +7,8 @@
 		playerName: string;
 		runCharacterName: string;
 		characterName: string | undefined;
-		namePreference: 1 | 2 | undefined;
-		nameType: 1 | 2 | 3 | undefined;
+		namePreference: number | undefined;
+		nameType: number | undefined;
 		nameColor1: string | undefined;
 		nameColor2: string | undefined;
 	}

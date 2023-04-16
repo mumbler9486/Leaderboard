@@ -3,10 +3,10 @@ import type { SubmissionPlayerInfo } from '$lib/types/api/submissions/submission
 
 export const mapToNamePref = (player: SubmissionPlayerInfo): PlayerNameDisplay => {
 	return {
-		region: player.server,
-		ship: 1,
 		playerId: player.playerId,
 		flag: undefined,
+		ship: 1,
+		region: player.server,
 		playerName: player.playerName,
 		runCharacterName: player.runCharacterName,
 		characterName: player.characterName,
