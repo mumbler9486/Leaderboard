@@ -79,7 +79,7 @@
 		d.shared.ModNotes = document.getElementById('modnote-form').value;
 		d.shared.ModNotes == '' ? (d.ModNotes = null) : null;
 		processing = true;
-		const response = await fetch('/ngs-api/ApproveRun?type=purpleparty', {
+		const response = await fetch('/ngs-api/approveRun?type=purpleparty', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

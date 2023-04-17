@@ -132,7 +132,7 @@
 		{#if errorMessage != ''}
 			<Alert type="error" message={errorMessage} />
 		{/if}
-		<VideoPlayer url="" />
+		<VideoPlayer url={player1?.linkPov} />
 		<div
 			class="flex basis-full justify-center rounded-md border border-secondary bg-secondary/25 p-2"
 		>

@@ -4,13 +4,15 @@ import type { Weapon } from './weapon';
 export interface PlayerInfo {
 	playerId: number;
 	playerName: string;
+	ship?: number;
+	flag?: string;
 	characterName: string;
-	preferredName: string;
+	preferredName: number;
 	runCharacterName: string;
 	mainClass: NgsPlayerClass;
 	subClass: NgsPlayerClass;
-	linkPov: string;
-	server: string;
+	linkPov?: string;
+	server?: string;
 	nameType: number;
 	nameColor1: string;
 	nameColor2: string;

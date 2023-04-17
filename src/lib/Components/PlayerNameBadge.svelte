@@ -2,8 +2,8 @@
 	export interface PlayerNameDisplay {
 		playerId: number;
 		flag: string | undefined;
-		ship: number;
-		region: string;
+		ship: number | undefined;
+		region: string | undefined;
 		playerName: string;
 		runCharacterName: string;
 		characterName: string | undefined;

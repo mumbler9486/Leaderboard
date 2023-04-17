@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Alert from './Alert.svelte';
-
 	import Modal from './Modal.svelte';
 	import PlayerNameBadge from './PlayerNameBadge.svelte';
 	import VideoPlayer from './VideoPlayer.svelte';
@@ -37,7 +36,7 @@
 	{#if errorMessage != ''}
 		<Alert type="error" message={errorMessage} />
 	{/if}
-	<VideoPlayer url="" />
+	<VideoPlayer url={player1?.linkPov} />
 	<div
 		class="flex basis-full justify-center rounded-md border border-secondary bg-secondary/25 p-2"
 	>
@@ -73,21 +72,6 @@
 			<div class="flex grow flex-col">
 				<span class="text-center text-lg font-semibold">Runner's Notes:</span>
 				<div class="whitespace-pre-wrap p-2">{run?.notes ?? ''}</div>
-			</div>
-		</div>
-		<div
-			class="flex basis-1/2 justify-center rounded-md border border-secondary bg-secondary/25 p-2 md:basis-full"
-		>
-			<div class="flex grow flex-col">
-				<span class="text-center text-lg font-semibold">Moderator's Notes:</span>
-				<div class="whitespace-pre-wrap p-2">
-					<textarea
-						class="widget-discord textarea-bordered textarea w-full grow"
-						placeholder="(Optional) Type any moderator notes you want to display here!"
-						maxlength="500"
-						bind:value={modNotes}
-					/>
-				</div>
 			</div>
 		</div>
 	</div>

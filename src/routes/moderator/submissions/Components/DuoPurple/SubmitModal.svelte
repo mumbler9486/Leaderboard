@@ -75,7 +75,7 @@
 		d.shared.ModNotes = document.getElementById('modnote-form').value;
 		d.shared.ModNotes == '' ? (d.ModNotes = null) : null;
 		processing = true;
-		const response = await fetch('/ngs-api/ApproveRun?type=purpleduo', {
+		const response = await fetch('/ngs-api/approveRun?type=purpleduo', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

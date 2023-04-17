@@ -5,12 +5,12 @@ export const mapToNamePref = (player: PlayerInfo): PlayerNameDisplay => {
 	return {
 		playerId: player.playerId,
 		flag: undefined,
-		ship: 1,
+		ship: player.ship,
 		region: player.server,
 		playerName: player.playerName,
 		runCharacterName: player.runCharacterName,
 		characterName: player.characterName,
-		namePreference: player.nameType,
+		namePreference: player.preferredName,
 		nameType: player.nameType,
 		nameColor1: player.nameColor1,
 		nameColor2: player.nameColor2

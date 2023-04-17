@@ -54,7 +54,7 @@ const config = {
 						rewrite: '/api/__render'
 					},
 					{
-						route: '/ngs-api/ApproveRun*',
+						route: '/ngs-api/approveRun*',
 						allowedRoles: ['administrator', 'moderator'],
 						rewrite: '/api/__render'
 					},

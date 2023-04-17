@@ -71,7 +71,7 @@
 		d.shared.ModNotes = document.getElementById('modnote-form').value;
 		d.shared.ModNotes == '' ? (d.ModNotes = null) : null;
 		processing = true;
-		const response = await fetch('/ngs-api/ApproveRun?type=dfaduo', {
+		const response = await fetch('/ngs-api/approveRun?type=dfaduo', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

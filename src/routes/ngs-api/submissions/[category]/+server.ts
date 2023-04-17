@@ -1143,20 +1143,28 @@ const mapPurpleSolo = (recordset: any[]): PurpleSubmission[] => {
 			playerName: s.PlayerName,
 			characterName: s.PlayerCName,
 			preferredName: s.PlayerPrefN,
-			runCharacterName: s.RunCharacter,
+			runCharacterName: s.RunCharacterName,
 			mainClass: dbValToClassMap[s.MainClass],
 			subClass: dbValToClassMap[s.SubClass],
+			flag: undefined,
+			ship: undefined,
 			linkPov: s.Link,
 			server: s.PlayerServer,
 			nameType: parseInt(s.PlayerNameType),
 			nameColor1: s.PlayerNameColor1,
 			nameColor2: s.PlayerNameColor2,
-			weapons: [s.W1, s.W2, s.W3, s.W4, s.W5, s.W6]
+			weapons: [
+				s.WeaponInfo1,
+				s.WeaponInfo2,
+				s.WeaponInfo3,
+				s.WeaponInfo4,
+				s.WeaponInfo5,
+				s.WeaponInfo6
+			]
 				.filter((w) => !!w)
 				.map((w) => dbValToWeaponsMap[w == 'soaring blades' ? 'sb' : w]) //TODO make this weapon definition consistent
 		};
 
-		// TODO Turn this into player1
 		const submitter: PlayerInfo = {
 			playerId: parseInt(s.SubmitterID),
 			playerName: s.SubmitterName,
@@ -1165,8 +1173,10 @@ const mapPurpleSolo = (recordset: any[]): PurpleSubmission[] => {
 			runCharacterName: '',
 			mainClass: dbValToClassMap[s.MainClass],
 			subClass: dbValToClassMap[s.SubClass],
-			linkPov: '',
-			server: '',
+			linkPov: undefined,
+			server: undefined,
+			flag: undefined,
+			ship: undefined,
 			nameType: parseInt(s.SubmitterNameType),
 			nameColor1: s.SubmitterNameColor1,
 			nameColor2: s.SubmitterNameColor2,
@@ -1203,9 +1213,11 @@ const mapIndomitableDuel = (boss: string, recordset: any[]): IndomitableSubmissi
 			playerName: s.PlayerName,
 			characterName: s.PlayerCName,
 			preferredName: s.PlayerPrefN,
-			runCharacterName: s.RunCharacter,
+			runCharacterName: s.RunCharacterName,
 			mainClass: dbValToClassMap[s.MainClass],
 			subClass: dbValToClassMap[s.SubClass],
+			flag: undefined,
+			ship: undefined,
 			linkPov: s.Link,
 			server: s.PlayerServer,
 			nameType: parseInt(s.PlayerNameType),
@@ -1231,14 +1243,15 @@ const mapIndomitableDuel = (boss: string, recordset: any[]): IndomitableSubmissi
 			runCharacterName: '',
 			mainClass: dbValToClassMap[s.MainClass],
 			subClass: dbValToClassMap[s.SubClass],
-			linkPov: '',
-			server: '',
+			linkPov: undefined,
+			server: undefined,
+			flag: undefined,
+			ship: undefined,
 			nameType: parseInt(s.SubmitterNameType),
 			nameColor1: s.SubmitterNameColor1,
 			nameColor2: s.SubmitterNameColor2,
 			weapons: []
 		};
-
 		const players = [player1];
 
 		const runTime = convertTimeToRunTime(new Date(s.RunTime));

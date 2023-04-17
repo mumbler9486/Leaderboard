@@ -52,7 +52,7 @@
 		d.ModNotes = document.getElementById('modnote-form').value;
 		d.ModNotes == '' ? (d.ModNotes = null) : null;
 		processing = true;
-		const response = await fetch('/ngs-api/ApproveRun?type=purplesolo', {
+		const response = await fetch('/ngs-api/approveRun?type=purplesolo', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
