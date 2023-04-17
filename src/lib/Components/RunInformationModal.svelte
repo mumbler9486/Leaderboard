@@ -8,7 +8,7 @@
 
 	import type { IndomitableSubmission, Submission } from '$lib/types/api/submissions/submissions';
 	import { mapToNamePref } from '../../routes/moderator/submissions/mapNamePref';
-	import {createEventDispatcher} from 'svelte'
+	import { createEventDispatcher } from 'svelte';
 
 	const dispatcher = createEventDispatcher();
 
@@ -62,7 +62,7 @@
 			}
 			if (result.data == 'success') {
 				closeModal();
-				dispatcher("submissionChanged", "approved")
+				dispatcher('submissionChanged', 'approved');
 			}
 		} catch (err) {
 			console.error(err);
@@ -106,7 +106,7 @@
 			}
 			if (result.data == 'success') {
 				closeModal();
-				dispatcher("submissionChanged", "approved")
+				dispatcher('submissionChanged', 'approved');
 			}
 		} catch (err) {
 			console.error(err);
@@ -194,12 +194,23 @@
 		</div>
 	{/if}
 	<svelte:fragment slot="actions">
-		<Button class="btn-outline btn-error" on:click={denyRun} on:keyup={denyRun}>Deny</Button>
-		<Button class="btn-outline btn-success" on:click={approveRun} on:keyup={approveRun}
-			>Approve</Button
+		<Button
+			class="btn-outline btn-error"
+			on:click={denyRun}
+			on:keyup={denyRun}
+			disabled={processing}>Deny</Button
 		>
-		<Button class="btn-outline btn-secondary" on:click={closeModal} on:keyup={closeModal}
-			>Close</Button
+		<Button
+			class="btn-outline btn-success"
+			on:click={approveRun}
+			on:keyup={approveRun}
+			disabled={processing}>Approve</Button
+		>
+		<Button
+			class="btn-outline btn-secondary"
+			on:click={closeModal}
+			on:keyup={closeModal}
+			disabled={processing}>Close</Button
 		>
 	</svelte:fragment>
 </Modal>
