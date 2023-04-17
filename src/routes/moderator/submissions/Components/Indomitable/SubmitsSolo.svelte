@@ -1,7 +1,7 @@
 <script lang="ts">
-	import RunInformationModal from '$lib/Components/RunInformationModal.svelte';
+	import SubmissionInfoModal from '$lib/Components/SubmissionInfoModal.svelte';
 	import type { IndomitableSubmission, Submission } from '$lib/types/api/submissions/submissions';
-	import { mapToNamePref } from '../../mapNamePref';
+	import { mapToNamePref } from '$lib/types/api/mapNamePref';
 	import RowSubmitsSolo from './RowSubmitsSolo.svelte';
 
 	import { onMount } from 'svelte';
@@ -11,7 +11,7 @@
 	let submissions: IndomitableSubmission[] = [];
 	let loading = true;
 
-	let submissionModal: RunInformationModal;
+	let submissionModal: SubmissionInfoModal;
 	let viewSubmission: IndomitableSubmission;
 
 	$: reloadData(boss);
@@ -100,7 +100,7 @@
 	</div>
 {/if}
 
-<RunInformationModal
+<SubmissionInfoModal
 	bind:this={submissionModal}
 	submission={viewSubmission}
 	on:submissionChanged={reloadData}

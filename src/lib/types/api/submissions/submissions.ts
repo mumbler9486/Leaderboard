@@ -1,6 +1,5 @@
-import type { NgsPlayerClass } from '../ngsPlayerClass';
+import type { PlayerInfo } from '../playerInfo';
 import type { RunTime } from '../runTime';
-import type { Weapon } from '../weapon';
 
 export interface Submission {
 	runId: number;
@@ -10,24 +9,8 @@ export interface Submission {
 	submissionTime: string;
 	partySize: number;
 	server: string;
-	players: SubmissionPlayerInfo[];
-	submitter: SubmissionPlayerInfo;
-}
-
-export interface SubmissionPlayerInfo {
-	playerId: number;
-	playerName: string;
-	characterName: string;
-	preferredName: string;
-	runCharacterName: string;
-	mainClass: NgsPlayerClass;
-	subClass: NgsPlayerClass;
-	linkPov: string;
-	server: string;
-	nameType: number;
-	nameColor1: string;
-	nameColor2: string;
-	weapons: Weapon[];
+	players: PlayerInfo[];
+	submitter: PlayerInfo;
 }
 
 export interface PurpleSubmission extends Submission {

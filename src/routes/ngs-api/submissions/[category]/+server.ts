@@ -3,7 +3,7 @@ import { leaderboardDb } from '$lib/server/db/db';
 import type {
 	IndomitableSubmission,
 	PurpleSubmission,
-	SubmissionPlayerInfo
+	PlayerInfo
 } from '$lib/types/api/submissions/submissions.js';
 import { dbValToWeaponsMap } from '$lib/server/db/util/weaponType.js';
 import { dbValToClassMap } from '$lib/server/db/util/ngsClass.js';
@@ -1138,7 +1138,7 @@ export async function GET({ params, url }) {
 
 const mapPurpleSolo = (recordset: any[]): PurpleSubmission[] => {
 	const mapped = recordset.map((s: { [key: string]: string }) => {
-		const player1: SubmissionPlayerInfo = {
+		const player1: PlayerInfo = {
 			playerId: parseInt(s.PlayerID),
 			playerName: s.PlayerName,
 			characterName: s.PlayerCName,
@@ -1157,7 +1157,7 @@ const mapPurpleSolo = (recordset: any[]): PurpleSubmission[] => {
 		};
 
 		// TODO Turn this into player1
-		const submitter: SubmissionPlayerInfo = {
+		const submitter: PlayerInfo = {
 			playerId: parseInt(s.SubmitterID),
 			playerName: s.SubmitterName,
 			characterName: s.SubmitterCName,
@@ -1198,7 +1198,7 @@ const mapPurpleSolo = (recordset: any[]): PurpleSubmission[] => {
 
 const mapIndomitableDuel = (boss: string, recordset: any[]): IndomitableSubmission[] => {
 	const mapped = recordset.map((s: { [key: string]: string }) => {
-		const player1: SubmissionPlayerInfo = {
+		const player1: PlayerInfo = {
 			playerId: parseInt(s.PlayerID),
 			playerName: s.PlayerName,
 			characterName: s.PlayerCName,
@@ -1223,7 +1223,7 @@ const mapIndomitableDuel = (boss: string, recordset: any[]): IndomitableSubmissi
 				.map((w) => dbValToWeaponsMap[w == 'soaring blades' ? 'sb' : w]) //TODO make this weapon definition consistent
 		};
 
-		const submitter: SubmissionPlayerInfo = {
+		const submitter: PlayerInfo = {
 			playerId: parseInt(s.SubmitterID),
 			playerName: s.SubmitterName,
 			characterName: s.SubmitterCName,

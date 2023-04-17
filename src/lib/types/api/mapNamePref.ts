@@ -1,7 +1,7 @@
 import type { PlayerNameDisplay } from '$lib/Components/PlayerNameBadge.svelte';
-import type { SubmissionPlayerInfo } from '$lib/types/api/submissions/submissions';
+import type { PlayerInfo } from '$lib/types/api/playerInfo';
 
-export const mapToNamePref = (player: SubmissionPlayerInfo): PlayerNameDisplay => {
+export const mapToNamePref = (player: PlayerInfo): PlayerNameDisplay => {
 	return {
 		playerId: player.playerId,
 		flag: undefined,

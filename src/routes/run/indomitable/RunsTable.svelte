@@ -1,26 +1,29 @@
 <script lang="ts">
 	import ClassIcon from '$lib/Components/NgsClassIcon.svelte';
+	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import RankingBadge from '$lib/Components/RankingBadge.svelte';
+	import RunInfoModal from '$lib/Components/RunInfoModal.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import VideoLink from '$lib/Components/VideoLink.svelte';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
-	import type { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
-	import type { RunTime } from '$lib/types/api/runTime';
-	import type { Weapon } from '$lib/types/api/weapon';
+	import type { IndomitableRun } from '$lib/types/api/duels/indomitable';
+	import { mapToNamePref } from '$lib/types/api/mapNamePref';
 
-	type IndomitableRun = {
-		rank: 1;
-		server: 'Global' | 'Japan';
-		playerName: string;
-		mainClass: NgsPlayerClass;
-		subClass: NgsPlayerClass;
-		weapons: Weapon[];
-		time: RunTime;
-		videoUrl: string;
-		notes: string;
-	};
+	let modal: RunInfoModal;
+	let viewRun: IndomitableRun;
 
 	export let runs: IndomitableRun[];
+
+	const runInfoOpen = (runId: number) => {
+		const run = runs.find((r) => r.runId == runId);
+		if (!run) {
+			console.error(`RunId=${runId} does not exist.`);
+			return;
+		}
+
+		viewRun = run;
+		modal.showModal();
+	};
 </script>
 
 {#if !runs || runs.length == 0}
@@ -54,16 +57,22 @@
 						<td class="text-center font-bold">
 							<RankingBadge rank={run.rank} />
 						</td>
-						<td class="font-bold">{run.playerName}</td>
+						<td class="font-bold">
+							<PlayerNameBadge
+								player={run.players[0] ? mapToNamePref(run.players[0]) : {}}
+								on:click={() => runInfoOpen(run.runId)}
+								on:keyup={() => runInfoOpen(run.runId)}
+							/>
+						</td>
 						<td class="text-center font-bold">-</td>
 						<td class="text-center">
-							<ClassIcon combatClass={run.mainClass} showLabel />
+							<ClassIcon combatClass={run.players[0].mainClass} showLabel />
 						</td>
 						<td class="text-center">
-							<ClassIcon combatClass={run.subClass} showLabel />
+							<ClassIcon combatClass={run.players[0].subClass} showLabel />
 						</td>
 						<td class="text-center">
-							{#each run.weapons as weapon}
+							{#each run.players[0].weapons as weapon}
 								<div class="inline w-[16px] object-none">
 									<WeaponIcon {weapon} />
 								</div>
@@ -86,3 +95,5 @@
 		</table>
 	</div>
 {/if}
+
+<RunInfoModal run={viewRun} bind:this={modal} />

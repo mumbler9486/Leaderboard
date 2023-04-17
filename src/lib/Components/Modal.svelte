@@ -62,6 +62,7 @@
 				</svg>
 			</label>
 		</div>
+		<Divider class="-mx-6" />
 
 		<div>
 			<slot />

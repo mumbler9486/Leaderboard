@@ -6,8 +6,8 @@
 	import PlayerNameBadge from './PlayerNameBadge.svelte';
 	import VideoPlayer from './VideoPlayer.svelte';
 
-	import type { IndomitableSubmission, Submission } from '$lib/types/api/submissions/submissions';
-	import { mapToNamePref } from '../../routes/moderator/submissions/mapNamePref';
+	import type { IndomitableSubmission } from '$lib/types/api/submissions/submissions';
+	import { mapToNamePref } from '$lib/types/api/mapNamePref';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatcher = createEventDispatcher();
@@ -122,7 +122,7 @@
 
 <Modal
 	modalId="submission-info"
-	title="Run Information"
+	title="Submission Information"
 	bind:this={modal}
 	allowDefocusClose={false}
 >

@@ -1,11 +1,8 @@
 <script lang="ts">
-	import RunInformationModal from '$lib/Components/RunInformationModal.svelte';
-	import type {
-		PurpleSubmission,
-		Submission,
-		SubmissionPlayerInfo
-	} from '$lib/types/api/submissions/submissions';
-	import { mapToNamePref } from '../../mapNamePref';
+	import SubmissionInfoModal from '$lib/Components/SubmissionInfoModal.svelte';
+	import type { PurpleSubmission, Submission } from '$lib/types/api/submissions/submissions';
+
+	import { mapToNamePref } from '$lib/types/api/mapNamePref';
 	import RowSubmitsSolo from './RowSubmitsSolo.svelte';
 
 	import { onMount } from 'svelte';
@@ -100,4 +97,4 @@
 	</div>
 {/if}
 
-<RunInformationModal bind:this={submissionModal} submission={viewSubmission} />
+<SubmissionInfoModal bind:this={submissionModal} submission={viewSubmission} />
