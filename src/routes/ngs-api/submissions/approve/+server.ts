@@ -1,12 +1,13 @@
 import sql from 'mssql';
 import { leaderboardDb } from '$lib/server/db/db';
 import { error, json } from '@sveltejs/kit';
-import { type InferType, string, number, object, array } from 'yup';
+import { type InferType, string, number, object } from 'yup';
 import { jsonError } from '$lib/server/error.js';
+import { notifyDiscordNewRunApproved } from '$lib/server/discordNotify.js';
 
-const denyRequestSchema = object({
+const approveRequestSchema = object({
 	category: string().required(),
-	moderatorId: number().required(),
+	moderatorName: string().required(),
 	runId: number().required(),
 	modNotes: string().nullable().max(500)
 });
@@ -18,15 +19,22 @@ const indomitableTables: { [key: string]: string } = {
 	indomitablenilsstia: 'IndomitableNilsStiaRuns'
 };
 
-type DenyRequest = InferType<typeof denyRequestSchema>;
+const indomitableQuestNames: { [key: string]: string } = {
+	indomitablenexaelio: 'Indomitable Nex Aelio',
+	indomitablerenusretem: 'Indomitable Renus Retem',
+	indomitableamskvaris: 'Indomitable Ams Kvaris',
+	indomitablenilsstia: 'Indomitable Nils Stia'
+};
+
+type ApproveRequest = InferType<typeof approveRequestSchema>;
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request }) {
 	// Validate request
 	const body = await request.json();
-	let submission: DenyRequest;
+	let submission: ApproveRequest;
 	try {
-		submission = await denyRequestSchema.validate(body);
+		submission = await approveRequestSchema.validate(body);
 	} catch (err: any) {
 		return jsonError(400, {
 			error: 'bad_request',
@@ -42,6 +50,9 @@ export async function POST({ request }) {
 		throw Error(`Invalid boss ${submission.category}`);
 	}
 
+	// Get run data
+	const { playerName } = await getRunPlayer(submission);
+
 	// Check data in db
 	const validationErrors = await checkData(submission);
 	if (validationErrors.length > 0) {
@@ -54,6 +65,12 @@ export async function POST({ request }) {
 		await transaction.begin();
 		await approveSubmissionRun(transaction, submission);
 		await transaction.commit();
+
+		notifyDiscordNewRunApproved(
+			submission.moderatorName,
+			playerName ?? '<Player_Name>',
+			indomitableQuestNames[submission.category.toLowerCase()]
+		);
 		return json({ data: 'success' });
 	} catch (err) {
 		await transaction.rollback();
@@ -62,7 +79,31 @@ export async function POST({ request }) {
 	}
 }
 
-const checkData = async (run: DenyRequest) => {
+const getRunPlayer = async (run: ApproveRequest) => {
+	const pool = await leaderboardDb.connect();
+	const table = indomitableTables[run.category];
+
+	const submissionRequest = pool.request();
+	const submissionResults = await submissionRequest.input('submissionId', sql.Int, run.runId)
+		.query(`
+    SELECT submissions.SubmissionId, pi.PlayerId, pi.PlayerName
+    FROM Submissions.${table} AS submissions
+		INNER JOIN Players.Information AS pi ON submissions.PlayerID = pi.PlayerID
+    WHERE SubmissionId = @submissionId;
+		`);
+
+	if (!submissionResults.recordset[0]) {
+		return { playerId: 0, playerName: undefined };
+	}
+
+	const player = submissionResults.recordset[0];
+	return {
+		playerId: parseInt(player.PlayerId),
+		playerName: player.PlayerName as string
+	};
+};
+
+const checkData = async (run: ApproveRequest) => {
 	const pool = await leaderboardDb.connect();
 	const errorList: string[] = [];
 
@@ -88,10 +129,10 @@ const checkData = async (run: DenyRequest) => {
 	return errorList;
 };
 
-const approveSubmissionRun = async (transaction: sql.Transaction, run: DenyRequest) => {
+const approveSubmissionRun = async (transaction: sql.Transaction, run: ApproveRequest) => {
 	const table = indomitableTables[run.category];
 
-	const request = new sql.Request(transaction);
+	const request = transaction.request();
 	request.input('modNotes', sql.NVarChar, run.modNotes).input('submissionId', sql.Int, run.runId);
 
 	// Add run data to runs table

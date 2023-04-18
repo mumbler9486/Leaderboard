@@ -1,19 +1,12 @@
 import sql from 'mssql';
-import type { IndomitableRun } from '$lib/types/api/duels/indomitable';
-import { parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
-import { parseWeapon } from '$lib/types/api/weapon';
 import { leaderboardDb } from '$lib/server/db/db';
 import { error, json } from '@sveltejs/kit';
-import { convertTimeToRunTime } from '$lib/server/db/util/datetime';
-import { type InferType, string, number, object, array } from 'yup';
-import { normalizeYoutubeLink, youtubeUrlRegex } from '$lib/utils/youtube.js';
+import { type InferType, string, number, object } from 'yup';
 import { jsonError } from '$lib/server/error.js';
-import { weaponsToDbValMap } from '$lib/server/db/util/weaponType.js';
-import { notifyDiscordNewRunSubmitted } from '$lib/server/discordNotify.js';
 
 const denyRequestSchema = object({
 	category: string().required(),
-	moderatorId: number().required(),
+	moderatorName: number().required(),
 	runId: number().required(),
 	modNotes: string().nullable().max(500)
 });

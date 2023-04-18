@@ -36,10 +36,12 @@
 			return;
 		}
 
+		const { userId, username } = await getLogin();
+
 		const approveRequest = {
 			category: `indomitable${submission.boss}`,
 			runId: submission?.runId,
-			moderatorId: 0,
+			moderatorName: username,
 			modNotes: modNotes ?? ''
 		};
 
@@ -80,10 +82,12 @@
 			return;
 		}
 
+		const { userId, username } = await getLogin();
+
 		const denyRequest = {
 			category: `indomitable${submission.boss}`,
 			runId: submission?.runId,
-			moderatorId: 0,
+			moderatorName: username,
 			modNotes: modNotes ?? ''
 		};
 
@@ -112,6 +116,22 @@
 			console.error(err);
 		} finally {
 			processing = false;
+		}
+	};
+
+	const getLogin = async () => {
+		try {
+			const res = await fetch('/.auth/me');
+			const clientPrincipal = (await res.json()).clientPrincipal;
+			const userId = clientPrincipal.userId as string;
+			const username = clientPrincipal.userDetails as string;
+			return {
+				userId,
+				username
+			};
+		} catch (err) {
+			console.error('Failed to get user login', err);
+			throw err;
 		}
 	};
 

@@ -71,7 +71,7 @@ export const notifyDiscordNewRunApproved = async (
 					{
 						title: 'A new run has been approved :white_check_mark:',
 						url: 'https://leaderboard.pso2central.com',
-						description: `A new **${quest}** run from \`${playerName}\` has been approved by \`${moderatorName}\` and added to the leaderboard.`,
+						description: `A new \`${quest}\` run from \`${playerName}\` has been approved by \`${moderatorName}\` and added to the leaderboard.`,
 						color: 54300,
 						thumbnail: {
 							url: process.env.RUN_APPROVAL_WEBHOOK_USER_IMG
