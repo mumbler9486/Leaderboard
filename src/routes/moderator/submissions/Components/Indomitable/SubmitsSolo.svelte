@@ -5,6 +5,7 @@
 	import RowSubmitsSolo from './RowSubmitsSolo.svelte';
 
 	import { onMount } from 'svelte';
+	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
 
 	export let boss: string;
 
@@ -63,14 +64,10 @@
 				<th class="bg-neutral text-center text-neutral-content">Main Class</th>
 				<th class="bg-neutral text-center text-neutral-content">Sub-Class</th>
 				<th class="bg-neutral text-center text-neutral-content">Weapon(s)</th>
-				<th class="bg-neutral text-center text-neutral-content"
-					>IGT <div
-						class="tooltip tooltip-bottom tooltip-info font-semibold normal-case"
-						data-tip="In-Game Time"
-					>
-						<i class="bi-question-circle ms-2" />
-					</div></th
-				>
+				<th class="bg-neutral text-center text-neutral-content">
+					IGT
+					<InfoTooltip bottom tip={'In-Game Time'} />
+				</th>
 				<th class="bg-neutral text-center text-neutral-content">Submitted By</th>
 				<th class="bg-neutral text-center text-neutral-content">Submission Time</th>
 				<th class="w-2 bg-neutral text-center text-neutral-content" />
