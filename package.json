@@ -3,14 +3,16 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "swa start http://localhost:5173 --api-location api --run \"vite dev\"",
+		"dev:mock": "vite dev",
 		"build": "vite build",
-		"preview": "vite preview",
+		"preview": "swa start http://localhost:4173 --api-location api --run \"vite preview\" --open",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"devDependencies": {
+		"@azure/static-web-apps-cli": "^1.1.1",
 		"@beyonk/gdpr-cookie-consent-banner": "^9.1.1",
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/kit": "^1.7.2",
