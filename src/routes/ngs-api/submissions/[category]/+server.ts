@@ -1084,6 +1084,7 @@ export async function GET({ params, url }) {
 							submit.SubmitterID,
 							submit.VideoTag,
 							submit.ModNotes,
+							submit.Augments,
 			
 							pi.PlayerName as PlayerName,
 							pi.CharacterName as PlayerCName,
@@ -1261,6 +1262,7 @@ const mapIndomitableDuel = (boss: string, recordset: any[]): IndomitableSubmissi
 			patch: s.Patch,
 			boss: boss,
 			rank: parseInt(s.Rank),
+			augments: parseInt(s.Augments) == 0 ? false : true,
 			time: runTime,
 			players: players,
 			partySize: players.length,

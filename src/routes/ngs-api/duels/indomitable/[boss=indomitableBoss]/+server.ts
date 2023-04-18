@@ -5,7 +5,7 @@ import { parseWeapon } from '$lib/types/api/weapon';
 import { leaderboardDb } from '$lib/server/db/db';
 import { error, json } from '@sveltejs/kit';
 import { convertTimeToRunTime } from '$lib/server/db/util/datetime';
-import { type InferType, string, number, object, array } from 'yup';
+import { type InferType, string, number, object, array, boolean } from 'yup';
 import { normalizeYoutubeLink, youtubeUrlRegex } from '$lib/utils/youtube.js';
 import { jsonError } from '$lib/server/error.js';
 import { dbValToWeaponsMap, weaponsToDbValMap } from '$lib/server/db/util/weaponType.js';
@@ -45,6 +45,7 @@ export async function GET({ params, url }) {
 				run.Patch as Patch,
 				run.Region as Region,
 				run.Rank as Rank,
+				run.Augments as Augments,
 				run.RunTime as RunTime,
 				run.MainClass as MainClass,
 				run.SubClass as SubClass,
@@ -165,6 +166,7 @@ const mapData = (queryData: any[]): IndomitableRun[] => {
 		return {
 			runId: parseInt(run.Id),
 			rank: i + 1,
+			augments: parseInt(run.Augments) == 0 ? false : true,
 			playerName: run.RunCharacterName,
 			notes: run.Notes,
 			modNotes: run.ModNotes,
@@ -191,6 +193,7 @@ const indomitableRequestSchema = object({
 		minutes: number().required(),
 		seconds: number().required()
 	}),
+	augments: boolean().required(),
 	players: array(
 		object({
 			playerId: number().nullable(),
@@ -239,11 +242,6 @@ const indomitableBosses: { [key: string]: string } = {
 	renusretem: 'Renus Retem',
 	amskvaris: 'Ams Kvaris',
 	nilsstia: 'Nils Stia'
-};
-
-const challengeDbMap = {
-	augment: 'augment',
-	noaugment: 'no-augment'
 };
 
 /** @type {import('./$types').RequestHandler} */
@@ -364,7 +362,7 @@ const insertSoloRun = async (run: IndomitableRunRequest) => {
 		.input('runCharacter', sql.NVarChar, player1.inVideoName)
 		.input('patch', sql.NVarChar, '60R')
 		.input('rank', sql.Int, run.rank)
-		//.input('challenge', sql.Int, triggerDbMap[run.type])
+		.input('augments', sql.Int, run.augments === true ? 1 : 0)
 		.input('time', sql.NVarChar, runTime)
 		.input('mainClass', sql.NVarChar, player1.mainClass)
 		.input('subClass', sql.NVarChar, player1.subClass)
@@ -381,8 +379,8 @@ const insertSoloRun = async (run: IndomitableRunRequest) => {
 
 	const result = await request.query(
 		`INSERT INTO
-		 Submissions.${insertTable} (PlayerID,RunCharacterName,Patch,Rank,RunTime,MainClass,SubClass,WeaponInfo1,WeaponInfo2,WeaponInfo3,WeaponInfo4,WeaponInfo5,WeaponInfo6,Link,Notes,SubmissionTime,SubmitterID)
-		 VALUES (@playerId,@runCharacter,@patch,@rank,@time,@mainClass,@subClass,@w1,@w2,@w3,@w4,@w5,@w6,@link,@notes,@submissionTime,@submitterId);
+		 Submissions.${insertTable} (PlayerID,RunCharacterName,Patch,Rank,RunTime,MainClass,SubClass,WeaponInfo1,WeaponInfo2,WeaponInfo3,WeaponInfo4,WeaponInfo5,WeaponInfo6,Link,Notes,SubmissionTime,SubmitterID,Augments)
+		 VALUES (@playerId,@runCharacter,@patch,@rank,@time,@mainClass,@subClass,@w1,@w2,@w3,@w4,@w5,@w6,@link,@notes,@submissionTime,@submitterId,@augments);
 		`
 	);
 	console.log(run, insertTable);

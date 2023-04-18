@@ -11,6 +11,11 @@
 	export let submission: IndomitableSubmission;
 	export let nameDisplay: PlayerNameDisplay;
 
+	const usesAugments = {
+		true: 'Special Augments Used',
+		false: 'No Special Augment Used'
+	} as { [id: string]: string };
+
 	const patchCodes = {
 		['60r']: '+60 Release',
 		['slayer']: 'Slayer'
@@ -37,6 +42,7 @@
 	<td class="text-center">{bossNames[submission.boss]}</td>
 	<td class="text-center">{submission.rank}</td>
 	<td class="text-center">{patchCodes[submission.patch.toLowerCase()]}</td>
+	<td class="text-center">{usesAugments[submission.augments.toString()]}</td>
 	<td class="text-center"><NgsClassIcon combatClass={player1.mainClass} /></td>
 	<td class="text-center"><NgsClassIcon combatClass={player1.subClass} /></td>
 	<td class="text-center">

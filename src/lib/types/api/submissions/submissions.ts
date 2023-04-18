@@ -26,4 +26,5 @@ export interface DfaSubmission extends Submission {
 export interface IndomitableSubmission extends Submission {
 	boss: string;
 	rank: number;
+	augments: boolean;
 }

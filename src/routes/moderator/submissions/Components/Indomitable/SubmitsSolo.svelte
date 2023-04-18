@@ -59,6 +59,7 @@
 				<th class="bg-neutral text-center text-neutral-content">Region</th>
 				<th class="bg-neutral text-center text-neutral-content">Rank</th>
 				<th class="bg-neutral text-center text-neutral-content">Patch</th>
+				<th class="bg-neutral text-center text-neutral-content">Duel Augments</th>
 				<th class="bg-neutral text-center text-neutral-content">Main Class</th>
 				<th class="bg-neutral text-center text-neutral-content">Sub-Class</th>
 				<th class="bg-neutral text-center text-neutral-content">Weapon(s)</th>

@@ -22,6 +22,7 @@ export interface PurpleRun {
 export interface IndomitableRun {
 	boss: string;
 	rank: number;
+	augments: string;
 }
 
 export interface Run {
@@ -85,6 +86,7 @@ export const submitForm = async () => {
 		const indomitableReq = get(indomitableForm);
 		indomitableReq.rank = 1;
 		runSpecifics = indomitableReq;
+		runSpecifics.augments = indomitableReq.augments === 'yes' ? true : false;
 		submitPath += `duels/indomitable/${indomitableReq.boss}`;
 	}
 

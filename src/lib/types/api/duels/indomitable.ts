@@ -1,7 +1,5 @@
-import type { NgsPlayerClass } from '../ngsPlayerClass';
 import type { PlayerInfo } from '../playerInfo';
 import type { RunTime } from '../runTime';
-import type { Weapon } from '../weapon';
 
 export type IndomitableRun = {
 	runId: number;
@@ -13,6 +11,7 @@ export type IndomitableRun = {
 	modNotes: string;
 	players: PlayerInfo[];
 	submitter: PlayerInfo;
+	augments: boolean;
 };
 
 export type IndomitableSearchFilter = {

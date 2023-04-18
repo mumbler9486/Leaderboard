@@ -9,11 +9,23 @@
 		{ label: 'Ams Kvaris', value: 'amskvaris' },
 		{ label: 'Nils Stia', value: 'nilsstia' }
 	];
+
+	const augmentOptions = [
+		{ label: 'Yes, at least one', value: 'yes' },
+		{ label: 'No, not at all', value: 'no' }
+	];
 </script>
 
-<div class="grid grid-cols-1 gap-2 md:grid-cols-3">
+<div class="grid grid-cols-1 gap-2 md:grid-cols-4">
 	<div class="form-control">
 		<Dropdown label="Boss" options={bossOptions} bind:value={$indomitableForm.boss} />
+	</div>
+	<div class="form-control">
+		<Dropdown
+			label="Duel Augments Used?"
+			options={augmentOptions}
+			bind:value={$indomitableForm.augments}
+		/>
 	</div>
 
 	<div class="form-control">

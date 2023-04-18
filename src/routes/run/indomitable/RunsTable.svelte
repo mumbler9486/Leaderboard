@@ -64,7 +64,7 @@
 								on:keyup={() => runInfoOpen(run.runId)}
 							/>
 						</td>
-						<td class="text-center font-bold">-</td>
+						<td class="text-center font-bold">{run.augments ? 'Yes' : 'No'}</td>
 						<td class="text-center">
 							<ClassIcon combatClass={run.players[0].mainClass} showLabel />
 						</td>
