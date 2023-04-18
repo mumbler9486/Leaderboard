@@ -25,6 +25,7 @@ export async function GET({ params, url }) {
 	const quest = params.boss ?? '';
 	const mainClass = url.searchParams.get('class');
 	const region = url.searchParams.get('server');
+	const augments = url.searchParams.get('augmentations');
 
 	// Validate
 	const table = indomitableTables[quest.toLowerCase()];
@@ -102,6 +103,18 @@ export async function GET({ params, url }) {
 		if (mainClass && mainClass != 'No Filter') {
 			query += ' AND run.MainClass = @mainClass';
 			request = request.input('mainClass', mainClass);
+		}
+
+		if (mainClass && mainClass != 'No Filter') {
+			query += ' AND run.MainClass = @mainClass';
+			request = request.input('mainClass', mainClass);
+		}
+
+		if (augments && augments.toLowerCase() == 'yes') {
+			query += ' AND run.Augments = 1';
+		}
+		if (augments && augments.toLowerCase() == 'no') {
+			query += ' AND run.Augments = 0';
 		}
 
 		query += ' ORDER BY run.RunTime';
