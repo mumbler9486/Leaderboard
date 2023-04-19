@@ -80,7 +80,7 @@
 			<label
 				class="label w-[17rem] cursor-pointer gap-2 rounded border border-neutral-content/25 bg-neutral px-2"
 			>
-				<span class="label-text text-neutral-content">+60 Release</span>
+				<span class="label-text text-neutral-content">+60 Release/Pot6 Release</span>
 				<input
 					type="radio"
 					id="radio-patchFilter-60R"
