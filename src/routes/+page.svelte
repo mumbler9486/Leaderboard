@@ -60,16 +60,21 @@
 						<p slot="newsContent">
 							<strong>Changelog:</strong><br />
 							<li class="pt-4">
-								<strong>Indomitable Duel Runs now Accepting Submissions</strong><br />
+								<strong>⚔️Indomitable Duel Runs now Accepting Submissions</strong><br />
 								Duel runs can now be submitted to the leaderboard. Please take note if you have used
 								the special Duel augments or not.
 							</li>
 							<li class="pt-4">
-								<strong>About Special Duel Augments (Defi-Series)</strong><br />
+								<strong>⏫About Special Duel Augments (Defi-Series)</strong><br />
 								Currently it will be either you affixed an augment on any equipment in the run or you
 								did not. Since we don't know the impact on the runs yet this may be subject to change.
 								We will reach out to the early submitters where possible to improve their submissions
 								if there is a change needed.
+							</li>
+							<li class="pt-4">
+								<strong>✨New Patch for All Submissions</strong><br />
+								Since weapon Potentials level 6 released alongside Duel runs, all new runs submitted
+								will be part of this new patch.
 							</li>
 							<br />
 							<span class="pt-4">
