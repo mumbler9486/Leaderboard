@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
-	import { runForm } from './runStore';
+	import { runForm, resetPlayerSize } from './runStore';
 
 	export let sizes: (1 | 2 | 4 | 8)[];
 
@@ -20,19 +20,9 @@
 	});
 
 	$: options = sizes.map((s) => partySizes[s]);
-	$: $runForm.players =
-		!!selectedPartySize && selectedPartySize != '0'
-			? [...Array(parseInt(selectedPartySize)).keys()].map((p) => ({
-					playerId: -1,
-					povVideoLink: undefined,
-					playerName: '',
-					inVideoName: '',
-					playerServer: '',
-					mainClass: '',
-					subClass: '',
-					weapons: []
-			  }))
-			: [];
+	$: !!selectedPartySize && selectedPartySize != '0'
+		? resetPlayerSize(parseInt(selectedPartySize))
+		: resetPlayerSize(0);
 </script>
 
 <Dropdown label="Party Size" {options} bind:value={selectedPartySize} />

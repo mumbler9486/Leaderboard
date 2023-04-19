@@ -1,20 +1,23 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
-	import { runForm, resetForm } from './runStore';
-
-	let category: string = 'purples';
-
-	$: $runForm.category = category;
+	import { runForm, resetForm, resetPlayerSize } from './runStore';
 
 	const categoryChanged = () => {
+		const prevCategory = $runForm.category;
+		const prevServerRegion = $runForm.serverRegion;
 		resetForm();
-		$runForm.category = category;
+		$runForm.category = prevCategory;
+		$runForm.serverRegion = prevServerRegion;
+
+		if (prevCategory == 'duels-indomitables') {
+			resetPlayerSize(1);
+		}
 	};
 
 	const options = [
 		{ label: 'Purple Triggers', value: 'purples' },
 		{ label: 'Dark Falz Aegis', value: 'dfa' },
-		{ label: 'Duels (Indomitables) [Coming soon]', value: 'duels-indomitables', disabled: true }
+		{ label: 'Duels (Indomitables)', value: 'duels-indomitables' }
 	];
 </script>
 
@@ -23,5 +26,5 @@
 	placeholder="Select a category"
 	{options}
 	on:change={categoryChanged}
-	bind:value={category}
+	bind:value={$runForm.category}
 />

@@ -1,21 +1,21 @@
-import type { NgsPlayerClass } from '../ngsPlayerClass';
+import type { PlayerInfo } from '../playerInfo';
 import type { RunTime } from '../runTime';
-import type { Weapon } from '../weapon';
 
 export type IndomitableRun = {
-	rank: 1;
-	server: 'Global' | 'Japan';
-	playerName: string;
-	mainClass: NgsPlayerClass;
-	subClass: NgsPlayerClass;
-	weapons: Weapon[];
+	runId: number;
+	rank: number;
+	server: string;
 	time: RunTime;
 	videoUrl: string;
 	notes: string;
+	modNotes: string;
+	players: PlayerInfo[];
+	submitter: PlayerInfo;
+	augments: boolean;
 };
 
 export type IndomitableSearchFilter = {
 	server: string;
 	class: string;
-	augmentation: string;
+	augmentations: string;
 };

@@ -1,29 +1,33 @@
-<script lang="ts">
-	export let flag: 'us' | undefined;
-	export let ship: number | undefined;
-	export let region: 'global' | 'japan' | undefined;
-	export let playerId: number;
-	export let player: PlayerNameDisplay;
-
-	interface PlayerNameDisplay {
+<script context="module" lang="ts">
+	export interface PlayerNameDisplay {
+		playerId: number;
+		flag: string | undefined;
+		ship: number | undefined;
+		region: string | undefined;
 		playerName: string;
 		runCharacterName: string;
 		characterName: string | undefined;
-		namePreference: 1 | 2 | undefined;
-		nameType: 1 | 2 | 3 | undefined;
+		namePreference: number | undefined;
+		nameType: number | undefined;
 		nameColor1: string | undefined;
 		nameColor2: string | undefined;
 	}
+</script>
+
+<script lang="ts">
+	export let player: PlayerNameDisplay;
+	export let showLink: boolean = false;
 
 	let primaryName: string;
 	let secondaryName: string;
 
-	$: flagClass = `fi fi-${flag}`;
-	$: shipImageUrl = `/icons/ships/ship${ship}-${region}.png`;
+	$: flagClass = player.flag ? `fi fi-${player.flag}` : '';
+	$: shipImageUrl =
+		player.ship && player.region ? `/icons/ships/ship${player.ship}-${player.region}.png` : '';
 
 	// TODO Refactor anon system
 	const anonPlayerIds = [106, 107];
-	$: isPlayerAnon = anonPlayerIds.includes(playerId);
+	$: isPlayerAnon = anonPlayerIds.includes(player.playerId);
 
 	$: playerNameStyle = playerNameColor(player);
 
@@ -88,28 +92,40 @@
 
 <div>
 	<span class="flex items-center">
-		{#if flag}
+		{#if player.flag}
 			<span class={flagClass} style="max-height:16px;min-width: 25px;" />
 		{/if}
-		{#if region && ship}
+		{#if player.region && player.ship}
 			<img
 				src={shipImageUrl}
 				class="mr-1 inline object-none object-center"
-				alt="ship{ship}-{region}"
+				alt="ship{player.ship}-{player.region}"
 			/>
 		{/if}
-		<span
-			style={playerNameStyle}
-			class="truncate transition ease-in-out hover:brightness-125"
-			on:click
-			on:keyup
-		>
-			{primaryName}
-			{#if secondaryName && isPlayerAnon}
-				<p class="ml-1 truncate text-xs">
-					({secondaryName})
+		{#if showLink}
+			<a
+				href="/users?id={player.playerId}"
+				target="_blank"
+				rel="noreferrer noopener"
+				class="flex place-content-center"
+				><p style={playerNameStyle} class="inline place-self-center">
+					{primaryName}
 				</p>
-			{/if}
-		</span>
+			</a>
+		{:else}
+			<span
+				style={playerNameStyle}
+				class="cursor-pointer truncate transition ease-in-out hover:brightness-125"
+				on:click
+				on:keyup
+			>
+				{primaryName}
+				{#if secondaryName && isPlayerAnon}
+					<p class="ml-1 truncate text-xs">
+						({secondaryName})
+					</p>
+				{/if}
+			</span>
+		{/if}
 	</span>
 </div>

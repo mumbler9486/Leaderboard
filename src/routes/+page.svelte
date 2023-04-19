@@ -14,64 +14,6 @@
 
 	let consentDiscord = false;
 
-	let newsTitle = `Leaderboard 3.0 Update`;
-	let newsContent = `
-    A very small, yet very large update has been released.<br><br>
-    <strong>Changelog:</strong><br>
-    <li class="pt-4">
-        <strong>Full Site Rewrite.</strong><br>
-        The website has been fully rewritten.<br><br>This has lead to some visual changes, and will make implementing future feature updates easier.
-    </li>
-    <li class="pt-4">
-        <strong>Youtube Embeds.</strong><br>
-        Enabling youtube cookies will replace video links on run info panels with embeds!<br>
-        Please note that this only applies to solo runs.
-    </li>
-    <li class="pt-4">
-        <strong>Duo and Party Runs.</strong><br>
-        Duo and party runs have returned!
-    </li>
-    <li class="pt-4">
-        <strong>Dark Falz Aegis Leaderboards.</strong><br>
-        Leaderboards for solo, duo, and full MPA have been added for Dark Falz Aegis!
-    </li>
-    <li class="pt-4">
-        <strong>Player Descriptions.</strong><br>
-        Player description editing has been enabled.
-    </li>
-    <li class="pt-4">
-        <strong>Player Trophies.</strong><br>
-        Trophies for each class have been added, in bronze, silver, gold, and rainbow types.<br>
-        The first three trophy ranks will be given as a reward for participation in the below feature.<br>
-        Rainbow trophies will be given out only for specific users, with a more specific criteria still being decided.<br>
-        At this point in time, only guide authors have rainbow tier trophies.
-    </li>
-    <li class="pt-4">
-        <strong>Meteorn Records.</strong><br>
-        Functionality for 'Meteorn Records', or unofficial ARKs Records have been implemented.<br>
-        Our test run is Dark Falz Aegis MPA runs.<br>
-        Every player in a party with a bronze, silver, or gold ranking will be given a trophy for their party rank and class!
-    </li>
-    <li class="pt-4">
-        <strong>Backend Alliance Support.</strong><br>
-        More information will be released later, but Alliances are technically fully functional, but temporarily unavailable!
-    </li>
-    <li class="pt-4">
-        <strong>Backend Avatar Support.</strong><br>
-        Player avatars have been implemented, but remain disabled for the time being!
-    </li>
-    <li class="pt-4">
-        <strong>Backend Twitch Support.</strong><br>
-        Backend work has been done to enable Twitch embeds and videos in the future.<br>
-        This will include the ability to display your Twitch stream on your profile if you wish!<br>
-        Make sure to turn on Twitch cookies if you want to see this feature when it's implemented in full!
-    </li>
-    <li class="pt-4">
-        <strong>Discord Widget.</strong><br>
-        If you enable Discord cookies, a Discord widget will appear on the home page.
-    </li>
-    `;
-
 	if (browser) {
 		consentDiscord = (localStorage.getItem('consent-discord') ?? false) === 'true';
 	}
@@ -114,8 +56,31 @@
 					class="m-2 basis-full rounded-md border border-secondary bg-base-100 p-4 px-8 md:basis-2/3"
 				>
 					<HomeNews>
-						<span slot="newsTitle">{newsTitle}</span>
-						<p slot="newsContent">{@html newsContent}</p>
+						<span slot="newsTitle">Leaderboard 3.1 Update</span>
+						<p slot="newsContent">
+							<strong>Changelog:</strong><br />
+							<li class="pt-4">
+								<strong>Indomitable Duel Runs now Accepting Submissions</strong><br />
+								Duel runs can now be submitted to the leaderboard. Please take note if you have used
+								the special Duel augments or not.
+							</li>
+							<li class="pt-4">
+								<strong>About Special Duel Augments (Defi-Series)</strong><br />
+								Currently it will be either you affixed an augment on any equipment in the run or you
+								did not. Since we don't know the impact on the runs yet this may be subject to change.
+								We will reach out to the early submitters where possible to improve their submissions
+								if there is a change needed.
+							</li>
+							<br />
+							<span class="pt-4">
+								Any questions or issues please contact us on our <a
+									href="https://discord.com/invite/fFtEEJHuFp"
+									target="_blank"
+									rel="noreferrer noopener"
+									class="link-primary link no-underline">Discord <i class="bi bi-discord" /></a
+								>
+							</span>
+						</p>
 					</HomeNews>
 				</div>
 				<div

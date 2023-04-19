@@ -1,29 +1,47 @@
-<script>
+<script lang="ts">
 	import { t } from 'svelte-i18n';
 	import LeaderboardHeader from '$lib/LeaderboardHeader.svelte';
 	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
 	import LeaderboardFooter from '$lib/LeaderboardFooter.svelte';
+	import SubmitsSoloPurple from './Components/SoloPurple/SubmitsSolo.svelte';
+	import SubmitsSoloAegis from './Components/SoloDFA/SubmitsSolo.svelte';
+	import SubmitsDuoAegis from './Components/DuoDFA/SubmitsParty.svelte';
+	import SubmitsDuoPurple from './Components/DuoPurple/SubmitsParty.svelte';
+	import SubmitsPartyPurple from './Components/PartyPurple/SubmitsParty.svelte';
+	import SubmitsPartyAegis from './Components/PartyDFA/SubmitsParty.svelte';
+	import Old_SubmitsSoloPurple from './Components/SoloPurple/Old_SubmitsSolo.svelte';
+	import SubmitsIndomitable from './Components/Indomitable/SubmitsSolo.svelte';
+	import Dropdown from '$lib/Components/Dropdown.svelte';
 
-	import { onMount } from 'svelte';
-	import { json } from '@sveltejs/kit';
-
-	import SubmitsSoloPurple from '$lib/LeaderboardComponents/Parts/Submissions/SoloPurple/SubmitsSolo.svelte';
-	import SubmitsSoloAegis from '$lib/LeaderboardComponents/Parts/Submissions/SoloDFA/SubmitsSolo.svelte';
-	import SubmitsDuoAegis from '$lib/LeaderboardComponents/Parts/Submissions/DuoDFA/SubmitsParty.svelte';
-	import SubmitsDuoPurple from '$lib/LeaderboardComponents/Parts/Submissions/DuoPurple/SubmitsParty.svelte';
-	import SubmitsPartyPurple from '$lib/LeaderboardComponents/Parts/Submissions/PartyPurple/SubmitsParty.svelte';
-	import SubmitsPartyAegis from '$lib/LeaderboardComponents/Parts/Submissions/PartyDFA/SubmitsParty.svelte';
-
-	let mountedDone = false;
 	let selectedCategoryRuns = 'purplesolo';
 
-	onMount(async () => {
-		mountedDone = true;
-	});
+	const submissionCategoryOptions = [
+		{ value: 'purplesolo', label: 'Purple Triggers - Solo' },
+		{ value: 'purpleduo', label: 'Purple Triggers - Duo' },
+		{ value: 'purpleparty', label: 'Purple Triggers - Party' },
+		{ value: 'aegissolo', label: 'Dark Falz Aegis - Solo' },
+		{ value: 'aegisduo', label: 'Dark Falz Aegis - Duo' },
+		{ value: 'aegisparty', label: 'Dark Falz Aegis - Party' },
+		{ value: 'indomitable_nexaelio', label: 'Indomitable Nex Aelio' },
+		{ value: 'indomitable_renusretem', label: 'Indomitable Renus Retem' },
+		{ value: 'indomitable_amskvaris', label: 'Indomitable Ams Kvaris' },
+		{ value: 'indomitable_nilsstia', label: 'Indomitable Nils Stia' }
+	];
 
-	function changeCategory() {
-		selectedCategoryRuns = document.getElementById('runselectiontype-form').value;
-	}
+	const submitsMap: { [key: string]: { component: any; boss?: string } } = {
+		['purplesolo']: { component: Old_SubmitsSoloPurple },
+		['purpleduo']: { component: SubmitsDuoPurple },
+		['purpleparty']: { component: SubmitsPartyPurple },
+		['aegissolo']: { component: SubmitsSoloAegis },
+		['aegisduo']: { component: SubmitsDuoAegis },
+		['aegisparty']: { component: SubmitsPartyAegis },
+		['indomitable_nexaelio']: { component: SubmitsIndomitable, boss: 'nexaelio' },
+		['indomitable_renusretem']: { component: SubmitsIndomitable, boss: 'renusretem' },
+		['indomitable_amskvaris']: { component: SubmitsIndomitable, boss: 'amskvaris' },
+		['indomitable_nilsstia']: { component: SubmitsIndomitable, boss: 'nilsstia' }
+	};
+
+	$: tableComponent = submitsMap[selectedCategoryRuns];
 </script>
 
 <svelte:head>
@@ -43,21 +61,11 @@
 				<div class="m-0 gap-1 rounded-md border border-secondary bg-secondary/10 p-4 px-8 md:m-2">
 					<div class="flex flex-col gap-2 md:flex-row">
 						<div class="form-control grow">
-							<label class="label" for={'runselectiontype-form'}>
-								<span class="label-text">Category</span>
-							</label>
-							<select
-								id={'runselectiontype-form'}
-								class="select-bordered select"
-								on:change={changeCategory}
-							>
-								<option value="purplesolo" selected>Purple Triggers - Solo</option>
-								<option value="purpleduo">Purple Triggers - Duo</option>
-								<option value="purpleparty">Purple Triggers - Party</option>
-								<option value="aegissolo">Dark Falz Aegis - Solo</option>
-								<option value="aegisduo">Dark Falz Aegis - Duo</option>
-								<option value="aegisparty">Dark Falz Aegis - Party</option>
-							</select>
+							<Dropdown
+								label="Run Category"
+								options={submissionCategoryOptions}
+								bind:value={selectedCategoryRuns}
+							/>
 						</div>
 					</div>
 				</div>
@@ -65,19 +73,7 @@
 				<div
 					class="m-0 grow space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8 md:m-2"
 				>
-					{#if mountedDone && selectedCategoryRuns === 'purplesolo'}
-						<SubmitsSoloPurple />
-					{:else if mountedDone && selectedCategoryRuns === 'purpleduo'}
-						<SubmitsDuoPurple />
-					{:else if mountedDone && selectedCategoryRuns === 'purpleparty'}
-						<SubmitsPartyPurple />
-					{:else if mountedDone && selectedCategoryRuns === 'aegissolo'}
-						<SubmitsSoloAegis />
-					{:else if mountedDone && selectedCategoryRuns === 'aegisduo'}
-						<SubmitsDuoAegis />
-					{:else if mountedDone && selectedCategoryRuns === 'aegisparty'}
-						<SubmitsPartyAegis />
-					{/if}
+					<svelte:component this={tableComponent.component} boss={tableComponent.boss} />
 				</div>
 			</div>
 		</div>

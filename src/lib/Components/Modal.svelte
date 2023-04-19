@@ -62,14 +62,15 @@
 				</svg>
 			</label>
 		</div>
+		<Divider class="-mx-6" />
 
 		<div>
 			<slot />
 		</div>
 
 		<Divider class="-mx-6" />
-
 		<div class="modal-action justify-center md:justify-end">
+			<slot name="actions" />
 			{#if btn2 != undefined}
 				<button
 					on:click={btn2Click}

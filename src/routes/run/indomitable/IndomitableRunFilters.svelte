@@ -9,7 +9,7 @@
 	import Filters from './Filters.svelte';
 	import IndomitableRules from './IndomitableRules.svelte';
 
-	let augmentation: string = $page.url.searchParams.get('augs') ?? 'No Filter';
+	let augmentation: string = $page.url.searchParams.get('augmentations') ?? 'No Filter';
 	let selectedClass: string = $page.url.searchParams.get('class') ?? 'No Filter';
 	let selectedServer: string = $page.url.searchParams.get('server') ?? 'No Filter';
 
@@ -25,12 +25,12 @@
 		if (selectedServer == 'No Filter') $page.url.searchParams.delete('server');
 
 		if (augmentation != 'No Filter') {
-			$page.url.searchParams.set('aug', augmentation);
+			$page.url.searchParams.set('augmentations', augmentation);
 		}
-		if (augmentation == 'No Filter') $page.url.searchParams.delete('aug');
+		if (augmentation == 'No Filter') $page.url.searchParams.delete('augmentations');
 
 		goto($page.url);
-		pageFilters.set({ class: selectedClass, server: selectedServer, augmentation: augmentation });
+		pageFilters.set({ class: selectedClass, server: selectedServer, augmentations: augmentation });
 	};
 </script>
 
@@ -43,8 +43,8 @@
 				label="Augmentations"
 				options={[
 					{ label: 'No Filter', value: 'No Filter' },
-					{ label: 'Yes', value: 'Yes' },
-					{ label: 'No', value: 'No' }
+					{ label: 'Yes', value: 'yes' },
+					{ label: 'No', value: 'no' }
 				]}
 				bind:value={augmentation}
 				on:change={updateUrl}

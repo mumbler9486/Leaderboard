@@ -18,8 +18,11 @@
 	btn2="Close"
 	on:btn2Click={modal.close}
 >
-	<Divider class="-mx-6" />
 	<ul class="list-inside list-disc space-y-2">
-		<li><strong>Do not abuse bugs or exploits.</strong></li>
+		<li>Do not abuse bugs or exploits.</li>
+		<li>
+			A run is considered to have used a Duel Augment if any duel specific augments (e.g.,
+			Defi-series) have been affixed to any equipment used during the run.
+		</li>
 	</ul>
 </Modal>

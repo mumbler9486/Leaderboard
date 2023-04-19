@@ -1,29 +1,29 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
 	import ClassIcon from '$lib/Components/NgsClassIcon.svelte';
+	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import RankingBadge from '$lib/Components/RankingBadge.svelte';
+	import RunInfoModal from '$lib/Components/RunInfoModal.svelte';
+	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
+	import VideoLink from '$lib/Components/VideoLink.svelte';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
-	import type { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
-	import type { RunTime } from '$lib/types/api/runTime';
-	import type { Weapon } from '$lib/types/api/weapon';
+	import type { IndomitableRun } from '$lib/types/api/duels/indomitable';
+	import { mapToNamePref } from '$lib/types/api/mapNamePref';
 
-	type IndomitableRun = {
-		rank: 1;
-		server: 'Global' | 'Japan';
-		playerName: string;
-		mainClass: NgsPlayerClass;
-		subClass: NgsPlayerClass;
-		weapons: Weapon[];
-		time: RunTime;
-		videoUrl: string;
-		notes: string;
-	};
+	let modal: RunInfoModal;
+	let viewRun: IndomitableRun;
 
 	export let runs: IndomitableRun[];
 
-	const formatIgt = (time: RunTime) => {
-		let hours = time.hours > 0 ? `${time.hours}h` : '';
-		return `${hours} ${time.minutes}m ${time.seconds}s`.trim();
+	const runInfoOpen = (runId: number) => {
+		const run = runs.find((r) => r.runId == runId);
+		if (!run) {
+			console.error(`RunId=${runId} does not exist.`);
+			return;
+		}
+
+		viewRun = run;
+		modal.showModal();
 	};
 </script>
 
@@ -40,14 +40,10 @@
 					<th class="bg-neutral text-center text-neutral-content">Main Class</th>
 					<th class="bg-neutral text-center text-neutral-content">Sub-Class</th>
 					<th class="bg-neutral text-center text-neutral-content">Weapon(s)</th>
-					<th class="bg-neutral text-center text-neutral-content"
-						>IGT <div
-							class="tooltip tooltip-bottom tooltip-info font-semibold normal-case"
-							data-tip="In-Game Time"
-						>
-							<i class="bi-question-circle ms-2" />
-						</div></th
-					>
+					<th class="bg-neutral text-center text-neutral-content">
+						IGT
+						<InfoTooltip bottom tip={'In-Game Time'} />
+					</th>
 					<th class="bg-neutral text-center text-neutral-content">Video</th>
 					<th class="w-2 bg-neutral text-center text-neutral-content" />
 				</tr>
@@ -58,29 +54,32 @@
 						<td class="text-center font-bold">
 							<RankingBadge rank={run.rank} />
 						</td>
-						<td class="font-bold">{run.playerName}</td>
-						<td class="text-center font-bold">-</td>
+						<td class="font-bold">
+							<PlayerNameBadge
+								player={run.players[0] ? mapToNamePref(run.players[0]) : {}}
+								on:click={() => runInfoOpen(run.runId)}
+								on:keyup={() => runInfoOpen(run.runId)}
+							/>
+						</td>
+						<td class="text-center font-bold">{run.augments ? 'Yes' : 'No'}</td>
 						<td class="text-center">
-							<ClassIcon combatClass={run.mainClass} showLabel />
+							<ClassIcon combatClass={run.players[0].mainClass} showLabel />
 						</td>
 						<td class="text-center">
-							<ClassIcon combatClass={run.subClass} showLabel />
+							<ClassIcon combatClass={run.players[0].subClass} showLabel />
 						</td>
 						<td class="text-center">
-							{#each run.weapons as weapon}
+							{#each run.players[0].weapons as weapon}
 								<div class="inline w-[16px] object-none">
 									<WeaponIcon {weapon} />
 								</div>
 							{/each}
 						</td>
-						<td class="text-center">{formatIgt(run.time)}</td>
 						<td class="text-center">
-							<a
-								href={run.videoUrl}
-								target="_blank"
-								rel="noreferrer noopener"
-								class="link-accent link no-underline"><i class="bi bi-youtube" /> Link</a
-							>
+							<TimeDisplay time={run.time} />
+						</td>
+						<td class="text-center">
+							<VideoLink url={run.videoUrl} />
 						</td>
 						<td class="text-center">
 							{#if run.notes != undefined}
@@ -93,3 +92,5 @@
 		</table>
 	</div>
 {/if}
+
+<RunInfoModal run={viewRun} bind:this={modal} />

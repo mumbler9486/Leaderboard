@@ -29,12 +29,12 @@
 		[Weapon.Launcher]: { name: 'Launcher', icon: '/icons/weapon/weapon-launcher.png' },
 		[Weapon.TwinMachineGuns]: { name: 'Twin Machine Guns', icon: '/icons/weapon/weapon-tmg.png' },
 		[Weapon.Bow]: { name: 'Bow', icon: '/icons/weapon/weapon-bow.png' },
+		[Weapon.Gunblade]: { name: 'Gunblade', icon: '/icons/weapon/weapon-gunblade.png' },
 		[Weapon.Rod]: { name: 'Rod', icon: '/icons/weapon/weapon-rod.png' },
 		[Weapon.Talis]: { name: 'Talis', icon: '/icons/weapon/weapon-talis.png' },
 		[Weapon.Wand]: { name: 'Wand', icon: '/icons/weapon/weapon-wand.png' },
 		[Weapon.JetBoots]: { name: 'Jet Boots', icon: '/icons/weapon/weapon-boots.png' },
-		[Weapon.Harmonizer]: { name: 'Harmonizer', icon: '/icons/weapon/weapon-takt.png' },
-		[Weapon.Gunblade]: { name: 'Gunblade', icon: '/icons/weapon/weapon-gunblade.png' }
+		[Weapon.Harmonizer]: { name: 'Harmonizer', icon: '/icons/weapon/weapon-takt.png' }
 	};
 
 	const maintainMaximum = (weaponKey: string) => {
@@ -52,7 +52,6 @@
 			const lastAdded = selectionHistory.shift();
 			if (lastAdded) selectedWeapons[lastAdded] = false;
 		}
-		console.log(weaponKey, selectionHistory, selectedWeapons);
 	};
 </script>
 

@@ -1,11 +1,12 @@
 import sql from 'mssql';
-import { Weapon, parseWeapon } from '$lib/types/api/weapon';
+import { parseWeapon } from '$lib/types/api/weapon';
 import { leaderboardDb } from '$lib/server/db/db';
 import { json } from '@sveltejs/kit';
 import { type InferType, string, number, object, array } from 'yup';
 import { notifyDiscordNewRunSubmitted } from '$lib/server/discordNotify';
 import { normalizeYoutubeLink, youtubeUrlRegex } from '$lib/utils/youtube';
 import { jsonError } from '$lib/server/error.js';
+import { weaponsToDbValMap } from '$lib/server/db/util/weaponType.js';
 
 const dfaRequestSchema = object({
 	userId: string().required(),
@@ -60,27 +61,6 @@ const dfaRequestSchema = object({
 
 type DfaRunRequest = InferType<typeof dfaRequestSchema>;
 
-const weaponsToDbValMap: { [key: string]: string } = {
-	[Weapon.Sword]: 'sword',
-	[Weapon.WiredLance]: 'wl',
-	[Weapon.Partisan]: 'partisan',
-	[Weapon.TwinDaggers]: 'td',
-	[Weapon.DoubleSabers]: 'ds',
-	[Weapon.Knuckles]: 'knuckles',
-	[Weapon.Katana]: 'katana',
-	[Weapon.SoaringBlades]: 'sb',
-	[Weapon.AssaultRifle]: 'rifle',
-	[Weapon.Launcher]: 'launcher',
-	[Weapon.TwinMachineGuns]: 'tmg',
-	[Weapon.Bow]: 'bow',
-	[Weapon.Rod]: 'rod',
-	[Weapon.Talis]: 'talis',
-	[Weapon.Wand]: 'wand',
-	[Weapon.JetBoots]: 'jb',
-	[Weapon.Harmonizer]: 'takt',
-	[Weapon.Gunblade]: 'gb'
-};
-
 const triggerDbMap: { [key: string]: number } = {
 	trigger: 1,
 	urgent: 0
@@ -98,6 +78,7 @@ const questTypeMap: { [key: string]: string } = {
 	urgent: 'Urgent Quest'
 };
 
+/** @type {import('./$types').RequestHandler} */
 export async function POST({ request }) {
 	// Validate request
 	const body = await request.json();
@@ -216,16 +197,14 @@ const insertSoloRun = async (run: DfaRunRequest) => {
 
 	// Get player info
 	const player1 = run.players[0];
-
 	const runTime = serializeTimeToSqlTime(run.time);
-
 	const submissionTime = new Date();
 
 	let request = pool
 		.request()
 		.input('playerId', sql.Int, player1.playerId)
 		.input('runCharacter', sql.NVarChar, player1.inVideoName)
-		.input('patch', sql.NVarChar, '60R')
+		.input('patch', sql.NVarChar, 'pot6r')
 		.input('drill', sql.Int, triggerDbMap[run.type])
 		.input('support', sql.NVarChar, run.support)
 		.input('time', sql.NVarChar, runTime)
