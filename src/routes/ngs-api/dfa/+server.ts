@@ -257,7 +257,7 @@ const insertPartyRun = async (run: DfaRunRequest) => {
 		.input('subpid', sql.Int, player1.playerId)
 		.input('serverid', sql.NVarChar, run.serverRegion)
 		.input('questrank', sql.Int, 1)
-		.input('patch', sql.NVarChar, '60R')
+		.input('patch', sql.NVarChar, 'pot6r')
 		.input('region', sql.NVarChar, run.support)
 		.input('rank', sql.Int, triggerDbMap[run.type])
 		.input('time', sql.NVarChar, runTime)

@@ -21,17 +21,18 @@ const config = {
 // @ts-ignore
 export async function GET({ url }) {
 	const data = await url.searchParams;
+	console.log(url.searchParams);
 	try {
 		// @ts-ignore
 		var poolConnection = await sql.connect(config);
 
-		var patchQuery = ` AND Patch = '60R'`;
+		var patchQuery = ` AND (Patch = '60R' OR Patch = 'pot6r')`;
 		var serverQuery = ``;
 
 		// //console.log(data);
 
 		if (data.get('patch') != null && data.get('patch') != '') {
-			if (data.get('patch') == 'P60') {
+			if (data.get('patch') == 'P60' || data.get('patch') == 'pot6r') {
 				patchQuery = ` AND Patch IS NULL`;
 			} else {
 				patchQuery = ' AND Patch = @PatchInput';
