@@ -373,7 +373,7 @@ const insertSoloRun = async (run: IndomitableRunRequest) => {
 		.request()
 		.input('playerId', sql.Int, player1.playerId)
 		.input('runCharacter', sql.NVarChar, player1.inVideoName)
-		.input('patch', sql.NVarChar, '60R')
+		.input('patch', sql.NVarChar, 'pot6r')
 		.input('rank', sql.Int, run.rank)
 		.input('augments', sql.Int, run.augments === true ? 1 : 0)
 		.input('time', sql.NVarChar, runTime)

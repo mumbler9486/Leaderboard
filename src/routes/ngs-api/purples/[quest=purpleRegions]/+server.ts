@@ -186,7 +186,7 @@ const insertSoloRun = async (run: PurpleRunRequest) => {
 		.request()
 		.input('playerID', sql.Int, player1.playerId)
 		.input('runCharacter', sql.NVarChar, player1.inVideoName)
-		.input('patch', sql.NVarChar, '60R')
+		.input('patch', sql.NVarChar, 'pot6r')
 		.input('region', sql.NVarChar, run.region)
 		.input('rank', sql.Int, run.rank)
 		.input('time', sql.NVarChar, runTime)
@@ -230,7 +230,7 @@ const insertPartyRun = async (run: PurpleRunRequest) => {
 
 	let request = pool
 		.request()
-		.input('patch', sql.NVarChar, '60R')
+		.input('patch', sql.NVarChar, 'pot6r')
 		.input('region', sql.NVarChar, run.region)
 		.input('rank', sql.Int, run.rank)
 		.input('time', sql.NVarChar, runTime)

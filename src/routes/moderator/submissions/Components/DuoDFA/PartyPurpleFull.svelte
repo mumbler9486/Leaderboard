@@ -40,7 +40,8 @@
 
 	const patchCodes = {
 		['60r']: '+60 Release',
-		['slayer']: 'Slayer'
+		['slayer']: 'Slayer',
+		['pot6r']: 'Potential Lv6. Release'
 	} as { [id: string]: string };
 
 	const regionCodes = {

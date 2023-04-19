@@ -22,7 +22,7 @@
 	</div>
 	<div class="form-control">
 		<Dropdown
-			label="Duel Augments Used?"
+			label="Defi Augments Used?"
 			options={augmentOptions}
 			bind:value={$indomitableForm.augments}
 		/>

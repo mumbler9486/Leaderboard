@@ -65,7 +65,7 @@
 								the special Duel augments or not.
 							</li>
 							<li class="pt-4">
-								<strong>About Special Duel Augments</strong><br />
+								<strong>About Special Duel Augments (Defi-Series)</strong><br />
 								Currently it will be either you affixed an augment on any equipment in the run or you
 								did not. Since we don't know the impact on the runs yet this may be subject to change.
 								We will reach out to the early submitters where possible to improve their submissions

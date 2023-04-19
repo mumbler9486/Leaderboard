@@ -204,7 +204,7 @@ const insertSoloRun = async (run: DfaRunRequest) => {
 		.request()
 		.input('playerId', sql.Int, player1.playerId)
 		.input('runCharacter', sql.NVarChar, player1.inVideoName)
-		.input('patch', sql.NVarChar, '60R')
+		.input('patch', sql.NVarChar, 'pot6r')
 		.input('drill', sql.Int, triggerDbMap[run.type])
 		.input('support', sql.NVarChar, run.support)
 		.input('time', sql.NVarChar, runTime)
