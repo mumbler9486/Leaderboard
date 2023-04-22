@@ -8,7 +8,7 @@
 	let isReady = !isMswEnabled;
 
 	if (isMswEnabled) {
-		import('../mocks/index').then((res) => res.inject()).then(() => (isReady = true));
+		import('../mocks/inject').then((res) => res.inject()).then(() => (isReady = true));
 	}
 </script>
 

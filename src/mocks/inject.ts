@@ -6,11 +6,11 @@ import { browser, dev } from '$app/environment';
  */
 export async function inject() {
 	if (dev && browser) {
-		const { worker } = await import('./worker');
+		const { worker } = await import('./client/worker');
 		return worker.start({ onUnhandledRequest: 'bypass' }).catch(console.warn);
 	}
 	if (dev && !browser) {
-		const { server } = await import('./server');
+		const { server } = await import('./server/server');
 		return server.listen({ onUnhandledRequest: 'bypass' });
 	}
 }
