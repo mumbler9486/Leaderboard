@@ -1,6 +1,5 @@
 import sql from 'mssql';
 import type { IndomitableRun } from '$lib/types/api/duels/indomitable';
-import { parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 import { parseWeapon } from '$lib/types/api/weapon';
 import { leaderboardDb } from '$lib/server/db/db';
 import { error, json } from '@sveltejs/kit';
@@ -396,7 +395,6 @@ const insertSoloRun = async (run: IndomitableRunRequest) => {
 		 VALUES (@playerId,@runCharacter,@patch,@rank,@time,@mainClass,@subClass,@w1,@w2,@w3,@w4,@w5,@w6,@link,@notes,@submissionTime,@submitterId,@augments);
 		`
 	);
-	console.log(run, insertTable);
 
 	if (result.rowsAffected[0] == 0) {
 		throw Error(`Indomitable Run insertion failed. Submission from: ${run.username}`);
