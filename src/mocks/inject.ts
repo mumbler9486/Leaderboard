@@ -6,7 +6,6 @@ import { browser, dev } from '$app/environment';
  */
 export async function inject() {
 	if (dev && browser) {
-		console.log('Client MSW started');
 		const { worker } = await import('./client/setup');
 		return worker.start({ onUnhandledRequest: 'bypass' }).catch(console.warn);
 	}
