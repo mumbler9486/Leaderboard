@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev:mock": "cross-env VITE_MSW_ENABLED=true vite dev",
 		"dev:swa": "swa start http://localhost:5173 --api-location api --run \"vite dev\"",
-		"build": "vite build",
+		"build": "vite build && rimraf build/static/mockServiceWorker.js",
 		"preview": "swa start http://localhost:4173 --api-location api --run \"vite preview\" --open",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
@@ -23,6 +23,7 @@
 		"prettier": "^2.8.7",
 		"prettier-plugin-svelte": "^2.10.0",
 		"prettier-plugin-tailwindcss": "^0.2.5",
+		"rimraf": "^5.0.0",
 		"svelte": "^3.55.1",
 		"svelte-adapter-azure-swa": "^0.13.0",
 		"svelte-check": "^3.0.3",
