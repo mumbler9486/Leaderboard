@@ -15,47 +15,67 @@
 </script>
 
 <script lang="ts">
-	export let player: PlayerNameDisplay;
+	export let player: PlayerNameDisplay | string;
 	export let showLink: boolean = false;
 
 	let primaryName: string;
 	let secondaryName: string;
 
-	$: flagClass = player.flag ? `fi fi-${player.flag}` : '';
+	$: isGenericPlayer = typeof player === 'string';
+	$: playerNameDisplay = typeof player === 'string' ? stringToNameDisplay(player) : player;
+	$: playerLink = `/users?id=${playerNameDisplay.playerId}`;
+
+	$: flagClass = playerNameDisplay.flag ? `fi fi-${playerNameDisplay.flag}` : '';
 	$: shipImageUrl =
-		player.ship && player.region ? `/icons/ships/ship${player.ship}-${player.region}.png` : '';
+		playerNameDisplay.ship && playerNameDisplay.region
+			? `/icons/ships/ship${playerNameDisplay.ship}-${playerNameDisplay.region}.png`
+			: '';
 
 	// TODO Refactor anon system
 	const anonPlayerIds = [106, 107];
-	$: isPlayerAnon = anonPlayerIds.includes(player.playerId);
+	$: isPlayerAnon = anonPlayerIds.includes(playerNameDisplay.playerId);
 
 	$: playerNameStyle = playerNameColor(player);
+
+	const stringToNameDisplay = (name: string): PlayerNameDisplay => ({
+		playerId: 0,
+		flag: '',
+		ship: 0,
+		region: '',
+		playerName: name,
+		runCharacterName: '',
+		characterName: '',
+		namePreference: 0,
+		nameType: 0,
+		nameColor1: '',
+		nameColor2: ''
+	});
 
 	const playerNameColor = (...update: any[]) => {
 		let style = 'font-weight: bold; ';
 
-		switch (player.namePreference) {
+		switch (playerNameDisplay.namePreference) {
 			// Main Character Name
 			case 1:
-				primaryName = player.characterName ?? '';
-				secondaryName = player.runCharacterName;
+				primaryName = playerNameDisplay.characterName ?? '';
+				secondaryName = playerNameDisplay.runCharacterName;
 				break;
 			// Run Character Name
 			case 2:
-				primaryName = player.runCharacterName;
-				secondaryName = player.playerName;
+				primaryName = playerNameDisplay.runCharacterName;
+				secondaryName = playerNameDisplay.playerName;
 				break;
 			// Player Name
 			default:
-				primaryName = player.playerName;
-				secondaryName = player.runCharacterName;
+				primaryName = playerNameDisplay.playerName;
+				secondaryName = playerNameDisplay.runCharacterName;
 				break;
 		}
 
 		if (!isPlayerAnon) {
-			let nameColor1 = player.nameColor1 ?? 'ffffff';
-			let nameColor2 = player.nameColor2 ?? 'ffffff';
-			switch (player.nameType) {
+			let nameColor1 = playerNameDisplay.nameColor1 ?? 'ffffff';
+			let nameColor2 = playerNameDisplay.nameColor2 ?? 'ffffff';
+			switch (playerNameDisplay.nameType) {
 				case 1:
 					style += `color: #` + nameColor1 + `;`;
 					break;
@@ -92,19 +112,19 @@
 
 <div>
 	<span class="flex items-center">
-		{#if player.flag}
+		{#if playerNameDisplay.flag}
 			<span class={flagClass} style="max-height:16px;min-width: 25px;" />
 		{/if}
-		{#if player.region && player.ship}
+		{#if playerNameDisplay.region && playerNameDisplay.ship}
 			<img
 				src={shipImageUrl}
 				class="mr-1 inline object-none object-center"
-				alt="ship{player.ship}-{player.region}"
+				alt="ship{playerNameDisplay.ship}-{playerNameDisplay.region}"
 			/>
 		{/if}
-		{#if showLink}
+		{#if showLink && !isGenericPlayer}
 			<a
-				href="/users?id={player.playerId}"
+				href={playerLink}
 				target="_blank"
 				rel="noreferrer noopener"
 				class="flex place-content-center"

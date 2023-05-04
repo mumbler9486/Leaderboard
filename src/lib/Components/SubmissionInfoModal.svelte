@@ -22,6 +22,8 @@
 	let processing = false;
 	let errorMessage = '';
 
+	const unknownPlayerName = '<Unknown>';
+
 	export const showModal = () => {
 		modal.show();
 	};
@@ -172,13 +174,16 @@
 				<span class="flex place-content-center md:mr-1">Run By:</span>
 				<PlayerNameBadge
 					showLink
-					player={submission ? mapToNamePref(submission?.players[0]) : {}}
+					player={submission ? mapToNamePref(submission?.players[0]) : unknownPlayerName}
 				/>
 			</div>
 
 			<div class="flex basis-full flex-col justify-center md:flex-row">
 				<span class="flex place-content-center md:mr-1">Submitted By:</span>
-				<PlayerNameBadge showLink player={submission ? mapToNamePref(submission?.submitter) : {}} />
+				<PlayerNameBadge
+					showLink
+					player={submission ? mapToNamePref(submission?.submitter) : unknownPlayerName}
+				/>
 			</div>
 
 			{#if false}
