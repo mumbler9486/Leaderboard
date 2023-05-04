@@ -429,8 +429,6 @@ export const getPurpleSoloSubmissions = async (request: Request) => {
 
 	var results = await request.query(sqlQuery);
 
-	var returner = results.recordset;
-
 	const ret: PurpleSubmission[] = mapPurpleSolo(results.recordset);
 	return ret;
 };

@@ -15,14 +15,15 @@
 </script>
 
 <script lang="ts">
-	export let player: PlayerNameDisplay | string;
+	export let player: PlayerNameDisplay | string | undefined;
 	export let showLink: boolean = false;
 
 	let primaryName: string;
 	let secondaryName: string;
 
-	$: isGenericPlayer = typeof player === 'string';
-	$: playerNameDisplay = typeof player === 'string' ? stringToNameDisplay(player) : player;
+	$: isGenericPlayer = !player || typeof player === 'string';
+	$: playerNameDisplay =
+		!player || typeof player === 'string' ? stringToNameDisplay(player) : player;
 	$: playerLink = `/users?id=${playerNameDisplay.playerId}`;
 
 	$: flagClass = playerNameDisplay.flag ? `fi fi-${playerNameDisplay.flag}` : '';
@@ -42,7 +43,7 @@
 		flag: '',
 		ship: 0,
 		region: '',
-		playerName: name,
+		playerName: name ?? '<Unknown>',
 		runCharacterName: '',
 		characterName: '',
 		namePreference: 0,

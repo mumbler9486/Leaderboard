@@ -50,12 +50,12 @@
 	<div class="flex flex-col gap-2 p-2 md:flex-row md:gap-0">
 		<div class="flex basis-full flex-col justify-center md:flex-row">
 			<span class="flex place-content-center md:mr-1">Run By:</span>
-			<PlayerNameBadge showLink player={run ? mapToNamePref(run?.players[0]) : {}} />
+			<PlayerNameBadge showLink player={run ? mapToNamePref(run?.players[0]) : undefined} />
 		</div>
 
 		<div class="flex basis-full flex-col justify-center md:flex-row">
 			<span class="flex place-content-center md:mr-1">Submitted By:</span>
-			<PlayerNameBadge showLink player={run ? mapToNamePref(run?.submitter) : {}} />
+			<PlayerNameBadge showLink player={run ? mapToNamePref(run?.submitter) : undefined} />
 		</div>
 
 		{#if false}

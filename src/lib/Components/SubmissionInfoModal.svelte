@@ -22,8 +22,6 @@
 	let processing = false;
 	let errorMessage = '';
 
-	const unknownPlayerName = '<Unknown>';
-
 	export const showModal = () => {
 		modal.show();
 	};
@@ -174,7 +172,7 @@
 				<span class="flex place-content-center md:mr-1">Run By:</span>
 				<PlayerNameBadge
 					showLink
-					player={submission ? mapToNamePref(submission?.players[0]) : unknownPlayerName}
+					player={submission ? mapToNamePref(submission?.players[0]) : undefined}
 				/>
 			</div>
 
@@ -182,7 +180,7 @@
 				<span class="flex place-content-center md:mr-1">Submitted By:</span>
 				<PlayerNameBadge
 					showLink
-					player={submission ? mapToNamePref(submission?.submitter) : unknownPlayerName}
+					player={submission ? mapToNamePref(submission?.submitter) : undefined}
 				/>
 			</div>
 

@@ -56,7 +56,7 @@
 						</td>
 						<td class="font-bold">
 							<PlayerNameBadge
-								player={run.players[0] ? mapToNamePref(run.players[0]) : {}}
+								player={run.players[0] ? mapToNamePref(run.players[0]) : undefined}
 								on:click={() => runInfoOpen(run.runId)}
 								on:keyup={() => runInfoOpen(run.runId)}
 							/>
