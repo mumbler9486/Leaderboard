@@ -27,17 +27,17 @@
 		{ value: 'indomitable_nilsstia', label: 'Indomitable Nils Stia' }
 	];
 
-	const submitsMap: { [key: string]: { component: any; boss?: string } } = {
-		['purplesolo']: { component: SubmitsSoloPurple },
-		['purpleduo']: { component: SubmitsDuoPurple },
-		['purpleparty']: { component: SubmitsPartyPurple },
-		['aegissolo']: { component: SubmitsSoloAegis },
-		['aegisduo']: { component: SubmitsDuoAegis },
-		['aegisparty']: { component: SubmitsPartyAegis },
-		['indomitable_nexaelio']: { component: SubmitsIndomitable, boss: 'nexaelio' },
-		['indomitable_renusretem']: { component: SubmitsIndomitable, boss: 'renusretem' },
-		['indomitable_amskvaris']: { component: SubmitsIndomitable, boss: 'amskvaris' },
-		['indomitable_nilsstia']: { component: SubmitsIndomitable, boss: 'nilsstia' }
+	const submitsMap: { [key: string]: { component: any; category?: string } } = {
+		['purplesolo']: { component: SubmitsSoloPurple, category: 'purple_solo' },
+		['purpleduo']: { component: SubmitsDuoPurple, category: 'purple_duo' },
+		['purpleparty']: { component: SubmitsPartyPurple, category: 'purple_party' },
+		['aegissolo']: { component: SubmitsSoloAegis, category: 'dfa_solo' },
+		['aegisduo']: { component: SubmitsDuoAegis, category: 'dfa_duo' },
+		['aegisparty']: { component: SubmitsPartyAegis, category: 'dfa_party' },
+		['indomitable_nexaelio']: { component: SubmitsIndomitable, category: 'nexaelio' },
+		['indomitable_renusretem']: { component: SubmitsIndomitable, category: 'renusretem' },
+		['indomitable_amskvaris']: { component: SubmitsIndomitable, category: 'amskvaris' },
+		['indomitable_nilsstia']: { component: SubmitsIndomitable, category: 'nilsstia' }
 	};
 
 	$: tableComponent = submitsMap[selectedCategoryRuns];
@@ -72,7 +72,7 @@
 				<div
 					class="m-0 grow space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8 md:m-2"
 				>
-					<svelte:component this={tableComponent.component} boss={tableComponent.boss} />
+					<svelte:component this={tableComponent.component} category={tableComponent.category} />
 				</div>
 			</div>
 		</div>

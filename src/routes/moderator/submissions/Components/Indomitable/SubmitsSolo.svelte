@@ -7,7 +7,7 @@
 	import { onMount } from 'svelte';
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
 
-	export let boss: string;
+	export let category: string;
 
 	let submissions: IndomitableSubmission[] = [];
 	let loading = true;
@@ -15,7 +15,7 @@
 	let submissionModal: SubmissionInfoModal;
 	let viewSubmission: IndomitableSubmission;
 
-	$: reloadData(boss);
+	$: reloadData(category);
 
 	onMount(async () => {
 		reloadData();
@@ -24,7 +24,7 @@
 	async function reloadData(...watch: any[]) {
 		loading = true;
 		try {
-			const response = await fetch(`/ngs-api/submissions/duelindomitable?boss=${boss}`, {
+			const response = await fetch(`/ngs-api/submissions/duelindomitable?boss=${category}`, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json'

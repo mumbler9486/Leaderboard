@@ -9,16 +9,6 @@ import { dbValToWeaponsMap } from '$lib/server/db/util/weaponType.js';
 import { dbValToClassMap } from '$lib/server/db/util/ngsClass.js';
 import { convertTimeToRunTime } from '$lib/server/db/util/datetime.js';
 
-const validCategories: { [key: string]: boolean } = {
-	dfaparty: true,
-	dfaduo: true,
-	dfasolo: true,
-	purpleparty: true,
-	purpleduo: true,
-	purplesolo: true,
-	duelindomitable: true
-};
-
 const validDuelTables: { [key: string]: string } = {
 	nexaelio: 'IndomitableNexAelioRuns',
 	renusretem: 'IndomitableRenusRetemRuns',
@@ -29,9 +19,6 @@ const validDuelTables: { [key: string]: string } = {
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
 	const category = params.category?.toLowerCase() ?? '';
-	if (!validCategories[category]) {
-		throw error(404, 'not_found');
-	}
 
 	const poolConnection = await leaderboardDb.connect();
 
