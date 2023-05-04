@@ -10,7 +10,7 @@
 	let submissions: PurpleSubmission[] = [];
 	let loading = true;
 
-	let submissionModal: RunInformationModal;
+	let submissionModal: SubmissionInfoModal;
 	let viewSubmission: Submission;
 
 	onMount(async () => {

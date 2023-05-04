@@ -9,7 +9,6 @@
 	import SubmitsDuoPurple from './Components/DuoPurple/SubmitsParty.svelte';
 	import SubmitsPartyPurple from './Components/PartyPurple/SubmitsParty.svelte';
 	import SubmitsPartyAegis from './Components/PartyDFA/SubmitsParty.svelte';
-	import Old_SubmitsSoloPurple from './Components/SoloPurple/Old_SubmitsSolo.svelte';
 	import SubmitsIndomitable from './Components/Indomitable/SubmitsSolo.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 
@@ -29,7 +28,7 @@
 	];
 
 	const submitsMap: { [key: string]: { component: any; boss?: string } } = {
-		['purplesolo']: { component: Old_SubmitsSoloPurple },
+		['purplesolo']: { component: SubmitsSoloPurple },
 		['purpleduo']: { component: SubmitsDuoPurple },
 		['purpleparty']: { component: SubmitsPartyPurple },
 		['aegissolo']: { component: SubmitsSoloAegis },

@@ -2,9 +2,9 @@ import { error, json } from '@sveltejs/kit';
 import { leaderboardDb } from '$lib/server/db/db';
 import type {
 	IndomitableSubmission,
-	PurpleSubmission,
-	PlayerInfo
+	PurpleSubmission
 } from '$lib/types/api/submissions/submissions.js';
+import type { PlayerInfo } from '$lib/types/api/playerInfo.js';
 import { dbValToWeaponsMap } from '$lib/server/db/util/weaponType.js';
 import { dbValToClassMap } from '$lib/server/db/util/ngsClass.js';
 import { convertTimeToRunTime } from '$lib/server/db/util/datetime.js';
@@ -1143,7 +1143,7 @@ const mapPurpleSolo = (recordset: any[]): PurpleSubmission[] => {
 			playerId: parseInt(s.PlayerID),
 			playerName: s.PlayerName,
 			characterName: s.PlayerCName,
-			preferredName: s.PlayerPrefN,
+			preferredName: parseInt(s.PlayerPrefN),
 			runCharacterName: s.RunCharacterName,
 			mainClass: dbValToClassMap[s.MainClass],
 			subClass: dbValToClassMap[s.SubClass],
@@ -1170,7 +1170,7 @@ const mapPurpleSolo = (recordset: any[]): PurpleSubmission[] => {
 			playerId: parseInt(s.SubmitterID),
 			playerName: s.SubmitterName,
 			characterName: s.SubmitterCName,
-			preferredName: s.SubmitterPrefN,
+			preferredName: parseInt(s.SubmitterPrefN),
 			runCharacterName: '',
 			mainClass: dbValToClassMap[s.MainClass],
 			subClass: dbValToClassMap[s.SubClass],
@@ -1189,6 +1189,7 @@ const mapPurpleSolo = (recordset: any[]): PurpleSubmission[] => {
 		const runTime = convertTimeToRunTime(new Date(s.Time));
 
 		const submission: PurpleSubmission = {
+			category: `purple${player1.nameColor1}`,
 			runId: parseInt(s.RunID),
 			patch: s.Patch,
 			region: s.Region,
@@ -1213,7 +1214,7 @@ const mapIndomitableDuel = (boss: string, recordset: any[]): IndomitableSubmissi
 			playerId: parseInt(s.PlayerID),
 			playerName: s.PlayerName,
 			characterName: s.PlayerCName,
-			preferredName: s.PlayerPrefN,
+			preferredName: parseInt(s.PlayerPrefN),
 			runCharacterName: s.RunCharacterName,
 			mainClass: dbValToClassMap[s.MainClass],
 			subClass: dbValToClassMap[s.SubClass],
@@ -1240,7 +1241,7 @@ const mapIndomitableDuel = (boss: string, recordset: any[]): IndomitableSubmissi
 			playerId: parseInt(s.SubmitterID),
 			playerName: s.SubmitterName,
 			characterName: s.SubmitterCName,
-			preferredName: s.SubmitterPrefN,
+			preferredName: parseInt(s.SubmitterPrefN),
 			runCharacterName: '',
 			mainClass: dbValToClassMap[s.MainClass],
 			subClass: dbValToClassMap[s.SubClass],
@@ -1258,6 +1259,7 @@ const mapIndomitableDuel = (boss: string, recordset: any[]): IndomitableSubmissi
 		const runTime = convertTimeToRunTime(new Date(s.RunTime));
 
 		const submission: IndomitableSubmission = {
+			category: `indomitable${boss.toLowerCase()}`,
 			runId: parseInt(s.SubmissionId),
 			patch: s.Patch,
 			boss: boss,

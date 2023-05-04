@@ -6,13 +6,13 @@
 	import PlayerNameBadge from './PlayerNameBadge.svelte';
 	import VideoPlayer from './VideoPlayer.svelte';
 
-	import type { IndomitableSubmission } from '$lib/types/api/submissions/submissions';
+	import type { Submission } from '$lib/types/api/submissions/submissions';
 	import { mapToNamePref } from '$lib/types/api/mapNamePref';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatcher = createEventDispatcher();
 
-	export let submission: IndomitableSubmission | undefined;
+	export let submission: Submission | undefined;
 
 	$: player1 = submission?.players[0];
 
@@ -39,7 +39,7 @@
 		const { userId, username } = await getLogin();
 
 		const approveRequest = {
-			category: `indomitable${submission.boss}`,
+			category: submission?.category,
 			runId: submission?.runId,
 			moderatorName: username,
 			modNotes: modNotes ?? ''
@@ -72,6 +72,7 @@
 			processing = false;
 		}
 	};
+
 	const denyRun = async () => {
 		if (processing) {
 			return;
@@ -85,7 +86,7 @@
 		const { userId, username } = await getLogin();
 
 		const denyRequest = {
-			category: `indomitable${submission.boss}`,
+			category: submission.category,
 			runId: submission?.runId,
 			moderatorName: username,
 			modNotes: modNotes ?? ''
