@@ -6,6 +6,7 @@
 	import type { DfaSubmission } from '$lib/types/api/submissions/submissions';
 	import { createEventDispatcher } from 'svelte';
 	import { mapToNamePref } from '$lib/types/api/mapNamePref';
+	import DfaSupportIcon from '$lib/Components/DfaSupportIcon.svelte';
 
 	const dispatcher = createEventDispatcher();
 
@@ -39,7 +40,9 @@
 		<NgsClassIcon combatClass={player1.subClass} />
 	</td>
 	<td class="text-center">{typeCodes[submission.drill]}</td>
-	<td class="text-center">{submission.buff}</td>
+	<td class="text-center">
+		<DfaSupportIcon support={submission.buff} />
+	</td>
 	<td class="text-center">{patchCodes[submission.patch.toLowerCase()]}</td>
 	<td class="text-center">
 		{#each player1.weapons ?? [] as weapon}

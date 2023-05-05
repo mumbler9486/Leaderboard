@@ -8,6 +8,11 @@ import type { DfaDuoDbModel } from '$lib/types/db/dfa/dfaDuo';
 import type { DfaPartyDbModel } from '$lib/types/db/dfa/dfaParty';
 import type { DfaSoloDbModel } from '$lib/types/db/dfa/dfaSolo';
 
+const triggerDbMap: { [key: string]: string } = {
+	'1': 'trigger',
+	'0': 'uq'
+};
+
 export const mapDfaSoloToSubmission = (recordset: DfaSoloDbModel[]): DfaSubmission[] => {
 	const mapped = recordset.map((s) => {
 		const player1: PlayerInfo = {
@@ -53,11 +58,11 @@ export const mapDfaSoloToSubmission = (recordset: DfaSoloDbModel[]): DfaSubmissi
 		const runTime = convertTimeToRunTime(new Date(s.Time));
 
 		const submission: DfaSubmission = {
-			category: `dfa${player1.nameColor1}`,
+			category: `dfa${player1.nameColor1}`, //TODO
 			runId: parseInt(s.RunID),
 			patch: s.Patch,
 			buff: s.Support,
-			drill: s.Drill,
+			drill: triggerDbMap[s.Drill],
 			time: runTime,
 			players: players,
 			partySize: players.length,
@@ -137,7 +142,7 @@ export const mapDfaDuoToSubmission = (recordset: DfaDuoDbModel[]): DfaSubmission
 			runId: parseInt(s.RunID),
 			patch: s.Patch,
 			buff: s.Buff,
-			drill: s.Drill,
+			drill: triggerDbMap[s.Drill],
 			time: runTime,
 			players: players,
 			partySize: players.length,
@@ -325,7 +330,7 @@ export const mapDfaPartyToSubmission = (recordset: DfaPartyDbModel[]): DfaSubmis
 			runId: parseInt(s.RunID),
 			patch: s.Patch,
 			buff: s.Buff,
-			drill: s.Drill,
+			drill: triggerDbMap[s.Drill],
 			time: runTime,
 			players: players,
 			partySize: players.length,
