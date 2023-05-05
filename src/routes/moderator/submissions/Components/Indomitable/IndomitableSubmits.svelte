@@ -1,8 +1,8 @@
 <script lang="ts">
 	import SubmissionInfoModal from '$lib/Components/SubmissionInfoModal.svelte';
-	import type { IndomitableSubmission, Submission } from '$lib/types/api/submissions/submissions';
+	import type { IndomitableSubmission } from '$lib/types/api/submissions/submissions';
 	import { mapToNamePref } from '$lib/types/api/mapNamePref';
-	import RowSubmitsSolo from './RowSubmitsSolo.svelte';
+	import IndomitableSubmitRow from './IndomitableSubmitRow.svelte';
 
 	import { onMount } from 'svelte';
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
@@ -57,16 +57,14 @@
 		<thead>
 			<tr>
 				<th class="bg-neutral text-neutral-content">Player</th>
+				<th class="bg-neutral text-center text-neutral-content">Class</th>
 				<th class="bg-neutral text-center text-neutral-content">Region</th>
 				<th class="bg-neutral text-center text-neutral-content">Rank</th>
 				<th class="bg-neutral text-center text-neutral-content">Patch</th>
 				<th class="bg-neutral text-center text-neutral-content">Defi-Series Augments</th>
-				<th class="bg-neutral text-center text-neutral-content">Main Class</th>
-				<th class="bg-neutral text-center text-neutral-content">Sub-Class</th>
 				<th class="bg-neutral text-center text-neutral-content">Weapon(s)</th>
 				<th class="bg-neutral text-center text-neutral-content">
-					IGT
-					<InfoTooltip bottom tip={'In-Game Time'} />
+					IGT <InfoTooltip below tip={'In-Game Time'} />
 				</th>
 				<th class="bg-neutral text-center text-neutral-content">Submitted By</th>
 				<th class="bg-neutral text-center text-neutral-content">Submission Time</th>
@@ -77,7 +75,7 @@
 		{#if !loading}
 			<tbody>
 				{#each submissions as submission}
-					<RowSubmitsSolo
+					<IndomitableSubmitRow
 						on:openRunInfo={runInfoOpen}
 						{submission}
 						nameDisplay={mapToNamePref(submission.players[0])}

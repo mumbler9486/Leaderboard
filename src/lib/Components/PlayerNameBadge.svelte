@@ -21,9 +21,13 @@
 	let primaryName: string;
 	let secondaryName: string;
 
+	const unknownPlayerName = '<Unknown>';
+
 	$: isGenericPlayer = !player || typeof player === 'string';
 	$: playerNameDisplay =
-		!player || typeof player === 'string' ? stringToNameDisplay(player) : player;
+		!player || typeof player === 'string'
+			? stringToNameDisplay(player ?? unknownPlayerName)
+			: player;
 	$: playerLink = `/users?id=${playerNameDisplay.playerId}`;
 
 	$: flagClass = playerNameDisplay.flag ? `fi fi-${playerNameDisplay.flag}` : '';
@@ -43,7 +47,7 @@
 		flag: '',
 		ship: 0,
 		region: '',
-		playerName: name ?? '<Unknown>',
+		playerName: name,
 		runCharacterName: '',
 		characterName: '',
 		namePreference: 0,

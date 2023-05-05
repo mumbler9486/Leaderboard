@@ -1,9 +1,7 @@
-import type { PurpleSubmission } from '$lib/types/api/submissions/submissions';
 import type { Request } from 'mssql';
-import { dbValToClassMap } from '../db/util/ngsClass';
-import type { PlayerInfo } from '$lib/types/api/playerInfo';
-import { dbValToWeaponsMap } from '../db/util/weaponType';
-import { convertTimeToRunTime } from '../db/util/datetime';
+import type { PurpleSoloDbModel } from '$lib/types/db/purple/purpleSolo';
+import type { PurpleDuoDbModel } from '$lib/types/db/purple/purpleDuo';
+import type { PurplePartyDbModel } from '$lib/types/db/purple/purpleParty';
 
 export const getPurplePartySubmissions = async (request: Request) => {
 	var sqlQuery = `
@@ -21,7 +19,7 @@ export const getPurplePartySubmissions = async (request: Request) => {
   submit.Patch, 
   submit.Region, 
   submit.Rank, 
-  CONVERT(VARCHAR(8), submit.Time, 108) as Time, 
+  submit.Time, 
   submit.P1MainClass, 
   submit.P2MainClass, 
   submit.P3MainClass, 
@@ -112,99 +110,11 @@ export const getPurplePartySubmissions = async (request: Request) => {
   ORDER BY SubmissionTime DESC`;
 
 	var results = await request.query(sqlQuery);
+	var ret = results.recordset as PurplePartyDbModel[];
 
-	var returner = results.recordset;
-	var returnArray: any[] = [];
-	returner.forEach((data) => {
-		var dataReturn = {
-			p1: {
-				PlayerID: data.P1PlayerID,
-				PlayerName: data.P1PlayerName,
-				CharacterName: data.P1PlayerCName,
-				PreferredName: data.P1PlayerPrefN,
-				RunCharacterName: data.P1RunCharacter,
-				MainClass: data.P1MainClass,
-				SubClass: data.P1SubClass,
-				LinkPOV: data.P1Link,
-				Server: data.P1PlayerServer,
-				NameType: data.P1PlayerNameType,
-				NameColor1: data.P1PlayerNameColor1,
-				NameColor2: data.P1PlayerNameColor2
-			},
-			p2: {
-				PlayerID: data.P2PlayerID,
-				PlayerName: data.P2PlayerName,
-				CharacterName: data.P2PlayerCName,
-				PreferredName: data.P2PlayerPrefN,
-				RunCharacterName: data.P2RunCharacter,
-				MainClass: data.P2MainClass,
-				SubClass: data.P2SubClass,
-				LinkPOV: data.P2Link,
-				Server: data.P2PlayerServer,
-				NameType: data.P2PlayerNameType,
-				NameColor1: data.P2PlayerNameColor1,
-				NameColor2: data.P2PlayerNameColor2
-			},
-			p3: {
-				PlayerID: data.P3PlayerID,
-				PlayerName: data.P3PlayerName,
-				CharacterName: data.P3PlayerCName,
-				PreferredName: data.P3PlayerPrefN,
-				RunCharacterName: data.P3RunCharacter,
-				MainClass: data.P3MainClass,
-				SubClass: data.P3SubClass,
-				LinkPOV: data.P3Link,
-				Server: data.P3PlayerServer,
-				NameType: data.P3PlayerNameType,
-				NameColor1: data.P3PlayerNameColor1,
-				NameColor2: data.P3PlayerNameColor2
-			},
-			p4: {
-				PlayerID: data.P4PlayerID,
-				PlayerName: data.P4PlayerName,
-				CharacterName: data.P4PlayerCName,
-				PreferredName: data.P4PlayerPrefN,
-				RunCharacterName: data.P4RunCharacter,
-				MainClass: data.P4MainClass,
-				SubClass: data.P4SubClass,
-				LinkPOV: data.P4Link,
-				Server: data.P4PlayerServer,
-				NameType: data.P4PlayerNameType,
-				NameColor1: data.P4PlayerNameColor1,
-				NameColor2: data.P4PlayerNameColor2
-			},
-			sub: {
-				PlayerID: data.SubmitterID,
-				PlayerName: data.SubmitterName,
-				CharacterName: data.SubmitterCName,
-				RunCharacterName: data.SubmitterCName,
-				PreferredName: data.SubmitterPrefN,
-				NameType: data.SubmitterNameType,
-				NameColor1: data.SubmitterNameColor1,
-				NameColor2: data.SubmitterNameColor2
-			},
-			shared: {
-				RunID: data.RunID,
-				Time: data.Time,
-				Notes: data.Notes,
-				Patch: data.Patch,
-				Region: data.Region,
-				Rank: data.Rank,
-				SubmissionTime: data.SubmissionTime,
-				SubmitterID: data.SubmitterID,
-				PartySize: data.PartySize,
-				ServerID: data.ServerID
-			}
-		};
-		returnArray.push(dataReturn);
-	});
-
-	////console.log(returner);
-
-	//returner = context.req.body;
-	//console.log(returnArray)
-	return returner;
+	return ret;
 };
+
 export const getPurpleDuoSubmissions = async (request: Request) => {
 	var sqlQuery = `
             
@@ -217,7 +127,7 @@ export const getPurpleDuoSubmissions = async (request: Request) => {
   submit.Patch, 
   submit.Region, 
   submit.Rank, 
-  CONVERT(VARCHAR(8), submit.Time, 108) as Time, 
+  submit.Time, 
   submit.P1MainClass, 
   submit.P2MainClass, 
   submit.P1SubClass, 
@@ -279,95 +189,11 @@ export const getPurpleDuoSubmissions = async (request: Request) => {
   ORDER BY SubmissionTime DESC`;
 
 	var results = await request.query(sqlQuery);
+	var ret = results.recordset as PurpleDuoDbModel[];
 
-	var returner = results.recordset;
-	var returnArray: any[] = [];
-	returner.forEach((data) => {
-		var dataReturn = {
-			p1: {
-				PlayerID: data.P1PlayerID,
-				PlayerName: data.P1PlayerName,
-				CharacterName: data.P1PlayerCName,
-				PreferredName: data.P1PlayerPrefN,
-				RunCharacterName: data.P1RunCharacter,
-				MainClass: data.P1MainClass,
-				SubClass: data.P1SubClass,
-				LinkPOV: data.P1Link,
-				Server: data.P1PlayerServer,
-				NameType: data.P1PlayerNameType,
-				NameColor1: data.P1PlayerNameColor1,
-				NameColor2: data.P1PlayerNameColor2
-			},
-			p2: {
-				PlayerID: data.P2PlayerID,
-				PlayerName: data.P2PlayerName,
-				CharacterName: data.P2PlayerCName,
-				PreferredName: data.P2PlayerPrefN,
-				RunCharacterName: data.P2RunCharacter,
-				MainClass: data.P2MainClass,
-				SubClass: data.P2SubClass,
-				LinkPOV: data.P2Link,
-				Server: data.P2PlayerServer,
-				NameType: data.P2PlayerNameType,
-				NameColor1: data.P2PlayerNameColor1,
-				NameColor2: data.P2PlayerNameColor2
-			},
-			p3: {
-				PlayerID: data.P3PlayerID,
-				PlayerName: data.P3PlayerName,
-				CharacterName: data.P3PlayerCName,
-				PreferredName: data.P3PlayerPrefN,
-				RunCharacterName: data.P3RunCharacter,
-				MainClass: data.P3MainClass,
-				SubClass: data.P3SubClass,
-				LinkPOV: data.P3Link,
-				Server: data.P3PlayerServer,
-				NameType: data.P3PlayerNameType,
-				NameColor1: data.P3PlayerNameColor1,
-				NameColor2: data.P3PlayerNameColor2
-			},
-			p4: {
-				PlayerID: data.P4PlayerID,
-				PlayerName: data.P4PlayerName,
-				CharacterName: data.P4PlayerCName,
-				PreferredName: data.P4PlayerPrefN,
-				RunCharacterName: data.P4RunCharacter,
-				MainClass: data.P4MainClass,
-				SubClass: data.P4SubClass,
-				LinkPOV: data.P4Link,
-				Server: data.P4PlayerServer,
-				NameType: data.P4PlayerNameType,
-				NameColor1: data.P4PlayerNameColor1,
-				NameColor2: data.P4PlayerNameColor2
-			},
-			sub: {
-				PlayerID: data.SubmitterID,
-				PlayerName: data.SubmitterName,
-				CharacterName: data.SubmitterCName,
-				RunCharacterName: data.SubmitterCName,
-				PreferredName: data.SubmitterPrefN,
-				NameType: data.SubmitterNameType,
-				NameColor1: data.SubmitterNameColor1,
-				NameColor2: data.SubmitterNameColor2
-			},
-			shared: {
-				RunID: data.RunID,
-				Time: data.Time,
-				Notes: data.Notes,
-				Patch: data.Patch,
-				Region: data.Region,
-				Rank: data.Rank,
-				SubmissionTime: data.SubmissionTime,
-				SubmitterID: data.SubmitterID,
-				PartySize: data.PartySize,
-				ServerID: data.ServerID
-			}
-		};
-		returnArray.push(dataReturn);
-	});
-
-	return returnArray;
+	return ret;
 };
+
 export const getPurpleSoloSubmissions = async (request: Request) => {
 	var sqlQuery = `
         
@@ -387,7 +213,6 @@ export const getPurpleSoloSubmissions = async (request: Request) => {
   submit.W4,
   submit.W5,
   submit.W6,
-  CONCAT_WS(' ', submit.W1,submit.W2,submit.W3,submit.W4,submit.W5,submit.W6) as WeaponInfo, 
   submit.Link, 
   submit.Notes, 
   submit.SubmissionTime, 
@@ -428,78 +253,7 @@ export const getPurpleSoloSubmissions = async (request: Request) => {
   ORDER BY SubmissionTime DESC`;
 
 	var results = await request.query(sqlQuery);
+	const ret = results.recordset as PurpleSoloDbModel[];
 
-	const ret: PurpleSubmission[] = mapPurpleSolo(results.recordset);
 	return ret;
-};
-
-const mapPurpleSolo = (recordset: any[]): PurpleSubmission[] => {
-	const mapped = recordset.map((s: { [key: string]: string }) => {
-		const player1: PlayerInfo = {
-			playerId: parseInt(s.PlayerID),
-			playerName: s.PlayerName,
-			characterName: s.PlayerCName,
-			preferredName: parseInt(s.PlayerPrefN),
-			runCharacterName: s.RunCharacterName,
-			mainClass: dbValToClassMap[s.MainClass],
-			subClass: dbValToClassMap[s.SubClass],
-			flag: undefined,
-			ship: undefined,
-			linkPov: s.Link,
-			server: s.PlayerServer,
-			nameType: parseInt(s.PlayerNameType),
-			nameColor1: s.PlayerNameColor1,
-			nameColor2: s.PlayerNameColor2,
-			weapons: [
-				s.WeaponInfo1,
-				s.WeaponInfo2,
-				s.WeaponInfo3,
-				s.WeaponInfo4,
-				s.WeaponInfo5,
-				s.WeaponInfo6
-			]
-				.filter((w) => !!w)
-				.map((w) => dbValToWeaponsMap[w == 'soaring blades' ? 'sb' : w]) //TODO make this weapon definition consistent
-		};
-
-		const submitter: PlayerInfo = {
-			playerId: parseInt(s.SubmitterID),
-			playerName: s.SubmitterName,
-			characterName: s.SubmitterCName,
-			preferredName: parseInt(s.SubmitterPrefN),
-			runCharacterName: '',
-			mainClass: dbValToClassMap[s.MainClass],
-			subClass: dbValToClassMap[s.SubClass],
-			linkPov: undefined,
-			server: undefined,
-			flag: undefined,
-			ship: undefined,
-			nameType: parseInt(s.SubmitterNameType),
-			nameColor1: s.SubmitterNameColor1,
-			nameColor2: s.SubmitterNameColor2,
-			weapons: []
-		};
-
-		const players = [player1];
-
-		const runTime = convertTimeToRunTime(new Date(s.Time));
-
-		const submission: PurpleSubmission = {
-			category: `purple${player1.nameColor1}`,
-			runId: parseInt(s.RunID),
-			patch: s.Patch,
-			region: s.Region,
-			rank: parseInt(s.Rank),
-			time: runTime,
-			players: players,
-			partySize: players.length,
-			submitter: submitter,
-			notes: s.Notes,
-			submissionTime: s.SubmissionTime,
-			server: ''
-		};
-
-		return submission;
-	});
-	return mapped;
 };

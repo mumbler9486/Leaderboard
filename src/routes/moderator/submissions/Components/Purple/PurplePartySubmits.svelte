@@ -1,11 +1,11 @@
 <script lang="ts">
 	import SubmissionInfoModal from '$lib/Components/SubmissionInfoModal.svelte';
+	import PurplePartySubmitRow from './PurplePartySubmitRow.svelte';
+
 	import type { PurpleSubmission, Submission } from '$lib/types/api/submissions/submissions';
+	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
 
-	import { mapToNamePref } from '$lib/types/api/mapNamePref';
-	import RowSubmitsSolo from './RowSubmitsSolo.svelte';
-
-	import { onMount } from 'svelte';
+	export let category: string;
 
 	let submissions: PurpleSubmission[] = [];
 	let loading = true;
@@ -13,14 +13,21 @@
 	let submissionModal: SubmissionInfoModal;
 	let viewSubmission: Submission;
 
-	onMount(async () => {
-		reloadData();
-	});
+	const categoryPathMap: { [key: string]: string } = {
+		purple_duo: 'purpleDuo',
+		purple_party: 'purpleParty'
+	};
 
-	async function reloadData() {
+	$: reloadData(category);
+
+	async function reloadData(...watch: any[]) {
 		loading = true;
+
+		const categoryPath = categoryPathMap[category.toLowerCase()];
+		if (!categoryPath) console.error('Unknown purple category');
+
 		try {
-			const response = await fetch('/ngs-api/submissions/purpleSolo', {
+			const response = await fetch(`/ngs-api/submissions/${categoryPath}`, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json'
@@ -52,21 +59,14 @@
 	<table class="table-zebra table-compact table w-full">
 		<thead>
 			<tr>
-				<th class="bg-neutral text-neutral-content">Player</th>
+				<th class="bg-neutral text-neutral-content">Players</th>
+				<th class="bg-neutral text-center text-neutral-content">Class</th>
 				<th class="bg-neutral text-center text-neutral-content">Region</th>
 				<th class="bg-neutral text-center text-neutral-content">Rank</th>
 				<th class="bg-neutral text-center text-neutral-content">Patch</th>
-				<th class="bg-neutral text-center text-neutral-content">Main Class</th>
-				<th class="bg-neutral text-center text-neutral-content">Sub-Class</th>
-				<th class="bg-neutral text-center text-neutral-content">Weapon(s)</th>
-				<th class="bg-neutral text-center text-neutral-content"
-					>IGT <div
-						class="tooltip tooltip-bottom tooltip-info font-semibold normal-case"
-						data-tip="In-Game Time"
-					>
-						<i class="bi-question-circle ms-2" />
-					</div></th
-				>
+				<th class="bg-neutral text-center text-neutral-content">
+					IGT <InfoTooltip tip="In-Game Time" below />
+				</th>
 				<th class="bg-neutral text-center text-neutral-content">Submitted By</th>
 				<th class="bg-neutral text-center text-neutral-content">Submission Time</th>
 				<th class="w-2 bg-neutral text-center text-neutral-content" />
@@ -76,11 +76,7 @@
 		{#if !loading}
 			<tbody>
 				{#each submissions as submission}
-					<RowSubmitsSolo
-						on:openRunInfo={runInfoOpen}
-						{submission}
-						nameDisplay={mapToNamePref(submission.players[0])}
-					/>
+					<PurplePartySubmitRow on:openRunInfo={runInfoOpen} {submission} />
 				{/each}
 			</tbody>
 		{/if}

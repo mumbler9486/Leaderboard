@@ -3,24 +3,20 @@
 	import LeaderboardHeader from '$lib/LeaderboardHeader.svelte';
 	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
 	import LeaderboardFooter from '$lib/LeaderboardFooter.svelte';
-	import SubmitsSoloPurple from './Components/SoloPurple/SubmitsSolo.svelte';
-	import SubmitsSoloAegis from './Components/SoloDFA/SubmitsSolo.svelte';
-	import SubmitsDuoAegis from './Components/DuoDFA/SubmitsParty.svelte';
-	import SubmitsDuoPurple from './Components/DuoPurple/SubmitsParty.svelte';
-	import SubmitsPartyPurple from './Components/PartyPurple/SubmitsParty.svelte';
-	import SubmitsPartyAegis from './Components/PartyDFA/SubmitsParty.svelte';
-	import SubmitsIndomitable from './Components/Indomitable/SubmitsSolo.svelte';
+	import PurpleSoloSubmits from './Components/Purple/PurpleSoloSubmits.svelte';
+	import PurplePartySubmits from './Components/Purple/PurplePartySubmits.svelte';
+	import DfaSoloSubmits from './Components/Dfa/DfaSoloSubmits.svelte';
+	import DfaPartySubmits from './Components/Dfa/DfaPartySubmits.svelte';
+	import IndomitableSubmits from './Components/Indomitable/IndomitableSubmits.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 
-	let selectedCategoryRuns = 'purplesolo';
-
 	const submissionCategoryOptions = [
-		{ value: 'purplesolo', label: 'Purple Triggers - Solo' },
-		{ value: 'purpleduo', label: 'Purple Triggers - Duo' },
-		{ value: 'purpleparty', label: 'Purple Triggers - Party' },
-		{ value: 'aegissolo', label: 'Dark Falz Aegis - Solo' },
-		{ value: 'aegisduo', label: 'Dark Falz Aegis - Duo' },
-		{ value: 'aegisparty', label: 'Dark Falz Aegis - Party' },
+		{ value: 'purple_solo', label: 'Purple Triggers - Solo' },
+		{ value: 'purple_duo', label: 'Purple Triggers - Duo' },
+		{ value: 'purple_party', label: 'Purple Triggers - Party' },
+		{ value: 'dfa_solo', label: 'Dark Falz Aegis - Solo' },
+		{ value: 'dfa_duo', label: 'Dark Falz Aegis - Duo' },
+		{ value: 'dfa_party', label: 'Dark Falz Aegis - Party' },
 		{ value: 'indomitable_nexaelio', label: 'Indomitable Nex Aelio' },
 		{ value: 'indomitable_renusretem', label: 'Indomitable Renus Retem' },
 		{ value: 'indomitable_amskvaris', label: 'Indomitable Ams Kvaris' },
@@ -28,17 +24,19 @@
 	];
 
 	const submitsMap: { [key: string]: { component: any; category?: string } } = {
-		['purplesolo']: { component: SubmitsSoloPurple, category: 'purple_solo' },
-		['purpleduo']: { component: SubmitsDuoPurple, category: 'purple_duo' },
-		['purpleparty']: { component: SubmitsPartyPurple, category: 'purple_party' },
-		['aegissolo']: { component: SubmitsSoloAegis, category: 'dfa_solo' },
-		['aegisduo']: { component: SubmitsDuoAegis, category: 'dfa_duo' },
-		['aegisparty']: { component: SubmitsPartyAegis, category: 'dfa_party' },
-		['indomitable_nexaelio']: { component: SubmitsIndomitable, category: 'nexaelio' },
-		['indomitable_renusretem']: { component: SubmitsIndomitable, category: 'renusretem' },
-		['indomitable_amskvaris']: { component: SubmitsIndomitable, category: 'amskvaris' },
-		['indomitable_nilsstia']: { component: SubmitsIndomitable, category: 'nilsstia' }
+		['purple_solo']: { component: PurpleSoloSubmits, category: 'purple_solo' },
+		['purple_duo']: { component: PurplePartySubmits, category: 'purple_duo' },
+		['purple_party']: { component: PurplePartySubmits, category: 'purple_party' },
+		['dfa_solo']: { component: DfaSoloSubmits, category: 'dfa_solo' },
+		['dfa_duo']: { component: DfaPartySubmits, category: 'dfa_duo' },
+		['dfa_party']: { component: DfaPartySubmits, category: 'dfa_party' },
+		['indomitable_nexaelio']: { component: IndomitableSubmits, category: 'nexaelio' },
+		['indomitable_renusretem']: { component: IndomitableSubmits, category: 'renusretem' },
+		['indomitable_amskvaris']: { component: IndomitableSubmits, category: 'amskvaris' },
+		['indomitable_nilsstia']: { component: IndomitableSubmits, category: 'nilsstia' }
 	};
+
+	let selectedCategoryRuns = submissionCategoryOptions[0].value;
 
 	$: tableComponent = submitsMap[selectedCategoryRuns];
 </script>

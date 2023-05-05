@@ -42,7 +42,7 @@
 					<th class="bg-neutral text-center text-neutral-content">Weapon(s)</th>
 					<th class="bg-neutral text-center text-neutral-content">
 						IGT
-						<InfoTooltip bottom tip={'In-Game Time'} />
+						<InfoTooltip below tip={'In-Game Time'} />
 					</th>
 					<th class="bg-neutral text-center text-neutral-content">Video</th>
 					<th class="w-2 bg-neutral text-center text-neutral-content" />
