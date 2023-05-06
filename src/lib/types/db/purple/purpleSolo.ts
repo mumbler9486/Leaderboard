@@ -3,7 +3,7 @@ export interface PurpleSoloDbModel {
 	PlayerID: string;
 	PlayerName: string;
 	PlayerCName: string;
-	RunCharacterName: string;
+	RunCharacter: string;
 	MainClass: string;
 	SubClass: string;
 	Link: string;

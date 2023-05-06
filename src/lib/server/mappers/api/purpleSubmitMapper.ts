@@ -15,7 +15,7 @@ export const mapPurpleSoloToSubmission = (recordset: PurpleSoloDbModel[]): Purpl
 			playerName: s.PlayerName,
 			characterName: s.PlayerCName,
 			preferredName: parseInt(s.PlayerPrefN),
-			runCharacterName: s.RunCharacterName,
+			runCharacterName: s.RunCharacter,
 			mainClass: dbValToClassMap[s.MainClass],
 			subClass: dbValToClassMap[s.SubClass],
 			flag: undefined,

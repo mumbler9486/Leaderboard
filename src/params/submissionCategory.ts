@@ -12,6 +12,5 @@ const validCategories: { [key: string]: boolean } = {
 
 export const match = ((param) => {
 	const validCategory = validCategories[param.toLowerCase()];
-	console.log(!!validCategory);
 	return !!validCategory;
 }) satisfies ParamMatcher;

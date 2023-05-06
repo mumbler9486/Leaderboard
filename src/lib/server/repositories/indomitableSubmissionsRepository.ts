@@ -1,5 +1,8 @@
 import type { Request } from 'mssql';
 import type { IndomitableDbModel } from '$lib/types/db/duels/indomitable';
+import { fields } from '../util/nameof';
+
+const indomitableDbFields = fields<IndomitableDbModel>();
 
 const validDuelTables: { [key: string]: string } = {
 	nexaelio: 'IndomitableNexAelioRuns',
@@ -17,57 +20,57 @@ export const getIndomitableSubmissions = async (request: Request, boss: string) 
 	var sqlQuery = `
 			
 							SELECT
-							submit.SubmissionId, 
-							submit.PlayerID, 
-							submit.RunCharacterName, 
-							submit.Patch, 
-							submit.Rank, 
-							submit.RunTime, 
-							submit.MainClass, 
-							submit.SubClass, 
-							submit.WeaponInfo1,
-							submit.WeaponInfo2,
-							submit.WeaponInfo3,
-							submit.WeaponInfo4,
-							submit.WeaponInfo5,
-							submit.WeaponInfo6,
-							submit.Link, 
-							submit.Notes, 
-							submit.SubmissionTime, 
-							submit.SubmitterID,
-							submit.VideoTag,
-							submit.ModNotes,
-							submit.Augments,
+							submit.${indomitableDbFields.SubmissionId}, 
+							submit.${indomitableDbFields.PlayerID}, 
+							submit.${indomitableDbFields.RunCharacterName}, 
+							submit.${indomitableDbFields.Patch}, 
+							submit.${indomitableDbFields.Rank}, 
+							submit.${indomitableDbFields.RunTime}, 
+							submit.${indomitableDbFields.MainClass}, 
+							submit.${indomitableDbFields.SubClass}, 
+							submit.${indomitableDbFields.WeaponInfo1},
+							submit.${indomitableDbFields.WeaponInfo2},
+							submit.${indomitableDbFields.WeaponInfo3},
+							submit.${indomitableDbFields.WeaponInfo4},
+							submit.${indomitableDbFields.WeaponInfo5},
+							submit.${indomitableDbFields.WeaponInfo6},
+							submit.${indomitableDbFields.Link}, 
+							submit.${indomitableDbFields.Notes}, 
+							submit.${indomitableDbFields.SubmissionTime}, 
+							submit.${indomitableDbFields.SubmitterID},
+							submit.${indomitableDbFields.VideoTag},
+							submit.${indomitableDbFields.ModNotes},
+							submit.${indomitableDbFields.Augments},
 			
-							pi.PlayerName as PlayerName,
-							pi.CharacterName as PlayerCName,
-							pc.NameType as PlayerNameType,
-							pc.NameColor1 as PlayerNameColor1,
-							pc.NameColor2 as PlayerNameColor2,
-							pc.Server as PlayerServer,
-							pc.PreferredName as PlayerPrefN,
+							pi.PlayerName as ${indomitableDbFields.PlayerName},
+							pi.CharacterName as ${indomitableDbFields.PlayerCName},
+							pc.NameType as ${indomitableDbFields.PlayerNameType},
+							pc.NameColor1 as ${indomitableDbFields.PlayerNameColor1},
+							pc.NameColor2 as ${indomitableDbFields.PlayerNameColor2},
+							pc.Server as ${indomitableDbFields.PlayerServer},
+							pc.PreferredName as ${indomitableDbFields.PlayerPrefN},
 			
-							si.PlayerName as SubmitterName,
-							si.CharacterName as SubmitterCName,
-							sc.NameType as SubmitterNameType,
-							sc.NameColor1 as SubmitterNameColor1,
-							sc.NameColor2 as SubmitterNameColor2,
-							sc.PreferredName as SubmitterPrefN
+							si.PlayerName as ${indomitableDbFields.SubmitterName},
+							si.CharacterName as ${indomitableDbFields.SubmitterCName},
+							sc.NameType as ${indomitableDbFields.SubmitterNameType},
+							sc.NameColor1 as ${indomitableDbFields.SubmitterNameColor1},
+							sc.NameColor2 as ${indomitableDbFields.SubmitterNameColor2},
+							sc.PreferredName as ${indomitableDbFields.SubmitterPrefN}
 			
 							FROM Submissions.${duelTable} AS submit
 									
 							INNER JOIN
 			
-							Players.Information AS pi ON submit.PlayerID = pi.PlayerID
+							Players.Information AS pi ON submit.${indomitableDbFields.PlayerID} = pi.PlayerID
 			
 							INNER JOIN
-							Players.Customization AS pc ON submit.PlayerID = pc.PlayerID
+							Players.Customization AS pc ON submit.${indomitableDbFields.PlayerID} = pc.PlayerID
 			
 							INNER JOIN
-							Players.Information AS si ON submit.SubmitterID = si.PlayerID
+							Players.Information AS si ON submit.${indomitableDbFields.SubmitterID} = si.PlayerID
 			
 							INNER JOIN
-							Players.Customization AS sc ON submit.SubmitterID = sc.PlayerID
+							Players.Customization AS sc ON submit.${indomitableDbFields.SubmitterID} = sc.PlayerID
 			
 							WHERE SubmissionStatus = 0
 			
