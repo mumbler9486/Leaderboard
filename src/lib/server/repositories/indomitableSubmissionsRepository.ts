@@ -1,14 +1,15 @@
-import type { Request } from 'mssql';
+import sql, { type Request } from 'mssql';
 import type { IndomitableDbModel } from '$lib/server/types/db/duels/indomitable';
 import { fields } from '../util/nameof';
+import type { ApproveRequest } from '../types/validation/submissions';
 
 const indomitableDbFields = fields<IndomitableDbModel>();
 
 const validDuelTables: { [key: string]: string } = {
-	nexaelio: 'IndomitableNexAelioRuns',
-	renusretem: 'IndomitableRenusRetemRuns',
-	amskvaris: 'IndomitableAmsKvarisRuns',
-	nilsstia: 'IndomitableNilsStiaRuns'
+	indomitable_nexaelio: 'IndomitableNexAelioRuns',
+	indomitable_renusretem: 'IndomitableRenusRetemRuns',
+	indomitable_amskvaris: 'IndomitableAmsKvarisRuns',
+	indomitable_nilsstia: 'IndomitableNilsStiaRuns'
 };
 
 export const getIndomitableSubmissions = async (request: Request, boss: string) => {
@@ -80,4 +81,36 @@ export const getIndomitableSubmissions = async (request: Request, boss: string) 
 
 	const ret = results.recordset as IndomitableDbModel[];
 	return ret;
+};
+
+export const approveIndomitableSubmission = async (
+	transaction: sql.Transaction,
+	run: ApproveRequest
+) => {
+	const table = validDuelTables[run.category];
+
+	const request = transaction.request();
+	request.input('modNotes', sql.NVarChar, run.modNotes).input('submissionId', sql.Int, run.runId);
+
+	// Add run data to runs table
+	const runInsertResult = await request.query(`
+    INSERT INTO ${table} (PlayerID,RunCharacterName,ShipOverride,Patch,Region,Rank,RunTime,MainClass,SubClass,WeaponInfo1,WeaponInfo2,WeaponInfo3,WeaponInfo4,WeaponInfo5,WeaponInfo6,Link,Notes,SubmissionTime,SubmitterID,VideoTag,ModNotes,Augments)
+    SELECT PlayerID,RunCharacterName,NULL,Patch,NULL,Rank,RunTime,MainClass,SubClass,WeaponInfo1,WeaponInfo2,WeaponInfo3,WeaponInfo4,WeaponInfo5,WeaponInfo6,Link,Notes,SubmissionTime,SubmitterID,VideoTag,@modNotes,Augments
+    FROM Submissions.${table}
+		WHERE SubmissionId = @submissionId;
+  `);
+	if (runInsertResult.rowsAffected[0] == 0) {
+		throw Error(`Indomitable Run insertion failed.`);
+	}
+
+	// Update Submission
+	const submissionResult = await request.query(`
+      UPDATE Submissions.${table}
+      SET SubmissionStatus = 1, ModNotes = @modNotes
+      WHERE SubmissionId = @submissionId;
+    `);
+
+	if (submissionResult.rowsAffected[0] == 0) {
+		throw Error(`Indomitable Run approval failed.`);
+	}
 };

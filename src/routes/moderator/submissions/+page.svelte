@@ -30,10 +30,13 @@
 		['dfa_solo']: { component: DfaSoloSubmits, category: 'dfa_solo' },
 		['dfa_duo']: { component: DfaPartySubmits, category: 'dfa_duo' },
 		['dfa_party']: { component: DfaPartySubmits, category: 'dfa_party' },
-		['indomitable_nexaelio']: { component: IndomitableSubmits, category: 'nexaelio' },
-		['indomitable_renusretem']: { component: IndomitableSubmits, category: 'renusretem' },
-		['indomitable_amskvaris']: { component: IndomitableSubmits, category: 'amskvaris' },
-		['indomitable_nilsstia']: { component: IndomitableSubmits, category: 'nilsstia' }
+		['indomitable_nexaelio']: { component: IndomitableSubmits, category: 'indomitable_nexaelio' },
+		['indomitable_renusretem']: {
+			component: IndomitableSubmits,
+			category: 'indomitable_renusretem'
+		},
+		['indomitable_amskvaris']: { component: IndomitableSubmits, category: 'indomitable_amskvaris' },
+		['indomitable_nilsstia']: { component: IndomitableSubmits, category: 'indomitable_nilsstia' }
 	};
 
 	let selectedCategoryRuns = submissionCategoryOptions[0].value;

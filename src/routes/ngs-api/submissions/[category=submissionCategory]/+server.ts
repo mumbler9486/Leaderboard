@@ -23,15 +23,8 @@ import {
 	mapPurpleSoloToSubmission
 } from '$lib/server/mappers/api/purpleSubmitMapper.js';
 
-const validDuelBosses: { [key: string]: boolean } = {
-	nexaelio: true,
-	renusretem: true,
-	amskvaris: true,
-	nilsstia: true
-};
-
 /** @type {import('./$types').RequestHandler} */
-export async function GET({ params, url }) {
+export async function GET({ params }) {
 	const category = params.category?.toLowerCase() ?? '';
 
 	const poolConnection = await leaderboardDb.connect();
@@ -97,17 +90,14 @@ export async function GET({ params, url }) {
 				console.error(err);
 				break;
 			}
-		case 'duelindomitable':
+		case 'indomitable_nexaelio':
+		case 'indomitable_renusretem':
+		case 'indomitable_amskvaris':
+		case 'indomitable_nilsstia':
 			try {
-				const boss = url.searchParams.get('boss') ?? '';
-				const duelTable = validDuelBosses[boss];
-				if (!duelTable) {
-					throw error(400, 'bad_request');
-				}
-
 				const request = poolConnection.request();
-				const data = await getIndomitableSubmissions(request, boss);
-				const submissions = mapIndomitableDuel(data, boss);
+				const data = await getIndomitableSubmissions(request, category);
+				const submissions = mapIndomitableDuel(data, category);
 				return json(submissions);
 			} catch (err) {
 				console.error(err);

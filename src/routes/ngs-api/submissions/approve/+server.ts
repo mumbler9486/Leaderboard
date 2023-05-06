@@ -1,16 +1,14 @@
 import sql from 'mssql';
 import { leaderboardDb } from '$lib/server/db/db';
 import { json } from '@sveltejs/kit';
-import { type InferType, string, number, object } from 'yup';
 import { jsonError } from '$lib/server/error.js';
 import { notifyDiscordNewRunApproved } from '$lib/server/discordNotify.js';
-
-const approveRequestSchema = object({
-	category: string().required(),
-	moderatorName: string().required(),
-	runId: number().required(),
-	modNotes: string().nullable().max(500)
-});
+import { approveIndomitableSubmission } from '$lib/server/repositories/indomitableSubmissionsRepository.js';
+import {
+	approveRequestSchema,
+	type ApproveRequest
+} from '$lib/server/types/validation/submissions.js';
+import { getRunPlayer } from '$lib/server/repositories/playerRepository.js';
 
 const indomitableTables: { [key: string]: string } = {
 	indomitable_nexaelio: 'IndomitableNexAelioRuns',
@@ -25,8 +23,6 @@ const indomitableQuestNames: { [key: string]: string } = {
 	indomitable_amskvaris: 'Indomitable Ams Kvaris',
 	indomitable_nilsstia: 'Indomitable Nils Stia'
 };
-
-type ApproveRequest = InferType<typeof approveRequestSchema>;
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request }) {
@@ -47,23 +43,25 @@ export async function POST({ request }) {
 
 	const insertTable = indomitableTables[submission.category.toLowerCase()];
 	if (!insertTable) {
-		throw jsonError(400, `Invalid category ${submission.category}`);
+		return jsonError(400, `Invalid category ${submission.category}`);
 	}
 
-	// Get run data
-	const { playerName } = await getRunPlayer(submission);
+	const pool = await leaderboardDb.connect();
 
 	// Check data in db
-	const validationErrors = await checkData(submission);
+	const { errorList: validationErrors, extra: data } = await checkData(submission);
 	if (validationErrors.length > 0) {
 		return jsonError(400, { error: 'bad_request', details: validationErrors });
 	}
 
-	const pool = await leaderboardDb.connect();
+	// Get run data
+	const playerRequest = pool.request();
+	const { playerName } = await getRunPlayer(playerRequest, data.playerId);
+
 	const transaction = new sql.Transaction(pool);
 	try {
 		await transaction.begin();
-		await approveSubmissionRun(transaction, submission);
+		await approveIndomitableSubmission(transaction, submission);
 		await transaction.commit();
 
 		notifyDiscordNewRunApproved(
@@ -79,30 +77,6 @@ export async function POST({ request }) {
 	}
 }
 
-const getRunPlayer = async (run: ApproveRequest) => {
-	const pool = await leaderboardDb.connect();
-	const table = indomitableTables[run.category];
-
-	const submissionRequest = pool.request();
-	const submissionResults = await submissionRequest.input('submissionId', sql.Int, run.runId)
-		.query(`
-    SELECT submissions.SubmissionId, pi.PlayerId, pi.PlayerName
-    FROM Submissions.${table} AS submissions
-		INNER JOIN Players.Information AS pi ON submissions.PlayerID = pi.PlayerID
-    WHERE SubmissionId = @submissionId;
-		`);
-
-	if (!submissionResults.recordset[0]) {
-		return { playerId: 0, playerName: undefined };
-	}
-
-	const player = submissionResults.recordset[0];
-	return {
-		playerId: parseInt(player.PlayerId),
-		playerName: player.PlayerName as string
-	};
-};
-
 const checkData = async (run: ApproveRequest) => {
 	const pool = await leaderboardDb.connect();
 	const errorList: string[] = [];
@@ -110,50 +84,26 @@ const checkData = async (run: ApproveRequest) => {
 	const table = indomitableTables[run.category];
 
 	// Run exists
-	let submissionRequest = pool.request();
+	const submissionRequest = pool.request();
 	submissionRequest.input('submissionId', sql.Int, run.runId);
 	const submissionResults = await submissionRequest.query(`
-    SELECT SubmissionId, SubmissionStatus
+    SELECT SubmissionId, SubmissionStatus, PlayerId
     FROM Submissions.${table}
     WHERE SubmissionId = @submissionId;
 		`);
 
-	const records = Array.from(submissionResults.recordset);
-	if (records.length == 0) {
+	if (Array.from(submissionResults.recordset).length == 0) {
 		errorList.push(`Unknown submissionId`);
 	}
-	if (records.some((s) => s.SubmissionStatus != 0)) {
+	const submission = submissionResults.recordset[0];
+	if (submission.SubmissionStatus != 0) {
 		errorList.push(`Submission already denied/approved.`);
 	}
 
-	return errorList;
-};
-
-const approveSubmissionRun = async (transaction: sql.Transaction, run: ApproveRequest) => {
-	const table = indomitableTables[run.category];
-
-	const request = transaction.request();
-	request.input('modNotes', sql.NVarChar, run.modNotes).input('submissionId', sql.Int, run.runId);
-
-	// Add run data to runs table
-	const runInsertResult = await request.query(`
-    INSERT INTO ${table} (PlayerID,RunCharacterName,ShipOverride,Patch,Region,Rank,RunTime,MainClass,SubClass,WeaponInfo1,WeaponInfo2,WeaponInfo3,WeaponInfo4,WeaponInfo5,WeaponInfo6,Link,Notes,SubmissionTime,SubmitterID,VideoTag,ModNotes,Augments)
-    SELECT PlayerID,RunCharacterName,NULL,Patch,NULL,Rank,RunTime,MainClass,SubClass,WeaponInfo1,WeaponInfo2,WeaponInfo3,WeaponInfo4,WeaponInfo5,WeaponInfo6,Link,Notes,SubmissionTime,SubmitterID,VideoTag,@modNotes,Augments
-    FROM Submissions.${table}
-		WHERE SubmissionId = @submissionId;
-  `);
-	if (runInsertResult.rowsAffected[0] == 0) {
-		throw Error(`Indomitable Run insertion failed.`);
-	}
-
-	// Update Submission
-	const submissionResult = await request.query(`
-      UPDATE Submissions.${table}
-      SET SubmissionStatus = 1, ModNotes = @modNotes
-      WHERE SubmissionId = @submissionId;
-    `);
-
-	if (submissionResult.rowsAffected[0] == 0) {
-		throw Error(`Indomitable Run approval failed.`);
-	}
+	return {
+		errorList,
+		extra: {
+			playerId: parseInt(submission.PlayerId)
+		}
+	};
 };

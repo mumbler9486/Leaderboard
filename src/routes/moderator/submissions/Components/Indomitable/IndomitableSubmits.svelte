@@ -24,7 +24,7 @@
 	async function reloadData(...watch: any[]) {
 		loading = true;
 		try {
-			const response = await fetch(`/ngs-api/submissions/duelindomitable?boss=${category}`, {
+			const response = await fetch(`/ngs-api/submissions/${category}`, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json'

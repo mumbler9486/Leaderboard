@@ -7,16 +7,16 @@ import type { IndomitableSubmission } from '$lib/types/api/submissions/submissio
 import type { IndomitableDbModel } from '$lib/server/types/db/duels/indomitable';
 import { RunCategories } from '$lib/types/api/categories';
 
-const runCategoriesMap: { [key: string]: string } = {
-	indomitable_nexaelio: RunCategories.IndomitableNexAelio,
-	indomitable_renusretem: RunCategories.IndomitableRenusRetem,
-	indomitable_amskvaris: RunCategories.IndomitableAmsKvaris,
-	indomitable_nilsstia: RunCategories.IndomitableNilsStia
+const bossMap: { [key: string]: string } = {
+	[RunCategories.IndomitableNexAelio]: 'nexaelio',
+	[RunCategories.IndomitableRenusRetem]: 'renusretem',
+	[RunCategories.IndomitableAmsKvaris]: 'amskvaris',
+	[RunCategories.IndomitableNilsStia]: 'nilsstia'
 };
 
 export const mapIndomitableDuel = (
 	recordset: IndomitableDbModel[],
-	boss: string
+	category: string
 ): IndomitableSubmission[] => {
 	const mapped = recordset.map((s) => {
 		const player1: PlayerInfo = {
@@ -68,10 +68,10 @@ export const mapIndomitableDuel = (
 		const runTime = convertTimeToRunTime(new Date(s.RunTime));
 
 		const submission: IndomitableSubmission = {
-			category: runCategoriesMap[`indomitable_${boss.toLowerCase()}`],
+			category: category,
 			runId: parseInt(s.SubmissionId),
 			patch: s.Patch,
-			boss: boss,
+			boss: bossMap[category],
 			rank: parseInt(s.Rank),
 			augments: parseInt(s.Augments) == 0 ? false : true,
 			time: runTime,

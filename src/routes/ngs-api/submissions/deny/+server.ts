@@ -1,6 +1,6 @@
 import sql from 'mssql';
 import { leaderboardDb } from '$lib/server/db/db';
-import { error, json } from '@sveltejs/kit';
+import { json } from '@sveltejs/kit';
 import { type InferType, string, number, object } from 'yup';
 import { jsonError } from '$lib/server/error.js';
 
