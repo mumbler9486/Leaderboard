@@ -1,7 +1,7 @@
 import sql, { type Request } from 'mssql';
 import type { IndomitableDbModel } from '$lib/server/types/db/duels/indomitable';
 import { fields } from '../util/nameof';
-import type { ApproveRequest } from '../types/validation/submissions';
+import type { ApproveRequest, DenyRequest } from '../types/validation/submissions';
 
 const indomitableDbFields = fields<IndomitableDbModel>();
 
@@ -134,5 +134,24 @@ export const approveIndomitableSubmission = async (
 
 	if (submissionResult.rowsAffected[0] == 0) {
 		throw Error(`Indomitable Run approval failed.`);
+	}
+};
+
+export const denyIndomitableSubmission = async (
+	request: Request,
+	category: string,
+	run: DenyRequest
+) => {
+	const table = validDuelTables[category];
+	const result = await request
+		.input('submissionId', sql.Int, run.runId)
+		.input('modNotes', sql.NVarChar, run.modNotes).query(`
+      UPDATE Submissions.${table}
+      SET SubmissionStatus = 1, ModNotes = @modNotes
+      WHERE SubmissionId = @submissionId;
+    `);
+
+	if (result.rowsAffected[0] == 0) {
+		throw Error(`Indomitable Run denial failed.`);
 	}
 };
