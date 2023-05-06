@@ -51,7 +51,9 @@
 	<td class="text-center">
 		<TimeDisplay time={submission.time} />
 	</td>
-	<td class="text-center"><PlayerNameBadge player={nameDisplay} on:click={openModal} /></td>
+	<td class="justify-self-center text-center"
+		><PlayerNameBadge player={nameDisplay} on:click={openModal} /></td
+	>
 	<td class="text-center">
 		{new Date(submission.submissionTime).toLocaleString()}
 	</td>

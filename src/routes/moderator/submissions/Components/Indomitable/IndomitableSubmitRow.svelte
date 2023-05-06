@@ -42,7 +42,7 @@
 	</td>
 	<td>
 		<NgsClassIcon combatClass={player1.mainClass} />
-		<NgsClassIcon combatClass={player1.subClass}/>
+		<NgsClassIcon combatClass={player1.subClass} />
 	</td>
 	<td class="text-center">{bossNames[submission.boss]}</td>
 	<td class="text-center">{submission.rank}</td>
@@ -56,7 +56,9 @@
 	<td class="text-center">
 		<TimeDisplay time={submission.time} />
 	</td>
-	<td> <PlayerNameBadge player={nameDisplay} on:click={openModal} /></td>
+	<td class="text-center">
+		<PlayerNameBadge player={nameDisplay} on:click={openModal} />
+	</td>
 	<td class="text-center">
 		{new Date(submission.submissionTime).toLocaleString()}
 	</td>

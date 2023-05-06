@@ -52,7 +52,9 @@
 	<td class="text-center">
 		<TimeDisplay time={submission.time} />
 	</td>
-	<td> <PlayerNameBadge player={nameDisplay} on:click={openModal} /></td>
+	<td class="text-center">
+		<PlayerNameBadge player={nameDisplay} on:click={openModal} />
+	</td>
 	<td class="text-center">
 		{new Date(submission.submissionTime).toLocaleString()}
 	</td>

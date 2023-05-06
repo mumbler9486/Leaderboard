@@ -116,41 +116,35 @@
 </script>
 
 <div>
-	<span class="flex items-center">
-		{#if playerNameDisplay.flag}
-			<span class={flagClass} style="max-height:16px;min-width: 25px;" />
-		{/if}
-		{#if playerNameDisplay.region && playerNameDisplay.ship}
-			<img
-				src={shipImageUrl}
-				class="mr-1 inline object-none object-center"
-				alt="ship{playerNameDisplay.ship}-{playerNameDisplay.region}"
-			/>
-		{/if}
-		{#if showLink && !isGenericPlayer}
-			<a
-				href={playerLink}
-				target="_blank"
-				rel="noreferrer noopener"
-				class="flex place-content-center"
-				><p style={playerNameStyle} class="inline place-self-center">
-					{primaryName}
-				</p>
-			</a>
-		{:else}
-			<span
-				style={playerNameStyle}
-				class="cursor-pointer truncate transition ease-in-out hover:brightness-125"
-				on:click
-				on:keyup
-			>
+	{#if playerNameDisplay.flag}
+		<span class={flagClass} style="max-height:16px;min-width: 25px;" />
+	{/if}
+	{#if playerNameDisplay.region && playerNameDisplay.ship}
+		<img
+			src={shipImageUrl}
+			class="mr-1 inline object-none object-center"
+			alt="ship{playerNameDisplay.ship}-{playerNameDisplay.region}"
+		/>
+	{/if}
+	{#if showLink && !isGenericPlayer}
+		<a href={playerLink} target="_blank" rel="noreferrer noopener" class="flex place-content-center"
+			><p style={playerNameStyle} class="inline place-self-center">
 				{primaryName}
-				{#if secondaryName && isPlayerAnon}
-					<p class="ml-1 truncate text-xs">
-						({secondaryName})
-					</p>
-				{/if}
-			</span>
-		{/if}
-	</span>
+			</p>
+		</a>
+	{:else}
+		<span
+			style={playerNameStyle}
+			class="cursor-pointer truncate transition ease-in-out hover:brightness-125"
+			on:click
+			on:keyup
+		>
+			{primaryName}
+			{#if secondaryName && isPlayerAnon}
+				<p class="ml-1 truncate text-xs">
+					({secondaryName})
+				</p>
+			{/if}
+		</span>
+	{/if}
 </div>
