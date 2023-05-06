@@ -7,6 +7,7 @@ import type { DfaSubmission } from '$lib/types/api/submissions/submissions';
 import type { DfaDuoDbModel } from '$lib/server/types/db/dfa/dfaDuo';
 import type { DfaPartyDbModel } from '$lib/server/types/db/dfa/dfaParty';
 import type { DfaSoloDbModel } from '$lib/server/types/db/dfa/dfaSolo';
+import { RunCategories } from '$lib/types/api/categories';
 
 const triggerDbMap: { [key: string]: string } = {
 	'1': 'trigger',
@@ -58,7 +59,7 @@ export const mapDfaSoloToSubmission = (recordset: DfaSoloDbModel[]): DfaSubmissi
 		const runTime = convertTimeToRunTime(new Date(s.Time));
 
 		const submission: DfaSubmission = {
-			category: `dfa${player1.nameColor1}`, //TODO
+			category: RunCategories.DfaSolo,
 			runId: parseInt(s.RunID),
 			patch: s.Patch,
 			buff: s.Support,
@@ -138,7 +139,7 @@ export const mapDfaDuoToSubmission = (recordset: DfaDuoDbModel[]): DfaSubmission
 		const runTime = convertTimeToRunTime(new Date(s.Time));
 
 		const submission: DfaSubmission = {
-			category: `dfa${player1.nameColor1}`,
+			category: RunCategories.DfaDuo,
 			runId: parseInt(s.RunID),
 			patch: s.Patch,
 			buff: s.Buff,
@@ -326,7 +327,7 @@ export const mapDfaPartyToSubmission = (recordset: DfaPartyDbModel[]): DfaSubmis
 		const runTime = convertTimeToRunTime(new Date(s.Time));
 
 		const submission: DfaSubmission = {
-			category: `dfa${player1.nameColor1}`,
+			category: RunCategories.DfaParty,
 			runId: parseInt(s.RunID),
 			patch: s.Patch,
 			buff: s.Buff,

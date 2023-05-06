@@ -1,6 +1,6 @@
 import sql from 'mssql';
 import { leaderboardDb } from '$lib/server/db/db';
-import { error, json } from '@sveltejs/kit';
+import { json } from '@sveltejs/kit';
 import { type InferType, string, number, object } from 'yup';
 import { jsonError } from '$lib/server/error.js';
 import { notifyDiscordNewRunApproved } from '$lib/server/discordNotify.js';
@@ -13,17 +13,17 @@ const approveRequestSchema = object({
 });
 
 const indomitableTables: { [key: string]: string } = {
-	indomitablenexaelio: 'IndomitableNexAelioRuns',
-	indomitablerenusretem: 'IndomitableRenusRetemRuns',
-	indomitableamskvaris: 'IndomitableAmsKvarisRuns',
-	indomitablenilsstia: 'IndomitableNilsStiaRuns'
+	indomitable_nexaelio: 'IndomitableNexAelioRuns',
+	indomitable_renusretem: 'IndomitableRenusRetemRuns',
+	indomitable_amskvaris: 'IndomitableAmsKvarisRuns',
+	indomitable_nilsstia: 'IndomitableNilsStiaRuns'
 };
 
 const indomitableQuestNames: { [key: string]: string } = {
-	indomitablenexaelio: 'Indomitable Nex Aelio',
-	indomitablerenusretem: 'Indomitable Renus Retem',
-	indomitableamskvaris: 'Indomitable Ams Kvaris',
-	indomitablenilsstia: 'Indomitable Nils Stia'
+	indomitable_nexaelio: 'Indomitable Nex Aelio',
+	indomitable_renusretem: 'Indomitable Renus Retem',
+	indomitable_amskvaris: 'Indomitable Ams Kvaris',
+	indomitable_nilsstia: 'Indomitable Nils Stia'
 };
 
 type ApproveRequest = InferType<typeof approveRequestSchema>;
@@ -47,7 +47,7 @@ export async function POST({ request }) {
 
 	const insertTable = indomitableTables[submission.category.toLowerCase()];
 	if (!insertTable) {
-		throw Error(`Invalid boss ${submission.category}`);
+		throw jsonError(400, `Invalid category ${submission.category}`);
 	}
 
 	// Get run data

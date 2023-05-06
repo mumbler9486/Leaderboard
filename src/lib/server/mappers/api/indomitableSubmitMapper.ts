@@ -5,6 +5,14 @@ import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 import type { PlayerInfo } from '$lib/types/api/playerInfo';
 import type { IndomitableSubmission } from '$lib/types/api/submissions/submissions';
 import type { IndomitableDbModel } from '$lib/server/types/db/duels/indomitable';
+import { RunCategories } from '$lib/types/api/categories';
+
+const runCategoriesMap: { [key: string]: string } = {
+	indomitable_nexaelio: RunCategories.IndomitableNexAelio,
+	indomitable_renusretem: RunCategories.IndomitableRenusRetem,
+	indomitable_amskvaris: RunCategories.IndomitableAmsKvaris,
+	indomitable_nilsstia: RunCategories.IndomitableNilsStia
+};
 
 export const mapIndomitableDuel = (
 	recordset: IndomitableDbModel[],
@@ -60,7 +68,7 @@ export const mapIndomitableDuel = (
 		const runTime = convertTimeToRunTime(new Date(s.RunTime));
 
 		const submission: IndomitableSubmission = {
-			category: `indomitable${boss.toLowerCase()}`,
+			category: runCategoriesMap[`indomitable_${boss.toLowerCase()}`],
 			runId: parseInt(s.SubmissionId),
 			patch: s.Patch,
 			boss: boss,

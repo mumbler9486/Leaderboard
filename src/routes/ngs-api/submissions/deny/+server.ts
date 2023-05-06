@@ -6,7 +6,7 @@ import { jsonError } from '$lib/server/error.js';
 
 const denyRequestSchema = object({
 	category: string().required(),
-	moderatorName: number().required(),
+	moderatorName: string().required(),
 	runId: number().required(),
 	modNotes: string().nullable().max(500)
 });

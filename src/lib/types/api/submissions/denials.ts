@@ -1,4 +1,4 @@
-export interface ApprovalRequest {
+export interface DenyRequest {
 	category: string;
 	moderatorName: string;
 	runId: number;

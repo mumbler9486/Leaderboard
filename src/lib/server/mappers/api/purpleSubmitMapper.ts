@@ -7,6 +7,7 @@ import type { PurpleSubmission } from '$lib/types/api/submissions/submissions';
 import type { PurpleDuoDbModel } from '$lib/server/types/db/purple/purpleDuo';
 import type { PurplePartyDbModel } from '$lib/server/types/db/purple/purpleParty';
 import type { PurpleSoloDbModel } from '$lib/server/types/db/purple/purpleSolo';
+import { RunCategories } from '$lib/types/api/categories';
 
 export const mapPurpleSoloToSubmission = (recordset: PurpleSoloDbModel[]): PurpleSubmission[] => {
 	const mapped = recordset.map((s) => {
@@ -57,7 +58,7 @@ export const mapPurpleSoloToSubmission = (recordset: PurpleSoloDbModel[]): Purpl
 		runTime.hours = 0;
 
 		const submission: PurpleSubmission = {
-			category: `purple${player1.nameColor1}`,
+			category: RunCategories.PurpleSolo,
 			runId: parseInt(s.RunID),
 			patch: s.Patch,
 			region: s.Region,
@@ -141,7 +142,7 @@ export const mapPurpleDuoToSubmission = (recordset: PurpleDuoDbModel[]): PurpleS
 		runTime.hours = 0;
 
 		const submission: PurpleSubmission = {
-			category: `purple${player1.nameColor1}`,
+			category: RunCategories.PurpleDuo,
 			runId: parseInt(s.RunID),
 			patch: s.Patch,
 			region: s.Region,
@@ -261,7 +262,7 @@ export const mapPurplePartyToSubmission = (recordset: PurplePartyDbModel[]): Pur
 		runTime.hours = 0;
 
 		const submission: PurpleSubmission = {
-			category: `purple${player1.nameColor1}`,
+			category: RunCategories.PurpleParty,
 			runId: parseInt(s.RunID),
 			patch: s.Patch,
 			region: s.Region,
