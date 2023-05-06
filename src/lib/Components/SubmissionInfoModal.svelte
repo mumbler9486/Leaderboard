@@ -41,7 +41,6 @@
 		const { userId, username } = await getLogin();
 		console.log(submission);
 		const approveRequest: ApprovalRequest = {
-			category: submission?.category,
 			runId: submission?.runId,
 			moderatorName: username,
 			modNotes: modNotes ?? ''
@@ -49,7 +48,7 @@
 
 		processing = true;
 		try {
-			const response = await fetch('/ngs-api/submissions/approve', {
+			const response = await fetch(`/ngs-api/submissions/${submission?.category}/approve`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -88,7 +87,6 @@
 		const { userId, username } = await getLogin();
 
 		const denyRequest: DenyRequest = {
-			category: submission.category,
 			runId: submission?.runId,
 			moderatorName: username,
 			modNotes: modNotes ?? ''
@@ -96,7 +94,7 @@
 
 		processing = true;
 		try {
-			const response = await fetch('/ngs-api/submissions/deny', {
+			const response = await fetch(`/ngs-api/submissions/${submission?.category}/deny`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'

@@ -12,10 +12,10 @@ const validDuelTables: { [key: string]: string } = {
 	indomitable_nilsstia: 'IndomitableNilsStiaRuns'
 };
 
-export const getIndomitableSubmissions = async (request: Request, boss: string) => {
-	const duelTable = validDuelTables[boss];
+export const getIndomitableSubmissions = async (request: Request, category: string) => {
+	const duelTable = validDuelTables[category];
 	if (!duelTable) {
-		throw Error(`Unknown indomitable boss: ${boss}`);
+		throw Error(`Unknown indomitable boss: ${category}`);
 	}
 
 	var sqlQuery = `
@@ -83,11 +83,33 @@ export const getIndomitableSubmissions = async (request: Request, boss: string) 
 	return ret;
 };
 
+export const getIndomitableExists = async (request: Request, category: string, runId: number) => {
+	const table = validDuelTables[category];
+
+	// Run exists
+	const submissionResults = await request.input('submissionId', sql.Int, runId).query(`
+    SELECT SubmissionId, SubmissionStatus, PlayerId
+    FROM Submissions.${table}
+    WHERE SubmissionId = @submissionId;
+		`);
+
+	if (Array.from(submissionResults.recordset).length == 0) {
+		return undefined;
+	}
+	const submission = submissionResults.recordset[0];
+	return {
+		SubmissionId: submission.SubmissionId,
+		SubmissionStatus: submission.SubmissionStatus,
+		PlayerId: submission.PlayerId
+	};
+};
+
 export const approveIndomitableSubmission = async (
 	transaction: sql.Transaction,
+	category: string,
 	run: ApproveRequest
 ) => {
-	const table = validDuelTables[run.category];
+	const table = validDuelTables[category];
 
 	const request = transaction.request();
 	request.input('modNotes', sql.NVarChar, run.modNotes).input('submissionId', sql.Int, run.runId);

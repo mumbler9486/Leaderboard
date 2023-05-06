@@ -1,3 +1,5 @@
+import { stringEnumValuesToList } from '$lib/utils/enum';
+
 export enum RunCategories {
 	PurpleSolo = 'purple_solo',
 	PurpleDuo = 'purple_duo',
@@ -10,3 +12,5 @@ export enum RunCategories {
 	IndomitableAmsKvaris = 'indomitable_amskvaris',
 	IndomitableNilsStia = 'indomitable_nilsstia'
 }
+
+export const runCategoryValues = stringEnumValuesToList<RunCategories>(RunCategories);
