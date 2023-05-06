@@ -1,6 +1,6 @@
-import type { DfaDuoDbModel } from '$lib/types/db/dfa/dfaDuo';
-import type { DfaPartyDbModel } from '$lib/types/db/dfa/dfaParty';
-import type { DfaSoloDbModel } from '$lib/types/db/dfa/dfaSolo';
+import type { DfaDuoDbModel } from '$lib/server/types/db/dfa/dfaDuo';
+import type { DfaPartyDbModel } from '$lib/server/types/db/dfa/dfaParty';
+import type { DfaSoloDbModel } from '$lib/server/types/db/dfa/dfaSolo';
 import type { Request } from 'mssql';
 import { fields } from '../util/nameof';
 

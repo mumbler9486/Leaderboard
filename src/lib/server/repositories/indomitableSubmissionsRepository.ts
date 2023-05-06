@@ -1,5 +1,5 @@
 import type { Request } from 'mssql';
-import type { IndomitableDbModel } from '$lib/types/db/duels/indomitable';
+import type { IndomitableDbModel } from '$lib/server/types/db/duels/indomitable';
 import { fields } from '../util/nameof';
 
 const indomitableDbFields = fields<IndomitableDbModel>();

@@ -4,9 +4,9 @@ import { dbValToWeaponsMap } from '$lib/server/db/util/weaponType';
 import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 import type { PlayerInfo } from '$lib/types/api/playerInfo';
 import type { DfaSubmission } from '$lib/types/api/submissions/submissions';
-import type { DfaDuoDbModel } from '$lib/types/db/dfa/dfaDuo';
-import type { DfaPartyDbModel } from '$lib/types/db/dfa/dfaParty';
-import type { DfaSoloDbModel } from '$lib/types/db/dfa/dfaSolo';
+import type { DfaDuoDbModel } from '$lib/server/types/db/dfa/dfaDuo';
+import type { DfaPartyDbModel } from '$lib/server/types/db/dfa/dfaParty';
+import type { DfaSoloDbModel } from '$lib/server/types/db/dfa/dfaSolo';
 
 const triggerDbMap: { [key: string]: string } = {
 	'1': 'trigger',

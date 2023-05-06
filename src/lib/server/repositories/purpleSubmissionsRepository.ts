@@ -1,7 +1,7 @@
 import type { Request } from 'mssql';
-import type { PurpleSoloDbModel } from '$lib/types/db/purple/purpleSolo';
-import type { PurpleDuoDbModel } from '$lib/types/db/purple/purpleDuo';
-import type { PurplePartyDbModel } from '$lib/types/db/purple/purpleParty';
+import type { PurpleSoloDbModel } from '$lib/server/types/db/purple/purpleSolo';
+import type { PurpleDuoDbModel } from '$lib/server/types/db/purple/purpleDuo';
+import type { PurplePartyDbModel } from '$lib/server/types/db/purple/purpleParty';
 import { fields } from '../util/nameof';
 
 const purplePartyDbFields = fields<PurplePartyDbModel>();
