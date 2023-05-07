@@ -2,14 +2,15 @@ import sql, { type Request } from 'mssql';
 import type { IndomitableDbModel } from '$lib/server/types/db/duels/indomitable';
 import { fields } from '../util/nameof';
 import type { ApproveRequest, DenyRequest } from '../types/validation/submissions';
+import { RunCategories } from '$lib/types/api/categories';
 
 const indomitableDbFields = fields<IndomitableDbModel>();
 
 const validDuelTables: { [key: string]: string } = {
-	indomitable_nexaelio: 'IndomitableNexAelioRuns',
-	indomitable_renusretem: 'IndomitableRenusRetemRuns',
-	indomitable_amskvaris: 'IndomitableAmsKvarisRuns',
-	indomitable_nilsstia: 'IndomitableNilsStiaRuns'
+	[RunCategories.IndomitableNexAelio.toLowerCase()]: 'IndomitableNexAelioRuns',
+	[RunCategories.IndomitableRenusRetem.toLowerCase()]: 'IndomitableRenusRetemRuns',
+	[RunCategories.IndomitableAmsKvaris.toLowerCase()]: 'IndomitableAmsKvarisRuns',
+	[RunCategories.IndomitableNilsStia.toLowerCase()]: 'IndomitableNilsStiaRuns'
 };
 
 export const getIndomitableSubmissions = async (request: Request, category: string) => {

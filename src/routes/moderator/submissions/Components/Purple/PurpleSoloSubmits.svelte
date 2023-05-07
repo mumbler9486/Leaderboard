@@ -1,6 +1,7 @@
 <script lang="ts">
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
 	import SubmissionInfoModal from '$lib/Components/SubmissionInfoModal.svelte';
+	import { RunCategories } from '$lib/types/api/categories';
 	import type { PurpleSubmission, Submission } from '$lib/types/api/submissions/submissions';
 
 	import PurpleSoloSubmitRow from './PurpleSoloSubmitRow.svelte';
@@ -14,16 +15,16 @@
 	let viewSubmission: Submission;
 
 	const categoryPathMap: { [key: string]: string } = {
-		purple_solo: 'purpleSolo'
+		[RunCategories.PurpleSolo.toLowerCase()]: RunCategories.PurpleSolo
 	};
 
 	$: reloadData(category);
 
 	async function reloadData(...watch: any[]) {
-		loading = true;
-
 		const categoryPath = categoryPathMap[category.toLowerCase()];
 		if (!categoryPath) console.error('Unknown purple category');
+
+		loading = true;
 
 		try {
 			const response = await fetch(`/ngs-api/submissions/${categoryPath}`, {

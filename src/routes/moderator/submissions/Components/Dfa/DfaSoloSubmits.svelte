@@ -4,6 +4,7 @@
 
 	import type { DfaSubmission, Submission } from '$lib/types/api/submissions/submissions';
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
+	import { RunCategories } from '$lib/types/api/categories';
 
 	export let category: string;
 
@@ -14,16 +15,16 @@
 	let viewSubmission: Submission;
 
 	const categoryPathMap: { [key: string]: string } = {
-		dfa_solo: 'dfaSolo'
+		[RunCategories.DfaSolo.toLowerCase()]: RunCategories.DfaSolo
 	};
 
 	$: reloadData(category);
 
 	async function reloadData(...watch: any[]) {
-		loading = true;
-
 		const categoryPath = categoryPathMap[category.toLowerCase()];
-		if (!categoryPath) console.error('Unknown purple category');
+		if (!categoryPath) console.error('Unknown dfa category');
+
+		loading = true;
 
 		try {
 			const response = await fetch(`/ngs-api/submissions/${categoryPath}`, {

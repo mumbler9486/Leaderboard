@@ -6,6 +6,7 @@
 
 	import { onMount } from 'svelte';
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
+	import { RunCategories } from '$lib/types/api/categories';
 
 	export let category: string;
 
@@ -15,14 +16,21 @@
 	let submissionModal: SubmissionInfoModal;
 	let viewSubmission: IndomitableSubmission;
 
+	const categoryPathMap: { [key: string]: string } = {
+		[RunCategories.IndomitableNexAelio.toLowerCase()]: RunCategories.IndomitableNexAelio,
+		[RunCategories.IndomitableRenusRetem.toLowerCase()]: RunCategories.IndomitableRenusRetem,
+		[RunCategories.IndomitableAmsKvaris.toLowerCase()]: RunCategories.IndomitableAmsKvaris,
+		[RunCategories.IndomitableNilsStia.toLowerCase()]: RunCategories.IndomitableNilsStia
+	};
+
 	$: reloadData(category);
 
-	onMount(async () => {
-		reloadData();
-	});
-
 	async function reloadData(...watch: any[]) {
+		const categoryPath = categoryPathMap[category.toLowerCase()];
+		if (!categoryPath) console.error('Unknown indomitable boss category');
+
 		loading = true;
+
 		try {
 			const response = await fetch(`/ngs-api/submissions/${category}`, {
 				method: 'GET',

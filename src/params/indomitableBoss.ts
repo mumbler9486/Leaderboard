@@ -9,6 +9,5 @@ const indomitableBosses: { [key: string]: string } = {
 
 export const match = ((param) => {
 	const validBoss = indomitableBosses[param.toLowerCase()];
-	console.log(!!validBoss);
 	return !!validBoss;
 }) satisfies ParamMatcher;
