@@ -155,8 +155,8 @@ export const denyIndomitableSubmission = async (
 		.input('submissionId', sql.Int, run.runId)
 		.input('modNotes', sql.NVarChar, run.modNotes).query(`
       UPDATE Submissions.${table}
-      SET SubmissionStatus = 1, ModNotes = @modNotes
-      WHERE SubmissionId = @submissionId;
+      SET ${indomitableDbFields.SubmissionStatus} = 1, ${indomitableDbFields.ModNotes} = @modNotes
+      WHERE ${indomitableDbFields.SubmissionId} = @submissionId;
     `);
 
 	if (result.rowsAffected[0] == 0) {

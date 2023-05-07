@@ -3,7 +3,7 @@ import type { DfaPartyDbModel } from '$lib/server/types/db/dfa/dfaParty';
 import type { DfaSoloDbModel } from '$lib/server/types/db/dfa/dfaSolo';
 import sql, { type Request } from 'mssql';
 import { fields } from '../util/nameof';
-import type { ApproveRequest } from '../types/validation/submissions';
+import type { ApproveRequest, DenyRequest } from '../types/validation/submissions';
 
 const dfaPartyDbFields = fields<DfaPartyDbModel>();
 const dfaDuoDbFields = fields<DfaDuoDbModel>();
@@ -572,4 +572,46 @@ export const getDfaPartyExists = async (request: Request, runId: number) => {
 		SubmissionStatus: submission.SubmissionStatus,
 		PlayerId: submission.P1PlayerID
 	};
+};
+
+export const denyDfaSolo = async (request: sql.Request, run: DenyRequest) => {
+	const result = await request
+		.input('submissionId', sql.Int, run.runId)
+		.input('modNotes', sql.NVarChar, run.modNotes).query(`
+      UPDATE Submissions.DFAegisSolo
+      SET ${dfaSoloDbFields.SubmissionStatus} = 1
+      WHERE ${dfaSoloDbFields.RunID} = @submissionId;
+  `);
+
+	if (result.rowsAffected[0] == 0) {
+		throw Error(`Dfa Solo Run denial failed.`);
+	}
+};
+
+export const denyDfaDuo = async (request: sql.Request, run: DenyRequest) => {
+	const result = await request
+		.input('submissionId', sql.Int, run.runId)
+		.input('modNotes', sql.NVarChar, run.modNotes).query(`
+      UPDATE Submissions.DFAegisParty
+      SET ${dfaPartyDbFields.SubmissionStatus} = 1
+      WHERE ${dfaPartyDbFields.RunID} = @submissionId AND ${dfaPartyDbFields.PartySize} = 2;
+  `);
+
+	if (result.rowsAffected[0] == 0) {
+		throw Error(`Dfa Duo Run denial failed.`);
+	}
+};
+
+export const denyDfaParty = async (request: sql.Request, run: DenyRequest) => {
+	const result = await request
+		.input('submissionId', sql.Int, run.runId)
+		.input('modNotes', sql.NVarChar, run.modNotes).query(`
+      UPDATE Submissions.DFAegisParty
+      SET ${dfaPartyDbFields.SubmissionStatus} = 1
+      WHERE ${dfaPartyDbFields.RunID} = @submissionId AND ${dfaPartyDbFields.PartySize} = 8;
+  `);
+
+	if (result.rowsAffected[0] == 0) {
+		throw Error(`Dfa Party Run denial failed.`);
+	}
 };
