@@ -1,3 +1,4 @@
+import { stringEnumValuesToMap } from '$lib/utils/enum';
 import { stringEnumValuesToList } from '$lib/utils/enum';
 
 export enum RunCategories {
@@ -14,3 +15,6 @@ export enum RunCategories {
 }
 
 export const runCategoryValues = stringEnumValuesToList<RunCategories>(RunCategories);
+
+const runCategoryMap = stringEnumValuesToMap<RunCategories>(RunCategories);
+export const parseCategory = (value: string) => runCategoryMap[value.toLowerCase()];

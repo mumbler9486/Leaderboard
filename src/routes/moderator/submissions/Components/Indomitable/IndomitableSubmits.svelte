@@ -66,7 +66,7 @@
 			<tr>
 				<th class="bg-neutral text-neutral-content">Player</th>
 				<th class="bg-neutral text-center text-neutral-content">Class</th>
-				<th class="bg-neutral text-center text-neutral-content">Region</th>
+				<th class="bg-neutral text-center text-neutral-content">Boss</th>
 				<th class="bg-neutral text-center text-neutral-content">Rank</th>
 				<th class="bg-neutral text-center text-neutral-content">Patch</th>
 				<th class="bg-neutral text-center text-neutral-content">Defi-Series Augments</th>

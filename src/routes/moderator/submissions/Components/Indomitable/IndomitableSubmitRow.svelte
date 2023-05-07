@@ -5,6 +5,7 @@
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import type { IndomitableSubmission } from '$lib/types/api/submissions/submissions';
 	import { createEventDispatcher } from 'svelte';
+	import { RunCategories, parseCategory as parseRunCategory } from '$lib/types/api/categories';
 
 	const dispatcher = createEventDispatcher();
 
@@ -23,10 +24,10 @@
 	} as { [id: string]: string };
 
 	const bossNames = {
-		['nexaelio']: 'Nex Aelio',
-		['renusretem']: 'Renus Retem',
-		['amskvaris']: 'Ams Kvaris',
-		['nilsstia']: 'Nils Stia'
+		[RunCategories.IndomitableNexAelio]: 'Nex Aelio',
+		[RunCategories.IndomitableRenusRetem]: 'Renus Retem',
+		[RunCategories.IndomitableAmsKvaris]: 'Ams Kvaris',
+		[RunCategories.IndomitableNilsStia]: 'Nils Stia'
 	} as { [id: string]: string };
 
 	$: player1 = submission.players[0];
@@ -44,7 +45,7 @@
 		<NgsClassIcon combatClass={player1.mainClass} />
 		<NgsClassIcon combatClass={player1.subClass} />
 	</td>
-	<td class="text-center">{bossNames[submission.boss]}</td>
+	<td class="text-center">{bossNames[parseRunCategory(submission.category)]}</td>
 	<td class="text-center">{submission.rank}</td>
 	<td class="text-center">{patchCodes[submission.patch.toLowerCase()]}</td>
 	<td class="text-center">{usesAugments[submission.augments.toString()]}</td>
