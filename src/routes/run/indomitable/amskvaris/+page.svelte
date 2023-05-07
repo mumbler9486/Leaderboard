@@ -19,11 +19,7 @@
 </script>
 
 <svelte:head>
-	<title
-		>{$t('shared.siteName')} | {$t('leaderboard.purpleTriggers')} - {$t(
-			'common.playerCount.solo'
-		)}</title
-	>
+	<title>{$t('shared.siteName')} | {$t('leaderboard.duelsPageTitle')}</title>
 </svelte:head>
 
 <div class="flex min-h-screen flex-col">
