@@ -6,13 +6,15 @@
 	import PlayerNameBadge from './PlayerNameBadge.svelte';
 	import VideoPlayer from './VideoPlayer.svelte';
 
-	import type { IndomitableSubmission } from '$lib/types/api/submissions/submissions';
+	import type { Submission } from '$lib/types/api/submissions/submissions';
 	import { mapToNamePref } from '$lib/types/api/mapNamePref';
 	import { createEventDispatcher } from 'svelte';
+	import type { ApprovalRequest } from '$lib/types/api/submissions/approvals';
+	import type { DenyRequest } from '$lib/types/api/submissions/denials';
 
 	const dispatcher = createEventDispatcher();
 
-	export let submission: IndomitableSubmission | undefined;
+	export let submission: Submission | undefined;
 
 	$: player1 = submission?.players[0];
 
@@ -37,9 +39,8 @@
 		}
 
 		const { userId, username } = await getLogin();
-
-		const approveRequest = {
-			category: `indomitable${submission.boss}`,
+		console.log(submission);
+		const approveRequest: ApprovalRequest = {
 			runId: submission?.runId,
 			moderatorName: username,
 			modNotes: modNotes ?? ''
@@ -47,7 +48,7 @@
 
 		processing = true;
 		try {
-			const response = await fetch('/ngs-api/submissions/approve', {
+			const response = await fetch(`/ngs-api/submissions/${submission?.category}/approve`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -72,6 +73,7 @@
 			processing = false;
 		}
 	};
+
 	const denyRun = async () => {
 		if (processing) {
 			return;
@@ -84,8 +86,7 @@
 
 		const { userId, username } = await getLogin();
 
-		const denyRequest = {
-			category: `indomitable${submission.boss}`,
+		const denyRequest: DenyRequest = {
 			runId: submission?.runId,
 			moderatorName: username,
 			modNotes: modNotes ?? ''
@@ -93,7 +94,7 @@
 
 		processing = true;
 		try {
-			const response = await fetch('/ngs-api/submissions/deny', {
+			const response = await fetch(`/ngs-api/submissions/${submission?.category}/deny`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -171,13 +172,16 @@
 				<span class="flex place-content-center md:mr-1">Run By:</span>
 				<PlayerNameBadge
 					showLink
-					player={submission ? mapToNamePref(submission?.players[0]) : {}}
+					player={submission ? mapToNamePref(submission?.players[0]) : undefined}
 				/>
 			</div>
 
 			<div class="flex basis-full flex-col justify-center md:flex-row">
 				<span class="flex place-content-center md:mr-1">Submitted By:</span>
-				<PlayerNameBadge showLink player={submission ? mapToNamePref(submission?.submitter) : {}} />
+				<PlayerNameBadge
+					showLink
+					player={submission ? mapToNamePref(submission?.submitter) : undefined}
+				/>
 			</div>
 
 			{#if false}

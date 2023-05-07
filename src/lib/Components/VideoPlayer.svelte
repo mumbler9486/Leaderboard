@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { getYoutubeEmbedUrl } from '$lib/utils/youtube';
 
-	export let url: string;
+	export let url: string | undefined;
 
-	$: videoUrl = getYoutubeEmbedUrl(url);
+	$: videoUrl = url ? getYoutubeEmbedUrl(url) : '';
 </script>
 
 <iframe

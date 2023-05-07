@@ -1,5 +1,5 @@
 /**
- * Converts an string enum's values to a map.
+ * Converts a string enum's values to a map.
  * Note that the enum is keyed by lowercasing all
  * string values so be aware of duplicates
  * @param enumType The enum to create a map from
@@ -15,3 +15,10 @@ export const stringEnumValuesToMap = <T>(enumType: any): { [key: string]: T } =>
 
 	return map;
 };
+
+/**
+ * Converts a string enum's values into a list
+ * @param enumType Enum type to get all values from
+ * @returns
+ */
+export const stringEnumValuesToList = <T>(enumType: any): string[] => Object.values(enumType);

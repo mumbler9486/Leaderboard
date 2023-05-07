@@ -2,6 +2,7 @@ import type { PlayerInfo } from '../playerInfo';
 import type { RunTime } from '../runTime';
 
 export interface Submission {
+	category: string;
 	runId: number;
 	time: RunTime;
 	notes: string;

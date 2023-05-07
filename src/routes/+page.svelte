@@ -66,10 +66,9 @@
 							</li>
 							<li class="pt-4">
 								<strong>⏫About Special Duel Augments (Defi-Series)</strong><br />
-								Currently it will be either you affixed an augment on any equipment in the run or you
-								did not. Since we don't know the impact on the runs yet this may be subject to change.
-								We will reach out to the early submitters where possible to improve their submissions
-								if there is a change needed.
+								Any run submitted to the duels that uses at least one Defi-series augment on that player's
+								equipment is considered to have used a Defi-augment. Please specify when submitting your
+								duel runs.
 							</li>
 							<li class="pt-4">
 								<strong>✨New Patch for All Submissions</strong><br />

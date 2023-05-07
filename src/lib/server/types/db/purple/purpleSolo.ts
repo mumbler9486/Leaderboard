@@ -1,0 +1,35 @@
+export interface PurpleSoloDbModel {
+	RunID: string;
+	PlayerID: string;
+	PlayerName: string;
+	PlayerCName: string;
+	RunCharacter: string;
+	MainClass: string;
+	SubClass: string;
+	Link: string;
+	PlayerServer: string;
+	PlayerNameType: string;
+	PlayerNameColor1: string;
+	PlayerNameColor2: string;
+	PlayerPrefN: string;
+	W1: string;
+	W2: string;
+	W3: string;
+	W4: string;
+	W5: string;
+	W6: string;
+	SubmitterID: string;
+	SubmitterCName: string;
+	SubmitterPrefN: string;
+	SubmitterNameType: string;
+	SubmitterNameColor1: string;
+	SubmitterNameColor2: string;
+	Time: string;
+	Patch: string;
+	Region: string;
+	Rank: string;
+	SubmissionTime: string;
+	SubmitterName: string;
+	Notes: string;
+	SubmissionStatus: string;
+}

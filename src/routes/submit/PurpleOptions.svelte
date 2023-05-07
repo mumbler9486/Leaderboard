@@ -25,6 +25,10 @@
 	$: rankOptions = regionRankOptions[$purpleForm.region]?.map((r) => rankOptionsDropdowns[r]) ?? [];
 
 	$: $purpleForm.rank = parseInt(selectedRankStr);
+
+	const regionChanged = () => {
+		selectedRankStr = regionRankOptions[$purpleForm.region][0].toString();
+	};
 </script>
 
 <div class="form-control">
@@ -42,6 +46,7 @@
 				{ label: 'Stia', value: 'stia' }
 			]}
 			bind:value={$purpleForm.region}
+			on:change={regionChanged}
 		/>
 	</div>
 

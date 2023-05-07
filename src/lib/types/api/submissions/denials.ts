@@ -1,4 +1,4 @@
-export interface ApprovalRequest {
+export interface DenyRequest {
 	moderatorName: string;
 	runId: number;
 	modNotes?: string;
