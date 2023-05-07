@@ -9,6 +9,14 @@ import {
 } from '$lib/server/types/validation/submissions.js';
 import { getRunPlayer } from '$lib/server/repositories/playerRepository.js';
 import { RunCategories, parseRunCategory } from '$lib/types/api/categories.js';
+import {
+	approveDfaDuo,
+	approveDfaParty,
+	approveDfaSolo,
+	getDfaDuoExists,
+	getDfaPartyExists,
+	getDfaSoloExists
+} from '$lib/server/repositories/dfaSubmissionsRepository.js';
 
 const dfaQuestNames: { [key: string]: string } = {
 	[RunCategories.DfaParty]: 'DFA Party',
@@ -53,7 +61,13 @@ export async function POST({ request, params }) {
 	const transaction = new sql.Transaction(pool);
 	try {
 		await transaction.begin();
-		await approveIndomitableSubmission(transaction, category, approveRequest);
+		if (category == RunCategories.DfaSolo) {
+			await approveDfaSolo(transaction, approveRequest);
+		} else if (category == RunCategories.DfaDuo) {
+			await approveDfaDuo(transaction, approveRequest);
+		} else if (category == RunCategories.DfaParty) {
+			await approveDfaParty(transaction, approveRequest);
+		}
 		await transaction.commit();
 
 		notifyDiscordNewRunApproved(
@@ -75,14 +89,28 @@ const checkData = async (run: ApproveRequest, category: RunCategories) => {
 
 	// Run exists
 	const submissionRequest = pool.request();
-	const submissionResult = await getIndomitableExists(submissionRequest, category, run.runId);
+	let submissionResult:
+		| {
+				SubmissionId: string;
+				SubmissionStatus: string;
+				PlayerId: string;
+		  }
+		| undefined;
+	if (category == RunCategories.DfaSolo) {
+		submissionResult = await getDfaSoloExists(submissionRequest, run.runId);
+	} else if (category == RunCategories.DfaDuo) {
+		submissionResult = await getDfaDuoExists(submissionRequest, run.runId);
+	} else if (category == RunCategories.DfaParty) {
+		submissionResult = await getDfaPartyExists(submissionRequest, run.runId);
+	}
+
 	if (!submissionResult) {
 		errorList.push(`Unknown submissionId`);
 		return {
 			errorList
 		};
 	}
-	if (submissionResult && submissionResult.SubmissionStatus != 0) {
+	if (submissionResult && submissionResult.SubmissionStatus != '0') {
 		errorList.push(`Submission already denied/approved`);
 	}
 

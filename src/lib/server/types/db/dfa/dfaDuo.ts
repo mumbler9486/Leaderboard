@@ -39,4 +39,5 @@ export interface DfaDuoDbModel {
 	SubmitterNameColor1: string;
 	SubmitterNameColor2: string;
 	SubmitterPrefN: string;
+	SubmissionStatus: string;
 }

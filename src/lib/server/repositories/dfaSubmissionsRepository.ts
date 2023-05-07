@@ -1,15 +1,16 @@
 import type { DfaDuoDbModel } from '$lib/server/types/db/dfa/dfaDuo';
 import type { DfaPartyDbModel } from '$lib/server/types/db/dfa/dfaParty';
 import type { DfaSoloDbModel } from '$lib/server/types/db/dfa/dfaSolo';
-import type { Request } from 'mssql';
+import sql, { type Request } from 'mssql';
 import { fields } from '../util/nameof';
+import type { ApproveRequest } from '../types/validation/submissions';
 
 const dfaPartyDbFields = fields<DfaPartyDbModel>();
 const dfaDuoDbFields = fields<DfaDuoDbModel>();
 const dfaSoloDbFields = fields<DfaSoloDbModel>();
 
 export const getDfaPartySubmissions = async (request: Request) => {
-	var sqlQuery = `
+	const sqlQuery = `
         
   SELECT
   submit.${dfaPartyDbFields.RunID}, 
@@ -178,20 +179,20 @@ export const getDfaPartySubmissions = async (request: Request) => {
   INNER JOIN
   Players.Customization AS sc ON submit.${dfaPartyDbFields.SubmitterID} = sc.PlayerID
 
-  WHERE SubmissionStatus = 0
+  WHERE ${dfaPartyDbFields.SubmissionStatus} = 0
   AND
-  PartySize = 8
+  ${dfaPartyDbFields.PartySize} = 8
 
   ORDER BY SubmissionTime DESC`;
 
-	var results = await request.query(sqlQuery);
-	var ret = results.recordset as DfaPartyDbModel[];
+	const results = await request.query(sqlQuery);
+	const ret = results.recordset as DfaPartyDbModel[];
 
 	return ret;
 };
 
 export const getDfaDuoSubmissions = async (request: Request) => {
-	var sqlQuery = `
+	const sqlQuery = `
         
                 SELECT
                 submit.${dfaDuoDbFields.RunID}, 
@@ -263,20 +264,20 @@ export const getDfaDuoSubmissions = async (request: Request) => {
                 INNER JOIN
                 Players.Customization AS sc ON submit.${dfaDuoDbFields.SubmitterID} = sc.PlayerID
         
-                WHERE SubmissionStatus = 0
+                WHERE ${dfaDuoDbFields.SubmissionStatus} = 0
                 AND
-                PartySize = 2
+                ${dfaDuoDbFields.PartySize} = 2
         
                 ORDER BY SubmissionTime DESC`;
 
-	var results = await request.query(sqlQuery);
-	var ret = results.recordset as DfaDuoDbModel[];
+	const results = await request.query(sqlQuery);
+	const ret = results.recordset as DfaDuoDbModel[];
 
 	return ret;
 };
 
 export const getDfaSoloSubmissions = async (request: Request) => {
-	var sqlQuery = `
+	const sqlQuery = `
         
   SELECT
   submit.${dfaSoloDbFields.RunID}, 
@@ -329,12 +330,246 @@ export const getDfaSoloSubmissions = async (request: Request) => {
   INNER JOIN
   Players.Customization AS sc ON submit.${dfaSoloDbFields.SubmitterID} = sc.PlayerID
 
-  WHERE SubmissionStatus = 0
+  WHERE ${dfaSoloDbFields.SubmissionStatus} = 0
 
   ORDER BY SubmissionTime DESC`;
 
-	var results = await request.query(sqlQuery);
-	var ret = results.recordset as DfaSoloDbModel[];
+	const results = await request.query(sqlQuery);
+	const ret = results.recordset as DfaSoloDbModel[];
 
 	return ret;
+};
+
+export const approveDfaSolo = async (transaction: sql.Transaction, run: ApproveRequest) => {
+	const request = transaction.request();
+	request.input('modNotes', sql.NVarChar, run.modNotes).input('submissionId', sql.Int, run.runId);
+
+	// Add run data to runs table
+	const runInsertResult = await request.query(`
+    INSERT INTO DFAegis.Solo (PlayerID,RunCharacterName,Patch,Buff,Rank,Time,MainClass,SubClass,WeaponInfo1,WeaponInfo2,WeaponInfo3,WeaponInfo4,WeaponInfo5,WeaponInfo6,Link,Notes,SubmissionTime,SubmitterID,ModNotes,Drill)
+    SELECT PlayerID,RunCharacter,Patch,Support,1,Time,MainClass,SubClass,W1,W2,W3,W4,W5,W6,Link,Notes,SubmissionTime,SubmitterID,@modNotes,Drill
+    FROM Submissions.DFAegisSolo
+		WHERE Submissions.DFAegisSolo.${dfaSoloDbFields.RunID}= @submissionId;
+  `);
+	if (runInsertResult.rowsAffected[0] == 0) {
+		throw Error(`Dfa Solo insertion failed.`);
+	}
+
+	// Update Submission
+	const submissionResult = await request.query(`
+    UPDATE Submissions.DFAegisSolo
+    SET ${dfaSoloDbFields.SubmissionStatus} = 1
+    WHERE ${dfaSoloDbFields.RunID} = @submissionId;
+    `);
+
+	if (submissionResult.rowsAffected[0] == 0) {
+		throw Error(`Dfa solo approval failed.`);
+	}
+};
+
+export const getDfaSoloExists = async (request: Request, runId: number) => {
+	// Run exists
+	const submissionResults = await request.input('submissionId', sql.Int, runId).query(`
+    SELECT 
+      ${dfaSoloDbFields.RunID}, 
+      ${dfaSoloDbFields.SubmissionStatus}, 
+      ${dfaSoloDbFields.PlayerID}
+    FROM Submissions.DFAegisSolo
+    WHERE ${dfaSoloDbFields.RunID} = @submissionId;
+		`);
+
+	if (Array.from(submissionResults.recordset).length == 0) {
+		return undefined;
+	}
+	const submission = submissionResults.recordset[0] as DfaSoloDbModel;
+	return {
+		SubmissionId: submission.RunID,
+		SubmissionStatus: submission.SubmissionStatus,
+		PlayerId: submission.PlayerID
+	};
+};
+
+export const approveDfaDuo = async (transaction: sql.Transaction, run: ApproveRequest) => {
+	const request = transaction.request();
+	request.input('modNotes', sql.NVarChar, run.modNotes).input('submissionId', sql.Int, run.runId);
+
+	// Add run data to runs table
+	const runInsertResult = await request.query(`
+    INSERT INTO DFAegis.Party (PartySize,Patch,Rank,Time,Notes,RunServer,SubmissionTime,SubmitterID,ModNotes,Buff,Drill)
+    SELECT PartySize,Patch,Rank,Time,Notes,ServerId,SubmissionTime,SubmitterID,@modNotes,Buff,Drill
+    FROM Submissions.DFAegisParty
+		WHERE Submissions.DFAegisParty.${dfaPartyDbFields.RunID} = @submissionId;
+    SELECT SCOPE_IDENTITY() AS LastID;
+  `);
+	if (runInsertResult.rowsAffected[0] == 0) {
+		throw Error(`Dfa Duo insertion failed.`);
+	}
+
+	// Add player info
+	const insertedRunId = parseInt(runInsertResult.recordset[0].LastID);
+	request.input('insertedRunId', sql.Int, insertedRunId);
+
+	const player1InsertResult = await request.query(`
+    INSERT INTO DFAegis.PartyRunners (RunID,PlayerID,RunCharacterName,MainClass,SubClass,LinkPOV)
+    SELECT @insertedRunId,P1PlayerID,P1RunCharacter,P1MainClass,P1SubClass,P1Link
+    FROM Submissions.DFAegisParty
+    WHERE Submissions.DFAegisParty.${dfaPartyDbFields.RunID} = @submissionId;
+  `);
+	if (player1InsertResult.rowsAffected[0] == 0) {
+		throw Error(`Dfa Duo player 1 insertion failed.`);
+	}
+	const player2InsertResult = await request.query(`
+    INSERT INTO DFAegis.PartyRunners (RunID,PlayerID,RunCharacterName,MainClass,SubClass,LinkPOV)
+    SELECT @insertedRunId,P2PlayerID,P2RunCharacter,P2MainClass,P2SubClass,P2Link
+    FROM Submissions.DFAegisParty
+    WHERE Submissions.DFAegisParty.${dfaPartyDbFields.RunID} = @submissionId;
+  `);
+	if (player2InsertResult.rowsAffected[0] == 0) {
+		throw Error(`Dfa Duo player 2 insertion failed.`);
+	}
+
+	// Update Submission
+	const submissionResult = await request.query(`
+    UPDATE Submissions.DFAegisParty
+    SET ${dfaPartyDbFields.SubmissionStatus} = 1
+    WHERE ${dfaPartyDbFields.RunID} = @submissionId;
+    `);
+
+	if (submissionResult.rowsAffected[0] == 0) {
+		throw Error(`Dfa Duo approval failed.`);
+	}
+};
+
+export const getDfaDuoExists = async (request: Request, runId: number) =>
+	getDfaPartyExists(request, runId);
+
+export const approveDfaParty = async (transaction: sql.Transaction, run: ApproveRequest) => {
+	const request = transaction.request();
+	request.input('modNotes', sql.NVarChar, run.modNotes).input('submissionId', sql.Int, run.runId);
+
+	// Add run data to runs table
+	const runInsertResult = await request.query(`
+    INSERT INTO DFAegis.Party (PartySize,Patch,Rank,Time,Notes,RunServer,SubmissionTime,SubmitterID,ModNotes,Buff,Drill)
+    SELECT PartySize,Patch,Rank,Time,Notes,ServerId,SubmissionTime,SubmitterID,@modNotes,Buff,Drill
+    FROM Submissions.DFAegisParty
+    WHERE Submissions.DFAegisParty.${dfaPartyDbFields.RunID} = @submissionId;
+    SELECT SCOPE_IDENTITY() AS LastID;
+  `);
+	if (runInsertResult.rowsAffected[0] == 0) {
+		throw Error(`Dfa Party insertion failed.`);
+	}
+
+	// Add player info
+	const insertedRunId = parseInt(runInsertResult.recordset[0].LastID);
+	request.input('insertedRunId', sql.Int, insertedRunId);
+
+	const player1InsertResult = await request.query(`
+    INSERT INTO DFAegis.PartyRunners (RunID,PlayerID,RunCharacterName,MainClass,SubClass,LinkPOV)
+    SELECT @insertedRunId,P1PlayerID,P1RunCharacter,P1MainClass,P1SubClass,P1Link
+    FROM Submissions.DFAegisParty
+    WHERE Submissions.DFAegisParty.${dfaPartyDbFields.RunID} = @submissionId;
+  `);
+	if (player1InsertResult.rowsAffected[0] == 0) {
+		throw Error(`Dfa Party player 1 insertion failed.`);
+	}
+	const player2InsertResult = await request.query(`
+    INSERT INTO DFAegis.PartyRunners (RunID,PlayerID,RunCharacterName,MainClass,SubClass,LinkPOV)
+    SELECT @insertedRunId,P2PlayerID,P2RunCharacter,P2MainClass,P2SubClass,P2Link
+    FROM Submissions.DFAegisParty
+    WHERE Submissions.DFAegisParty.${dfaPartyDbFields.RunID} = @submissionId;
+  `);
+	if (player2InsertResult.rowsAffected[0] == 0) {
+		throw Error(`Dfa Party player 2 insertion failed.`);
+	}
+	const player3InsertResult = await request.query(`
+    INSERT INTO DFAegis.PartyRunners (RunID,PlayerID,RunCharacterName,MainClass,SubClass,LinkPOV)
+    SELECT @insertedRunId,P3PlayerID,P3RunCharacter,P3MainClass,P3SubClass,P3Link
+    FROM Submissions.DFAegisParty
+    WHERE Submissions.DFAegisParty.${dfaPartyDbFields.RunID} = @submissionId;
+  `);
+	if (player3InsertResult.rowsAffected[0] == 0) {
+		throw Error(`Dfa Party player 3 insertion failed.`);
+	}
+	const player4InsertResult = await request.query(`
+    INSERT INTO DFAegis.PartyRunners (RunID,PlayerID,RunCharacterName,MainClass,SubClass,LinkPOV)
+    SELECT @insertedRunId,P4PlayerID,P4RunCharacter,P4MainClass,P4SubClass,P4Link
+    FROM Submissions.DFAegisParty
+    WHERE Submissions.DFAegisParty.${dfaPartyDbFields.RunID} = @submissionId;
+  `);
+	if (player4InsertResult.rowsAffected[0] == 0) {
+		throw Error(`Dfa Party player 4 insertion failed.`);
+	}
+
+	const player5InsertResult = await request.query(`
+    INSERT INTO DFAegis.PartyRunners (RunID,PlayerID,RunCharacterName,MainClass,SubClass,LinkPOV)
+    SELECT @insertedRunId,P5PlayerID,P5RunCharacter,P5MainClass,P5SubClass,P5Link
+    FROM Submissions.DFAegisParty
+    WHERE Submissions.DFAegisParty.${dfaPartyDbFields.RunID} = @submissionId;
+  `);
+	if (player5InsertResult.rowsAffected[0] == 0) {
+		throw Error(`Dfa Party player 5 insertion failed.`);
+	}
+
+	const player6InsertResult = await request.query(`
+    INSERT INTO DFAegis.PartyRunners (RunID,PlayerID,RunCharacterName,MainClass,SubClass,LinkPOV)
+    SELECT @insertedRunId,P6PlayerID,P6RunCharacter,P6MainClass,P6SubClass,P6Link
+    FROM Submissions.DFAegisParty
+    WHERE Submissions.DFAegisParty.${dfaPartyDbFields.RunID} = @submissionId;
+  `);
+	if (player6InsertResult.rowsAffected[0] == 0) {
+		throw Error(`Dfa Party player 6 insertion failed.`);
+	}
+
+	const player7InsertResult = await request.query(`
+    INSERT INTO DFAegis.PartyRunners (RunID,PlayerID,RunCharacterName,MainClass,SubClass,LinkPOV)
+    SELECT @insertedRunId,P7PlayerID,P7RunCharacter,P7MainClass,P7SubClass,P7Link
+    FROM Submissions.DFAegisParty
+    WHERE Submissions.DFAegisParty.${dfaPartyDbFields.RunID} = @submissionId;
+  `);
+	if (player7InsertResult.rowsAffected[0] == 0) {
+		throw Error(`Dfa Party player 7 insertion failed.`);
+	}
+
+	const player8InsertResult = await request.query(`
+    INSERT INTO DFAegis.PartyRunners (RunID,PlayerID,RunCharacterName,MainClass,SubClass,LinkPOV)
+    SELECT @insertedRunId,P8PlayerID,P8RunCharacter,P8MainClass,P8SubClass,P8Link
+    FROM Submissions.DFAegisParty
+    WHERE Submissions.DFAegisParty.${dfaPartyDbFields.RunID} = @submissionId;
+  `);
+	if (player8InsertResult.rowsAffected[0] == 0) {
+		throw Error(`Dfa Party player 8 insertion failed.`);
+	}
+
+	// Update Submission
+	const submissionResult = await request.query(`
+    UPDATE Submissions.DFAegisParty
+    SET ${dfaPartyDbFields.SubmissionStatus} = 1
+    WHERE ${dfaPartyDbFields.RunID} = @submissionId;
+    `);
+
+	if (submissionResult.rowsAffected[0] == 0) {
+		throw Error(`Dfa Party approval failed.`);
+	}
+};
+
+export const getDfaPartyExists = async (request: Request, runId: number) => {
+	// Run exists
+	const submissionResults = await request.input('submissionId', sql.Int, runId).query(`
+    SELECT
+      ${dfaPartyDbFields.RunID},
+      ${dfaPartyDbFields.SubmissionStatus},
+      ${dfaPartyDbFields.P1PlayerID}
+    FROM Submissions.DFAegisParty
+    WHERE ${dfaPartyDbFields.RunID} = @submissionId;
+		`);
+
+	if (Array.from(submissionResults.recordset).length == 0) {
+		return undefined;
+	}
+	const submission = submissionResults.recordset[0] as DfaPartyDbModel;
+	return {
+		SubmissionId: submission.RunID,
+		SubmissionStatus: submission.SubmissionStatus,
+		PlayerId: submission.P1PlayerID
+	};
 };

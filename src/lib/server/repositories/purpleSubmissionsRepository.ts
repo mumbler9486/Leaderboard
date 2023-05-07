@@ -10,7 +10,7 @@ const purpleDuoDbFields = fields<PurpleDuoDbModel>();
 const purpleSoloDbFields = fields<PurpleSoloDbModel>();
 
 export const getPurplePartySubmissions = async (request: Request) => {
-	var sqlQuery = `
+	const sqlQuery = `
         
   SELECT
   submit.${purplePartyDbFields.RunID}, 
@@ -109,20 +109,20 @@ export const getPurplePartySubmissions = async (request: Request) => {
   INNER JOIN
   Players.Customization AS sc ON submit.${purplePartyDbFields.SubmitterID} = sc.PlayerID
 
-  WHERE SubmissionStatus = 0
+  WHERE ${purplePartyDbFields.SubmissionStatus} = 0
   AND
-  PartySize = 4
+  ${purplePartyDbFields.PartySize} = 4
 
   ORDER BY SubmissionTime DESC`;
 
-	var results = await request.query(sqlQuery);
-	var ret = results.recordset as PurplePartyDbModel[];
+	const results = await request.query(sqlQuery);
+	const ret = results.recordset as PurplePartyDbModel[];
 
 	return ret;
 };
 
 export const getPurpleDuoSubmissions = async (request: Request) => {
-	var sqlQuery = `
+	const sqlQuery = `
             
   SELECT
   submit.${purpleDuoDbFields.RunID}, 
@@ -188,20 +188,20 @@ export const getPurpleDuoSubmissions = async (request: Request) => {
   INNER JOIN
   Players.Customization AS sc ON submit.${purpleDuoDbFields.SubmitterID} = sc.PlayerID
 
-  WHERE SubmissionStatus = 0
+  WHERE ${purpleDuoDbFields.SubmissionStatus} = 0
   AND
-  PartySize = 2
+  ${purpleDuoDbFields.PartySize} = 2
 
   ORDER BY SubmissionTime DESC`;
 
-	var results = await request.query(sqlQuery);
-	var ret = results.recordset as PurpleDuoDbModel[];
+	const results = await request.query(sqlQuery);
+	const ret = results.recordset as PurpleDuoDbModel[];
 
 	return ret;
 };
 
 export const getPurpleSoloSubmissions = async (request: Request) => {
-	var sqlQuery = `
+	const sqlQuery = `
         
   SELECT
   submit.${purpleSoloDbFields.RunID}, 
@@ -254,11 +254,11 @@ export const getPurpleSoloSubmissions = async (request: Request) => {
   INNER JOIN
   Players.Customization AS sc ON submit.${purpleSoloDbFields.SubmitterID} = sc.PlayerID
 
-  WHERE SubmissionStatus = 0
+  WHERE ${purpleSoloDbFields.SubmissionStatus} = 0
 
   ORDER BY SubmissionTime DESC`;
 
-	var results = await request.query(sqlQuery);
+	const results = await request.query(sqlQuery);
 	const ret = results.recordset as PurpleSoloDbModel[];
 
 	return ret;
@@ -282,7 +282,7 @@ export const approvePurpleSolo = async (transaction: sql.Transaction, run: Appro
 	// Update Submission
 	const submissionResult = await request.query(`
     UPDATE Submissions.Pending
-    SET SubmissionStatus = 1
+    SET ${purpleSoloDbFields.SubmissionStatus} = 1
     WHERE ${purpleSoloDbFields.RunID} = @submissionId;
     `);
 
@@ -301,7 +301,6 @@ export const getPurpleSoloExists = async (request: Request, runId: number) => {
     FROM Submissions.Pending
     WHERE ${purpleSoloDbFields.RunID} = @submissionId;
 		`);
-	console.log(submissionResults, runId);
 
 	if (Array.from(submissionResults.recordset).length == 0) {
 		return undefined;
@@ -411,7 +410,7 @@ export const approvePurpleParty = async (transaction: sql.Transaction, run: Appr
     SELECT @insertedRunId,P3PlayerID,P3RunCharacter,P3MainClass,P3SubClass,P3Link
     FROM Submissions.Party
     WHERE Submissions.Party.${purplePartyDbFields.RunID} = @submissionId;
-`);
+  `);
 	if (player3InsertResult.rowsAffected[0] == 0) {
 		throw Error(`Purple Party player 3 insertion failed.`);
 	}
@@ -420,7 +419,7 @@ export const approvePurpleParty = async (transaction: sql.Transaction, run: Appr
     SELECT @insertedRunId,P4PlayerID,P4RunCharacter,P4MainClass,P4SubClass,P4Link
     FROM Submissions.Party
     WHERE Submissions.Party.${purplePartyDbFields.RunID} = @submissionId;
-`);
+  `);
 	if (player4InsertResult.rowsAffected[0] == 0) {
 		throw Error(`Purple Party player 4 insertion failed.`);
 	}
@@ -433,7 +432,7 @@ export const approvePurpleParty = async (transaction: sql.Transaction, run: Appr
     `);
 
 	if (submissionResult.rowsAffected[0] == 0) {
-		throw Error(`Purple duo approval failed.`);
+		throw Error(`Purple party approval failed.`);
 	}
 };
 

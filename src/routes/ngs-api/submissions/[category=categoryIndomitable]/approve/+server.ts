@@ -91,7 +91,7 @@ const checkData = async (approveRequest: ApproveRequest, category: RunCategories
 			errorList
 		};
 	}
-	if (submissionResult && submissionResult.SubmissionStatus != 0) {
+	if (submissionResult && submissionResult.SubmissionStatus != '0') {
 		errorList.push(`Submission already denied/approved`);
 	}
 

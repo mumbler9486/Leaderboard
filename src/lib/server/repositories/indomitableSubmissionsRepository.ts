@@ -19,7 +19,7 @@ export const getIndomitableSubmissions = async (request: Request, category: RunC
 		throw Error(`Unknown indomitable boss: ${category}`);
 	}
 
-	var sqlQuery = `
+	const sqlQuery = `
 			
 							SELECT
 							submit.${indomitableDbFields.SubmissionId}, 
@@ -78,7 +78,7 @@ export const getIndomitableSubmissions = async (request: Request, category: RunC
 			
 							ORDER BY SubmissionTime DESC`;
 
-	var results = await request.query(sqlQuery);
+	const results = await request.query(sqlQuery);
 
 	const ret = results.recordset as IndomitableDbModel[];
 	return ret;
