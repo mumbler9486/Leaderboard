@@ -4,21 +4,16 @@ import { json } from '@sveltejs/kit';
 import { jsonError } from '$lib/server/error.js';
 import { notifyDiscordNewRunApproved } from '$lib/server/discordNotify.js';
 import {
-	approveIndomitableSubmission,
-	getIndomitableExists
-} from '$lib/server/repositories/indomitableSubmissionsRepository.js';
-import {
 	approveRequestSchema,
 	type ApproveRequest
 } from '$lib/server/types/validation/submissions.js';
 import { getRunPlayer } from '$lib/server/repositories/playerRepository.js';
 import { RunCategories, parseRunCategory } from '$lib/types/api/categories.js';
 
-const indomitableQuestNames: { [key: string]: string } = {
-	[RunCategories.IndomitableNexAelio]: 'Indomitable Nex Aelio',
-	[RunCategories.IndomitableRenusRetem]: 'Indomitable Renus Retem',
-	[RunCategories.IndomitableAmsKvaris]: 'Indomitable Ams Kvaris',
-	[RunCategories.IndomitableNilsStia]: 'Indomitable Nils Stia'
+const dfaQuestNames: { [key: string]: string } = {
+	[RunCategories.DfaParty]: 'DFA Party',
+	[RunCategories.DfaDuo]: 'DFA Duo',
+	[RunCategories.DfaSolo]: 'DFA Solo'
 };
 
 /** @type {import('./$types').RequestHandler} */
@@ -64,7 +59,7 @@ export async function POST({ request, params }) {
 		notifyDiscordNewRunApproved(
 			approveRequest.moderatorName,
 			playerName ?? '<Player_Name>',
-			indomitableQuestNames[category]
+			dfaQuestNames[category]
 		);
 		return json({ data: 'success' });
 	} catch (err) {
@@ -74,17 +69,13 @@ export async function POST({ request, params }) {
 	}
 }
 
-const checkData = async (approveRequest: ApproveRequest, category: RunCategories) => {
+const checkData = async (run: ApproveRequest, category: RunCategories) => {
 	const pool = await leaderboardDb.connect();
 	const errorList: string[] = [];
 
 	// Run exists
 	const submissionRequest = pool.request();
-	const submissionResult = await getIndomitableExists(
-		submissionRequest,
-		category,
-		approveRequest.runId
-	);
+	const submissionResult = await getIndomitableExists(submissionRequest, category, run.runId);
 	if (!submissionResult) {
 		errorList.push(`Unknown submissionId`);
 		return {

@@ -4,21 +4,24 @@ import { json } from '@sveltejs/kit';
 import { jsonError } from '$lib/server/error.js';
 import { notifyDiscordNewRunApproved } from '$lib/server/discordNotify.js';
 import {
-	approveIndomitableSubmission,
-	getIndomitableExists
-} from '$lib/server/repositories/indomitableSubmissionsRepository.js';
-import {
 	approveRequestSchema,
 	type ApproveRequest
 } from '$lib/server/types/validation/submissions.js';
 import { getRunPlayer } from '$lib/server/repositories/playerRepository.js';
 import { RunCategories, parseRunCategory } from '$lib/types/api/categories.js';
+import {
+	approvePurpleDuo,
+	approvePurpleParty,
+	approvePurpleSolo,
+	getPurpleDuoExists,
+	getPurplePartyExists,
+	getPurpleSoloExists
+} from '$lib/server/repositories/purpleSubmissionsRepository.js';
 
-const indomitableQuestNames: { [key: string]: string } = {
-	[RunCategories.IndomitableNexAelio]: 'Indomitable Nex Aelio',
-	[RunCategories.IndomitableRenusRetem]: 'Indomitable Renus Retem',
-	[RunCategories.IndomitableAmsKvaris]: 'Indomitable Ams Kvaris',
-	[RunCategories.IndomitableNilsStia]: 'Indomitable Nils Stia'
+const purpleQuestNames: { [key: string]: string } = {
+	[RunCategories.PurpleParty]: 'Purple Party',
+	[RunCategories.PurpleDuo]: 'Purple Duo',
+	[RunCategories.PurpleSolo]: 'Purple Solo'
 };
 
 /** @type {import('./$types').RequestHandler} */
@@ -58,13 +61,19 @@ export async function POST({ request, params }) {
 	const transaction = new sql.Transaction(pool);
 	try {
 		await transaction.begin();
-		await approveIndomitableSubmission(transaction, category, approveRequest);
+		if (category == RunCategories.PurpleSolo) {
+			await approvePurpleSolo(transaction, approveRequest);
+		} else if (category == RunCategories.PurpleDuo) {
+			await approvePurpleDuo(transaction, approveRequest);
+		} else if (category == RunCategories.PurpleParty) {
+			await approvePurpleParty(transaction, approveRequest);
+		}
 		await transaction.commit();
 
 		notifyDiscordNewRunApproved(
 			approveRequest.moderatorName,
 			playerName ?? '<Player_Name>',
-			indomitableQuestNames[category]
+			purpleQuestNames[category]
 		);
 		return json({ data: 'success' });
 	} catch (err) {
@@ -74,24 +83,35 @@ export async function POST({ request, params }) {
 	}
 }
 
-const checkData = async (approveRequest: ApproveRequest, category: RunCategories) => {
+const checkData = async (run: ApproveRequest, category: RunCategories) => {
 	const pool = await leaderboardDb.connect();
 	const errorList: string[] = [];
 
 	// Run exists
 	const submissionRequest = pool.request();
-	const submissionResult = await getIndomitableExists(
-		submissionRequest,
-		category,
-		approveRequest.runId
-	);
+
+	let submissionResult:
+		| {
+				SubmissionId: string;
+				SubmissionStatus: string;
+				PlayerId: string;
+		  }
+		| undefined;
+	if (category == RunCategories.PurpleSolo) {
+		submissionResult = await getPurpleSoloExists(submissionRequest, run.runId);
+	} else if (category == RunCategories.PurpleDuo) {
+		submissionResult = await getPurpleDuoExists(submissionRequest, run.runId);
+	} else if (category == RunCategories.PurpleParty) {
+		submissionResult = await getPurplePartyExists(submissionRequest, run.runId);
+	}
+
 	if (!submissionResult) {
 		errorList.push(`Unknown submissionId`);
 		return {
 			errorList
 		};
 	}
-	if (submissionResult && submissionResult.SubmissionStatus != 0) {
+	if (submissionResult && submissionResult.SubmissionStatus != '0') {
 		errorList.push(`Submission already denied/approved`);
 	}
 

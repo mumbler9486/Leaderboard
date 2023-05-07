@@ -1,8 +1,9 @@
-import type { Request } from 'mssql';
+import sql, { type Request } from 'mssql';
 import type { PurpleSoloDbModel } from '$lib/server/types/db/purple/purpleSolo';
 import type { PurpleDuoDbModel } from '$lib/server/types/db/purple/purpleDuo';
 import type { PurplePartyDbModel } from '$lib/server/types/db/purple/purpleParty';
 import { fields } from '../util/nameof';
+import type { ApproveRequest } from '../types/validation/submissions';
 
 const purplePartyDbFields = fields<PurplePartyDbModel>();
 const purpleDuoDbFields = fields<PurpleDuoDbModel>();
@@ -261,4 +262,199 @@ export const getPurpleSoloSubmissions = async (request: Request) => {
 	const ret = results.recordset as PurpleSoloDbModel[];
 
 	return ret;
+};
+
+export const approvePurpleSolo = async (transaction: sql.Transaction, run: ApproveRequest) => {
+	const request = transaction.request();
+	request.input('modNotes', sql.NVarChar, run.modNotes).input('submissionId', sql.Int, run.runId);
+
+	// Add run data to runs table
+	const runInsertResult = await request.query(`
+    INSERT INTO Purples.Solo (PlayerID,RunCharacterName,Patch,Region,Rank,Time,MainClass,SubClass,WeaponInfo1,WeaponInfo2,WeaponInfo3,WeaponInfo4,WeaponInfo5,WeaponInfo6,Link,Notes,SubmissionTime,SubmitterID,ModNotes)
+    SELECT PlayerID,RunCharacter,Patch,Region,Rank,Time,MainClass,SubClass,W1,W2,W3,W4,W5,W6,Link,Notes,SubmissionTime,SubmitterID,@modNotes
+    FROM Submissions.Pending
+		WHERE Submissions.Pending.${purpleSoloDbFields.RunID}= @submissionId;
+  `);
+	if (runInsertResult.rowsAffected[0] == 0) {
+		throw Error(`Purple Solo insertion failed.`);
+	}
+
+	// Update Submission
+	const submissionResult = await request.query(`
+    UPDATE Submissions.Pending
+    SET SubmissionStatus = 1
+    WHERE ${purpleSoloDbFields.RunID} = @submissionId;
+    `);
+
+	if (submissionResult.rowsAffected[0] == 0) {
+		throw Error(`Purple solo approval failed.`);
+	}
+};
+
+export const getPurpleSoloExists = async (request: Request, runId: number) => {
+	// Run exists
+	const submissionResults = await request.input('submissionId', sql.Int, runId).query(`
+    SELECT 
+      ${purpleSoloDbFields.RunID}, 
+      ${purpleSoloDbFields.SubmissionStatus}, 
+      ${purpleSoloDbFields.PlayerID}
+    FROM Submissions.Pending
+    WHERE ${purpleSoloDbFields.RunID} = @submissionId;
+		`);
+	console.log(submissionResults, runId);
+
+	if (Array.from(submissionResults.recordset).length == 0) {
+		return undefined;
+	}
+	const submission = submissionResults.recordset[0] as PurpleSoloDbModel;
+	return {
+		SubmissionId: submission.RunID,
+		SubmissionStatus: submission.SubmissionStatus,
+		PlayerId: submission.PlayerID
+	};
+};
+
+export const approvePurpleDuo = async (transaction: sql.Transaction, run: ApproveRequest) => {
+	const request = transaction.request();
+	request.input('modNotes', sql.NVarChar, run.modNotes).input('submissionId', sql.Int, run.runId);
+
+	// Add run data to runs table
+	const runInsertResult = await request.query(`
+    INSERT INTO Purples.Party (PartySize,Patch,Region,Rank,Time,Notes,RunServer,SubmissionTime,SubmitterID,ModNotes)
+    SELECT PartySize,Patch,Region,Rank,Time,Notes,ServerID,SubmissionTime,SubmitterID,@modNotes
+    FROM Submissions.Party
+		WHERE Submissions.Party.${purplePartyDbFields.RunID} = @submissionId;
+    SELECT SCOPE_IDENTITY() AS LastID;
+  `);
+	if (runInsertResult.rowsAffected[0] == 0) {
+		throw Error(`Purple Duo insertion failed.`);
+	}
+
+	// Add player info
+	const insertedRunId = parseInt(runInsertResult.recordset[0].LastID);
+	request.input('insertedRunId', sql.Int, insertedRunId);
+
+	const player1InsertResult = await request.query(`
+    INSERT INTO Purples.PartyRunners (RunID,PlayerID,RunCharacterName,MainClass,SubClass,LinkPOV)
+    SELECT @insertedRunId,P1PlayerID,P1RunCharacter,P1MainClass,P1SubClass,P1Link
+    FROM Submissions.Party
+    WHERE Submissions.Party.${purplePartyDbFields.RunID} = @submissionId;
+  `);
+	if (player1InsertResult.rowsAffected[0] == 0) {
+		throw Error(`Purple Duo player 1 insertion failed.`);
+	}
+	const player2InsertResult = await request.query(`
+    INSERT INTO Purples.PartyRunners (RunID,PlayerID,RunCharacterName,MainClass,SubClass,LinkPOV)
+    SELECT @insertedRunId,P2PlayerID,P2RunCharacter,P2MainClass,P2SubClass,P2Link
+    FROM Submissions.Party
+    WHERE Submissions.Party.${purplePartyDbFields.RunID} = @submissionId;
+  `);
+	if (player2InsertResult.rowsAffected[0] == 0) {
+		throw Error(`Purple Duo player 2 insertion failed.`);
+	}
+
+	// Update Submission
+	const submissionResult = await request.query(`
+    UPDATE Submissions.Party
+    SET ${purplePartyDbFields.SubmissionStatus} = 1
+    WHERE ${purplePartyDbFields.RunID} = @submissionId;
+    `);
+
+	if (submissionResult.rowsAffected[0] == 0) {
+		throw Error(`Purple Duo approval failed.`);
+	}
+};
+
+export const getPurpleDuoExists = async (request: Request, runId: number) =>
+	getPurplePartyExists(request, runId);
+
+export const approvePurpleParty = async (transaction: sql.Transaction, run: ApproveRequest) => {
+	const request = transaction.request();
+	request.input('modNotes', sql.NVarChar, run.modNotes).input('submissionId', sql.Int, run.runId);
+
+	// Add run data to runs table
+	const runInsertResult = await request.query(`
+    INSERT INTO Purples.Party (PartySize,Patch,Region,Rank,Time,Notes,RunServer,SubmissionTime,SubmitterID,ModNotes)
+    SELECT PartySize,Patch,Region,Rank,Time,Notes,ServerID,SubmissionTime,SubmitterID,@modNotes
+    FROM Submissions.Party
+		WHERE Submissions.Party.${purplePartyDbFields.RunID} = @submissionId;
+    SELECT SCOPE_IDENTITY() AS LastID;
+  `);
+	if (runInsertResult.rowsAffected[0] == 0) {
+		throw Error(`Purple Party insertion failed.`);
+	}
+
+	// Add player info
+	const insertedRunId = parseInt(runInsertResult.recordset[0].LastID);
+	request.input('insertedRunId', sql.Int, insertedRunId);
+
+	const player1InsertResult = await request.query(`
+    INSERT INTO Purples.PartyRunners (RunID,PlayerID,RunCharacterName,MainClass,SubClass,LinkPOV)
+    SELECT @insertedRunId,P1PlayerID,P1RunCharacter,P1MainClass,P1SubClass,P1Link
+    FROM Submissions.Party
+    WHERE Submissions.Party.${purplePartyDbFields.RunID} = @submissionId;
+  `);
+	if (player1InsertResult.rowsAffected[0] == 0) {
+		throw Error(`Purple Party player 1 insertion failed.`);
+	}
+	const player2InsertResult = await request.query(`
+    INSERT INTO Purples.PartyRunners (RunID,PlayerID,RunCharacterName,MainClass,SubClass,LinkPOV)
+    SELECT @insertedRunId,P2PlayerID,P2RunCharacter,P2MainClass,P2SubClass,P2Link
+    FROM Submissions.Party
+    WHERE Submissions.Party.${purplePartyDbFields.RunID} = @submissionId;
+  `);
+	if (player2InsertResult.rowsAffected[0] == 0) {
+		throw Error(`Purple Party player 2 insertion failed.`);
+	}
+	const player3InsertResult = await request.query(`
+    INSERT INTO Purples.PartyRunners (RunID,PlayerID,RunCharacterName,MainClass,SubClass,LinkPOV)
+    SELECT @insertedRunId,P3PlayerID,P3RunCharacter,P3MainClass,P3SubClass,P3Link
+    FROM Submissions.Party
+    WHERE Submissions.Party.${purplePartyDbFields.RunID} = @submissionId;
+`);
+	if (player3InsertResult.rowsAffected[0] == 0) {
+		throw Error(`Purple Party player 3 insertion failed.`);
+	}
+	const player4InsertResult = await request.query(`
+    INSERT INTO Purples.PartyRunners (RunID,PlayerID,RunCharacterName,MainClass,SubClass,LinkPOV)
+    SELECT @insertedRunId,P4PlayerID,P4RunCharacter,P4MainClass,P4SubClass,P4Link
+    FROM Submissions.Party
+    WHERE Submissions.Party.${purplePartyDbFields.RunID} = @submissionId;
+`);
+	if (player4InsertResult.rowsAffected[0] == 0) {
+		throw Error(`Purple Party player 4 insertion failed.`);
+	}
+
+	// Update Submission
+	const submissionResult = await request.query(`
+    UPDATE Submissions.Party
+    SET ${purplePartyDbFields.SubmissionStatus} = 1
+    WHERE ${purplePartyDbFields.RunID} = @submissionId;
+    `);
+
+	if (submissionResult.rowsAffected[0] == 0) {
+		throw Error(`Purple duo approval failed.`);
+	}
+};
+
+export const getPurplePartyExists = async (request: Request, runId: number) => {
+	// Run exists
+	const submissionResults = await request.input('submissionId', sql.Int, runId).query(`
+    SELECT
+      ${purplePartyDbFields.RunID},
+      ${purplePartyDbFields.SubmissionStatus},
+      ${purplePartyDbFields.P1PlayerID}
+    FROM Submissions.Party
+    WHERE ${purplePartyDbFields.RunID} = @submissionId;
+		`);
+
+	if (Array.from(submissionResults.recordset).length == 0) {
+		return undefined;
+	}
+	const submission = submissionResults.recordset[0] as PurplePartyDbModel;
+	return {
+		SubmissionId: submission.RunID,
+		SubmissionStatus: submission.SubmissionStatus,
+		PlayerId: submission.P1PlayerID
+	};
 };

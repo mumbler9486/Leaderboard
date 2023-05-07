@@ -94,4 +94,8 @@
 	</div>
 {/if}
 
-<SubmissionInfoModal bind:this={submissionModal} submission={viewSubmission} />
+<SubmissionInfoModal
+	bind:this={submissionModal}
+	submission={viewSubmission}
+	on:submissionChanged={reloadData}
+/>

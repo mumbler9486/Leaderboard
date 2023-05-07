@@ -93,7 +93,10 @@ export const getIndomitableExists = async (
 
 	// Run exists
 	const submissionResults = await request.input('submissionId', sql.Int, runId).query(`
-    SELECT SubmissionId, SubmissionStatus, PlayerId
+    SELECT 
+			${indomitableDbFields.SubmissionId},
+			${indomitableDbFields.SubmissionStatus},
+			${indomitableDbFields.PlayerID}
     FROM Submissions.${table}
     WHERE SubmissionId = @submissionId;
 		`);
@@ -101,17 +104,17 @@ export const getIndomitableExists = async (
 	if (Array.from(submissionResults.recordset).length == 0) {
 		return undefined;
 	}
-	const submission = submissionResults.recordset[0];
+	const submission = submissionResults.recordset[0] as IndomitableDbModel;
 	return {
 		SubmissionId: submission.SubmissionId,
 		SubmissionStatus: submission.SubmissionStatus,
-		PlayerId: submission.PlayerId
+		PlayerId: submission.PlayerID
 	};
 };
 
 export const approveIndomitableSubmission = async (
 	transaction: sql.Transaction,
-	category: string,
+	category: RunCategories,
 	run: ApproveRequest
 ) => {
 	const table = validDuelTables[category];
@@ -124,7 +127,7 @@ export const approveIndomitableSubmission = async (
     INSERT INTO ${table} (PlayerID,RunCharacterName,ShipOverride,Patch,Region,Rank,RunTime,MainClass,SubClass,WeaponInfo1,WeaponInfo2,WeaponInfo3,WeaponInfo4,WeaponInfo5,WeaponInfo6,Link,Notes,SubmissionTime,SubmitterID,VideoTag,ModNotes,Augments)
     SELECT PlayerID,RunCharacterName,NULL,Patch,NULL,Rank,RunTime,MainClass,SubClass,WeaponInfo1,WeaponInfo2,WeaponInfo3,WeaponInfo4,WeaponInfo5,WeaponInfo6,Link,Notes,SubmissionTime,SubmitterID,VideoTag,@modNotes,Augments
     FROM Submissions.${table}
-		WHERE SubmissionId = @submissionId;
+		WHERE ${indomitableDbFields.SubmissionId} = @submissionId;
   `);
 	if (runInsertResult.rowsAffected[0] == 0) {
 		throw Error(`Indomitable Run insertion failed.`);
@@ -133,8 +136,8 @@ export const approveIndomitableSubmission = async (
 	// Update Submission
 	const submissionResult = await request.query(`
       UPDATE Submissions.${table}
-      SET SubmissionStatus = 1, ModNotes = @modNotes
-      WHERE SubmissionId = @submissionId;
+      SET ${indomitableDbFields.SubmissionStatus} = 1, ${indomitableDbFields.ModNotes} = @modNotes
+      WHERE ${indomitableDbFields.SubmissionId} = @submissionId;
     `);
 
 	if (submissionResult.rowsAffected[0] == 0) {
@@ -144,7 +147,7 @@ export const approveIndomitableSubmission = async (
 
 export const denyIndomitableSubmission = async (
 	request: Request,
-	category: string,
+	category: RunCategories,
 	run: DenyRequest
 ) => {
 	const table = validDuelTables[category];

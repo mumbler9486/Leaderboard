@@ -31,4 +31,5 @@ export interface PurpleSoloDbModel {
 	SubmissionTime: string;
 	SubmitterName: string;
 	Notes: string;
+	SubmissionStatus: string;
 }

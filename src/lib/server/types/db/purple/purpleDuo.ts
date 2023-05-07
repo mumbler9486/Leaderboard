@@ -39,4 +39,5 @@ export interface PurpleDuoDbModel {
 	SubmitterNameColor1: string;
 	SubmitterNameColor2: string;
 	SubmitterPrefN: string;
+	SubmissionStatus: string;
 }

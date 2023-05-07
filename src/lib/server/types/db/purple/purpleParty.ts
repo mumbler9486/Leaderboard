@@ -63,4 +63,5 @@ export interface PurplePartyDbModel {
 	SubmitterNameColor1: string;
 	SubmitterNameColor2: string;
 	SubmitterPrefN: string;
+	SubmissionStatus: string;
 }
