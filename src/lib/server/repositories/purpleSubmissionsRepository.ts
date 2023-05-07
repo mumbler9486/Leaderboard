@@ -3,7 +3,7 @@ import type { PurpleSoloDbModel } from '$lib/server/types/db/purple/purpleSolo';
 import type { PurpleDuoDbModel } from '$lib/server/types/db/purple/purpleDuo';
 import type { PurplePartyDbModel } from '$lib/server/types/db/purple/purpleParty';
 import { fields } from '../util/nameof';
-import type { ApproveRequest } from '../types/validation/submissions';
+import type { ApproveRequest, DenyRequest } from '../types/validation/submissions';
 
 const purplePartyDbFields = fields<PurplePartyDbModel>();
 const purpleDuoDbFields = fields<PurpleDuoDbModel>();
@@ -456,4 +456,46 @@ export const getPurplePartyExists = async (request: Request, runId: number) => {
 		SubmissionStatus: submission.SubmissionStatus,
 		PlayerId: submission.P1PlayerID
 	};
+};
+
+export const denyPurpleSolo = async (request: sql.Request, run: DenyRequest) => {
+	const result = await request
+		.input('submissionId', sql.Int, run.runId)
+		.input('modNotes', sql.NVarChar, run.modNotes).query(`
+      UPDATE Submissions.Pending
+      SET ${purpleSoloDbFields.SubmissionStatus} = 1
+      WHERE ${purpleSoloDbFields.RunID} = @submissionId;
+  `);
+
+	if (result.rowsAffected[0] == 0) {
+		throw Error(`Purple Solo Run denial failed.`);
+	}
+};
+
+export const denyPurpleDuo = async (request: sql.Request, run: DenyRequest) => {
+	const result = await request
+		.input('submissionId', sql.Int, run.runId)
+		.input('modNotes', sql.NVarChar, run.modNotes).query(`
+      UPDATE Submissions.Party
+      SET ${purplePartyDbFields.SubmissionStatus} = 1
+      WHERE ${purplePartyDbFields.RunID} = @submissionId AND ${purplePartyDbFields.PartySize} = 2;
+  `);
+
+	if (result.rowsAffected[0] == 0) {
+		throw Error(`Purple Duo Run denial failed.`);
+	}
+};
+
+export const denyPurpleParty = async (request: sql.Request, run: DenyRequest) => {
+	const result = await request
+		.input('submissionId', sql.Int, run.runId)
+		.input('modNotes', sql.NVarChar, run.modNotes).query(`
+      UPDATE Submissions.Party
+      SET ${purplePartyDbFields.SubmissionStatus} = 1
+      WHERE ${purplePartyDbFields.RunID} = @submissionId AND ${purplePartyDbFields.PartySize} = 4;
+  `);
+
+	if (result.rowsAffected[0] == 0) {
+		throw Error(`Purple Party Run denial failed.`);
+	}
 };

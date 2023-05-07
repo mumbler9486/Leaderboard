@@ -1,12 +1,16 @@
 import { leaderboardDb } from '$lib/server/db/db';
 import { json } from '@sveltejs/kit';
 import { jsonError } from '$lib/server/error.js';
-import {
-	denyIndomitableSubmission,
-	getIndomitableExists
-} from '$lib/server/repositories/indomitableSubmissionsRepository.js';
 import { denyRequestSchema, type DenyRequest } from '$lib/server/types/validation/submissions.js';
-import { parseRunCategory, type RunCategories } from '$lib/types/api/categories.js';
+import { parseRunCategory, RunCategories } from '$lib/types/api/categories.js';
+import {
+	denyPurpleDuo,
+	denyPurpleParty,
+	denyPurpleSolo,
+	getPurpleDuoExists,
+	getPurplePartyExists,
+	getPurpleSoloExists
+} from '$lib/server/repositories/purpleSubmissionsRepository.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request, params }) {
@@ -17,28 +21,35 @@ export async function POST({ request, params }) {
 
 	// Validate request
 	const body = await request.json();
-	let submission: DenyRequest;
+	let denyRequest: DenyRequest;
 	try {
-		submission = await denyRequestSchema.validate(body);
+		denyRequest = await denyRequestSchema.validate(body);
 	} catch (err: any) {
 		return jsonError(400, {
 			error: 'bad_request',
 			details: err.errors
 		});
 	}
-	if (!submission) {
+	if (!denyRequest) {
 		return jsonError(400, { error: 'json_parse_error' });
 	}
 
 	// Check data in db
-	const { errorList: validationErrors, extra: data } = await checkData(submission, category);
+	const { errorList: validationErrors, extra: data } = await checkData(denyRequest, category);
 	if (validationErrors.length > 0 || !data) {
 		return jsonError(400, { error: 'bad_request', details: validationErrors });
 	}
 
 	try {
 		const pool = await leaderboardDb.connect();
-		await denyIndomitableSubmission(pool.request(), category, submission);
+		const request = pool.request();
+		if (category == RunCategories.PurpleSolo) {
+			await denyPurpleSolo(request, denyRequest);
+		} else if (category == RunCategories.PurpleDuo) {
+			await denyPurpleDuo(request, denyRequest);
+		} else if (category == RunCategories.PurpleParty) {
+			await denyPurpleParty(request, denyRequest);
+		}
 		return json({ data: 'success' });
 	} catch (err) {
 		console.error(err);
@@ -52,14 +63,28 @@ const checkData = async (run: DenyRequest, category: RunCategories) => {
 
 	// Run exists
 	const submissionRequest = pool.request();
-	const submissionResult = await getIndomitableExists(submissionRequest, category, run.runId);
+	let submissionResult:
+		| {
+				SubmissionId: string;
+				SubmissionStatus: string;
+				PlayerId: string;
+		  }
+		| undefined;
+	if (category == RunCategories.PurpleSolo) {
+		submissionResult = await getPurpleSoloExists(submissionRequest, run.runId);
+	} else if (category == RunCategories.PurpleDuo) {
+		submissionResult = await getPurpleDuoExists(submissionRequest, run.runId);
+	} else if (category == RunCategories.PurpleParty) {
+		submissionResult = await getPurplePartyExists(submissionRequest, run.runId);
+	}
+
 	if (!submissionResult) {
 		errorList.push(`Unknown submissionId`);
 		return {
 			errorList
 		};
 	}
-	if (submissionResult && submissionResult.SubmissionStatus != 0) {
+	if (submissionResult && submissionResult.SubmissionStatus != '0') {
 		errorList.push(`Submission already denied/approved`);
 	}
 
