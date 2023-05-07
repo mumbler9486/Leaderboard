@@ -6,7 +6,7 @@
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
 	import { RunCategories } from '$lib/types/api/categories';
 
-	export let category: string;
+	export let category: RunCategories;
 
 	let submissions: PurpleSubmission[] = [];
 	let loading = true;
@@ -15,14 +15,14 @@
 	let viewSubmission: Submission;
 
 	const categoryPathMap: { [key: string]: string } = {
-		[RunCategories.PurpleDuo.toLowerCase()]: RunCategories.PurpleDuo,
-		[RunCategories.PurpleParty.toLowerCase()]: RunCategories.PurpleParty
+		[RunCategories.PurpleDuo]: RunCategories.PurpleDuo,
+		[RunCategories.PurpleParty]: RunCategories.PurpleParty
 	};
 
 	$: reloadData(category);
 
 	async function reloadData(...watch: any[]) {
-		const categoryPath = categoryPathMap[category.toLowerCase()];
+		const categoryPath = categoryPathMap[category];
 		if (!categoryPath) console.error('Unknown purple category');
 
 		loading = true;

@@ -24,7 +24,7 @@
 		{ value: RunCategories.IndomitableNilsStia, label: 'Indomitable Nils Stia' }
 	];
 
-	const submitsMap: { [key: string]: { component: any; category: string } } = {
+	const submitsMap: { [key: string]: { component: any; category: RunCategories } } = {
 		[RunCategories.PurpleSolo]: {
 			component: PurpleSoloSubmits,
 			category: RunCategories.PurpleSolo

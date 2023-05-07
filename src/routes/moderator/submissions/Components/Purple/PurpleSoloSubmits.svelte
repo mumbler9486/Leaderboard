@@ -6,7 +6,7 @@
 
 	import PurpleSoloSubmitRow from './PurpleSoloSubmitRow.svelte';
 
-	export let category: string;
+	export let category: RunCategories;
 
 	let submissions: PurpleSubmission[] = [];
 	let loading = true;
@@ -15,13 +15,13 @@
 	let viewSubmission: Submission;
 
 	const categoryPathMap: { [key: string]: string } = {
-		[RunCategories.PurpleSolo.toLowerCase()]: RunCategories.PurpleSolo
+		[RunCategories.PurpleSolo]: RunCategories.PurpleSolo
 	};
 
 	$: reloadData(category);
 
 	async function reloadData(...watch: any[]) {
-		const categoryPath = categoryPathMap[category.toLowerCase()];
+		const categoryPath = categoryPathMap[category];
 		if (!categoryPath) console.error('Unknown purple category');
 
 		loading = true;

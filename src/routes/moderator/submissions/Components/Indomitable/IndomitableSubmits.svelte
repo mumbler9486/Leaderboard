@@ -4,11 +4,10 @@
 	import { mapToNamePref } from '$lib/types/api/mapNamePref';
 	import IndomitableSubmitRow from './IndomitableSubmitRow.svelte';
 
-	import { onMount } from 'svelte';
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
 	import { RunCategories } from '$lib/types/api/categories';
 
-	export let category: string;
+	export let category: RunCategories;
 
 	let submissions: IndomitableSubmission[] = [];
 	let loading = true;
@@ -17,16 +16,16 @@
 	let viewSubmission: IndomitableSubmission;
 
 	const categoryPathMap: { [key: string]: string } = {
-		[RunCategories.IndomitableNexAelio.toLowerCase()]: RunCategories.IndomitableNexAelio,
-		[RunCategories.IndomitableRenusRetem.toLowerCase()]: RunCategories.IndomitableRenusRetem,
-		[RunCategories.IndomitableAmsKvaris.toLowerCase()]: RunCategories.IndomitableAmsKvaris,
-		[RunCategories.IndomitableNilsStia.toLowerCase()]: RunCategories.IndomitableNilsStia
+		[RunCategories.IndomitableNexAelio]: RunCategories.IndomitableNexAelio,
+		[RunCategories.IndomitableRenusRetem]: RunCategories.IndomitableRenusRetem,
+		[RunCategories.IndomitableAmsKvaris]: RunCategories.IndomitableAmsKvaris,
+		[RunCategories.IndomitableNilsStia]: RunCategories.IndomitableNilsStia
 	};
 
 	$: reloadData(category);
 
 	async function reloadData(...watch: any[]) {
-		const categoryPath = categoryPathMap[category.toLowerCase()];
+		const categoryPath = categoryPathMap[category];
 		if (!categoryPath) console.error('Unknown indomitable boss category');
 
 		loading = true;

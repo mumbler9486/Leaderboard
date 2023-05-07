@@ -5,7 +5,7 @@
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import type { IndomitableSubmission } from '$lib/types/api/submissions/submissions';
 	import { createEventDispatcher } from 'svelte';
-	import { RunCategories, parseCategory as parseRunCategory } from '$lib/types/api/categories';
+	import { RunCategories, parseRunCategory } from '$lib/types/api/categories';
 
 	const dispatcher = createEventDispatcher();
 
