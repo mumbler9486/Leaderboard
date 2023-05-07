@@ -5,14 +5,13 @@ const RUN_SUBMITTED_DISCORD_WEBHOOK_URL = process.env.RUN_SUBMITTED_DISCORD_WEBH
 const RUN_APPROVAL_THUMBNAIL_DFA = process.env.RUN_APPROVAL_THUMBNAIL_DFA;
 const RUN_APPROVAL_THUMBNAIL_STIA_PURPLE = process.env.RUN_APPROVAL_THUMBNAIL_STIA_PURPLE;
 const RUN_APPROVAL_WEBHOOK_USER_IMG = process.env.RUN_APPROVAL_WEBHOOK_USER_IMG;
+const RUN_APPROVAL_THUMBNAIL_RENUS_RETEM = process.env.RUN_APPROVAL_THUMBNAIL_RENUS_RETEM;
 
 export const notifyDiscordNewRunSubmitted = async (userName: string, quest: string) => {
 	const webhookUrl = RUN_SUBMITTED_DISCORD_WEBHOOK_URL;
 	if (!webhookUrl) return;
 
-	const thumbnail = quest.toLowerCase().startsWith('dfa')
-		? RUN_APPROVAL_THUMBNAIL_DFA
-		: RUN_APPROVAL_THUMBNAIL_STIA_PURPLE;
+	const thumbnail = getThumbnailUrl(quest);
 
 	try {
 		fetch(webhookUrl, {
@@ -56,9 +55,8 @@ export const notifyDiscordNewRunApproved = async (
 	const webhookUrl = RUN_APPROVAL_DISCORD_WEBHOOK_URL;
 	if (!webhookUrl) return;
 
-	const thumbnail = quest.toLowerCase().startsWith('dfa')
-		? process.env.RUN_APPROVAL_THUMBNAIL_DFA
-		: process.env.RUN_APPROVAL_THUMBNAIL_STIA_PURPLE;
+	const thumbnail = getThumbnailUrl(quest);
+
 	try {
 		fetch(webhookUrl, {
 			method: 'POST',
@@ -89,4 +87,15 @@ export const notifyDiscordNewRunApproved = async (
 	} catch (err) {
 		console.error(err);
 	}
+};
+
+const getThumbnailUrl = (questName: string) => {
+	questName = questName.toLowerCase();
+	if (questName.startsWith('dfa')) {
+		return RUN_APPROVAL_THUMBNAIL_DFA;
+	} else if (questName.startsWith('indomitable')) {
+		return RUN_APPROVAL_THUMBNAIL_RENUS_RETEM;
+	}
+
+	return RUN_APPROVAL_THUMBNAIL_STIA_PURPLE;
 };
