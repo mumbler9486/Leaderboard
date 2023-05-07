@@ -3,7 +3,8 @@
 
 	const supportMap: { [support: string]: { label: string; icon: string } } = {
 		ilma: { label: 'Ilma', icon: 'ilma.png' },
-		'aina-manon': { label: 'Aina & Manon', icon: 'ainamanon.png' },
+		ainamanon: { label: 'Aina & Manon', icon: 'ainamanon.png' },
+		'aina-manon': { label: 'Aina & Manon', icon: 'ainamanon.png' }, //TODO replace DB values
 		nadereh: { label: 'Nadereh', icon: 'nadereh.png' },
 		glen: { label: 'Glen', icon: 'glen.png' }
 	};
