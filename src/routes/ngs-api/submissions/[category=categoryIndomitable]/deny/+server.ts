@@ -6,10 +6,14 @@ import {
 	getIndomitableExists
 } from '$lib/server/repositories/indomitableSubmissionsRepository.js';
 import { denyRequestSchema, type DenyRequest } from '$lib/server/types/validation/submissions.js';
+import { parseRunCategory, type RunCategories } from '$lib/types/api/categories.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request, params }) {
-	const category = params.category?.toLowerCase() ?? '';
+	const category = parseRunCategory(params.category);
+	if (!category) {
+		return jsonError(404, 'Unknown category');
+	}
 
 	// Validate request
 	const body = await request.json();
@@ -42,7 +46,7 @@ export async function POST({ request, params }) {
 	}
 }
 
-const checkData = async (run: DenyRequest, category: string) => {
+const checkData = async (run: DenyRequest, category: RunCategories) => {
 	const pool = await leaderboardDb.connect();
 	const errorList: string[] = [];
 

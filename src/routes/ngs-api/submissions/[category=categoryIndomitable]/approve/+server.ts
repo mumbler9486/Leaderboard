@@ -12,17 +12,21 @@ import {
 	type ApproveRequest
 } from '$lib/server/types/validation/submissions.js';
 import { getRunPlayer } from '$lib/server/repositories/playerRepository.js';
+import { RunCategories, parseRunCategory } from '$lib/types/api/categories.js';
 
 const indomitableQuestNames: { [key: string]: string } = {
-	indomitable_nexaelio: 'Indomitable Nex Aelio',
-	indomitable_renusretem: 'Indomitable Renus Retem',
-	indomitable_amskvaris: 'Indomitable Ams Kvaris',
-	indomitable_nilsstia: 'Indomitable Nils Stia'
+	[RunCategories.IndomitableNexAelio]: 'Indomitable Nex Aelio',
+	[RunCategories.IndomitableRenusRetem]: 'Indomitable Renus Retem',
+	[RunCategories.IndomitableAmsKvaris]: 'Indomitable Ams Kvaris',
+	[RunCategories.IndomitableNilsStia]: 'Indomitable Nils Stia'
 };
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request, params }) {
-	const category = params.category?.toLowerCase() ?? '';
+	const category = parseRunCategory(params.category);
+	if (!category) {
+		return jsonError(404, 'Unknown category');
+	}
 
 	// Validate request
 	const body = await request.json();
@@ -70,7 +74,7 @@ export async function POST({ request, params }) {
 	}
 }
 
-const checkData = async (run: ApproveRequest, category: string) => {
+const checkData = async (run: ApproveRequest, category: RunCategories) => {
 	const pool = await leaderboardDb.connect();
 	const errorList: string[] = [];
 

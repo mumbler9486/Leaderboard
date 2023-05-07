@@ -7,13 +7,13 @@ import { RunCategories } from '$lib/types/api/categories';
 const indomitableDbFields = fields<IndomitableDbModel>();
 
 const validDuelTables: { [key: string]: string } = {
-	[RunCategories.IndomitableNexAelio.toLowerCase()]: 'IndomitableNexAelioRuns',
-	[RunCategories.IndomitableRenusRetem.toLowerCase()]: 'IndomitableRenusRetemRuns',
-	[RunCategories.IndomitableAmsKvaris.toLowerCase()]: 'IndomitableAmsKvarisRuns',
-	[RunCategories.IndomitableNilsStia.toLowerCase()]: 'IndomitableNilsStiaRuns'
+	[RunCategories.IndomitableNexAelio]: 'IndomitableNexAelioRuns',
+	[RunCategories.IndomitableRenusRetem]: 'IndomitableRenusRetemRuns',
+	[RunCategories.IndomitableAmsKvaris]: 'IndomitableAmsKvarisRuns',
+	[RunCategories.IndomitableNilsStia]: 'IndomitableNilsStiaRuns'
 };
 
-export const getIndomitableSubmissions = async (request: Request, category: string) => {
+export const getIndomitableSubmissions = async (request: Request, category: RunCategories) => {
 	const duelTable = validDuelTables[category];
 	if (!duelTable) {
 		throw Error(`Unknown indomitable boss: ${category}`);
@@ -84,7 +84,11 @@ export const getIndomitableSubmissions = async (request: Request, category: stri
 	return ret;
 };
 
-export const getIndomitableExists = async (request: Request, category: string, runId: number) => {
+export const getIndomitableExists = async (
+	request: Request,
+	category: RunCategories,
+	runId: number
+) => {
 	const table = validDuelTables[category];
 
 	// Run exists

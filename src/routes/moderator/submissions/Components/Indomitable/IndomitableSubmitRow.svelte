@@ -45,7 +45,7 @@
 		<NgsClassIcon combatClass={player1.mainClass} />
 		<NgsClassIcon combatClass={player1.subClass} />
 	</td>
-	<td class="text-center">{bossNames[parseRunCategory(submission.category)]}</td>
+	<td class="text-center">{bossNames[parseRunCategory(submission.category) ?? '']}</td>
 	<td class="text-center">{submission.rank}</td>
 	<td class="text-center">{patchCodes[submission.patch.toLowerCase()]}</td>
 	<td class="text-center">{usesAugments[submission.augments.toString()]}</td>

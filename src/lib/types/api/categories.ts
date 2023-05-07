@@ -17,4 +17,5 @@ export enum RunCategories {
 export const runCategoryValues = stringEnumValuesToList<RunCategories>(RunCategories);
 
 const runCategoryMap = stringEnumValuesToMap<RunCategories>(RunCategories);
-export const parseRunCategory = (value: string) => runCategoryMap[value.toLowerCase()];
+export const parseRunCategory = (value: string | undefined) =>
+	value ? runCategoryMap[value.toLowerCase()] : undefined;
