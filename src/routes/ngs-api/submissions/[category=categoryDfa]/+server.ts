@@ -10,15 +10,16 @@ import {
 	mapDfaPartyToSubmission,
 	mapDfaSoloToSubmission
 } from '$lib/server/mappers/api/dfaSubmitMapper.js';
+import { RunCategories, parseRunCategory } from '$lib/types/api/categories.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params }) {
-	const category = params.category?.toLowerCase() ?? '';
+	const category = parseRunCategory(params.category);
 
 	const poolConnection = await leaderboardDb.connect();
 
 	switch (category) {
-		case 'dfaparty':
+		case RunCategories.DfaParty:
 			try {
 				const request = poolConnection.request();
 				const data = await getDfaPartySubmissions(request);
@@ -28,7 +29,7 @@ export async function GET({ params }) {
 				console.error(err);
 				throw err;
 			}
-		case 'dfaduo':
+		case RunCategories.DfaDuo:
 			try {
 				const request = poolConnection.request();
 				const data = await getDfaDuoSubmissions(request);
@@ -38,7 +39,7 @@ export async function GET({ params }) {
 				console.error(err);
 				throw err;
 			}
-		case 'dfasolo':
+		case RunCategories.DfaSolo:
 			try {
 				const request = poolConnection.request();
 				const data = await getDfaSoloSubmissions(request);

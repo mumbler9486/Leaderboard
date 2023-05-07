@@ -10,15 +10,16 @@ import {
 	mapPurplePartyToSubmission,
 	mapPurpleSoloToSubmission
 } from '$lib/server/mappers/api/purpleSubmitMapper.js';
+import { RunCategories, parseRunCategory } from '$lib/types/api/categories.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params }) {
-	const category = params.category?.toLowerCase() ?? '';
+	const category = parseRunCategory(params.category);
 
 	const poolConnection = await leaderboardDb.connect();
 
 	switch (category) {
-		case 'purpleparty':
+		case RunCategories.PurpleParty:
 			try {
 				const request = poolConnection.request();
 				const data = await getPurplePartySubmissions(request);
@@ -28,7 +29,7 @@ export async function GET({ params }) {
 				console.error(err);
 				throw err;
 			}
-		case 'purpleduo':
+		case RunCategories.PurpleDuo:
 			try {
 				const request = poolConnection.request();
 				const data = await getPurpleDuoSubmissions(request);
@@ -38,7 +39,7 @@ export async function GET({ params }) {
 				console.error(err);
 				throw err;
 			}
-		case 'purplesolo':
+		case RunCategories.PurpleSolo:
 			try {
 				const request = poolConnection.request();
 				const data = await getPurpleSoloSubmissions(request);
