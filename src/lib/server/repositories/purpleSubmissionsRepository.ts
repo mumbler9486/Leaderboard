@@ -4,6 +4,7 @@ import type { PurpleDuoDbModel } from '$lib/server/types/db/purple/purpleDuo';
 import type { PurplePartyDbModel } from '$lib/server/types/db/purple/purpleParty';
 import { fields } from '../util/nameof';
 import type { ApproveRequest, DenyRequest } from '../types/validation/submissions';
+import type { PurpleSubmissionRequest } from '../types/validation/purpleSubmissions';
 
 const purplePartyDbFields = fields<PurplePartyDbModel>();
 const purpleDuoDbFields = fields<PurpleDuoDbModel>();
@@ -499,3 +500,148 @@ export const denyPurpleParty = async (request: sql.Request, run: DenyRequest) =>
 		throw Error(`Purple Party Run denial failed.`);
 	}
 };
+
+export const checkPurpleVideoExists = async (request: sql.Request, videoLinks: string[]) => {
+	let videoLinkRequest = request;
+
+	const paramNames: string[] = [];
+	videoLinks.forEach((l, i) => {
+		const paramName = `link${i}`;
+		paramNames.push(paramName);
+		videoLinkRequest = videoLinkRequest.input(paramName, l);
+	});
+
+	const paramList = paramNames.map((p) => `@${p}`);
+	const videoLinksResults = await videoLinkRequest.query(`
+    SELECT Link 
+			FROM Submissions.Pending 
+			WHERE Link IN (${paramList.join(',')})
+		UNION
+		SELECT P1Link
+			FROM Submissions.Party
+			WHERE P1Link IN (${paramList.join(',')})
+		UNION
+		SELECT P2Link
+			FROM Submissions.Party
+			WHERE P2Link IN (${paramList.join(',')})
+		UNION
+		SELECT P3Link
+			FROM Submissions.Party
+			WHERE P3Link IN (${paramList.join(',')})
+		UNION
+		SELECT P4Link
+			FROM Submissions.Party
+			WHERE P4Link IN (${paramList.join(',')});`);
+
+	return videoLinksResults.recordset.length > 0
+		? videoLinksResults.recordset.map((r) => r.Link as string)
+		: [];
+};
+
+export const insertPurpleSoloSubmission = async (
+	request: sql.Request,
+	run: PurpleSubmissionRequest
+) => {
+	const player1 = run.players[0];
+
+	const runTime = serializeTimeToSqlTime(run.time);
+
+	const submissionTime = new Date();
+
+	let insertRequest = request
+		.input('playerID', sql.Int, player1.playerId)
+		.input('runCharacter', sql.NVarChar, player1.inVideoName)
+		.input('patch', sql.NVarChar, 'pot6r')
+		.input('region', sql.NVarChar, run.region)
+		.input('rank', sql.Int, run.rank)
+		.input('time', sql.NVarChar, runTime)
+		.input('mainClass', sql.NVarChar, player1.mainClass)
+		.input('subClass', sql.NVarChar, player1.subClass)
+		.input('link', sql.NVarChar, player1.povVideoLink)
+		.input('notes', sql.NVarChar, run.notes)
+		.input('submissionTime', sql.DateTime, submissionTime)
+		.input('submitterID', sql.Int, player1.playerId)
+		.input('w1', sql.NVarChar, player1.weapons[0])
+		.input('w2', sql.NVarChar, player1.weapons[1])
+		.input('w3', sql.NVarChar, player1.weapons[2])
+		.input('w4', sql.NVarChar, player1.weapons[3])
+		.input('w5', sql.NVarChar, player1.weapons[4])
+		.input('w6', sql.NVarChar, player1.weapons[5]);
+
+	const result = await insertRequest.query(
+		`INSERT INTO 
+		 Submissions.Pending (PlayerID,RunCharacter,Patch,Region,Rank,Time,MainClass,SubClass,W1,W2,W3,W4,W5,W6,Link,Notes,SubmissionTime,SubmitterID)
+		 VALUES (@playerID,@runCharacter,@patch,@region,@rank,@time,@mainClass,@subClass,@w1,@w2,@w3,@w4,@w5,@w6,@link,@notes,@submissionTime,@submitterID);
+		`
+	);
+
+	if (result.rowsAffected[0] == 0) {
+		throw Error(`Purple Solo Run insertion failed. Submission from ${run.username}`);
+	}
+};
+
+export const insertPurplePartySubmission = async (
+	request: sql.Request,
+	run: PurpleSubmissionRequest
+) => {
+	const player1 = run.players[0];
+	const player2 = run.players[1];
+	const player3 = run.players[2];
+	const player4 = run.players[3];
+
+	const runTime = serializeTimeToSqlTime(run.time);
+
+	const submissionTime = new Date();
+
+	let insertRequest = request
+		.input('patch', sql.NVarChar, 'pot6r')
+		.input('region', sql.NVarChar, run.region)
+		.input('rank', sql.Int, run.rank)
+		.input('time', sql.NVarChar, runTime)
+		.input('subtime', sql.DateTime, submissionTime)
+		.input('subpid', sql.Int, player1.playerId)
+		.input('serverid', sql.NVarChar, run.serverRegion)
+		.input('notes', sql.NVarChar, run.notes)
+		.input('partysize', sql.Int, run.players.length);
+
+	insertRequest = insertRequest
+		.input('p1pid', sql.Int, player1.playerId)
+		.input('p1rc', sql.NVarChar, player1.inVideoName)
+		.input('p1mc', sql.NVarChar, player1.mainClass)
+		.input('p1sc', sql.NVarChar, player1.subClass)
+		.input('p1link', sql.NVarChar, player1.povVideoLink);
+
+	insertRequest = insertRequest
+		.input('p2pid', sql.Int, player2.playerId)
+		.input('p2rc', sql.NVarChar, player2.inVideoName)
+		.input('p2mc', sql.NVarChar, player2.mainClass)
+		.input('p2sc', sql.NVarChar, player2.subClass)
+		.input('p2link', sql.NVarChar, player2.povVideoLink);
+
+	insertRequest = insertRequest
+		.input('p3pid', sql.Int, player3?.playerId)
+		.input('p3rc', sql.NVarChar, player3?.inVideoName)
+		.input('p3mc', sql.NVarChar, player3?.mainClass)
+		.input('p3sc', sql.NVarChar, player3?.subClass)
+		.input('p3link', sql.NVarChar, player3?.povVideoLink);
+
+	insertRequest = insertRequest
+		.input('p4pid', sql.Int, player4?.playerId)
+		.input('p4rc', sql.NVarChar, player4?.inVideoName)
+		.input('p4mc', sql.NVarChar, player4?.mainClass)
+		.input('p4sc', sql.NVarChar, player4?.subClass)
+		.input('p4link', sql.NVarChar, player4?.povVideoLink);
+
+	const result = await insertRequest.query(
+		`INSERT INTO 
+     Submissions.Party (P1PlayerID,P2PlayerID,P3PlayerID,P4PlayerID,P1RunCharacter,P2RunCharacter,P3RunCharacter,P4RunCharacter,Patch,Region,Rank,Time,P1MainClass,P2MainClass,P3MainClass,P4MainClass,P1SubClass,P2SubClass,P3SubClass,P4SubClass,PartySize,P1Link,P2Link,P3Link,P4Link,Notes,SubmissionTime,SubmitterID,ServerID)
+     VALUES (@p1pid,@p2pid,@p3pid,@p4pid,@p1rc,@p2rc,@p3rc,@p4rc,@patch,@region,@rank,@time,@p1mc,@p2mc,@p3mc,@p4mc,@p1sc,@p2sc,@p3sc,@p4sc,@partysize,@p1link,@p2link,@p3link,@p4link,@notes,@subtime,@subpid,@serverid);`
+	);
+
+	if (result.rowsAffected[0] == 0) {
+		throw Error(`Purple Party Run insertion failed. Submission from ${run.username}`);
+	}
+};
+
+const serializeTimeToSqlTime = (runTime: PurpleSubmissionRequest['time']) =>
+	`${runTime.minutes.toString().padStart(2)}:${runTime.seconds.toString().padStart(2)}:00`;

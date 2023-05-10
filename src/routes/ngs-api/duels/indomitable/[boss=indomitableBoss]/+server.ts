@@ -4,13 +4,16 @@ import { parseWeapon } from '$lib/types/api/weapon';
 import { leaderboardDb } from '$lib/server/db/db';
 import { error, json } from '@sveltejs/kit';
 import { convertTimeToRunTime } from '$lib/server/db/util/datetime';
-import { type InferType, string, number, object, array, boolean } from 'yup';
-import { normalizeYoutubeLink, youtubeUrlRegex } from '$lib/utils/youtube.js';
+import { normalizeYoutubeLink } from '$lib/utils/youtube.js';
 import { jsonError } from '$lib/server/error.js';
 import { dbValToWeaponsMap, weaponsToDbValMap } from '$lib/server/db/util/weaponType.js';
 import { notifyDiscordNewRunSubmitted } from '$lib/server/discordNotify.js';
 import { dbValToClassMap } from '$lib/server/db/util/ngsClass.js';
 import type { PlayerInfo } from '$lib/types/api/playerInfo.js';
+import {
+	indomitableSubmissionRequestSchema,
+	type IndomitableSubmissionRequest
+} from '$lib/server/types/validation/indomitableSubmissions.js';
 
 const indomitableTables: { [key: string]: string } = {
 	nexaelio: 'IndomitableNexAelioRuns',
@@ -191,64 +194,6 @@ const mapData = (queryData: any[]): IndomitableRun[] => {
 	});
 };
 
-const indomitableRequestSchema = object({
-	userId: string().required(),
-	username: string().required(),
-	boss: string().required(),
-	serverRegion: string().required(),
-	rank: number()
-		.required()
-		.test((r) => r == 1),
-	notes: string().max(500).nullable(),
-	time: object({
-		hours: number().required(),
-		minutes: number().required(),
-		seconds: number().required()
-	}),
-	augments: boolean().required(),
-	players: array(
-		object({
-			playerId: number().nullable(),
-			povVideoLink: string()
-				.matches(youtubeUrlRegex, (w) => `${w.path} must a valid youtube link`)
-				.nullable()
-				.max(128),
-			playerName: string().required(),
-			inVideoName: string().required(),
-			playerServer: string().nullable(),
-			mainClass: string().required(),
-			subClass: string().required(),
-			weapons: array(
-				string()
-					.required()
-					.test(
-						'known_weapon',
-						(w) => `${w.path} must be a valid weapon type`,
-						(w) => !!parseWeapon(w.toLowerCase())
-					)
-			)
-				.max(6)
-				.required()
-		})
-	)
-		.min(1)
-		.max(1)
-		.test('has_video', 'At least one player must have a video', (players) =>
-			players?.some((p) => p.povVideoLink !== undefined)
-		)
-		.test(
-			'player1_has_id',
-			'Player 1 must be an existing user',
-			(players) => players?.at(0)?.playerId !== undefined
-		)
-		.test('solo_requires_weapon', 'Solo requires at least 1 weapon used', (players) =>
-			players?.length == 1 ? players?.at(0)?.weapons[0] !== undefined : true
-		)
-		.required()
-});
-
-type IndomitableRunRequest = InferType<typeof indomitableRequestSchema>;
-
 const indomitableBosses: { [key: string]: string } = {
 	nexaelio: 'Nex Aelio',
 	renusretem: 'Renus Retem',
@@ -262,9 +207,9 @@ export async function POST({ params, request }) {
 
 	// Validate request
 	const body = await request.json();
-	let parsedRun: IndomitableRunRequest;
+	let parsedRun: IndomitableSubmissionRequest;
 	try {
-		parsedRun = await indomitableRequestSchema.validate(body);
+		parsedRun = await indomitableSubmissionRequestSchema.validate(body);
 	} catch (err: any) {
 		return jsonError(400, {
 			error: 'bad_request',
@@ -302,7 +247,7 @@ export async function POST({ params, request }) {
 	}
 }
 
-const checkRunData = async (run: IndomitableRunRequest) => {
+const checkRunData = async (run: IndomitableSubmissionRequest) => {
 	const pool = await leaderboardDb.connect();
 	const errorList: string[] = [];
 
@@ -355,7 +300,7 @@ const submissionTables: { [key: string]: string } = {
 	nilsstia: 'IndomitableNilsStiaRuns'
 };
 
-const insertSoloRun = async (run: IndomitableRunRequest) => {
+const insertSoloRun = async (run: IndomitableSubmissionRequest) => {
 	const insertTable = submissionTables[run.boss.toLowerCase()];
 	if (!insertTable) {
 		throw Error(`Invalid boss ${run.boss}`);
@@ -401,7 +346,7 @@ const insertSoloRun = async (run: IndomitableRunRequest) => {
 	}
 };
 
-const serializeTimeToSqlTime = (runTime: IndomitableRunRequest['time']) =>
+const serializeTimeToSqlTime = (runTime: IndomitableSubmissionRequest['time']) =>
 	`${runTime.hours.toString().padStart(2)}:${runTime.minutes
 		.toString()
 		.padStart(2)}:${runTime.seconds.toString().padStart(2)}`;
