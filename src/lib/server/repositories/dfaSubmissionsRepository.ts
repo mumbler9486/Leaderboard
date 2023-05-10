@@ -695,9 +695,10 @@ export const insertDfaSoloSubmission = async (request: sql.Request, run: DfaSubm
 		.input('submissionTime', sql.DateTime, submissionTime)
 		.input('submitterId', sql.Int, player1.playerId);
 
+	const dbFields = dfaSoloDbFields;
 	const result = await insertRequest.query(
 		`INSERT INTO 
-     Submissions.DFAegisSolo (PlayerID,RunCharacter,Patch,Drill,Support,Time,MainClass,SubClass,W1,W2,W3,W4,W5,W6,Link,Notes,SubmissionTime,SubmitterID)
+     Submissions.DFAegisSolo (${dbFields.PlayerID},${dbFields.RunCharacter},${dbFields.Patch},${dbFields.Drill},${dbFields.Support},${dbFields.Time},${dbFields.MainClass},${dbFields.SubClass},${dbFields.W1},${dbFields.W2},${dbFields.W3},${dbFields.W4},${dbFields.W5},${dbFields.W6},${dbFields.Link},${dbFields.Notes},${dbFields.SubmissionTime},${dbFields.SubmitterID})
      VALUES (@playerId,@runCharacter,@patch,@drill,@support,@time,@mainClass,@subClass,@w1,@w2,@w3,@w4,@w5,@w6,@link,@notes,@submissionTime,@submitterId);
 		`
 	);
@@ -789,9 +790,10 @@ export const insertDfaPartySubmission = async (request: sql.Request, run: DfaSub
 		.input('p8sc', sql.NVarChar, player8?.subClass)
 		.input('p8link', sql.NVarChar, player8?.povVideoLink);
 
+	const dbFields = dfaPartyDbFields;
 	const result = await insertRequest.query(
 		`INSERT INTO 
-     Submissions.DFAegisParty (P1PlayerID,P2PlayerID,P3PlayerID,P4PlayerID,P5PlayerID,P6PlayerID,P7PlayerID,P8PlayerID,P1RunCharacter,P2RunCharacter,P3RunCharacter,P4RunCharacter,P5RunCharacter,P6RunCharacter,P7RunCharacter,P8RunCharacter,Patch,Buff,Drill,Time,P1MainClass,P2MainClass,P3MainClass,P4MainClass,P5MainClass,P6MainClass,P7MainClass,P8MainClass,P1SubClass,P2SubClass,P3SubClass,P4SubClass,P5SubClass,P6SubClass,P7SubClass,P8SubClass,PartySize,P1Link,P2Link,P3Link,P4Link,P5Link,P6Link,P7Link,P8Link,Notes,SubmissionTime,SubmitterID,ServerID,Rank)
+     Submissions.DFAegisParty (${dbFields.P1PlayerID},${dbFields.P2PlayerID},${dbFields.P3PlayerID},${dbFields.P4PlayerID},${dbFields.P5PlayerID},${dbFields.P6PlayerID},${dbFields.P7PlayerID},${dbFields.P8PlayerID},${dbFields.P1RunCharacter},${dbFields.P2RunCharacter},${dbFields.P3RunCharacter},${dbFields.P4RunCharacter},${dbFields.P5RunCharacter},${dbFields.P6RunCharacter},${dbFields.P7RunCharacter},${dbFields.P8RunCharacter},${dbFields.Patch},${dbFields.Buff},${dbFields.Drill},${dbFields.Time},${dbFields.P1MainClass},${dbFields.P2MainClass},${dbFields.P3MainClass},${dbFields.P4MainClass},${dbFields.P5MainClass},${dbFields.P6MainClass},${dbFields.P7MainClass},${dbFields.P8MainClass},${dbFields.P1SubClass},${dbFields.P2SubClass},${dbFields.P3SubClass},${dbFields.P4SubClass},${dbFields.P5SubClass},${dbFields.P6SubClass},${dbFields.P7SubClass},${dbFields.P8SubClass},${dbFields.PartySize},${dbFields.P1Link},${dbFields.P2Link},${dbFields.P3Link},${dbFields.P4Link},${dbFields.P5Link},${dbFields.P6Link},${dbFields.P7Link},${dbFields.P8Link},${dbFields.Notes},${dbFields.SubmissionTime},${dbFields.SubmitterID},${dbFields.ServerID},${dbFields.Rank})
      VALUES (@p1pid,@p2pid,@p3pid,@p4pid,@p5pid,@p6pid,@p7pid,@p8pid,@p1rc,@p2rc,@p3rc,@p4rc,@p5rc,@p6rc,@p7rc,@p8rc,@patch,@region,@rank,@time,@p1mc,@p2mc,@p3mc,@p4mc,@p5mc,@p6mc,@p7mc,@p8mc,@p1sc,@p2sc,@p3sc,@p4sc,@p5sc,@p6sc,@p7sc,@p8sc,@partysize,@p1link,@p2link,@p3link,@p4link,@p5link,@p6link,@p7link,@p8link,@notes,@subtime,@subpid,@serverid,@questrank);
      `
 	);

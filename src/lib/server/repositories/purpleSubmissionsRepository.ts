@@ -513,25 +513,25 @@ export const checkPurpleVideoExists = async (request: sql.Request, videoLinks: s
 
 	const paramList = paramNames.map((p) => `@${p}`);
 	const videoLinksResults = await videoLinkRequest.query(`
-    SELECT Link 
+    SELECT ${purpleSoloDbFields.Link} 
 			FROM Submissions.Pending 
-			WHERE Link IN (${paramList.join(',')})
+			WHERE ${purpleSoloDbFields.Link} IN (${paramList.join(',')})
 		UNION
-		SELECT P1Link
+		SELECT ${purplePartyDbFields.P1Link}
 			FROM Submissions.Party
-			WHERE P1Link IN (${paramList.join(',')})
+			WHERE ${purplePartyDbFields.P1Link} IN (${paramList.join(',')})
 		UNION
-		SELECT P2Link
+		SELECT ${purplePartyDbFields.P2Link}
 			FROM Submissions.Party
-			WHERE P2Link IN (${paramList.join(',')})
+			WHERE ${purplePartyDbFields.P2Link} IN (${paramList.join(',')})
 		UNION
-		SELECT P3Link
+		SELECT ${purplePartyDbFields.P3Link}
 			FROM Submissions.Party
-			WHERE P3Link IN (${paramList.join(',')})
+			WHERE ${purplePartyDbFields.P3Link} IN (${paramList.join(',')})
 		UNION
-		SELECT P4Link
+		SELECT ${purplePartyDbFields.P4Link}
 			FROM Submissions.Party
-			WHERE P4Link IN (${paramList.join(',')});`);
+			WHERE ${purplePartyDbFields.P4Link} IN (${paramList.join(',')});`);
 
 	return videoLinksResults.recordset.length > 0
 		? videoLinksResults.recordset.map((r) => r.Link as string)
@@ -568,9 +568,10 @@ export const insertPurpleSoloSubmission = async (
 		.input('w5', sql.NVarChar, player1.weapons[4])
 		.input('w6', sql.NVarChar, player1.weapons[5]);
 
+	const dbFields = purpleSoloDbFields;
 	const result = await insertRequest.query(
 		`INSERT INTO 
-		 Submissions.Pending (PlayerID,RunCharacter,Patch,Region,Rank,Time,MainClass,SubClass,W1,W2,W3,W4,W5,W6,Link,Notes,SubmissionTime,SubmitterID)
+		 Submissions.Pending (${dbFields.PlayerID},${dbFields.RunCharacter},${dbFields.Patch},${dbFields.Region},${dbFields.Rank},${dbFields.Time},${dbFields.MainClass},${dbFields.SubClass},${dbFields.W1},${dbFields.W2},${dbFields.W3},${dbFields.W4},${dbFields.W5},${dbFields.W6},${dbFields.Link},${dbFields.Notes},${dbFields.SubmissionTime},${dbFields.SubmitterID})
 		 VALUES (@playerID,@runCharacter,@patch,@region,@rank,@time,@mainClass,@subClass,@w1,@w2,@w3,@w4,@w5,@w6,@link,@notes,@submissionTime,@submitterID);
 		`
 	);
@@ -632,9 +633,10 @@ export const insertPurplePartySubmission = async (
 		.input('p4sc', sql.NVarChar, player4?.subClass)
 		.input('p4link', sql.NVarChar, player4?.povVideoLink);
 
+	const dbFields = purplePartyDbFields;
 	const result = await insertRequest.query(
 		`INSERT INTO 
-     Submissions.Party (P1PlayerID,P2PlayerID,P3PlayerID,P4PlayerID,P1RunCharacter,P2RunCharacter,P3RunCharacter,P4RunCharacter,Patch,Region,Rank,Time,P1MainClass,P2MainClass,P3MainClass,P4MainClass,P1SubClass,P2SubClass,P3SubClass,P4SubClass,PartySize,P1Link,P2Link,P3Link,P4Link,Notes,SubmissionTime,SubmitterID,ServerID)
+     Submissions.Party (${dbFields.P1PlayerID},${dbFields.P2PlayerID},${dbFields.P3PlayerID},${dbFields.P4PlayerID},${dbFields.P1RunCharacter},${dbFields.P2RunCharacter},${dbFields.P3RunCharacter},${dbFields.P4RunCharacter},${dbFields.Patch},${dbFields.Region},${dbFields.Rank},${dbFields.Time},${dbFields.P1MainClass},${dbFields.P2MainClass},${dbFields.P3MainClass},${dbFields.P4MainClass},${dbFields.P1SubClass},${dbFields.P2SubClass},${dbFields.P3SubClass},${dbFields.P4SubClass},${dbFields.PartySize},${dbFields.P1Link},${dbFields.P2Link},${dbFields.P3Link},${dbFields.P4Link},${dbFields.Notes},${dbFields.SubmissionTime},${dbFields.SubmitterID},ServerID)
      VALUES (@p1pid,@p2pid,@p3pid,@p4pid,@p1rc,@p2rc,@p3rc,@p4rc,@patch,@region,@rank,@time,@p1mc,@p2mc,@p3mc,@p4mc,@p1sc,@p2sc,@p3sc,@p4sc,@partysize,@p1link,@p2link,@p3link,@p4link,@notes,@subtime,@subpid,@serverid);`
 	);
 

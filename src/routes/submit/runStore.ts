@@ -1,3 +1,4 @@
+import type { RunCategories } from '$lib/types/api/categories';
 import { writable, get } from 'svelte/store';
 
 export const runForm = writable({
@@ -20,7 +21,7 @@ export interface PurpleRun {
 }
 
 export interface IndomitableRun {
-	boss: string;
+	boss: RunCategories;
 	rank: number;
 	augments: string;
 }

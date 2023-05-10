@@ -112,4 +112,5 @@ export interface DfaPartyDbModel {
 	SubmitterNameColor2: string;
 	SubmitterPrefN: string;
 	SubmissionStatus: string;
+	Rank: string;
 }

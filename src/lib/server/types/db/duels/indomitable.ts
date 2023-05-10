@@ -34,4 +34,6 @@ export interface IndomitableDbModel {
 	SubmitterNameColor2: string;
 	SubmitterPrefN: string;
 	SubmissionStatus: string;
+	ShipOverride: string;
+	Region: string;
 }

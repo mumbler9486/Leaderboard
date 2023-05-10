@@ -5,7 +5,6 @@ import { parseWeapon } from '$lib/types/api/weapon';
 export const indomitableSubmissionRequestSchema = object({
 	userId: string().required(),
 	username: string().required(),
-	boss: string().required(),
 	serverRegion: string().required(),
 	rank: number()
 		.required()

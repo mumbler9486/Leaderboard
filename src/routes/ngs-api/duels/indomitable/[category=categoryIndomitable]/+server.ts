@@ -1,4 +1,3 @@
-import sql from 'mssql';
 import type { IndomitableRun } from '$lib/types/api/duels/indomitable';
 import { parseWeapon } from '$lib/types/api/weapon';
 import { leaderboardDb } from '$lib/server/db/db';
@@ -14,23 +13,31 @@ import {
 	indomitableSubmissionRequestSchema,
 	type IndomitableSubmissionRequest
 } from '$lib/server/types/validation/indomitableSubmissions.js';
+import {
+	checkIndomitableVideoExists,
+	insertIndomitableSoloRun
+} from '$lib/server/repositories/indomitableSubmissionsRepository.js';
+import { RunCategories, parseRunCategory } from '$lib/types/api/categories.js';
 
 const indomitableTables: { [key: string]: string } = {
-	nexaelio: 'IndomitableNexAelioRuns',
-	renusretem: 'IndomitableRenusRetemRuns',
-	amskvaris: 'IndomitableAmsKvarisRuns',
-	nilsstia: 'IndomitableNilsStiaRuns'
+	[RunCategories.IndomitableNexAelio]: 'IndomitableNexAelioRuns',
+	[RunCategories.IndomitableRenusRetem]: 'IndomitableRenusRetemRuns',
+	[RunCategories.IndomitableAmsKvaris]: 'IndomitableAmsKvarisRuns',
+	[RunCategories.IndomitableNilsStia]: 'IndomitableNilsStiaRuns'
 };
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
-	const quest = params.boss ?? '';
+	const category = parseRunCategory(params.category);
+	if (!category) {
+		return jsonError(404, 'Unknown category');
+	}
 	const mainClass = url.searchParams.get('class');
 	const region = url.searchParams.get('server');
 	const augments = url.searchParams.get('augmentations');
 
 	// Validate
-	const table = indomitableTables[quest.toLowerCase()];
+	const table = indomitableTables[category];
 	if (!table) {
 		throw error(404);
 	}
@@ -195,15 +202,18 @@ const mapData = (queryData: any[]): IndomitableRun[] => {
 };
 
 const indomitableBosses: { [key: string]: string } = {
-	nexaelio: 'Nex Aelio',
-	renusretem: 'Renus Retem',
-	amskvaris: 'Ams Kvaris',
-	nilsstia: 'Nils Stia'
+	[RunCategories.IndomitableNexAelio]: 'Nex Aelio',
+	[RunCategories.IndomitableRenusRetem]: 'Renus Retem',
+	[RunCategories.IndomitableAmsKvaris]: 'Ams Kvaris',
+	[RunCategories.IndomitableNilsStia]: 'Nils Stia'
 };
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ params, request }) {
-	const boss = params.boss ?? '';
+	const category = parseRunCategory(params.category);
+	if (!category) {
+		return jsonError(404, 'Unknown category');
+	}
 
 	// Validate request
 	const body = await request.json();
@@ -221,7 +231,6 @@ export async function POST({ params, request }) {
 	}
 
 	// Transform data
-	parsedRun.boss = boss.toLowerCase();
 	parsedRun.players.forEach((p) => {
 		p.povVideoLink = p.povVideoLink ? normalizeYoutubeLink(p.povVideoLink) : null;
 		p.weapons = p.weapons.map((w) => weaponsToDbValMap[parseWeapon(w) ?? '']);
@@ -235,10 +244,12 @@ export async function POST({ params, request }) {
 
 	// Insert run
 	try {
-		await insertSoloRun(parsedRun);
+		const pool = await leaderboardDb.connect();
+		const request = pool.request();
+		await insertIndomitableSoloRun(request, parsedRun, category);
 
 		const player1Name = parsedRun.username;
-		const bossName = indomitableBosses[parsedRun.boss];
+		const bossName = indomitableBosses[category];
 		notifyDiscordNewRunSubmitted(player1Name, `Indomitable ${bossName} Duel`);
 		return json({ data: 'success' });
 	} catch (err) {
@@ -256,97 +267,13 @@ const checkRunData = async (run: IndomitableSubmissionRequest) => {
 		.map((p) => p.povVideoLink)
 		.filter((l): l is string => l !== undefined);
 
-	let videoLinkRequest = pool.request();
+	const existingVideoLinks = await checkIndomitableVideoExists(pool.request(), videoLinks);
 
-	const paramNames: string[] = [];
-	videoLinks.forEach((l, i) => {
-		const paramName = `link${i}`;
-		paramNames.push(paramName);
-		videoLinkRequest = videoLinkRequest.input(paramName, l);
-	});
-
-	const paramList = paramNames.map((p) => `@${p}`);
-	const videoLinksResults = await videoLinkRequest.query(`
-		SELECT Link 
-			FROM Submissions.IndomitableNexAelioRuns 
-			WHERE Link IN (${paramList.join(',')})
-		UNION
-		SELECT Link
-			FROM Submissions.IndomitableRenusRetemRuns
-			WHERE Link IN (${paramList.join(',')})
-		UNION
-		SELECT Link
-			FROM Submissions.IndomitableAmsKvarisRuns
-			WHERE Link IN (${paramList.join(',')})
-		UNION
-		SELECT Link
-			FROM Submissions.IndomitableNilsStiaRuns
-			WHERE Link IN (${paramList.join(',')});`);
-
-	if (videoLinksResults.recordset.length > 0) {
-		const videosInUse = videoLinksResults.recordset.map((r) => r.Link as string);
-		videosInUse.forEach((l) => {
+	if (existingVideoLinks.length > 0) {
+		existingVideoLinks.forEach((l) => {
 			errorList.push(`Video already used in another run. VideoUrl=${l}`);
 		});
 	}
 
 	return errorList;
 };
-
-const submissionTables: { [key: string]: string } = {
-	nexaelio: 'IndomitableNexAelioRuns',
-	renusretem: 'IndomitableRenusRetemRuns',
-	amskvaris: 'IndomitableAmsKvarisRuns',
-	nilsstia: 'IndomitableNilsStiaRuns'
-};
-
-const insertSoloRun = async (run: IndomitableSubmissionRequest) => {
-	const insertTable = submissionTables[run.boss.toLowerCase()];
-	if (!insertTable) {
-		throw Error(`Invalid boss ${run.boss}`);
-	}
-
-	const pool = await leaderboardDb.connect();
-
-	// Get player info
-	const player1 = run.players[0];
-	const runTime = serializeTimeToSqlTime(run.time);
-	const submissionTime = new Date();
-
-	let request = pool
-		.request()
-		.input('playerId', sql.Int, player1.playerId)
-		.input('runCharacter', sql.NVarChar, player1.inVideoName)
-		.input('patch', sql.NVarChar, 'pot6r')
-		.input('rank', sql.Int, run.rank)
-		.input('augments', sql.Int, run.augments === true ? 1 : 0)
-		.input('time', sql.NVarChar, runTime)
-		.input('mainClass', sql.NVarChar, player1.mainClass)
-		.input('subClass', sql.NVarChar, player1.subClass)
-		.input('w1', sql.NVarChar, player1.weapons[0])
-		.input('w2', sql.NVarChar, player1.weapons[1])
-		.input('w3', sql.NVarChar, player1.weapons[2])
-		.input('w4', sql.NVarChar, player1.weapons[3])
-		.input('w5', sql.NVarChar, player1.weapons[4])
-		.input('w6', sql.NVarChar, player1.weapons[5])
-		.input('link', sql.NVarChar, player1.povVideoLink)
-		.input('notes', sql.NVarChar, run.notes)
-		.input('submissionTime', sql.DateTime, submissionTime)
-		.input('submitterId', sql.Int, player1.playerId);
-
-	const result = await request.query(
-		`INSERT INTO
-		 Submissions.${insertTable} (PlayerID,RunCharacterName,Patch,Rank,RunTime,MainClass,SubClass,WeaponInfo1,WeaponInfo2,WeaponInfo3,WeaponInfo4,WeaponInfo5,WeaponInfo6,Link,Notes,SubmissionTime,SubmitterID,Augments)
-		 VALUES (@playerId,@runCharacter,@patch,@rank,@time,@mainClass,@subClass,@w1,@w2,@w3,@w4,@w5,@w6,@link,@notes,@submissionTime,@submitterId,@augments);
-		`
-	);
-
-	if (result.rowsAffected[0] == 0) {
-		throw Error(`Indomitable Run insertion failed. Submission from: ${run.username}`);
-	}
-};
-
-const serializeTimeToSqlTime = (runTime: IndomitableSubmissionRequest['time']) =>
-	`${runTime.hours.toString().padStart(2)}:${runTime.minutes
-		.toString()
-		.padStart(2)}:${runTime.seconds.toString().padStart(2)}`;
