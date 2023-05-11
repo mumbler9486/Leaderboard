@@ -1,11 +1,14 @@
 import { type InferType, string, number, object, array } from 'yup';
 import { youtubeUrlRegex } from '$lib/utils/youtube';
 import { parseWeapon } from '$lib/types/api/weapon';
+import { PurpleRegion } from '../purpleRegions';
+
+const regions = [PurpleRegion.Aelio, PurpleRegion.Retem, PurpleRegion.Kvaris, PurpleRegion.Stia];
 
 export const purpleSubmissionRequestSchema = object({
 	userId: string().required(),
 	username: string().required(),
-	region: string().required(),
+	region: string().required().oneOf(regions),
 	serverRegion: string().required(),
 	rank: number().required(),
 	notes: string().max(500).nullable(),

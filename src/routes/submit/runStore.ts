@@ -1,4 +1,4 @@
-import type { RunCategories } from '$lib/types/api/categories';
+import { RunCategories, runCategoryValues } from '$lib/types/api/categories';
 import { writable, get } from 'svelte/store';
 
 export const runForm = writable({
@@ -66,6 +66,18 @@ export const resetForm = () => {
 	indomitableForm.set({} as IndomitableRun);
 };
 
+const dfaCategories: { [playerCount: number]: RunCategories } = {
+	1: RunCategories.DfaSolo,
+	2: RunCategories.DfaDuo,
+	8: RunCategories.DfaParty
+};
+
+const purpleCategories: { [playerCount: number]: RunCategories } = {
+	1: RunCategories.PurpleSolo,
+	2: RunCategories.PurpleDuo,
+	4: RunCategories.PurpleParty
+};
+
 export const submitForm = async () => {
 	let form = get(runForm);
 
@@ -73,22 +85,22 @@ export const submitForm = async () => {
 		p.povVideoLink = p.povVideoLink === '' ? undefined : p.povVideoLink;
 	});
 
-	let submitPath: string = '/ngs-api/';
+	let submitPath: string = '/ngs-api/submissions/';
 	let runSpecifics: any = {};
 	if (form.category == 'dfa') {
 		const dfaReq = get(dfaForm);
 		runSpecifics = dfaReq;
-		submitPath += `dfa`;
+		submitPath += dfaCategories[form.players.length];
 	} else if (form.category == 'purples') {
 		const purpleReq = get(purpleForm);
 		runSpecifics = purpleReq;
-		submitPath += `purples/${purpleReq.region}`;
+		submitPath += purpleCategories[form.players.length];
 	} else if (form.category == 'duels-indomitables') {
 		const indomitableReq = get(indomitableForm);
 		indomitableReq.rank = 1;
 		runSpecifics = indomitableReq;
 		runSpecifics.augments = indomitableReq.augments === 'yes' ? true : false;
-		submitPath += `duels/indomitable/${indomitableReq.boss}`;
+		submitPath += indomitableReq.boss;
 	}
 
 	const request = {
