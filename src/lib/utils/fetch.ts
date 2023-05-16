@@ -1,8 +1,10 @@
-export const fetchGetApi = async <T>(path: string, searchParams: any) => {
+export const fetchGetApi = async <T>(path: string, searchParams: any | undefined) => {
 	const urlSearchParams = new URLSearchParams(searchParams);
+	let url = `${path}?${urlSearchParams.toString()}`.trim();
+	url = url.endsWith('?') ? url.substring(0, url.length - 1) : url;
 
 	try {
-		const response = await fetch(`${path}?${urlSearchParams.toString()}`, {
+		const response = await fetch(url, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
