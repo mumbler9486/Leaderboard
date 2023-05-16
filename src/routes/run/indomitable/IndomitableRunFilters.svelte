@@ -1,36 +1,36 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
+	import Filters from './IndomitableRunFilterModal.svelte';
+	import IndomitableRules from './IndomitableRules.svelte';
 	import Divider from '$lib/Components/Divider.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
-	import { pageFilters } from '$lib/stores/indomitableFilterStore';
+	import { page } from '$app/stores';
+	import { indomitableRunFilters } from './runFilterStore';
+	import { loadUrlParams } from '$lib/utils/queryParams';
 	import { t } from 'svelte-i18n';
 
-	import Filters from './Filters.svelte';
-	import IndomitableRules from './IndomitableRules.svelte';
+	let filters = {
+		server: 'no_filter',
+		class: 'no_filter',
+		augmentations: 'yes'
+	};
 
-	let augmentation: string = $page.url.searchParams.get('augmentations') ?? 'No Filter';
-	let selectedClass: string = $page.url.searchParams.get('class') ?? 'No Filter';
-	let selectedServer: string = $page.url.searchParams.get('server') ?? 'No Filter';
+	const applyFilters = () => {
+		indomitableRunFilters.update((f) => {
+			f.server = filters.server == 'no_filter' ? undefined : filters.server;
+			f.class = filters.class == 'no_filter' ? undefined : filters.class;
+			f.augmentations = filters.augmentations;
+			return f;
+		});
+	};
 
-	const updateUrl = () => {
-		if (selectedClass != 'No Filter') {
-			$page.url.searchParams.set('class', selectedClass);
-		}
-		if (selectedClass == 'No Filter') $page.url.searchParams.delete('class');
+	$: loadUrlParamsToStore($page.url);
+	const loadUrlParamsToStore = (...watch: any[]) => {
+		const pageParams = loadUrlParams(['server', 'class', 'augmentations']);
+		filters.server = pageParams.server ?? 'no_filter';
+		filters.class = pageParams.class ?? 'no_filter';
+		filters.augmentations = pageParams.augmentations ?? 'yes';
 
-		if (selectedServer != 'No Filter') {
-			$page.url.searchParams.set('server', selectedServer);
-		}
-		if (selectedServer == 'No Filter') $page.url.searchParams.delete('server');
-
-		if (augmentation != 'No Filter') {
-			$page.url.searchParams.set('augmentations', augmentation);
-		}
-		if (augmentation == 'No Filter') $page.url.searchParams.delete('augmentations');
-
-		goto($page.url);
-		pageFilters.set({ class: selectedClass, server: selectedServer, augmentations: augmentation });
+		applyFilters();
 	};
 </script>
 
@@ -42,12 +42,11 @@
 			<Dropdown
 				label="Augmentations"
 				options={[
-					{ label: 'No Filter', value: 'No Filter' },
 					{ label: 'Yes', value: 'yes' },
 					{ label: 'No', value: 'no' }
 				]}
-				bind:value={augmentation}
-				on:change={updateUrl}
+				bind:value={filters.augmentations}
+				on:change={applyFilters}
 			/>
 		</div>
 		<div class="flex grow flex-col">
@@ -58,7 +57,11 @@
 	<Divider class="-mx-1 my-0" />
 	<div class="flex flex-row flex-wrap place-content-center items-stretch">
 		<div class="m-1 md:flex-1">
-			<Filters bind:selectedClass bind:selectedServer on:applyFilters={updateUrl} />
+			<Filters
+				bind:mainClass={filters.class}
+				bind:server={filters.server}
+				on:applyFilters={applyFilters}
+			/>
 		</div>
 		<div class="m-1 md:flex-initial">
 			<IndomitableRules />

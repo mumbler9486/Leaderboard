@@ -7,18 +7,18 @@
 	import { t } from 'svelte-i18n';
 	const dispatch = createEventDispatcher();
 
-	export let selectedClass: string = 'No Filter';
-	export let selectedServer: string = 'No Filter';
+	export let mainClass: string;
+	export let server: string;
 
 	let modal: Modal;
 
 	const resetFilters = () => {
-		selectedClass = 'No Filter';
-		selectedServer = 'No Filter';
+		mainClass = 'no_filter';
+		server = 'no_filter';
 	};
 
 	const applyFilters = () => {
-		dispatch('applyFilters', { selectedClass: selectedClass, selectedServer: selectedServer });
+		dispatch('applyFilters', { class: mainClass, server: server });
 		modal.close();
 	};
 </script>
@@ -42,11 +42,11 @@
 		class="text-base-100-content mb-2 flex flex-row justify-center font-semibold md:justify-start"
 		>Main Class</span
 	>
-	<ClassFilter bind:selectedClass />
+	<ClassFilter bind:selectedClass={mainClass} />
 	<Divider />
 	<span
 		class="text-base-100-content mb-2 flex flex-row justify-center font-semibold md:justify-start"
 		>Server</span
 	>
-	<ServerFilter bind:selectedServer />
+	<ServerFilter bind:selectedServer={server} />
 </Modal>

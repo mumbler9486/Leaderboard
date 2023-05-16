@@ -6,27 +6,27 @@ import { jsonError } from '$lib/server/error.js';
 import { dbValToWeaponsMap } from '$lib/server/db/util/weaponType.js';
 import { dbValToClassMap } from '$lib/server/db/util/ngsClass.js';
 import type { PlayerInfo } from '$lib/types/api/playerInfo.js';
-import { RunCategories, parseRunCategory } from '$lib/types/api/categories.js';
+import { IndomitableBoss, parseIndomitableBoss } from '$lib/types/api/duels/indomitableBoss.js';
 
 const indomitableTables: { [key: string]: string } = {
-	[RunCategories.IndomitableNexAelio]: 'IndomitableNexAelioRuns',
-	[RunCategories.IndomitableRenusRetem]: 'IndomitableRenusRetemRuns',
-	[RunCategories.IndomitableAmsKvaris]: 'IndomitableAmsKvarisRuns',
-	[RunCategories.IndomitableNilsStia]: 'IndomitableNilsStiaRuns'
+	[IndomitableBoss.NexAelio]: 'IndomitableNexAelioRuns',
+	[IndomitableBoss.RenusRetem]: 'IndomitableRenusRetemRuns',
+	[IndomitableBoss.AmsKvaris]: 'IndomitableAmsKvarisRuns',
+	[IndomitableBoss.NilsStia]: 'IndomitableNilsStiaRuns'
 };
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
-	const category = parseRunCategory(params.category);
-	if (!category) {
-		return jsonError(404, 'Unknown category');
+	const boss = parseIndomitableBoss(params.boss);
+	if (!boss) {
+		return jsonError(404, 'Unknown boss');
 	}
 	const mainClass = url.searchParams.get('class');
 	const region = url.searchParams.get('server');
 	const augments = url.searchParams.get('augmentations');
 
 	// Validate
-	const table = indomitableTables[category];
+	const table = indomitableTables[boss];
 	if (!table) {
 		throw error(404);
 	}
@@ -96,11 +96,6 @@ export async function GET({ params, url }) {
 		if (region && region != 'No Filter') {
 			query += ' AND run.Region = @region';
 			request = request.input('region', region);
-		}
-
-		if (mainClass && mainClass != 'No Filter') {
-			query += ' AND run.MainClass = @mainClass';
-			request = request.input('mainClass', mainClass);
 		}
 
 		if (mainClass && mainClass != 'No Filter') {
