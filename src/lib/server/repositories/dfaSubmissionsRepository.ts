@@ -1,6 +1,6 @@
-import type { DfaDuoDbModel } from '$lib/server/types/db/dfa/dfaDuo';
-import type { DfaPartyDbModel } from '$lib/server/types/db/dfa/dfaParty';
-import type { DfaSoloDbModel } from '$lib/server/types/db/dfa/dfaSolo';
+import type { DfaDuoDbModel } from '$lib/server/types/db/submissions/dfa/dfaDuo';
+import type { DfaPartyDbModel } from '$lib/server/types/db/submissions/dfa/dfaParty';
+import type { DfaSoloDbModel } from '$lib/server/types/db/submissions/dfa/dfaSolo';
 import sql, { type Request } from 'mssql';
 import { fields } from '../util/nameof';
 import type { ApproveRequest, DenyRequest } from '../types/validation/submissions';

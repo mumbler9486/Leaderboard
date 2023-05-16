@@ -1,0 +1,37 @@
+export interface DfaPartyRunDbModel {
+	RunID: string;
+	PartySize: string;
+	Patch: string;
+	Rank: string;
+	Time: string;
+	Notes: string;
+	RunServer: string;
+	SubmissionTime: string;
+	SubmitterID: string;
+	ModNotes: string;
+	Buff: string;
+	Drill: string;
+	UpdateID: string;
+	PlayerID: string;
+	RunCharacterName: string;
+	MainClass: string;
+	SubClass: string;
+	LinkPOV: string;
+	PlayerName: string;
+	CharacterName: string;
+	Description: string;
+	Youtube: string;
+	Twitch: string;
+	Twitter: string;
+	Discord: string;
+	PreferredName: string;
+	Server: string;
+	Ship: string;
+	Flag: string;
+	BackgroundType: string;
+	BackgroundImage: string;
+	BackgroundColor: string;
+	NameType: string;
+	NameColor1: string;
+	NameColor2: string;
+}
