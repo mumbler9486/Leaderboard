@@ -1,7 +1,7 @@
 import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 import { type InferType, string, number, object, boolean } from 'yup';
 
-const regions = ['global', 'japan'];
+const regions = [null, 'global', 'japan'];
 const classes = [
 	null,
 	NgsPlayerClass.Hunter,

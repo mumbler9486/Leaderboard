@@ -1,9 +1,12 @@
-export interface IndomitableDbModel {
-	SubmissionId: string;
+export interface IndomitableRunDbModel {
+	Id: string;
 	PlayerID: string;
 	RunCharacterName: string;
+	ShipOverride: string;
 	Patch: string;
+	Region: string;
 	Rank: string;
+	Augments: string;
 	RunTime: string;
 	MainClass: string;
 	SubClass: string;
@@ -19,7 +22,6 @@ export interface IndomitableDbModel {
 	SubmitterID: string;
 	VideoTag: string;
 	ModNotes: string;
-	Augments: string;
 	PlayerName: string;
 	PlayerCName: string;
 	PlayerNameType: string;
@@ -27,13 +29,12 @@ export interface IndomitableDbModel {
 	PlayerNameColor2: string;
 	PlayerServer: string;
 	PlayerPrefN: string;
+	Flag: string;
+	Ship: string;
 	SubmitterName: string;
 	SubmitterCName: string;
 	SubmitterNameType: string;
 	SubmitterNameColor1: string;
 	SubmitterNameColor2: string;
 	SubmitterPrefN: string;
-	SubmissionStatus: string;
-	ShipOverride: string;
-	Region: string;
 }

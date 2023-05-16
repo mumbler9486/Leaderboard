@@ -25,7 +25,7 @@
 	$: boss = $page.params.boss;
 	$: pageHeader = pageTitles[boss];
 
-	$: updateUrlParams($indomitableRunFilters, ['class', 'server']);
+	$: updateUrlParams($indomitableRunFilters, ['class', 'server', 'augmentations']);
 
 	const fetchRuns = async (...watch: any[]) => {
 		const basePath = `/ngs-api/runs/duels/indomitable/${boss}`;

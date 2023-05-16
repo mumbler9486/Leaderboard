@@ -34,9 +34,9 @@ const getSoloRuns = async (url: URL) => {
 		buff: url.searchParams.get('buff')
 	};
 
-	let parsedRun: DfaSoloSearchFilter;
+	let filters: DfaSoloSearchFilter;
 	try {
-		parsedRun = await dfaSoloSearchFilterSchema.validate(urlParams, {
+		filters = await dfaSoloSearchFilterSchema.validate(urlParams, {
 			stripUnknown: true
 		});
 	} catch (err: any) {
@@ -49,7 +49,7 @@ const getSoloRuns = async (url: URL) => {
 	try {
 		const poolConnection = await leaderboardDb.connect();
 		const request = poolConnection.request();
-		const data = await getDfaSoloRuns(request, parsedRun);
+		const data = await getDfaSoloRuns(request, filters);
 		const runs = mapDfaSoloToRun(data);
 		return json(runs);
 	} catch (err) {

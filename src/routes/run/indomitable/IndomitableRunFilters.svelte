@@ -18,7 +18,7 @@
 		indomitableRunFilters.update((f) => {
 			f.server = filters.server == 'no_filter' ? undefined : filters.server;
 			f.class = filters.class == 'no_filter' ? undefined : filters.class;
-			f.augmentations = filters.augmentations;
+			f.augmentations = filters.augmentations == 'no_filter' ? undefined : filters.augmentations;
 			return f;
 		});
 	};
@@ -28,7 +28,7 @@
 		const pageParams = loadUrlParams(['server', 'class', 'augmentations']);
 		filters.server = pageParams.server ?? 'no_filter';
 		filters.class = pageParams.class ?? 'no_filter';
-		filters.augmentations = pageParams.augmentations ?? 'yes';
+		filters.augmentations = pageParams.augmentations ?? 'no_filter';
 
 		applyFilters();
 	};
@@ -42,6 +42,8 @@
 			<Dropdown
 				label="Augmentations"
 				options={[
+					{ label: 'No Filter', value: 'no_filter' },
+
 					{ label: 'Yes', value: 'yes' },
 					{ label: 'No', value: 'no' }
 				]}

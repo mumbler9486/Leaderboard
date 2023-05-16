@@ -3,7 +3,7 @@ import { writable } from 'svelte/store';
 export interface IndomitableRunFilters {
 	server?: string;
 	class?: string;
-	augmentations: string;
+	augmentations?: string;
 }
 
 const defaultFilter: IndomitableRunFilters = {
