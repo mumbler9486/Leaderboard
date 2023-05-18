@@ -10,7 +10,6 @@
 
 	let filters = {
 		trigger: 'urgent',
-		class: 'no_filter',
 		buff: 'no_filter',
 		region: 'no_filter'
 	};

@@ -2,16 +2,17 @@ import { convertTimeToRunTime } from '$lib/server/db/util/datetime';
 import { dbValToClassMap } from '$lib/server/db/util/ngsClass';
 import { dbValToWeaponsMap } from '$lib/server/db/util/weaponType';
 import type { PlayerInfo } from '$lib/types/api/playerInfo';
-import type { DfaSoloRunDbModel } from '$lib/server/types/db/runs/dfa/dfaSolo';
-import type { DfaPartyRunDbModel } from '$lib/server/types/db/runs/dfa/dfaParty';
 import type { DfaRun } from '$lib/types/api/dfa/dfa';
+import type { PurpleSoloRunDbModel } from '$lib/server/types/db/runs/purple/purpleSolo';
+import type { PurplePartyRunDbModel } from '$lib/server/types/db/runs/purple/purpleParty';
+import type { PurpleRun } from '$lib/types/api/purples/purples';
 
 const triggerDbMap: { [key: string]: string } = {
 	'1': 'trigger',
 	'0': 'uq'
 };
 
-export const mapDfaSoloToRun = (runs: DfaSoloRunDbModel[]): DfaRun[] => {
+export const mapPurpleSoloToRun = (runs: PurpleSoloRunDbModel[]): PurpleRun[] => {
 	const mapped = runs.map((s, i) => {
 		const player1: PlayerInfo = {
 			playerId: parseInt(s.PlayerID),
@@ -43,16 +44,19 @@ export const mapDfaSoloToRun = (runs: DfaSoloRunDbModel[]): DfaRun[] => {
 		const players = [player1];
 
 		const runTime = convertTimeToRunTime(new Date(s.Time));
+		runTime.seconds = runTime.minutes;
+		runTime.minutes = runTime.hours;
+		runTime.hours = 0;
 
-		const submission: DfaRun = {
+		const submission: PurpleRun = {
 			runId: parseInt(s.RunID),
-			patch: s.Patch,
-			support: s.Buff,
-			drill: triggerDbMap[s.Drill],
+			rank: parseInt(s.Rank),
+			runRank: i + 1,
+			server: s.Server,
 			time: runTime,
-			players: players,
 			notes: s.Notes,
-			rank: i + 1
+			modNotes: s.ModNotes,
+			players: players
 		};
 
 		return submission;
@@ -60,14 +64,14 @@ export const mapDfaSoloToRun = (runs: DfaSoloRunDbModel[]): DfaRun[] => {
 	return mapped;
 };
 
-export const mapDfaPartyToRun = (runs: DfaPartyRunDbModel[]): DfaRun[] => {
+export const mapPurplePartyToRun = (runs: PurplePartyRunDbModel[]): PurpleRun[] => {
 	const groupedRuns = runs.reduce((prev, curr) => {
 		if (!prev[curr.RunID]) {
 			prev[curr.RunID] = [];
 		}
 		prev[curr.RunID].push(curr);
 		return prev;
-	}, {} as { [runId: string]: DfaPartyRunDbModel[] });
+	}, {} as { [runId: string]: PurplePartyRunDbModel[] });
 
 	const sortedGroups = Object.entries(groupedRuns).sort((g1, g2) =>
 		new Date(g1[1][0].Time) > new Date(g2[1][0].Time) ? 1 : -1
@@ -100,16 +104,19 @@ export const mapDfaPartyToRun = (runs: DfaPartyRunDbModel[]): DfaRun[] => {
 
 		const runMeta = run[0];
 		const runTime = convertTimeToRunTime(new Date(runMeta.Time));
+		runTime.seconds = runTime.minutes;
+		runTime.minutes = runTime.hours;
+		runTime.hours = 0;
 
-		const submission: DfaRun = {
+		const submission: PurpleRun = {
 			runId: parseInt(runMeta.RunID),
-			patch: runMeta.Patch,
-			support: runMeta.Buff,
-			drill: triggerDbMap[runMeta.Drill],
+			rank: parseInt(runMeta.Rank),
+			runRank: i + 1,
+			server: runMeta.Server,
 			time: runTime,
-			players: players,
 			notes: runMeta.Notes,
-			rank: i + 1
+			modNotes: runMeta.ModNotes,
+			players: players
 		};
 
 		return submission;

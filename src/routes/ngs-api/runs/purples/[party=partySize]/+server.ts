@@ -1,18 +1,22 @@
 import { error, json } from '@sveltejs/kit';
 import { leaderboardDb } from '$lib/server/db/db';
 import { jsonError } from '$lib/server/error.js';
-import {
-	getDfaDuoRuns,
-	getDfaPartyRuns,
-	getDfaSoloRuns
-} from '$lib/server/repositories/dfaRunsRepository.js';
 import { PartySize, parsePartySize } from '$lib/types/api/partySizes.js';
 import {
-	dfaSoloSearchFilterSchema,
-	type DfaSoloSearchFilter,
-	type DfaPartySearchFilter
-} from '$lib/server/types/validation/dfaRunFilter.js';
-import { mapDfaPartyToRun, mapDfaSoloToRun } from '$lib/server/mappers/api/dfaRunMapper.js';
+	purplePartySearchFilterSchema,
+	type PurplePartySearchFilter,
+	type PurpleSoloSearchFilter,
+	purpleSoloSearchFilterSchema
+} from '$lib/server/types/validation/purpleRunFilter.js';
+import {
+	mapPurplePartyToRun,
+	mapPurpleSoloToRun
+} from '$lib/server/mappers/api/purpleRunMapper.js';
+import {
+	getPurpleDuoRuns,
+	getPurplePartyRuns,
+	getPurpleSoloRuns
+} from '$lib/server/repositories/purpleRunsRepository.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
@@ -30,14 +34,15 @@ export async function GET({ params, url }) {
 }
 const getSoloRuns = async (url: URL) => {
 	const urlParams = {
-		region: url.searchParams.get('region'),
+		server: url.searchParams.get('server'),
 		class: url.searchParams.get('class'),
-		buff: url.searchParams.get('buff')
+		region: url.searchParams.get('region'),
+		rank: url.searchParams.get('rank')
 	};
 
-	let filters: DfaSoloSearchFilter;
+	let filters: PurpleSoloSearchFilter;
 	try {
-		filters = await dfaSoloSearchFilterSchema.validate(urlParams, {
+		filters = await purpleSoloSearchFilterSchema.validate(urlParams, {
 			stripUnknown: true
 		});
 	} catch (err: any) {
@@ -50,8 +55,8 @@ const getSoloRuns = async (url: URL) => {
 	try {
 		const poolConnection = await leaderboardDb.connect();
 		const request = poolConnection.request();
-		const data = await getDfaSoloRuns(request, filters);
-		const runs = mapDfaSoloToRun(data);
+		const data = await getPurpleSoloRuns(request, filters);
+		const runs = mapPurpleSoloToRun(data);
 		return json(runs);
 	} catch (err) {
 		console.error(err);
@@ -66,9 +71,9 @@ const getPartyRuns = async (url: URL, partySize: PartySize) => {
 		rank: url.searchParams.get('rank')
 	};
 
-	let parsedRun: DfaPartySearchFilter;
+	let parsedRun: PurplePartySearchFilter;
 	try {
-		parsedRun = await dfaSoloSearchFilterSchema.validate(urlParams, {
+		parsedRun = await purplePartySearchFilterSchema.validate(urlParams, {
 			stripUnknown: true
 		});
 	} catch (err: any) {
@@ -82,8 +87,8 @@ const getPartyRuns = async (url: URL, partySize: PartySize) => {
 			try {
 				const poolConnection = await leaderboardDb.connect();
 				const request = poolConnection.request();
-				const data = await getDfaDuoRuns(request, parsedRun);
-				const runs = mapDfaPartyToRun(data);
+				const data = await getPurpleDuoRuns(request, parsedRun);
+				const runs = mapPurplePartyToRun(data);
 				return json(runs);
 			} catch (err) {
 				console.error(err);
@@ -93,8 +98,8 @@ const getPartyRuns = async (url: URL, partySize: PartySize) => {
 			try {
 				const poolConnection = await leaderboardDb.connect();
 				const request = poolConnection.request();
-				const data = await getDfaPartyRuns(request, parsedRun);
-				const runs = mapDfaPartyToRun(data);
+				const data = await getPurplePartyRuns(request, parsedRun);
+				const runs = mapPurplePartyToRun(data);
 				return json(runs);
 			} catch (err) {
 				console.error(err);
