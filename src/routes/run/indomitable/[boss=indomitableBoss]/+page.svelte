@@ -52,6 +52,8 @@
 					<LoadingBar />
 				{:then runs}
 					<IndomitableRunsTable {runs} />
+				{:catch err}
+					<p>An error has occured, please try again later</p>
 				{/await}
 			</div>
 		</div>

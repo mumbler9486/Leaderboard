@@ -3,19 +3,17 @@ export const fetchGetApi = async <T>(path: string, searchParams: any | undefined
 	let url = `${path}?${urlSearchParams.toString()}`.trim();
 	url = url.endsWith('?') ? url.substring(0, url.length - 1) : url;
 
-	try {
-		const response = await fetch(url, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-		const responseBody = await response.json();
+	const response = await fetch(url, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	});
 
-		return responseBody as T;
-	} catch (err) {
-		console.error(err);
+	if (Math.floor(response.status / 500) == 1) {
+		throw new Error(`Fetch failed. Status=${response.status} ${response.statusText}`);
 	}
 
-	return undefined;
+	const responseBody = await response.json();
+	return responseBody as T;
 };
