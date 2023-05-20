@@ -90,4 +90,10 @@
 	</div>
 {/if}
 
-<RunInfoModal run={viewRun} bind:this={modal} />
+<RunInfoModal
+	videoUrl={viewRun?.players[0].linkPov ?? ''}
+	players={viewRun?.players ?? []}
+	submitter={viewRun?.submitter}
+	notes={viewRun?.notes ?? ''}
+	bind:this={modal}
+/>

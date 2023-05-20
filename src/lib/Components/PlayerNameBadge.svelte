@@ -115,7 +115,7 @@
 	};
 </script>
 
-<div>
+<div class="flex flex-row">
 	{#if playerNameDisplay.flag}
 		<span class={flagClass} style="max-height:16px;min-width: 25px;" />
 	{/if}

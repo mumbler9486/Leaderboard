@@ -10,4 +10,5 @@ export interface DfaRun {
 	time: RunTime;
 	notes: string;
 	drill: string;
+	submitter: PlayerInfo;
 }

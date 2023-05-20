@@ -5,6 +5,7 @@ import type { PlayerInfo } from '$lib/types/api/playerInfo';
 import type { DfaSoloRunDbModel } from '$lib/server/types/db/runs/dfa/dfaSolo';
 import type { DfaPartyRunDbModel } from '$lib/server/types/db/runs/dfa/dfaParty';
 import type { DfaRun } from '$lib/types/api/dfa/dfa';
+import { RUN_SUBMITTED_DISCORD_WEBHOOK_URL } from '$env/static/private';
 
 const triggerDbMap: { [key: string]: string } = {
 	'1': 'trigger',
@@ -51,6 +52,7 @@ export const mapDfaSoloToRun = (runs: DfaSoloRunDbModel[]): DfaRun[] => {
 			drill: triggerDbMap[s.Drill],
 			time: runTime,
 			players: players,
+			submitter: undefined, //todo
 			notes: s.Notes,
 			rank: i + 1
 		};
@@ -108,6 +110,7 @@ export const mapDfaPartyToRun = (runs: DfaPartyRunDbModel[]): DfaRun[] => {
 			drill: triggerDbMap[runMeta.Drill],
 			time: runTime,
 			players: players,
+			submitter: null, //TODO
 			notes: runMeta.Notes,
 			rank: i + 1
 		};

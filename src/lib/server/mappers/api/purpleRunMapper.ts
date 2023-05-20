@@ -56,7 +56,8 @@ export const mapPurpleSoloToRun = (runs: PurpleSoloRunDbModel[]): PurpleRun[] =>
 			time: runTime,
 			notes: s.Notes,
 			modNotes: s.ModNotes,
-			players: players
+			players: players,
+			submitter: undefined //TODO
 		};
 
 		return submission;
@@ -116,7 +117,8 @@ export const mapPurplePartyToRun = (runs: PurplePartyRunDbModel[]): PurpleRun[] 
 			time: runTime,
 			notes: runMeta.Notes,
 			modNotes: runMeta.ModNotes,
-			players: players
+			players: players,
+			submitter: undefined //TODO
 		};
 
 		return submission;

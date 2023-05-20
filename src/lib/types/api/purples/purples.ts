@@ -10,4 +10,5 @@ export interface PurpleRun {
 	notes: string;
 	modNotes: string;
 	players: PlayerInfo[];
+	submitter: PlayerInfo;
 }
