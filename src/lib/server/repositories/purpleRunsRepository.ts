@@ -60,7 +60,14 @@ export const getPurpleSoloRuns = async (request: Request, filters: PurpleSoloSea
       pc.BackgroundColor AS ${purpleSoloDbFields.BackgroundColor},
       pc.NameType AS ${purpleSoloDbFields.NameType},
       pc.NameColor1 AS ${purpleSoloDbFields.NameColor1},
-      pc.NameColor2 AS ${purpleSoloDbFields.NameColor2}
+      pc.NameColor2 AS ${purpleSoloDbFields.NameColor2},
+
+      si.PlayerName as ${purpleSoloDbFields.SubmitterName},
+      si.CharacterName as ${purpleSoloDbFields.SubmitterCName},
+      sc.NameType as ${purpleSoloDbFields.SubmitterNameType},
+      sc.NameColor1 as ${purpleSoloDbFields.SubmitterNameColor1},
+      sc.NameColor2 as ${purpleSoloDbFields.SubmitterNameColor2},
+      sc.PreferredName as ${purpleSoloDbFields.SubmitterPrefN}
 
     FROM Purples.Solo AS run
 
@@ -69,6 +76,11 @@ export const getPurpleSoloRuns = async (request: Request, filters: PurpleSoloSea
     INNER JOIN 
     Players.Customization AS pc ON run.${purpleSoloDbFields.PlayerID} = pc.PlayerID
     
+    INNER JOIN
+    Players.Information AS si ON run.${purpleSoloDbFields.SubmitterID} = si.PlayerID
+    INNER JOIN
+    Players.Customization AS sc ON run.${purpleSoloDbFields.SubmitterID} = sc.PlayerID
+
     WHERE run.${purpleSoloDbFields.Region} = @region AND 
           run.${purpleSoloDbFields.Rank} = @rank`;
 
@@ -137,7 +149,14 @@ export const getPurplePartyRuns = async (
       pc.BackgroundColor AS ${purplePartyDbFields.BackgroundColor},
       pc.NameType AS ${purplePartyDbFields.NameType},
       pc.NameColor1 AS ${purplePartyDbFields.NameColor1},
-      pc.NameColor2 AS ${purplePartyDbFields.NameColor2}
+      pc.NameColor2 AS ${purplePartyDbFields.NameColor2},
+
+      si.PlayerName as ${purplePartyDbFields.SubmitterName},
+      si.CharacterName as ${purplePartyDbFields.SubmitterCName},
+      sc.NameType as ${purplePartyDbFields.SubmitterNameType},
+      sc.NameColor1 as ${purplePartyDbFields.SubmitterNameColor1},
+      sc.NameColor2 as ${purplePartyDbFields.SubmitterNameColor2},
+      sc.PreferredName as ${purplePartyDbFields.SubmitterPrefN}
 
     FROM Purples.Party AS run
     INNER JOIN 
@@ -148,6 +167,11 @@ export const getPurplePartyRuns = async (
     INNER JOIN 
     Players.Customization AS pc ON pr.PlayerID = pc.PlayerID
     
+    INNER JOIN
+    Players.Information AS si ON run.${purplePartyDbFields.SubmitterID} = si.PlayerID
+    INNER JOIN
+    Players.Customization AS sc ON run.${purplePartyDbFields.SubmitterID} = sc.PlayerID
+
     WHERE run.${purplePartyDbFields.Region} = @region AND 
       run.${purplePartyDbFields.Rank} = @rank AND 
       run.${purplePartyDbFields.PartySize} = @partySize

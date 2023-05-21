@@ -5,7 +5,6 @@ import type { PlayerInfo } from '$lib/types/api/playerInfo';
 import type { DfaSoloRunDbModel } from '$lib/server/types/db/runs/dfa/dfaSolo';
 import type { DfaPartyRunDbModel } from '$lib/server/types/db/runs/dfa/dfaParty';
 import type { DfaRun } from '$lib/types/api/dfa/dfa';
-import { RUN_SUBMITTED_DISCORD_WEBHOOK_URL } from '$env/static/private';
 
 const triggerDbMap: { [key: string]: string } = {
 	'1': 'trigger',
@@ -41,6 +40,24 @@ export const mapDfaSoloToRun = (runs: DfaSoloRunDbModel[]): DfaRun[] => {
 				.map((w) => dbValToWeaponsMap[w == 'soaring blades' ? 'sb' : w]) //TODO make this weapon definition consistent
 		};
 
+		const submitter: PlayerInfo = {
+			playerId: parseInt(s.SubmitterID),
+			playerName: s.SubmitterName,
+			characterName: s.SubmitterCName,
+			preferredName: parseInt(s.SubmitterPrefN),
+			runCharacterName: '',
+			mainClass: dbValToClassMap[s.MainClass],
+			subClass: dbValToClassMap[s.SubClass],
+			linkPov: undefined,
+			server: undefined,
+			flag: undefined,
+			ship: undefined,
+			nameType: parseInt(s.SubmitterNameType),
+			nameColor1: s.SubmitterNameColor1,
+			nameColor2: s.SubmitterNameColor2,
+			weapons: []
+		};
+
 		const players = [player1];
 
 		const runTime = convertTimeToRunTime(new Date(s.Time));
@@ -52,7 +69,7 @@ export const mapDfaSoloToRun = (runs: DfaSoloRunDbModel[]): DfaRun[] => {
 			drill: triggerDbMap[s.Drill],
 			time: runTime,
 			players: players,
-			submitter: undefined, //todo
+			submitter: submitter,
 			notes: s.Notes,
 			rank: i + 1
 		};
@@ -81,6 +98,7 @@ export const mapDfaPartyToRun = (runs: DfaPartyRunDbModel[]): DfaRun[] => {
 		}
 		const runId = runGroup[0];
 		const run = runGroup[1];
+		const runMeta = run[0];
 
 		const players: PlayerInfo[] = run.map((r) => ({
 			playerId: parseInt(r.PlayerID),
@@ -100,7 +118,24 @@ export const mapDfaPartyToRun = (runs: DfaPartyRunDbModel[]): DfaRun[] => {
 			weapons: []
 		}));
 
-		const runMeta = run[0];
+		const submitter: PlayerInfo = {
+			playerId: parseInt(runMeta.SubmitterID),
+			playerName: runMeta.SubmitterName,
+			characterName: runMeta.SubmitterCName,
+			preferredName: parseInt(runMeta.SubmitterPrefN),
+			runCharacterName: '',
+			mainClass: dbValToClassMap[runMeta.MainClass],
+			subClass: dbValToClassMap[runMeta.SubClass],
+			linkPov: undefined,
+			server: undefined,
+			flag: undefined,
+			ship: undefined,
+			nameType: parseInt(runMeta.SubmitterNameType),
+			nameColor1: runMeta.SubmitterNameColor1,
+			nameColor2: runMeta.SubmitterNameColor2,
+			weapons: []
+		};
+
 		const runTime = convertTimeToRunTime(new Date(runMeta.Time));
 
 		const submission: DfaRun = {
@@ -110,7 +145,7 @@ export const mapDfaPartyToRun = (runs: DfaPartyRunDbModel[]): DfaRun[] => {
 			drill: triggerDbMap[runMeta.Drill],
 			time: runTime,
 			players: players,
-			submitter: null, //TODO
+			submitter: submitter,
 			notes: runMeta.Notes,
 			rank: i + 1
 		};

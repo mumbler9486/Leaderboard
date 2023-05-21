@@ -38,4 +38,10 @@ export interface PurpleSoloRunDbModel {
 	NameType: string;
 	NameColor1: string;
 	NameColor2: string;
+	SubmitterName: string;
+	SubmitterCName: string;
+	SubmitterNameType: string;
+	SubmitterNameColor1: string;
+	SubmitterNameColor2: string;
+	SubmitterPrefN: string;
 }

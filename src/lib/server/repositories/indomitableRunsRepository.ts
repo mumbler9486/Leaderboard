@@ -68,16 +68,14 @@ export const getIndomitableRuns = async (
     FROM ${table} AS run
         
     INNER JOIN
-    Players.Information AS pi ON run.PlayerID = pi.PlayerID
+    Players.Information AS pi ON run.${indomitableDbFields.PlayerID} = pi.PlayerID
+    INNER JOIN
+    Players.Customization AS pc ON run.${indomitableDbFields.PlayerID} = pc.PlayerID
 
     INNER JOIN
-    Players.Customization AS pc ON run.PlayerID = pc.PlayerID
-
+    Players.Information AS si ON run.${indomitableDbFields.SubmitterID} = si.PlayerID
     INNER JOIN
-    Players.Information AS si ON run.SubmitterID = si.PlayerID
-
-    INNER JOIN
-    Players.Customization AS sc ON run.SubmitterID = sc.PlayerID
+    Players.Customization AS sc ON run.${indomitableDbFields.SubmitterID} = sc.PlayerID
     WHERE 1=1
 `;
 

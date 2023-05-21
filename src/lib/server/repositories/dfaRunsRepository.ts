@@ -55,7 +55,14 @@ export const getDfaSoloRuns = async (request: Request, filters: DfaSoloSearchFil
       pc.BackgroundColor AS ${dfaSoloDbFields.BackgroundColor},
       pc.NameType AS ${dfaSoloDbFields.NameType},
       pc.NameColor1 AS ${dfaSoloDbFields.NameColor1},
-      pc.NameColor2 AS ${dfaSoloDbFields.NameColor2}
+      pc.NameColor2 AS ${dfaSoloDbFields.NameColor2},
+
+      si.PlayerName as ${dfaSoloDbFields.SubmitterName},
+      si.CharacterName as ${dfaSoloDbFields.SubmitterCName},
+      sc.NameType as ${dfaSoloDbFields.SubmitterNameType},
+      sc.NameColor1 as ${dfaSoloDbFields.SubmitterNameColor1},
+      sc.NameColor2 as ${dfaSoloDbFields.SubmitterNameColor2},
+      sc.PreferredName as ${dfaSoloDbFields.SubmitterPrefN}
 
     FROM DFAegis.Solo AS run
 
@@ -63,6 +70,11 @@ export const getDfaSoloRuns = async (request: Request, filters: DfaSoloSearchFil
     Players.Information AS pi ON run.${dfaSoloDbFields.PlayerID} = pi.PlayerID
     INNER JOIN 
     Players.Customization AS pc ON run.${dfaSoloDbFields.PlayerID} = pc.PlayerID
+    
+    INNER JOIN
+    Players.Information AS si ON run.${dfaSoloDbFields.SubmitterID} = si.PlayerID
+    INNER JOIN
+    Players.Customization AS sc ON run.${dfaSoloDbFields.SubmitterID} = sc.PlayerID
     
     WHERE run.${dfaSoloDbFields.Drill} = @trigger`;
 
@@ -137,7 +149,14 @@ export const getDfaPartyRuns = async (
       pc.BackgroundColor AS ${dfaPartyDbFields.BackgroundColor},
       pc.NameType AS ${dfaPartyDbFields.NameType},
       pc.NameColor1 AS ${dfaPartyDbFields.NameColor1},
-      pc.NameColor2 AS ${dfaPartyDbFields.NameColor2}
+      pc.NameColor2 AS ${dfaPartyDbFields.NameColor2},
+
+      si.PlayerName as ${dfaPartyDbFields.SubmitterName},
+      si.CharacterName as ${dfaPartyDbFields.SubmitterCName},
+      sc.NameType as ${dfaPartyDbFields.SubmitterNameType},
+      sc.NameColor1 as ${dfaPartyDbFields.SubmitterNameColor1},
+      sc.NameColor2 as ${dfaPartyDbFields.SubmitterNameColor2},
+      sc.PreferredName as ${dfaPartyDbFields.SubmitterPrefN}
 
     FROM DFAegis.Party AS run
     INNER JOIN 
@@ -147,6 +166,11 @@ export const getDfaPartyRuns = async (
     Players.Information AS pi ON pr.PlayerID = pi.PlayerID
     INNER JOIN 
     Players.Customization AS pc ON pr.PlayerID = pc.PlayerID
+    
+    INNER JOIN
+    Players.Information AS si ON run.${dfaPartyDbFields.SubmitterID} = si.PlayerID
+    INNER JOIN
+    Players.Customization AS sc ON run.${dfaPartyDbFields.SubmitterID} = sc.PlayerID
     
     WHERE run.${dfaPartyDbFields.Drill} = @trigger AND run.${dfaPartyDbFields.PartySize} = @partySize`;
 

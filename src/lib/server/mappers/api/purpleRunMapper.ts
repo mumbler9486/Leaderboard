@@ -2,15 +2,9 @@ import { convertTimeToRunTime } from '$lib/server/db/util/datetime';
 import { dbValToClassMap } from '$lib/server/db/util/ngsClass';
 import { dbValToWeaponsMap } from '$lib/server/db/util/weaponType';
 import type { PlayerInfo } from '$lib/types/api/playerInfo';
-import type { DfaRun } from '$lib/types/api/dfa/dfa';
 import type { PurpleSoloRunDbModel } from '$lib/server/types/db/runs/purple/purpleSolo';
 import type { PurplePartyRunDbModel } from '$lib/server/types/db/runs/purple/purpleParty';
 import type { PurpleRun } from '$lib/types/api/purples/purples';
-
-const triggerDbMap: { [key: string]: string } = {
-	'1': 'trigger',
-	'0': 'uq'
-};
 
 export const mapPurpleSoloToRun = (runs: PurpleSoloRunDbModel[]): PurpleRun[] => {
 	const mapped = runs.map((s, i) => {
@@ -43,6 +37,24 @@ export const mapPurpleSoloToRun = (runs: PurpleSoloRunDbModel[]): PurpleRun[] =>
 
 		const players = [player1];
 
+		const submitter: PlayerInfo = {
+			playerId: parseInt(s.SubmitterID),
+			playerName: s.SubmitterName,
+			characterName: s.SubmitterCName,
+			preferredName: parseInt(s.SubmitterPrefN),
+			runCharacterName: '',
+			mainClass: dbValToClassMap[s.MainClass],
+			subClass: dbValToClassMap[s.SubClass],
+			linkPov: undefined,
+			server: undefined,
+			flag: undefined,
+			ship: undefined,
+			nameType: parseInt(s.SubmitterNameType),
+			nameColor1: s.SubmitterNameColor1,
+			nameColor2: s.SubmitterNameColor2,
+			weapons: []
+		};
+
 		const runTime = convertTimeToRunTime(new Date(s.Time));
 		runTime.seconds = runTime.minutes;
 		runTime.minutes = runTime.hours;
@@ -57,7 +69,7 @@ export const mapPurpleSoloToRun = (runs: PurpleSoloRunDbModel[]): PurpleRun[] =>
 			notes: s.Notes,
 			modNotes: s.ModNotes,
 			players: players,
-			submitter: undefined //TODO
+			submitter: submitter
 		};
 
 		return submission;
@@ -84,6 +96,7 @@ export const mapPurplePartyToRun = (runs: PurplePartyRunDbModel[]): PurpleRun[] 
 		}
 		const runId = runGroup[0];
 		const run = runGroup[1];
+		const runMeta = run[0];
 
 		const players: PlayerInfo[] = run.map((r) => ({
 			playerId: parseInt(r.PlayerID),
@@ -103,7 +116,24 @@ export const mapPurplePartyToRun = (runs: PurplePartyRunDbModel[]): PurpleRun[] 
 			weapons: []
 		}));
 
-		const runMeta = run[0];
+		const submitter: PlayerInfo = {
+			playerId: parseInt(runMeta.SubmitterID),
+			playerName: runMeta.SubmitterName,
+			characterName: runMeta.SubmitterCName,
+			preferredName: parseInt(runMeta.SubmitterPrefN),
+			runCharacterName: '',
+			mainClass: dbValToClassMap[runMeta.MainClass],
+			subClass: dbValToClassMap[runMeta.SubClass],
+			linkPov: undefined,
+			server: undefined,
+			flag: undefined,
+			ship: undefined,
+			nameType: parseInt(runMeta.SubmitterNameType),
+			nameColor1: runMeta.SubmitterNameColor1,
+			nameColor2: runMeta.SubmitterNameColor2,
+			weapons: []
+		};
+
 		const runTime = convertTimeToRunTime(new Date(runMeta.Time));
 		runTime.seconds = runTime.minutes;
 		runTime.minutes = runTime.hours;
@@ -118,7 +148,7 @@ export const mapPurplePartyToRun = (runs: PurplePartyRunDbModel[]): PurpleRun[] 
 			notes: runMeta.Notes,
 			modNotes: runMeta.ModNotes,
 			players: players,
-			submitter: undefined //TODO
+			submitter: submitter
 		};
 
 		return submission;
