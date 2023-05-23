@@ -39,8 +39,8 @@
 	<td class="text-center">
 		{#each submission.players as player}
 			<p>
-				<NgsClassIcon combatClass={player.mainClass} />
-				<NgsClassIcon combatClass={player.subClass} />
+				<NgsClassIcon showTooltip combatClass={player.mainClass} />
+				<NgsClassIcon showTooltip combatClass={player.subClass} />
 			</p>
 		{/each}
 	</td>

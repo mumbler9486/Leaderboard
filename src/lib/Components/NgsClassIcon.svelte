@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
+	import Tooltip from './Tooltip.svelte';
 
 	export let combatClass: NgsPlayerClass | undefined;
 	export let showLabel: boolean = false;
+	export let showTooltip: boolean = false;
 
 	const classMap = {
 		[NgsPlayerClass.Hunter]: { name: 'Hunter', icon: '/icons/class/class-hunter.png' },
@@ -21,7 +23,16 @@
 	$: classInfo = classMap[combatClass ?? NgsPlayerClass.Unknown];
 </script>
 
-<img src={classInfo.icon} class="inline w-[16px] object-none" alt={classInfo.name} />
-{#if showLabel}
-	{classInfo.name}
+{#if showTooltip}
+	<Tooltip tip={classInfo.name}>
+		<img src={classInfo.icon} class="inline w-[16px] object-none" alt={classInfo.name} />
+		{#if showLabel}
+			{classInfo.name}
+		{/if}
+	</Tooltip>
+{:else}
+	<img src={classInfo.icon} class="inline w-[16px] object-none" alt={classInfo.name} />
+	{#if showLabel}
+		{classInfo.name}
+	{/if}
 {/if}
