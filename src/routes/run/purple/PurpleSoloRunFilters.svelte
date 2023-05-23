@@ -40,7 +40,11 @@
 <div
 	class="-mx-6 flex grow flex-col rounded-md border border-secondary bg-secondary/25 p-1 md:mx-0"
 >
-	<PurpleCategorySelector region={filters.region} rank={filters.rank} on:changed={applyFilters} />
+	<PurpleCategorySelector
+		bind:region={filters.region}
+		bind:rank={filters.rank}
+		on:changed={applyFilters}
+	/>
 
 	<Divider class="-mx-1 my-0" />
 	<div class="flex flex-row flex-wrap place-content-center items-stretch">

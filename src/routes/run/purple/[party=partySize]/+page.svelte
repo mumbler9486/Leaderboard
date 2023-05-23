@@ -39,7 +39,7 @@
 
 	const fetchRuns = async (...watch: any[]) => {
 		const basePath = `/ngs-api/runs/purples/${partySize}`;
-		let runFilters = partySize === PartySize.Solo ? $soloRunFilters : $partyRunFilters;
+		const runFilters = partySize === PartySize.Solo ? $soloRunFilters : $partyRunFilters;
 
 		return (await fetchGetApi<PurpleRun[]>(basePath, copyQueryParams(runFilters))) ?? [];
 	};
