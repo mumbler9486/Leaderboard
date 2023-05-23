@@ -1,7 +1,7 @@
 import sql, { type Request } from 'mssql';
-import type { PurpleSoloDbModel } from '$lib/server/types/db/purple/purpleSolo';
-import type { PurpleDuoDbModel } from '$lib/server/types/db/purple/purpleDuo';
-import type { PurplePartyDbModel } from '$lib/server/types/db/purple/purpleParty';
+import type { PurpleSoloDbModel } from '$lib/server/types/db/submissions/purple/purpleSolo';
+import type { PurpleDuoDbModel } from '$lib/server/types/db/submissions/purple/purpleDuo';
+import type { PurplePartyDbModel } from '$lib/server/types/db/submissions/purple/purpleParty';
 import { fields } from '../util/nameof';
 import type { ApproveRequest, DenyRequest } from '../types/validation/submissions';
 import type { PurpleSubmissionRequest } from '../types/validation/purpleSubmissions';

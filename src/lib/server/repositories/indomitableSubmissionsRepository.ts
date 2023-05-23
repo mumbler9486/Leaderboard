@@ -1,5 +1,5 @@
 import sql, { type Request } from 'mssql';
-import type { IndomitableDbModel } from '$lib/server/types/db/duels/indomitable';
+import type { IndomitableDbModel } from '$lib/server/types/db/submissions/duels/indomitable';
 import { fields } from '../util/nameof';
 import type { ApproveRequest, DenyRequest } from '../types/validation/submissions';
 import { RunCategories } from '$lib/types/api/categories';
