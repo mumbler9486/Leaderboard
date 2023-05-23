@@ -78,9 +78,9 @@ export const getDfaSoloRuns = async (request: Request, filters: DfaSoloSearchFil
     
     WHERE run.${dfaSoloDbFields.Drill} = @trigger`;
 
-	if (filters.region) {
-		query += ` AND pc.Server = @region`;
-		request = request.input('region', sql.NVarChar, filters.region);
+	if (filters.server) {
+		query += ` AND pc.Server = @server`;
+		request = request.input('server', sql.NVarChar, filters.server);
 	}
 
 	if (filters.class) {
@@ -95,7 +95,7 @@ export const getDfaSoloRuns = async (request: Request, filters: DfaSoloSearchFil
 
 	query += ` ORDER BY run.${dfaPartyDbFields.Time} ASC, run.${dfaPartyDbFields.SubmissionTime} ASC`;
 
-	const trigger = triggerDbMap[filters.trigger ?? 'urgent'];
+	const trigger = triggerDbMap[filters.trigger];
 	request = request.input('trigger', sql.Int, trigger);
 
 	const results = await request.query(query);
@@ -174,9 +174,9 @@ export const getDfaPartyRuns = async (
     
     WHERE run.${dfaPartyDbFields.Drill} = @trigger AND run.${dfaPartyDbFields.PartySize} = @partySize`;
 
-	if (filters.region) {
-		query += ` AND pc.Server = @region`;
-		request = request.input('region', sql.NVarChar, filters.region);
+	if (filters.server) {
+		query += ` AND pc.Server = @server`;
+		request = request.input('server', sql.NVarChar, filters.server);
 	}
 
 	if (filters.buff) {

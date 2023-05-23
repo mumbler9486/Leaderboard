@@ -11,12 +11,12 @@
 	let filters = {
 		trigger: 'urgent',
 		buff: 'no_filter',
-		region: 'no_filter'
+		server: 'no_filter'
 	};
 
 	const applyFilters = () => {
 		partyRunFilters.update((f) => {
-			f.region = filters.region == 'no_filter' ? undefined : filters.region;
+			f.server = filters.server == 'no_filter' ? undefined : filters.server;
 			f.buff = filters.buff == 'no_filter' ? undefined : filters.buff;
 			f.trigger = filters.trigger;
 			return f;
@@ -25,8 +25,8 @@
 
 	$: loadUrlParamsToStore($page.url);
 	const loadUrlParamsToStore = (...watch: any[]) => {
-		const pageParams = loadUrlParams(['region', 'buff', 'trigger']);
-		filters.region = pageParams.region ?? 'no_filter';
+		const pageParams = loadUrlParams(['server', 'buff', 'trigger']);
+		filters.server = pageParams.region ?? 'no_filter';
 		filters.buff = pageParams.buff ?? 'no_filter';
 		filters.trigger = pageParams.trigger ?? 'urgent';
 
@@ -55,7 +55,7 @@
 	<div class="flex flex-row flex-wrap place-content-center items-stretch">
 		<div class="m-1 md:flex-1">
 			<DfaPartyModalRunFilters
-				bind:server={filters.region}
+				bind:server={filters.server}
 				bind:support={filters.buff}
 				on:applyFilters={applyFilters}
 			/>

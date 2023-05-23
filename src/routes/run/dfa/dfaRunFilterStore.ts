@@ -1,14 +1,14 @@
 import { writable } from 'svelte/store';
 
 export interface DfaSoloSearchFilters {
-	region?: string;
+	server?: string;
 	class?: string;
 	buff?: string;
 	trigger: string;
 }
 
 const defaultFilter: DfaSoloSearchFilters = {
-	region: undefined,
+	server: undefined,
 	buff: undefined,
 	class: undefined,
 	trigger: 'urgent'
@@ -22,13 +22,13 @@ export const resetSoloFilters = () => {
 export const soloRunFilters = writable<DfaSoloSearchFilters>({ ...defaultFilter });
 
 export interface DfaPartySearchFilters {
-	region?: string;
+	server?: string;
 	buff?: string;
 	trigger: string;
 }
 
 const defaultPartyFilter: DfaPartySearchFilters = {
-	region: undefined,
+	server: undefined,
 	buff: undefined,
 	trigger: 'urgent'
 };

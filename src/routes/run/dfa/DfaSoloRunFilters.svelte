@@ -12,12 +12,12 @@
 		trigger: 'urgent',
 		class: 'no_filter',
 		buff: 'no_filter',
-		region: 'no_filter'
+		server: 'no_filter'
 	};
 
 	const applyFilters = () => {
 		soloRunFilters.update((f) => {
-			f.region = filters.region == 'no_filter' ? undefined : filters.region;
+			f.server = filters.server == 'no_filter' ? undefined : filters.server;
 			f.class = filters.class == 'no_filter' ? undefined : filters.class;
 			f.buff = filters.buff == 'no_filter' ? undefined : filters.buff;
 			f.trigger = filters.trigger;
@@ -27,8 +27,8 @@
 
 	$: loadUrlParamsToStore($page);
 	const loadUrlParamsToStore = (...watch: any[]) => {
-		const pageParams = loadUrlParams(['region', 'class', 'buff', 'trigger']);
-		filters.region = pageParams.region ?? 'no_filter';
+		const pageParams = loadUrlParams(['server', 'class', 'buff', 'trigger']);
+		filters.server = pageParams.server ?? 'no_filter';
 		filters.class = pageParams.class ?? 'no_filter';
 		filters.buff = pageParams.buff ?? 'no_filter';
 		filters.trigger = pageParams.trigger ?? 'urgent';
@@ -58,7 +58,7 @@
 	<div class="flex flex-row flex-wrap place-content-center items-stretch">
 		<div class="m-1 md:flex-1">
 			<DfaSoloModalRunFilters
-				bind:server={filters.region}
+				bind:server={filters.server}
 				bind:mainClass={filters.class}
 				bind:support={filters.buff}
 				on:applyFilters={applyFilters}

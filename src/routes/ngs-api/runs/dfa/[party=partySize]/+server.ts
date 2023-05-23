@@ -30,9 +30,10 @@ export async function GET({ params, url }) {
 }
 const getSoloRuns = async (url: URL) => {
 	const urlParams = {
-		region: url.searchParams.get('region'),
+		server: url.searchParams.get('server'),
 		class: url.searchParams.get('class'),
-		buff: url.searchParams.get('buff')
+		buff: url.searchParams.get('buff'),
+		trigger: url.searchParams.get('trigger')
 	};
 
 	let filters: DfaSoloSearchFilter;
@@ -62,8 +63,8 @@ const getSoloRuns = async (url: URL) => {
 const getPartyRuns = async (url: URL, partySize: PartySize) => {
 	const urlParams = {
 		server: url.searchParams.get('server'),
-		region: url.searchParams.get('region'),
-		rank: url.searchParams.get('rank')
+		buff: url.searchParams.get('buff'),
+		trigger: url.searchParams.get('trigger')
 	};
 
 	let parsedRun: DfaPartySearchFilter;

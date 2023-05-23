@@ -34,8 +34,8 @@
 			  )}`;
 	$: partySizeTitle = partySizeMap[partySize];
 
-	$: updateUrlParams($soloRunFilters, ['region', 'class', 'buff', 'trigger']);
-	$: updateUrlParams($partyRunFilters, ['region', 'buff', 'trigger']);
+	$: updateUrlParams($soloRunFilters, ['server', 'class', 'buff', 'trigger']);
+	$: updateUrlParams($partyRunFilters, ['server', 'buff', 'trigger']);
 
 	const fetchRuns = async (...watch: any[]) => {
 		const basePath = `/ngs-api/runs/dfa/${partySize}`;

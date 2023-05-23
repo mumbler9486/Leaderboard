@@ -729,7 +729,7 @@ export const insertDfaPartySubmission = async (request: sql.Request, run: DfaSub
 		.input('serverid', sql.NVarChar, run.serverRegion)
 		.input('questrank', sql.Int, 1)
 		.input('patch', sql.NVarChar, 'pot6r')
-		.input('region', sql.NVarChar, run.support)
+		.input('buff', sql.NVarChar, run.support)
 		.input('rank', sql.Int, triggerDbMap[run.type])
 		.input('time', sql.NVarChar, runTime)
 		.input('notes', sql.NVarChar, run.notes);
@@ -794,7 +794,7 @@ export const insertDfaPartySubmission = async (request: sql.Request, run: DfaSub
 	const result = await insertRequest.query(
 		`INSERT INTO 
      Submissions.DFAegisParty (${dbFields.P1PlayerID},${dbFields.P2PlayerID},${dbFields.P3PlayerID},${dbFields.P4PlayerID},${dbFields.P5PlayerID},${dbFields.P6PlayerID},${dbFields.P7PlayerID},${dbFields.P8PlayerID},${dbFields.P1RunCharacter},${dbFields.P2RunCharacter},${dbFields.P3RunCharacter},${dbFields.P4RunCharacter},${dbFields.P5RunCharacter},${dbFields.P6RunCharacter},${dbFields.P7RunCharacter},${dbFields.P8RunCharacter},${dbFields.Patch},${dbFields.Buff},${dbFields.Drill},${dbFields.Time},${dbFields.P1MainClass},${dbFields.P2MainClass},${dbFields.P3MainClass},${dbFields.P4MainClass},${dbFields.P5MainClass},${dbFields.P6MainClass},${dbFields.P7MainClass},${dbFields.P8MainClass},${dbFields.P1SubClass},${dbFields.P2SubClass},${dbFields.P3SubClass},${dbFields.P4SubClass},${dbFields.P5SubClass},${dbFields.P6SubClass},${dbFields.P7SubClass},${dbFields.P8SubClass},${dbFields.PartySize},${dbFields.P1Link},${dbFields.P2Link},${dbFields.P3Link},${dbFields.P4Link},${dbFields.P5Link},${dbFields.P6Link},${dbFields.P7Link},${dbFields.P8Link},${dbFields.Notes},${dbFields.SubmissionTime},${dbFields.SubmitterID},${dbFields.ServerID},${dbFields.Rank})
-     VALUES (@p1pid,@p2pid,@p3pid,@p4pid,@p5pid,@p6pid,@p7pid,@p8pid,@p1rc,@p2rc,@p3rc,@p4rc,@p5rc,@p6rc,@p7rc,@p8rc,@patch,@region,@rank,@time,@p1mc,@p2mc,@p3mc,@p4mc,@p5mc,@p6mc,@p7mc,@p8mc,@p1sc,@p2sc,@p3sc,@p4sc,@p5sc,@p6sc,@p7sc,@p8sc,@partysize,@p1link,@p2link,@p3link,@p4link,@p5link,@p6link,@p7link,@p8link,@notes,@subtime,@subpid,@serverid,@questrank);
+     VALUES (@p1pid,@p2pid,@p3pid,@p4pid,@p5pid,@p6pid,@p7pid,@p8pid,@p1rc,@p2rc,@p3rc,@p4rc,@p5rc,@p6rc,@p7rc,@p8rc,@patch,@buff,@rank,@time,@p1mc,@p2mc,@p3mc,@p4mc,@p5mc,@p6mc,@p7mc,@p8mc,@p1sc,@p2sc,@p3sc,@p4sc,@p5sc,@p6sc,@p7sc,@p8sc,@partysize,@p1link,@p2link,@p3link,@p4link,@p5link,@p6link,@p7link,@p8link,@notes,@subtime,@subpid,@serverid,@questrank);
      `
 	);
 
