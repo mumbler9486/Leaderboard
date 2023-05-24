@@ -49,7 +49,6 @@
 			alt={$t('shared.siteName')}
 			src="/logos/logo.png"
 		/>
-		<MeteornRecordCountdown recordType="aegis-party" endDate="Mar 15, 2023" linkActive={true} />
 		<div class="container mx-auto mb-16 rounded-md border border-secondary bg-base-100/75">
 			<div class="align-center flex flex-col md:flex-row">
 				<div
