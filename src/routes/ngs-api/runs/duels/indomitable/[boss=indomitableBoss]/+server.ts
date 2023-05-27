@@ -1,7 +1,7 @@
 import { leaderboardDb } from '$lib/server/db/db';
-import { error, json } from '@sveltejs/kit';
+import { json } from '@sveltejs/kit';
 import { jsonError } from '$lib/server/error.js';
-import { IndomitableBoss, parseIndomitableBoss } from '$lib/types/api/duels/indomitableBoss.js';
+import { parseIndomitableBoss } from '$lib/types/api/duels/indomitableBoss.js';
 import {
 	indomitableRunSearchFilterSchema,
 	type IndomitableRunSearchFilter

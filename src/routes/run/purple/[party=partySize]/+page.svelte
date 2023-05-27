@@ -12,10 +12,21 @@
 	import { page } from '$app/stores';
 	import { t } from 'svelte-i18n';
 	import { fetchGetApi } from '$lib/utils/fetch';
-	import { soloRunFilters, partyRunFilters } from '../purpleRunFilterStore';
-	import { PartySize } from '$lib/types/api/partySizes';
-	import { copyQueryParams, updateUrlParams } from '$lib/utils/queryParams';
+	import {
+		soloRunFilters,
+		partyRunFilters,
+		type PurplePartySearchFilters,
+		type PurpleSoloSearchFilters
+	} from '../purpleRunFilterStore';
+	import { PartySize, parsePartySize } from '$lib/types/api/partySizes';
+	import {
+		copyQueryParams,
+		useUrlFilterStore,
+		type UrlQueryParamRule,
+		clearFilterValues
+	} from '$lib/utils/queryParams';
 	import type { PurpleRun } from '$lib/types/api/purples/purples';
+	import { onDestroy } from 'svelte';
 
 	const partySizeMap: { [key: string]: string } = {
 		[PartySize.Solo]: $t('common.playerCount.solo'),
@@ -23,7 +34,7 @@
 		[PartySize.Party]: $t('common.playerCount.party')
 	};
 
-	$: partySize = $page.params.party;
+	$: partySize = parsePartySize($page.params.party) ?? PartySize.Solo;
 	$: pageTitle =
 		partySize === PartySize.Solo
 			? `${$t('shared.siteName')} | ${$t('leaderboard.purpleTriggers')} - ${$t(
@@ -34,15 +45,53 @@
 			  )}`;
 	$: partySizeTitle = partySizeMap[partySize];
 
-	$: updateUrlParams($soloRunFilters, ['server', 'region', 'rank', 'class']);
-	$: updateUrlParams($partyRunFilters, ['server', 'region', 'rank']);
+	const soloFilterDef: UrlQueryParamRule<PurpleSoloSearchFilters>[] = [
+		{ name: 'server', undefinedValue: 'no_filter' },
+		{ name: 'class', undefinedValue: 'no_filter' },
+		{ name: 'rank', defaultValue: '1' },
+		{ name: 'region', defaultValue: 'stia' }
+	];
+
+	const partyFilterDef: UrlQueryParamRule<PurplePartySearchFilters>[] = [
+		{ name: 'server', undefinedValue: 'no_filter' },
+		{ name: 'rank', defaultValue: '1' },
+		{ name: 'region', defaultValue: 'stia' }
+	];
+
+	const { cleanup: cleanupSolo, active: soloFiltersActive } = useUrlFilterStore(
+		soloRunFilters,
+		soloFilterDef
+	);
+	const { cleanup: cleanupParty, active: partyFiltersActive } = useUrlFilterStore(
+		partyRunFilters,
+		partyFilterDef
+	);
+
+	$: setActiveUrlStore(partySize);
+	const setActiveUrlStore = (partySize: PartySize) => {
+		if (partySize == PartySize.Solo) {
+			$soloFiltersActive = true;
+			$partyFiltersActive = false;
+		} else {
+			$soloFiltersActive = false;
+			$partyFiltersActive = true;
+		}
+	};
 
 	const fetchRuns = async (...watch: any[]) => {
 		const basePath = `/ngs-api/runs/purples/${partySize}`;
-		const runFilters = partySize === PartySize.Solo ? $soloRunFilters : $partyRunFilters;
+		const runFilters =
+			partySize === PartySize.Solo
+				? clearFilterValues($soloRunFilters, soloFilterDef)
+				: clearFilterValues($partyRunFilters, partyFilterDef);
 
 		return (await fetchGetApi<PurpleRun[]>(basePath, copyQueryParams(runFilters))) ?? [];
 	};
+
+	onDestroy(() => {
+		cleanupSolo();
+		cleanupParty();
+	});
 </script>
 
 <svelte:head>

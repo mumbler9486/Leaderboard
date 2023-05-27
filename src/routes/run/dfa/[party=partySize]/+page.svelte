@@ -5,17 +5,24 @@
 	import LeaderboardTitle from '$lib/LeaderboardComponents/Parts/LeaderboardTitle.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
 	import DfaSoloRunsTable from '../DfaSoloRunsTable.svelte';
+	import DfaPartyRunsTable from '../DfaPartyRunsTable.svelte';
+	import DfaSoloRunFilters from '../DfaSoloRunFilters.svelte';
+	import DfaPartyRunFilters from '../DfaPartyRunFilters.svelte';
 
 	import { page } from '$app/stores';
 	import { t } from 'svelte-i18n';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import type { DfaRun } from '$lib/types/api/dfa/dfa';
-	import { soloRunFilters, partyRunFilters } from '../dfaRunFilterStore';
-	import { PartySize } from '$lib/types/api/partySizes';
-	import { copyQueryParams, updateUrlParams } from '$lib/utils/queryParams';
-	import DfaPartyRunsTable from '../DfaPartyRunsTable.svelte';
-	import DfaSoloRunFilters from '../DfaSoloRunFilters.svelte';
-	import DfaPartyRunFilters from '../DfaPartyRunFilters.svelte';
+	import { soloRunFilters, partyRunFilters, type DfaSoloSearchFilters } from '../dfaRunFilterStore';
+	import { PartySize, parsePartySize } from '$lib/types/api/partySizes';
+	import {
+		copyQueryParams,
+		useUrlFilterStore,
+		type UrlQueryParamRule,
+		clearFilterValues
+	} from '$lib/utils/queryParams';
+	import type { DfaPartySearchFilter } from '$lib/server/types/validation/dfaRunFilter';
+	import { onDestroy } from 'svelte';
 
 	const partySizeMap: { [key: string]: string } = {
 		[PartySize.Solo]: $t('common.playerCount.solo'),
@@ -23,7 +30,7 @@
 		[PartySize.Party]: $t('common.playerCount.party')
 	};
 
-	$: partySize = $page.params.party;
+	$: partySize = parsePartySize($page.params.party) ?? PartySize.Solo;
 	$: pageTitle =
 		partySize === PartySize.Solo
 			? `${$t('shared.siteName')} | ${$t('leaderboard.halphiaLake')} - ${$t(
@@ -34,15 +41,53 @@
 			  )}`;
 	$: partySizeTitle = partySizeMap[partySize];
 
-	$: updateUrlParams($soloRunFilters, ['server', 'class', 'buff', 'trigger']);
-	$: updateUrlParams($partyRunFilters, ['server', 'buff', 'trigger']);
+	const soloFilterDef: UrlQueryParamRule<DfaSoloSearchFilters>[] = [
+		{ name: 'server', undefinedValue: 'no_filter' },
+		{ name: 'class', undefinedValue: 'no_filter' },
+		{ name: 'buff', undefinedValue: 'no_filter' },
+		{ name: 'trigger', defaultValue: 'urgent' }
+	];
+
+	const partyFilterDef: UrlQueryParamRule<DfaPartySearchFilter>[] = [
+		{ name: 'server', undefinedValue: 'no_filter' },
+		{ name: 'buff', undefinedValue: 'no_filter' },
+		{ name: 'trigger', defaultValue: 'urgent' }
+	];
+
+	const { cleanup: cleanupSolo, active: soloFiltersActive } = useUrlFilterStore(
+		soloRunFilters,
+		soloFilterDef
+	);
+	const { cleanup: cleanupParty, active: partyFiltersActive } = useUrlFilterStore(
+		partyRunFilters,
+		partyFilterDef
+	);
+
+	$: setActiveUrlStore(partySize);
+	const setActiveUrlStore = (partySize: PartySize) => {
+		if (partySize == PartySize.Solo) {
+			$soloFiltersActive = true;
+			$partyFiltersActive = false;
+		} else {
+			$soloFiltersActive = false;
+			$partyFiltersActive = true;
+		}
+	};
 
 	const fetchRuns = async (...watch: any[]) => {
 		const basePath = `/ngs-api/runs/dfa/${partySize}`;
-		const runFilters = partySize === PartySize.Solo ? $soloRunFilters : $partyRunFilters;
+		const runFilters =
+			partySize === PartySize.Solo
+				? clearFilterValues($soloRunFilters, soloFilterDef)
+				: clearFilterValues($partyRunFilters, partyFilterDef);
 
 		return (await fetchGetApi<DfaRun[]>(basePath, copyQueryParams(runFilters))) ?? [];
 	};
+
+	onDestroy(() => {
+		cleanupSolo();
+		cleanupParty();
+	});
 </script>
 
 <svelte:head>
@@ -62,7 +107,7 @@
 				{:else}
 					<DfaPartyRunFilters />
 				{/if}
-				{#await fetchRuns($page, $soloRunFilters, $partyRunFilters)}
+				{#await fetchRuns($soloRunFilters, $partyRunFilters)}
 					<LoadingBar />
 				{:then runs}
 					{#if partySize === PartySize.Solo}

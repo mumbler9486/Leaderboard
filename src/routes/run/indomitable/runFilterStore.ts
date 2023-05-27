@@ -1,20 +1,15 @@
 import { writable } from 'svelte/store';
 
-export interface IndomitableRunFilters {
-	server?: string;
-	class?: string;
-	augmentations?: string;
+export interface IndomitableRunSearchFilter {
+	server: string;
+	class: string;
+	augmentations: string;
 }
 
-const defaultFilter: IndomitableRunFilters = {
-	server: undefined,
-	class: undefined,
-	augmentations: 'yes'
+const defaultFilter: IndomitableRunSearchFilter = {
+	server: 'no_filter',
+	class: 'no_filter',
+	augmentations: 'no_filter'
 };
 
-export const resetSoloFilters = () => {
-	const newDefault = { ...defaultFilter };
-	indomitableRunFilters.set(newDefault);
-};
-
-export const indomitableRunFilters = writable<IndomitableRunFilters>({ ...defaultFilter });
+export const indomitableRunFilters = writable<IndomitableRunSearchFilter>({ ...defaultFilter });

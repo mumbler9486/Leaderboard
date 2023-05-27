@@ -3,35 +3,22 @@
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import DfaRules from './DfaRules.svelte';
 	import DfaPartyModalRunFilters from './DfaPartyModalRunFilters.svelte';
-	import { partyRunFilters } from './dfaRunFilterStore';
-	import { page } from '$app/stores';
+	import { partyRunFilters, type DfaPartySearchFilters } from './dfaRunFilterStore';
 	import { t } from 'svelte-i18n';
-	import { loadUrlParams } from '$lib/utils/queryParams';
 
-	let filters = {
+	let filters: DfaPartySearchFilters = {
 		trigger: 'urgent',
 		buff: 'no_filter',
 		server: 'no_filter'
 	};
 
 	const applyFilters = () => {
-		partyRunFilters.update((f) => {
-			f.server = filters.server == 'no_filter' ? undefined : filters.server;
-			f.buff = filters.buff == 'no_filter' ? undefined : filters.buff;
-			f.trigger = filters.trigger;
-			return f;
-		});
+		partyRunFilters.set({ ...filters });
 	};
 
-	$: loadUrlParamsToStore($page.url);
-	const loadUrlParamsToStore = (...watch: any[]) => {
-		const pageParams = loadUrlParams(['server', 'buff', 'trigger']);
-		filters.server = pageParams.region ?? 'no_filter';
-		filters.buff = pageParams.buff ?? 'no_filter';
-		filters.trigger = pageParams.trigger ?? 'urgent';
-
-		applyFilters();
-	};
+	partyRunFilters.subscribe((f) => {
+		filters = { ...f };
+	});
 </script>
 
 <div

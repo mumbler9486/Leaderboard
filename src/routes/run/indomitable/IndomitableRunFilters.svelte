@@ -3,35 +3,22 @@
 	import IndomitableRules from './IndomitableRules.svelte';
 	import Divider from '$lib/Components/Divider.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
-	import { page } from '$app/stores';
-	import { indomitableRunFilters } from './runFilterStore';
-	import { loadUrlParams } from '$lib/utils/queryParams';
+	import { indomitableRunFilters, type IndomitableRunSearchFilter } from './runFilterStore';
 	import { t } from 'svelte-i18n';
 
-	let filters = {
+	let filters: IndomitableRunSearchFilter = {
 		server: 'no_filter',
 		class: 'no_filter',
-		augmentations: 'yes'
+		augmentations: 'no_filter'
 	};
 
 	const applyFilters = () => {
-		indomitableRunFilters.update((f) => {
-			f.server = filters.server == 'no_filter' ? undefined : filters.server;
-			f.class = filters.class == 'no_filter' ? undefined : filters.class;
-			f.augmentations = filters.augmentations == 'no_filter' ? undefined : filters.augmentations;
-			return f;
-		});
+		indomitableRunFilters.set({ ...filters });
 	};
 
-	$: loadUrlParamsToStore($page.url);
-	const loadUrlParamsToStore = (...watch: any[]) => {
-		const pageParams = loadUrlParams(['server', 'class', 'augmentations']);
-		filters.server = pageParams.server ?? 'no_filter';
-		filters.class = pageParams.class ?? 'no_filter';
-		filters.augmentations = pageParams.augmentations ?? 'no_filter';
-
-		applyFilters();
-	};
+	indomitableRunFilters.subscribe((f) => {
+		filters = { ...f };
+	});
 </script>
 
 <div

@@ -2,36 +2,23 @@
 	import Divider from '$lib/Components/Divider.svelte';
 	import PurpleRules from './PurpleRules.svelte';
 	import PurplePartyModalRunFilters from './PurplePartyModalRunFilters.svelte';
-	import { partyRunFilters } from './purpleRunFilterStore';
-	import { page } from '$app/stores';
-	import { t } from 'svelte-i18n';
-	import { loadUrlParams } from '$lib/utils/queryParams';
 	import PurpleCategorySelector from './PurpleCategorySelector.svelte';
+	import { partyRunFilters, type PurplePartySearchFilters } from './purpleRunFilterStore';
+	import { t } from 'svelte-i18n';
 
-	let filters = {
+	let filters: PurplePartySearchFilters = {
 		region: 'stia',
 		rank: '1',
 		server: 'no_filter'
 	};
 
 	const applyFilters = () => {
-		partyRunFilters.update((f) => {
-			f.region = filters.region;
-			f.rank = parseInt(filters.rank);
-			f.server = filters.server == 'no_filter' ? undefined : filters.server;
-			return f;
-		});
+		partyRunFilters.set({ ...filters });
 	};
 
-	$: loadUrlParamsToStore($page.url);
-	const loadUrlParamsToStore = (...watch: any[]) => {
-		const pageParams = loadUrlParams(['server', 'region', 'rank']);
-		filters.region = pageParams.region ?? 'stia';
-		filters.rank = pageParams.rank ?? '1';
-		filters.server = pageParams.server ?? 'no_filter';
-
-		applyFilters();
-	};
+	partyRunFilters.subscribe((f) => {
+		filters = { ...f };
+	});
 </script>
 
 <div

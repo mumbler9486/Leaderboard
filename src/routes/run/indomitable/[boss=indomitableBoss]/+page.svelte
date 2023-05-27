@@ -11,9 +11,15 @@
 	import type { IndomitableRun } from '$lib/types/api/duels/indomitable';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import { t } from 'svelte-i18n';
-	import { copyQueryParams, updateUrlParams } from '$lib/utils/queryParams';
-	import { indomitableRunFilters } from '../runFilterStore';
+	import {
+		copyQueryParams,
+		useUrlFilterStore,
+		type UrlQueryParamRule,
+		clearFilterValues
+	} from '$lib/utils/queryParams';
+	import { indomitableRunFilters, type IndomitableRunSearchFilter } from '../runFilterStore';
 	import { IndomitableBoss } from '$lib/types/api/duels/indomitableBoss';
+	import { onDestroy } from 'svelte';
 
 	const pageTitles: { [key: string]: string } = {
 		[IndomitableBoss.NexAelio]: $t('leaderboard.indomitableNexAelio'),
@@ -25,14 +31,30 @@
 	$: boss = $page.params.boss;
 	$: pageHeader = pageTitles[boss];
 
-	$: updateUrlParams($indomitableRunFilters, ['class', 'server', 'augmentations']);
+	const filterDef: UrlQueryParamRule<IndomitableRunSearchFilter>[] = [
+		{ name: 'server', undefinedValue: 'no_filter' },
+		{ name: 'class', undefinedValue: 'no_filter' },
+		{ name: 'augmentations', undefinedValue: 'no_filter' }
+	];
+
+	const { cleanup: cleanupFilterStore, active: filtersActive } = useUrlFilterStore(
+		indomitableRunFilters,
+		filterDef
+	);
+
+	$: setActiveUrlStore();
+	const setActiveUrlStore = () => {
+		$filtersActive = true;
+	};
 
 	const fetchRuns = async (...watch: any[]) => {
 		const basePath = `/ngs-api/runs/duels/indomitable/${boss}`;
-		return (
-			(await fetchGetApi<IndomitableRun[]>(basePath, copyQueryParams($indomitableRunFilters))) ?? []
-		);
+		const runFilters = clearFilterValues($indomitableRunFilters, filterDef);
+
+		return (await fetchGetApi<IndomitableRun[]>(basePath, copyQueryParams(runFilters))) ?? [];
 	};
+
+	onDestroy(cleanupFilterStore);
 </script>
 
 <svelte:head>
@@ -48,7 +70,7 @@
 		<div class="container mx-auto mb-16 mt-2 rounded-md border border-secondary bg-base-100/75">
 			<div class="m-2 space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8">
 				<IndomitableRunFilters />
-				{#await fetchRuns($page, $indomitableRunFilters)}
+				{#await fetchRuns($indomitableRunFilters)}
 					<LoadingBar />
 				{:then runs}
 					<IndomitableRunsTable {runs} />

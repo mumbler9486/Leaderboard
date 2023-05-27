@@ -2,13 +2,11 @@
 	import Divider from '$lib/Components/Divider.svelte';
 	import PurpleRules from './PurpleRules.svelte';
 	import PurpleSoloModalRunFilters from './PurpleSoloModalRunFilters.svelte';
-	import { soloRunFilters } from './purpleRunFilterStore';
-	import { page } from '$app/stores';
-	import { t } from 'svelte-i18n';
-	import { loadUrlParams } from '$lib/utils/queryParams';
 	import PurpleCategorySelector from './PurpleCategorySelector.svelte';
+	import { soloRunFilters, type PurpleSoloSearchFilters } from './purpleRunFilterStore';
+	import { t } from 'svelte-i18n';
 
-	let filters = {
+	let filters: PurpleSoloSearchFilters = {
 		server: 'no_filter',
 		region: 'stia',
 		rank: '1',
@@ -16,25 +14,12 @@
 	};
 
 	const applyFilters = () => {
-		soloRunFilters.update((f) => {
-			f.server = filters.server == 'no_filter' ? undefined : filters.server;
-			f.region = filters.region;
-			f.rank = parseInt(filters.rank);
-			f.class = filters.class == 'no_filter' ? undefined : filters.class;
-			return f;
-		});
+		soloRunFilters.set({ ...filters });
 	};
 
-	$: loadUrlParamsToStore($page);
-	const loadUrlParamsToStore = (...watch: any[]) => {
-		const pageParams = loadUrlParams(['region', 'class', 'buff', 'trigger']);
-		filters.server = pageParams.server ?? 'no_filter';
-		filters.region = pageParams.region ?? 'stia';
-		filters.rank = pageParams.rank ?? '1';
-		filters.class = pageParams.class ?? 'no_filter';
-
-		applyFilters();
-	};
+	soloRunFilters.subscribe((f) => {
+		filters = { ...f };
+	});
 </script>
 
 <div

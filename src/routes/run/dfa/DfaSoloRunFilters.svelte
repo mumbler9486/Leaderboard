@@ -3,12 +3,10 @@
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import DfaRules from './DfaRules.svelte';
 	import DfaSoloModalRunFilters from './DfaSoloModalRunFilters.svelte';
-	import { soloRunFilters } from './dfaRunFilterStore';
-	import { page } from '$app/stores';
 	import { t } from 'svelte-i18n';
-	import { loadUrlParams } from '$lib/utils/queryParams';
+	import { soloRunFilters, type DfaSoloSearchFilters } from './dfaRunFilterStore';
 
-	let filters = {
+	let filters: DfaSoloSearchFilters = {
 		trigger: 'urgent',
 		class: 'no_filter',
 		buff: 'no_filter',
@@ -16,25 +14,12 @@
 	};
 
 	const applyFilters = () => {
-		soloRunFilters.update((f) => {
-			f.server = filters.server == 'no_filter' ? undefined : filters.server;
-			f.class = filters.class == 'no_filter' ? undefined : filters.class;
-			f.buff = filters.buff == 'no_filter' ? undefined : filters.buff;
-			f.trigger = filters.trigger;
-			return f;
-		});
+		soloRunFilters.set({ ...filters });
 	};
 
-	$: loadUrlParamsToStore($page);
-	const loadUrlParamsToStore = (...watch: any[]) => {
-		const pageParams = loadUrlParams(['server', 'class', 'buff', 'trigger']);
-		filters.server = pageParams.server ?? 'no_filter';
-		filters.class = pageParams.class ?? 'no_filter';
-		filters.buff = pageParams.buff ?? 'no_filter';
-		filters.trigger = pageParams.trigger ?? 'urgent';
-
-		applyFilters();
-	};
+	soloRunFilters.subscribe((f) => {
+		filters = { ...f };
+	});
 </script>
 
 <div

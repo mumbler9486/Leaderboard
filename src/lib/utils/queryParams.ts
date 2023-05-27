@@ -1,4 +1,4 @@
-import { get, type Writable } from 'svelte/store';
+import { get, writable, type Writable } from 'svelte/store';
 import { goto } from '$app/navigation';
 import { page } from '$app/stores';
 
@@ -37,12 +37,13 @@ export const loadUrlParams = <T extends Record<string, string | undefined>>(
 };
 
 /**
- * Sets and GOTO to query params for the current url
+ * Sets query params for the current url, browser history not changed
  * Use only properties that are strings,
+ * If the property is undefined, it is removed from the url
  * @param queryParams The query parameters to set
  * @param paramNames The param names to set
  */
-export const updateUrlParams = <T>(queryParams: any, paramNames: Extract<keyof T, string>[]) => {
+export const updateUrlParams = <T>(queryParams: T, paramNames: Extract<keyof T, string>[]) => {
 	const pageStore = get(page);
 	paramNames.forEach((paramKey) => {
 		const queryValue = queryParams[paramKey];
@@ -56,6 +57,112 @@ export const updateUrlParams = <T>(queryParams: any, paramNames: Extract<keyof T
 			pageStore.url.searchParams.set(paramKey, queryValue.toString());
 		}
 	});
+};
 
-	goto(pageStore.url);
+export interface UrlQueryParamRule<T> {
+	name: Extract<keyof T, string>;
+	undefinedValue?: string;
+	defaultValue?: string;
+}
+
+/**
+ * Setup store to listen to page url and events
+ * @param filterStore The store that holds the filter values
+ * @param filterParams List of param options to show in url.
+ * Undefined value is a different key value as the "null" value for no filter situations.
+ * Default value is used for situations where the param cannot be null but a default value is used in it's place.
+ */
+export const useUrlFilterStore = <T>(
+	filterStore: Writable<T>,
+	filterParams: UrlQueryParamRule<T>[]
+) => {
+	console.log('setupppppo', filterParams);
+	let active = writable(false);
+
+	// Page changes, reflect url params to store
+	const unsubPageStore = page.subscribe(() => {
+		if (!get(active)) {
+			return;
+		}
+
+		const urlParams = loadUrlParams<T>(filterParams);
+		console.log('loadig params', urlParams);
+
+		filterStore.update((f) => {
+			filterParams.forEach((param) => {
+				if (param.undefinedValue && param.defaultValue) {
+					console.warn('Undefined and default value defined for url copy param. Ignoring');
+					return;
+				}
+
+				if (param.undefinedValue) {
+					const paramValue = urlParams[param.name];
+					f[param.name] =
+						paramValue === undefined || paramValue === null ? param.undefinedValue : paramValue;
+				}
+
+				if (param.defaultValue) {
+					const paramValue = urlParams[param.name];
+					f[param.name] =
+						paramValue === undefined || paramValue === null ? param.defaultValue : paramValue;
+				}
+			});
+
+			return f;
+		});
+	});
+
+	// When the filter changes, reflect to URL
+	const unsubFilterStore = filterStore.subscribe((f) => {
+		if (!get(active)) {
+			return;
+		}
+
+		const urlFilterValues = clearFilterValues(f, filterParams);
+		console.log('loadingtourl', f, urlFilterValues);
+		updateUrlParams<T>(
+			urlFilterValues,
+			filterParams.map((param) => param.name)
+		);
+		if (true) {
+			const pageStore = get(page);
+			goto(pageStore.url);
+		}
+	});
+
+	// Use this to cleanup the subscriptions created by this function
+	const cleanup = () => {
+		unsubFilterStore();
+		unsubPageStore();
+	};
+
+	return {
+		active,
+		cleanup
+	};
+};
+
+export const clearFilterValues = <T>(filter: T, filterParams: UrlQueryParamRule<T>[]) => {
+	const clearedFilter: any = {}; //TODO make a proper type
+	filterParams.forEach((param) => {
+		if (param.undefinedValue && param.defaultValue) {
+			console.warn(
+				`Undefined and default value defined for URL param rule. Ignoring param=${param.name}.`
+			);
+			return;
+		}
+
+		if (param.undefinedValue) {
+			const paramValue = filter[param.name];
+			clearedFilter[param.name] = paramValue === param.undefinedValue ? undefined : paramValue;
+			return;
+		}
+		if (param.defaultValue) {
+			const paramValue = filter[param.name];
+			clearedFilter[param.name] = paramValue ?? param.defaultValue;
+			return;
+		}
+	});
+
+	return clearedFilter;
 };

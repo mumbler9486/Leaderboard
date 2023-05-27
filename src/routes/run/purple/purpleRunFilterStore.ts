@@ -1,41 +1,31 @@
 import { writable } from 'svelte/store';
 
 export interface PurpleSoloSearchFilters {
-	server?: string;
+	server: string;
 	region: string;
-	rank: number;
-	class?: string;
+	rank: string;
+	class: string;
 }
 
 const defaultFilter: PurpleSoloSearchFilters = {
-	server: undefined,
+	server: 'no_filter',
 	region: 'stia',
-	rank: 1,
-	class: undefined
-};
-
-export const resetSoloFilters = () => {
-	const newDefault = { ...defaultFilter };
-	soloRunFilters.set(newDefault);
+	rank: '1',
+	class: 'no_filter'
 };
 
 export const soloRunFilters = writable<PurpleSoloSearchFilters>({ ...defaultFilter });
 
 export interface PurplePartySearchFilters {
-	server?: string;
+	server: string;
 	region: string;
-	rank: number;
+	rank: string;
 }
 
 const defaultPartyFilter: PurplePartySearchFilters = {
-	server: undefined,
+	server: 'no_filter',
 	region: 'stia',
-	rank: 1
-};
-
-export const resetPartyFilters = () => {
-	const newDefault = { ...defaultPartyFilter };
-	partyRunFilters.set(newDefault);
+	rank: '1'
 };
 
 export const partyRunFilters = writable<PurplePartySearchFilters>({ ...defaultPartyFilter });
