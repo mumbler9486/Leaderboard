@@ -25,7 +25,7 @@
 			case 'aegis-party':
 				recordID = 'dfa';
 				recordDescription = `A Meteorn Record is in progress, with the goal of suppressing Dark Falz Aegis as a full multi-party!`;
-				recordLink = '/run/dfa/party';
+				recordLink = '/runs/dfa/party';
 		}
 	});
 
