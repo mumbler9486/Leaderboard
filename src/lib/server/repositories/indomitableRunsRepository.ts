@@ -80,8 +80,8 @@ export const getIndomitableRuns = async (
 `;
 
 	if (filters.server) {
-		query += ' AND run.Region = @region';
-		request = request.input('region', filters.server);
+		query += ' AND pc.Server = @server';
+		request = request.input('server', filters.server);
 	}
 
 	if (filters.class) {
