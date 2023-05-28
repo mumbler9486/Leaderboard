@@ -1,6 +1,5 @@
 <script lang="ts">
 	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
-	import LeaderboardFooter from '$lib/LeaderboardFooter.svelte';
 	import LeaderboardTitle from '$lib/LeaderboardComponents/Parts/LeaderboardTitle.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
 	import IndomitableRunFilters from '../IndomitableRunFilters.svelte';
@@ -68,7 +67,5 @@
 		</div>
 	</div>
 </div>
-
-<LeaderboardFooter />
 
 <BackgroundRandomizer />

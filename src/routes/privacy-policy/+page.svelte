@@ -3,7 +3,6 @@
 	// @ts-nocheck
 
 	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
-	import LeaderboardFooter from '$lib/LeaderboardFooter.svelte';
 	import PrivacyPolicyComponent from '$lib/PrivacyPolicyComponent.svelte';
 </script>
 
@@ -20,6 +19,5 @@
 		</div>
 	</div>
 </div>
-<LeaderboardFooter />
 
 <BackgroundRandomizer />

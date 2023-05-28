@@ -1,11 +1,8 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 	// @ts-nocheck
-
 	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
-	import LeaderboardFooter from '$lib/LeaderboardFooter.svelte';
 	import UserPageTrophy from '$lib/LeaderboardComponents/UserParts/UserPageTrophy.svelte';
-
 	import { onMount } from 'svelte';
 
 	var d;
@@ -325,6 +322,5 @@
 		</div>
 	</div>
 </div>
-<LeaderboardFooter />
 
 <BackgroundRandomizer />

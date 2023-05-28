@@ -1,13 +1,9 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 	// @ts-nocheck
-
 	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
-	import LeaderboardFooter from '$lib/LeaderboardFooter.svelte';
 	import UserPageTrophy from '$lib/LeaderboardComponents/UserParts/UserPageTrophy.svelte';
-
 	import ProfileEditModal from '$lib/LeaderboardComponents/Modals/ProfileEdit/ProfileEditModal.svelte';
-
 	import { onMount } from 'svelte';
 
 	let modalEdit;
@@ -339,7 +335,6 @@
 		</div>
 	</div>
 </div>
-<LeaderboardFooter />
 
 <ProfileEditModal modalID="modal-edit" bind:this={modalEdit} />
 

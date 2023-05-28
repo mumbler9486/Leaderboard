@@ -3,7 +3,6 @@
 	// @ts-nocheck
 	import { browser } from '$app/environment';
 	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
-	import LeaderboardFooter from '$lib/LeaderboardFooter.svelte';
 
 	let consent = browser ? localStorage.getItem('consent') ?? null : 'waiting';
 
@@ -228,6 +227,5 @@
 		</div>
 	</div>
 </div>
-<LeaderboardFooter />
 
 <BackgroundRandomizer />

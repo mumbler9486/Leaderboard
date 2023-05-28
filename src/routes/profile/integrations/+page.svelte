@@ -1,6 +1,5 @@
 <script lang="ts">
 	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
-	import LeaderboardFooter from '$lib/LeaderboardFooter.svelte';
 </script>
 
 <div class="flex grow flex-col content-center">
@@ -19,5 +18,5 @@
 		</div>
 	</div>
 </div>
-<LeaderboardFooter />
+
 <BackgroundRandomizer />

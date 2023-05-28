@@ -2,9 +2,7 @@
 	import { t } from 'svelte-i18n';
 	// @ts-nocheck
 	import { onMount } from 'svelte';
-
 	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
-	import LeaderboardFooter from '$lib/LeaderboardFooter.svelte';
 
 	let userInfo = null;
 
@@ -100,6 +98,5 @@
 		</div>
 	</div>
 </div>
-<LeaderboardFooter />
 
 <BackgroundRandomizer />
