@@ -1,9 +1,18 @@
 import type { ConnectionPool, config } from 'mssql';
+import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import sql from 'mssql';
 
 import * as dotenv from 'dotenv';
 dotenv.config();
 
+const appInsights = new ApplicationInsights({
+	config: {
+		connectionString: process.env.APPLICATION_INSIGHTS_CONNECTION_STRING
+	}
+});
+
+appInsights.loadAppInsights();
+appInsights.trackPageView();
 const dbConfig: config = {
 	user: process.env.DB_USER,
 	password: process.env.DB_PASSWORD,

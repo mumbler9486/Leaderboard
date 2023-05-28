@@ -3,16 +3,6 @@ import type { Handle, HandleServerError } from '@sveltejs/kit';
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import { browser } from '$app/environment';
 import { locale } from 'svelte-i18n';
-import * as dotenv from 'dotenv';
-dotenv.config();
-
-const appInsights = new ApplicationInsights({
-	config: {
-		connectionString: process.env.APPLICATION_INSIGHTS_CONNECTION_STRING
-	}
-});
-appInsights.loadAppInsights();
-appInsights.trackPageView();
 
 const englishHandler = [
 	'en',
