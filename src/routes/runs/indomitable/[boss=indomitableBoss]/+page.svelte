@@ -37,15 +37,7 @@
 		{ name: 'augmentations', undefinedValue: 'no_filter' }
 	];
 
-	const { cleanup: cleanupFilterStore, active: filtersActive } = useUrlFilterStore(
-		indomitableRunFilters,
-		filterDef
-	);
-
-	$: setActiveUrlStore();
-	const setActiveUrlStore = () => {
-		$filtersActive = true;
-	};
+	const { cleanup } = useUrlFilterStore(indomitableRunFilters, filterDef);
 
 	const fetchRuns = async (...watch: any[]) => {
 		const basePath = `/ngs-api/runs/duels/indomitable/${boss}`;
@@ -54,7 +46,7 @@
 		return (await fetchGetApi<IndomitableRun[]>(basePath, copyQueryParams(runFilters))) ?? [];
 	};
 
-	onDestroy(cleanupFilterStore);
+	onDestroy(cleanup);
 </script>
 
 <svelte:head>

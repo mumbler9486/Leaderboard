@@ -52,7 +52,7 @@
 		return (await fetchGetApi<PurpleRun[]>(basePath, copyQueryParams(runFilters))) ?? [];
 	};
 
-	onDestroy(() => cleanup());
+	onDestroy(cleanup);
 </script>
 
 <svelte:head>

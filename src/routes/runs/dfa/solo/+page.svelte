@@ -38,7 +38,7 @@
 		return (await fetchGetApi<DfaRun[]>(basePath, copyQueryParams(runFilters))) ?? [];
 	};
 
-	onDestroy(() => cleanup());
+	onDestroy(cleanup);
 </script>
 
 <svelte:head>

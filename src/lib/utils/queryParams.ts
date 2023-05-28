@@ -113,7 +113,6 @@ export const useUrlFilterStore = <T>(
 			filterParams.map((param) => param.name)
 		);
 		if (true) {
-			console.log('set url');
 			const pageStore = get(page);
 			goto(pageStore.url);
 		}
