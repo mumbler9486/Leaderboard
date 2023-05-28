@@ -71,12 +71,13 @@ export interface UrlQueryParamRule<T> {
  * @param filterParams List of param options to show in url.
  * Undefined value is a different key value as the "null" value for no filter situations.
  * Default value is used for situations where the param cannot be null but a default value is used in it's place.
+ * @returns Active store state to turn on or off the subscription temporarily
+ * A cleanup function to be used by svelte to clean up store subscriptions when page is unloaded
  */
 export const useUrlFilterStore = <T>(
 	filterStore: Writable<T>,
 	filterParams: UrlQueryParamRule<T>[]
 ) => {
-	console.log('setupppppo', filterParams);
 	let active = writable(false);
 
 	// Page changes, reflect url params to store
@@ -86,8 +87,6 @@ export const useUrlFilterStore = <T>(
 		}
 
 		const urlParams = loadUrlParams<T>(filterParams);
-		console.log('loadig params', urlParams);
-
 		filterStore.update((f) => {
 			filterParams.forEach((param) => {
 				if (param.undefinedValue && param.defaultValue) {
@@ -119,7 +118,6 @@ export const useUrlFilterStore = <T>(
 		}
 
 		const urlFilterValues = clearFilterValues(f, filterParams);
-		console.log('loadingtourl', f, urlFilterValues);
 		updateUrlParams<T>(
 			urlFilterValues,
 			filterParams.map((param) => param.name)
@@ -142,6 +140,14 @@ export const useUrlFilterStore = <T>(
 	};
 };
 
+/**
+ * Create a copy of the filter with the default values undefined
+ * Useful for having filter defaults as "no_filter" but need to be
+ * undefined on the API request.
+ * @param filter The filter values to create a copy of with cleared values
+ * @param filterParams the filter param rules to determine undefined
+ * @returns A copy of the filter with the values undefined according to the rules
+ */
 export const clearFilterValues = <T>(filter: T, filterParams: UrlQueryParamRule<T>[]) => {
 	const clearedFilter: any = {}; //TODO make a proper type
 	filterParams.forEach((param) => {
