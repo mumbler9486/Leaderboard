@@ -3,7 +3,7 @@
 	import ClassFilter from '$lib/Components/Filters/ClassFilter.svelte';
 	import ServerFilter from '$lib/Components/Filters/ServerFilter.svelte';
 	import Modal from '$lib/Components/Modal.svelte';
-	import DfaSupportFilter from './DfaSupportFilter.svelte';
+	import DfaSupportFilter from '../DfaSupportFilter.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { t } from 'svelte-i18n';
 	const dispatch = createEventDispatcher();

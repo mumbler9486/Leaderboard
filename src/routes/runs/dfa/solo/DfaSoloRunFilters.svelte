@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
-	import DfaRules from './DfaRules.svelte';
+	import DfaRules from '../DfaRules.svelte';
 	import DfaSoloModalRunFilters from './DfaSoloModalRunFilters.svelte';
 	import { t } from 'svelte-i18n';
-	import { soloRunFilters, type DfaSoloSearchFilters } from './dfaRunFilterStore';
+	import { soloRunFilters, type DfaSoloSearchFilters } from '../dfaRunFilterStore';
 
 	let filters: DfaSoloSearchFilters = {
 		trigger: 'urgent',

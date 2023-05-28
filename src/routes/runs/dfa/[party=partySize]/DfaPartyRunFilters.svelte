@@ -1,9 +1,9 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
-	import DfaRules from './DfaRules.svelte';
+	import DfaRules from '../DfaRules.svelte';
 	import DfaPartyModalRunFilters from './DfaPartyModalRunFilters.svelte';
-	import { partyRunFilters, type DfaPartySearchFilters } from './dfaRunFilterStore';
+	import { partyRunFilters, type DfaPartySearchFilters } from '../dfaRunFilterStore';
 	import { t } from 'svelte-i18n';
 
 	let filters: DfaPartySearchFilters = {

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Divider from '$lib/Components/Divider.svelte';
 	import Modal from '$lib/Components/Modal.svelte';
 
 	let modal: Modal;

@@ -1,23 +1,22 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
-	import PurpleRules from './PurpleRules.svelte';
-	import PurpleSoloModalRunFilters from './PurpleSoloModalRunFilters.svelte';
-	import PurpleCategorySelector from './PurpleCategorySelector.svelte';
-	import { soloRunFilters, type PurpleSoloSearchFilters } from './purpleRunFilterStore';
+	import PurpleRules from '../PurpleRules.svelte';
+	import PurplePartyModalRunFilters from './PurplePartyModalRunFilters.svelte';
+	import PurpleCategorySelector from '../PurpleCategorySelector.svelte';
+	import { partyRunFilters, type PurplePartySearchFilters } from '../purpleRunFilterStore';
 	import { t } from 'svelte-i18n';
 
-	let filters: PurpleSoloSearchFilters = {
-		server: 'no_filter',
+	let filters: PurplePartySearchFilters = {
 		region: 'stia',
 		rank: '1',
-		class: 'no_filter'
+		server: 'no_filter'
 	};
 
 	const applyFilters = () => {
-		soloRunFilters.set({ ...filters });
+		partyRunFilters.set({ ...filters });
 	};
 
-	soloRunFilters.subscribe((f) => {
+	partyRunFilters.subscribe((f) => {
 		filters = { ...f };
 	});
 </script>
@@ -34,11 +33,7 @@
 	<Divider class="-mx-1 my-0" />
 	<div class="flex flex-row flex-wrap place-content-center items-stretch">
 		<div class="m-1 md:flex-1">
-			<PurpleSoloModalRunFilters
-				bind:server={filters.server}
-				bind:mainClass={filters.class}
-				on:applyFilters={applyFilters}
-			/>
+			<PurplePartyModalRunFilters bind:server={filters.server} on:applyFilters={applyFilters} />
 		</div>
 		<div class="m-1 md:flex-initial">
 			<PurpleRules />

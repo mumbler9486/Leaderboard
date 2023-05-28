@@ -4,8 +4,8 @@
 	import LeaderboardFooter from '$lib/LeaderboardFooter.svelte';
 	import LeaderboardTitle from '$lib/LeaderboardComponents/Parts/LeaderboardTitle.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
-	import DfaPartyRunsTable from '../DfaPartyRunsTable.svelte';
-	import DfaPartyRunFilters from '../DfaPartyRunFilters.svelte';
+	import DfaPartyRunsTable from './DfaPartyRunsTable.svelte';
+	import DfaPartyRunFilters from './DfaPartyRunFilters.svelte';
 
 	import { page } from '$app/stores';
 	import { t } from 'svelte-i18n';

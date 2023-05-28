@@ -4,8 +4,8 @@
 	import LeaderboardFooter from '$lib/LeaderboardFooter.svelte';
 	import LeaderboardTitle from '$lib/LeaderboardComponents/Parts/LeaderboardTitle.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
-	import PurpleSoloRunsTable from '../PurpleSoloRunsTable.svelte';
-	import PurpleSoloRunFilters from '../PurpleSoloRunFilters.svelte';
+	import PurpleSoloRunsTable from './PurpleSoloRunsTable.svelte';
+	import PurpleSoloRunFilters from './PurpleSoloRunFilters.svelte';
 
 	import { t } from 'svelte-i18n';
 	import { fetchGetApi } from '$lib/utils/fetch';
