@@ -3,6 +3,16 @@ import type { Handle, HandleServerError } from '@sveltejs/kit';
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import { browser } from '$app/environment';
 import { locale } from 'svelte-i18n';
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+const appInsights = new ApplicationInsights({
+	config: {
+		connectionString: 'InstrumentationKey=eaf7ea8c-2092-48cb-b341-b4b00f7e614c;IngestionEndpoint=https://eastus2-3.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus2.livediagnostics.monitor.azure.com/'
+	}
+});
+appInsights.loadAppInsights();
+appInsights.trackPageView();
 
 const englishHandler = [
 	'en',
