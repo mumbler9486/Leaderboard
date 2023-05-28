@@ -17,7 +17,7 @@
 		type UrlQueryParamRule,
 		clearFilterValues
 	} from '$lib/utils/queryParams';
-	import { indomitableRunFilters, type IndomitableRunSearchFilter } from '../runFilterStore';
+	import { indomitableRunFilters, type IndomitableRunSearchFilters } from '../runFilterStore';
 	import { IndomitableBoss } from '$lib/types/api/duels/indomitableBoss';
 	import { onDestroy } from 'svelte';
 
@@ -31,7 +31,7 @@
 	$: boss = $page.params.boss;
 	$: pageHeader = pageTitles[boss];
 
-	const filterDef: UrlQueryParamRule<IndomitableRunSearchFilter>[] = [
+	const filterDef: UrlQueryParamRule<IndomitableRunSearchFilters>[] = [
 		{ name: 'server', undefinedValue: 'no_filter' },
 		{ name: 'class', undefinedValue: 'no_filter' },
 		{ name: 'augmentations', undefinedValue: 'no_filter' }
@@ -39,9 +39,9 @@
 
 	const { cleanup } = useUrlFilterStore(indomitableRunFilters, filterDef);
 
-	const fetchRuns = async (...watch: any[]) => {
+	const fetchRuns = async (filters: IndomitableRunSearchFilters) => {
 		const basePath = `/ngs-api/runs/duels/indomitable/${boss}`;
-		const runFilters = clearFilterValues($indomitableRunFilters, filterDef);
+		const runFilters = clearFilterValues(filters, filterDef);
 
 		return (await fetchGetApi<IndomitableRun[]>(basePath, copyQueryParams(runFilters))) ?? [];
 	};

@@ -3,10 +3,10 @@
 	import IndomitableRules from './IndomitableRules.svelte';
 	import Divider from '$lib/Components/Divider.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
-	import { indomitableRunFilters, type IndomitableRunSearchFilter } from './runFilterStore';
+	import { indomitableRunFilters, type IndomitableRunSearchFilters } from './runFilterStore';
 	import { t } from 'svelte-i18n';
 
-	let filters: IndomitableRunSearchFilter = {
+	let filters: IndomitableRunSearchFilters = {
 		server: 'no_filter',
 		class: 'no_filter',
 		augmentations: 'no_filter'
