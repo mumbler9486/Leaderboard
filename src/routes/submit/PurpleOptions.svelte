@@ -28,6 +28,7 @@
 
 	const regionChanged = () => {
 		selectedRankStr = regionRankOptions[$purpleForm.region][0].toString();
+		$purpleForm.rank = parseInt(selectedRankStr);
 	};
 </script>
 
