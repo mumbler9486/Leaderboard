@@ -1,7 +1,7 @@
-<footer class="border-t border-t-secondary" style="background-color:RGBA(5,15,29,0.8);">
-	<div class="container mx-auto px-2 pb-8 pt-4">
+<footer class="border-t border-t-secondary">
+	<div class="container mx-auto px-2 pb-4 pt-4">
 		<div class="grid grid-cols-3">
-			<span class="text-left text-neutral-content">
+			<div class="text-left text-xs text-neutral-content">
 				<strong>This website has no affiliation with SEGA, and is not an official website.</strong>
 				<br />
 				ⒸSEGA PHANTASY STAR ONLINE 2
@@ -11,8 +11,8 @@
 				by SEGA Corporation.
 				<br />
 				All other trademarks, logos and copyrights are property of their respective owners.
-			</span>
-			<span class="text-center text-neutral-content">
+			</div>
+			<div class="text-center text-xs text-neutral-content">
 				<strong>PSO2 Central</strong>
 				<br />
 				Leaderboard Website by SliWhist.
@@ -35,8 +35,8 @@
 					rel="noreferrer noopener"
 					class="link-primary link no-underline">Terms of Service</a
 				>
-			</span>
-			<span class="text-right text-neutral-content">
+			</div>
+			<div class="text-right text-neutral-content">
 				<strong>Social</strong>
 				<br />
 				<a
@@ -45,7 +45,13 @@
 					rel="noreferrer noopener"
 					class="link-primary link no-underline">Discord <i class="bi bi-discord" /></a
 				>
-			</span>
+			</div>
 		</div>
 	</div>
 </footer>
+
+<style scoped>
+	footer {
+		background-color: RGBA(5, 15, 29, 0.8);
+	}
+</style>
