@@ -2,7 +2,6 @@
 	import { t } from 'svelte-i18n';
 	// @ts-nocheck
 	import { browser } from '$app/environment';
-	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
 
 	let consent = browser ? localStorage.getItem('consent') ?? null : 'waiting';
 
@@ -227,5 +226,3 @@
 		</div>
 	</div>
 </div>
-
-<BackgroundRandomizer />

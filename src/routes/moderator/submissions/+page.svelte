@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
+
 	import PurpleSoloSubmits from './Components/Purple/PurpleSoloSubmits.svelte';
 	import PurplePartySubmits from './Components/Purple/PurplePartySubmits.svelte';
 	import DfaSoloSubmits from './Components/Dfa/DfaSoloSubmits.svelte';
@@ -89,5 +89,3 @@
 		</div>
 	</div>
 </div>
-
-<BackgroundRandomizer />

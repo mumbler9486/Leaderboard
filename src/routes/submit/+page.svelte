@@ -1,5 +1,4 @@
 <script lang="ts">
-	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
 	import CategoryOptions from './CategoryOptions.svelte';
 	import DfaOptions from './DfaOptions.svelte';
 	import PurpleOptions from './PurpleOptions.svelte';
@@ -146,8 +145,6 @@
 		</div>
 	</div>
 </div>
-
-<BackgroundRandomizer />
 
 <style>
 	.widget-discord::-webkit-scrollbar {

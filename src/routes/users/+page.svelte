@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 	// @ts-nocheck
-	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
 	import UserPageTrophy from '$lib/LeaderboardComponents/UserParts/UserPageTrophy.svelte';
 	import { onMount } from 'svelte';
 
@@ -322,5 +321,3 @@
 		</div>
 	</div>
 </div>
-
-<BackgroundRandomizer />

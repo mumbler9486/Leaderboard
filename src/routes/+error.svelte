@@ -2,7 +2,6 @@
 	import { t } from 'svelte-i18n';
 	// @ts-nocheck
 	import { page } from '$app/stores';
-	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
 	import FOFError from '$lib/ErrorComponents/FOFError.svelte';
 	import AuthError from '$lib/ErrorComponents/AuthError.svelte';
 </script>
@@ -31,5 +30,3 @@
 		</div>
 	</div>
 </div>
-
-<BackgroundRandomizer />

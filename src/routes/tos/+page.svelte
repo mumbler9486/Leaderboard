@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 	// @ts-nocheck
-
-	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
 </script>
 
 <svelte:head>
@@ -259,5 +257,3 @@
 		</div>
 	</div>
 </div>
-
-<BackgroundRandomizer />

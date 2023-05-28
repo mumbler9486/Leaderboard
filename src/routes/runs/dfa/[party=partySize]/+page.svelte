@@ -1,5 +1,4 @@
 <script lang="ts">
-	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
 	import LeaderboardTitle from '$lib/LeaderboardComponents/Parts/LeaderboardTitle.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
 	import DfaPartyRunsTable from './DfaPartyRunsTable.svelte';
@@ -73,5 +72,3 @@
 		</div>
 	</div>
 </div>
-
-<BackgroundRandomizer />

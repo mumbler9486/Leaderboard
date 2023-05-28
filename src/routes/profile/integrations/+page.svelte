@@ -1,5 +1,4 @@
 <script lang="ts">
-	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
 </script>
 
 <div class="flex grow flex-col content-center">
@@ -18,5 +17,3 @@
 		</div>
 	</div>
 </div>
-
-<BackgroundRandomizer />

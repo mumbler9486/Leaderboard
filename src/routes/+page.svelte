@@ -2,7 +2,6 @@
 	import { t } from 'svelte-i18n';
 	import { browser } from '$app/environment';
 
-	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
 	import HomeNews from '$lib/NewsComponents/HomeNews.svelte';
 	import HomeNew10 from '$lib/LeaderboardComponents/HomeNew10.svelte';
 	import HomeNewAegis5 from '$lib/LeaderboardComponents/HomeNewAegis5.svelte';
@@ -112,5 +111,3 @@
 		</div>
 	</div>
 </div>
-
-<BackgroundRandomizer />

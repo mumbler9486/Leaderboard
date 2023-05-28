@@ -5,6 +5,7 @@
 	import GDPRCookieConsent from '$lib/cookieconsent/GDPRCookieConsent.svelte';
 	import LeaderboardHeader from '$lib/LeaderboardHeader.svelte';
 	import LeaderboardFooter from '$lib/LeaderboardFooter.svelte';
+	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
 
 	const isMswEnabled = dev && import.meta.env.VITE_MSW_ENABLED === 'true';
 	let isReady = !isMswEnabled;
@@ -22,5 +23,6 @@
 		<LeaderboardHeader />
 		<slot />
 		<LeaderboardFooter />
+		<BackgroundRandomizer />
 	</div>
 {/if}
