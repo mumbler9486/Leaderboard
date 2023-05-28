@@ -23,6 +23,6 @@
 		<LeaderboardHeader />
 		<slot />
 		<LeaderboardFooter />
-		<BackgroundRandomizer />
 	</div>
+	<BackgroundRandomizer />
 {/if}
