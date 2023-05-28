@@ -1,38 +1,28 @@
-# create-svelte
+[![Build Status](https://github.com/mumbler9486/Leaderboard/actions/workflows/azure-staticwebapp.yml/badge.svg)](https://github.com/mumbler9486/Leaderboard/actions/workflows/azure-staticwebapp.yml)
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+# Leaderboard
 
-## Creating a project
+Unofficial Leaderboard for PSO2:NGS.
 
-If you're seeing this, you've probably already done this step. Congrats!
+# Questions, Suggestions, Issues
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+Please visit our Discord for any questions, suggestions, or issues regarding the website. [Discord Invite](https://discord.com/invite/fFtEEJHuFp)
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+**Do not submit Github issues regarding run disputes or run submissions. Please contact us on Discord.**
 
-## Developing
+# Setup Local
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+This project is developed in VS Code.
 
-```bash
-npm run dev
+1. Open repository in VS Code as a folder.
+2. VS code will suggest extensions to install as prescribed by the workspace, install them.
+3. Run `npm install` to install the required dependencies on your local machine.
+4. Run the `npm run dev:mock` command. This starts the server with the API mock.
+5. On VS code, click on the "Run and Debug" icon on the left, select the configuration "Debug Chrome w/Mock" and run it
+6. A development chrome instance opens and you should see the Leaderboard.
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+# Development
 
-## Building
+Please adhere to the following when developing:
 
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+- Use "Format on Save" so we have consistent code throughout the code.

@@ -1,13 +1,14 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import { RunCategories } from '$lib/types/api/categories';
 	import RunTimeInput from './RunTimeInput.svelte';
 	import { indomitableForm } from './runStore';
 
 	const bossOptions = [
-		{ label: 'Nex Aelio', value: 'nexaelio' },
-		{ label: 'Renus Retem', value: 'renusretem' },
-		{ label: 'Ams Kvaris', value: 'amskvaris' },
-		{ label: 'Nils Stia', value: 'nilsstia' }
+		{ label: 'Nex Aelio', value: RunCategories.IndomitableNexAelio },
+		{ label: 'Renus Retem', value: RunCategories.IndomitableRenusRetem },
+		{ label: 'Ams Kvaris', value: RunCategories.IndomitableAmsKvaris },
+		{ label: 'Nils Stia', value: RunCategories.IndomitableNilsStia }
 	];
 
 	const augmentOptions = [

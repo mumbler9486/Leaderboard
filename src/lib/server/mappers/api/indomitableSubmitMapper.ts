@@ -4,7 +4,7 @@ import { dbValToWeaponsMap } from '$lib/server/db/util/weaponType';
 import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 import type { PlayerInfo } from '$lib/types/api/playerInfo';
 import type { IndomitableSubmission } from '$lib/types/api/submissions/submissions';
-import type { IndomitableDbModel } from '$lib/server/types/db/duels/indomitable';
+import type { IndomitableDbModel } from '$lib/server/types/db/submissions/duels/indomitable';
 import { RunCategories } from '$lib/types/api/categories';
 
 const bossMap: { [key: string]: string } = {

@@ -1,9 +1,10 @@
-import type { DfaDuoDbModel } from '$lib/server/types/db/dfa/dfaDuo';
-import type { DfaPartyDbModel } from '$lib/server/types/db/dfa/dfaParty';
-import type { DfaSoloDbModel } from '$lib/server/types/db/dfa/dfaSolo';
+import type { DfaDuoDbModel } from '$lib/server/types/db/submissions/dfa/dfaDuo';
+import type { DfaPartyDbModel } from '$lib/server/types/db/submissions/dfa/dfaParty';
+import type { DfaSoloDbModel } from '$lib/server/types/db/submissions/dfa/dfaSolo';
 import sql, { type Request } from 'mssql';
 import { fields } from '../util/nameof';
 import type { ApproveRequest, DenyRequest } from '../types/validation/submissions';
+import type { DfaSubmissionRequest } from '../types/validation/dfaSubmissions';
 
 const dfaPartyDbFields = fields<DfaPartyDbModel>();
 const dfaDuoDbFields = fields<DfaDuoDbModel>();
@@ -615,3 +616,199 @@ export const denyDfaParty = async (request: sql.Request, run: DenyRequest) => {
 		throw Error(`Dfa Party Run denial failed.`);
 	}
 };
+
+export const checkDfaVideoExists = async (request: sql.Request, videoLinks: string[]) => {
+	let videoLinkRequest = request;
+
+	const paramNames: string[] = [];
+	videoLinks.forEach((l, i) => {
+		const paramName = `link${i}`;
+		paramNames.push(paramName);
+		videoLinkRequest = videoLinkRequest.input(paramName, l);
+	});
+
+	const paramList = paramNames.map((p) => `@${p}`);
+	const videoLinksResults = await videoLinkRequest.query(`
+    SELECT Link 
+      FROM Submissions.DFAegisSolo 
+      WHERE Link IN (${paramList.join(',')})
+    UNION
+    SELECT P1Link
+      FROM Submissions.DFAegisParty
+      WHERE P1Link IN (${paramList.join(',')})
+    UNION
+    SELECT P2Link
+      FROM Submissions.DFAegisParty
+      WHERE P2Link IN (${paramList.join(',')})
+    UNION
+    SELECT P3Link
+      FROM Submissions.DFAegisParty
+      WHERE P3Link IN (${paramList.join(',')})
+    UNION
+    SELECT P4Link
+      FROM Submissions.DFAegisParty
+      WHERE P4Link IN (${paramList.join(',')})
+    UNION
+    SELECT P5Link
+      FROM Submissions.DFAegisParty
+      WHERE P5Link IN (${paramList.join(',')})
+    UNION
+    SELECT P6Link
+      FROM Submissions.DFAegisParty
+      WHERE P6Link IN (${paramList.join(',')})
+    UNION
+    SELECT P7Link
+      FROM Submissions.DFAegisParty
+      WHERE P7Link IN (${paramList.join(',')})
+    UNION
+    SELECT P8Link
+      FROM Submissions.DFAegisParty
+      WHERE P8Link IN (${paramList.join(',')});`);
+
+	return videoLinksResults.recordset.length > 0
+		? videoLinksResults.recordset.map((r) => r.Link as string)
+		: [];
+};
+
+export const insertDfaSoloSubmission = async (request: sql.Request, run: DfaSubmissionRequest) => {
+	const player1 = run.players[0];
+	const runTime = serializeTimeToSqlTime(run.time);
+	const submissionTime = new Date();
+
+	const insertRequest = request
+		.input('playerId', sql.Int, player1.playerId)
+		.input('runCharacter', sql.NVarChar, player1.inVideoName)
+		.input('patch', sql.NVarChar, 'pot6r')
+		.input('drill', sql.Int, triggerDbMap[run.type])
+		.input('support', sql.NVarChar, run.support)
+		.input('time', sql.NVarChar, runTime)
+		.input('mainClass', sql.NVarChar, player1.mainClass)
+		.input('subClass', sql.NVarChar, player1.subClass)
+		.input('w1', sql.NVarChar, player1.weapons[0])
+		.input('w2', sql.NVarChar, player1.weapons[1])
+		.input('w3', sql.NVarChar, player1.weapons[2])
+		.input('w4', sql.NVarChar, player1.weapons[3])
+		.input('w5', sql.NVarChar, player1.weapons[4])
+		.input('w6', sql.NVarChar, player1.weapons[5])
+		.input('link', sql.NVarChar, player1.povVideoLink)
+		.input('notes', sql.NVarChar, run.notes)
+		.input('submissionTime', sql.DateTime, submissionTime)
+		.input('submitterId', sql.Int, player1.playerId);
+
+	const dbFields = dfaSoloDbFields;
+	const result = await insertRequest.query(
+		`INSERT INTO 
+     Submissions.DFAegisSolo (${dbFields.PlayerID},${dbFields.RunCharacter},${dbFields.Patch},${dbFields.Drill},${dbFields.Support},${dbFields.Time},${dbFields.MainClass},${dbFields.SubClass},${dbFields.W1},${dbFields.W2},${dbFields.W3},${dbFields.W4},${dbFields.W5},${dbFields.W6},${dbFields.Link},${dbFields.Notes},${dbFields.SubmissionTime},${dbFields.SubmitterID})
+     VALUES (@playerId,@runCharacter,@patch,@drill,@support,@time,@mainClass,@subClass,@w1,@w2,@w3,@w4,@w5,@w6,@link,@notes,@submissionTime,@submitterId);
+		`
+	);
+
+	if (result.rowsAffected[0] == 0) {
+		throw Error(`DFA Solo Run insertion failed. Submission from: ${run.username}`);
+	}
+};
+
+export const insertDfaPartySubmission = async (request: sql.Request, run: DfaSubmissionRequest) => {
+	const player1 = run.players[0];
+	const player2 = run.players[1];
+	const player3 = run.players[2];
+	const player4 = run.players[3];
+	const player5 = run.players[4];
+	const player6 = run.players[5];
+	const player7 = run.players[6];
+	const player8 = run.players[7];
+
+	const runTime = serializeTimeToSqlTime(run.time);
+
+	const submissionTime = new Date();
+
+	let insertRequest = request
+		.input('partysize', sql.Int, run.players.length)
+		.input('subtime', sql.DateTime, submissionTime)
+		.input('subpid', sql.Int, player1.playerId)
+		.input('serverid', sql.NVarChar, run.serverRegion)
+		.input('questrank', sql.Int, 1)
+		.input('patch', sql.NVarChar, 'pot6r')
+		.input('buff', sql.NVarChar, run.support)
+		.input('rank', sql.Int, triggerDbMap[run.type])
+		.input('time', sql.NVarChar, runTime)
+		.input('notes', sql.NVarChar, run.notes);
+
+	insertRequest = insertRequest
+		.input('p1pid', sql.Int, player1.playerId)
+		.input('p1rc', sql.NVarChar, player1.inVideoName)
+		.input('p1mc', sql.NVarChar, player1.mainClass)
+		.input('p1sc', sql.NVarChar, player1.subClass)
+		.input('p1link', sql.NVarChar, player1.povVideoLink);
+
+	insertRequest = insertRequest
+		.input('p2pid', sql.Int, player2.playerId)
+		.input('p2rc', sql.NVarChar, player2.inVideoName)
+		.input('p2mc', sql.NVarChar, player2.mainClass)
+		.input('p2sc', sql.NVarChar, player2.subClass)
+		.input('p2link', sql.NVarChar, player2.povVideoLink);
+
+	insertRequest = insertRequest
+		.input('p3pid', sql.Int, player3?.playerId)
+		.input('p3rc', sql.NVarChar, player3?.inVideoName)
+		.input('p3mc', sql.NVarChar, player3?.mainClass)
+		.input('p3sc', sql.NVarChar, player3?.subClass)
+		.input('p3link', sql.NVarChar, player3?.povVideoLink);
+
+	insertRequest = insertRequest
+		.input('p4pid', sql.Int, player4?.playerId)
+		.input('p4rc', sql.NVarChar, player4?.inVideoName)
+		.input('p4mc', sql.NVarChar, player4?.mainClass)
+		.input('p4sc', sql.NVarChar, player4?.subClass)
+		.input('p4link', sql.NVarChar, player4?.povVideoLink);
+
+	insertRequest = insertRequest
+		.input('p5pid', sql.Int, player5?.playerId)
+		.input('p5rc', sql.NVarChar, player5?.inVideoName)
+		.input('p5mc', sql.NVarChar, player5?.mainClass)
+		.input('p5sc', sql.NVarChar, player5?.subClass)
+		.input('p5link', sql.NVarChar, player5?.povVideoLink);
+
+	insertRequest = insertRequest
+		.input('p6pid', sql.Int, player6?.playerId)
+		.input('p6rc', sql.NVarChar, player6?.inVideoName)
+		.input('p6mc', sql.NVarChar, player6?.mainClass)
+		.input('p6sc', sql.NVarChar, player6?.subClass)
+		.input('p6link', sql.NVarChar, player6?.povVideoLink);
+
+	insertRequest = insertRequest
+		.input('p7pid', sql.Int, player7?.playerId)
+		.input('p7rc', sql.NVarChar, player7?.inVideoName)
+		.input('p7mc', sql.NVarChar, player7?.mainClass)
+		.input('p7sc', sql.NVarChar, player7?.subClass)
+		.input('p7link', sql.NVarChar, player7?.povVideoLink);
+
+	insertRequest = insertRequest
+		.input('p8pid', sql.Int, player8?.playerId)
+		.input('p8rc', sql.NVarChar, player8?.inVideoName)
+		.input('p8mc', sql.NVarChar, player8?.mainClass)
+		.input('p8sc', sql.NVarChar, player8?.subClass)
+		.input('p8link', sql.NVarChar, player8?.povVideoLink);
+
+	const dbFields = dfaPartyDbFields;
+	const result = await insertRequest.query(
+		`INSERT INTO 
+     Submissions.DFAegisParty (${dbFields.P1PlayerID},${dbFields.P2PlayerID},${dbFields.P3PlayerID},${dbFields.P4PlayerID},${dbFields.P5PlayerID},${dbFields.P6PlayerID},${dbFields.P7PlayerID},${dbFields.P8PlayerID},${dbFields.P1RunCharacter},${dbFields.P2RunCharacter},${dbFields.P3RunCharacter},${dbFields.P4RunCharacter},${dbFields.P5RunCharacter},${dbFields.P6RunCharacter},${dbFields.P7RunCharacter},${dbFields.P8RunCharacter},${dbFields.Patch},${dbFields.Buff},${dbFields.Drill},${dbFields.Time},${dbFields.P1MainClass},${dbFields.P2MainClass},${dbFields.P3MainClass},${dbFields.P4MainClass},${dbFields.P5MainClass},${dbFields.P6MainClass},${dbFields.P7MainClass},${dbFields.P8MainClass},${dbFields.P1SubClass},${dbFields.P2SubClass},${dbFields.P3SubClass},${dbFields.P4SubClass},${dbFields.P5SubClass},${dbFields.P6SubClass},${dbFields.P7SubClass},${dbFields.P8SubClass},${dbFields.PartySize},${dbFields.P1Link},${dbFields.P2Link},${dbFields.P3Link},${dbFields.P4Link},${dbFields.P5Link},${dbFields.P6Link},${dbFields.P7Link},${dbFields.P8Link},${dbFields.Notes},${dbFields.SubmissionTime},${dbFields.SubmitterID},${dbFields.ServerID},${dbFields.Rank})
+     VALUES (@p1pid,@p2pid,@p3pid,@p4pid,@p5pid,@p6pid,@p7pid,@p8pid,@p1rc,@p2rc,@p3rc,@p4rc,@p5rc,@p6rc,@p7rc,@p8rc,@patch,@buff,@rank,@time,@p1mc,@p2mc,@p3mc,@p4mc,@p5mc,@p6mc,@p7mc,@p8mc,@p1sc,@p2sc,@p3sc,@p4sc,@p5sc,@p6sc,@p7sc,@p8sc,@partysize,@p1link,@p2link,@p3link,@p4link,@p5link,@p6link,@p7link,@p8link,@notes,@subtime,@subpid,@serverid,@questrank);
+     `
+	);
+
+	if (result.rowsAffected[0] == 0) {
+		throw Error(`DFA Party Run insertion failed. Submission from: ${run.username}`);
+	}
+};
+
+const triggerDbMap: { [key: string]: number } = {
+	trigger: 1,
+	urgent: 0
+};
+
+const serializeTimeToSqlTime = (runTime: DfaSubmissionRequest['time']) =>
+	`${runTime.hours.toString().padStart(2)}:${runTime.minutes
+		.toString()
+		.padStart(2)}:${runTime.seconds.toString().padStart(2)}`;

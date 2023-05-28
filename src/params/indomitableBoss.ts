@@ -1,10 +1,11 @@
+import { IndomitableBoss } from '$lib/types/api/duels/indomitableBoss';
 import type { ParamMatcher } from '@sveltejs/kit';
 
-const indomitableBosses: { [key: string]: string } = {
-	nexaelio: 'Nex Aelio',
-	renusretem: 'Renus Retem',
-	amskvaris: 'Ams Kvaris',
-	nilsstia: 'Nils Stia'
+const indomitableBosses: { [key: string]: boolean } = {
+	[IndomitableBoss.NexAelio]: true,
+	[IndomitableBoss.RenusRetem]: true,
+	[IndomitableBoss.AmsKvaris]: true,
+	[IndomitableBoss.NilsStia]: true
 };
 
 export const match = ((param) => {

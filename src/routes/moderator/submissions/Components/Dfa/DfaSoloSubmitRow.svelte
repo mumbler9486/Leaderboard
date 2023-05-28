@@ -36,8 +36,8 @@
 		<PlayerNameBadge player={nameDisplay} on:click={openModal} />
 	</td>
 	<td class="text-center">
-		<NgsClassIcon combatClass={player1.mainClass} />
-		<NgsClassIcon combatClass={player1.subClass} />
+		<NgsClassIcon showTooltip combatClass={player1.mainClass} />
+		<NgsClassIcon showTooltip combatClass={player1.subClass} />
 	</td>
 	<td class="text-center">{typeCodes[submission.drill]}</td>
 	<td class="text-center">

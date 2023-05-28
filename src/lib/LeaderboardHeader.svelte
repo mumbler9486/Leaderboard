@@ -75,46 +75,46 @@
 						><img src="/icons/quests/trigger.png" class="mr-2" />Purple Triggers</span
 					>
 					<li>
-						<a href="/run/purple/solo" tabindex="0" style="border-radius: 0px"> Solo </a>
+						<a href="/runs/purple/solo" tabindex="0" style="border-radius: 0px"> Solo </a>
 					</li>
 					<li>
-						<a href="/run/purple/duo" tabindex="0" style="border-radius: 0px"> Duo </a>
+						<a href="/runs/purple/duo" tabindex="0" style="border-radius: 0px"> Duo </a>
 					</li>
 					<li>
-						<a href="/run/purple/party" tabindex="0" style="border-radius: 0px"> Party </a>
+						<a href="/runs/purple/party" tabindex="0" style="border-radius: 0px"> Party </a>
 					</li>
 					<span class="m-2 flex text-center text-xs font-semibold uppercase"
 						><img src="/icons/quests/uq.png" class="mr-2" />Dark Falz Aegis</span
 					>
 					<li>
-						<a href="/run/dfa/solo" tabindex="0" style="border-radius: 0px"> Solo </a>
+						<a href="/runs/dfa/solo" tabindex="0" style="border-radius: 0px"> Solo </a>
 					</li>
 					<li>
-						<a href="/run/dfa/duo" tabindex="0" style="border-radius: 0px"> Duo </a>
+						<a href="/runs/dfa/duo" tabindex="0" style="border-radius: 0px"> Duo </a>
 					</li>
 					<li>
-						<a href="/run/dfa/party" tabindex="0" style="border-radius: 0px"> Multi-Party </a>
+						<a href="/runs/dfa/party" tabindex="0" style="border-radius: 0px"> Multi-Party </a>
 					</li>
 					<span class="m-2 flex text-center text-xs font-semibold uppercase"
 						><span class="mr-2">⚔️</span>Duels</span
 					>
 					<li>
-						<a href="/run/indomitable/nexaelio" tabindex="0" style="border-radius: 0px">
+						<a href="/runs/indomitable/nexaelio" tabindex="0" style="border-radius: 0px">
 							Nex Aelio
 						</a>
 					</li>
 					<li>
-						<a href="/run/indomitable/renusretem" tabindex="0" style="border-radius: 0px">
+						<a href="/runs/indomitable/renusretem" tabindex="0" style="border-radius: 0px">
 							Renus Retem
 						</a>
 					</li>
 					<li>
-						<a href="/run/indomitable/amskvaris" tabindex="0" style="border-radius: 0px">
+						<a href="/runs/indomitable/amskvaris" tabindex="0" style="border-radius: 0px">
 							Ams Kvaris
 						</a>
 					</li>
 					<li>
-						<a href="/run/indomitable/nilsstia" tabindex="0" style="border-radius: 0px">
+						<a href="/runs/indomitable/nilsstia" tabindex="0" style="border-radius: 0px">
 							Nils Stia
 						</a>
 					</li>
@@ -169,13 +169,13 @@
 						class="dropdown-content menu whitespace-nowrap border border-secondary bg-neutral shadow"
 					>
 						<li>
-							<a href="/run/purple/solo" tabindex="0" style="border-radius: 0px"> Solo </a>
+							<a href="/runs/purple/solo" tabindex="0" style="border-radius: 0px"> Solo </a>
 						</li>
 						<li>
-							<a href="/run/purple/duo" tabindex="0" style="border-radius: 0px"> Duo </a>
+							<a href="/runs/purple/duo" tabindex="0" style="border-radius: 0px"> Duo </a>
 						</li>
 						<li>
-							<a href="/run/purple/party" tabindex="0" style="border-radius: 0px"> Party </a>
+							<a href="/runs/purple/party" tabindex="0" style="border-radius: 0px"> Party </a>
 						</li>
 					</ul>
 				</div>
@@ -192,13 +192,13 @@
 						class="dropdown-content menu whitespace-nowrap border border-secondary bg-neutral shadow"
 					>
 						<li>
-							<a href="/run/dfa/solo" tabindex="0" style="border-radius: 0px"> Solo </a>
+							<a href="/runs/dfa/solo" tabindex="0" style="border-radius: 0px"> Solo </a>
 						</li>
 						<li>
-							<a href="/run/dfa/duo" tabindex="0" style="border-radius: 0px"> Duo </a>
+							<a href="/runs/dfa/duo" tabindex="0" style="border-radius: 0px"> Duo </a>
 						</li>
 						<li>
-							<a href="/run/dfa/party" tabindex="0" style="border-radius: 0px"> Multi-Party </a>
+							<a href="/runs/dfa/party" tabindex="0" style="border-radius: 0px"> Multi-Party </a>
 						</li>
 					</ul>
 				</div>
@@ -215,22 +215,22 @@
 						class="dropdown-content menu whitespace-nowrap border border-secondary bg-neutral shadow"
 					>
 						<li>
-							<a href="/run/indomitable/nexaelio" tabindex="0" style="border-radius: 0px">
+							<a href="/runs/indomitable/nexaelio" tabindex="0" style="border-radius: 0px">
 								Nex Aelio
 							</a>
 						</li>
 						<li>
-							<a href="/run/indomitable/renusretem" tabindex="0" style="border-radius: 0px">
+							<a href="/runs/indomitable/renusretem" tabindex="0" style="border-radius: 0px">
 								Renus Retem
 							</a>
 						</li>
 						<li>
-							<a href="/run/indomitable/amskvaris" tabindex="0" style="border-radius: 0px">
+							<a href="/runs/indomitable/amskvaris" tabindex="0" style="border-radius: 0px">
 								Ams Kvaris
 							</a>
 						</li>
 						<li>
-							<a href="/run/indomitable/nilsstia" tabindex="0" style="border-radius: 0px">
+							<a href="/runs/indomitable/nilsstia" tabindex="0" style="border-radius: 0px">
 								Nils Stia
 							</a>
 						</li>

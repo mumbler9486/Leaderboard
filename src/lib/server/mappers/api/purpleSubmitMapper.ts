@@ -4,9 +4,9 @@ import { dbValToWeaponsMap } from '$lib/server/db/util/weaponType';
 import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 import type { PlayerInfo } from '$lib/types/api/playerInfo';
 import type { PurpleSubmission } from '$lib/types/api/submissions/submissions';
-import type { PurpleDuoDbModel } from '$lib/server/types/db/purple/purpleDuo';
-import type { PurplePartyDbModel } from '$lib/server/types/db/purple/purpleParty';
-import type { PurpleSoloDbModel } from '$lib/server/types/db/purple/purpleSolo';
+import type { PurpleDuoDbModel } from '$lib/server/types/db/submissions/purple/purpleDuo';
+import type { PurplePartyDbModel } from '$lib/server/types/db/submissions/purple/purpleParty';
+import type { PurpleSoloDbModel } from '$lib/server/types/db/submissions/purple/purpleSolo';
 import { RunCategories } from '$lib/types/api/categories';
 
 export const mapPurpleSoloToSubmission = (recordset: PurpleSoloDbModel[]): PurpleSubmission[] => {

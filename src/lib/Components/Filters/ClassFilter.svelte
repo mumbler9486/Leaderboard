@@ -1,23 +1,21 @@
 <script lang="ts">
 	import RadioButton from '$lib/Components/RadioButton.svelte';
-	import { createEventDispatcher } from 'svelte';
 	import { t } from 'svelte-i18n';
-	const dispatch = createEventDispatcher();
 
-	export let selectedClass: string = 'No Filter';
+	export let selectedClass: string = 'no_filter';
 
 	const filterClasses = [
-		{ name: 'No Filter', icon: '/icons/class/class-unknown.png' },
-		{ name: 'Hunter', icon: '/icons/class/class-hunter.png' },
-		{ name: 'Fighter', icon: '/icons/class/class-fighter.png' },
-		{ name: 'Ranger', icon: '/icons/class/class-ranger.png' },
-		{ name: 'Gunner', icon: '/icons/class/class-gunner.png' },
-		{ name: 'Force', icon: '/icons/class/class-force.png' },
-		{ name: 'Techter', icon: '/icons/class/class-techter.png' },
-		{ name: 'Braver', icon: '/icons/class/class-braver.png' },
-		{ name: 'Bouncer', icon: '/icons/class/class-bouncer.png' },
-		{ name: 'Waker', icon: '/icons/class/class-waker.png' },
-		{ name: 'Slayer', icon: '/icons/class/class-slayer.png' }
+		{ name: 'No Filter', value: 'no_filter', icon: '/icons/class/class-unknown.png' },
+		{ name: 'Hunter', value: 'hunter', icon: '/icons/class/class-hunter.png' },
+		{ name: 'Fighter', value: 'fighter', icon: '/icons/class/class-fighter.png' },
+		{ name: 'Ranger', value: 'ranger', icon: '/icons/class/class-ranger.png' },
+		{ name: 'Gunner', value: 'gunner', icon: '/icons/class/class-gunner.png' },
+		{ name: 'Force', value: 'force', icon: '/icons/class/class-force.png' },
+		{ name: 'Techter', value: 'techter', icon: '/icons/class/class-techter.png' },
+		{ name: 'Braver', value: 'braver', icon: '/icons/class/class-braver.png' },
+		{ name: 'Bouncer', value: 'bouncer', icon: '/icons/class/class-bouncer.png' },
+		{ name: 'Waker', value: 'waker', icon: '/icons/class/class-waker.png' },
+		{ name: 'Slayer', value: 'slayer', icon: '/icons/class/class-slayer.png' }
 	];
 </script>
 
@@ -25,7 +23,7 @@
 	{#each filterClasses as mainClassFilter}
 		<RadioButton
 			bind:group={selectedClass}
-			value={mainClassFilter.name}
+			value={mainClassFilter.value}
 			name="filter-class"
 			icon={mainClassFilter.icon}
 			alt={mainClassFilter.name}

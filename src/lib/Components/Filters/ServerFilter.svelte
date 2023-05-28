@@ -1,12 +1,12 @@
 <script lang="ts">
 	import RadioButton from '../RadioButton.svelte';
 
-	export let selectedServer: string = 'No Filter';
+	export let selectedServer: string = 'no_filter';
 
 	const filterServers = [
-		{ name: 'No Filter' },
-		{ name: 'Global', icon: '/icons/server/server-global.png' },
-		{ name: 'Japan', icon: '/icons/server/server-japan.png' }
+		{ name: 'No Filter', value: 'no_filter' },
+		{ name: 'Global', value: 'global', icon: '/icons/server/server-global.png' },
+		{ name: 'Japan', value: 'japan', icon: '/icons/server/server-japan.png' }
 	];
 </script>
 
@@ -14,7 +14,7 @@
 	{#each filterServers as serverFilter}
 		<RadioButton
 			bind:group={selectedServer}
-			value={serverFilter.name}
+			value={serverFilter.value}
 			name="filter-server"
 			icon={serverFilter.icon}
 			alt={serverFilter.name}

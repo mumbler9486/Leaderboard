@@ -5,11 +5,12 @@
 	import VideoPlayer from './VideoPlayer.svelte';
 
 	import { mapToNamePref } from '$lib/types/api/mapNamePref';
-	import type { IndomitableRun } from '$lib/types/api/duels/indomitable';
+	import type { PlayerInfo } from '$lib/types/api/playerInfo';
 
-	export let run: IndomitableRun | undefined;
-
-	$: player1 = run?.players[0];
+	export let videoUrl: string;
+	export let players: PlayerInfo[];
+	export let submitter: PlayerInfo | undefined;
+	export let notes: string;
 
 	let modal: Modal;
 	let modNotes: string;
@@ -36,34 +37,38 @@
 	{#if errorMessage != ''}
 		<Alert type="error" message={errorMessage} />
 	{/if}
-	<VideoPlayer url={player1?.linkPov} />
+	<VideoPlayer url={videoUrl} />
 	<div
 		class="flex basis-full justify-center rounded-md border border-secondary bg-secondary/25 p-2"
 	>
 		<div class="flex flex-col text-center">
 			<span class="text-lg font-semibold"><i class="bi bi-youtube" />Video Link:</span>
-			<a class="link-primary link" href={player1?.linkPov} target="_blank" rel="noreferrer noopener"
-				>{player1?.linkPov}</a
+			<a class="link-primary link" href={videoUrl} target="_blank" rel="noreferrer noopener"
+				>{videoUrl}</a
 			>
 		</div>
 	</div>
-	<div class="flex flex-col gap-2 p-2 md:flex-row md:gap-0">
-		<div class="flex basis-full flex-col justify-center md:flex-row">
-			<span class="flex place-content-center md:mr-1">Run By:</span>
-			<PlayerNameBadge showLink player={run ? mapToNamePref(run?.players[0]) : undefined} />
-		</div>
-
-		<div class="flex basis-full flex-col justify-center md:flex-row">
-			<span class="flex place-content-center md:mr-1">Submitted By:</span>
-			<PlayerNameBadge showLink player={run ? mapToNamePref(run?.submitter) : undefined} />
-		</div>
-
-		{#if false}
-			<!-- TODO add video tags -->
-			<div class="flex basis-full justify-center">
-				<span><i class="bi bi-film mr-1" /> Low Video Quality</span>
+	<div class="flex w-full flex-col justify-around gap-2 p-2 md:flex-row md:gap-0">
+		<div class="flex flex-col justify-center">
+			<span class="place-content-center md:mr-1">{players.length > 1 ? 'Runners:' : 'Runner:'}</span
+			>
+			<div
+				class="grid grid-cols-1 md:grid-cols-2 md:grid-rows-4 md:gap-x-4"
+				class:md:grid-cols-2={players.length > 4}
+				class:md:grid-rows-4={players.length > 4}
+			>
+				{#each players as player}
+					<PlayerNameBadge showLink player={mapToNamePref(player)} />
+				{/each}
 			</div>
-		{/if}
+		</div>
+
+		<div class="flex flex-col justify-center">
+			<span class="place-content-center md:mr-1">Submitted By:</span>
+			<div class="grid grid-cols-1">
+				<PlayerNameBadge showLink player={submitter ? mapToNamePref(submitter) : undefined} />
+			</div>
+		</div>
 	</div>
 	<div class="flex grow flex-col gap-1 md:flex-row">
 		<div
@@ -71,7 +76,7 @@
 		>
 			<div class="flex grow flex-col">
 				<span class="text-center text-lg font-semibold">Runner's Notes:</span>
-				<div class="whitespace-pre-wrap p-2">{run?.notes ?? ''}</div>
+				<div class="whitespace-pre-wrap p-2">{notes}</div>
 			</div>
 		</div>
 	</div>
