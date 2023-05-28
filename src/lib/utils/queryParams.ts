@@ -1,6 +1,7 @@
 import { get, writable, type Writable } from 'svelte/store';
 import { goto } from '$app/navigation';
 import { page } from '$app/stores';
+import { browser } from '$app/environment';
 
 /**
  * Copies an object and deletes params that are
@@ -112,7 +113,7 @@ export const useUrlFilterStore = <T>(
 			urlFilterValues,
 			filterParams.map((param) => param.name)
 		);
-		if (true) {
+		if (browser) {
 			const pageStore = get(page);
 			goto(pageStore.url);
 		}
