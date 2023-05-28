@@ -34,6 +34,7 @@
 	"type": "module",
 	"dependencies": {
 		"@azure/storage-blob": "^12.12.0",
+		"@microsoft/applicationinsights-web": "^3.0.2",
 		"daisyui": "^2.50.1",
 		"dotenv": "^16.0.3",
 		"mssql": "^9.1.1",
