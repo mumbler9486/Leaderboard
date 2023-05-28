@@ -23,7 +23,7 @@ export const copyQueryParams = (params: any) => {
  * @param filterThing
  * @param paramNames
  */
-export const loadUrlParams = <T extends Record<string, string | undefined>>(
+export const loadUrlParams = <T extends Extract<string, string | undefined>>(
 	paramNames: Extract<keyof T, string>[]
 ): Record<Extract<keyof T, string>, string | null | undefined> => {
 	const pageStore = get(page);
@@ -78,15 +78,9 @@ export const useUrlFilterStore = <T>(
 	filterStore: Writable<T>,
 	filterParams: UrlQueryParamRule<T>[]
 ) => {
-	let active = writable(false);
-
 	// Page changes, reflect url params to store
 	const unsubPageStore = page.subscribe(() => {
-		if (!get(active)) {
-			return;
-		}
-
-		const urlParams = loadUrlParams<T>(filterParams);
+		const urlParams = loadUrlParams<T>(filterParams.map((f) => f.name));
 		filterStore.update((f) => {
 			filterParams.forEach((param) => {
 				if (param.undefinedValue && param.defaultValue) {
@@ -113,16 +107,13 @@ export const useUrlFilterStore = <T>(
 
 	// When the filter changes, reflect to URL
 	const unsubFilterStore = filterStore.subscribe((f) => {
-		if (!get(active)) {
-			return;
-		}
-
 		const urlFilterValues = clearFilterValues(f, filterParams);
 		updateUrlParams<T>(
 			urlFilterValues,
 			filterParams.map((param) => param.name)
 		);
 		if (true) {
+			console.log('set url');
 			const pageStore = get(page);
 			goto(pageStore.url);
 		}
@@ -135,7 +126,6 @@ export const useUrlFilterStore = <T>(
 	};
 
 	return {
-		active,
 		cleanup
 	};
 };

@@ -4,15 +4,14 @@
 	import LeaderboardFooter from '$lib/LeaderboardFooter.svelte';
 	import LeaderboardTitle from '$lib/LeaderboardComponents/Parts/LeaderboardTitle.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
-	import DfaPartyRunsTable from '../DfaPartyRunsTable.svelte';
-	import DfaPartyRunFilters from '../DfaPartyRunFilters.svelte';
+	import DfaSoloRunsTable from '../DfaSoloRunsTable.svelte';
+	import DfaSoloRunFilters from '../DfaSoloRunFilters.svelte';
 
-	import { page } from '$app/stores';
 	import { t } from 'svelte-i18n';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import type { DfaRun } from '$lib/types/api/dfa/dfa';
-	import { partyRunFilters, type DfaPartySearchFilters } from '../dfaRunFilterStore';
-	import { PartySize, parsePartySize } from '$lib/types/api/partySizes';
+	import { soloRunFilters, type DfaSoloSearchFilters } from '../dfaRunFilterStore';
+	import { PartySize } from '$lib/types/api/partySizes';
 	import {
 		copyQueryParams,
 		useUrlFilterStore,
@@ -21,33 +20,20 @@
 	} from '$lib/utils/queryParams';
 	import { onDestroy } from 'svelte';
 
-	const partySizeMap: { [key: string]: string } = {
-		[PartySize.Duo]: $t('common.playerCount.duo'),
-		[PartySize.Party]: $t('common.playerCount.party')
-	};
+	const partySize = PartySize.Solo;
 
-	$: partySize = parsePartySize($page.params.party) ?? PartySize.Party;
-	$: pageTitle =
-		partySize === PartySize.Duo
-			? `${$t('shared.siteName')} | ${$t('leaderboard.halphiaLake')} - ${$t(
-					'common.playerCount.duo'
-			  )}`
-			: `${$t('shared.siteName')} | ${$t('leaderboard.halphiaLake')} - ${$t(
-					'common.playerCount.party'
-			  )}`;
-	$: partySizeTitle = partySizeMap[partySize];
-
-	const partyFilterDef: UrlQueryParamRule<DfaPartySearchFilters>[] = [
+	const soloFilterDef: UrlQueryParamRule<DfaSoloSearchFilters>[] = [
 		{ name: 'server', undefinedValue: 'no_filter' },
+		{ name: 'class', undefinedValue: 'no_filter' },
 		{ name: 'buff', undefinedValue: 'no_filter' },
 		{ name: 'trigger', defaultValue: 'urgent' }
 	];
 
-	const { cleanup } = useUrlFilterStore(partyRunFilters, partyFilterDef);
+	const { cleanup } = useUrlFilterStore(soloRunFilters, soloFilterDef);
 
-	const fetchRuns = async (filters: DfaPartySearchFilters) => {
+	const fetchRuns = async (filters: DfaSoloSearchFilters) => {
 		const basePath = `/ngs-api/runs/dfa/${partySize}`;
-		const runFilters = clearFilterValues(filters, partyFilterDef);
+		const runFilters = clearFilterValues(filters, soloFilterDef);
 
 		return (await fetchGetApi<DfaRun[]>(basePath, copyQueryParams(runFilters))) ?? [];
 	};
@@ -56,22 +42,27 @@
 </script>
 
 <svelte:head>
-	<title>{pageTitle}</title>
+	<title>
+		{$t('shared.siteName')} | {$t('leaderboard.halphiaLake')} - {$t('common.playerCount.solo')}
+	</title>
 </svelte:head>
 
 <div class="flex min-h-screen flex-col">
 	<LeaderboardHeader />
 
-	<LeaderboardTitle category={$t('leaderboard.halphiaLake')} subCategory={partySizeTitle} />
+	<LeaderboardTitle
+		category={$t('leaderboard.halphiaLake')}
+		subCategory={$t('common.playerCount.solo')}
+	/>
 
 	<div class="grow content-center">
 		<div class="container mx-auto mb-16 mt-2 rounded-md border border-secondary bg-base-100/75">
 			<div class="m-2 space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8">
-				<DfaPartyRunFilters />
-				{#await fetchRuns($partyRunFilters)}
+				<DfaSoloRunFilters />
+				{#await fetchRuns($soloRunFilters)}
 					<LoadingBar />
 				{:then runs}
-					<DfaPartyRunsTable {runs} />
+					<DfaSoloRunsTable {runs} />
 				{:catch err}
 					<p>An error has occured, please try again later</p>
 				{/await}
