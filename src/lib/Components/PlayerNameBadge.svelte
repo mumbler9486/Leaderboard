@@ -12,6 +12,20 @@
 		nameColor1: string | undefined;
 		nameColor2: string | undefined;
 	}
+
+	const stringToNameDisplay = (name: string): PlayerNameDisplay => ({
+		playerId: 0,
+		flag: '',
+		ship: 0,
+		region: '',
+		playerName: name,
+		runCharacterName: '',
+		characterName: '',
+		namePreference: 0,
+		nameType: 0,
+		nameColor1: '',
+		nameColor2: ''
+	});
 </script>
 
 <script lang="ts">
@@ -40,25 +54,12 @@
 	const anonPlayerIds = [106, 107];
 	$: isPlayerAnon = anonPlayerIds.includes(playerNameDisplay.playerId);
 
-	$: playerNameStyle = playerNameColor(player);
+	$: nameColor1 = playerNameDisplay.nameColor1 ?? 'ffffff';
+	$: nameColor2 = playerNameDisplay.nameColor2 ?? 'ffffff';
+	$: playerNameStyle = getNameColorStyle(playerNameDisplay);
+	$: setPlayerNames(playerNameDisplay);
 
-	const stringToNameDisplay = (name: string): PlayerNameDisplay => ({
-		playerId: 0,
-		flag: '',
-		ship: 0,
-		region: '',
-		playerName: name,
-		runCharacterName: '',
-		characterName: '',
-		namePreference: 0,
-		nameType: 0,
-		nameColor1: '',
-		nameColor2: ''
-	});
-
-	const playerNameColor = (...update: any[]) => {
-		let style = 'font-weight: bold; ';
-
+	const setPlayerNames = (playerNameDisplay: PlayerNameDisplay) => {
 		switch (playerNameDisplay.namePreference) {
 			// Main Character Name
 			case 1:
@@ -76,42 +77,26 @@
 				secondaryName = playerNameDisplay.runCharacterName;
 				break;
 		}
+	};
 
-		if (!isPlayerAnon) {
-			let nameColor1 = playerNameDisplay.nameColor1 ?? 'ffffff';
-			let nameColor2 = playerNameDisplay.nameColor2 ?? 'ffffff';
-			switch (playerNameDisplay.nameType) {
-				case 1:
-					style += `color: #` + nameColor1 + `;`;
-					break;
-				case 2:
-					style +=
-						`background: -webkit-linear-gradient(0deg, #` +
-						nameColor1 +
-						`, #` +
-						nameColor2 +
-						`);
-						-webkit-background-clip: text;
-						-webkit-text-fill-color: transparent;`;
-					break;
-				case 3:
-					style +=
-						`color: #` +
-						nameColor2 +
-						`; text-shadow: 0px 0px 5px #` +
-						nameColor1 +
-						`, 0px 0px 5px #` +
-						nameColor1 +
-						`, 0px 0px 5px #` +
-						nameColor1 +
-						`;`;
-					break;
-				default:
-					break;
-			}
+	const getNameColorStyle = (playerNameDisplay: PlayerNameDisplay) => {
+		if (isPlayerAnon) {
+			return '';
 		}
 
-		return style;
+		switch (playerNameDisplay.nameType) {
+			case 1:
+				return `color: #${nameColor1};`;
+			case 2:
+				return `background: -webkit-linear-gradient(0deg, #${nameColor1}, #${nameColor2});
+						-webkit-background-clip: text;
+						-webkit-text-fill-color: transparent;`;
+			case 3:
+				return `color: #${nameColor2};
+						text-shadow: 0px 0px 5px #${nameColor1}, 0px 0px 5px #${nameColor1}, 0px 0px 5px #${nameColor1};`;
+			default:
+				return '';
+		}
 	};
 </script>
 
@@ -128,19 +113,19 @@
 	{/if}
 	{#if showLink && !isGenericPlayer}
 		<a href={playerLink} target="_blank" rel="noreferrer noopener" class="flex place-content-center"
-			><p style={playerNameStyle} class="inline place-self-center">
+			><p style={playerNameStyle} class="primary-name inline place-self-center">
 				{primaryName}
 			</p>
 		</a>
 	{:else}
 		<span
 			style={playerNameStyle}
-			class="cursor-pointer truncate transition ease-in-out hover:brightness-125"
+			class="primary-name cursor-pointer truncate transition ease-in-out hover:brightness-125"
 			on:click
 			on:keyup
 		>
 			{primaryName}
-			{#if secondaryName && isPlayerAnon}
+			{#if (secondaryName && secondaryName != primaryName) || isPlayerAnon}
 				<p class="ml-1 truncate text-xs">
 					({secondaryName})
 				</p>
@@ -148,3 +133,9 @@
 		</span>
 	{/if}
 </div>
+
+<style scoped>
+	.primary-name {
+		font-weight: bold;
+	}
+</style>

@@ -75,7 +75,6 @@ export async function GET({ request }) {
 		var returner = results.recordset;
 		////console.log(returner);
 		// @ts-ignore
-		poolConnection.close();
 
 		//returner = context.req.body;
 

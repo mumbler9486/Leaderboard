@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import LeaderboardHeader from '$lib/LeaderboardHeader.svelte';
-	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
-	import LeaderboardFooter from '$lib/LeaderboardFooter.svelte';
+
 	import PurpleSoloSubmits from './Components/Purple/PurpleSoloSubmits.svelte';
 	import PurplePartySubmits from './Components/Purple/PurplePartySubmits.svelte';
 	import DfaSoloSubmits from './Components/Dfa/DfaSoloSubmits.svelte';
@@ -64,37 +62,30 @@
 	<title>{$t('shared.siteName')} | Moderation - Submission Queue</title>
 </svelte:head>
 
-<div class="flex min-h-screen flex-col">
-	<LeaderboardHeader />
-
-	<div class="flex grow flex-col content-center">
-		<div class="container m-16 mx-auto flex grow rounded-md border border-secondary bg-base-100/75">
-			<div
-				class="m-0 flex w-screen grow flex-col gap-1 rounded-md border border-secondary bg-base-100 p-4 px-8 md:m-2"
-			>
-				<div class="text-center text-4xl font-light">Submission Queue</div>
-				<div class="divider -mx-8" />
-				<div class="m-0 gap-1 rounded-md border border-secondary bg-secondary/10 p-4 px-8 md:m-2">
-					<div class="flex flex-col gap-2 md:flex-row">
-						<div class="form-control grow">
-							<Dropdown
-								label="Run Category"
-								options={submissionCategoryOptions}
-								bind:value={selectedCategoryRuns}
-							/>
-						</div>
+<div class="flex grow flex-col content-center">
+	<div class="container m-16 mx-auto flex grow rounded-md border border-secondary bg-base-100/75">
+		<div
+			class="m-0 flex w-screen grow flex-col gap-1 rounded-md border border-secondary bg-base-100 p-4 px-8 md:m-2"
+		>
+			<div class="text-center text-4xl font-light">Submission Queue</div>
+			<div class="divider -mx-8" />
+			<div class="m-0 gap-1 rounded-md border border-secondary bg-secondary/10 p-4 px-8 md:m-2">
+				<div class="flex flex-col gap-2 md:flex-row">
+					<div class="form-control grow">
+						<Dropdown
+							label="Run Category"
+							options={submissionCategoryOptions}
+							bind:value={selectedCategoryRuns}
+						/>
 					</div>
 				</div>
+			</div>
 
-				<div
-					class="m-0 grow space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8 md:m-2"
-				>
-					<svelte:component this={tableComponent.component} category={tableComponent.category} />
-				</div>
+			<div
+				class="m-0 grow space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8 md:m-2"
+			>
+				<svelte:component this={tableComponent.component} category={tableComponent.category} />
 			</div>
 		</div>
 	</div>
-	<LeaderboardFooter />
 </div>
-
-<BackgroundRandomizer />

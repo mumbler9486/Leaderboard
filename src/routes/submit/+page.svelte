@@ -1,7 +1,4 @@
 <script lang="ts">
-	import LeaderboardHeader from '$lib/LeaderboardHeader.svelte';
-	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
-	import LeaderboardFooter from '$lib/LeaderboardFooter.svelte';
 	import CategoryOptions from './CategoryOptions.svelte';
 	import DfaOptions from './DfaOptions.svelte';
 	import PurpleOptions from './PurpleOptions.svelte';
@@ -24,6 +21,18 @@
 	$: $runForm.notes = notes;
 
 	onMount(loadPlayerInfo);
+
+	const optionsMap: { [key: string]: { component: any } } = {
+		dfa: {
+			component: DfaOptions
+		},
+		purples: {
+			component: PurpleOptions
+		},
+		'duels-indomitables': {
+			component: DuelsIndomitableOptions
+		}
+	};
 
 	async function submitRun() {
 		if (submitting) {
@@ -68,93 +77,79 @@
 	<title>{$t('shared.siteName')} | Submit a Run</title>
 </svelte:head>
 
-<div class="flex min-h-screen flex-col">
-	<LeaderboardHeader />
-
-	<div class="flex grow flex-col content-center">
-		<div class="container m-16 mx-auto flex grow rounded-md border border-secondary bg-base-100/75">
-			<div
-				class="m-2 flex grow flex-col gap-1 rounded-md border border-secondary bg-base-100 p-4 px-8"
-			>
-				<div class="text-center text-4xl font-light">Submit a Run</div>
-				<div class="divider -mx-8" />
-				{#if submitFinish}
-					<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
-						Your run has been submitted and will be reviewed as soon as possible!<br /><a
-							class="link-primary link"
-							href="/">Click here to return to the home page!</a
-						>
+<div class="flex grow flex-col content-center">
+	<div class="container m-16 mx-auto flex grow rounded-md border border-secondary bg-base-100/75">
+		<div
+			class="m-2 flex grow flex-col gap-1 rounded-md border border-secondary bg-base-100 p-4 px-8"
+		>
+			<div class="text-center text-4xl font-light">Submit a Run</div>
+			<div class="divider -mx-8" />
+			{#if submitFinish}
+				<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
+					Your run has been submitted and will be reviewed as soon as possible!
+					<br />
+					<a class="link-primary link" href="/">Click here to return to the home page!</a>
+				</div>
+			{:else}
+				<form id="submitForm" on:submit|preventDefault={submitRun}>
+					<div class="m-2 gap-1 rounded-md border border-secondary bg-secondary/10 p-4 px-8">
+						<div class="text-center text-xl font-semibold">Run</div>
+						<Divider />
+						<div class="text-center text-lg font-semibold">Information</div>
+						<div class="form-control">
+							<ServerRegionSelector />
+						</div>
+						<div class="form-control">
+							<CategoryOptions />
+						</div>
+						<div class="form-control">
+							<svelte:component this={optionsMap[$runForm.category]?.component ?? false} />
+						</div>
 					</div>
-				{:else}
-					<form id="submitForm" on:submit|preventDefault={submitRun}>
+					{#each $runForm.players as player, i}
 						<div class="m-2 gap-1 rounded-md border border-secondary bg-secondary/10 p-4 px-8">
-							<div class="text-center text-xl font-semibold">Run</div>
+							<div class="text-center text-xl font-semibold">Player {i + 1}</div>
 							<Divider />
 							<div class="text-center text-lg font-semibold">Information</div>
-							<div class="form-control">
-								<ServerRegionSelector />
-							</div>
-							<div class="form-control">
-								<CategoryOptions />
-							</div>
-							<div class="form-control">
-								{#if $runForm.category == 'purples'}
-									<PurpleOptions />
-								{:else if $runForm.category == 'dfa'}
-									<DfaOptions />
-								{:else if $runForm.category == 'duels-indomitables'}
-									<DuelsIndomitableOptions />
-								{/if}
-							</div>
+							<PlayerInformationInput playerIndex={i} />
 						</div>
-						{#each $runForm.players as player, i}
-							<div class="m-2 gap-1 rounded-md border border-secondary bg-secondary/10 p-4 px-8">
-								<div class="text-center text-xl font-semibold">Player {i + 1}</div>
-								<Divider />
-								<div class="text-center text-lg font-semibold">Information</div>
-								<PlayerInformationInput playerIndex={i} />
-							</div>
-						{/each}
-						<div class="m-2 gap-1 rounded-md border border-secondary bg-secondary/10 p-4 px-8">
-							<div class="form-control">
-								<label class="label" for="notes-form">
-									<span class="label-text">Notes</span>
-								</label>
-								<textarea
-									class="widget-discord textarea-bordered textarea h-24"
-									placeholder="(Optional) Type any notes, extra run information, or descriptions here!"
-									bind:value={notes}
-								/>
-							</div>
+					{/each}
+					<div class="m-2 gap-1 rounded-md border border-secondary bg-secondary/10 p-4 px-8">
+						<div class="form-control">
+							<label class="label" for="notes-form">
+								<span class="label-text">Notes</span>
+							</label>
+							<textarea
+								class="widget-discord textarea-bordered textarea h-24"
+								placeholder="(Optional) Type any notes, extra run information, or descriptions here!"
+								bind:value={notes}
+							/>
 						</div>
+					</div>
 
-						{#if serverErrorMessage}
-							<Alert type="error" message={serverErrorMessage} />
-						{/if}
-						{#if submitting}
-							<Alert type="info" message="Submitting - Please Wait..." />
-							<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
-								Submitting - Please Wait...<br /><progress
-									class="progress progress-primary w-56 border border-neutral-content/20"
-								/>
-							</div>
-						{/if}
-						<div class="grid grid-cols-1 text-center">
-							<button
-								disabled={submitting}
-								class="btn-outline btn-success btn mt-4 w-1/2 justify-self-center"
-								on:click={submitRun}>Submit Run</button
-							>
+					{#if serverErrorMessage}
+						<Alert type="error" message={serverErrorMessage} />
+					{/if}
+					{#if submitting}
+						<Alert type="info" message="Submitting - Please Wait..." />
+						<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
+							Submitting - Please Wait...<br /><progress
+								class="progress progress-primary w-56 border border-neutral-content/20"
+							/>
 						</div>
-					</form>
-				{/if}
-			</div>
+					{/if}
+					<div class="grid grid-cols-1 text-center">
+						<button
+							disabled={submitting}
+							class="btn-outline btn-success btn mt-4 w-1/2 justify-self-center"
+							on:click={submitRun}>Submit Run</button
+						>
+					</div>
+				</form>
+			{/if}
 		</div>
 	</div>
-	<LeaderboardFooter />
 </div>
-
-<BackgroundRandomizer />
 
 <style>
 	.widget-discord::-webkit-scrollbar {
