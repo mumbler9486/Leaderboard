@@ -3,8 +3,11 @@
 	import IndomitableRules from './IndomitableRules.svelte';
 	import Divider from '$lib/Components/Divider.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import NgsClassFilterTag from '$lib/Components/Filters/FilterTags/NgsClassFilterTag.svelte';
+	import ServerRegionFilterTag from '$lib/Components/Filters/FilterTags/ServerRegionFilterTag.svelte';
 	import { indomitableRunFilters, type IndomitableRunSearchFilters } from './runFilterStore';
 	import { t } from 'svelte-i18n';
+	import { parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 
 	let filters: IndomitableRunSearchFilters = {
 		server: 'no_filter',
@@ -19,6 +22,18 @@
 	indomitableRunFilters.subscribe((f) => {
 		filters = { ...f };
 	});
+
+	$: playerClassFilterTag = parseNgsPlayerClass($indomitableRunFilters.class);
+
+	const resetClassFilter = () => {
+		filters.class = 'no_filter';
+		applyFilters();
+	};
+
+	const resetServerRegion = () => {
+		filters.server = 'no_filter';
+		applyFilters();
+	};
 </script>
 
 <div
@@ -55,5 +70,16 @@
 		<div class="m-1 md:flex-initial">
 			<IndomitableRules />
 		</div>
+	</div>
+
+	<Divider class="-mx-1 my-0" />
+
+	<div class="flex flex-row gap-2 px-1">
+		{#if playerClassFilterTag}
+			<NgsClassFilterTag ngsClass={playerClassFilterTag} on:click={resetClassFilter} />
+		{/if}
+		{#if $indomitableRunFilters.server && $indomitableRunFilters.server != 'no_filter'}
+			<ServerRegionFilterTag server={$indomitableRunFilters.server} on:click={resetServerRegion} />
+		{/if}
 	</div>
 </div>

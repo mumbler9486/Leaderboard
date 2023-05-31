@@ -5,6 +5,7 @@
 	import PurpleCategorySelector from '../PurpleCategorySelector.svelte';
 	import { partyRunFilters, type PurplePartySearchFilters } from '../purpleRunFilterStore';
 	import { t } from 'svelte-i18n';
+	import ServerRegionFilterTag from '$lib/Components/Filters/FilterTags/ServerRegionFilterTag.svelte';
 
 	let filters: PurplePartySearchFilters = {
 		region: 'stia',
@@ -19,6 +20,11 @@
 	partyRunFilters.subscribe((f) => {
 		filters = { ...f };
 	});
+
+	const resetServerRegion = () => {
+		filters.server = 'no_filter';
+		applyFilters();
+	};
 </script>
 
 <div
@@ -38,5 +44,12 @@
 		<div class="m-1 md:flex-initial">
 			<PurpleRules />
 		</div>
+	</div>
+
+	<Divider class="-mx-1 my-0" />
+	<div class="flex flex-row gap-2 px-1">
+		{#if $partyRunFilters.server && $partyRunFilters.server != 'no_filter'}
+			<ServerRegionFilterTag server={$partyRunFilters.server} on:click={resetServerRegion} />
+		{/if}
 	</div>
 </div>

@@ -5,6 +5,10 @@
 	import DfaSoloModalRunFilters from './DfaSoloModalRunFilters.svelte';
 	import { t } from 'svelte-i18n';
 	import { soloRunFilters, type DfaSoloSearchFilters } from '../dfaRunFilterStore';
+	import { parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
+	import NgsClassFilterTag from '$lib/Components/Filters/FilterTags/NgsClassFilterTag.svelte';
+	import ServerRegionFilterTag from '$lib/Components/Filters/FilterTags/ServerRegionFilterTag.svelte';
+	import DfaSupportFilterTag from '$lib/Components/Filters/FilterTags/DfaSupportFilterTag.svelte';
 
 	let filters: DfaSoloSearchFilters = {
 		trigger: 'urgent',
@@ -20,6 +24,23 @@
 	soloRunFilters.subscribe((f) => {
 		filters = { ...f };
 	});
+
+	$: playerClassFilterTag = parseNgsPlayerClass($soloRunFilters.class);
+
+	const resetClassFilter = () => {
+		filters.class = 'no_filter';
+		applyFilters();
+	};
+
+	const resetBuffFilter = () => {
+		filters.buff = 'no_filter';
+		applyFilters();
+	};
+
+	const resetServerRegion = () => {
+		filters.server = 'no_filter';
+		applyFilters();
+	};
 </script>
 
 <div
@@ -52,5 +73,19 @@
 		<div class="m-1 md:flex-initial">
 			<DfaRules />
 		</div>
+	</div>
+
+	<Divider class="-mx-1 my-0" />
+
+	<div class="flex flex-row gap-2 px-1">
+		{#if playerClassFilterTag}
+			<NgsClassFilterTag ngsClass={playerClassFilterTag} on:click={resetClassFilter} />
+		{/if}
+		{#if $soloRunFilters.buff && $soloRunFilters.buff != 'no_filter'}
+			<DfaSupportFilterTag support={$soloRunFilters.buff} on:click={resetBuffFilter} />
+		{/if}
+		{#if $soloRunFilters.server && $soloRunFilters.server != 'no_filter'}
+			<ServerRegionFilterTag server={$soloRunFilters.server} on:click={resetServerRegion} />
+		{/if}
 	</div>
 </div>

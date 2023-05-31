@@ -5,6 +5,8 @@
 	import DfaPartyModalRunFilters from './DfaPartyModalRunFilters.svelte';
 	import { partyRunFilters, type DfaPartySearchFilters } from '../dfaRunFilterStore';
 	import { t } from 'svelte-i18n';
+	import DfaSupportFilterTag from '$lib/Components/Filters/FilterTags/DfaSupportFilterTag.svelte';
+	import ServerRegionFilterTag from '$lib/Components/Filters/FilterTags/ServerRegionFilterTag.svelte';
 
 	let filters: DfaPartySearchFilters = {
 		trigger: 'urgent',
@@ -19,6 +21,16 @@
 	partyRunFilters.subscribe((f) => {
 		filters = { ...f };
 	});
+
+	const resetBuffFilter = () => {
+		filters.buff = 'no_filter';
+		applyFilters();
+	};
+
+	const resetServerRegion = () => {
+		filters.server = 'no_filter';
+		applyFilters();
+	};
 </script>
 
 <div
@@ -50,5 +62,16 @@
 		<div class="m-1 md:flex-initial">
 			<DfaRules />
 		</div>
+	</div>
+
+	<Divider class="-mx-1 my-0" />
+
+	<div class="flex flex-row gap-2 px-1">
+		{#if $partyRunFilters.buff && $partyRunFilters.buff != 'no_filter'}
+			<DfaSupportFilterTag support={$partyRunFilters.buff} on:click={resetBuffFilter} />
+		{/if}
+		{#if $partyRunFilters.server && $partyRunFilters.server != 'no_filter'}
+			<ServerRegionFilterTag server={$partyRunFilters.server} on:click={resetServerRegion} />
+		{/if}
 	</div>
 </div>
