@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
-	import { runForm, resetPlayerSize } from './runStore';
+	import { setPartySize } from './partyFormStore';
 
 	export let sizes: (1 | 2 | 4 | 8)[];
 
@@ -13,16 +13,10 @@
 		[8]: { label: 'Full MPA (8 Players)', value: '8' }
 	};
 
-	runForm.subscribe((s) => {
-		if (s.players.length == 0) {
-			selectedPartySize = undefined;
-		}
-	});
-
 	$: options = sizes.map((s) => partySizes[s]);
 	$: !!selectedPartySize && selectedPartySize != '0'
-		? resetPlayerSize(parseInt(selectedPartySize))
-		: resetPlayerSize(0);
+		? setPartySize(parseInt(selectedPartySize))
+		: setPartySize(0);
 </script>
 
 <Dropdown label="Party Size" {options} bind:value={selectedPartySize} />

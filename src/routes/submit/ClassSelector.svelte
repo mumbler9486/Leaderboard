@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
+	import { partyForm } from './partyFormStore';
 	import { runForm } from './runStore';
 
 	export let playerIndex: number;
@@ -78,8 +79,8 @@
 		...c,
 		disabled: selectedMainClass == c.value
 	}));
-	$: $runForm.players[playerIndex].mainClass = selectedMainClass ?? '';
-	$: $runForm.players[playerIndex].subClass = selectedSubClass ?? '';
+	$: $partyForm[playerIndex].mainClass = selectedMainClass ?? '';
+	$: $partyForm[playerIndex].subClass = selectedSubClass ?? '';
 </script>
 
 <div class="form-control">

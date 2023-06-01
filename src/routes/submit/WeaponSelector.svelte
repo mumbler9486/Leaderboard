@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Weapon } from '$lib/types/api/weapon';
-	import { runForm } from './runStore';
+	import { partyForm } from './partyFormStore';
 
 	export let playerIndex: number;
 	export let maxSelections: number = 6;
@@ -10,9 +10,9 @@
 
 	$: updateForm(selectedWeapons);
 	const updateForm = (...watch: any) => {
-		runForm.update((s) => {
-			s.players[playerIndex].weapons = selectionHistory;
-			return s;
+		partyForm.update((p) => {
+			p[playerIndex].weapons = selectionHistory;
+			return p;
 		});
 	};
 

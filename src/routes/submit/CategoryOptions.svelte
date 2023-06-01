@@ -1,17 +1,24 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
-	import { runForm, resetForm, resetPlayerSize } from './runStore';
+	import { setPartySize } from './partyFormStore';
+	import { runForm, resetForm } from './runStore';
 
 	let selectedCategory: string = $runForm.category;
 
 	const categoryChanged = () => {
-		const prevCategory = $runForm.category;
+		const prevCategory = selectedCategory;
 		const prevServerRegion = $runForm.serverRegion;
 		resetForm();
 		$runForm.category = prevCategory;
 		$runForm.serverRegion = prevServerRegion;
 
-		resetPlayerSize(1);
+		runForm.update((f) => {
+			f.category = selectedCategory;
+			f.serverRegion = prevServerRegion;
+			return f;
+		});
+
+		setPartySize(1);
 	};
 
 	const options = [

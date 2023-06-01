@@ -3,6 +3,10 @@
 
 	export let showHours: boolean = false;
 
+	export let maxHours: number = 2;
+	export let maxMinutes: number = 59;
+	export let maxSeconds: number = 59;
+
 	let hours = 0;
 	let minutes = 0;
 	let seconds = 0;
@@ -23,7 +27,7 @@
 				type="number"
 				class="svelte-blgex8 input-bordered input w-full"
 				min="0"
-				max="1"
+				max={maxHours}
 				maxlength="1"
 				required
 				bind:value={hours}
@@ -36,7 +40,7 @@
 			type="number"
 			class="input-bordered input w-full"
 			min="0"
-			max="59"
+			max={maxMinutes}
 			maxlength="2"
 			required
 			bind:value={minutes}
@@ -48,17 +52,13 @@
 			type="number"
 			class="input-bordered input w-full"
 			min="0"
-			max="59"
+			max={maxSeconds}
 			maxlength="2"
 			required
 			bind:value={seconds}
 		/>
 	</label>
 	<div class="label">
-		<span class="label-text"
-			>This is the total time taken on your run.<br /><span class="text-warning"
-				>Simplified time entry coming soon!</span
-			></span
-		>
+		<span class="label-text"> This is the total time taken on your run. Use In-Game Time.</span>
 	</div>
 </div>
