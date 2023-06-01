@@ -5,6 +5,7 @@ import sql, { type Request } from 'mssql';
 import { fields } from '../util/nameof';
 import type { ApproveRequest, DenyRequest } from '../types/validation/submissions';
 import type { DfaSubmissionRequest } from '../types/validation/dfaSubmissions';
+import { CurrentSubmissionPatchCode } from '$lib/constants/patchCodes';
 
 const dfaPartyDbFields = fields<DfaPartyDbModel>();
 const dfaDuoDbFields = fields<DfaDuoDbModel>();
@@ -678,7 +679,7 @@ export const insertDfaSoloSubmission = async (request: sql.Request, run: DfaSubm
 	const insertRequest = request
 		.input('playerId', sql.Int, player1.playerId)
 		.input('runCharacter', sql.NVarChar, player1.inVideoName)
-		.input('patch', sql.NVarChar, 'pot6r')
+		.input('patch', sql.NVarChar, CurrentSubmissionPatchCode)
 		.input('drill', sql.Int, triggerDbMap[run.type])
 		.input('support', sql.NVarChar, run.support)
 		.input('time', sql.NVarChar, runTime)
@@ -728,7 +729,7 @@ export const insertDfaPartySubmission = async (request: sql.Request, run: DfaSub
 		.input('subpid', sql.Int, player1.playerId)
 		.input('serverid', sql.NVarChar, run.serverRegion)
 		.input('questrank', sql.Int, 1)
-		.input('patch', sql.NVarChar, 'pot6r')
+		.input('patch', sql.NVarChar, CurrentSubmissionPatchCode)
 		.input('buff', sql.NVarChar, run.support)
 		.input('rank', sql.Int, triggerDbMap[run.type])
 		.input('time', sql.NVarChar, runTime)

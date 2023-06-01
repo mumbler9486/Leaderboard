@@ -6,17 +6,12 @@
 	import type { PurpleSubmission } from '$lib/types/api/submissions/submissions';
 	import { createEventDispatcher } from 'svelte';
 	import { mapToNamePref } from '$lib/types/api/mapNamePref';
+	import { patchCodeLabelMap } from '$lib/constants/patchCodes';
 
 	const dispatcher = createEventDispatcher();
 
 	export let submission: PurpleSubmission;
 	$: nameDisplay = mapToNamePref(submission.players[0]);
-
-	const patchCodes = {
-		['60r']: '+60 Release',
-		['slayer']: 'Slayer',
-		['pot6r']: 'Potential Lv6. Release'
-	} as { [id: string]: string };
 
 	const regionCodes = {
 		['stia']: 'Stia',
@@ -42,7 +37,7 @@
 	</td>
 	<td class="text-center">{regionCodes[submission.region]}</td>
 	<td class="text-center">{submission.rank}</td>
-	<td class="text-center">{patchCodes[submission.patch.toLowerCase()]}</td>
+	<td class="text-center">{patchCodeLabelMap[submission.patch.toLowerCase()]}</td>
 	<td class="text-center">
 		{#each player1.weapons ?? [] as weapon}
 			<WeaponIcon {weapon} />

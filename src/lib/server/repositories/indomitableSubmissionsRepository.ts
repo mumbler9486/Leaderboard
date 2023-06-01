@@ -4,6 +4,7 @@ import { fields } from '../util/nameof';
 import type { ApproveRequest, DenyRequest } from '../types/validation/submissions';
 import { RunCategories } from '$lib/types/api/categories';
 import type { IndomitableSubmissionRequest } from '../types/validation/indomitableSubmissions';
+import { CurrentSubmissionPatchCode } from '$lib/constants/patchCodes';
 
 const indomitableDbFields = fields<IndomitableDbModel>();
 
@@ -217,7 +218,7 @@ export const insertIndomitableSoloRun = async (
 	let insertRequest = request
 		.input('playerId', sql.Int, player1.playerId)
 		.input('runCharacter', sql.NVarChar, player1.inVideoName)
-		.input('patch', sql.NVarChar, 'pot6r')
+		.input('patch', sql.NVarChar, CurrentSubmissionPatchCode)
 		.input('rank', sql.Int, run.rank)
 		.input('augments', sql.Int, run.augments === true ? 1 : 0)
 		.input('time', sql.NVarChar, runTime)

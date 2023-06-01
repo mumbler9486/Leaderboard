@@ -5,6 +5,7 @@ import type { PurplePartyDbModel } from '$lib/server/types/db/submissions/purple
 import { fields } from '../util/nameof';
 import type { ApproveRequest, DenyRequest } from '../types/validation/submissions';
 import type { PurpleSubmissionRequest } from '../types/validation/purpleSubmissions';
+import { CurrentSubmissionPatchCode } from '$lib/constants/patchCodes';
 
 const purplePartyDbFields = fields<PurplePartyDbModel>();
 const purpleDuoDbFields = fields<PurpleDuoDbModel>();
@@ -551,7 +552,7 @@ export const insertPurpleSoloSubmission = async (
 	let insertRequest = request
 		.input('playerID', sql.Int, player1.playerId)
 		.input('runCharacter', sql.NVarChar, player1.inVideoName)
-		.input('patch', sql.NVarChar, 'pot6r')
+		.input('patch', sql.NVarChar, CurrentSubmissionPatchCode)
 		.input('region', sql.NVarChar, run.region)
 		.input('rank', sql.Int, run.rank)
 		.input('time', sql.NVarChar, runTime)
@@ -595,7 +596,7 @@ export const insertPurplePartySubmission = async (
 	const submissionTime = new Date();
 
 	let insertRequest = request
-		.input('patch', sql.NVarChar, 'pot6r')
+		.input('patch', sql.NVarChar, CurrentSubmissionPatchCode)
 		.input('region', sql.NVarChar, run.region)
 		.input('rank', sql.Int, run.rank)
 		.input('time', sql.NVarChar, runTime)

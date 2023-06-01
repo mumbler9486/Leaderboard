@@ -6,6 +6,7 @@
 	import type { IndomitableSubmission } from '$lib/types/api/submissions/submissions';
 	import { createEventDispatcher } from 'svelte';
 	import { RunCategories, parseRunCategory } from '$lib/types/api/categories';
+	import { patchCodeLabelMap } from '$lib/constants/patchCodes';
 
 	const dispatcher = createEventDispatcher();
 
@@ -15,12 +16,6 @@
 	const usesAugments = {
 		true: 'Special Augments Used',
 		false: 'No Special Augment Used'
-	} as { [id: string]: string };
-
-	const patchCodes = {
-		['60r']: '+60 Release',
-		['slayer']: 'Slayer',
-		['pot6r']: 'Potential Lv6. Release'
 	} as { [id: string]: string };
 
 	const bossNames = {
@@ -47,7 +42,7 @@
 	</td>
 	<td class="text-center">{bossNames[parseRunCategory(submission.category) ?? '']}</td>
 	<td class="text-center">{submission.rank}</td>
-	<td class="text-center">{patchCodes[submission.patch.toLowerCase()]}</td>
+	<td class="text-center">{patchCodeLabelMap[submission.patch.toLowerCase()]}</td>
 	<td class="text-center">{usesAugments[submission.augments.toString()]}</td>
 	<td class="text-center">
 		{#each player1.weapons ?? [] as weapon}
