@@ -22,18 +22,6 @@
 
 	onMount(loadPlayerInfo);
 
-	const optionsMap: { [key: string]: { component: any } } = {
-		dfa: {
-			component: DfaOptions
-		},
-		purples: {
-			component: PurpleOptions
-		},
-		'duels-indomitables': {
-			component: DuelsIndomitableOptions
-		}
-	};
-
 	async function submitRun() {
 		if (submitting) {
 			return;
@@ -86,9 +74,10 @@
 			<div class="divider -mx-8" />
 			{#if submitFinish}
 				<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
-					Your run has been submitted and will be reviewed as soon as possible!
-					<br />
-					<a class="link-primary link" href="/">Click here to return to the home page!</a>
+					Your run has been submitted and will be reviewed as soon as possible!<br /><a
+						class="link-primary link"
+						href="/">Click here to return to the home page!</a
+					>
 				</div>
 			{:else}
 				<form id="submitForm" on:submit|preventDefault={submitRun}>
@@ -103,7 +92,13 @@
 							<CategoryOptions />
 						</div>
 						<div class="form-control">
-							<svelte:component this={optionsMap[$runForm.category]?.component ?? false} />
+							{#if $runForm.category == 'purples'}
+								<PurpleOptions />
+							{:else if $runForm.category == 'dfa'}
+								<DfaOptions />
+							{:else if $runForm.category == 'duels-indomitables'}
+								<DuelsIndomitableOptions />
+							{/if}
 						</div>
 					</div>
 					{#each $runForm.players as player, i}
