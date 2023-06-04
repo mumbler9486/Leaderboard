@@ -1,5 +1,5 @@
 // The current patch code for all submissions
-export const CurrentSubmissionPatchCode = 'level75r';
+export const CurrentSubmissionPatchCode = 'pot6r';
 
 // Keep patch codes under 30 chars
 export const patchCodeLabelMap: { [id: string]: string } = {
