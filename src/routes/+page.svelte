@@ -3,7 +3,7 @@
 	import { browser } from '$app/environment';
 
 	import HomeNews from '$lib/NewsComponents/HomeNews.svelte';
-	import DiscordWidget from '$lib/DiscordComponents/DiscordWidget.svelte';
+	import DiscordWidget from '$lib/Widgets/Discord/DiscordWidget.svelte';
 	import RunStatsWidget from '$lib/Widgets/RunStatsWidget.svelte';
 
 	let consentDiscord = false;
@@ -63,9 +63,7 @@
 				class="mt-0 flex grow basis-full flex-col-reverse overflow-x-auto md:mt-2 md:basis-1/3 md:flex-col"
 			>
 				{#if consentDiscord}
-					<div class="m-2 mt-0 grow md:ml-0">
-						<DiscordWidget />
-					</div>
+					<DiscordWidget />
 				{/if}
 				<RunStatsWidget />
 			</div>
