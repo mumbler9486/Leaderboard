@@ -2,7 +2,10 @@ import type { DfaPartyRunDbModel } from '$lib/server/types/db/runs/dfa/dfaParty'
 import type { DfaSoloRunDbModel } from '$lib/server/types/db/runs/dfa/dfaSolo';
 import sql, { type Request } from 'mssql';
 import { fields } from '../util/nameof';
-import type { DfaPartySearchFilter, DfaSoloSearchFilter } from '../types/validation/dfaRunFilter';
+import type {
+	DfaPartySearchFilter,
+	DfaSoloSearchFilter
+} from '../../types/api/validation/dfaRunFilter';
 
 const dfaPartyDbFields = fields<DfaPartyRunDbModel>();
 const dfaSoloDbFields = fields<DfaSoloRunDbModel>();

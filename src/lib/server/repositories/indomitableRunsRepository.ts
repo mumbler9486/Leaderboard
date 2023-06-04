@@ -1,6 +1,6 @@
 import { IndomitableBoss } from '$lib/types/api/duels/indomitableBoss';
 import type { IndomitableRunDbModel } from '../types/db/runs/duels/indomitable';
-import type { IndomitableRunSearchFilter } from '../types/validation/indomitableRunFilter';
+import type { IndomitableRunSearchFilter } from '../../types/api/validation/indomitableRunFilter';
 import sql, { type Request } from 'mssql';
 import { fields } from '../util/nameof';
 

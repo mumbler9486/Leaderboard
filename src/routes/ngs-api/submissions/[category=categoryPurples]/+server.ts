@@ -17,7 +17,7 @@ import { RunCategories, parseRunCategory } from '$lib/types/api/categories.js';
 import {
 	purpleSubmissionRequestSchema,
 	type PurpleSubmissionRequest
-} from '$lib/server/types/validation/purpleSubmissions.js';
+} from '$lib/types/api/validation/purpleSubmissions.js';
 import { jsonError } from '$lib/server/error.js';
 import { normalizeYoutubeLink } from '$lib/utils/youtube.js';
 import { weaponsToDbValMap } from '$lib/server/db/util/weaponType.js';

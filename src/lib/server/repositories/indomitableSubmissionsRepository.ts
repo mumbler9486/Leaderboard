@@ -1,9 +1,9 @@
 import sql, { type Request } from 'mssql';
 import type { IndomitableDbModel } from '$lib/server/types/db/submissions/duels/indomitable';
 import { fields } from '../util/nameof';
-import type { ApproveRequest, DenyRequest } from '../types/validation/submissions';
+import type { ApproveRequest, DenyRequest } from '../../types/api/validation/submissions';
 import { RunCategories } from '$lib/types/api/categories';
-import type { IndomitableSubmissionRequest } from '../types/validation/indomitableSubmissions';
+import type { IndomitableSubmissionRequest } from '../../types/api/validation/indomitableSubmissions';
 import { CurrentSubmissionPatchCode } from '$lib/constants/patchCodes';
 
 const indomitableDbFields = fields<IndomitableDbModel>();

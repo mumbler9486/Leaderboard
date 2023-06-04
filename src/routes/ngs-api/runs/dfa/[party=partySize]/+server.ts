@@ -11,7 +11,7 @@ import {
 	dfaSoloSearchFilterSchema,
 	type DfaSoloSearchFilter,
 	type DfaPartySearchFilter
-} from '$lib/server/types/validation/dfaRunFilter.js';
+} from '$lib/types/api/validation/dfaRunFilter.js';
 import { mapDfaPartyToRun, mapDfaSoloToRun } from '$lib/server/mappers/api/dfaRunMapper.js';
 import { parseToRawSchema } from '$lib/utils/schemaValidation.js';
 

@@ -11,7 +11,7 @@ import { jsonError } from '$lib/server/error.js';
 import {
 	indomitableSubmissionRequestSchema,
 	type IndomitableSubmissionRequest
-} from '$lib/server/types/validation/indomitableSubmissions.js';
+} from '$lib/types/api/validation/indomitableSubmissions.js';
 import { normalizeYoutubeLink } from '$lib/utils/youtube.js';
 import { parseWeapon } from '$lib/types/api/weapon.js';
 import { weaponsToDbValMap } from '$lib/server/db/util/weaponType.js';

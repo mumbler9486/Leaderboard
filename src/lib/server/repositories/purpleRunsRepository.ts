@@ -5,7 +5,7 @@ import type { PurpleSoloRunDbModel } from '../types/db/runs/purple/purpleSolo';
 import type {
 	PurplePartySearchFilter,
 	PurpleSoloSearchFilter
-} from '../types/validation/purpleRunFilter';
+} from '../../types/api/validation/purpleRunFilter';
 
 const purplePartyDbFields = fields<PurplePartyRunDbModel>();
 const purpleSoloDbFields = fields<PurpleSoloRunDbModel>();

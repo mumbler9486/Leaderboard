@@ -3,8 +3,8 @@ import type { DfaPartyDbModel } from '$lib/server/types/db/submissions/dfa/dfaPa
 import type { DfaSoloDbModel } from '$lib/server/types/db/submissions/dfa/dfaSolo';
 import sql, { type Request } from 'mssql';
 import { fields } from '../util/nameof';
-import type { ApproveRequest, DenyRequest } from '../types/validation/submissions';
-import type { DfaSubmissionRequest } from '../types/validation/dfaSubmissions';
+import type { ApproveRequest, DenyRequest } from '../../types/api/validation/submissions';
+import type { DfaSubmissionRequest } from '../../types/api/validation/dfaSubmissions';
 import { CurrentSubmissionPatchCode } from '$lib/constants/patchCodes';
 
 const dfaPartyDbFields = fields<DfaPartyDbModel>();

@@ -3,8 +3,8 @@ import type { PurpleSoloDbModel } from '$lib/server/types/db/submissions/purple/
 import type { PurpleDuoDbModel } from '$lib/server/types/db/submissions/purple/purpleDuo';
 import type { PurplePartyDbModel } from '$lib/server/types/db/submissions/purple/purpleParty';
 import { fields } from '../util/nameof';
-import type { ApproveRequest, DenyRequest } from '../types/validation/submissions';
-import type { PurpleSubmissionRequest } from '../types/validation/purpleSubmissions';
+import type { ApproveRequest, DenyRequest } from '../../types/api/validation/submissions';
+import type { PurpleSubmissionRequest } from '../../types/api/validation/purpleSubmissions';
 import { CurrentSubmissionPatchCode } from '$lib/constants/patchCodes';
 
 const purplePartyDbFields = fields<PurplePartyDbModel>();

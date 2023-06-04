@@ -7,7 +7,7 @@ import {
 	type PurplePartySearchFilter,
 	type PurpleSoloSearchFilter,
 	purpleSoloSearchFilterSchema
-} from '$lib/server/types/validation/purpleRunFilter.js';
+} from '$lib/types/api/validation/purpleRunFilter.js';
 import {
 	mapPurplePartyToRun,
 	mapPurpleSoloToRun
