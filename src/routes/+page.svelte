@@ -3,33 +3,13 @@
 	import { browser } from '$app/environment';
 
 	import HomeNews from '$lib/NewsComponents/HomeNews.svelte';
-	import HomeNew10 from '$lib/LeaderboardComponents/HomeNew10.svelte';
-	import HomeNewAegis5 from '$lib/LeaderboardComponents/HomeNewAegis5.svelte';
-	import SoloPurpleStats from '$lib/StatComponents/SoloPurpleStats.svelte';
 	import DiscordWidget from '$lib/DiscordComponents/DiscordWidget.svelte';
-	import MeteornRecordCountdown from '$lib/LeaderboardComponents/MeteornRecordCountdown.svelte';
+	import RunStatsWidget from '$lib/Widgets/RunStatsWidget.svelte';
 
 	let consentDiscord = false;
 
 	if (browser) {
 		consentDiscord = (localStorage.getItem('consent-discord') ?? false) === 'true';
-	}
-
-	function tabUpdate(tab) {
-		switch (tab) {
-			case 'purp':
-				document.getElementById('tab1')?.classList.add('tab-active');
-				document.getElementById('tab2')?.classList.remove('tab-active');
-				document.getElementById('tabcontent1')?.classList.remove('hidden');
-				document.getElementById('tabcontent2')?.classList.add('hidden');
-				break;
-			case 'dfa':
-				document.getElementById('tab2')?.classList.add('tab-active');
-				document.getElementById('tab1')?.classList.remove('tab-active');
-				document.getElementById('tabcontent1')?.classList.add('hidden');
-				document.getElementById('tabcontent2')?.classList.remove('hidden');
-				break;
-		}
 	}
 </script>
 
@@ -87,24 +67,7 @@
 						<DiscordWidget />
 					</div>
 				{/if}
-				<div
-					class="m-2 mt-0 h-full grow rounded-md border border-secondary bg-base-100 p-4 px-8 md:ml-0"
-				>
-					<div class="tabs tabs-boxed mb-4 flex grow">
-						<a id="tab1" class="tab grow" on:click={() => tabUpdate('purp')}>Newest 10 Solo Runs</a>
-						<a id="tab2" class="tab tab-active grow" on:click={() => tabUpdate('dfa')}
-							>Newest 5 DFA MPA Runs</a
-						>
-					</div>
-					<span id="tabcontent2">
-						<HomeNewAegis5 />
-					</span>
-					<span id="tabcontent1" class="hidden">
-						<HomeNew10 />
-						<div class="divider -mx-8" />
-						<SoloPurpleStats />
-					</span>
-				</div>
+				<RunStatsWidget />
 			</div>
 		</div>
 	</div>
