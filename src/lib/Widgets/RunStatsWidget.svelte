@@ -24,7 +24,7 @@
 		>
 		<a
 			id="tab2"
-			class="tab tab-active grow"
+			class="tab grow"
 			class:tab-active={dfaTabActive}
 			on:click={() => tabUpdate('dfa')}
 			on:keyup={() => tabUpdate('dfa')}>Newest 5 DFA MPA Runs</a
