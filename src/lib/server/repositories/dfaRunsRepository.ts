@@ -76,7 +76,13 @@ export const getDfaSoloRuns = async (request: Request, filters: DfaSoloSearchFil
     INNER JOIN
     Players.Customization AS sc ON run.${dfaSoloDbFields.SubmitterID} = sc.PlayerID
     
-    WHERE run.${dfaSoloDbFields.Drill} = @trigger`;
+    WHERE 1=1`;
+
+	if (filters.trigger) {
+		const trigger = triggerDbMap[filters.trigger];
+		query += ` AND run.${dfaSoloDbFields.Drill} = @trigger`;
+		request = request.input('trigger', sql.Int, trigger);
+	}
 
 	if (filters.server) {
 		query += ` AND pc.Server = @server`;
@@ -93,10 +99,25 @@ export const getDfaSoloRuns = async (request: Request, filters: DfaSoloSearchFil
 		request = request.input('buff', sql.NVarChar, filters.buff);
 	}
 
-	query += ` ORDER BY run.${dfaPartyDbFields.Time} ASC, run.${dfaPartyDbFields.SubmissionTime} ASC`;
+	if (filters.take) {
+		request = request.input('take', sql.Int, filters.take);
+	} else {
+		request = request.input('take', sql.Int, 30000);
+	}
 
-	const trigger = triggerDbMap[filters.trigger];
-	request = request.input('trigger', sql.Int, trigger);
+	if (filters.page && filters.take) {
+		request = request.input('offset', sql.Int, filters.page * filters.take);
+	} else {
+		request = request.input('offset', sql.Int, 0);
+	}
+
+	if (filters.sort === 'recent') {
+		query += ` ORDER BY run.${dfaSoloDbFields.SubmissionTime} DESC`;
+	} else {
+		query += ` ORDER BY run.${dfaSoloDbFields.Time} ASC, run.${dfaSoloDbFields.SubmissionTime} ASC`;
+	}
+
+	query += ` OFFSET @offset ROWS FETCH NEXT @take ROWS ONLY`;
 
 	const results = await request.query(query);
 	return results.recordset as DfaSoloRunDbModel[];
@@ -172,7 +193,15 @@ export const getDfaPartyRuns = async (
     INNER JOIN
     Players.Customization AS sc ON run.${dfaPartyDbFields.SubmitterID} = sc.PlayerID
     
-    WHERE run.${dfaPartyDbFields.Drill} = @trigger AND run.${dfaPartyDbFields.PartySize} = @partySize`;
+    WHERE run.${dfaPartyDbFields.PartySize} = @partySize`;
+
+	request = request.input('partySize', sql.Int, partySize);
+
+	if (filters.trigger) {
+		const trigger = triggerDbMap[filters.trigger];
+		query += ` AND run.${dfaPartyDbFields.Drill} = @trigger`;
+		request = request.input('trigger', sql.Int, trigger);
+	}
 
 	if (filters.server) {
 		query += ` AND pc.Server = @server`;
@@ -184,11 +213,25 @@ export const getDfaPartyRuns = async (
 		request = request.input('buff', sql.NVarChar, filters.buff);
 	}
 
-	query += ` 
-    ORDER BY run.${dfaPartyDbFields.Time} ASC, run.${dfaPartyDbFields.SubmissionTime} ASC`;
+	if (filters.take) {
+		request = request.input('take', sql.Int, filters.take * partySize);
+	} else {
+		request = request.input('take', sql.Int, 30000);
+	}
 
-	const trigger = triggerDbMap[filters.trigger ?? 'urgent'];
-	request = request.input('trigger', sql.Int, trigger).input('partySize', sql.Int, partySize);
+	if (filters.page && filters.take) {
+		request = request.input('offset', sql.Int, filters.page * filters.take * partySize);
+	} else {
+		request = request.input('offset', sql.Int, 0);
+	}
+
+	if (filters.sort === 'recent') {
+		query += ` ORDER BY run.${dfaPartyDbFields.SubmissionTime} DESC`;
+	} else {
+		query += ` ORDER BY run.${dfaPartyDbFields.Time} ASC, run.${dfaPartyDbFields.SubmissionTime} ASC`;
+	}
+
+	query += ` OFFSET @offset ROWS FETCH NEXT @take ROWS ONLY`;
 
 	const results = await request.query(query);
 	return results.recordset as DfaPartyRunDbModel[];

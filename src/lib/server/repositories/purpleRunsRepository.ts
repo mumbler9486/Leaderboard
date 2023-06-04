@@ -81,8 +81,18 @@ export const getPurpleSoloRuns = async (request: Request, filters: PurpleSoloSea
     INNER JOIN
     Players.Customization AS sc ON run.${purpleSoloDbFields.SubmitterID} = sc.PlayerID
 
-    WHERE run.${purpleSoloDbFields.Region} = @region AND 
-          run.${purpleSoloDbFields.Rank} = @rank`;
+    WHERE 1=1`;
+
+	if (filters.region) {
+		const region = regionDbMap[filters.region];
+		query += ` AND run.${purpleSoloDbFields.Region} = @region`;
+		request = request.input('region', sql.NVarChar, region);
+	}
+
+	if (filters.rank) {
+		query += ` AND run.${purpleSoloDbFields.Rank} = @rank`;
+		request = request.input('rank', sql.Int, filters.rank);
+	}
 
 	if (filters.server) {
 		query += ` AND pc.Server = @server`;
@@ -94,10 +104,25 @@ export const getPurpleSoloRuns = async (request: Request, filters: PurpleSoloSea
 		request = request.input('mainClass', sql.NVarChar, filters.class);
 	}
 
-	query += ` ORDER BY run.${purplePartyDbFields.Time} ASC, run.${purplePartyDbFields.SubmissionTime} ASC`;
+	if (filters.take) {
+		request = request.input('take', sql.Int, filters.take);
+	} else {
+		request = request.input('take', sql.Int, 30000);
+	}
 
-	const region = regionDbMap[filters.region];
-	request = request.input('region', sql.NVarChar, region).input('rank', sql.Int, filters.rank);
+	if (filters.page && filters.take) {
+		request = request.input('offset', sql.Int, filters.page * filters.take);
+	} else {
+		request = request.input('offset', sql.Int, 0);
+	}
+
+	if (filters.sort === 'recent') {
+		query += ` ORDER BY run.${purpleSoloDbFields.SubmissionTime} DESC`;
+	} else {
+		query += ` ORDER BY run.${purpleSoloDbFields.Time} ASC, run.${purpleSoloDbFields.SubmissionTime} ASC`;
+	}
+
+	query += ` OFFSET @offset ROWS FETCH NEXT @take ROWS ONLY`;
 
 	const results = await request.query(query);
 	return results.recordset as PurpleSoloRunDbModel[];
@@ -172,23 +197,46 @@ export const getPurplePartyRuns = async (
     INNER JOIN
     Players.Customization AS sc ON run.${purplePartyDbFields.SubmitterID} = sc.PlayerID
 
-    WHERE run.${purplePartyDbFields.Region} = @region AND 
-      run.${purplePartyDbFields.Rank} = @rank AND 
-      run.${purplePartyDbFields.PartySize} = @partySize
+    WHERE run.${purplePartyDbFields.PartySize} = @partySize
   `;
+
+	request = request.input('partySize', sql.Int, partySize);
+
+	if (filters.region) {
+		const region = regionDbMap[filters.region];
+		query += ` AND run.${purpleSoloDbFields.Region} = @region`;
+		request = request.input('region', sql.NVarChar, region);
+	}
+
+	if (filters.rank) {
+		query += ` AND run.${purpleSoloDbFields.Rank} = @rank`;
+		request = request.input('rank', sql.Int, filters.rank);
+	}
 
 	if (filters.server) {
 		query += ` AND pc.Server = @server`;
 		request = request.input('server', sql.NVarChar, filters.server);
 	}
 
-	query += ` ORDER BY run.${purplePartyDbFields.Time} ASC, run.${purplePartyDbFields.SubmissionTime} ASC`;
+	if (filters.take) {
+		request = request.input('take', sql.Int, filters.take * partySize);
+	} else {
+		request = request.input('take', sql.Int, 30000);
+	}
 
-	const region = regionDbMap[filters.region];
-	request = request
-		.input('region', sql.NVarChar, region)
-		.input('rank', sql.Int, filters.rank)
-		.input('partySize', sql.Int, partySize);
+	if (filters.page && filters.take) {
+		request = request.input('offset', sql.Int, filters.page * filters.take * partySize);
+	} else {
+		request = request.input('offset', sql.Int, 0);
+	}
+
+	if (filters.sort === 'recent') {
+		query += ` ORDER BY run.${purplePartyDbFields.SubmissionTime} DESC`;
+	} else {
+		query += ` ORDER BY run.${purplePartyDbFields.Time} ASC, run.${purplePartyDbFields.SubmissionTime} ASC`;
+	}
+
+	query += ` OFFSET @offset ROWS FETCH NEXT @take ROWS ONLY`;
 
 	const results = await request.query(query);
 	return results.recordset as PurplePartyRunDbModel[];

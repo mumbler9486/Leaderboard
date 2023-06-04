@@ -17,6 +17,7 @@ import {
 	getPurplePartyRuns,
 	getPurpleSoloRuns
 } from '$lib/server/repositories/purpleRunsRepository.js';
+import { parseToRawSchema } from '$lib/utils/schemaValidation.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
@@ -33,12 +34,7 @@ export async function GET({ params, url }) {
 	}
 }
 const getSoloRuns = async (url: URL) => {
-	const urlParams = {
-		server: url.searchParams.get('server'),
-		class: url.searchParams.get('class'),
-		region: url.searchParams.get('region'),
-		rank: url.searchParams.get('rank')
-	};
+	const urlParams = parseToRawSchema(url, purpleSoloSearchFilterSchema);
 
 	let filters: PurpleSoloSearchFilter;
 	try {
@@ -65,11 +61,7 @@ const getSoloRuns = async (url: URL) => {
 };
 
 const getPartyRuns = async (url: URL, partySize: PartySize) => {
-	const urlParams = {
-		server: url.searchParams.get('server'),
-		region: url.searchParams.get('region'),
-		rank: url.searchParams.get('rank')
-	};
+	const urlParams = parseToRawSchema(url, purplePartySearchFilterSchema);
 
 	let parsedRun: PurplePartySearchFilter;
 	try {

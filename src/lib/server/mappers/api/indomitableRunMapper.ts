@@ -5,7 +5,10 @@ import { dbValToWeaponsMap } from '$lib/server/db/util/weaponType.js';
 import { dbValToClassMap } from '$lib/server/db/util/ngsClass.js';
 import { convertTimeToRunTime } from '$lib/server/db/util/datetime';
 
-export const mapIndomitableToRun = (runs: IndomitableRunDbModel[]): IndomitableRun[] => {
+export const mapIndomitableToRun = (
+	runs: IndomitableRunDbModel[],
+	boss: string
+): IndomitableRun[] => {
 	return runs.map((run, i) => {
 		const player1: PlayerInfo = {
 			playerId: parseInt(run.PlayerID),
@@ -53,6 +56,7 @@ export const mapIndomitableToRun = (runs: IndomitableRunDbModel[]): IndomitableR
 		};
 
 		return {
+			boss: boss,
 			runId: parseInt(run.Id),
 			rank: i + 1,
 			augments: parseInt(run.Augments) == 0 ? false : true,
@@ -63,7 +67,8 @@ export const mapIndomitableToRun = (runs: IndomitableRunDbModel[]): IndomitableR
 			time: convertTimeToRunTime(new Date(run.RunTime)),
 			videoUrl: run.Link,
 			players: [player1],
-			submitter: submitter
+			submitter: submitter,
+			submissionTime: run.SubmissionTime
 		} as IndomitableRun;
 	});
 };

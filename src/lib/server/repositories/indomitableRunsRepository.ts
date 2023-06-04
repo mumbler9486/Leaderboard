@@ -1,7 +1,7 @@
 import { IndomitableBoss } from '$lib/types/api/duels/indomitableBoss';
 import type { IndomitableRunDbModel } from '../types/db/runs/duels/indomitable';
 import type { IndomitableRunSearchFilter } from '../types/validation/indomitableRunFilter';
-import type { Request } from 'mssql';
+import sql, { type Request } from 'mssql';
 import { fields } from '../util/nameof';
 
 const indomitableTables: { [key: string]: string } = {
@@ -24,7 +24,7 @@ export const getIndomitableRuns = async (
 	}
 
 	let query = `
-    SELECT TOP (1000)
+    SELECT
       run.Id as ${indomitableDbFields.Id},
       run.PlayerID as ${indomitableDbFields.PlayerID},
       run.RunCharacterName as ${indomitableDbFields.RunCharacterName},
@@ -80,23 +80,41 @@ export const getIndomitableRuns = async (
 `;
 
 	if (filters.server) {
-		query += ' AND pc.Server = @server';
-		request = request.input('server', filters.server);
+		query += ` AND pc.Server = @server`;
+		request = request.input('server', sql.NVarChar, filters.server);
 	}
 
 	if (filters.class) {
-		query += ' AND run.MainClass = @mainClass';
-		request = request.input('mainClass', filters.class);
+		query += ` AND run.MainClass = @mainClass`;
+		request = request.input('mainClass', sql.NVarChar, filters.class);
 	}
 
 	if (filters.augmentations && filters.augmentations.toLowerCase() == 'yes') {
-		query += ' AND run.Augments = 1';
+		query += ` AND run.Augments = 1`;
 	}
 	if (filters.augmentations && filters.augmentations.toLowerCase() == 'no') {
-		query += ' AND run.Augments = 0';
+		query += ` AND run.Augments = 0`;
 	}
 
-	query += ' ORDER BY run.RunTime';
+	if (filters.take) {
+		request = request.input('take', sql.Int, filters.take);
+	} else {
+		request = request.input('take', sql.Int, 30000);
+	}
+
+	if (filters.page && filters.take) {
+		request = request.input('offset', sql.Int, filters.page * filters.take);
+	} else {
+		request = request.input('offset', sql.Int, 0);
+	}
+
+	if (filters.sort === 'recent') {
+		query += ` ORDER BY run.${indomitableDbFields.SubmissionTime} DESC`;
+	} else {
+		query += ` ORDER BY run.${indomitableDbFields.RunTime} ASC, run.${indomitableDbFields.SubmissionTime} ASC`;
+	}
+
+	query += ` OFFSET @offset ROWS FETCH NEXT @take ROWS ONLY`;
 
 	const results = await request.query(query);
 	return results.recordset as IndomitableRunDbModel[];

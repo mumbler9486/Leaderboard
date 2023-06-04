@@ -10,7 +10,7 @@ import { browser } from '$app/environment';
 export const copyQueryParams = (params: any) => {
 	const copy = { ...params };
 	Object.keys(copy).forEach((propertyKey) => {
-		if (!copy[propertyKey]) {
+		if (copy[propertyKey] === undefined) {
 			delete copy[propertyKey];
 		}
 	});

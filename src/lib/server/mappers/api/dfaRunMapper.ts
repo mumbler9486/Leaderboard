@@ -71,7 +71,8 @@ export const mapDfaSoloToRun = (runs: DfaSoloRunDbModel[]): DfaRun[] => {
 			players: players,
 			submitter: submitter,
 			notes: s.Notes,
-			rank: i + 1
+			rank: i + 1,
+			submissionTime: s.SubmissionTime
 		};
 
 		return submission;
@@ -147,7 +148,8 @@ export const mapDfaPartyToRun = (runs: DfaPartyRunDbModel[]): DfaRun[] => {
 			players: players,
 			submitter: submitter,
 			notes: runMeta.Notes,
-			rank: i + 1
+			rank: i + 1,
+			submissionTime: runMeta.SubmissionTime
 		};
 
 		return submission;

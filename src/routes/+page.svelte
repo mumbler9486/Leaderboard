@@ -91,9 +91,7 @@
 					class="m-2 mt-0 h-full grow rounded-md border border-secondary bg-base-100 p-4 px-8 md:ml-0"
 				>
 					<div class="tabs tabs-boxed mb-4 flex grow">
-						<a id="tab1" class="tab grow" on:click={() => tabUpdate('purp')}
-							>Newest 10 Solo Purple Runs</a
-						>
+						<a id="tab1" class="tab grow" on:click={() => tabUpdate('purp')}>Newest 10 Solo Runs</a>
 						<a id="tab2" class="tab tab-active grow" on:click={() => tabUpdate('dfa')}
 							>Newest 5 DFA MPA Runs</a
 						>
