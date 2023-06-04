@@ -23,7 +23,7 @@ import { normalizeYoutubeLink } from '$lib/utils/youtube.js';
 import { weaponsToDbValMap } from '$lib/server/db/util/weaponType.js';
 import { parseWeapon } from '$lib/types/api/weapon.js';
 import { notifyDiscordNewRunSubmitted } from '$lib/server/discordNotify.js';
-import { PurpleRegion } from '$lib/server/types/purpleRegions.js';
+import { PurpleRegion } from '$lib/types/api/purpleRegions.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params }) {
