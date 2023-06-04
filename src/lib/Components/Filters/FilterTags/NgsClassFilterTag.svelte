@@ -6,7 +6,7 @@
 
 	$: classInfo = classMap[ngsClass] ?? classMap[NgsPlayerClass.Unknown];
 
-	const classMap = {
+	const classMap: Record<NgsPlayerClass, any> = {
 		[NgsPlayerClass.Hunter]: { label: 'Hunter Only', icon: '/icons/class/class-hunter.png' },
 		[NgsPlayerClass.Fighter]: { label: 'Fighter Only', icon: '/icons/class/class-fighter.png' },
 		[NgsPlayerClass.Ranger]: { label: 'Ranger Only', icon: '/icons/class/class-ranger.png' },
