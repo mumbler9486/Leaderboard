@@ -3,6 +3,7 @@
 	import { locale, locales } from 'svelte-i18n';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
+	import { consentPreferences } from './stores/consent';
 
 	let storedUser = browser ? localStorage.getItem('loginreference-last') ?? null : null;
 	let storedName = browser ? localStorage.getItem('playerreference-name') ?? null : null;
@@ -39,8 +40,7 @@
 	});
 
 	function storeLocale(localeReference) {
-		let consentPreferences = (localStorage.getItem('consent-preferences') ?? false) === 'true';
-		if (consentPreferences === true) {
+		if ($consentPreferences === true) {
 			localStorage.setItem('language', localeReference.toString());
 		}
 	}

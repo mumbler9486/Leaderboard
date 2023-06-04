@@ -1,16 +1,10 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { browser } from '$app/environment';
 
 	import HomeNews from '$lib/NewsComponents/HomeNews.svelte';
 	import DiscordWidget from '$lib/Widgets/Discord/DiscordWidget.svelte';
 	import RunStatsWidget from '$lib/Widgets/RunStatsWidget.svelte';
-
-	let consentDiscord = false;
-
-	if (browser) {
-		consentDiscord = (localStorage.getItem('consent-discord') ?? false) === 'true';
-	}
+	import { consentDiscord, consentSelected } from '$lib/stores/consent';
 </script>
 
 <svelte:head>
@@ -62,7 +56,7 @@
 			<div
 				class="mt-0 flex grow basis-full flex-col-reverse overflow-x-auto md:mt-2 md:basis-1/3 md:flex-col"
 			>
-				{#if consentDiscord}
+				{#if $consentSelected && $consentDiscord}
 					<DiscordWidget />
 				{/if}
 				<RunStatsWidget />

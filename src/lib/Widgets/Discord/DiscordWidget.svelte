@@ -1,10 +1,19 @@
 <script lang="ts">
+	import { afterNavigate } from '$app/navigation';
 	import DiscordUser from '$lib/Widgets/Discord/DiscordUser.svelte';
 	import { onMount } from 'svelte';
 
-	let discordServer: DiscordServerInfo | undefined = undefined;
+	let discordServer: DiscordServerInfo = {
+		id: '0',
+		name: 'PSO2 Central',
+		instant_invite: '',
+		presence_count: 0,
+		channels: [],
+		members: []
+	};
+
 	$: presenseCount = `${discordServer?.presence_count} Member${
-		discordServer?.presence_count != 1 ? 's' : ''
+		discordServer?.presence_count > 1 ? 's' : ''
 	}s Online`;
 
 	interface DiscordServerInfo {
@@ -47,6 +56,7 @@
 	};
 
 	onMount(getDiscord);
+	afterNavigate(getDiscord);
 </script>
 
 <div class="m-2 mt-0 grow md:ml-0">

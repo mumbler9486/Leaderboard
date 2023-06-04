@@ -1,54 +1,43 @@
-<script>
+<script lang="ts">
 	import { browser } from '$app/environment';
-	let consent = browser ? localStorage.getItem('consent') ?? null : 'waiting';
+	import {
+		consentSelected,
+		consentPreferences,
+		consentTwitch,
+		consentGoogle,
+		consentDiscord
+	} from '$lib/stores/consent';
+
 	let customize = 0;
-	let consentPreferences =
-		(browser ? localStorage.getItem('consent-preferences') ?? false : false) === 'true';
-	let consentTwitch =
-		(browser ? localStorage.getItem('consent-twitch') ?? false : false) === 'true';
-	let consentGoogle =
-		(browser ? localStorage.getItem('consent-google') ?? false : false) === 'true';
-	let consentDiscord =
-		(browser ? localStorage.getItem('consent-discord') ?? false : false) === 'true';
 
 	function toggleCustomize() {
 		customize = customize == 0 ? (customize = 1) : (customize = 0);
 	}
 
-	function setConsent(type) {
+	function setConsent(type: string) {
 		switch (type) {
 			case 'all':
-				localStorage.setItem('consent', 'closed');
-				consent = 'closed';
-				localStorage.setItem('consent-preferences', 'true');
-				localStorage.setItem('consent-twitch', 'true');
-				localStorage.setItem('consent-google', 'true');
-				localStorage.setItem('consent-discord', 'true');
-				////console.log('all');
+				$consentSelected = true;
+				$consentPreferences = true;
+				$consentTwitch = true;
+				$consentGoogle = true;
+				$consentDiscord = true;
 				break;
 			case 'necessary':
-				localStorage.setItem('consent', 'closed');
-				consent = 'closed';
-				localStorage.setItem('consent-preferences', 'false');
-				localStorage.setItem('consent-twitch', 'false');
-				localStorage.setItem('consent-google', 'false');
-				localStorage.setItem('consent-discord', 'false');
-				////console.log('necessary');
+				$consentSelected = true;
+				$consentPreferences = false;
+				$consentTwitch = false;
+				$consentGoogle = false;
+				$consentDiscord = false;
 				break;
 			case 'selected':
-				localStorage.setItem('consent', 'closed');
-				consent = 'closed';
-				localStorage.setItem('consent-preferences', consentPreferences.toString());
-				localStorage.setItem('consent-twitch', consentTwitch.toString());
-				localStorage.setItem('consent-google', consentGoogle.toString());
-				localStorage.setItem('consent-discord', consentDiscord.toString());
-				////console.log('selected');
+				$consentSelected = true;
 				break;
 		}
 	}
 </script>
 
-{#if consent === null}
+{#if !$consentSelected}
 	<div class="fixed bottom-0 right-0 left-0 z-50 md:bottom-10 md:left-auto md:right-10">
 		<div
 			class="m-2 flex max-h-[32rem] max-w-[32rem] flex-col place-items-center space-y-2 overflow-y-auto rounded-md border border-neutral-content/50 bg-neutral p-4 px-4 drop-shadow-[2px_4px_6px_rgba(0,0,0,0.8)] md:max-h-[52vh] md:max-w-[32vw]"
@@ -128,7 +117,7 @@
 						<input
 							type="checkbox"
 							class="toggle-primary toggle"
-							bind:checked={consentPreferences}
+							bind:checked={$consentPreferences}
 						/>
 					</label>
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
@@ -170,16 +159,16 @@
 					</div>
 					<label class="label w-full cursor-pointer">
 						<span class="label-text font-semibold text-neutral-content">Enable Google Cookies</span>
-						<input type="checkbox" class="toggle-primary toggle" bind:checked={consentGoogle} />
+						<input type="checkbox" class="toggle-primary toggle" bind:checked={$consentGoogle} />
 					</label>
 					<label class="label w-full cursor-pointer">
 						<span class="label-text font-semibold text-neutral-content">Enable Twitch Cookies</span>
-						<input type="checkbox" class="toggle-primary toggle" bind:checked={consentTwitch} />
+						<input type="checkbox" class="toggle-primary toggle" bind:checked={$consentTwitch} />
 					</label>
 					<label class="label mb-4 w-full cursor-pointer">
 						<span class="label-text font-semibold text-neutral-content">Enable Discord Cookies</span
 						>
-						<input type="checkbox" class="toggle-primary toggle" bind:checked={consentDiscord} />
+						<input type="checkbox" class="toggle-primary toggle" bind:checked={$consentDiscord} />
 					</label>
 					<button
 						class="btn-warning btn-sm btn mb-4 rounded-none md:btn-md"
