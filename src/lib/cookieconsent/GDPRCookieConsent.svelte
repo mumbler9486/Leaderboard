@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import {
 		consentSelected,
 		consentPreferences,
@@ -8,13 +7,9 @@
 		consentDiscord
 	} from '$lib/stores/consent';
 
-	let customize = 0;
+	let customize: boolean = false;
 
-	function toggleCustomize() {
-		customize = customize == 0 ? (customize = 1) : (customize = 0);
-	}
-
-	function setConsent(type: string) {
+	const setConsent = (type: string) => {
 		switch (type) {
 			case 'all':
 				$consentSelected = true;
@@ -34,7 +29,7 @@
 				$consentSelected = true;
 				break;
 		}
-	}
+	};
 </script>
 
 {#if !$consentSelected}
@@ -52,7 +47,7 @@
 				<a href="/privacy-policy" target="_blank" rel="noreferrer noopener" class="link-accent link"
 					>Please review our Privacy Policy for more information.</a
 				>
-				{#if customize == 1}
+				{#if customize == true}
 					<p class="mb-4 font-bold text-neutral-content">
 						Expand a section to read more about each setting.
 					</p>
@@ -187,8 +182,9 @@
 					class="btn-secondary btn-sm btn rounded-none md:btn-md"
 					on:click={() => setConsent('all')}>Allow All</button
 				>
-				<button class="btn-secondary btn-sm btn rounded-none md:btn-md" on:click={toggleCustomize}
-					>Customize</button
+				<button
+					class="btn-secondary btn-sm btn rounded-none md:btn-md"
+					on:click={() => (customize = true)}>Customize</button
 				>
 			</div>
 		</div>
