@@ -9,8 +9,7 @@
 	import type { Submission } from '$lib/types/api/submissions/submissions';
 	import { mapToNamePref } from '$lib/types/api/mapNamePref';
 	import { createEventDispatcher } from 'svelte';
-	import type { ApprovalRequest } from '$lib/types/api/submissions/approvals';
-	import type { DenyRequest } from '$lib/types/api/submissions/denials';
+	import type { ApproveRequest, DenyRequest } from '$lib/types/api/validation/submissions';
 
 	const dispatcher = createEventDispatcher();
 
@@ -40,7 +39,7 @@
 
 		const { userId, username } = await getLogin();
 		console.log(submission);
-		const approveRequest: ApprovalRequest = {
+		const approveRequest: ApproveRequest = {
 			runId: submission?.runId,
 			moderatorName: username,
 			modNotes: modNotes ?? ''

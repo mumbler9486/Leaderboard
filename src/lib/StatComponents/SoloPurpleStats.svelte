@@ -1,14 +1,11 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	let RunCount: string = '...';
+	import type { SoloCounts } from '$lib/types/api/runs/countSolos';
+	import { fetchGetApi } from '$lib/utils/fetch';
 
-	onMount(async () => {
-		const response = await fetch('/ngs-api/CountSolos', {
-			method: 'GET'
-		});
-
-		RunCount = await response.json();
-	});
+	const getSoloCount = async () => {
+		const response = await fetchGetApi<SoloCounts>('/ngs-api/runs/countSolos');
+		return response.purples + response.dfa + response.indomitables;
+	};
 </script>
 
 <div
@@ -19,6 +16,14 @@
 			<i class="bi bi-card-list text-4xl" />
 		</div>
 		<div class="stat-title">Total Solo Runs</div>
-		<div class="stat-value text-neutral-content">{RunCount}</div>
+		<div class="stat-value text-neutral-content">
+			{#await getSoloCount()}
+				...
+			{:then soloCount}
+				{soloCount}
+			{:catch err}
+				Error
+			{/await}
+		</div>
 	</div>
 </div>

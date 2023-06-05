@@ -5,7 +5,7 @@ import {
 	denyIndomitableSubmission,
 	getIndomitableExists
 } from '$lib/server/repositories/indomitableSubmissionsRepository.js';
-import { denyRequestSchema, type DenyRequest } from '$lib/server/types/validation/submissions.js';
+import { denyRequestSchema, type DenyRequest } from '$lib/types/api/validation/submissions.js';
 import { parseRunCategory, type RunCategories } from '$lib/types/api/categories.js';
 
 /** @type {import('./$types').RequestHandler} */

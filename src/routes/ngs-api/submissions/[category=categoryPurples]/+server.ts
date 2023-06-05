@@ -17,13 +17,13 @@ import { RunCategories, parseRunCategory } from '$lib/types/api/categories.js';
 import {
 	purpleSubmissionRequestSchema,
 	type PurpleSubmissionRequest
-} from '$lib/server/types/validation/purpleSubmissions.js';
+} from '$lib/types/api/validation/purpleSubmissions.js';
 import { jsonError } from '$lib/server/error.js';
 import { normalizeYoutubeLink } from '$lib/utils/youtube.js';
 import { weaponsToDbValMap } from '$lib/server/db/util/weaponType.js';
 import { parseWeapon } from '$lib/types/api/weapon.js';
 import { notifyDiscordNewRunSubmitted } from '$lib/server/discordNotify.js';
-import { PurpleRegion } from '$lib/server/types/purpleRegions.js';
+import { PurpleRegion } from '$lib/types/api/purpleRegions.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params }) {

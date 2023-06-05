@@ -3,6 +3,8 @@ import { browser } from '$app/environment';
 import '$lib/i18n'; // Import to initialize. Important :)
 import { locale, waitLocale } from 'svelte-i18n';
 import type { LayoutLoad } from './$types';
+import { consentPreferences } from '$lib/stores/consent';
+import { get } from 'svelte/store';
 var savedLanguage = browser ? localStorage.getItem('language') ?? null : null;
 
 const englishHandler = [
@@ -24,7 +26,7 @@ const englishHandler = [
 
 export const load: LayoutLoad = async () => {
 	if (browser) {
-		if (savedLanguage === null && window.localStorage.getItem('consent-preferences') === 'true') {
+		if (savedLanguage === null && get(consentPreferences)) {
 			var lang = englishHandler.includes(window.navigator.language)
 				? 'en'
 				: window.navigator.language;

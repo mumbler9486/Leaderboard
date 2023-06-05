@@ -6,6 +6,13 @@ import type { PurpleSoloRunDbModel } from '$lib/server/types/db/runs/purple/purp
 import type { PurplePartyRunDbModel } from '$lib/server/types/db/runs/purple/purpleParty';
 import type { PurpleRun } from '$lib/types/api/purples/purples';
 
+const categoryMap: { [region: string]: string } = {
+	aelio: 'aelio',
+	retem: 'retem',
+	kvaris: 'kvaris',
+	stia: 'stia'
+};
+
 export const mapPurpleSoloToRun = (runs: PurpleSoloRunDbModel[]): PurpleRun[] => {
 	const mapped = runs.map((s, i) => {
 		const player1: PlayerInfo = {
@@ -61,6 +68,7 @@ export const mapPurpleSoloToRun = (runs: PurpleSoloRunDbModel[]): PurpleRun[] =>
 		runTime.hours = 0;
 
 		const submission: PurpleRun = {
+			region: categoryMap[s.Region],
 			runId: parseInt(s.RunID),
 			rank: parseInt(s.Rank),
 			runRank: i + 1,
@@ -69,7 +77,8 @@ export const mapPurpleSoloToRun = (runs: PurpleSoloRunDbModel[]): PurpleRun[] =>
 			notes: s.Notes,
 			modNotes: s.ModNotes,
 			players: players,
-			submitter: submitter
+			submitter: submitter,
+			submissionTime: s.SubmissionTime
 		};
 
 		return submission;
@@ -140,6 +149,7 @@ export const mapPurplePartyToRun = (runs: PurplePartyRunDbModel[]): PurpleRun[] 
 		runTime.hours = 0;
 
 		const submission: PurpleRun = {
+			region: categoryMap[runMeta.Region],
 			runId: parseInt(runMeta.RunID),
 			rank: parseInt(runMeta.Rank),
 			runRank: i + 1,
@@ -148,7 +158,8 @@ export const mapPurplePartyToRun = (runs: PurplePartyRunDbModel[]): PurpleRun[] 
 			notes: runMeta.Notes,
 			modNotes: runMeta.ModNotes,
 			players: players,
-			submitter: submitter
+			submitter: submitter,
+			submissionTime: runMeta.SubmissionTime
 		};
 
 		return submission;

@@ -5,9 +5,10 @@ import { parseIndomitableBoss } from '$lib/types/api/duels/indomitableBoss.js';
 import {
 	indomitableRunSearchFilterSchema,
 	type IndomitableRunSearchFilter
-} from '$lib/server/types/validation/indomitableRunFilter.js';
+} from '$lib/types/api/validation/indomitableRunFilter.js';
 import { getIndomitableRuns } from '$lib/server/repositories/indomitableRunsRepository.js';
 import { mapIndomitableToRun } from '$lib/server/mappers/api/indomitableRunMapper.js';
+import { parseToRawSchema } from '$lib/utils/schemaValidation.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
@@ -16,11 +17,7 @@ export async function GET({ params, url }) {
 		return jsonError(404, 'Unknown boss');
 	}
 
-	const urlParams = {
-		server: url.searchParams.get('server'),
-		class: url.searchParams.get('class'),
-		augmentations: url.searchParams.get('augmentations')
-	};
+	const urlParams = parseToRawSchema(url, indomitableRunSearchFilterSchema);
 
 	let filters: IndomitableRunSearchFilter;
 	try {
@@ -39,7 +36,7 @@ export async function GET({ params, url }) {
 		const pool = await leaderboardDb.connect();
 		let request = await pool.request();
 		const runs = await getIndomitableRuns(request, filters, boss);
-		const mapped = mapIndomitableToRun(runs);
+		const mapped = mapIndomitableToRun(runs, boss);
 
 		return json(mapped);
 	} catch (err) {

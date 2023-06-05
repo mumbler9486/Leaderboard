@@ -1,4 +1,4 @@
-export const fetchGetApi = async <T>(path: string, searchParams: any | undefined) => {
+export const fetchGetApi = async <T>(path: string, searchParams: any | undefined = undefined) => {
 	const urlSearchParams = new URLSearchParams(searchParams);
 	let url = `${path}?${urlSearchParams.toString()}`.trim();
 	url = url.endsWith('?') ? url.substring(0, url.length - 1) : url;

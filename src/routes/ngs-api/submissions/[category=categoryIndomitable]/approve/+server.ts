@@ -10,7 +10,7 @@ import {
 import {
 	approveRequestSchema,
 	type ApproveRequest
-} from '$lib/server/types/validation/submissions.js';
+} from '$lib/types/api/validation/submissions.js';
 import { getRunPlayer } from '$lib/server/repositories/playerRepository.js';
 import { RunCategories, parseRunCategory } from '$lib/types/api/categories.js';
 

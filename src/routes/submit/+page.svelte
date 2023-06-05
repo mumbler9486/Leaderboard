@@ -7,11 +7,13 @@
 	import PlayerInformationInput from './PlayerInformationInput.svelte';
 
 	import { t } from 'svelte-i18n';
-	import { runForm, submitForm } from './runStore';
+	import { runForm } from './runStore';
 	import { loadPlayerInfo } from './playerInfoStore';
 	import { onMount } from 'svelte';
 	import ServerRegionSelector from './ServerRegionSelector.svelte';
 	import Alert from '$lib/Components/Alert.svelte';
+	import { submitForm } from './submit';
+	import { partyForm } from './partyFormStore';
 
 	let notes: string;
 	let submitting: boolean = false;
@@ -21,6 +23,18 @@
 	$: $runForm.notes = notes;
 
 	onMount(loadPlayerInfo);
+
+	const optionsMap: { [key: string]: { component: any } } = {
+		dfa: {
+			component: DfaOptions
+		},
+		purples: {
+			component: PurpleOptions
+		},
+		'duels-indomitables': {
+			component: DuelsIndomitableOptions
+		}
+	};
 
 	async function submitRun() {
 		if (submitting) {
@@ -74,10 +88,9 @@
 			<div class="divider -mx-8" />
 			{#if submitFinish}
 				<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
-					Your run has been submitted and will be reviewed as soon as possible!<br /><a
-						class="link-primary link"
-						href="/">Click here to return to the home page!</a
-					>
+					Your run has been submitted and will be reviewed as soon as possible!
+					<br />
+					<a class="link-primary link" href="/">Click here to return to the home page!</a>
 				</div>
 			{:else}
 				<form id="submitForm" on:submit|preventDefault={submitRun}>
@@ -92,16 +105,10 @@
 							<CategoryOptions />
 						</div>
 						<div class="form-control">
-							{#if $runForm.category == 'purples'}
-								<PurpleOptions />
-							{:else if $runForm.category == 'dfa'}
-								<DfaOptions />
-							{:else if $runForm.category == 'duels-indomitables'}
-								<DuelsIndomitableOptions />
-							{/if}
+							<svelte:component this={optionsMap[$runForm.category]?.component ?? false} />
 						</div>
 					</div>
-					{#each $runForm.players as player, i}
+					{#each $partyForm as player, i}
 						<div class="m-2 gap-1 rounded-md border border-secondary bg-secondary/10 p-4 px-8">
 							<div class="text-center text-xl font-semibold">Player {i + 1}</div>
 							<Divider />

@@ -1,20 +1,27 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import SoloPurple from '$lib/LeaderboardComponents/Rows/TopX/FiveAegisMPA.svelte';
-	import { onMount } from 'svelte';
+	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
+	import NgsClassIcon from '$lib/Components/NgsClassIcon.svelte';
+	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
+	import DfaSupportIcon from '$lib/Components/DfaSupportIcon.svelte';
+	import type { DfaRun } from '$lib/types/api/dfa/dfa';
+	import { mapToNamePref } from '$lib/types/api/mapNamePref';
+	import LoadingBar from '$lib/Components/LoadingBar.svelte';
+	import { fetchGetApi } from '$lib/utils/fetch';
+	import { copyQueryParams } from '$lib/utils/queryParams';
 
-	var dataStorage = [];
-
-	onMount(async () => {
-		const response = await fetch('/ngs-api/Top5AegisMPA', {
-			method: 'GET',
-			headers: {
-				'content-type': 'application/json'
-			}
-		});
-
-		dataStorage = await response.json();
-	});
+	const fetchRuns = async () => {
+		const path = `/ngs-api/runs/dfa/party`;
+		const filters: any = {
+			trigger: undefined, //TODO target all types
+			server: undefined!,
+			buff: undefined!,
+			sort: 'ranking',
+			page: 0,
+			take: 5
+		};
+		return (await fetchGetApi<DfaRun[]>(path, copyQueryParams(filters))) ?? [];
+	};
 </script>
 
 <div>
@@ -32,9 +39,26 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each dataStorage as data}
-					<SoloPurple {data} />
-				{/each}
+				{#await fetchRuns()}
+					<LoadingBar class="mt-2" showLabel={false} />
+				{:then runs}
+					{#each runs as run}
+						<tr class="hover border-t border-t-secondary/20">
+							<td>
+								{#each run.players as player}
+									<div class="flex gap-1">
+										<NgsClassIcon combatClass={player.mainClass} />
+										<PlayerNameBadge player={mapToNamePref(player)} showShipFlag={false} />
+									</div>
+								{/each}
+							</td>
+							<td><TimeDisplay time={run.time} /></td>
+							<td><DfaSupportIcon support={run.support} /></td>
+						</tr>
+					{/each}
+				{:catch err}
+					<p>Error, please try again later</p>
+				{/await}
 			</tbody>
 		</table>
 	</div>

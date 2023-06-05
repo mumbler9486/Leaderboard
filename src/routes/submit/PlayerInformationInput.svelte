@@ -4,6 +4,7 @@
 	import { runForm } from './runStore';
 	import WeaponSelector from './WeaponSelector.svelte';
 	import { userInfo } from './playerInfoStore';
+	import { partyForm } from './partyFormStore';
 
 	export let playerIndex: number;
 
@@ -23,14 +24,13 @@
 		}
 	];
 
-	$: runForm.update((s) => {
-		s.players[playerIndex].playerName = playerName;
-		s.players[playerIndex].inVideoName = inVideoName;
-		s.players[playerIndex].playerServer = playerServer;
-		s.players[playerIndex].povVideoLink = videoLink;
-		s.players[playerIndex].playerId =
-			$userInfo.find((x) => x.PlayerName == playerName)?.PlayerID ?? -1;
-		return s;
+	$: partyForm.update((p) => {
+		p[playerIndex].playerName = playerName;
+		p[playerIndex].inVideoName = inVideoName;
+		p[playerIndex].playerServer = playerServer;
+		p[playerIndex].povVideoLink = videoLink;
+		p[playerIndex].playerId = $userInfo.find((x) => x.PlayerName == playerName)?.PlayerID ?? -1;
+		return p;
 	});
 </script>
 
@@ -105,7 +105,7 @@
 			bind:value={videoLink}
 		/>
 	</div>
-	{#if $runForm.players.length == 1}
+	{#if $partyForm.length == 1}
 		<div class="mt-4">
 			<div class="mt-4 text-center text-lg font-semibold">Weapons Used</div>
 			<div class="mb-4 text-center text-warning">Maximum of 6</div>

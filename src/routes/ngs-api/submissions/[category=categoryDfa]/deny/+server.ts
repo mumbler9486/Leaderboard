@@ -1,7 +1,7 @@
 import { leaderboardDb } from '$lib/server/db/db';
 import { json } from '@sveltejs/kit';
 import { jsonError } from '$lib/server/error.js';
-import { denyRequestSchema, type DenyRequest } from '$lib/server/types/validation/submissions.js';
+import { denyRequestSchema, type DenyRequest } from '$lib/types/api/validation/submissions.js';
 import { parseRunCategory, RunCategories } from '$lib/types/api/categories.js';
 import {
 	denyDfaDuo,

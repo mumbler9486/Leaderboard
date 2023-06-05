@@ -17,13 +17,17 @@ const classes = [
 ];
 
 const buffs = [null, 'ilma', 'ainamanon', 'nadereh', 'glen'];
-const questType = ['trigger', 'urgent'];
+const questType = [null, 'trigger', 'urgent'];
+const sortOrders = [null, 'ranking', 'recent'];
 
 export const dfaSoloSearchFilterSchema = object({
 	server: string().lowercase().nullable().oneOf(servers),
 	class: string().lowercase().nullable().oneOf(classes),
 	buff: string().lowercase().nullable().oneOf(buffs),
-	trigger: string().lowercase().default('urgent').oneOf(questType)
+	trigger: string().lowercase().nullable().oneOf(questType),
+	page: number().min(0).max(30000).default(0).nullable(),
+	take: number().min(1).max(1000).nullable(),
+	sort: string().lowercase().nullable().default('ranking').oneOf(sortOrders)
 });
 
 export type DfaSoloSearchFilter = InferType<typeof dfaSoloSearchFilterSchema>;
@@ -31,7 +35,10 @@ export type DfaSoloSearchFilter = InferType<typeof dfaSoloSearchFilterSchema>;
 export const dfaPartySearchFilterSchema = object({
 	server: string().lowercase().nullable().oneOf(servers),
 	buff: string().lowercase().nullable().oneOf(buffs),
-	trigger: string().lowercase().default('urgent').oneOf(questType)
+	trigger: string().lowercase().nullable().oneOf(questType),
+	page: number().min(0).max(30000).default(0).nullable(),
+	take: number().min(1).max(1000).nullable(),
+	sort: string().lowercase().nullable().default('ranking').oneOf(sortOrders)
 });
 
 export type DfaPartySearchFilter = InferType<typeof dfaPartySearchFilterSchema>;

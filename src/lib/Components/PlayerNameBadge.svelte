@@ -31,6 +31,7 @@
 <script lang="ts">
 	export let player: PlayerNameDisplay | string | undefined;
 	export let showLink: boolean = false;
+	export let showShipFlag: boolean = true;
 
 	let primaryName: string;
 	let secondaryName: string;
@@ -104,7 +105,7 @@
 	{#if playerNameDisplay.flag}
 		<span class={flagClass} style="max-height:16px;min-width: 25px;" />
 	{/if}
-	{#if playerNameDisplay.region && playerNameDisplay.ship}
+	{#if showShipFlag && playerNameDisplay.region && playerNameDisplay.ship}
 		<img
 			src={shipImageUrl}
 			class="mr-1 inline object-none object-center"

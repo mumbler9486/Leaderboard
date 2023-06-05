@@ -1,66 +1,13 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	// @ts-nocheck
-	import { browser } from '$app/environment';
-
-	let consent = browser ? localStorage.getItem('consent') ?? null : 'waiting';
-
-	let consentPreferences =
-		(browser ? localStorage.getItem('consent-preferences') ?? false : false) === 'true';
-	let consentTwitch =
-		(browser ? localStorage.getItem('consent-twitch') ?? false : false) === 'true';
-	let consentGoogle =
-		(browser ? localStorage.getItem('consent-google') ?? false : false) === 'true';
-	let consentDiscord =
-		(browser ? localStorage.getItem('consent-discord') ?? false : false) === 'true';
-	let userStreamermode =
-		(browser ? localStorage.getItem('user-streamermode') ?? 'false' : false) === 'true';
-
-	function setConsent(type) {
-		switch (type) {
-			case 'all':
-				localStorage.setItem('consent', 'closed');
-				consent = 'closed';
-				localStorage.setItem('consent-preferences', 'true');
-				localStorage.setItem('consent-twitch', 'true');
-				localStorage.setItem('consent-google', 'true');
-				localStorage.setItem('consent-discord', 'true');
-				//console.log('all');
-				break;
-			case 'necessary':
-				localStorage.setItem('consent', 'closed');
-				consent = 'closed';
-				localStorage.setItem('consent-preferences', 'false');
-				localStorage.setItem('consent-twitch', 'false');
-				localStorage.setItem('consent-google', 'false');
-				localStorage.setItem('consent-discord', 'false');
-				//console.log('necessary');
-				break;
-			case 'selected':
-				localStorage.setItem('consent', 'closed');
-				consent = 'closed';
-				localStorage.setItem('consent-preferences', consentPreferences.toString());
-				if (!consentPreferences) {
-					userStreamermode = false;
-					localStorage.setItem('user-streamermode', 'false');
-				}
-				localStorage.setItem('consent-twitch', consentTwitch.toString());
-				localStorage.setItem('consent-google', consentGoogle.toString());
-				localStorage.setItem('consent-discord', consentDiscord.toString());
-				//console.log('selected');
-				break;
-		}
-	}
-
-	function updateSetting(setting) {
-		if (consentPreferences) {
-			switch (setting) {
-				case 'streamermode':
-					localStorage.setItem('user-streamermode', userStreamermode.toString());
-					break;
-			}
-		}
-	}
+	import { userStreamerMode } from '$lib/stores/preferences';
+	import {
+		consentSelected,
+		consentPreferences,
+		consentTwitch,
+		consentGoogle,
+		consentDiscord
+	} from '$lib/stores/consent';
 </script>
 
 <svelte:head>
@@ -83,12 +30,7 @@
 			>
 			<label class="label cursor-pointer place-self-center">
 				<span class="label-text mr-2 font-semibold">Enable Streamer Mode</span>
-				<input
-					type="checkbox"
-					class="toggle-primary toggle"
-					bind:checked={userStreamermode}
-					on:change={() => updateSetting('streamermode')}
-				/>
+				<input type="checkbox" class="toggle-primary toggle" bind:checked={$userStreamerMode} />
 			</label>
 			<span class="text-center">Streamer mode hides user avatars and user descriptions.</span><span
 				class="text-center text-warning"
@@ -109,7 +51,6 @@
 					>Please review our Privacy Policy for more information.</a
 				>
 
-				<p class="mb-4 font-bold">Expand a section to read more about each setting.</p>
 				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 				<div
 					tabindex="0"
@@ -164,7 +105,7 @@
 				</div>
 				<label class="label mb-4 w-full cursor-pointer">
 					<span class="label-text font-semibold">Enable Preference Cookies</span>
-					<input type="checkbox" class="toggle-primary toggle" bind:checked={consentPreferences} />
+					<input type="checkbox" class="toggle-primary toggle" bind:checked={$consentPreferences} />
 				</label>
 				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 				<div
@@ -205,19 +146,21 @@
 				</div>
 				<label class="label w-full cursor-pointer">
 					<span class="label-text font-semibold">Enable Google Cookies</span>
-					<input type="checkbox" class="toggle-primary toggle" bind:checked={consentGoogle} />
+					<input type="checkbox" class="toggle-primary toggle" bind:checked={$consentGoogle} />
 				</label>
 				<label class="label w-full cursor-pointer">
 					<span class="label-text font-semibold">Enable Twitch Cookies</span>
-					<input type="checkbox" class="toggle-primary toggle" bind:checked={consentTwitch} />
+					<input type="checkbox" class="toggle-primary toggle" bind:checked={$consentTwitch} />
 				</label>
 				<label class="label mb-4 w-full cursor-pointer">
 					<span class="label-text font-semibold">Enable Discord Cookies</span>
-					<input type="checkbox" class="toggle-primary toggle" bind:checked={consentDiscord} />
+					<input type="checkbox" class="toggle-primary toggle" bind:checked={$consentDiscord} />
 				</label>
 				<button
 					class="btn-warning btn-sm btn mb-4 rounded-none md:btn-md"
-					on:click={() => setConsent('selected')}>Update Cookie Settings</button
+					on:click={() => {
+						$consentSelected = true;
+					}}>Update Cookie Settings</button
 				>
 
 				<p class="font-semibold">We do NOT share your personal information.</p>

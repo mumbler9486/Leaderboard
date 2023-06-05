@@ -19,9 +19,18 @@ class LeaderboardDb {
 	private static connectionPool: ConnectionPool;
 
 	async connect() {
-		const connectionPool = await sql.connect(dbConfig);
-		LeaderboardDb.connectionPool = connectionPool;
-		return connectionPool;
+		let pool = LeaderboardDb.connectionPool;
+		if (!pool) {
+			LeaderboardDb.connectionPool = await sql.connect(dbConfig);
+			pool = LeaderboardDb.connectionPool;
+		}
+
+		if (!pool.connected) {
+			console.warn('Connection pool was closed sometime during runtime.');
+			LeaderboardDb.connectionPool = await sql.connect(dbConfig);
+		}
+
+		return LeaderboardDb.connectionPool;
 	}
 
 	async disconnect() {

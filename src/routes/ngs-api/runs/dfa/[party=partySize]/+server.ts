@@ -11,8 +11,9 @@ import {
 	dfaSoloSearchFilterSchema,
 	type DfaSoloSearchFilter,
 	type DfaPartySearchFilter
-} from '$lib/server/types/validation/dfaRunFilter.js';
+} from '$lib/types/api/validation/dfaRunFilter.js';
 import { mapDfaPartyToRun, mapDfaSoloToRun } from '$lib/server/mappers/api/dfaRunMapper.js';
+import { parseToRawSchema } from '$lib/utils/schemaValidation.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
@@ -29,12 +30,7 @@ export async function GET({ params, url }) {
 	}
 }
 const getSoloRuns = async (url: URL) => {
-	const urlParams = {
-		server: url.searchParams.get('server'),
-		class: url.searchParams.get('class'),
-		buff: url.searchParams.get('buff'),
-		trigger: url.searchParams.get('trigger')
-	};
+	const urlParams = parseToRawSchema(url, dfaSoloSearchFilterSchema);
 
 	let filters: DfaSoloSearchFilter;
 	try {
@@ -61,11 +57,7 @@ const getSoloRuns = async (url: URL) => {
 };
 
 const getPartyRuns = async (url: URL, partySize: PartySize) => {
-	const urlParams = {
-		server: url.searchParams.get('server'),
-		buff: url.searchParams.get('buff'),
-		trigger: url.searchParams.get('trigger')
-	};
+	const urlParams = parseToRawSchema(url, dfaSoloSearchFilterSchema);
 
 	let parsedRun: DfaPartySearchFilter;
 	try {
