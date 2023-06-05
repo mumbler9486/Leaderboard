@@ -1,6 +1,6 @@
 import { persisted } from 'svelte-local-storage-store';
 
-export const consentSelected = persisted('consent', false);
+export const consentSelected = persisted('consent-selected', false);
 
 // Consent selected must be confirmed before these settings can be used
 export const consentPreferences = persisted('consent-preferences', false);
