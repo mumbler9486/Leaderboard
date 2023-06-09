@@ -10,6 +10,7 @@
 	import { loadPlayerInfo } from '../playerInfoStore';
 	import { onMount } from 'svelte';
 	import { submitForm } from '../submit';
+	import { partyForm } from '../partyFormStore';
 
 	let notes: string;
 	let submitting: boolean = false;
@@ -19,6 +20,7 @@
 	$: $runForm.notes = notes;
 
 	$runForm.category = 'dfa';
+	partyForm.setPartySize(1);
 	onMount(loadPlayerInfo);
 
 	async function submitRun() {
