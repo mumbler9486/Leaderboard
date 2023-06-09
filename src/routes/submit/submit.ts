@@ -26,6 +26,8 @@ export const submitForm = async () => {
 	const form = get(runForm);
 	const party = get(partyForm);
 
+	await setLoginInfoToForm();
+
 	party.forEach((p) => {
 		p.povVideoLink = p.povVideoLink === '' ? undefined : p.povVideoLink;
 	});
@@ -69,4 +71,20 @@ export const submitForm = async () => {
 
 	const responseBody = await response.json();
 	return responseBody;
+};
+
+const setLoginInfoToForm = async () => {
+	try {
+		const res = await fetch('/.auth/me');
+		const clientPrincipal = (await res.json()).clientPrincipal;
+
+		runForm.update((form) => {
+			form.userId = clientPrincipal.userId as string;
+			form.username = clientPrincipal.userDetails as string;
+			return form;
+		});
+	} catch (err) {
+		console.error('Failed to get user login', err);
+		throw err;
+	}
 };

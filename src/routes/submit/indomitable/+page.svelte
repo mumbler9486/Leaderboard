@@ -29,7 +29,6 @@
 		try {
 			serverErrorMessage = undefined;
 			submitting = true;
-			await setLoginInfoToForm();
 			const response = await submitForm();
 			if (response.error) {
 				serverErrorMessage = response.details[0];
@@ -46,18 +45,6 @@
 			submitting = false;
 		}
 	}
-
-	const setLoginInfoToForm = async () => {
-		try {
-			const res = await fetch('/.auth/me');
-			const clientPrincipal = (await res.json()).clientPrincipal;
-			$runForm.userId = clientPrincipal.userId as string;
-			$runForm.username = clientPrincipal.userDetails as string;
-		} catch (err) {
-			console.error('Failed to get user login', err);
-			throw err;
-		}
-	};
 </script>
 
 <svelte:head>
