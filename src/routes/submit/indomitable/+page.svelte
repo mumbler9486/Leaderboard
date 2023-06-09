@@ -10,12 +10,9 @@
 	import { submitForm } from '../submit';
 	import { partyForm } from '../partyFormStore';
 
-	let notes: string;
 	let submitting: boolean = false;
 	let serverErrorMessage: string | undefined = undefined;
 	let submitFinish = false;
-
-	$: $runForm.notes = notes;
 
 	$runForm.category = 'duels-indomitables';
 	partyForm.setPartySize(1);
@@ -85,7 +82,7 @@
 							<textarea
 								class="widget-discord textarea-bordered textarea h-24"
 								placeholder="(Optional) Type any notes, extra run information, or descriptions here!"
-								bind:value={notes}
+								bind:value={$runForm.notes}
 							/>
 						</div>
 					</div>
