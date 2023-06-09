@@ -1,24 +1,18 @@
+import type { PlayerInfoAutoFill } from '$lib/types/api/players/playerInfoAutoFill';
 import { writable } from 'svelte/store';
 
-interface UserList {
-	PlayerName: string;
-	PlayerID: number;
-	CharacterName: string;
-}
+const { subscribe, set } = writable([] as PlayerInfoAutoFill[]);
 
-const { subscribe, set } = writable([] as UserList[]);
-
-export const userInfo = { subscribe };
-
-export const loadPlayerInfo = async () => {
-	const response = await fetch('/ngs-api/GetNamesIDs', {
+const loadPlayerInfo = async () => {
+	const response = await fetch('/ngs-api/users', {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'
 		}
 	});
 
-	const playerNameIds = (await response.json()) as UserList[];
-
+	const playerNameIds = (await response.json()) as PlayerInfoAutoFill[];
 	set(playerNameIds);
 };
+
+export const userInfo = { subscribe, loadPlayerInfo };

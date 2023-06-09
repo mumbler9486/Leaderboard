@@ -7,8 +7,6 @@
 
 	import { t } from 'svelte-i18n';
 	import { runForm } from '../runStore';
-	import { loadPlayerInfo } from '../playerInfoStore';
-	import { onMount } from 'svelte';
 	import { submitForm } from '../submit';
 	import { partyForm } from '../partyFormStore';
 
@@ -21,7 +19,6 @@
 
 	$runForm.category = 'purples';
 	partyForm.setPartySize(1);
-	onMount(loadPlayerInfo);
 
 	async function submitRun() {
 		if (submitting) {
