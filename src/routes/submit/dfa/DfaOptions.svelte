@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
-	import PartySizeOptions from './PartySizeOptions.svelte';
-	import RunTimeInput from './RunTimeInput.svelte';
-	import { dfaForm } from './runStore';
+	import PartySizeOptions from '../PartySizeOptions.svelte';
+	import RunTimeInput from '../RunTimeInput.svelte';
+	import { dfaForm } from '../runStore';
 </script>
 
 <div class="form-control">

@@ -1,8 +1,10 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import { RunCategories } from '$lib/types/api/categories';
-	import RunTimeInput from './RunTimeInput.svelte';
-	import { indomitableForm } from './runStore';
+	import { onMount } from 'svelte';
+	import RunTimeInput from '../RunTimeInput.svelte';
+	import { indomitableForm } from '../runStore';
+	import { partyForm } from '../partyFormStore';
 
 	const bossOptions = [
 		{ label: 'Nex Aelio', value: RunCategories.IndomitableNexAelio },
@@ -15,6 +17,8 @@
 		{ label: 'Yes, at least one', value: 'yes' },
 		{ label: 'No, not at all', value: 'no' }
 	];
+
+	onMount(() => partyForm.setPartySize(1));
 </script>
 
 <div class="grid grid-cols-1 gap-2 md:grid-cols-4">

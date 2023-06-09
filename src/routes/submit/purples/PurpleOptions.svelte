@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
-	import PartySizeOptions from './PartySizeOptions.svelte';
-	import RunTimeInput from './RunTimeInput.svelte';
-	import { purpleForm, runForm } from './runStore';
+	import PartySizeOptions from '../PartySizeOptions.svelte';
+	import RunTimeInput from '../RunTimeInput.svelte';
+	import { purpleForm, runForm } from '../runStore';
 
 	let selectedPartySize: string = '1';
 	let selectedMode: string = 'trigger';
