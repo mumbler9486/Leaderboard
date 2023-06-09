@@ -1,5 +1,5 @@
 import { get } from 'svelte/store';
-import { dfaForm, indomitableForm, purpleForm, runForm } from './runStore';
+import { dfaForm, indomitableForm, purpleForm, runForm, type IndomitableRun } from './runStore';
 import { RunCategories } from '$lib/types/api/categories';
 import { partyForm } from './partyFormStore';
 
@@ -37,21 +37,16 @@ export const submitForm = async () => {
 
 	switch (form.category) {
 		case 'dfa':
-			const dfaReq = get(dfaForm);
-			runSpecifics = dfaReq;
+			runSpecifics = getDfaRunData();
 			submitPath = `/ngs-api/submissions/${dfaCategories[party.length]}`;
 			break;
 		case 'purples':
-			const purpleReq = get(purpleForm);
-			runSpecifics = purpleReq;
+			runSpecifics = getPurpleRunData();
 			submitPath = `/ngs-api/submissions/${purpleCategories[party.length]}`;
 			break;
 		case 'duels-indomitables':
-			const indomitableReq = get(indomitableForm);
-			indomitableReq.rank = 1;
-			runSpecifics = indomitableReq;
-			runSpecifics.augments = indomitableReq.augments === 'yes' ? true : false;
-			submitPath = `/ngs-api/submissions/${indomitableCategories[indomitableReq.boss]}`;
+			runSpecifics = getIndomitableRunData();
+			submitPath = `/ngs-api/submissions/${indomitableCategories[runSpecifics.boss]}`;
 			break;
 	}
 
@@ -71,6 +66,26 @@ export const submitForm = async () => {
 
 	const responseBody = await response.json();
 	return responseBody;
+};
+
+const getDfaRunData = () => {
+	const dfaReq = get(dfaForm);
+	const runSpecifics: any = structuredClone(dfaReq);
+	return runSpecifics;
+};
+
+const getPurpleRunData = () => {
+	const purpleReq = get(purpleForm);
+	const runSpecifics: any = structuredClone(purpleReq);
+	return runSpecifics;
+};
+
+const getIndomitableRunData = () => {
+	const indomitableReq = get(indomitableForm);
+	const runSpecifics: any = structuredClone(indomitableReq);
+	runSpecifics.rank = 1;
+	runSpecifics.augments = indomitableReq.augments === 'yes' ? true : false;
+	return runSpecifics;
 };
 
 const setLoginInfoToForm = async () => {
