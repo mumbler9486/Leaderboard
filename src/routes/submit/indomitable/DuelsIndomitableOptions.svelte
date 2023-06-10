@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import RemainingTimeInput from '../RemainingTimeInput.svelte';
 	import { RunCategories } from '$lib/types/api/categories';
 	import { onMount } from 'svelte';
-	import RunTimeInput from '../RunTimeInput.svelte';
 	import { indomitableForm } from '../runStore';
 	import { partyForm } from '../partyFormStore';
 
@@ -40,6 +40,6 @@
 		<input class="input-bordered input" value="1" type="text" disabled />
 	</div>
 	<div class="form-control">
-		<RunTimeInput />
+		<RemainingTimeInput limitMinutes={5} />
 	</div>
 </div>

@@ -4,7 +4,7 @@
 </script>
 
 <div
-	class="tooltip tooltip-info font-semibold normal-case"
+	class="tooltip tooltip-info font-semibold normal-case {$$props.class}"
 	class:tooltip-bottom={below}
 	data-tip={tip}
 >

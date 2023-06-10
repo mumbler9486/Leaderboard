@@ -1,13 +1,10 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import RemainingTimeInput from '../RemainingTimeInput.svelte';
 	import PartySizeOptions from '../PartySizeOptions.svelte';
-	import RunTimeInput from '../RunTimeInput.svelte';
-	import { purpleForm, runForm } from '../runStore';
+	import { purpleForm } from '../runStore';
 
-	let selectedPartySize: string = '1';
-	let selectedMode: string = 'trigger';
 	let selectedRankStr: string = '1';
-	let runTime: any;
 
 	const regionRankOptions: { [region: string]: number[] } = {
 		['aelio']: [1, 2, 3],
@@ -60,6 +57,6 @@
 		/>
 	</div>
 	<div class="form-control">
-		<RunTimeInput maxMinutes={20} />
+		<RemainingTimeInput limitMinutes={20} />
 	</div>
 </div>

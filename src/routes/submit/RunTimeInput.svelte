@@ -1,4 +1,6 @@
 <script lang="ts">
+	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
+	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import { runForm } from './runStore';
 
 	export let showHours: boolean = false;
@@ -16,7 +18,12 @@
 
 <div class="form-control">
 	<div class="label mt-1">
-		<span class="label-text font-bold">Time</span>
+		<span class="label-text font-bold">
+			Time Elapsed
+			<InfoTooltip
+				tip="Input the time elapsed as shown in game. It is the time shown with the last hit of damage occurred."
+			/>
+		</span>
 	</div>
 
 	<label class="input-group">
@@ -58,7 +65,10 @@
 			bind:value={seconds}
 		/>
 	</label>
-	<div class="label">
-		<span class="label-text"> This is the total time taken on your run. Use In-Game Time.</span>
+	<div class="text-xs">
+		<span class="text-info">
+			Your submission's run time is:
+			<TimeDisplay time={$runForm.time} />
+		</span>
 	</div>
 </div>

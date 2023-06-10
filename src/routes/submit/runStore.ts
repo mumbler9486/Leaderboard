@@ -35,8 +35,6 @@ export const dfaForm = writable(defaultDfa);
 export const purpleForm = writable(defaultPurple);
 export const indomitableForm = writable(defaultIndomitable);
 
-runForm.subscribe((f) => console.log(f));
-
 export interface DfaRun {
 	type: string;
 	support: string;

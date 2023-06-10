@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import PartySizeOptions from '../PartySizeOptions.svelte';
-	import RunTimeInput from '../RunTimeInput.svelte';
+	import RemainingTimeInput from '../RemainingTimeInput.svelte';
 	import { dfaForm } from '../runStore';
 </script>
 
@@ -35,6 +35,6 @@
 		/>
 	</div>
 	<div class="form-control">
-		<RunTimeInput />
+		<RemainingTimeInput limitMinutes={60} />
 	</div>
 </div>
