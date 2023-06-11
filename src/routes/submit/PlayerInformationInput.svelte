@@ -31,7 +31,7 @@
 		p[playerIndex].inVideoName = inVideoName;
 		p[playerIndex].playerServer = playerServer;
 		p[playerIndex].povVideoLink = videoLink;
-		p[playerIndex].playerId = $userInfo.find((x) => x.playerName == playerName)?.playerId ?? -1;
+		p[playerIndex].playerId = $userInfo?.find((x) => x.playerName == playerName)?.playerId ?? -1;
 		return p;
 	});
 </script>
