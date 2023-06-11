@@ -30,9 +30,15 @@
 				break;
 		}
 	};
+
+	let showConsentCurrent = false;
+	consentSelected.subscribe((consent) => {
+		console.debug(`Consent loaded. Value=${consent}`);
+		showConsentCurrent = !consent;
+	});
 </script>
 
-{#if !$consentSelected}
+{#if showConsentCurrent}
 	<div class="fixed bottom-0 right-0 left-0 z-50 md:bottom-10 md:left-auto md:right-10">
 		<div
 			class="m-2 flex max-h-[32rem] max-w-[32rem] flex-col place-items-center space-y-2 overflow-y-auto rounded-md border border-neutral-content/50 bg-neutral p-4 px-4 drop-shadow-[2px_4px_6px_rgba(0,0,0,0.8)] md:max-h-[52vh] md:max-w-[32vw]"

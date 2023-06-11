@@ -16,9 +16,7 @@
 </script>
 
 {#if isReady}
-	{#if !$consentSelected}
-		<GDPRCookieConsent />
-	{/if}
+	<GDPRCookieConsent />
 	<div class="flex min-h-screen flex-col">
 		<LeaderboardHeader />
 		<slot />
