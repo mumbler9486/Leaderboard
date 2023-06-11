@@ -1,6 +1,7 @@
 <script lang="ts">
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
+	import Tooltip from '$lib/Components/Tooltip.svelte';
 	import { runForm } from './runStore';
 
 	export let showHours: boolean = false;
@@ -64,6 +65,7 @@
 			required
 			bind:value={seconds}
 		/>
+		<span><Tooltip left tip="Round your time down to nearest second">.000</Tooltip></span>
 	</label>
 	<div class="text-xs">
 		<span class="text-info">

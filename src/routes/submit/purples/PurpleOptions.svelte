@@ -3,6 +3,7 @@
 	import RemainingTimeInput from '../RemainingTimeInput.svelte';
 	import PartySizeOptions from '../PartySizeOptions.svelte';
 	import { purpleForm } from '../runStore';
+	import RunTimeInput from '../RunTimeInput.svelte';
 
 	let selectedRankStr: string = '1';
 
@@ -57,6 +58,6 @@
 		/>
 	</div>
 	<div class="form-control">
-		<RemainingTimeInput limitMinutes={20} />
+		<RunTimeInput limitMinutes={20} />
 	</div>
 </div>
