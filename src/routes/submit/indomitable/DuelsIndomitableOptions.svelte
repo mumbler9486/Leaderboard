@@ -1,11 +1,11 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
-	import RemainingTimeInput from '../RemainingTimeInput.svelte';
 	import { RunCategories } from '$lib/types/api/categories';
 	import { onMount } from 'svelte';
 	import { indomitableForm } from '../runStore';
 	import { partyForm } from '../partyFormStore';
 	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
+	import RunTimeInput from '../RunTimeInput.svelte';
 
 	const bossOptions = [
 		{ label: 'Nex Aelio', value: RunCategories.IndomitableNexAelio },
@@ -45,6 +45,6 @@
 		/>
 	</div>
 	<div class="form-control">
-		<RemainingTimeInput limitMinutes={5} />
+		<RunTimeInput />
 	</div>
 </div>
