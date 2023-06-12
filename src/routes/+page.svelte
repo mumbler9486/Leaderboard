@@ -43,24 +43,23 @@
 								19:58/20:00.
 							</p>
 							<p class="pt-2">
-								The UI has been adjusted to reflect this so please take care. All submission
-								categories now use this remaining time input system, however future quest content
-								may utilize a different system so it is subject to change.
+								The UI has been adjusted to reflect this so please take care. Currently only Purple
+								Triggers have the new remaining time input system. However Dark Falz Aegis (solo and
+								party) and the Duel runs still use the previous elapsed time system and are still
+								under consideration.
 							</p>
 							<p class="pt-2">
-								We want to make everyone's submissions more accurate and consistent so we also went
-								through all Purple Trigger runs manually and issued a new time. In all cases
+								We wanted to make everyone's submissions more accurate and consistent so we also
+								went through all Purple Trigger runs manually and issued a new time. In all cases
 								everyone's time has either stayed the same or improved by 1 second by the new rule.
-								Dark Falz Aegis (solo and party) and the Duel runs have not been affected yet and
-								are still under consideration. If you have any questions or concerns contact us on
-								our Discord.
+								If you have any questions or concerns contact us on our Discord.
 							</p>
 						</li>
 						<li class="pt-4">
 							<strong>💄 New Submission Landing Page</strong><br />
-							The <a href="/submit">Submit a Run</a> page has got a new makeover with a new landing page.
-							This will make it easier for us to implement quest specific logic and have more leaderboard
-							categories in the future.
+							The <a href="/submit">Submit a Run</a> page now has a new landing page. This will make
+							it easier for us to implement quest specific logic and have more leaderboard categories
+							in the future.
 						</li>
 					</p>
 				</HomeNews>
