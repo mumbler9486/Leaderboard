@@ -16,10 +16,25 @@
 			<div class="text-center text-4xl font-light">Submit a Run</div>
 			<Divider class="-mx-8" />
 
-			<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-				<JumboButton label="Purples" link="/submit/purples" />
-				<JumboButton label="Dfa" link="/submit/dfa" />
-				<JumboButton label="Indomitable" link="/submit/indomitable" />
+			<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+				<JumboButton
+					label="Purples"
+					image="/icons/submit/purple_trigger_gate.png"
+					link="/submit/purples"
+					overlayColor="purple"
+				/>
+				<JumboButton
+					label="Dark Falz Aegis"
+					image="/icons/submit/dfa.png"
+					link="/submit/dfa"
+					overlayColor="neutral"
+				/>
+				<JumboButton
+					label="Duels"
+					image="/icons/submit/duel_nils_stia.png"
+					link="/submit/indomitable"
+					overlayColor="red"
+				/>
 			</div>
 		</div>
 	</div>
