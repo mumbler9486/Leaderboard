@@ -6,7 +6,7 @@
 	import Alert from '$lib/Components/Alert.svelte';
 
 	import { t } from 'svelte-i18n';
-	import { runForm } from '../runStore';
+	import { resetForm, runForm } from '../runStore';
 	import { submitForm } from '../submit';
 	import { partyForm } from '../partyFormStore';
 
@@ -14,6 +14,7 @@
 	let serverErrorMessage: string | undefined = undefined;
 	let submitFinish = false;
 
+	resetForm();
 	$runForm.category = 'duels-indomitables';
 	partyForm.setPartySize(1);
 

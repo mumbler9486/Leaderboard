@@ -48,6 +48,8 @@ export const submitForm = async () => {
 			runSpecifics = getIndomitableRunData();
 			submitPath = `/ngs-api/submissions/${indomitableCategories[runSpecifics.boss]}`;
 			break;
+		default:
+			throw Error('Unknown category');
 	}
 
 	const request = {
