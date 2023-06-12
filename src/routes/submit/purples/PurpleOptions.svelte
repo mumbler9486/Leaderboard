@@ -4,6 +4,7 @@
 	import PartySizeOptions from '../PartySizeOptions.svelte';
 	import { purpleForm } from '../runStore';
 	import RunTimeInput from '../RunTimeInput.svelte';
+	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
 
 	let selectedRankStr: string = '1';
 
@@ -30,8 +31,13 @@
 	};
 </script>
 
-<div class="form-control">
-	<PartySizeOptions sizes={[1, 2, 4]} />
+<div class="grid grid-cols-1 gap-2 md:grid-cols-4">
+	<div class="form-control md:col-span-3">
+		<PartySizeOptions sizes={[1, 2, 4]} />
+	</div>
+	<div class="form-control">
+		<CurrentPatchLabel />
+	</div>
 </div>
 <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
 	<div class="form-control">

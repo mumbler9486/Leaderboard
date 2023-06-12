@@ -8,3 +8,5 @@ export const patchCodeLabelMap: { [code: string]: string } = {
 	['pot6r']: 'Potential Lv6. Release',
 	['level75r']: 'Level 75 Release'
 };
+
+export const currentPatchLabel = patchCodeLabelMap[CurrentSubmissionPatchCode];

@@ -5,6 +5,7 @@
 	import { onMount } from 'svelte';
 	import { indomitableForm } from '../runStore';
 	import { partyForm } from '../partyFormStore';
+	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
 
 	const bossOptions = [
 		{ label: 'Nex Aelio', value: RunCategories.IndomitableNexAelio },
@@ -22,22 +23,26 @@
 </script>
 
 <div class="grid grid-cols-1 gap-2 md:grid-cols-4">
-	<div class="form-control">
+	<div class="form-control md:col-span-2">
 		<Dropdown label="Boss" options={bossOptions} bind:value={$indomitableForm.boss} />
 	</div>
-	<div class="form-control">
+	<div class="form-control md:col-span-1">
+		<div class="label justify-center">
+			<span class="label-text text-center text-base font-semibold">Rank</span>
+		</div>
+		<input class="input-bordered input" value="1" type="text" disabled />
+	</div>
+	<div class="form-control md:col-span-1">
+		<CurrentPatchLabel />
+	</div>
+</div>
+<div class="grid grid-cols-1 gap-2 md:grid-cols-4">
+	<div class="form-control md:col-span-3">
 		<Dropdown
 			label="Defi Augments Used?"
 			options={augmentOptions}
 			bind:value={$indomitableForm.augments}
 		/>
-	</div>
-
-	<div class="form-control">
-		<div class="label justify-center">
-			<span class="label-text text-center text-base font-semibold">Rank</span>
-		</div>
-		<input class="input-bordered input" value="1" type="text" disabled />
 	</div>
 	<div class="form-control">
 		<RemainingTimeInput limitMinutes={5} />

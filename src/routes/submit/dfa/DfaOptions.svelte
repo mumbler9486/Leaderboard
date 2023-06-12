@@ -1,12 +1,18 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
 	import PartySizeOptions from '../PartySizeOptions.svelte';
 	import RemainingTimeInput from '../RemainingTimeInput.svelte';
 	import { dfaForm } from '../runStore';
 </script>
 
-<div class="form-control">
-	<PartySizeOptions sizes={[1, 2, 8]} />
+<div class="grid grid-cols-1 gap-2 md:grid-cols-4">
+	<div class="form-control md:col-span-3">
+		<PartySizeOptions sizes={[1, 2, 8]} />
+	</div>
+	<div class="form-control">
+		<CurrentPatchLabel />
+	</div>
 </div>
 <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
 	<div class="form-control">
