@@ -8,8 +8,14 @@
 	let selectedRankStr: string = '1';
 
 	const rankOptionsDropdowns: { [region: string]: { label: string; value: string }[] } = {
-		['trigger']: [{ label: '1', value: '1' }],
-		['urgent']: [{ label: '1', value: '1' }]
+		['trigger']: [
+			{ label: '1', value: '1' },
+			{ label: '2', value: '2' }
+		],
+		['urgent']: [
+			{ label: '1', value: '1' },
+			{ label: '2', value: '2' }
+		]
 	};
 
 	$: rankOptions = rankOptionsDropdowns[$dfaForm.type] ?? [];
@@ -40,6 +46,7 @@
 				{ label: 'Urgent Quest', value: 'urgent' }
 			]}
 			bind:value={$dfaForm.type}
+			on:change={typeChanged}
 		/>
 	</div>
 	<div class="form-control md:col-span-1">
@@ -48,7 +55,6 @@
 			placeholder="Select a rank"
 			options={rankOptions}
 			bind:value={selectedRankStr}
-			on:change={typeChanged}
 		/>
 	</div>
 	<div class="form-control">

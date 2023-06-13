@@ -19,7 +19,7 @@ const classes = [
 const buffs = [null, 'ilma', 'ainamanon', 'nadereh', 'glen'];
 const questType = [null, 'trigger', 'urgent'];
 const sortOrders = [null, 'ranking', 'recent'];
-const ranks = [null, 1];
+const ranks = [null, 1, 2];
 
 export const dfaSoloSearchFilterSchema = object({
 	server: string().lowercase().nullable().oneOf(servers),

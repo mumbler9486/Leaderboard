@@ -52,7 +52,10 @@
 		<div class="flex grow flex-col">
 			<Dropdown
 				label="Rank"
-				options={[{ label: '1', value: '1' }]}
+				options={[
+					{ label: '1', value: '1' },
+					{ label: '2', value: '2' }
+				]}
 				bind:value={filters.rank}
 				on:change={applyFilters}
 			/>
