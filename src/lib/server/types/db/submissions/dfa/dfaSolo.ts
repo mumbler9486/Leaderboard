@@ -4,6 +4,7 @@ export interface DfaSoloDbModel {
 	RunCharacter: string;
 	Patch: string;
 	Drill: string;
+	Rank: string;
 	Support: string;
 	Time: string;
 	MainClass: string;

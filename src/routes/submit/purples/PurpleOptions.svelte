@@ -3,7 +3,6 @@
 	import RemainingTimeInput from '../RemainingTimeInput.svelte';
 	import PartySizeOptions from '../PartySizeOptions.svelte';
 	import { purpleForm } from '../runStore';
-	import RunTimeInput from '../RunTimeInput.svelte';
 	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
 
 	let selectedRankStr: string = '1';
@@ -15,7 +14,7 @@
 		['stia']: [1]
 	};
 
-	const rankOptionsDropdowns: { [region: number]: any } = {
+	const rankOptionsDropdowns: { [region: number]: { label: string; value: string } } = {
 		[1]: { label: '1', value: '1' },
 		[2]: { label: '2', value: '2' },
 		[3]: { label: '3', value: '3' }

@@ -35,6 +35,7 @@
 		<NgsClassIcon showTooltip combatClass={player1.subClass} />
 	</td>
 	<td class="text-center">{typeCodes[submission.drill]}</td>
+	<td class="text-center">{submission.rank}</td>
 	<td class="text-center">
 		<DfaSupportIcon support={submission.buff} />
 	</td>

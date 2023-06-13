@@ -10,6 +10,7 @@ export interface DfaRun {
 	time: RunTime;
 	notes: string;
 	drill: string;
+	questRank: number;
 	submitter: PlayerInfo;
 	submissionTime: string;
 }

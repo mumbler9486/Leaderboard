@@ -6,6 +6,7 @@ export interface DfaDuoDbModel {
 	P2RunCharacter: string;
 	Patch: string;
 	Drill: string;
+	Rank: string;
 	Buff: string;
 	Time: string;
 	P1MainClass: string;

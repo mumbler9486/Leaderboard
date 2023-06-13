@@ -4,6 +4,7 @@ import { writable } from 'svelte/store';
 export interface DfaRun {
 	type: string;
 	support: string;
+	rank: number;
 }
 export interface PurpleRun {
 	region: string;
@@ -46,7 +47,8 @@ const defaultRun: Run = {
 
 const defaultDfa: DfaRun = {
 	support: 'ainamanon',
-	type: 'urgent'
+	type: 'urgent',
+	rank: 1
 };
 
 const defaultPurple: PurpleRun = {

@@ -34,6 +34,7 @@ export const getDfaPartySubmissions = async (request: Request) => {
   submit.${dfaPartyDbFields.P8RunCharacter}, 
   submit.${dfaPartyDbFields.Patch}, 
   submit.${dfaPartyDbFields.Drill}, 
+  submit.${dfaPartyDbFields.Rank},
   submit.${dfaPartyDbFields.Buff}, 
   submit.${dfaPartyDbFields.Time}, 
   submit.${dfaPartyDbFields.P1MainClass}, 
@@ -206,6 +207,7 @@ export const getDfaDuoSubmissions = async (request: Request) => {
 
                 submit.${dfaDuoDbFields.Patch}, 
                 submit.${dfaDuoDbFields.Drill}, 
+                submit.${dfaDuoDbFields.Rank}, 
                 submit.${dfaDuoDbFields.Buff}, 
                 submit.${dfaDuoDbFields.Time}, 
                 submit.${dfaDuoDbFields.P1MainClass}, 
@@ -287,6 +289,7 @@ export const getDfaSoloSubmissions = async (request: Request) => {
   submit.${dfaSoloDbFields.RunCharacter}, 
   submit.${dfaSoloDbFields.Patch}, 
   submit.${dfaSoloDbFields.Drill}, 
+  submit.${dfaSoloDbFields.Rank}, 
   submit.${dfaSoloDbFields.Support}, 
   submit.${dfaSoloDbFields.Time}, 
   submit.${dfaSoloDbFields.MainClass}, 
@@ -349,7 +352,7 @@ export const approveDfaSolo = async (transaction: sql.Transaction, run: ApproveR
 	// Add run data to runs table
 	const runInsertResult = await request.query(`
     INSERT INTO DFAegis.Solo (PlayerID,RunCharacterName,Patch,Buff,Rank,Time,MainClass,SubClass,WeaponInfo1,WeaponInfo2,WeaponInfo3,WeaponInfo4,WeaponInfo5,WeaponInfo6,Link,Notes,SubmissionTime,SubmitterID,ModNotes,Drill)
-    SELECT PlayerID,RunCharacter,Patch,Support,1,Time,MainClass,SubClass,W1,W2,W3,W4,W5,W6,Link,Notes,SubmissionTime,SubmitterID,@modNotes,Drill
+    SELECT PlayerID,RunCharacter,Patch,Support,Rank,Time,MainClass,SubClass,W1,W2,W3,W4,W5,W6,Link,Notes,SubmissionTime,SubmitterID,@modNotes,Drill
     FROM Submissions.DFAegisSolo
 		WHERE Submissions.DFAegisSolo.${dfaSoloDbFields.RunID}= @submissionId;
   `);
@@ -681,6 +684,7 @@ export const insertDfaSoloSubmission = async (request: sql.Request, run: DfaSubm
 		.input('runCharacter', sql.NVarChar, player1.inVideoName)
 		.input('patch', sql.NVarChar, CurrentSubmissionPatchCode)
 		.input('drill', sql.Int, triggerDbMap[run.type])
+		.input('rank', sql.Int, run.rank)
 		.input('support', sql.NVarChar, run.support)
 		.input('time', sql.NVarChar, runTime)
 		.input('mainClass', sql.NVarChar, player1.mainClass)
@@ -699,8 +703,8 @@ export const insertDfaSoloSubmission = async (request: sql.Request, run: DfaSubm
 	const dbFields = dfaSoloDbFields;
 	const result = await insertRequest.query(
 		`INSERT INTO 
-     Submissions.DFAegisSolo (${dbFields.PlayerID},${dbFields.RunCharacter},${dbFields.Patch},${dbFields.Drill},${dbFields.Support},${dbFields.Time},${dbFields.MainClass},${dbFields.SubClass},${dbFields.W1},${dbFields.W2},${dbFields.W3},${dbFields.W4},${dbFields.W5},${dbFields.W6},${dbFields.Link},${dbFields.Notes},${dbFields.SubmissionTime},${dbFields.SubmitterID})
-     VALUES (@playerId,@runCharacter,@patch,@drill,@support,@time,@mainClass,@subClass,@w1,@w2,@w3,@w4,@w5,@w6,@link,@notes,@submissionTime,@submitterId);
+     Submissions.DFAegisSolo (${dbFields.PlayerID},${dbFields.RunCharacter},${dbFields.Patch},${dbFields.Drill},${dbFields.Rank},${dbFields.Support},${dbFields.Time},${dbFields.MainClass},${dbFields.SubClass},${dbFields.W1},${dbFields.W2},${dbFields.W3},${dbFields.W4},${dbFields.W5},${dbFields.W6},${dbFields.Link},${dbFields.Notes},${dbFields.SubmissionTime},${dbFields.SubmitterID})
+     VALUES (@playerId,@runCharacter,@patch,@drill,@rank,@support,@time,@mainClass,@subClass,@w1,@w2,@w3,@w4,@w5,@w6,@link,@notes,@submissionTime,@submitterId);
 		`
 	);
 
@@ -728,7 +732,7 @@ export const insertDfaPartySubmission = async (request: sql.Request, run: DfaSub
 		.input('subtime', sql.DateTime, submissionTime)
 		.input('subpid', sql.Int, player1.playerId)
 		.input('serverid', sql.NVarChar, run.serverRegion)
-		.input('questrank', sql.Int, 1)
+		.input('questrank', sql.Int, run.rank)
 		.input('patch', sql.NVarChar, CurrentSubmissionPatchCode)
 		.input('buff', sql.NVarChar, run.support)
 		.input('rank', sql.Int, triggerDbMap[run.type])

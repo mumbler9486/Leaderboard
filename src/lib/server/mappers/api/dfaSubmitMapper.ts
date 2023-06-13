@@ -61,6 +61,7 @@ export const mapDfaSoloToSubmission = (recordset: DfaSoloDbModel[]): DfaSubmissi
 		const submission: DfaSubmission = {
 			category: RunCategories.DfaSolo,
 			runId: parseInt(s.RunID),
+			rank: parseInt(s.Rank),
 			patch: s.Patch,
 			buff: s.Support,
 			drill: triggerDbMap[s.Drill],
@@ -137,10 +138,11 @@ export const mapDfaDuoToSubmission = (recordset: DfaDuoDbModel[]): DfaSubmission
 		const players = [player1, player2];
 
 		const runTime = convertTimeToRunTime(new Date(s.Time));
-
+		console.log(s);
 		const submission: DfaSubmission = {
 			category: RunCategories.DfaDuo,
 			runId: parseInt(s.RunID),
+			rank: parseInt(s.Rank),
 			patch: s.Patch,
 			buff: s.Buff,
 			drill: triggerDbMap[s.Drill],
@@ -329,6 +331,7 @@ export const mapDfaPartyToSubmission = (recordset: DfaPartyDbModel[]): DfaSubmis
 		const submission: DfaSubmission = {
 			category: RunCategories.DfaParty,
 			runId: parseInt(s.RunID),
+			rank: parseInt(s.Rank),
 			patch: s.Patch,
 			buff: s.Buff,
 			drill: triggerDbMap[s.Drill],

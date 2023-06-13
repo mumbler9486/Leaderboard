@@ -4,6 +4,22 @@
 	import PartySizeOptions from '../PartySizeOptions.svelte';
 	import RunTimeInput from '../RunTimeInput.svelte';
 	import { dfaForm } from '../runStore';
+
+	let selectedRankStr: string = '1';
+
+	const rankOptionsDropdowns: { [region: string]: { label: string; value: string }[] } = {
+		['trigger']: [{ label: '1', value: '1' }],
+		['urgent']: [{ label: '1', value: '1' }]
+	};
+
+	$: rankOptions = rankOptionsDropdowns[$dfaForm.type] ?? [];
+
+	$: $dfaForm.rank = parseInt(selectedRankStr);
+
+	const typeChanged = () => {
+		selectedRankStr = rankOptionsDropdowns[$dfaForm.type][0].value;
+		$dfaForm.rank = parseInt(selectedRankStr);
+	};
 </script>
 
 <div class="grid grid-cols-1 gap-2 md:grid-cols-4">
@@ -14,7 +30,7 @@
 		<CurrentPatchLabel />
 	</div>
 </div>
-<div class="grid grid-cols-1 gap-2 md:grid-cols-3">
+<div class="grid grid-cols-1 gap-2 md:grid-cols-4">
 	<div class="form-control">
 		<Dropdown
 			label="Mode"
@@ -26,7 +42,15 @@
 			bind:value={$dfaForm.type}
 		/>
 	</div>
-
+	<div class="form-control md:col-span-1">
+		<Dropdown
+			label="Rank"
+			placeholder="Select a rank"
+			options={rankOptions}
+			bind:value={selectedRankStr}
+			on:change={typeChanged}
+		/>
+	</div>
 	<div class="form-control">
 		<Dropdown
 			label="Support"

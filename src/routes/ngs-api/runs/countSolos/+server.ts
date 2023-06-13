@@ -23,8 +23,6 @@ export async function GET({ request }) {
 		const results = await pool.request().query(sqlQuery);
 		const counts = results.recordset[0] as CountSolosDbModel;
 
-		console.log(results.recordset);
-
 		const response: SoloCounts = {
 			purples: parseInt(counts.PurplesCount),
 			dfa: parseInt(counts.DfaCount),
