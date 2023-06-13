@@ -138,7 +138,7 @@ export const mapDfaDuoToSubmission = (recordset: DfaDuoDbModel[]): DfaSubmission
 		const players = [player1, player2];
 
 		const runTime = convertTimeToRunTime(new Date(s.Time));
-		console.log(s);
+
 		const submission: DfaSubmission = {
 			category: RunCategories.DfaDuo,
 			runId: parseInt(s.RunID),

@@ -87,6 +87,11 @@ export const getDfaSoloRuns = async (request: Request, filters: DfaSoloSearchFil
 		request = request.input('trigger', sql.Int, trigger);
 	}
 
+	if (filters.rank) {
+		query += ` AND run.${dfaSoloDbFields.Rank} = @rank`;
+		request = request.input('rank', sql.Int, filters.rank);
+	}
+
 	if (filters.server) {
 		query += ` AND pc.Server = @server`;
 		request = request.input('server', sql.NVarChar, filters.server);
@@ -204,6 +209,11 @@ export const getDfaPartyRuns = async (
 		const trigger = triggerDbMap[filters.trigger];
 		query += ` AND run.${dfaPartyDbFields.Drill} = @trigger`;
 		request = request.input('trigger', sql.Int, trigger);
+	}
+
+	if (filters.rank) {
+		query += ` AND run.${dfaSoloDbFields.Rank} = @rank`;
+		request = request.input('rank', sql.Int, filters.rank);
 	}
 
 	if (filters.server) {
