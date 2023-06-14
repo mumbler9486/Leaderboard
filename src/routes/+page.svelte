@@ -30,7 +30,7 @@
 							<strong>⏫ Patch Bump for Level 75 Release</strong><br />
 							All runs submitted from this point on will be considered part of the level 75 release patch.
 							This patch brings about skill re-balances from June 7th's update, Rarity 9⭐ weapons, Dark
-							Falz Aegis R3, and of course the level cap increase to 75.
+							Falz Aegis Level 75 (but still rank 1), and of course the level cap increase to 75.
 						</li>
 						<li class="pt-4">
 							<strong>⚠ New Time Submission Rules</strong><br />

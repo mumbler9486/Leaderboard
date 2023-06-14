@@ -49,7 +49,7 @@
 				on:change={applyFilters}
 			/>
 		</div>
-		<div class="flex grow flex-col">
+		<!-- <div class="flex grow flex-col">
 			<Dropdown
 				label="Rank"
 				options={[
@@ -59,7 +59,7 @@
 				bind:value={filters.rank}
 				on:change={applyFilters}
 			/>
-		</div>
+		</div> -->
 	</div>
 
 	<Divider class="-mx-1 my-0" />
