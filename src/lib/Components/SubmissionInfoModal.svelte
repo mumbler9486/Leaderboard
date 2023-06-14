@@ -15,8 +15,6 @@
 
 	export let submission: Submission | undefined;
 
-	$: player1 = submission?.players[0];
-
 	let modal: Modal;
 	let modNotes: string;
 
@@ -152,20 +150,34 @@
 		{#if errorMessage != ''}
 			<Alert type="error" message={errorMessage} />
 		{/if}
-		<VideoPlayer url={player1?.linkPov} />
-		<div
-			class="flex basis-full justify-center rounded-md border border-secondary bg-secondary/25 p-2"
-		>
-			<div class="flex flex-col text-center">
-				<span class="text-lg font-semibold"><i class="bi bi-youtube" />Video Link:</span>
-				<a
-					class="link-primary link"
-					href={player1?.linkPov}
-					target="_blank"
-					rel="noreferrer noopener">{player1?.linkPov}</a
+		{#each submission?.players ?? [] as player}
+			{#if player.linkPov}
+				<VideoPlayer url={player.linkPov} />
+				<div
+					class="flex basis-full justify-center rounded-md border border-secondary bg-secondary/25 p-2"
 				>
-			</div>
-		</div>
+					<div class="flex flex-col text-center">
+						<span class="text-lg font-semibold"
+							><i class="bi bi-youtube" /> {player.playerName}'s POV Video Link:</span
+						>
+						<a
+							class="link-primary link"
+							href={player?.linkPov}
+							target="_blank"
+							rel="noreferrer noopener">{player?.linkPov}</a
+						>
+					</div>
+				</div>
+			{:else}
+				<div
+					class="flex basis-full justify-center rounded-md border border-secondary bg-secondary/25 bg-info p-2"
+				>
+					<div class="flex flex-col text-center">
+						<span class="text-lg font-semibold">No Video POV for {player.playerName}</span>
+					</div>
+				</div>
+			{/if}
+		{/each}
 		<div class="flex flex-col gap-2 p-2 md:flex-row md:gap-0">
 			<div class="flex basis-full flex-col justify-center md:flex-row">
 				<span class="flex place-content-center md:mr-1">Run By:</span>

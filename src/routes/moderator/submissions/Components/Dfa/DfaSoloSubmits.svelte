@@ -62,6 +62,7 @@
 				<th class="bg-neutral text-neutral-content">Player</th>
 				<th class="bg-neutral text-center text-neutral-content">Class</th>
 				<th class="bg-neutral text-center text-neutral-content">Quest</th>
+				<th class="bg-neutral text-center text-neutral-content">Rank</th>
 				<th class="bg-neutral text-center text-neutral-content">Support</th>
 				<th class="bg-neutral text-center text-neutral-content">Patch</th>
 				<th class="bg-neutral text-center text-neutral-content">Weapons</th>

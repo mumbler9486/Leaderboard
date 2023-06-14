@@ -22,6 +22,7 @@ export interface PurpleSubmission extends Submission {
 export interface DfaSubmission extends Submission {
 	drill: string;
 	buff: string;
+	rank: number;
 }
 
 export interface IndomitableSubmission extends Submission {

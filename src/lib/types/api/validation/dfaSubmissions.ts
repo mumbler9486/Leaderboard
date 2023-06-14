@@ -3,11 +3,13 @@ import { youtubeUrlRegex } from '$lib/utils/youtube';
 import { parseWeapon } from '$lib/types/api/weapon';
 
 const questTypes = ['trigger', 'urgent'];
+const validRanks = [1, 2];
 
 export const dfaSubmissionRequestSchema = object({
 	userId: string().required(),
 	username: string().required(),
 	type: string().required().oneOf(questTypes),
+	rank: number().required().oneOf(validRanks),
 	serverRegion: string().required(),
 	support: string().required(),
 	notes: string().max(500).nullable(),

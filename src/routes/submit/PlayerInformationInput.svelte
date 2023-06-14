@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import ClassSelector from './ClassSelector.svelte';
-	import { runForm } from './runStore';
 	import WeaponSelector from './WeaponSelector.svelte';
 	import { userInfo } from './playerInfoStore';
 	import { partyForm } from './partyFormStore';
+	import { onMount } from 'svelte';
 
 	export let playerIndex: number;
 
@@ -12,6 +12,8 @@
 	let inVideoName = '';
 	let playerServer = 'global';
 	let videoLink = '';
+
+	onMount(userInfo.loadPlayerInfo);
 
 	const serverOptions = [
 		{
@@ -29,7 +31,7 @@
 		p[playerIndex].inVideoName = inVideoName;
 		p[playerIndex].playerServer = playerServer;
 		p[playerIndex].povVideoLink = videoLink;
-		p[playerIndex].playerId = $userInfo.find((x) => x.PlayerName == playerName)?.PlayerID ?? -1;
+		p[playerIndex].playerId = $userInfo?.find((x) => x.playerName == playerName)?.playerId ?? -1;
 		return p;
 	});
 </script>
@@ -57,7 +59,7 @@
 			</div>
 			<datalist id="playerName-datalist{playerIndex}">
 				{#each $userInfo as user}
-					<option value={user.PlayerName} data-player={user.PlayerID}>{user.CharacterName}</option>
+					<option value={user.playerName} data-player={user.playerId}>{user.characterName}</option>
 				{/each}
 			</datalist>
 		</div>

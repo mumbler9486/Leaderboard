@@ -21,23 +21,65 @@
 			<div
 				class="m-2 basis-full rounded-md border border-secondary bg-base-100 p-4 px-8 md:basis-2/3"
 			>
+				<div class="text-center text-4xl font-light">News</div>
+				<HomeNews>
+					<span slot="newsTitle">Leaderboard 3.2 Update</span>
+					<p slot="newsContent">
+						<strong>Changelog (June 14, 2023):</strong><br />
+						<li class="pt-4">
+							<strong>⏫ Patch Bump for Level 75 Release</strong><br />
+							All runs submitted from this point on will be considered part of the level 75 release patch.
+							This patch brings about skill re-balances from June 7th's update, Rarity 9⭐ weapons, Dark
+							Falz Aegis R3, and of course the level cap increase to 75.
+						</li>
+						<li class="pt-4">
+							<strong>⚠ New Time Submission Rules</strong><br />
+							<p>
+								It has come to our attention that we need to have more consistent time measuring
+								with regards to how times are submitted on our leaderboard. The new rule now
+								requires the "remaining time" to be submitted instead of the usual (Time Limit) -
+								(Time Remaining) = Submission Time. This is because if a timer shows 19:59/20:00,
+								technically a whole second has not passed until the timer updates with a time of
+								19:58/20:00.
+							</p>
+							<p class="pt-2">
+								The UI has been adjusted to reflect this so please take care. Currently only Purple
+								Triggers have the new remaining time input system. However Dark Falz Aegis (solo and
+								party) and the Duel runs still use the previous elapsed time system and are still
+								under consideration.
+							</p>
+							<p class="pt-2">
+								We wanted to make everyone's submissions more accurate and consistent so we also
+								went through all Purple Trigger runs manually and issued a new time. In all cases
+								everyone's time has either stayed the same or improved by 1 second by the new rule.
+								If you have any questions or concerns contact us on our Discord.
+							</p>
+						</li>
+						<li class="pt-4">
+							<strong>💄 New Submission Landing Page</strong><br />
+							The <a href="/submit">Submit a Run</a> page now has a new landing page. This will make
+							it easier for us to implement quest specific logic and have more leaderboard categories
+							in the future.
+						</li>
+					</p>
+				</HomeNews>
 				<HomeNews>
 					<span slot="newsTitle">Leaderboard 3.1 Update</span>
 					<p slot="newsContent">
-						<strong>Changelog:</strong><br />
+						<strong>Changelog (April 19, 2023):</strong><br />
 						<li class="pt-4">
-							<strong>⚔️Indomitable Duel Runs now Accepting Submissions</strong><br />
+							<strong>⚔️ Indomitable Duel Runs now Accepting Submissions</strong><br />
 							Duel runs can now be submitted to the leaderboard. Please take note if you have used the
 							special Duel augments or not.
 						</li>
 						<li class="pt-4">
-							<strong>⏫About Special Duel Augments (Defi-Series)</strong><br />
+							<strong>⏫ About Special Duel Augments (Defi-Series)</strong><br />
 							Any run submitted to the duels that uses at least one Defi-series augment on that player's
 							equipment is considered to have used a Defi-augment. Please specify when submitting your
 							duel runs.
 						</li>
 						<li class="pt-4">
-							<strong>✨New Patch for All Submissions</strong><br />
+							<strong>✨ New Patch for All Submissions</strong><br />
 							Since weapon Potentials level 6 released alongside Duel runs, all new runs submitted will
 							be part of this new patch.
 						</li>

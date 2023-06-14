@@ -11,10 +11,10 @@ interface PlayerSubmissionInfo {
 	weapons: string[];
 }
 
-export const partyForm = writable([] as PlayerSubmissionInfo[]);
+const partyFormStore = writable([] as PlayerSubmissionInfo[]);
 
-export const setPartySize = (playerCount: number) => {
-	partyForm.update((f) => {
+const setPartySize = (playerCount: number) => {
+	partyFormStore.update((f) => {
 		if (playerCount == 0) {
 			return [];
 		}
@@ -31,4 +31,9 @@ export const setPartySize = (playerCount: number) => {
 		}));
 		return newPlayers;
 	});
+};
+
+export const partyForm = {
+	...partyFormStore,
+	setPartySize
 };

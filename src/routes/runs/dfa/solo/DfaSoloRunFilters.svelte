@@ -14,7 +14,8 @@
 		trigger: 'urgent',
 		class: 'no_filter',
 		buff: 'no_filter',
-		server: 'no_filter'
+		server: 'no_filter',
+		rank: '1'
 	};
 
 	const applyFilters = () => {
@@ -55,6 +56,17 @@
 					{ label: 'Trigger', value: 'trigger' }
 				]}
 				bind:value={filters.trigger}
+				on:change={applyFilters}
+			/>
+		</div>
+		<div class="flex grow flex-col">
+			<Dropdown
+				label="Rank"
+				options={[
+					{ label: '1', value: '1' },
+					{ label: '2', value: '2' }
+				]}
+				bind:value={filters.rank}
 				on:change={applyFilters}
 			/>
 		</div>

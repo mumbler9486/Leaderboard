@@ -1,13 +1,11 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
-	import PartySizeOptions from './PartySizeOptions.svelte';
-	import RunTimeInput from './RunTimeInput.svelte';
-	import { purpleForm, runForm } from './runStore';
+	import RemainingTimeInput from '../RemainingTimeInput.svelte';
+	import PartySizeOptions from '../PartySizeOptions.svelte';
+	import { purpleForm } from '../runStore';
+	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
 
-	let selectedPartySize: string = '1';
-	let selectedMode: string = 'trigger';
 	let selectedRankStr: string = '1';
-	let runTime: any;
 
 	const regionRankOptions: { [region: string]: number[] } = {
 		['aelio']: [1, 2, 3],
@@ -16,7 +14,7 @@
 		['stia']: [1]
 	};
 
-	const rankOptionsDropdowns: { [region: number]: any } = {
+	const rankOptionsDropdowns: { [region: number]: { label: string; value: string } } = {
 		[1]: { label: '1', value: '1' },
 		[2]: { label: '2', value: '2' },
 		[3]: { label: '3', value: '3' }
@@ -32,8 +30,13 @@
 	};
 </script>
 
-<div class="form-control">
-	<PartySizeOptions sizes={[1, 2, 4]} />
+<div class="grid grid-cols-1 gap-2 md:grid-cols-4">
+	<div class="form-control md:col-span-3">
+		<PartySizeOptions sizes={[1, 2, 4]} />
+	</div>
+	<div class="form-control">
+		<CurrentPatchLabel />
+	</div>
 </div>
 <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
 	<div class="form-control">
@@ -60,6 +63,6 @@
 		/>
 	</div>
 	<div class="form-control">
-		<RunTimeInput maxMinutes={20} />
+		<RemainingTimeInput limitMinutes={20} />
 	</div>
 </div>

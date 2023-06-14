@@ -60,6 +60,7 @@
 			take: take,
 			sort: 'recent'
 		};
+
 		const indomitableRuns =
 			(await fetchGetApi<IndomitableRun[]>(
 				indomitablePath,

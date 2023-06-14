@@ -19,12 +19,14 @@ const classes = [
 const buffs = [null, 'ilma', 'ainamanon', 'nadereh', 'glen'];
 const questType = [null, 'trigger', 'urgent'];
 const sortOrders = [null, 'ranking', 'recent'];
+const ranks = [null, 1, 2];
 
 export const dfaSoloSearchFilterSchema = object({
 	server: string().lowercase().nullable().oneOf(servers),
 	class: string().lowercase().nullable().oneOf(classes),
 	buff: string().lowercase().nullable().oneOf(buffs),
 	trigger: string().lowercase().nullable().oneOf(questType),
+	rank: number().nullable().oneOf(ranks),
 	page: number().min(0).max(30000).default(0).nullable(),
 	take: number().min(1).max(1000).nullable(),
 	sort: string().lowercase().nullable().default('ranking').oneOf(sortOrders)
@@ -36,6 +38,7 @@ export const dfaPartySearchFilterSchema = object({
 	server: string().lowercase().nullable().oneOf(servers),
 	buff: string().lowercase().nullable().oneOf(buffs),
 	trigger: string().lowercase().nullable().oneOf(questType),
+	rank: number().nullable().oneOf(ranks),
 	page: number().min(0).max(30000).default(0).nullable(),
 	take: number().min(1).max(1000).nullable(),
 	sort: string().lowercase().nullable().default('ranking').oneOf(sortOrders)

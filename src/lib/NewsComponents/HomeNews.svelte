@@ -1,6 +1,9 @@
+<script>
+	import Divider from '$lib/Components/Divider.svelte';
+</script>
+
 <div>
-	<div class="text-center text-4xl font-light">News</div>
-	<div class="divider -mx-8" />
+	<Divider class="-mx-8" />
 	<div class="text-center text-2xl font-medium">
 		<slot name="newsTitle">
 			<em>Loading news...</em>

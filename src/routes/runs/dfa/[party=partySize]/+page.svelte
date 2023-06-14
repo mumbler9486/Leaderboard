@@ -37,7 +37,8 @@
 	const partyFilterDef: UrlQueryParamRule<DfaPartySearchFilters>[] = [
 		{ name: 'server', undefinedValue: 'no_filter' },
 		{ name: 'buff', undefinedValue: 'no_filter' },
-		{ name: 'trigger', defaultValue: 'urgent' }
+		{ name: 'trigger', defaultValue: 'urgent' },
+		{ name: 'rank', defaultValue: '1' }
 	];
 
 	const { cleanup } = useUrlFilterStore(partyRunFilters, partyFilterDef);
