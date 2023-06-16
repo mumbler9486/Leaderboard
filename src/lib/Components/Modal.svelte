@@ -28,7 +28,13 @@
 	};
 </script>
 
-<input type="checkbox" id={modalId} bind:checked={modalState} class="modal-toggle" />
+<input
+	type="checkbox"
+	id={modalId}
+	bind:checked={modalState}
+	class="modal-toggle"
+	autocomplete="off"
+/>
 <div
 	class="modal"
 	class:cursor-pointer={allowDefocusClose}
