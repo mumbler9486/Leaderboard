@@ -1,6 +1,20 @@
 import { type InferType, string, number, object, array, boolean } from 'yup';
 import { youtubeUrlRegex } from '$lib/utils/youtube';
 import { parseWeapon } from '$lib/types/api/weapon';
+import { NgsPlayerClass } from '../ngsPlayerClass';
+
+const allowedClasses = [
+	NgsPlayerClass.Hunter,
+	NgsPlayerClass.Fighter,
+	NgsPlayerClass.Ranger,
+	NgsPlayerClass.Gunner,
+	NgsPlayerClass.Force,
+	NgsPlayerClass.Techter,
+	NgsPlayerClass.Braver,
+	NgsPlayerClass.Bouncer,
+	NgsPlayerClass.Waker,
+	NgsPlayerClass.Slayer
+];
 
 export const indomitableSubmissionRequestSchema = object({
 	userId: string().required(),
@@ -26,8 +40,8 @@ export const indomitableSubmissionRequestSchema = object({
 			playerName: string().required(),
 			inVideoName: string().required(),
 			playerServer: string().nullable(),
-			mainClass: string().required(),
-			subClass: string().required(),
+			mainClass: string().required().oneOf(allowedClasses),
+			subClass: string().required().oneOf(allowedClasses),
 			weapons: array(
 				string()
 					.required()

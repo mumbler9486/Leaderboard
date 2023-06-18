@@ -23,6 +23,29 @@
 			>
 				<div class="text-center text-4xl font-light">News</div>
 				<HomeNews>
+					<span slot="newsTitle">Leaderboard 3.2.1 Update</span>
+					<p slot="newsContent">
+						<strong>Changelog (June 18, 2023):</strong><br />
+						<li class="pt-4">
+							<strong>⚔️ New Duel Boss: Halvaldi</strong><br />
+							<p>
+								A new duel boss Halvaldi has been added to the leaderboard. The official release
+								date for the quest is June 21st, 2023.
+							</p>
+							<p class="pt-2">
+								Also we performed some minor data migrations in the backend. These should have no
+								impact on the site operations but as usual if there are issues please contact us on
+								<a
+									href="https://discord.com/invite/fFtEEJHuFp"
+									target="_blank"
+									rel="noreferrer noopener"
+									class="link-primary link no-underline">Discord <i class="bi bi-discord" /></a
+								>.
+							</p>
+						</li>
+					</p>
+				</HomeNews>
+				<HomeNews>
 					<span slot="newsTitle">Leaderboard 3.2 Update</span>
 					<p slot="newsContent">
 						<strong>Changelog (June 14, 2023):</strong><br />

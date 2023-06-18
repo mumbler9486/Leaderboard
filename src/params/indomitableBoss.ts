@@ -5,7 +5,8 @@ const indomitableBosses: { [key: string]: boolean } = {
 	[IndomitableBoss.NexAelio]: true,
 	[IndomitableBoss.RenusRetem]: true,
 	[IndomitableBoss.AmsKvaris]: true,
-	[IndomitableBoss.NilsStia]: true
+	[IndomitableBoss.NilsStia]: true,
+	[IndomitableBoss.Halvaldi]: true
 };
 
 export const match = ((param) => {

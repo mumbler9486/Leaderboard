@@ -38,7 +38,7 @@ export async function POST({ request, params }) {
 
 	try {
 		const pool = await leaderboardDb.connect();
-		await denyIndomitableSubmission(pool.request(), category, submission);
+		await denyIndomitableSubmission(pool.request(), submission);
 		return json({ data: 'success' });
 	} catch (err) {
 		console.error(err);

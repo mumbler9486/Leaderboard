@@ -4,7 +4,7 @@ export interface IndomitableRunDbModel {
 	RunCharacterName: string;
 	ShipOverride: string;
 	Patch: string;
-	Region: string;
+	Boss: string;
 	Rank: string;
 	Augments: string;
 	RunTime: string;

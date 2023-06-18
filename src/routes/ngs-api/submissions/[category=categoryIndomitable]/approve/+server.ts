@@ -18,7 +18,8 @@ const indomitableQuestNames: { [key: string]: string } = {
 	[RunCategories.IndomitableNexAelio]: 'Indomitable Nex Aelio',
 	[RunCategories.IndomitableRenusRetem]: 'Indomitable Renus Retem',
 	[RunCategories.IndomitableAmsKvaris]: 'Indomitable Ams Kvaris',
-	[RunCategories.IndomitableNilsStia]: 'Indomitable Nils Stia'
+	[RunCategories.IndomitableNilsStia]: 'Indomitable Nils Stia',
+	[RunCategories.IndomitableHalvaldi]: 'Indomitable Halvaldi'
 };
 
 /** @type {import('./$types').RequestHandler} */
@@ -58,7 +59,7 @@ export async function POST({ request, params }) {
 	const transaction = new sql.Transaction(pool);
 	try {
 		await transaction.begin();
-		await approveIndomitableSubmission(transaction, category, approveRequest);
+		await approveIndomitableSubmission(transaction, approveRequest);
 		await transaction.commit();
 
 		notifyDiscordNewRunApproved(

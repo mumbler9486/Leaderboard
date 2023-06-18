@@ -11,7 +11,8 @@ export enum RunCategories {
 	IndomitableNexAelio = 'indomitableNexAelio',
 	IndomitableRenusRetem = 'indomitableRenusRetem',
 	IndomitableAmsKvaris = 'indomitableAmsKvaris',
-	IndomitableNilsStia = 'indomitableNilsStia'
+	IndomitableNilsStia = 'indomitableNilsStia',
+	IndomitableHalvaldi = 'indomitableHalvaldi'
 }
 
 export const runCategoryValues = stringEnumValuesToList<RunCategories>(RunCategories);

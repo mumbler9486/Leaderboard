@@ -22,7 +22,8 @@
 		[IndomitableBoss.NexAelio]: $t('leaderboard.indomitableNexAelio'),
 		[IndomitableBoss.RenusRetem]: $t('leaderboard.indomitableRenusRetem'),
 		[IndomitableBoss.AmsKvaris]: $t('leaderboard.indomitableAmsKvaris'),
-		[IndomitableBoss.NilsStia]: $t('leaderboard.indomitableNilsStia')
+		[IndomitableBoss.NilsStia]: $t('leaderboard.indomitableNilsStia'),
+		[IndomitableBoss.Halvaldi]: $t('leaderboard.indomitableHalvaldi')
 	};
 
 	$: boss = $page.params.boss;

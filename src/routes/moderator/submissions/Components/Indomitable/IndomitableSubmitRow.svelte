@@ -22,7 +22,8 @@
 		[RunCategories.IndomitableNexAelio]: 'Nex Aelio',
 		[RunCategories.IndomitableRenusRetem]: 'Renus Retem',
 		[RunCategories.IndomitableAmsKvaris]: 'Ams Kvaris',
-		[RunCategories.IndomitableNilsStia]: 'Nils Stia'
+		[RunCategories.IndomitableNilsStia]: 'Nils Stia',
+		[RunCategories.IndomitableHalvaldi]: 'Halvaldi'
 	} as { [id: string]: string };
 
 	$: player1 = submission.players[0];

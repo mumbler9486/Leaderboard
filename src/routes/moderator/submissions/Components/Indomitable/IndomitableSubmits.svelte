@@ -19,7 +19,8 @@
 		[RunCategories.IndomitableNexAelio]: RunCategories.IndomitableNexAelio,
 		[RunCategories.IndomitableRenusRetem]: RunCategories.IndomitableRenusRetem,
 		[RunCategories.IndomitableAmsKvaris]: RunCategories.IndomitableAmsKvaris,
-		[RunCategories.IndomitableNilsStia]: RunCategories.IndomitableNilsStia
+		[RunCategories.IndomitableNilsStia]: RunCategories.IndomitableNilsStia,
+		[RunCategories.IndomitableHalvaldi]: RunCategories.IndomitableHalvaldi
 	};
 
 	$: reloadData(category);
@@ -60,7 +61,7 @@
 </script>
 
 <div class="-mx-6 overflow-x-auto overflow-y-hidden md:mx-0">
-	<table class="table-zebra table-compact table w-full">
+	<table class="table-compact table-zebra table w-full">
 		<thead>
 			<tr>
 				<th class="bg-neutral text-neutral-content">Player</th>
@@ -98,7 +99,7 @@
 {#if loading}
 	<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
 		Loading - Please Wait...<br /><progress
-			class="progress progress-primary w-56 border border-neutral-content/20"
+			class="progress-primary progress w-56 border border-neutral-content/20"
 		/>
 	</div>
 {/if}

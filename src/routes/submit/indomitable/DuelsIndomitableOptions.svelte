@@ -11,7 +11,8 @@
 		{ label: 'Nex Aelio', value: RunCategories.IndomitableNexAelio },
 		{ label: 'Renus Retem', value: RunCategories.IndomitableRenusRetem },
 		{ label: 'Ams Kvaris', value: RunCategories.IndomitableAmsKvaris },
-		{ label: 'Nils Stia', value: RunCategories.IndomitableNilsStia }
+		{ label: 'Nils Stia', value: RunCategories.IndomitableNilsStia },
+		{ label: 'Halvaldi', value: RunCategories.IndomitableHalvaldi }
 	];
 
 	const augmentOptions = [
