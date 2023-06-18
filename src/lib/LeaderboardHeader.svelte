@@ -118,6 +118,11 @@
 							Nils Stia
 						</a>
 					</li>
+					<li>
+						<a href="/runs/indomitable/halvaldi" tabindex="0" style="border-radius: 0px">
+							Halvaldi
+						</a>
+					</li>
 					{#if userInfo != null && userInfo.userRoles.includes('user')}
 						<li>
 							<a href="/submit" tabindex="0" style="border-radius: 0px">
@@ -232,6 +237,11 @@
 						<li>
 							<a href="/runs/indomitable/nilsstia" tabindex="0" style="border-radius: 0px">
 								Nils Stia
+							</a>
+						</li>
+						<li>
+							<a href="/runs/indomitable/halvaldi" tabindex="0" style="border-radius: 0px">
+								Halvaldi
 							</a>
 						</li>
 					</ul>
@@ -350,7 +360,7 @@
 			<span class="flex-1 self-center text-3xl font-light md:text-4xl">Language</span>
 			<label
 				for="modal-lang"
-				class="btn-outline btn-secondary btn-square btn-sm btn flex-initial self-center rounded"
+				class="btn-secondary btn-outline btn-square btn-sm btn flex-initial self-center rounded"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -391,7 +401,7 @@
 		</div>
 		<div class="divider -mx-6" />
 		<div class="modal-action">
-			<label for="modal-lang" class="btn-outline btn-secondary btn rounded md:btn-sm">Close</label>
+			<label for="modal-lang" class="btn-secondary btn-outline btn rounded md:btn-sm">Close</label>
 		</div>
 	</div>
 </div>

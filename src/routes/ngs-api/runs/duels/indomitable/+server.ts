@@ -54,11 +54,17 @@ export async function GET({ url }) {
 			filters,
 			IndomitableBoss.NilsStia
 		);
+		const halvaldiRuns = await getIndomitableRuns(
+			await pool.request(),
+			filters,
+			IndomitableBoss.Halvaldi
+		);
 
 		let mappedRuns = mapIndomitableToRun(nexRuns, IndomitableBoss.NexAelio)
 			.concat(mapIndomitableToRun(renusRuns, IndomitableBoss.RenusRetem))
 			.concat(mapIndomitableToRun(amsRuns, IndomitableBoss.AmsKvaris))
 			.concat(mapIndomitableToRun(nilsRuns, IndomitableBoss.NilsStia))
+			.concat(mapIndomitableToRun(halvaldiRuns, IndomitableBoss.Halvaldi))
 			.sort((a, b) => {
 				if (filters.sort === 'recent') {
 					return a.submissionTime > b.submissionTime ? -1 : 1;

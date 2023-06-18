@@ -1,23 +1,25 @@
-import sql, { type Request } from 'mssql';
+import sql, { NVarChar, type Request } from 'mssql';
 import type { IndomitableDbModel } from '$lib/server/types/db/submissions/duels/indomitable';
 import { fields } from '../util/nameof';
 import type { ApproveRequest, DenyRequest } from '../../types/api/validation/submissions';
 import { RunCategories } from '$lib/types/api/categories';
 import type { IndomitableSubmissionRequest } from '../../types/api/validation/indomitableSubmissions';
 import { CurrentSubmissionPatchCode } from '$lib/constants/patchCodes';
+import { IndomitableBoss } from '$lib/types/api/duels/indomitableBoss';
 
 const indomitableDbFields = fields<IndomitableDbModel>();
 
-const validDuelTables: { [key: string]: string } = {
-	[RunCategories.IndomitableNexAelio]: 'IndomitableNexAelioRuns',
-	[RunCategories.IndomitableRenusRetem]: 'IndomitableRenusRetemRuns',
-	[RunCategories.IndomitableAmsKvaris]: 'IndomitableAmsKvarisRuns',
-	[RunCategories.IndomitableNilsStia]: 'IndomitableNilsStiaRuns'
+const duelBossMap: { [key: string]: IndomitableBoss } = {
+	[RunCategories.IndomitableNexAelio]: IndomitableBoss.NexAelio,
+	[RunCategories.IndomitableRenusRetem]: IndomitableBoss.RenusRetem,
+	[RunCategories.IndomitableAmsKvaris]: IndomitableBoss.AmsKvaris,
+	[RunCategories.IndomitableNilsStia]: IndomitableBoss.NilsStia,
+	[RunCategories.IndomitableHalvaldi]: IndomitableBoss.Halvaldi
 };
 
 export const getIndomitableSubmissions = async (request: Request, category: RunCategories) => {
-	const duelTable = validDuelTables[category];
-	if (!duelTable) {
+	const duelBoss = duelBossMap[category];
+	if (!duelBoss) {
 		throw Error(`Unknown indomitable boss: ${category}`);
 	}
 
@@ -61,7 +63,7 @@ export const getIndomitableSubmissions = async (request: Request, category: RunC
 							sc.NameColor2 as ${indomitableDbFields.SubmitterNameColor2},
 							sc.PreferredName as ${indomitableDbFields.SubmitterPrefN}
 			
-							FROM Submissions.${duelTable} AS submit
+							FROM Submissions.IndomitableRuns AS submit
 									
 							INNER JOIN
 			
@@ -76,9 +78,11 @@ export const getIndomitableSubmissions = async (request: Request, category: RunC
 							INNER JOIN
 							Players.Customization AS sc ON submit.${indomitableDbFields.SubmitterID} = sc.PlayerID
 			
-							WHERE SubmissionStatus = 0
+							WHERE submit.${indomitableDbFields.SubmissionStatus} = 0 AND submit.${indomitableDbFields.Boss} = @boss
 			
 							ORDER BY SubmissionTime DESC`;
+
+	request = request.input('boss', sql.NVarChar, duelBoss);
 
 	const results = await request.query(sqlQuery);
 
@@ -91,16 +95,18 @@ export const getIndomitableExists = async (
 	category: RunCategories,
 	runId: number
 ) => {
-	const table = validDuelTables[category];
+	const duelBoss = duelBossMap[category];
 
 	// Run exists
-	const submissionResults = await request.input('submissionId', sql.Int, runId).query(`
+	const submissionResults = await request
+		.input('boss', sql.NVarChar, duelBoss)
+		.input('submissionId', sql.Int, runId).query(`
     SELECT 
 			${indomitableDbFields.SubmissionId},
 			${indomitableDbFields.SubmissionStatus},
 			${indomitableDbFields.PlayerID}
-    FROM Submissions.${table}
-    WHERE SubmissionId = @submissionId;
+    FROM Submissions.IndomitableRuns
+    WHERE ${indomitableDbFields.SubmissionId} = @submissionId AND ${indomitableDbFields.Boss} = @boss;
 		`);
 
 	if (Array.from(submissionResults.recordset).length == 0) {
@@ -116,20 +122,17 @@ export const getIndomitableExists = async (
 
 export const approveIndomitableSubmission = async (
 	transaction: sql.Transaction,
-	category: RunCategories,
 	run: ApproveRequest
 ) => {
-	const table = validDuelTables[category];
-
 	const request = transaction.request();
 	request.input('modNotes', sql.NVarChar, run.modNotes).input('submissionId', sql.Int, run.runId);
 
 	// Add run data to runs table
 	const dbFields = indomitableDbFields;
 	const runInsertResult = await request.query(`
-    INSERT INTO ${table} (${dbFields.PlayerID},${dbFields.RunCharacterName},${dbFields.ShipOverride},${dbFields.Patch},${dbFields.Region},${dbFields.Rank},${dbFields.RunTime},${dbFields.MainClass},${dbFields.SubClass},${dbFields.WeaponInfo1},${dbFields.WeaponInfo2},${dbFields.WeaponInfo3},${dbFields.WeaponInfo4},${dbFields.WeaponInfo5},${dbFields.WeaponInfo6},${dbFields.Link},${dbFields.Notes},${dbFields.SubmissionTime},${dbFields.SubmitterID},${dbFields.VideoTag},${dbFields.ModNotes},${dbFields.Augments})
-    SELECT PlayerID,RunCharacterName,NULL,Patch,NULL,Rank,RunTime,MainClass,SubClass,WeaponInfo1,WeaponInfo2,WeaponInfo3,WeaponInfo4,WeaponInfo5,WeaponInfo6,Link,Notes,SubmissionTime,SubmitterID,VideoTag,@modNotes,Augments
-    FROM Submissions.${table}
+    INSERT INTO IndomitableRuns (${dbFields.Boss},${dbFields.PlayerID},${dbFields.RunCharacterName},${dbFields.ShipOverride},${dbFields.Patch},${dbFields.Region},${dbFields.Rank},${dbFields.RunTime},${dbFields.MainClass},${dbFields.SubClass},${dbFields.WeaponInfo1},${dbFields.WeaponInfo2},${dbFields.WeaponInfo3},${dbFields.WeaponInfo4},${dbFields.WeaponInfo5},${dbFields.WeaponInfo6},${dbFields.Link},${dbFields.Notes},${dbFields.SubmissionTime},${dbFields.SubmitterID},${dbFields.VideoTag},${dbFields.ModNotes},${dbFields.Augments})
+    SELECT Boss,PlayerID,RunCharacterName,NULL,Patch,NULL,Rank,RunTime,MainClass,SubClass,WeaponInfo1,WeaponInfo2,WeaponInfo3,WeaponInfo4,WeaponInfo5,WeaponInfo6,Link,Notes,SubmissionTime,SubmitterID,VideoTag,@modNotes,Augments
+    FROM Submissions.IndomitableRuns
 		WHERE ${indomitableDbFields.SubmissionId} = @submissionId;
   `);
 	if (runInsertResult.rowsAffected[0] == 0) {
@@ -138,7 +141,7 @@ export const approveIndomitableSubmission = async (
 
 	// Update Submission
 	const submissionResult = await request.query(`
-      UPDATE Submissions.${table}
+      UPDATE Submissions.IndomitableRuns
       SET ${indomitableDbFields.SubmissionStatus} = 1, ${indomitableDbFields.ModNotes} = @modNotes
       WHERE ${indomitableDbFields.SubmissionId} = @submissionId;
     `);
@@ -148,16 +151,11 @@ export const approveIndomitableSubmission = async (
 	}
 };
 
-export const denyIndomitableSubmission = async (
-	request: Request,
-	category: RunCategories,
-	run: DenyRequest
-) => {
-	const table = validDuelTables[category];
+export const denyIndomitableSubmission = async (request: Request, run: DenyRequest) => {
 	const result = await request
 		.input('submissionId', sql.Int, run.runId)
 		.input('modNotes', sql.NVarChar, run.modNotes).query(`
-      UPDATE Submissions.${table}
+      UPDATE Submissions.IndomitableRuns
       SET ${indomitableDbFields.SubmissionStatus} = 1, ${indomitableDbFields.ModNotes} = @modNotes
       WHERE ${indomitableDbFields.SubmissionId} = @submissionId;
     `);
@@ -180,20 +178,9 @@ export const checkIndomitableVideoExists = async (request: sql.Request, videoLin
 	const paramList = paramNames.map((p) => `@${p}`);
 	const videoLinksResults = await videoLinkRequest.query(`
 		SELECT ${indomitableDbFields.Link} 
-			FROM Submissions.IndomitableNexAelioRuns 
+			FROM Submissions.IndomitableRuns 
 			WHERE ${indomitableDbFields.Link} IN (${paramList.join(',')})
-		UNION
-		SELECT ${indomitableDbFields.Link}
-			FROM Submissions.IndomitableRenusRetemRuns
-			WHERE ${indomitableDbFields.Link} IN (${paramList.join(',')})
-		UNION
-		SELECT ${indomitableDbFields.Link}
-			FROM Submissions.IndomitableAmsKvarisRuns
-			WHERE ${indomitableDbFields.Link} IN (${paramList.join(',')})
-		UNION
-		SELECT ${indomitableDbFields.Link}
-			FROM Submissions.IndomitableNilsStiaRuns
-			WHERE ${indomitableDbFields.Link} IN (${paramList.join(',')});`);
+		`);
 
 	return videoLinksResults.recordset.length > 0
 		? videoLinksResults.recordset.map((r) => r.Link as string)
@@ -205,8 +192,8 @@ export const insertIndomitableSoloRun = async (
 	run: IndomitableSubmissionRequest,
 	category: RunCategories
 ) => {
-	const insertTable = validDuelTables[category];
-	if (!insertTable) {
+	const duelBoss = duelBossMap[category];
+	if (!duelBoss) {
 		throw Error(`Invalid boss ${category}`);
 	}
 
@@ -216,6 +203,7 @@ export const insertIndomitableSoloRun = async (
 	const submissionTime = new Date();
 
 	let insertRequest = request
+		.input('boss', sql.NVarChar, duelBoss)
 		.input('playerId', sql.Int, player1.playerId)
 		.input('runCharacter', sql.NVarChar, player1.inVideoName)
 		.input('patch', sql.NVarChar, CurrentSubmissionPatchCode)
@@ -238,8 +226,8 @@ export const insertIndomitableSoloRun = async (
 	const dbFields = indomitableDbFields;
 	const result = await insertRequest.query(
 		`INSERT INTO
-		 Submissions.${insertTable} (${dbFields.PlayerID},${dbFields.RunCharacterName},${dbFields.Patch},${dbFields.Rank},${dbFields.RunTime},${dbFields.MainClass},${dbFields.SubClass},${dbFields.WeaponInfo1},${dbFields.WeaponInfo2},${dbFields.WeaponInfo3},${dbFields.WeaponInfo4},${dbFields.WeaponInfo5},${dbFields.WeaponInfo6},${dbFields.Link},${dbFields.Notes},${dbFields.SubmissionTime},${dbFields.SubmitterID},${dbFields.Augments})
-		 VALUES (@playerId,@runCharacter,@patch,@rank,@time,@mainClass,@subClass,@w1,@w2,@w3,@w4,@w5,@w6,@link,@notes,@submissionTime,@submitterId,@augments);
+		 Submissions.IndomitableRuns (${dbFields.Boss},${dbFields.PlayerID},${dbFields.RunCharacterName},${dbFields.Patch},${dbFields.Rank},${dbFields.RunTime},${dbFields.MainClass},${dbFields.SubClass},${dbFields.WeaponInfo1},${dbFields.WeaponInfo2},${dbFields.WeaponInfo3},${dbFields.WeaponInfo4},${dbFields.WeaponInfo5},${dbFields.WeaponInfo6},${dbFields.Link},${dbFields.Notes},${dbFields.SubmissionTime},${dbFields.SubmitterID},${dbFields.Augments})
+		 VALUES (@boss,@playerId,@runCharacter,@patch,@rank,@time,@mainClass,@subClass,@w1,@w2,@w3,@w4,@w5,@w6,@link,@notes,@submissionTime,@submitterId,@augments);
 		`
 	);
 

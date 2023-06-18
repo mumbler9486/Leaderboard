@@ -58,7 +58,7 @@ export async function POST({ request, params }) {
 	const transaction = new sql.Transaction(pool);
 	try {
 		await transaction.begin();
-		await approveIndomitableSubmission(transaction, category, approveRequest);
+		await approveIndomitableSubmission(transaction, approveRequest);
 		await transaction.commit();
 
 		notifyDiscordNewRunApproved(

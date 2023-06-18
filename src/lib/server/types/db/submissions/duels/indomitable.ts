@@ -2,6 +2,7 @@ export interface IndomitableDbModel {
 	SubmissionId: string;
 	PlayerID: string;
 	RunCharacterName: string;
+	Boss: string;
 	Patch: string;
 	Rank: string;
 	RunTime: string;

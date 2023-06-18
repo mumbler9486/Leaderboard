@@ -4,80 +4,82 @@ import type { IndomitableRunSearchFilter } from '../../types/api/validation/indo
 import sql, { type Request } from 'mssql';
 import { fields } from '../util/nameof';
 
-const indomitableTables: { [key: string]: string } = {
-	[IndomitableBoss.NexAelio]: 'IndomitableNexAelioRuns',
-	[IndomitableBoss.RenusRetem]: 'IndomitableRenusRetemRuns',
-	[IndomitableBoss.AmsKvaris]: 'IndomitableAmsKvarisRuns',
-	[IndomitableBoss.NilsStia]: 'IndomitableNilsStiaRuns'
+const indomitableBosses: { [key: string]: IndomitableBoss } = {
+	[IndomitableBoss.NexAelio]: IndomitableBoss.NexAelio,
+	[IndomitableBoss.RenusRetem]: IndomitableBoss.RenusRetem,
+	[IndomitableBoss.AmsKvaris]: IndomitableBoss.AmsKvaris,
+	[IndomitableBoss.NilsStia]: IndomitableBoss.NilsStia,
+	[IndomitableBoss.Halvaldi]: IndomitableBoss.Halvaldi
 };
 
-const indomitableDbFields = fields<IndomitableRunDbModel>();
+const dbFields = fields<IndomitableRunDbModel>();
 
 export const getIndomitableRuns = async (
 	request: Request,
 	filters: IndomitableRunSearchFilter,
 	boss: IndomitableBoss
 ) => {
-	const table = indomitableTables[boss];
-	if (!table) {
+	const duelBoss = indomitableBosses[boss];
+	if (!duelBoss) {
 		throw Error('Unknown boss');
 	}
 
 	let query = `
     SELECT
-      run.Id as ${indomitableDbFields.Id},
-      run.PlayerID as ${indomitableDbFields.PlayerID},
-      run.RunCharacterName as ${indomitableDbFields.RunCharacterName},
-      run.ShipOverride as ${indomitableDbFields.ShipOverride},
-      run.Patch as ${indomitableDbFields.Patch},
-      run.Region as ${indomitableDbFields.Region},
-      run.Rank as ${indomitableDbFields.Rank},
-      run.Augments as ${indomitableDbFields.Augments},
-      run.RunTime as ${indomitableDbFields.RunTime},
-      run.MainClass as ${indomitableDbFields.MainClass},
-      run.SubClass as ${indomitableDbFields.SubClass},
-      run.WeaponInfo1 as ${indomitableDbFields.WeaponInfo1},
-      run.WeaponInfo2 as ${indomitableDbFields.WeaponInfo2},
-      run.WeaponInfo3 as ${indomitableDbFields.WeaponInfo3},
-      run.WeaponInfo4 as ${indomitableDbFields.WeaponInfo4},
-      run.WeaponInfo5 as ${indomitableDbFields.WeaponInfo5},
-      run.WeaponInfo6 as ${indomitableDbFields.WeaponInfo6},
-      run.Link as ${indomitableDbFields.Link},
-      run.Notes as ${indomitableDbFields.Notes},
-      run.SubmissionTime as ${indomitableDbFields.SubmissionTime},
-      run.SubmitterID as ${indomitableDbFields.SubmitterID},
-      run.VideoTag as ${indomitableDbFields.VideoTag},
-      run.ModNotes as ${indomitableDbFields.ModNotes},
+      run.Id as ${dbFields.Id},
+      run.PlayerID as ${dbFields.PlayerID},
+      run.RunCharacterName as ${dbFields.RunCharacterName},
+      run.ShipOverride as ${dbFields.ShipOverride},
+      run.Patch as ${dbFields.Patch},
+      run.Boss as ${dbFields.Boss},
+      run.Rank as ${dbFields.Rank},
+      run.Augments as ${dbFields.Augments},
+      run.RunTime as ${dbFields.RunTime},
+      run.MainClass as ${dbFields.MainClass},
+      run.SubClass as ${dbFields.SubClass},
+      run.WeaponInfo1 as ${dbFields.WeaponInfo1},
+      run.WeaponInfo2 as ${dbFields.WeaponInfo2},
+      run.WeaponInfo3 as ${dbFields.WeaponInfo3},
+      run.WeaponInfo4 as ${dbFields.WeaponInfo4},
+      run.WeaponInfo5 as ${dbFields.WeaponInfo5},
+      run.WeaponInfo6 as ${dbFields.WeaponInfo6},
+      run.Link as ${dbFields.Link},
+      run.Notes as ${dbFields.Notes},
+      run.SubmissionTime as ${dbFields.SubmissionTime},
+      run.SubmitterID as ${dbFields.SubmitterID},
+      run.VideoTag as ${dbFields.VideoTag},
+      run.ModNotes as ${dbFields.ModNotes},
 
-      pi.PlayerName as ${indomitableDbFields.PlayerName},
-      pi.CharacterName as ${indomitableDbFields.PlayerCName},
-      pc.NameType as ${indomitableDbFields.PlayerNameType},
-      pc.NameColor1 as ${indomitableDbFields.PlayerNameColor1},
-      pc.NameColor2 as ${indomitableDbFields.PlayerNameColor2},
-      pc.Server as ${indomitableDbFields.PlayerServer},
-      pc.PreferredName as ${indomitableDbFields.PlayerPrefN},
-      pc.Flag as ${indomitableDbFields.Flag},
-      pc.Ship as ${indomitableDbFields.Ship},
+      pi.PlayerName as ${dbFields.PlayerName},
+      pi.CharacterName as ${dbFields.PlayerCName},
+      pc.NameType as ${dbFields.PlayerNameType},
+      pc.NameColor1 as ${dbFields.PlayerNameColor1},
+      pc.NameColor2 as ${dbFields.PlayerNameColor2},
+      pc.Server as ${dbFields.PlayerServer},
+      pc.PreferredName as ${dbFields.PlayerPrefN},
+      pc.Flag as ${dbFields.Flag},
+      pc.Ship as ${dbFields.Ship},
 
-      si.PlayerName as ${indomitableDbFields.SubmitterName},
-      si.CharacterName as ${indomitableDbFields.SubmitterCName},
-      sc.NameType as ${indomitableDbFields.SubmitterNameType},
-      sc.NameColor1 as ${indomitableDbFields.SubmitterNameColor1},
-      sc.NameColor2 as ${indomitableDbFields.SubmitterNameColor2},
-      sc.PreferredName as ${indomitableDbFields.SubmitterPrefN}
-    FROM ${table} AS run
+      si.PlayerName as ${dbFields.SubmitterName},
+      si.CharacterName as ${dbFields.SubmitterCName},
+      sc.NameType as ${dbFields.SubmitterNameType},
+      sc.NameColor1 as ${dbFields.SubmitterNameColor1},
+      sc.NameColor2 as ${dbFields.SubmitterNameColor2},
+      sc.PreferredName as ${dbFields.SubmitterPrefN}
+    FROM IndomitableRuns AS run
         
     INNER JOIN
-    Players.Information AS pi ON run.${indomitableDbFields.PlayerID} = pi.PlayerID
+    Players.Information AS pi ON run.${dbFields.PlayerID} = pi.PlayerID
     INNER JOIN
-    Players.Customization AS pc ON run.${indomitableDbFields.PlayerID} = pc.PlayerID
+    Players.Customization AS pc ON run.${dbFields.PlayerID} = pc.PlayerID
 
     INNER JOIN
-    Players.Information AS si ON run.${indomitableDbFields.SubmitterID} = si.PlayerID
+    Players.Information AS si ON run.${dbFields.SubmitterID} = si.PlayerID
     INNER JOIN
-    Players.Customization AS sc ON run.${indomitableDbFields.SubmitterID} = sc.PlayerID
-    WHERE 1=1
+    Players.Customization AS sc ON run.${dbFields.SubmitterID} = sc.PlayerID
+    WHERE run.${dbFields.Boss} = @boss
 `;
+	request = request.input('boss', sql.NVarChar, duelBoss);
 
 	if (filters.server) {
 		query += ` AND pc.Server = @server`;
@@ -109,9 +111,9 @@ export const getIndomitableRuns = async (
 	}
 
 	if (filters.sort === 'recent') {
-		query += ` ORDER BY run.${indomitableDbFields.SubmissionTime} DESC`;
+		query += ` ORDER BY run.${dbFields.SubmissionTime} DESC`;
 	} else {
-		query += ` ORDER BY run.${indomitableDbFields.RunTime} ASC, run.${indomitableDbFields.SubmissionTime} ASC`;
+		query += ` ORDER BY run.${dbFields.RunTime} ASC, run.${dbFields.SubmissionTime} ASC`;
 	}
 
 	query += ` OFFSET @offset ROWS FETCH NEXT @take ROWS ONLY`;
