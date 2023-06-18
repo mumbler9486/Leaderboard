@@ -5,7 +5,8 @@ const validCategories: { [key: string]: boolean } = {
 	[RunCategories.IndomitableNexAelio.toLowerCase()]: true,
 	[RunCategories.IndomitableRenusRetem.toLowerCase()]: true,
 	[RunCategories.IndomitableAmsKvaris.toLowerCase()]: true,
-	[RunCategories.IndomitableNilsStia.toLowerCase()]: true
+	[RunCategories.IndomitableNilsStia.toLowerCase()]: true,
+	[RunCategories.IndomitableHalvaldi.toLowerCase()]: true
 };
 
 export const match = ((param) => {

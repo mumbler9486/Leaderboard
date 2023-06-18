@@ -14,10 +14,7 @@ export async function GET({ request }) {
     SELECT   
       (SELECT COUNT(*) FROM Purples.Solo) AS ${countSoloFields.PurplesCount},
       (SELECT COUNT(*) FROM DFAegis.Solo) AS ${countSoloFields.DfaCount},
-      (SELECT COUNT(*) FROM IndomitableNexAelioRuns) AS ${countSoloFields.IndomitableNexAelioCount},
-      (SELECT COUNT(*) FROM IndomitableRenusRetemRuns) AS ${countSoloFields.IndomitableRenusRetemCount},
-      (SELECT COUNT(*) FROM IndomitableAmsKvarisRuns) AS ${countSoloFields.IndomitableAmsKvarisCount},
-      (SELECT COUNT(*) FROM IndomitableNilsStiaRuns) AS ${countSoloFields.IndomitableNilsStiaCount}
+      (SELECT COUNT(*) FROM IndomitableRuns) AS ${countSoloFields.IndomitableCount}
     `;
 
 		const results = await pool.request().query(sqlQuery);
@@ -26,11 +23,7 @@ export async function GET({ request }) {
 		const response: SoloCounts = {
 			purples: parseInt(counts.PurplesCount),
 			dfa: parseInt(counts.DfaCount),
-			indomitables:
-				parseInt(counts.IndomitableNexAelioCount) +
-				parseInt(counts.IndomitableRenusRetemCount) +
-				parseInt(counts.IndomitableAmsKvarisCount) +
-				parseInt(counts.IndomitableNilsStiaCount)
+			indomitables: parseInt(counts.IndomitableCount)
 		};
 
 		return json(response);

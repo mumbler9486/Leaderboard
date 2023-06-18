@@ -19,7 +19,8 @@
 		{ value: RunCategories.IndomitableNexAelio, label: 'Indomitable Nex Aelio' },
 		{ value: RunCategories.IndomitableRenusRetem, label: 'Indomitable Renus Retem' },
 		{ value: RunCategories.IndomitableAmsKvaris, label: 'Indomitable Ams Kvaris' },
-		{ value: RunCategories.IndomitableNilsStia, label: 'Indomitable Nils Stia' }
+		{ value: RunCategories.IndomitableNilsStia, label: 'Indomitable Nils Stia' },
+		{ value: RunCategories.IndomitableHalvaldi, label: 'Indomitable Halvaldi' }
 	];
 
 	const submitsMap: { [key: string]: { component: any; category: RunCategories } } = {
@@ -50,6 +51,10 @@
 		[RunCategories.IndomitableNilsStia]: {
 			component: IndomitableSubmits,
 			category: RunCategories.IndomitableNilsStia
+		},
+		[RunCategories.IndomitableHalvaldi]: {
+			component: IndomitableSubmits,
+			category: RunCategories.IndomitableHalvaldi
 		}
 	};
 

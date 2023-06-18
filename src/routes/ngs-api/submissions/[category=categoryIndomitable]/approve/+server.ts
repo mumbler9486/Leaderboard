@@ -18,7 +18,8 @@ const indomitableQuestNames: { [key: string]: string } = {
 	[RunCategories.IndomitableNexAelio]: 'Indomitable Nex Aelio',
 	[RunCategories.IndomitableRenusRetem]: 'Indomitable Renus Retem',
 	[RunCategories.IndomitableAmsKvaris]: 'Indomitable Ams Kvaris',
-	[RunCategories.IndomitableNilsStia]: 'Indomitable Nils Stia'
+	[RunCategories.IndomitableNilsStia]: 'Indomitable Nils Stia',
+	[RunCategories.IndomitableHalvaldi]: 'Indomitable Halvaldi'
 };
 
 /** @type {import('./$types').RequestHandler} */

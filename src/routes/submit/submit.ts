@@ -19,7 +19,8 @@ const indomitableCategories: { [playerCount: string]: RunCategories } = {
 	[RunCategories.IndomitableNexAelio]: RunCategories.IndomitableNexAelio,
 	[RunCategories.IndomitableRenusRetem]: RunCategories.IndomitableRenusRetem,
 	[RunCategories.IndomitableAmsKvaris]: RunCategories.IndomitableAmsKvaris,
-	[RunCategories.IndomitableNilsStia]: RunCategories.IndomitableNilsStia
+	[RunCategories.IndomitableNilsStia]: RunCategories.IndomitableNilsStia,
+	[RunCategories.IndomitableHalvaldi]: RunCategories.IndomitableHalvaldi
 };
 
 export const submitForm = async () => {

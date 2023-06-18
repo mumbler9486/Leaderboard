@@ -41,7 +41,8 @@ const indomitableBosses: { [key: string]: string } = {
 	[RunCategories.IndomitableNexAelio]: 'Nex Aelio',
 	[RunCategories.IndomitableRenusRetem]: 'Renus Retem',
 	[RunCategories.IndomitableAmsKvaris]: 'Ams Kvaris',
-	[RunCategories.IndomitableNilsStia]: 'Nils Stia'
+	[RunCategories.IndomitableNilsStia]: 'Nils Stia',
+	[RunCategories.IndomitableHalvaldi]: 'Halvaldi'
 };
 
 /** @type {import('./$types').RequestHandler} */

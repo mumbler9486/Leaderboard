@@ -130,8 +130,52 @@ export const approveIndomitableSubmission = async (
 	// Add run data to runs table
 	const dbFields = indomitableDbFields;
 	const runInsertResult = await request.query(`
-    INSERT INTO IndomitableRuns (${dbFields.Boss},${dbFields.PlayerID},${dbFields.RunCharacterName},${dbFields.ShipOverride},${dbFields.Patch},${dbFields.Region},${dbFields.Rank},${dbFields.RunTime},${dbFields.MainClass},${dbFields.SubClass},${dbFields.WeaponInfo1},${dbFields.WeaponInfo2},${dbFields.WeaponInfo3},${dbFields.WeaponInfo4},${dbFields.WeaponInfo5},${dbFields.WeaponInfo6},${dbFields.Link},${dbFields.Notes},${dbFields.SubmissionTime},${dbFields.SubmitterID},${dbFields.VideoTag},${dbFields.ModNotes},${dbFields.Augments})
-    SELECT Boss,PlayerID,RunCharacterName,NULL,Patch,NULL,Rank,RunTime,MainClass,SubClass,WeaponInfo1,WeaponInfo2,WeaponInfo3,WeaponInfo4,WeaponInfo5,WeaponInfo6,Link,Notes,SubmissionTime,SubmitterID,VideoTag,@modNotes,Augments
+    INSERT INTO IndomitableRuns (
+			${dbFields.Boss},
+			${dbFields.PlayerID},
+			${dbFields.RunCharacterName},
+			${dbFields.ShipOverride},
+			${dbFields.Patch},
+			${dbFields.Rank},
+			${dbFields.RunTime},
+			${dbFields.MainClass},
+			${dbFields.SubClass},
+			${dbFields.WeaponInfo1},
+			${dbFields.WeaponInfo2},
+			${dbFields.WeaponInfo3},
+			${dbFields.WeaponInfo4},
+			${dbFields.WeaponInfo5},
+			${dbFields.WeaponInfo6},
+			${dbFields.Link},
+			${dbFields.Notes},
+			${dbFields.SubmissionTime},
+			${dbFields.SubmitterID},
+			${dbFields.VideoTag},
+			${dbFields.ModNotes},
+			${dbFields.Augments})
+    SELECT 
+			Boss,
+			PlayerID,
+			RunCharacterName,
+			NULL,
+			Patch,
+			Rank,
+			RunTime,
+			MainClass,
+			SubClass,
+			WeaponInfo1,
+			WeaponInfo2,
+			WeaponInfo3,
+			WeaponInfo4,
+			WeaponInfo5,
+			WeaponInfo6,
+			Link,
+			Notes,
+			SubmissionTime,
+			SubmitterID,
+			VideoTag,
+			@modNotes,
+			Augments
     FROM Submissions.IndomitableRuns
 		WHERE ${indomitableDbFields.SubmissionId} = @submissionId;
   `);
@@ -221,14 +265,54 @@ export const insertIndomitableSoloRun = async (
 		.input('link', sql.NVarChar, player1.povVideoLink)
 		.input('notes', sql.NVarChar, run.notes)
 		.input('submissionTime', sql.DateTime, submissionTime)
-		.input('submitterId', sql.Int, player1.playerId);
+		.input('submitterId', sql.Int, player1.playerId)
+		.input('submissionStatus', sql.Int, 0);
 
 	const dbFields = indomitableDbFields;
 	const result = await insertRequest.query(
 		`INSERT INTO
-		 Submissions.IndomitableRuns (${dbFields.Boss},${dbFields.PlayerID},${dbFields.RunCharacterName},${dbFields.Patch},${dbFields.Rank},${dbFields.RunTime},${dbFields.MainClass},${dbFields.SubClass},${dbFields.WeaponInfo1},${dbFields.WeaponInfo2},${dbFields.WeaponInfo3},${dbFields.WeaponInfo4},${dbFields.WeaponInfo5},${dbFields.WeaponInfo6},${dbFields.Link},${dbFields.Notes},${dbFields.SubmissionTime},${dbFields.SubmitterID},${dbFields.Augments})
-		 VALUES (@boss,@playerId,@runCharacter,@patch,@rank,@time,@mainClass,@subClass,@w1,@w2,@w3,@w4,@w5,@w6,@link,@notes,@submissionTime,@submitterId,@augments);
-		`
+		 Submissions.IndomitableRuns (
+			${dbFields.Boss},
+			${dbFields.PlayerID},
+			${dbFields.RunCharacterName},
+			${dbFields.Patch},
+			${dbFields.Rank},
+			${dbFields.RunTime},
+			${dbFields.MainClass},
+			${dbFields.SubClass},
+			${dbFields.WeaponInfo1},
+			${dbFields.WeaponInfo2},
+			${dbFields.WeaponInfo3},
+			${dbFields.WeaponInfo4},
+			${dbFields.WeaponInfo5},
+			${dbFields.WeaponInfo6},
+			${dbFields.Link},
+			${dbFields.Notes},
+			${dbFields.SubmissionTime},
+			${dbFields.SubmitterID},
+			${dbFields.Augments},
+			${dbFields.SubmissionStatus})
+		 VALUES (
+			@boss,
+			@playerId,
+			@runCharacter,
+			@patch,
+			@rank,
+			@time,
+			@mainClass,
+			@subClass,
+			@w1,
+			@w2,
+			@w3,
+			@w4,
+			@w5,
+			@w6,
+			@link,
+			@notes,
+			@submissionTime,
+			@submitterId,
+			@augments,
+			@submissionStatus);`
 	);
 
 	if (result.rowsAffected[0] == 0) {
