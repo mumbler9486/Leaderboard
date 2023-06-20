@@ -1,25 +1,49 @@
 <script lang="ts">
 	import Modal from './Components/Modal.svelte';
-	import { consentPreferences } from './stores/consent';
+	import { onMount } from 'svelte';
+	import { consentSelected, consentPreferences } from './stores/consent';
 	import { locale, locales } from 'svelte-i18n';
+	import { siteLanguage } from './stores/preferences';
+	import { derived } from 'svelte/store';
+
+	const languageOptions: Record<string, { label: string }> = {
+		en: { label: 'English (Global)' },
+		'en-alt': { label: 'English (Japan)' },
+		ja: { label: '日本語' }
+	};
+
+	const allowPreferenceStorage = derived([consentSelected, consentPreferences], (s) => {
+		return s[0] === true && s[1] === true;
+	});
 
 	let modal: Modal;
+	let languageSelection: string = initLanguage();
 
-	function storeLocale(localeReference) {
-		if ($consentPreferences === true) {
-			localStorage.setItem('language', localeReference.toString());
+	onMount(() => {
+		if ($allowPreferenceStorage) {
+			languageSelection = !languageOptions[$siteLanguage] ? 'en' : $siteLanguage;
+		} else {
+			clearPreferences();
 		}
+	});
+
+	function initLanguage() {
+		if ($allowPreferenceStorage) {
+			return !languageOptions[$siteLanguage] ? 'en' : $siteLanguage;
+		}
+		return 'en';
 	}
 
-	function cleanLocale(localeReference) {
-		const languageList = `{
-            "en":"English (Global)",
-            "en-alt":"English (Japan)",
-            "ja":"日本語"
-        }`;
-		let cleanedLanguage = JSON.parse(languageList);
-		return cleanedLanguage[localeReference];
-	}
+	const updatePreferences = () => {
+		if ($allowPreferenceStorage) {
+			$siteLanguage = languageSelection;
+		}
+		$locale = languageSelection;
+	};
+
+	allowPreferenceStorage.subscribe(updatePreferences);
+
+	const clearPreferences = () => ($siteLanguage = '');
 </script>
 
 <div class="btn-ghost no-animation btn rounded-none" on:click={modal.show} on:keyup={modal.show}>
@@ -35,23 +59,22 @@
 	on:btn2Click={modal.close}
 >
 	<div class="flex flex-row flex-wrap justify-center gap-1 md:justify-start">
-		{#each $locales as localeref}
-			{#each [cleanLocale(localeref)] as cleanedLocale}
-				<label
-					class="label w-64 cursor-pointer gap-2 rounded border border-neutral-content/25 bg-neutral px-2"
+		{#each $locales as availableLocaleCode}
+			<label
+				class="label w-64 cursor-pointer gap-2 rounded border border-neutral-content/25 bg-neutral px-2"
+			>
+				<span class="label-text text-neutral-content"
+					>{languageOptions[availableLocaleCode].label}</span
 				>
-					<span class="label-text text-neutral-content">{cleanedLocale}</span>
-					<input
-						type="radio"
-						bind:group={$locale}
-						id="radio-classFilter-force"
-						value={localeref}
-						name="radio-shared-languagePreference"
-						class="radio radio-sm rounded border-neutral-content/25 checked:bg-[#DBDBDB]"
-						on:click={() => storeLocale(localeref)}
-					/>
-				</label>
-			{/each}
+				<input
+					type="radio"
+					class="radio radio-sm rounded border-neutral-content/25 checked:bg-[#DBDBDB]"
+					name="language-pref-selection"
+					value={availableLocaleCode}
+					bind:group={languageSelection}
+					on:change={updatePreferences}
+				/>
+			</label>
 		{/each}
 	</div>
 </Modal>
