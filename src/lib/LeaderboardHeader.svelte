@@ -1,9 +1,97 @@
 <script lang="ts">
-	import HeaderMenu from './HeaderMenu.svelte';
-
-	import { t } from 'svelte-i18n';
-	import UserMenu from './UserMenu.svelte';
+	import HeaderMenu, { type MenuGroup } from './HeaderMenu.svelte';
 	import LanguageSelector from './LanguageSelector.svelte';
+	import { t } from 'svelte-i18n';
+	import { clientPrincipleStore, playerInfoStore } from './stores/userLogin';
+	import { UserRole } from './types/api/users/userRole';
+	import { onMount } from 'svelte';
+	import { consentSelected } from './stores/consent';
+
+	const staticMenuItems: MenuGroup[] = [
+		{
+			title: $t('navigation.purpleTriggers'),
+			image: '/icons/quests/trigger.png',
+			items: [
+				{ label: 'Solo', link: '/runs/purple/solo' },
+				{ label: 'Duo', link: '/runs/purple/duo' },
+				{ label: 'Party', link: '/runs/purple/party' }
+			]
+		},
+		{
+			title: $t('navigation.darkFalzAegis'),
+			image: '/icons/quests/uq.png',
+			items: [
+				{ label: 'Solo', link: '/runs/dfa/solo' },
+				{ label: 'Duo', link: '/runs/dfa/duo' },
+				{ label: 'Party', link: '/runs/dfa/party' }
+			]
+		},
+		{
+			title: $t('navigation.duels'),
+			image: '/icons/quests/duel.png',
+			items: [
+				{ label: 'Nex Aelio', link: '/runs/indomitable/nexaelio' },
+				{ label: 'Renus Retem', link: '/runs/indomitable/renusretem' },
+				{ label: 'Ams Kvaris', link: '/runs/indomitable/amskvaris' },
+				{ label: 'Nils Stia', link: '/runs/indomitable/nilsstia' },
+				{ label: 'Halvaldi', link: '/runs/indomitable/halvaldi' }
+			]
+		}
+	];
+
+	$: loginMenu = {
+		title: !isLoggedIn ? 'Login' : $playerInfoStore?.playerName ?? '<Unknown>',
+		link: !isLoggedIn ? '/login' : undefined,
+		items: isLoggedIn
+			? [
+					{ label: 'Profile', link: '/profile', icon: 'bi-person-vcard' },
+					{ label: 'Settings', link: '/settings', icon: 'bi-gear' },
+					{ label: 'Logout', link: '/logout', icon: 'bi-box-arrow-right' }
+			  ]
+			: []
+	};
+
+	$: submitMenu = {
+		title: 'Submit a Run',
+		show: isLoggedIn,
+		icon: 'bi-envelope-paper',
+		link: '/submit',
+		items: []
+	};
+
+	$: moderationMenu = {
+		title: 'Moderation',
+		show: isMod || isAdmin,
+		icon: 'bi-shield-shaded',
+		link: '/moderator/submissions'
+	};
+
+	$: dynamicMenuItems = [submitMenu, moderationMenu, loginMenu] as MenuGroup[];
+	$: headerMenuItems = staticMenuItems.concat(dynamicMenuItems);
+
+	let isLoadingLogin: boolean = false;
+
+	$: isLoggedIn =
+		$consentSelected &&
+		!!$clientPrincipleStore &&
+		($clientPrincipleStore.userRoles?.includes(UserRole.User) ?? false) &&
+		!!$playerInfoStore;
+
+	$: isAdmin = $clientPrincipleStore?.userRoles?.includes(UserRole.Administrator) ?? false;
+	$: isMod = $clientPrincipleStore?.userRoles?.includes(UserRole.Moderator) ?? false;
+
+	const loadLogin = async () => {
+		isLoadingLogin = true;
+		const userInfo = await clientPrincipleStore.fetchClientPrinciple();
+		if (!userInfo) {
+			//User not logged in
+			return;
+		}
+		await playerInfoStore.refreshInfo(userInfo.userId);
+		isLoadingLogin = false;
+	};
+
+	onMount(loadLogin);
 </script>
 
 <header class="sticky top-0 z-50" style="background-color:RGBA(5,15,29,0.8);">
@@ -15,41 +103,7 @@
 				</a>
 			</div>
 
-			<HeaderMenu
-				title="Runs"
-				groups={[
-					{
-						title: $t('navigation.purpleTriggers'),
-						icon: '/icons/quests/trigger.png',
-						items: [
-							{ label: 'Solo', link: '/runs/purple/solo' },
-							{ label: 'Duo', link: '/runs/purple/duo' },
-							{ label: 'Party', link: '/runs/purple/party' }
-						]
-					},
-					{
-						title: $t('navigation.darkFalzAegis'),
-						icon: '/icons/quests/uq.png',
-						items: [
-							{ label: 'Solo', link: '/runs/dfa/solo' },
-							{ label: 'Duo', link: '/runs/dfa/duo' },
-							{ label: 'Party', link: '/runs/dfa/party' }
-						]
-					},
-					{
-						title: $t('navigation.duels'),
-						icon: '/icons/quests/duel.png',
-						items: [
-							{ label: 'Nex Aelio', link: '/runs/indomitable/nexaelio' },
-							{ label: 'Renus Retem', link: '/runs/indomitable/renusretem' },
-							{ label: 'Ams Kvaris', link: '/runs/indomitable/amskvaris' },
-							{ label: 'Nils Stia', link: '/runs/indomitable/nilsstia' },
-							{ label: 'Halvaldi', link: '/runs/indomitable/halvaldi' }
-						]
-					}
-				]}
-			/>
-			<UserMenu />
+			<HeaderMenu title="Menu" groups={headerMenuItems} />
 			<LanguageSelector />
 		</div>
 	</div>
