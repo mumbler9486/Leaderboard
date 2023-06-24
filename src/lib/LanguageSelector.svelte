@@ -1,10 +1,9 @@
 <script lang="ts">
 	import Modal from './Components/Modal.svelte';
-	import { onMount } from 'svelte';
-	import { consentSelected, consentPreferences } from './stores/consent';
 	import { locale, locales } from 'svelte-i18n';
 	import { siteLanguage } from './stores/preferences';
-	import { derived } from 'svelte/store';
+
+	let modal: Modal;
 
 	const languageOptions: Record<string, { label: string }> = {
 		en: { label: 'English (Global)' },
@@ -12,38 +11,9 @@
 		ja: { label: '日本語' }
 	};
 
-	const allowPreferenceStorage = derived([consentSelected, consentPreferences], (s) => {
-		return s[0] === true && s[1] === true;
-	});
-
-	let modal: Modal;
-	let languageSelection: string = initLanguage();
-
-	onMount(() => {
-		if ($allowPreferenceStorage) {
-			languageSelection = !languageOptions[$siteLanguage] ? 'en' : $siteLanguage;
-		} else {
-			clearPreferences();
-		}
-	});
-
-	function initLanguage() {
-		if ($allowPreferenceStorage) {
-			return !languageOptions[$siteLanguage] ? 'en' : $siteLanguage;
-		}
-		return 'en';
-	}
-
 	const updatePreferences = () => {
-		if ($allowPreferenceStorage) {
-			$siteLanguage = languageSelection;
-		}
-		$locale = languageSelection;
+		$locale = $siteLanguage;
 	};
-
-	allowPreferenceStorage.subscribe(updatePreferences);
-
-	const clearPreferences = () => ($siteLanguage = '');
 </script>
 
 <div class="btn-ghost no-animation btn rounded-none" on:click={modal.show} on:keyup={modal.show}>
@@ -71,7 +41,7 @@
 					class="radio radio-sm rounded border-neutral-content/25 checked:bg-[#DBDBDB]"
 					name="language-pref-selection"
 					value={availableLocaleCode}
-					bind:group={languageSelection}
+					bind:group={$siteLanguage}
 					on:change={updatePreferences}
 				/>
 			</label>

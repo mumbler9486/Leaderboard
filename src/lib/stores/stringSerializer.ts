@@ -1,5 +1,5 @@
 // From the joshnuss/svelte-local-storage-store package
-interface Serializer<T> {
+export interface Serializer<T> {
 	parse(text: string): T;
 	stringify(object: T): string;
 }
