@@ -5,6 +5,8 @@
 		image?: string;
 		show?: boolean;
 		link?: string;
+		disabled?: boolean;
+		disabledTooltip?: string;
 		items?: MenuItem[];
 	}
 
@@ -16,6 +18,8 @@
 </script>
 
 <script lang="ts">
+	import Tooltip from './Components/Tooltip.svelte';
+
 	export let title: string;
 	export let groups: MenuGroup[];
 </script>
@@ -64,14 +68,27 @@
 <div class="navbar-end hidden md:flex">
 	{#each groups.filter((g) => g.show ?? true) as group}
 		{#if group.link}
-			<a href={group.link} class="btn-ghost no-animation btn rounded-none">
-				{#if group.image}
-					<img src={group.image} class="mr-2" />
-				{:else if group.icon}
-					<i class="bi mr-2 {group.icon}" />
-				{/if}
-				{group.title}
-			</a>
+			{#if !group.disabled}
+				<a href={group.link} class="btn-ghost no-animation btn rounded-none">
+					{#if group.image}
+						<img src={group.image} class="mr-2" />
+					{:else if group.icon}
+						<i class="bi mr-2 {group.icon}" />
+					{/if}
+					{group.title}
+				</a>
+			{:else}
+				<Tooltip left tip={group.disabledTooltip ?? ''}>
+					<div class="btn-disabled no-animation btn cursor-not-allowed rounded-none">
+						{#if group.image}
+							<img src={group.image} class="mr-2" />
+						{:else if group.icon}
+							<i class="bi mr-2 {group.icon}" />
+						{/if}
+						{group.title}
+					</div>
+				</Tooltip>
+			{/if}
 		{:else if group.items}
 			<div class="dropdown-end dropdown">
 				<label tabindex="0" class="btn-ghost no-animation btn rounded-none">

@@ -42,6 +42,7 @@
 	$: loginMenu = {
 		title: !isLoggedIn ? 'Login' : $playerInfoStore?.playerName ?? '<Unknown>',
 		link: !isLoggedIn ? '/login' : undefined,
+		show: $consentSelected,
 		items: isLoggedIn
 			? [
 					{ label: 'Profile', link: '/profile', icon: 'bi-person-vcard' },
@@ -49,23 +50,31 @@
 					{ label: 'Logout', link: '/logout', icon: 'bi-box-arrow-right' }
 			  ]
 			: []
-	};
+	} satisfies MenuGroup;
+
+	$: consentMenu = {
+		title: 'Login',
+		link: '/',
+		disabled: true,
+		disabledTooltip: 'Accept cookies to use Account features',
+		show: !$consentSelected
+	} satisfies MenuGroup;
 
 	$: submitMenu = {
 		title: 'Submit a Run',
 		show: isLoggedIn,
 		icon: 'bi-envelope-paper',
 		link: '/submit'
-	};
+	} satisfies MenuGroup;
 
 	$: moderationMenu = {
 		title: 'Moderation',
-		show: isMod || isAdmin,
+		show: (isMod || isAdmin) && isLoggedIn,
 		icon: 'bi-shield-shaded',
 		link: '/moderator/submissions'
-	};
+	} satisfies MenuGroup;
 
-	$: dynamicMenuItems = [submitMenu, moderationMenu, loginMenu] as MenuGroup[];
+	$: dynamicMenuItems = [submitMenu, moderationMenu, consentMenu, loginMenu] as MenuGroup[];
 	$: headerMenuItems = staticMenuItems.concat(dynamicMenuItems);
 
 	let isLoadingLogin: boolean = false;
