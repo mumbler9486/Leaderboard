@@ -55,8 +55,7 @@
 		title: 'Submit a Run',
 		show: isLoggedIn,
 		icon: 'bi-envelope-paper',
-		link: '/submit',
-		items: []
+		link: '/submit'
 	};
 
 	$: moderationMenu = {

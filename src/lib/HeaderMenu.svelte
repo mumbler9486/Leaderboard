@@ -20,18 +20,20 @@
 	export let groups: MenuGroup[];
 </script>
 
+<!--Mobile Headers-->
 <div class="dropdown-end dropdown ml-auto md:hidden">
 	<label tabindex="0" class="btn-ghost rounded-btn btn">{title}</label>
 	<ul tabindex="0" class="dropdown-content menu rounded-box mt-4 w-52 bg-base-100 p-2 shadow">
 		{#each groups.filter((g) => g.show ?? true) as group}
 			{#if group.link}
 				<li>
-					<a class="m-2 flex text-xs font-semibold uppercase">
+					<a class="flex text-sm font-semibold uppercase">
 						{#if group.image}
 							<img src={group.image} class="mr-2" />
 						{:else if group.icon}
 							<i class="bi mr-2 {group.icon}" />
-						{/if}{group.title}
+						{/if}
+						{group.title}
 					</a>
 				</li>
 			{:else if group.items}
@@ -40,7 +42,8 @@
 						<img src={group.image} class="mr-2" />
 					{:else if group.icon}
 						<i class="bi mr-2 {group.icon}" />
-					{/if}{group.title}
+					{/if}
+					{group.title}
 				</span>
 				{#each group.items as item}
 					<li>
@@ -57,6 +60,7 @@
 	</ul>
 </div>
 
+<!-- Desktop Headers -->
 <div class="navbar-end hidden md:flex">
 	{#each groups.filter((g) => g.show ?? true) as group}
 		{#if group.link}
@@ -66,9 +70,7 @@
 				{:else if group.icon}
 					<i class="bi mr-2 {group.icon}" />
 				{/if}
-				<span>
-					{group.title}
-				</span>
+				{group.title}
 			</a>
 		{:else if group.items}
 			<div class="dropdown-end dropdown">
