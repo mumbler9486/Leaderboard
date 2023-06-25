@@ -33,7 +33,8 @@
 		nexaelio: 'Duel Nex Aelio',
 		renusretem: 'Duel Renus Retem',
 		amskvaris: 'Duel Ams Kvaris',
-		nilsstia: 'Duel Nils Stia'
+		nilsstia: 'Duel Nils Stia',
+		halvaldi: 'Duel Halvaldi'
 	};
 
 	const fetchRuns = async () => {
