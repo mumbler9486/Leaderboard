@@ -16,20 +16,17 @@ export const mapPlayerAutoFillList = (players: PlayerInformationDbModel[]) => {
 	);
 };
 
-export const mapPlayer = (players: (PlayerInformationDbModel & PlayerCustomizationDbModel)[]) => {
-	return players.map(
-		(p) =>
-			({
-				playerId: parseInt(p.PlayerID),
-				playerName: p.PlayerName,
-				characterName: p.CharacterName,
-				preferredName: parseInt(p.PreferredName),
-				flag: p.Flag,
-				ship: parseInt(p.Ship),
-				server: p.Server,
-				nameType: parseInt(p.NameType),
-				nameColor1: p.NameColor1,
-				nameColor2: p.NameColor2
-			} as Player)
-	);
+export const mapPlayer = (player: PlayerInformationDbModel & PlayerCustomizationDbModel) => {
+	return {
+		playerId: parseInt(player.PlayerID),
+		playerName: player.PlayerName,
+		characterName: player.CharacterName,
+		preferredName: parseInt(player.PreferredName),
+		flag: player.Flag,
+		ship: parseInt(player.Ship),
+		server: player.Server,
+		nameType: parseInt(player.NameType),
+		nameColor1: player.NameColor1,
+		nameColor2: player.NameColor2
+	} satisfies Player;
 };

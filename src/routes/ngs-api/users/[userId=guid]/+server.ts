@@ -15,8 +15,7 @@ export async function GET({ params }) {
 			return jsonError(404, 'Unknown user.');
 		}
 
-		const mappedPlayer = mapPlayer([player]);
-
+		const mappedPlayer = mapPlayer(player);
 		return json(mappedPlayer);
 	} catch (err) {
 		console.error(err);
