@@ -50,7 +50,7 @@ module.exports = async function (context, req) {
 
 		var returner = results.recordset;
 		//console.log(results);
-		poolConnection.close();
+		//poolConnection.close();
 
 		var displayName = 'b';
 		var nameType = 'b';

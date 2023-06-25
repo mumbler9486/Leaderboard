@@ -101,7 +101,7 @@ export async function GET({ url }) {
 
 		////console.log(returner);
 		// @ts-ignore
-		poolConnection.close();
+		// poolConnection.close();
 
 		//returner = context.req.body;
 

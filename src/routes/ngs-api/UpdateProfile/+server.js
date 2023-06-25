@@ -142,7 +142,7 @@ export async function PUT({ request }) {
 			.query(sqlUpdate);
 
 		////console.log(returner);
-		poolConnection.close();
+		// poolConnection.close();
 
 		return json({ Successful: 'Aye' });
 	} catch (err) {
