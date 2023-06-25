@@ -27,3 +27,7 @@ export const mockNormalUser = {
 		]
 	}
 };
+
+export const mockLoggedOutUser = {
+	clientPrincipal: null
+};

@@ -43,7 +43,7 @@ export async function POST({ request }) {
 			.query(sqlTest);
 
 		if (testresults.rowsAffected != 0) {
-			poolConnection.close();
+			//poolConnection.close();
 			return json({ what: 'who' });
 		}
 
@@ -59,7 +59,7 @@ export async function POST({ request }) {
 			.query(sqlTest);
 
 		if (testresults.rowsAffected != 0) {
-			poolConnection.close();
+			// poolConnection.close();
 			return json({ what: 'who' });
 		}
 
@@ -114,7 +114,7 @@ export async function POST({ request }) {
 			.query(sqlAdd);
 
 		////console.log(returner);
-		poolConnection.close();
+		// poolConnection.close();
 
 		//returner = context.req.body;
 

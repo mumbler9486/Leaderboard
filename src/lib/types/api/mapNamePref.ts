@@ -1,16 +1,19 @@
 import type { PlayerNameDisplay } from '$lib/Components/PlayerNameBadge.svelte';
 import type { PlayerInfo } from '$lib/types/api/playerInfo';
+import type { Player } from './player';
 
-export const mapToNamePref = (player: PlayerInfo | undefined): PlayerNameDisplay | undefined => {
+export const mapToNamePref = (
+	player: PlayerInfo | Player | undefined
+): PlayerNameDisplay | undefined => {
 	if (!player) return undefined;
 
 	return {
 		playerId: player.playerId,
-		flag: undefined,
+		flag: player.flag,
 		ship: player.ship,
 		region: player.server,
 		playerName: player.playerName,
-		runCharacterName: player.runCharacterName,
+		runCharacterName: 'runCharacterName' in player ? player.runCharacterName : '',
 		characterName: player.characterName,
 		namePreference: player.preferredName,
 		nameType: player.nameType,

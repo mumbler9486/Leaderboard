@@ -57,7 +57,7 @@ export async function POST({ req }) {
 
 		var returner = results.recordset;
 		////console.log(results);
-		poolConnection.close();
+		// poolConnection.close();
 
 		var displayName = 'b';
 		var nameType = 'b';

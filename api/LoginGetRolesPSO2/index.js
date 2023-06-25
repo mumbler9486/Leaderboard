@@ -46,7 +46,7 @@ module.exports = async function (context, req) {
 
 		var returner = results.recordset;
 		//console.log(results);
-		poolConnection.close();
+		//poolConnection.close();
 
 		//console.log(returner[0]);
 
