@@ -1,9 +1,9 @@
-import { persisted } from 'svelte-local-storage-store';
 import { consentSelected } from './consent';
 import { get, writable } from 'svelte/store';
 import type { Player } from '$lib/types/api/player';
 import { fetchGetApi } from '$lib/utils/fetch';
 import type { UserRole } from '$lib/types/api/users/userRole';
+import { consentedPersisted } from './gdprStoreFactory';
 
 export interface ClientPrincipal {
 	identityProvider: string;
@@ -16,7 +16,10 @@ export interface ClientPrincipal {
 	}[];
 }
 
-const clientPrinciplePersistedStore = persisted<ClientPrincipal | null>('clientPrinciple', null);
+const clientPrinciplePersistedStore = consentedPersisted<ClientPrincipal | null>(
+	'clientPrinciple',
+	null
+);
 const fetchClientPrinciple = async () => {
 	if (!get(consentSelected)) {
 		throw new Error('Not consented. Cannot fetch login.');
