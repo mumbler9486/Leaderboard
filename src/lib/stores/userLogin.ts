@@ -1,6 +1,6 @@
 import { persisted } from 'svelte-local-storage-store';
 import { consentSelected } from './consent';
-import { get } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import type { Player } from '$lib/types/api/player';
 import { fetchGetApi } from '$lib/utils/fetch';
 import type { UserRole } from '$lib/types/api/users/userRole';
@@ -34,12 +34,8 @@ const fetchClientPrinciple = async () => {
 	return null;
 };
 
-const userInfoPersistedStore = persisted<Player | undefined>('userInfo', undefined);
+const userInfoPersistedStore = writable<Player | undefined>(undefined);
 const refreshUserInfo = async (userGuid: string) => {
-	if (!get(consentSelected)) {
-		throw new Error('Not consented. Cannot fetch login.');
-	}
-
 	const player = await fetchGetApi<Player>(`/ngs-api/users/${userGuid}`);
 	userInfoPersistedStore.set(player);
 	return player;

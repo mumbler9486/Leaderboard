@@ -99,7 +99,12 @@
 		isLoadingLogin = false;
 	};
 
-	onMount(loadLogin);
+	// This will load when this script is loaded
+	consentSelected.subscribe((consentSelection) => {
+		if (consentSelection && !isLoadingLogin) {
+			loadLogin();
+		}
+	});
 </script>
 
 <header class="sticky top-0 z-50" style="background-color:RGBA(5,15,29,0.8);">
