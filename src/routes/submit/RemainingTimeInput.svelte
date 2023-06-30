@@ -31,7 +31,6 @@
 
 	<label class="input-group">
 		<input
-			id="time-form-minutes"
 			placeholder="MM"
 			type="number"
 			class="input-bordered input w-full"
@@ -43,7 +42,6 @@
 		/>
 		<span>:</span>
 		<input
-			id="time-form-seconds"
 			placeholder="SS"
 			type="number"
 			class="input-bordered input w-full"
