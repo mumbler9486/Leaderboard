@@ -53,9 +53,7 @@
 						class="mt-1 flex basis-full flex-col place-items-center md:mt-0 md:place-items-start"
 					>
 						<div class="w-full md:flex md:justify-between">
-							<span
-								class="flex w-[70vw] justify-center text-2xl font-bold md:w-auto md:justify-start md:text-4xl"
-							>
+							<span class="flexs text-2xl md:justify-start md:text-4xl">
 								<PlayerNameBadge player={mapToNamePref($playerInfoStore)} />
 							</span>
 							<Button

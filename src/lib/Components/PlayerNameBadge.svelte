@@ -101,14 +101,14 @@
 	};
 </script>
 
-<div class="flex flex-row">
+<div class="flex items-center">
 	{#if playerNameDisplay.flag}
 		<span class="flag {flagClass}" />
 	{/if}
 	{#if showShipFlag && playerNameDisplay.region && playerNameDisplay.ship}
 		<img
 			src={shipImageUrl}
-			class="mr-1 inline object-none object-center"
+			class="mr-1 object-none p-0"
 			alt="ship{playerNameDisplay.ship}-{playerNameDisplay.region}"
 		/>
 	{/if}
