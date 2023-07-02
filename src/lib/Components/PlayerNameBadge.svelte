@@ -103,7 +103,7 @@
 
 <div class="flex flex-row">
 	{#if playerNameDisplay.flag}
-		<span class={flagClass} style="max-height:16px;min-width: 25px;" />
+		<span class="flag {flagClass}" />
 	{/if}
 	{#if showShipFlag && playerNameDisplay.region && playerNameDisplay.ship}
 		<img
@@ -138,5 +138,9 @@
 <style scoped>
 	.primary-name {
 		font-weight: bold;
+	}
+	.flag {
+		max-height: 16px;
+		min-width: 25px;
 	}
 </style>

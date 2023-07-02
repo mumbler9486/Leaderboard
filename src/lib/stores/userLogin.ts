@@ -38,7 +38,12 @@ const fetchClientPrinciple = async () => {
 };
 
 const userInfoPersistedStore = writable<Player | undefined>(undefined);
-const refreshUserInfo = async (userGuid: string) => {
+const refreshUserInfo = async () => {
+	const userGuid = get(clientPrincipleStore)?.userId;
+	if (!userGuid) {
+		throw new Error('Not logged in');
+	}
+
 	const player = await fetchGetApi<Player>(`/ngs-api/users/${userGuid}`);
 	userInfoPersistedStore.set(player);
 	return player;

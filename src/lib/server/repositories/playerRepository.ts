@@ -31,16 +31,23 @@ export const getRunPlayer = async (request: Request, playerId: number) => {
 export const getPlayer = async (request: Request, userIdGuid: string) => {
 	const submissionResults = await request.input('userIdGuid', sql.NVarChar, userIdGuid).query(`
 			SELECT
-				pi.${playerInfoDbFields.PlayerID},
 				pi.${playerInfoDbFields.PlayerName},
+				pi.${playerInfoDbFields.PlayerID},
 				pi.${playerInfoDbFields.CharacterName},
+				pi.${playerInfoDbFields.Description},
+				pi.${playerInfoDbFields.Youtube},
+				pi.${playerInfoDbFields.Youtube2},
+				pi.${playerInfoDbFields.Twitch},
+				pi.${playerInfoDbFields.Twitter},
+				pi.${playerInfoDbFields.Discord},
+
+				pc.${playerCustomizationDbFields.PreferredName},
+				pc.${playerCustomizationDbFields.Server},
+				pc.${playerCustomizationDbFields.Ship},
+				pc.${playerCustomizationDbFields.Flag},
 				pc.${playerCustomizationDbFields.NameType},
 				pc.${playerCustomizationDbFields.NameColor1},
-				pc.${playerCustomizationDbFields.NameColor2},
-				pc.${playerCustomizationDbFields.Server},
-				pc.${playerCustomizationDbFields.PreferredName},
-				pc.${playerCustomizationDbFields.Flag},
-				pc.${playerCustomizationDbFields.Ship}
+				pc.${playerCustomizationDbFields.NameColor2}
 
 			FROM Users.Information AS ui
 			INNER JOIN Players.Information AS pi ON pi.${playerInfoDbFields.PlayerID} = ui.${userInfoDbModel.PlayerID}

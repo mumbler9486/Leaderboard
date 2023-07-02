@@ -27,6 +27,11 @@ export const mapPlayer = (player: PlayerInformationDbModel & PlayerCustomization
 		server: player.Server,
 		nameType: parseInt(player.NameType),
 		nameColor1: player.NameColor1,
-		nameColor2: player.NameColor2
+		nameColor2: player.NameColor2,
+		description: player.Description,
+		youtube: player.Youtube,
+		twitch: player.Twitch,
+		twitter: player.Twitter,
+		discord: player.Discord
 	} satisfies Player;
 };

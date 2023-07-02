@@ -1,11 +1,12 @@
 <script lang="ts">
-	export let tip: string;
+	export let tip: string | undefined;
 	export let left: boolean = false;
 	export let bottom: boolean = false;
 </script>
 
 <div
-	class="tooltip tooltip-info"
+	class:tooltip={!!tip}
+	class:tooltip-info={!!tip}
 	class:tooltip-left={left}
 	class:tooltip-bottom={bottom}
 	data-tip={tip}
