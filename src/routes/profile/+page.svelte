@@ -8,6 +8,7 @@
 	import { playerInfoStore } from '$lib/stores/userLogin';
 	import { onMount } from 'svelte';
 	import Badge from '$lib/Components/Badge.svelte';
+	import { isNullOrEmpty } from '$lib/utils/string';
 
 	let isLoading = false;
 	let modalEdit: ProfileEditModal;
@@ -23,7 +24,6 @@
 		}
 	};
 
-	const nullOrEmpty = (str: string | null | undefined) => !str || str === '';
 	onMount(reloadProfile);
 </script>
 
@@ -84,7 +84,7 @@
 						</div>
 						<div class="mt-4 flex w-full justify-between">
 							<div class="flex flex-row flex-wrap gap-1">
-								{#if !nullOrEmpty($playerInfoStore?.twitch)}
+								{#if !isNullOrEmpty($playerInfoStore?.twitch)}
 									<Badge
 										label="Twitch"
 										color="803be5"
@@ -92,7 +92,7 @@
 										link="https://twitch.tv/{$playerInfoStore?.twitch}"
 									/>
 								{/if}
-								{#if !nullOrEmpty($playerInfoStore?.youtube)}
+								{#if !isNullOrEmpty($playerInfoStore?.youtube)}
 									<Badge
 										label="Youtube"
 										color="d11414"
@@ -108,7 +108,7 @@
 										link="https://youtube.com/@{$playerInfoStore?.youtube}"
 									/>
 								{/if}
-								{#if !nullOrEmpty($playerInfoStore?.twitter)}
+								{#if !isNullOrEmpty($playerInfoStore?.twitter)}
 									<Badge
 										label="Twitter"
 										color="1d9bf9"
@@ -116,7 +116,7 @@
 										link="https://youtube.com/@{$playerInfoStore?.twitter}"
 									/>
 								{/if}
-								{#if !nullOrEmpty($playerInfoStore?.discord)}
+								{#if !isNullOrEmpty($playerInfoStore?.discord)}
 									<Badge
 										label="Discord"
 										color="5865f2"

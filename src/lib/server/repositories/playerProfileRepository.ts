@@ -5,6 +5,7 @@ import type {
 	PlayerCustomizationDbModel,
 	PlayerInformationDbModel
 } from '../types/db/users/playerInformation';
+import { isNullOrEmpty } from '$lib/utils/string';
 
 const playerInfoDbFields = fields<PlayerInformationDbModel>();
 const playerCustomDbFields = fields<PlayerCustomizationDbModel>();
@@ -38,6 +39,10 @@ export const updatePlayerProfile = async (
     WHERE ${playerInfoDbFields.PlayerID} = @playerId;
   `;
 
+	const flag = isNullOrEmpty(updateProfileRequest.playerCountry)
+		? undefined
+		: updateProfileRequest.playerCountry!.toLowerCase();
+
 	request = request
 		.input('playerId', sql.Int, playerId)
 		.input('nameType', sql.Int, updateProfileRequest.nameEffect)
@@ -45,7 +50,7 @@ export const updatePlayerProfile = async (
 		.input('nameColor2', sql.NVarChar, updateProfileRequest.secondaryColor)
 		.input('server', sql.NVarChar, updateProfileRequest.serverRegion)
 		.input('preferredName', sql.Int, updateProfileRequest.preferredName)
-		.input('flag', sql.NVarChar, updateProfileRequest.playerCountry)
+		.input('flag', sql.NVarChar, flag)
 		.input('ship', sql.Int, updateProfileRequest.ship)
 		.input('characterName', sql.NVarChar, updateProfileRequest.mainCharacterName)
 		.input('description', sql.NVarChar, updateProfileRequest.description)
@@ -56,14 +61,12 @@ export const updatePlayerProfile = async (
 		.input('discord', sql.NVarChar, updateProfileRequest.discordUsername);
 
 	const results = await request.query(updateCustomizationQuery);
-	console.log(results);
 
 	const isSuccess =
 		results?.rowsAffected &&
 		results.rowsAffected.length == 2 &&
 		results.rowsAffected[0] == 1 &&
 		results.rowsAffected[1] == 1;
-
 	if (!isSuccess) {
 		throw Error(
 			`Player profile update failed, affected an erroneous number of rows. rowsAffected=${results.rowsAffected}`

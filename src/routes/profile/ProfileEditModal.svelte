@@ -40,27 +40,39 @@
 		{ label: 'Gradient', value: '2' },
 		{ label: 'Glowing', value: '3' }
 	];
+
 	const countryOptions = [{ label: '(None)', value: '' }].concat(
 		countries.map((c) => ({ label: c.name, value: c.code.toLowerCase() }))
 	);
 
-	$: shipOptions = [
-		{ label: '(None)', value: '' },
-		{ label: 'Ship 1 (global)', value: 'global_1' },
-		{ label: 'Ship 2 (global)', value: 'global_2' },
-		{ label: 'Ship 3 (global)', value: 'global_3' },
-		{ label: 'Ship 4 (global)', value: 'global_4' },
-		{ label: 'Ship 1 (japan)', value: 'japan_1' },
-		{ label: 'Ship 2 (japan)', value: 'japan_2' },
-		{ label: 'Ship 3 (japan)', value: 'japan_3' },
-		{ label: 'Ship 4 (japan)', value: 'japan_4' },
-		{ label: 'Ship 5 (japan)', value: 'japan_5' },
-		{ label: 'Ship 6 (japan)', value: 'japan_6' },
-		{ label: 'Ship 7 (japan)', value: 'japan_7' },
-		{ label: 'Ship 8 (japan)', value: 'japan_8' },
-		{ label: 'Ship 9 (japan)', value: 'japan_9' },
-		{ label: 'Ship 10 (japan)', value: 'japan_10' }
+	const serverRegionOptions = [
+		{ label: 'Global', value: 'global' },
+		{ label: 'Japan', value: 'japan' }
 	];
+
+	$: shipOptions =
+		profileSettings.serverRegion === 'global'
+			? [
+					{ label: '(None)', value: '' },
+					{ label: 'Ship 1 (global)', value: 'global_1' },
+					{ label: 'Ship 2 (global)', value: 'global_2' },
+					{ label: 'Ship 3 (global)', value: 'global_3' },
+					{ label: 'Ship 4 (global)', value: 'global_4' }
+			  ]
+			: [
+					{ label: '(None)', value: '' },
+					{ label: 'Ship 1 (japan)', value: 'japan_1' },
+					{ label: 'Ship 2 (japan)', value: 'japan_2' },
+					{ label: 'Ship 3 (japan)', value: 'japan_3' },
+					{ label: 'Ship 4 (japan)', value: 'japan_4' },
+					{ label: 'Ship 5 (japan)', value: 'japan_5' },
+					{ label: 'Ship 6 (japan)', value: 'japan_6' },
+					{ label: 'Ship 7 (japan)', value: 'japan_7' },
+					{ label: 'Ship 8 (japan)', value: 'japan_8' },
+					{ label: 'Ship 9 (japan)', value: 'japan_9' },
+					{ label: 'Ship 10 (japan)', value: 'japan_10' }
+			  ];
+
 	const shipOptionsInfo: { [shipOption: string]: { region: 'global' | 'japan'; ship: number } } = {
 		global_1: { region: 'global', ship: 1 },
 		global_2: { region: 'global', ship: 2 },
@@ -89,7 +101,7 @@
 		discordUsername: '',
 		ship: '',
 		playerCountry: '',
-		serverRegion: '',
+		serverRegion: 'global',
 		primaryColor: '#ffffff',
 		secondaryColor: '#ffffff',
 		nameEffect: '0',
@@ -170,7 +182,7 @@
 			discordUsername: profileSettings.discordUsername,
 			ship: selectedShip?.ship,
 			playerCountry: profileSettings.playerCountry.toLowerCase(),
-			serverRegion: selectedShip?.region,
+			serverRegion: profileSettings.serverRegion,
 			primaryColor: profileSettings.primaryColor.substring(1),
 			secondaryColor: profileSettings.secondaryColor.substring(1),
 			nameEffect: parseInt(profileSettings.nameEffect),
@@ -245,6 +257,18 @@
 					<span class="label-text text-base font-semibold">Preferred Name</span>
 				</div>
 				<Dropdown options={nameOptions} bind:value={profileSettings.preferredName} />
+			</div>
+			<div class="form-control">
+				<div class="label">
+					<span class="label-text text-base font-semibold">Server Region</span>
+				</div>
+				<Dropdown
+					options={serverRegionOptions}
+					bind:value={profileSettings.serverRegion}
+					on:change={() => {
+						profileSettings.ship = '';
+					}}
+				/>
 			</div>
 			<div class="form-control">
 				<div class="label">

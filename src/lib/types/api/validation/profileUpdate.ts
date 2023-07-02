@@ -14,7 +14,7 @@ export const profileUpdateRequestSchema = object({
 	twitchChannel: string().nullable().optional(),
 	discordUsername: string().nullable().optional(),
 	ship: number().min(-1).max(10).notOneOf([0]),
-	playerCountry: string().required().max(2).lowercase().oneOf(selectableCountries),
+	playerCountry: string().optional().max(2).lowercase().oneOf(selectableCountries),
 	serverRegion: string().required().oneOf(serverRegions),
 	primaryColor: string().required().matches(colorRegex).max(6),
 	secondaryColor: string().required().matches(colorRegex).max(6),
