@@ -11,6 +11,7 @@ export interface Player {
 	nameColor2: string;
 	description: string;
 	youtube: string;
+	youtube2: string;
 	twitch: string;
 	twitter: string;
 	discord: string;

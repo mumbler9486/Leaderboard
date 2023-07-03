@@ -143,7 +143,7 @@
 			mainCharacterName: player.characterName,
 			preferredName: player.preferredName.toString(),
 			youtubeHandle1: player.youtube,
-			youtubeHandle2: '',
+			youtubeHandle2: player.youtube2,
 			twitterHandle: player.twitter,
 			twitchChannel: player.twitch,
 			discordUsername: player.discord,

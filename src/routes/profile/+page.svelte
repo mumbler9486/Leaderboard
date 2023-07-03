@@ -9,6 +9,7 @@
 	import { onMount } from 'svelte';
 	import Badge from '$lib/Components/Badge.svelte';
 	import { isNullOrEmpty } from '$lib/utils/string';
+	import Divider from '$lib/Components/Divider.svelte';
 
 	let isLoading = false;
 	let modalEdit: ProfileEditModal;
@@ -37,7 +38,7 @@
 			class="m-2 flex grow flex-col gap-1 rounded-md border border-secondary bg-base-100 p-4 px-8"
 		>
 			<div class="text-center text-4xl font-light">Your ARKs ID</div>
-			<div class="divider -mx-8" />
+			<Divider class="-mx-8" />
 			{#if !isLoading}
 				<div class="flex rounded-md border border-secondary bg-secondary/25 p-2 md:flex-row">
 					<div class="avatar mr-0 place-self-center md:mr-2 md:place-self-auto">
@@ -100,12 +101,12 @@
 										link="https://youtube.com/@{$playerInfoStore?.youtube}"
 									/>
 								{/if}
-								{#if false}
+								{#if !isNullOrEmpty($playerInfoStore?.youtube2)}
 									<Badge
 										label="Youtube Alt"
 										color="d11414"
 										icon="youtube"
-										link="https://youtube.com/@{$playerInfoStore?.youtube}"
+										link="https://youtube.com/@{$playerInfoStore?.youtube2}"
 									/>
 								{/if}
 								{#if !isNullOrEmpty($playerInfoStore?.twitter)}
