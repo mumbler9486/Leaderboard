@@ -42,9 +42,7 @@
 		{ label: 'Glowing', value: '3' }
 	];
 
-	const countryOptions = [{ label: '(None)', value: '' }].concat(
-		countries.map((c) => ({ label: c.name, value: c.code.toLowerCase() }))
-	);
+	const countryOptions = countries.map((c) => ({ label: c.name, value: c.code.toLowerCase() }));
 
 	const serverRegionOptions = [
 		{ label: 'Global', value: 'global' },

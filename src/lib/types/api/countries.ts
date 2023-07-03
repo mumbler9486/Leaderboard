@@ -1,5 +1,5 @@
 export const countries = [
-	{ name: 'None', code: '' },
+	{ name: '(None)', code: '' },
 	{ name: 'Afghanistan', code: 'AF' },
 	{ name: 'Åland Islands', code: 'AX' },
 	{ name: 'Albania', code: 'AL' },
@@ -243,3 +243,8 @@ export const countries = [
 	{ name: 'Zambia', code: 'ZM' },
 	{ name: 'Zimbabwe', code: 'ZW' }
 ];
+
+export const countriesMap = countries.reduce((prev, curr) => {
+	prev[curr.code] = curr;
+	return prev;
+}, {} as { [code: string]: { name: string; code: string } });

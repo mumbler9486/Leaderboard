@@ -29,6 +29,9 @@
 </script>
 
 <script lang="ts">
+	import { countriesMap } from '$lib/types/api/countries';
+	import Tooltip from './Tooltip.svelte';
+
 	export let player: PlayerNameDisplay | string | undefined;
 	export let showLink: boolean = false;
 	export let showShipFlag: boolean = true;
@@ -46,6 +49,9 @@
 	$: playerLink = `/users?id=${playerNameDisplay.playerId}`;
 
 	$: flagClass = playerNameDisplay.flag ? `fi fi-${playerNameDisplay.flag}` : '';
+	$: countryName = playerNameDisplay?.flag
+		? countriesMap[playerNameDisplay.flag.toUpperCase()].name ?? '<Unknown>'
+		: undefined;
 	$: shipImageUrl =
 		playerNameDisplay.ship && playerNameDisplay.region
 			? `/icons/ships/ship${playerNameDisplay.ship}-${playerNameDisplay.region}.png`
@@ -102,8 +108,10 @@
 </script>
 
 <div class="flex items-center">
-	{#if playerNameDisplay.flag}
-		<span class="flag {flagClass}" />
+	{#if playerNameDisplay?.flag}
+		<Tooltip class="flex" tip={countryName}>
+			<span class="flag {flagClass}" />
+		</Tooltip>
 	{/if}
 	{#if showShipFlag && playerNameDisplay.region && playerNameDisplay.ship}
 		<img

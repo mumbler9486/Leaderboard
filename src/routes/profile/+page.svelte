@@ -10,9 +10,16 @@
 	import Badge from '$lib/Components/Badge.svelte';
 	import { isNullOrEmpty } from '$lib/utils/string';
 	import Divider from '$lib/Components/Divider.svelte';
+	import { countriesMap } from '$lib/types/api/countries';
 
 	let isLoading = false;
 	let modalEdit: ProfileEditModal;
+	$: {
+		console.log($playerInfoStore);
+	}
+	$: playerCountry = $playerInfoStore?.flag
+		? countriesMap[$playerInfoStore.flag.toUpperCase()].name ?? '<Unknown>'
+		: undefined;
 
 	const reloadProfile = async () => {
 		isLoading = true;
@@ -79,7 +86,7 @@
 							</div>
 							<div>
 								{#if $playerInfoStore?.flag}
-									Country: {$playerInfoStore?.flag.toUpperCase()}
+									Country: {playerCountry}
 								{/if}
 							</div>
 						</div>
