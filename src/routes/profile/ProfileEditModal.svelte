@@ -14,6 +14,7 @@
 	import { t } from 'svelte-i18n';
 	import Alert from '$lib/Components/Alert.svelte';
 	import Button from '$lib/Components/Button.svelte';
+	import Divider from '$lib/Components/Divider.svelte';
 
 	const dispatcher = createEventDispatcher();
 
@@ -239,141 +240,150 @@
 					<PlayerNameBadge player={namePreview} showLink={false} />
 				</span>
 			</div>
-			<div class="form-control">
-				<div class="label">
-					<span class="label-text text-base font-semibold">Main Character Name</span>
+			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
+				<div class="form-control">
+					<div class="label">
+						<span class="label-text text-base font-semibold">Main Character Name</span>
+					</div>
+					<input
+						class="input-bordered input bg-neutral"
+						type="text"
+						placeholder="(Required)"
+						required
+						maxlength="25"
+						bind:value={profileSettings.mainCharacterName}
+					/>
 				</div>
-				<input
-					class="input-bordered input bg-neutral"
-					type="text"
-					placeholder="(Required)"
-					required
-					maxlength="25"
-					bind:value={profileSettings.mainCharacterName}
-				/>
+				<div class="form-control">
+					<div class="label">
+						<span class="label-text text-base font-semibold">Preferred Name</span>
+					</div>
+					<Dropdown options={nameOptions} bind:value={profileSettings.preferredName} />
+				</div>
 			</div>
-			<div class="form-control">
-				<div class="label">
-					<span class="label-text text-base font-semibold">Preferred Name</span>
+			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-3">
+				<div class="form-control">
+					<div class="label">
+						<span class="label-text text-base font-semibold">Server Region</span>
+					</div>
+					<Dropdown
+						options={serverRegionOptions}
+						bind:value={profileSettings.serverRegion}
+						on:change={() => {
+							profileSettings.ship = '';
+						}}
+					/>
 				</div>
-				<Dropdown options={nameOptions} bind:value={profileSettings.preferredName} />
+				<div class="form-control">
+					<div class="label">
+						<span class="label-text text-base font-semibold">Ship</span>
+					</div>
+					<Dropdown options={shipOptions} bind:value={profileSettings.ship} />
+				</div>
+				<div class="form-control">
+					<div class="label">
+						<span class="label-text text-base font-semibold">Country</span>
+					</div>
+					<Dropdown options={countryOptions} bind:value={profileSettings.playerCountry} />
+				</div>
 			</div>
-			<div class="form-control">
-				<div class="label">
-					<span class="label-text text-base font-semibold">Server Region</span>
+			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-3">
+				<div class="form-control">
+					<div class="label">
+						<span class="label-text text-base font-semibold">Primary Color</span>
+					</div>
+					<input
+						type="color"
+						class="input-bordered input w-full"
+						bind:value={profileSettings.primaryColor}
+					/>
 				</div>
-				<Dropdown
-					options={serverRegionOptions}
-					bind:value={profileSettings.serverRegion}
-					on:change={() => {
-						profileSettings.ship = '';
-					}}
-				/>
+				<div class="form-control">
+					<div class="label">
+						<span class="label-text text-base font-semibold">Secondary Color</span>
+					</div>
+					<input
+						type="color"
+						class="input-bordered input w-full"
+						bind:value={profileSettings.secondaryColor}
+					/>
+				</div>
+				<div class="form-control">
+					<div class="label">
+						<span class="label-text text-base font-semibold">Name Effect</span>
+					</div>
+					<Dropdown options={nameEffectOptions} bind:value={profileSettings.nameEffect} />
+				</div>
 			</div>
-			<div class="form-control">
-				<div class="label">
-					<span class="label-text text-base font-semibold">Ship</span>
+			<Divider />
+			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
+				<div class="form-control">
+					<div class="label">
+						<span class="label-text text-base font-semibold">Youtube Handle (Primary)</span>
+					</div>
+					<label class="input-group">
+						<span>youtube.com/@</span>
+						<input
+							placeholder="(Optional)"
+							class="input-bordered input w-full"
+							maxlength="30"
+							bind:value={profileSettings.youtubeHandle1}
+						/>
+					</label>
 				</div>
-				<Dropdown options={shipOptions} bind:value={profileSettings.ship} />
-			</div>
-			<div class="form-control">
-				<div class="label">
-					<span class="label-text text-base font-semibold">Country</span>
+				<div class="form-control">
+					<div class="label">
+						<span class="label-text text-base font-semibold">Youtube Handle (Secondary)</span>
+					</div>
+					<label class="input-group">
+						<span>youtube.com/@</span>
+						<input
+							placeholder="(Optional)"
+							class="input-bordered input w-full"
+							maxlength="30"
+							bind:value={profileSettings.youtubeHandle2}
+						/>
+					</label>
 				</div>
-				<Dropdown options={countryOptions} bind:value={profileSettings.playerCountry} />
-			</div>
-			<div class="form-control">
-				<div class="label">
-					<span class="label-text text-base font-semibold">Primary Color</span>
+				<div class="form-control">
+					<div class="label">
+						<span class="label-text text-base font-semibold">Twitter</span>
+					</div>
+					<label class="input-group">
+						<span>twitter.com/</span>
+						<input
+							placeholder="(Optional)"
+							class="input-bordered input w-full"
+							maxlength="30"
+							bind:value={profileSettings.twitterHandle}
+						/>
+					</label>
 				</div>
-				<input
-					type="color"
-					class="input-bordered input w-full"
-					bind:value={profileSettings.primaryColor}
-				/>
-			</div>
-			<div class="form-control">
-				<div class="label">
-					<span class="label-text text-base font-semibold">Secondary Color</span>
+				<div class="form-control">
+					<div class="label">
+						<span class="label-text text-base font-semibold">Twitch Channel</span>
+					</div>
+					<label class="input-group">
+						<span>twitch.tv/</span>
+						<input
+							placeholder="(Optional)"
+							class="input-bordered input w-full"
+							maxlength="30"
+							bind:value={profileSettings.twitchChannel}
+						/>
+					</label>
 				</div>
-				<input
-					type="color"
-					class="input-bordered input w-full"
-					bind:value={profileSettings.secondaryColor}
-				/>
-			</div>
-			<div class="form-control">
-				<div class="label">
-					<span class="label-text text-base font-semibold">Name Effect</span>
-				</div>
-				<Dropdown options={nameEffectOptions} bind:value={profileSettings.nameEffect} />
-			</div>
-			<div class="form-control">
-				<div class="label">
-					<span class="label-text text-base font-semibold">Youtube Handle (Primary)</span>
-				</div>
-				<label class="input-group">
-					<span>youtube.com/@</span>
+				<div class="form-control">
+					<div class="label">
+						<span class="label-text text-base font-semibold">Discord name</span>
+					</div>
 					<input
 						placeholder="(Optional)"
 						class="input-bordered input w-full"
 						maxlength="30"
-						bind:value={profileSettings.youtubeHandle1}
+						bind:value={profileSettings.discordUsername}
 					/>
-				</label>
-			</div>
-			<div class="form-control">
-				<div class="label">
-					<span class="label-text text-base font-semibold">Youtube Handle (Secondary)</span>
 				</div>
-				<label class="input-group">
-					<span>youtube.com/@</span>
-					<input
-						placeholder="(Optional)"
-						class="input-bordered input w-full"
-						maxlength="30"
-						bind:value={profileSettings.youtubeHandle2}
-					/>
-				</label>
-			</div>
-			<div class="form-control">
-				<div class="label">
-					<span class="label-text text-base font-semibold">Twitter</span>
-				</div>
-				<label class="input-group">
-					<span>twitter.com/</span>
-					<input
-						placeholder="(Optional)"
-						class="input-bordered input w-full"
-						maxlength="30"
-						bind:value={profileSettings.twitterHandle}
-					/>
-				</label>
-			</div>
-			<div class="form-control">
-				<div class="label">
-					<span class="label-text text-base font-semibold">Twitch Channel</span>
-				</div>
-				<label class="input-group">
-					<span>twitch.tv/</span>
-					<input
-						placeholder="(Optional)"
-						class="input-bordered input w-full"
-						maxlength="30"
-						bind:value={profileSettings.twitchChannel}
-					/>
-				</label>
-			</div>
-			<div class="form-control">
-				<div class="label">
-					<span class="label-text text-base font-semibold">Discord name</span>
-				</div>
-				<input
-					placeholder="(Optional)"
-					class="input-bordered input w-full"
-					maxlength="30"
-					bind:value={profileSettings.discordUsername}
-				/>
 			</div>
 			<div class="form-control">
 				<div class="label">
