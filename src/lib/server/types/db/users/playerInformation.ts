@@ -4,7 +4,6 @@ export interface PlayerInformationDbModel {
 	CharacterName: string;
 	Description: string;
 	Youtube: string;
-	Youtube2: string;
 	Twitch: string;
 	Twitter: string;
 	Discord: string;

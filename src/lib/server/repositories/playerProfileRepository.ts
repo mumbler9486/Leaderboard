@@ -32,7 +32,6 @@ export const updatePlayerProfile = async (
       ${playerInfoDbFields.CharacterName} = @characterName,
       ${playerInfoDbFields.Description} = @description,
       ${playerInfoDbFields.Youtube} = @youtube,
-      ${playerInfoDbFields.Youtube2} = @youtube2,
       ${playerInfoDbFields.Twitch} = @twitch,
       ${playerInfoDbFields.Twitter} = @twitter,
       ${playerInfoDbFields.Discord} = @discord
@@ -54,8 +53,7 @@ export const updatePlayerProfile = async (
 		.input('ship', sql.Int, updateProfileRequest.ship)
 		.input('characterName', sql.NVarChar, updateProfileRequest.mainCharacterName)
 		.input('description', sql.NVarChar, updateProfileRequest.description)
-		.input('youtube', sql.NVarChar, updateProfileRequest.youtubeHandle1)
-		.input('youtube2', sql.NVarChar, updateProfileRequest.youtubeHandle2)
+		.input('youtube', sql.NVarChar, updateProfileRequest.youtubeHandle)
 		.input('twitch', sql.NVarChar, updateProfileRequest.twitchChannel)
 		.input('twitter', sql.NVarChar, updateProfileRequest.twitterHandle)
 		.input('discord', sql.NVarChar, updateProfileRequest.discordUsername);

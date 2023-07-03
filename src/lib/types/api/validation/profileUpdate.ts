@@ -8,8 +8,7 @@ const colorRegex = /[a-f\d]{6}/;
 export const profileUpdateRequestSchema = object({
 	mainCharacterName: string().required().max(24),
 	preferredName: number().required().default(0),
-	youtubeHandle1: string().nullable().optional(),
-	youtubeHandle2: string().nullable().optional(),
+	youtubeHandle: string().nullable().optional(),
 	twitterHandle: string().nullable().optional(),
 	twitchChannel: string().nullable().optional(),
 	discordUsername: string().nullable().optional(),

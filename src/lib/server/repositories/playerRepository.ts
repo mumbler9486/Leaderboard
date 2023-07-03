@@ -36,7 +36,6 @@ export const getPlayer = async (request: Request, userIdGuid: string) => {
 				pi.${playerInfoDbFields.CharacterName},
 				pi.${playerInfoDbFields.Description},
 				pi.${playerInfoDbFields.Youtube},
-				pi.${playerInfoDbFields.Youtube2},
 				pi.${playerInfoDbFields.Twitch},
 				pi.${playerInfoDbFields.Twitter},
 				pi.${playerInfoDbFields.Discord},

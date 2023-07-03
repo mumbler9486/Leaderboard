@@ -30,7 +30,6 @@ export const mapPlayer = (player: PlayerInformationDbModel & PlayerCustomization
 		nameColor2: player.NameColor2,
 		description: player.Description,
 		youtube: player.Youtube,
-		youtube2: player.Youtube2,
 		twitch: player.Twitch,
 		twitter: player.Twitter,
 		discord: player.Discord

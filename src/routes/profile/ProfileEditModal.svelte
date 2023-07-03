@@ -93,8 +93,7 @@
 	const defaultSettings = {
 		mainCharacterName: '',
 		preferredName: '0',
-		youtubeHandle1: '',
-		youtubeHandle2: '',
+		youtubeHandle: '',
 		twitterHandle: '',
 		twitchChannel: '',
 		discordUsername: '',
@@ -140,8 +139,7 @@
 		profileSettings = {
 			mainCharacterName: player.characterName,
 			preferredName: player.preferredName.toString(),
-			youtubeHandle1: player.youtube,
-			youtubeHandle2: player.youtube2,
+			youtubeHandle: player.youtube,
 			twitterHandle: player.twitter,
 			twitchChannel: player.twitch,
 			discordUsername: player.discord,
@@ -174,8 +172,7 @@
 		let updateRequest: ProfileUpdateRequest = {
 			mainCharacterName: profileSettings.mainCharacterName,
 			preferredName: parseInt(profileSettings.preferredName),
-			youtubeHandle1: profileSettings.youtubeHandle1,
-			youtubeHandle2: profileSettings.youtubeHandle2,
+			youtubeHandle: profileSettings.youtubeHandle,
 			twitterHandle: profileSettings.twitterHandle,
 			twitchChannel: profileSettings.twitchChannel,
 			discordUsername: profileSettings.discordUsername,
@@ -317,7 +314,7 @@
 			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
 				<div class="form-control">
 					<div class="label">
-						<span class="label-text text-base font-semibold">Youtube Handle (Primary)</span>
+						<span class="label-text text-base font-semibold">Youtube Handle</span>
 					</div>
 					<label class="input-group">
 						<span>youtube.com/@</span>
@@ -325,21 +322,7 @@
 							placeholder="(Optional)"
 							class="input-bordered input w-full"
 							maxlength="30"
-							bind:value={profileSettings.youtubeHandle1}
-						/>
-					</label>
-				</div>
-				<div class="form-control">
-					<div class="label">
-						<span class="label-text text-base font-semibold">Youtube Handle (Secondary)</span>
-					</div>
-					<label class="input-group">
-						<span>youtube.com/@</span>
-						<input
-							placeholder="(Optional)"
-							class="input-bordered input w-full"
-							maxlength="30"
-							bind:value={profileSettings.youtubeHandle2}
+							bind:value={profileSettings.youtubeHandle}
 						/>
 					</label>
 				</div>

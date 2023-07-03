@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { t } from 'svelte-i18n';
 	import UserPageTrophy from '$lib/LeaderboardComponents/UserParts/UserPageTrophy.svelte';
 	import ProfileEditModal from './ProfileEditModal.svelte';
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import Button from '$lib/Components/Button.svelte';
+	import Badge from '$lib/Components/Badge.svelte';
+	import Divider from '$lib/Components/Divider.svelte';
+	import { t } from 'svelte-i18n';
 	import { mapToNamePref } from '$lib/types/api/mapNamePref';
 	import { playerInfoStore } from '$lib/stores/userLogin';
 	import { onMount } from 'svelte';
-	import Badge from '$lib/Components/Badge.svelte';
 	import { isNullOrEmpty } from '$lib/utils/string';
-	import Divider from '$lib/Components/Divider.svelte';
 	import { countriesMap } from '$lib/types/api/countries';
 
 	let isLoading = false;
@@ -106,14 +106,6 @@
 										color="d11414"
 										icon="youtube"
 										link="https://youtube.com/@{$playerInfoStore?.youtube}"
-									/>
-								{/if}
-								{#if !isNullOrEmpty($playerInfoStore?.youtube2)}
-									<Badge
-										label="Youtube Alt"
-										color="d11414"
-										icon="youtube"
-										link="https://youtube.com/@{$playerInfoStore?.youtube2}"
 									/>
 								{/if}
 								{#if !isNullOrEmpty($playerInfoStore?.twitter)}
