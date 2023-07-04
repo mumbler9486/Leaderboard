@@ -3,11 +3,11 @@
 
 	export let label: string;
 	export let link: string | undefined = undefined;
-	export let color: string | undefined = undefined; //without #
+	export let color: string | undefined = undefined; //format bg-[#ffffff]
 	export let tooltip: string | undefined = undefined;
 	export let icon: string | undefined = undefined;
 
-	$: colorClass = color ? `bg-[#${color}]` : '';
+	$: colorClass = color ?? '';
 	$: iconClass = icon ? `bi bi-${icon}` : '';
 </script>
 

@@ -62,7 +62,7 @@
 							{#if !isNullOrEmpty(player.twitch)}
 								<Badge
 									label="Twitch"
-									color="803be5"
+									color="bg-[#803be5]"
 									icon="twitch"
 									link="https://twitch.tv/{player.twitch}"
 								/>
@@ -70,7 +70,7 @@
 							{#if !isNullOrEmpty(player.youtube)}
 								<Badge
 									label="Youtube"
-									color="d11414"
+									color="bg-[#d11414]"
 									icon="youtube"
 									link="https://youtube.com/@{player.youtube}"
 								/>
@@ -78,13 +78,18 @@
 							{#if !isNullOrEmpty(player.twitter)}
 								<Badge
 									label="Twitter"
-									color="1d9bf9"
+									color="bg-[#1d9bf9]"
 									icon="twitter"
 									link="https://twitter.com/@{player.twitter}"
 								/>
 							{/if}
 							{#if !isNullOrEmpty(player.discord)}
-								<Badge label="Discord" color="5865f2" icon="discord" tooltip={player.discord} />
+								<Badge
+									label="Discord"
+									color="bg-[#5865f2]"
+									icon="discord"
+									tooltip={player.discord}
+								/>
 							{/if}
 						</div>
 						<Badge label="Share" icon="share" link="/users/{player.playerId}" />
