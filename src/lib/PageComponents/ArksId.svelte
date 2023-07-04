@@ -87,7 +87,7 @@
 								<Badge label="Discord" color="5865f2" icon="discord" tooltip={player.discord} />
 							{/if}
 						</div>
-						<Badge label="Share" icon="share" link="/users?id={player.playerId}" />
+						<Badge label="Share" icon="share" link="/users/{player.playerId}" />
 					</div>
 				</div>
 			</div>
@@ -95,7 +95,9 @@
 				<div class="flex grow flex-col">
 					<span class="text-center text-lg font-semibold">Profile:</span>
 					<div class="whitespace-pre-wrap rounded bg-base-100 p-2 text-sm md:text-base">
-						{player.description ?? ''}
+						{isNullOrEmpty(player.description)
+							? `We don't have a profile for ${player.playerName} but they're definitely cool!`
+							: player.description}
 					</div>
 				</div>
 			</div>

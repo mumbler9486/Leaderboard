@@ -1,6 +1,6 @@
 import { json } from '@sveltejs/kit';
 import { leaderboardDb } from '$lib/server/db/db.js';
-import { getPlayer } from '$lib/server/repositories/playerRepository.js';
+import { getPlayerByGuid } from '$lib/server/repositories/playerRepository.js';
 import { jsonError } from '$lib/server/error.js';
 import {
 	profileUpdateRequestSchema,
@@ -30,7 +30,7 @@ export async function PUT({ params, request }) {
 	try {
 		const pool = await leaderboardDb.connect();
 
-		const player = await getPlayer(await pool.request(), userId);
+		const player = await getPlayerByGuid(await pool.request(), userId);
 		if (!player) {
 			return jsonError(404, 'Unknown user.');
 		}
