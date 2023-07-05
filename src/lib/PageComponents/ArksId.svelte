@@ -80,7 +80,7 @@
 									label="Twitter"
 									color="bg-[#1d9bf9]"
 									icon="twitter"
-									link="https://twitter.com/@{player.twitter}"
+									link="https://twitter.com/{player.twitter}"
 								/>
 							{/if}
 							{#if !isNullOrEmpty(player.discord)}
@@ -96,10 +96,12 @@
 					</div>
 				</div>
 			</div>
-			<div class="flex grow justify-center rounded-md border border-secondary bg-secondary/25 p-2">
+			<div class="flex justify-center rounded-md border border-secondary bg-secondary/25 p-2">
 				<div class="flex grow flex-col">
 					<span class="text-center text-lg font-semibold">Profile:</span>
-					<div class="whitespace-pre-wrap rounded bg-base-100 p-2 text-sm md:text-base">
+					<div
+						class="break-anywhere w-full whitespace-pre-wrap rounded bg-base-100 p-2 text-sm md:text-base"
+					>
 						{isNullOrEmpty(player.description)
 							? `We don't have a profile for ${player.playerName} but they're definitely cool!`
 							: player.description}
@@ -127,3 +129,9 @@
 		{/if}
 	</div>
 </div>
+
+<style scoped>
+	.break-anywhere {
+		overflow-wrap: anywhere;
+	}
+</style>

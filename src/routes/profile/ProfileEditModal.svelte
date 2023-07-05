@@ -189,9 +189,8 @@
 		} catch (err) {
 			serverError = (err as Error).message;
 			console.log(serverError);
-			return;
-		} finally {
 			isSubmitting = false;
+			return;
 		}
 
 		try {
