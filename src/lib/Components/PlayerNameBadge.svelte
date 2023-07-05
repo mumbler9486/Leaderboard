@@ -46,7 +46,7 @@
 		!player || typeof player === 'string'
 			? stringToNameDisplay(player ?? unknownPlayerName)
 			: player;
-	$: playerLink = `/users?id=${playerNameDisplay.playerId}`;
+	$: playerLink = `/users/${playerNameDisplay.playerId}`;
 
 	$: flagClass = playerNameDisplay.flag ? `fi fi-${playerNameDisplay.flag}` : '';
 	$: countryName = playerNameDisplay?.flag
