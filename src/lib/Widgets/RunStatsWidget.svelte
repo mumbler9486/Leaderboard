@@ -1,7 +1,7 @@
 <script lang="ts">
 	import HomeNew10 from '$lib/LeaderboardComponents/HomeNew10.svelte';
 	import HomeNewAegis5 from '$lib/LeaderboardComponents/HomeNewAegis5.svelte';
-	import SoloPurpleStats from '$lib/StatComponents/SoloPurpleStats.svelte';
+	import SoloStats from '$lib/Widgets/SoloStats.svelte';
 
 	let currentTab: string = 'solo';
 
@@ -33,7 +33,7 @@
 	<span id="tabcontent1" class:hidden={!soloTabActive}>
 		<HomeNew10 />
 		<div class="divider -mx-8" />
-		<SoloPurpleStats />
+		<SoloStats />
 	</span>
 	<span id="tabcontent2" class:hidden={!dfaTabActive}>
 		<HomeNewAegis5 />

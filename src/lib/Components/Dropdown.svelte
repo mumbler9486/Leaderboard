@@ -1,6 +1,6 @@
 <script lang="ts">
-	export let label: string;
 	export let options: DropdownValues[];
+	export let label: string | undefined = undefined;
 	export let value: string | undefined = undefined;
 	export let placeholder: string | undefined = undefined;
 
@@ -12,9 +12,11 @@
 	}
 </script>
 
-<div class="label justify-center">
-	<span class="label-text text-base font-semibold">{label}</span>
-</div>
+{#if label}
+	<div class="label justify-center">
+		<span class="label-text text-base font-semibold">{label}</span>
+	</div>
+{/if}
 <select class="select-bordered select rounded" bind:value on:change>
 	{#if placeholder}
 		<option disabled selected>{placeholder}</option>

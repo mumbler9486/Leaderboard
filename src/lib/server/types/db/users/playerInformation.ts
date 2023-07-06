@@ -2,6 +2,12 @@ export interface PlayerInformationDbModel {
 	PlayerID: string;
 	PlayerName: string;
 	CharacterName: string;
+	Description: string;
+	Youtube: string;
+	Twitch: string;
+	Twitter: string;
+	Discord: string;
+	Trophies: string;
 }
 
 export interface PlayerCustomizationDbModel {

@@ -30,7 +30,6 @@
 	<label class="input-group">
 		{#if showHours}
 			<input
-				id="time-form-hours"
 				placeholder="H"
 				type="number"
 				class="svelte-blgex8 input-bordered input w-full"
@@ -43,7 +42,6 @@
 			<span>:</span>
 		{/if}
 		<input
-			id="time-form-minutes"
 			placeholder="MM"
 			type="number"
 			class="input-bordered input w-full"
@@ -55,7 +53,6 @@
 		/>
 		<span>:</span>
 		<input
-			id="time-form-seconds"
 			placeholder="SS"
 			type="number"
 			class="input-bordered input w-full"

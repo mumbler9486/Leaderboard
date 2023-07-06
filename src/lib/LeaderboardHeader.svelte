@@ -4,7 +4,6 @@
 	import { t } from 'svelte-i18n';
 	import { clientPrincipleStore, playerInfoStore } from './stores/userLogin';
 	import { UserRole } from './types/api/users/userRole';
-	import { onMount } from 'svelte';
 	import { consentSelected } from './stores/consent';
 
 	const staticMenuItems: MenuGroup[] = [
@@ -39,8 +38,12 @@
 		}
 	];
 
+	$: loginTitle = (() => {
+		if (isLoadingLogin) return 'Loading...';
+		return !isLoggedIn ? 'Login' : $playerInfoStore?.playerName ?? '<Unknown>';
+	})();
 	$: loginMenu = {
-		title: !isLoggedIn ? 'Login' : $playerInfoStore?.playerName ?? '<Unknown>',
+		title: loginTitle,
 		link: !isLoggedIn ? '/login' : undefined,
 		show: $consentSelected,
 		items: isLoggedIn
@@ -95,7 +98,7 @@
 			//User not logged in
 			return;
 		}
-		await playerInfoStore.refreshInfo(userInfo.userId);
+		await playerInfoStore.refreshInfo();
 		isLoadingLogin = false;
 	};
 

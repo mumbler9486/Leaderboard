@@ -11,7 +11,24 @@ export const fetchGetApi = async <T>(path: string, searchParams: any | undefined
 	});
 
 	if (Math.floor(response.status / 500) == 1) {
-		throw new Error(`Fetch failed. Status=${response.status} ${response.statusText}`);
+		throw new Error(`GET Fetch failed. Status=${response.status} ${response.statusText}`);
+	}
+
+	const responseBody = await response.json();
+	return responseBody as T;
+};
+
+export const fetchPutApi = async <T>(path: string, requestBody: any) => {
+	const response = await fetch(path, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(requestBody)
+	});
+
+	if (Math.floor(response.status / 500) == 1) {
+		throw new Error(`PUT Fetch failed. Status=${response.status} ${response.statusText}`);
 	}
 
 	const responseBody = await response.json();

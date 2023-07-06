@@ -10,5 +10,10 @@ export const mockPlayer: Player = {
 	server: 'global',
 	nameType: 1,
 	nameColor1: 'ff0000',
-	nameColor2: '00ffff'
+	nameColor2: '00ffff',
+	description: 'Profile description',
+	youtube: '',
+	twitch: '',
+	twitter: '',
+	discord: ''
 };

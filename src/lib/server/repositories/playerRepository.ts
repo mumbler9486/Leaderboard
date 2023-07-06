@@ -28,24 +28,63 @@ export const getRunPlayer = async (request: Request, playerId: number) => {
 	};
 };
 
-export const getPlayer = async (request: Request, userIdGuid: string) => {
+export const getPlayerByGuid = async (request: Request, userIdGuid: string) => {
 	const submissionResults = await request.input('userIdGuid', sql.NVarChar, userIdGuid).query(`
 			SELECT
-				pi.${playerInfoDbFields.PlayerID},
 				pi.${playerInfoDbFields.PlayerName},
+				pi.${playerInfoDbFields.PlayerID},
 				pi.${playerInfoDbFields.CharacterName},
+				pi.${playerInfoDbFields.Description},
+				pi.${playerInfoDbFields.Youtube},
+				pi.${playerInfoDbFields.Twitch},
+				pi.${playerInfoDbFields.Twitter},
+				pi.${playerInfoDbFields.Discord},
+				pi.${playerInfoDbFields.Trophies},
+
+				pc.${playerCustomizationDbFields.PreferredName},
+				pc.${playerCustomizationDbFields.Server},
+				pc.${playerCustomizationDbFields.Ship},
+				pc.${playerCustomizationDbFields.Flag},
 				pc.${playerCustomizationDbFields.NameType},
 				pc.${playerCustomizationDbFields.NameColor1},
-				pc.${playerCustomizationDbFields.NameColor2},
-				pc.${playerCustomizationDbFields.Server},
-				pc.${playerCustomizationDbFields.PreferredName},
-				pc.${playerCustomizationDbFields.Flag},
-				pc.${playerCustomizationDbFields.Ship}
+				pc.${playerCustomizationDbFields.NameColor2}
 
 			FROM Users.Information AS ui
 			INNER JOIN Players.Information AS pi ON pi.${playerInfoDbFields.PlayerID} = ui.${userInfoDbModel.PlayerID}
 			INNER JOIN Players.Customization AS pc ON pc.${playerCustomizationDbFields.PlayerID} = pi.${playerInfoDbFields.PlayerID}
 			WHERE ui.${userInfoDbModel.UserID} = @userIdGuid
+		`);
+
+	const player = submissionResults.recordset[0] as
+		| (PlayerCustomizationDbModel & PlayerInformationDbModel)
+		| undefined;
+	return player;
+};
+
+export const getPlayerById = async (request: Request, playerId: number) => {
+	const submissionResults = await request.input('playerId', sql.Int, playerId).query(`
+			SELECT
+				pi.${playerInfoDbFields.PlayerName},
+				pi.${playerInfoDbFields.PlayerID},
+				pi.${playerInfoDbFields.CharacterName},
+				pi.${playerInfoDbFields.Description},
+				pi.${playerInfoDbFields.Youtube},
+				pi.${playerInfoDbFields.Twitch},
+				pi.${playerInfoDbFields.Twitter},
+				pi.${playerInfoDbFields.Discord},
+				pi.${playerInfoDbFields.Trophies},
+
+				pc.${playerCustomizationDbFields.PreferredName},
+				pc.${playerCustomizationDbFields.Server},
+				pc.${playerCustomizationDbFields.Ship},
+				pc.${playerCustomizationDbFields.Flag},
+				pc.${playerCustomizationDbFields.NameType},
+				pc.${playerCustomizationDbFields.NameColor1},
+				pc.${playerCustomizationDbFields.NameColor2}
+
+			FROM Players.Information AS pi
+			INNER JOIN Players.Customization AS pc ON pc.${playerCustomizationDbFields.PlayerID} = pi.${playerInfoDbFields.PlayerID}
+			WHERE pi.${userInfoDbModel.PlayerID} = @playerId
 		`);
 
 	const player = submissionResults.recordset[0] as
