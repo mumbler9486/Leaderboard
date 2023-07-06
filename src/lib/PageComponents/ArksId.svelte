@@ -11,9 +11,16 @@
 	export let player: Player | undefined;
 	export let isLoading: boolean;
 
+	const serverRegionMap: Record<string, string> = {
+		global: 'Global',
+		japan: 'Japan'
+	};
+
 	$: playerCountry = player?.flag
 		? countriesMap[player.flag.toUpperCase()].name ?? '<Unknown>'
 		: undefined;
+
+	$: serverRegion = player?.server ? serverRegionMap[player.server] : '<Unknown>';
 </script>
 
 <div class="container m-16 mx-auto flex grow rounded-md border border-secondary bg-base-100/75">
@@ -46,9 +53,9 @@
 						{/if}
 						<div>
 							{#if player.ship}
-								Ship {player.ship} - {player.server}
+								Ship {player.ship} - {serverRegion}
 							{:else}
-								{player.server}
+								{serverRegion}
 							{/if}
 						</div>
 						<div>
