@@ -14,4 +14,5 @@ export interface Player {
 	twitch: string;
 	twitter: string;
 	discord: string;
+	trophies: string[];
 }

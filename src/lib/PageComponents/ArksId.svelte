@@ -1,5 +1,5 @@
 <script lang="ts">
-	import UserPageTrophy from '$lib/LeaderboardComponents/UserParts/UserPageTrophy.svelte';
+	import TrophyList from '$lib/PageComponents/TrophyList.svelte';
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import Badge from '$lib/Components/Badge.svelte';
 	import Divider from '$lib/Components/Divider.svelte';
@@ -108,18 +108,14 @@
 					</div>
 				</div>
 			</div>
-			<!-- {#if $playerInfoStore?.trophies}
-      <div class="flex justify-center rounded-md border border-secondary bg-secondary/25 p-2">
-        <div class="flex grow flex-col">
-          <span class="text-center text-lg font-semibold">Trophies:</span>
-          <div class="flex grow flex-row flex-wrap justify-center gap-8 p-2">
-            {#each $playerInfoStore.trophies as trophies}
-              <UserPageTrophy trophyReference={trophies} />
-            {/each}
-          </div>
-        </div>
-      </div>
-    {/if} -->
+			{#if player.trophies.length > 0}
+				<div class="flex justify-center rounded-md border border-secondary bg-secondary/25 p-2">
+					<div class="flex grow flex-col">
+						<span class="text-center text-lg font-semibold">Trophies:</span>
+						<TrophyList trophies={player.trophies} />
+					</div>
+				</div>
+			{/if}
 		{:else}
 			<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
 				Loading - Please Wait...<br /><progress

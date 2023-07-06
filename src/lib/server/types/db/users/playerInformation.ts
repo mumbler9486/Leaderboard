@@ -7,6 +7,7 @@ export interface PlayerInformationDbModel {
 	Twitch: string;
 	Twitter: string;
 	Discord: string;
+	Trophies: string;
 }
 
 export interface PlayerCustomizationDbModel {

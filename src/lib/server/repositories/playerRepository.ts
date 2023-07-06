@@ -39,6 +39,7 @@ export const getPlayerByGuid = async (request: Request, userIdGuid: string) => {
 				pi.${playerInfoDbFields.Twitch},
 				pi.${playerInfoDbFields.Twitter},
 				pi.${playerInfoDbFields.Discord},
+				pi.${playerInfoDbFields.Trophies},
 
 				pc.${playerCustomizationDbFields.PreferredName},
 				pc.${playerCustomizationDbFields.Server},
@@ -71,6 +72,7 @@ export const getPlayerById = async (request: Request, playerId: number) => {
 				pi.${playerInfoDbFields.Twitch},
 				pi.${playerInfoDbFields.Twitter},
 				pi.${playerInfoDbFields.Discord},
+				pi.${playerInfoDbFields.Trophies},
 
 				pc.${playerCustomizationDbFields.PreferredName},
 				pc.${playerCustomizationDbFields.Server},

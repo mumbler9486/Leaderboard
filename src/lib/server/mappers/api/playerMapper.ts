@@ -4,6 +4,7 @@ import type {
 } from '$lib/server/types/db/users/playerInformation';
 import type { Player } from '$lib/types/api/player';
 import type { PlayerInfoAutoFill } from '$lib/types/api/players/playerInfoAutoFill';
+import { isNullOrEmpty } from '$lib/utils/string';
 
 export const mapPlayerAutoFillList = (players: PlayerInformationDbModel[]) => {
 	return players.map(
@@ -17,6 +18,14 @@ export const mapPlayerAutoFillList = (players: PlayerInformationDbModel[]) => {
 };
 
 export const mapPlayer = (player: PlayerInformationDbModel & PlayerCustomizationDbModel) => {
+	let trophies: string[] = [];
+	if (!isNullOrEmpty(player.Trophies)) {
+		trophies = player.Trophies.split('/').map((t) => {
+			const trophyInfo = t.split(',');
+			return trophyInfo[0];
+		});
+	}
+
 	return {
 		playerId: parseInt(player.PlayerID),
 		playerName: player.PlayerName,
@@ -32,6 +41,7 @@ export const mapPlayer = (player: PlayerInformationDbModel & PlayerCustomization
 		youtube: player.Youtube,
 		twitch: player.Twitch,
 		twitter: player.Twitter,
-		discord: player.Discord
+		discord: player.Discord,
+		trophies: trophies
 	} satisfies Player;
 };
