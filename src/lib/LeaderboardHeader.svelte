@@ -96,6 +96,7 @@
 		const userInfo = await clientPrincipleStore.fetchClientPrinciple();
 		if (!userInfo) {
 			//User not logged in
+			isLoadingLogin = false;
 			return;
 		}
 		await playerInfoStore.refreshInfo();
