@@ -15,5 +15,6 @@ export const mockPlayer: Player = {
 	youtube: '',
 	twitch: '',
 	twitter: '',
-	discord: ''
+	discord: '',
+	trophies: ['ranger4']
 };

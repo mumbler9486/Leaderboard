@@ -1,10 +1,11 @@
-import sql, { type Request } from 'mssql';
+import sql, { ConnectionPool, type Request } from 'mssql';
 import type {
 	PlayerCustomizationDbModel,
 	PlayerInformationDbModel
 } from '../types/db/users/playerInformation';
 import { fields } from '../util/nameof';
 import type { UserInformationDbModel } from '../types/db/users/userInformation';
+import type { CreateAccountRequest } from '../types/api/createAccount';
 
 const playerInfoDbFields = fields<PlayerInformationDbModel>();
 const playerCustomizationDbFields = fields<PlayerCustomizationDbModel>();
@@ -106,4 +107,49 @@ export const getPlayerList = async (request: Request) => {
 
 	const results = await request.query(playerListQuery);
 	return results.recordset as PlayerInformationDbModel[];
+};
+
+const DefaultUserRole = 'user';
+export const createAccount = async (
+	transaction: sql.Transaction,
+	createAccountRequest: CreateAccountRequest
+) => {
+	const request = await transaction.request();
+	const insertInfoQuery = `
+		INSERT INTO Players.Information (${playerInfoDbFields.PlayerName},${playerInfoDbFields.CharacterName})
+		VALUES (@playerName,@characterName);
+		SELECT SCOPE_IDENTITY() AS LastID
+	`;
+
+	// Insert player info
+	const insertPlayerResult = await request
+		.input('playerName', sql.NVarChar, createAccountRequest.username)
+		.input('characterName', sql.NVarChar, createAccountRequest.characterName)
+		.query(insertInfoQuery);
+
+	if (insertPlayerResult.rowsAffected[0] == 0) {
+		throw Error(`Player information insert failed.`);
+	}
+
+	const insertedPlayerId = parseInt(insertPlayerResult.recordset[0].LastID);
+
+	// Insert customization and info
+	const insertUserQuery = `
+		INSERT INTO Players.Customization(PlayerID,Server)
+		VALUES(@playerId,@server);
+
+		INSERT INTO Users.Information(PlayerID,UserID,Role)
+		VALUES(@playerId,@userGuid,@userRole);
+	`;
+
+	const insertUserResult = await request
+		.input('playerId', sql.Int, insertedPlayerId)
+		.input('server', sql.NVarChar, createAccountRequest.serverRegion)
+		.input('userGuid', sql.NVarChar, createAccountRequest.userId)
+		.input('userRole', sql.NVarChar, DefaultUserRole)
+		.query(insertUserQuery);
+
+	if (insertUserResult.rowsAffected[0] == 0) {
+		throw Error(`Player customization and user information insert failed.`);
+	}
 };
