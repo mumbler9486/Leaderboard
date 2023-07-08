@@ -1,5 +1,6 @@
 import { type InferType, string, number, object } from 'yup';
 import { countries } from '../countries';
+import { kanjiAlphaNumericWithSpaceRegex } from '$lib/utils/validation';
 
 const serverRegions = ['global', 'japan'];
 const selectableCountries = countries.map((c) => c.code.toLowerCase());
@@ -7,8 +8,6 @@ const colorRegex = /[a-f\d]{6}/;
 const usernameAlphaOnlyRegex = /[\w-_]*/;
 const kanjiAlphaNumericTextRegex =
 	/[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf\w\-_ 　.,?:;'"{}\[\]!@#$%^&*\(\)+\n]*$/mu;
-const kanjiAlphaNumericWithSpaceRegex =
-	/[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf\w\-_ 　#]*/mu;
 const discordUsernameRegex = kanjiAlphaNumericWithSpaceRegex;
 
 export const profileUpdateRequestSchema = object({

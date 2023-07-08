@@ -23,17 +23,11 @@
 				<br />
 				PSO2Central Arks Star by Niles.
 				<br />
-				<a
-					href="/privacy-policy"
-					target="_blank"
-					rel="noreferrer noopener"
-					class="link-primary link no-underline">Privacy Policy</a
+				<a href="/privacy-policy" rel="noreferrer noopener" class="link-primary link no-underline"
+					>Privacy Policy</a
 				>
-				<a
-					href="/tos"
-					target="_blank"
-					rel="noreferrer noopener"
-					class="link-primary link no-underline">Terms of Service</a
+				<a href="/tos" rel="noreferrer noopener" class="link-primary link no-underline"
+					>Terms of Service</a
 				>
 			</div>
 			<div class="text-right text-neutral-content">

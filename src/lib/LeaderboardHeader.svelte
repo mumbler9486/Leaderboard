@@ -5,6 +5,8 @@
 	import { clientPrincipleStore, playerInfoStore } from './stores/userLogin';
 	import { UserRole } from './types/api/users/userRole';
 	import { consentSelected } from './stores/consent';
+	import { afterNavigate, goto } from '$app/navigation';
+	import { page } from '$app/stores';
 
 	const staticMenuItems: MenuGroup[] = [
 		{
@@ -45,7 +47,7 @@
 	$: loginMenu = {
 		title: loginTitle,
 		link: !isLoggedIn ? '/login' : undefined,
-		show: $consentSelected,
+		show: $consentSelected && !isNotCompleteAccountSetup,
 		items: isLoggedIn
 			? [
 					{ label: 'Profile', link: '/profile', icon: 'bi-person-vcard' },
@@ -63,6 +65,12 @@
 		show: !$consentSelected
 	} satisfies MenuGroup;
 
+	$: accountSetupMenu = {
+		title: $clientPrincipleStore?.userDetails ?? '<Unknown>',
+		show: isNotCompleteAccountSetup,
+		items: [{ label: 'Logout', link: '/logout', icon: 'bi-box-arrow-right' }]
+	};
+
 	$: submitMenu = {
 		title: 'Submit a Run',
 		show: isLoggedIn,
@@ -77,7 +85,13 @@
 		link: '/moderator/submissions'
 	} satisfies MenuGroup;
 
-	$: dynamicMenuItems = [submitMenu, moderationMenu, consentMenu, loginMenu] as MenuGroup[];
+	$: dynamicMenuItems = [
+		submitMenu,
+		moderationMenu,
+		consentMenu,
+		loginMenu,
+		accountSetupMenu
+	] as MenuGroup[];
 	$: headerMenuItems = staticMenuItems.concat(dynamicMenuItems);
 
 	let isLoadingLogin: boolean = false;
@@ -88,6 +102,9 @@
 		($clientPrincipleStore.userRoles?.includes(UserRole.User) ?? false) &&
 		!!$playerInfoStore;
 
+	$: isNotCompleteAccountSetup =
+		!!$clientPrincipleStore &&
+		!($clientPrincipleStore?.userRoles?.includes(UserRole.User) ?? false);
 	$: isAdmin = $clientPrincipleStore?.userRoles?.includes(UserRole.Administrator) ?? false;
 	$: isMod = $clientPrincipleStore?.userRoles?.includes(UserRole.Moderator) ?? false;
 
@@ -99,9 +116,43 @@
 			isLoadingLogin = false;
 			return;
 		}
+
+		if (isNotCompleteAccountSetup && !accountSetupIgnoredPage) {
+			isLoadingLogin = false;
+			goto('/account-setup');
+			return;
+		}
+
 		await playerInfoStore.refreshInfo();
 		isLoadingLogin = false;
 	};
+
+	$: accountSetupIgnoredPage = accountSetupIgnorePaths.some((path) =>
+		$page.url.pathname.startsWith(path)
+	);
+
+	const accountSetupIgnorePaths = [
+		'/login',
+		'/logout',
+		'/account-setup',
+		'/privacy-policy',
+		'/tos'
+	];
+	afterNavigate(() => {
+		if (accountSetupIgnorePaths.some((path) => $page.url.pathname.startsWith(path))) {
+			return;
+		}
+		if (!$clientPrincipleStore) {
+			return;
+		}
+
+		const isFinishedAccountSetup =
+			$clientPrincipleStore.userRoles?.includes(UserRole.User) ?? false;
+		if (!isFinishedAccountSetup) {
+			console.log('User account not finished setup. Redirecting to account setup page.');
+			goto('/account-setup');
+		}
+	});
 
 	// This will load when this script is loaded
 	consentSelected.subscribe((consentSelection) => {

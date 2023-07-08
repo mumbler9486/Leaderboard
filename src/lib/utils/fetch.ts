@@ -34,3 +34,20 @@ export const fetchPutApi = async <T>(path: string, requestBody: any) => {
 	const responseBody = await response.json();
 	return responseBody as T;
 };
+
+export const fetchPostApi = async <T>(path: string, requestBody: any) => {
+	const response = await fetch(path, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(requestBody)
+	});
+
+	if (Math.floor(response.status / 500) == 1) {
+		throw new Error(`POST Fetch failed. Status=${response.status} ${response.statusText}`);
+	}
+
+	const responseBody = await response.json();
+	return responseBody as T;
+};
