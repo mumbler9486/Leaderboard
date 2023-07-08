@@ -22,7 +22,7 @@ export async function POST({ request }) {
 		return json({
 			version: '1.0.0',
 			action: 'Continue',
-			roles: userRoles
+			userRoles: userRoles
 		});
 	} catch (err) {
 		console.error(err);
