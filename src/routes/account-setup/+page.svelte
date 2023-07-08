@@ -14,7 +14,7 @@
 	let serverRegion = 'global';
 	let characterName = '';
 
-	let isLoading = false;
+	let isLoading = true;
 	let serverError: string | undefined = undefined;
 
 	onMount(async () => {
@@ -33,6 +33,7 @@
 			goto('/');
 			return;
 		}
+		isLoading = false;
 	});
 
 	const submitChanges = async () => {
