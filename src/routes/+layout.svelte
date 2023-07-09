@@ -1,9 +1,9 @@
 <script lang="ts">
 	import '../app.css';
 	import GDPRCookieConsent from '$lib/Widgets/GDPRCookieConsent.svelte';
-	import LeaderboardHeader from '$lib/LeaderboardHeader.svelte';
-	import LeaderboardFooter from '$lib/LeaderboardFooter.svelte';
-	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
+	import LeaderboardHeader from '$lib/PageComponents/Header/LeaderboardHeader.svelte';
+	import LeaderboardFooter from '$lib/PageComponents/Header/LeaderboardFooter.svelte';
+	import BackgroundRandomizer from '$lib/PageComponents/BackgroundRandomizer.svelte';
 	import { dev } from '$app/environment';
 	import { consentSelected } from '$lib/stores/consent';
 
