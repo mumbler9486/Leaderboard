@@ -1,6 +1,5 @@
 {
   "recommendations": [
-    "ms-azuretools.vscode-azurefunctions",
     "svelte.svelte-vscode",
     "esbenp.prettier-vscode"
   ]

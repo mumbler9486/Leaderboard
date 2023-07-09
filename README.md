@@ -12,7 +12,7 @@ Please visit our Discord for any questions, suggestions, or issues regarding the
 
 # Setup Local
 
-This project is developed in VS Code. Requires NodeJs v18+ Runtime.
+This project is developed in VS Code.
 
 1. Open repository in VS Code as a folder.
 2. VS code will suggest extensions to install as prescribed by the workspace, install them.

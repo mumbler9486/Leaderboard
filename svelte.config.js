@@ -8,7 +8,7 @@ const config = {
 			apiDir: 'api',
 			customStaticWebAppConfig: {
 				auth: {
-					rolesSource: '/api/getUserRoles',
+					rolesSource: '/api/pso2getroles',
 					identityProviders: {
 						customOpenIdConnectProviders: {
 							aadb2c: {
