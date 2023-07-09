@@ -1,6 +1,6 @@
 <script lang="ts">
-	import HomeNew10 from '$lib/LeaderboardComponents/HomeNew10.svelte';
-	import HomeNewAegis5 from '$lib/LeaderboardComponents/HomeNewAegis5.svelte';
+	import HomeNew10 from '$lib/Widgets/HomeNew10.svelte';
+	import HomeNewAegis5 from '$lib/Widgets/HomeNewAegis5.svelte';
 	import SoloStats from '$lib/Widgets/SoloStats.svelte';
 
 	let currentTab: string = 'solo';
