@@ -2,8 +2,8 @@
 	import { t } from 'svelte-i18n';
 	// @ts-nocheck
 	import { page } from '$app/stores';
-	import FOFError from '$lib/ErrorComponents/FOFError.svelte';
-	import AuthError from '$lib/ErrorComponents/AuthError.svelte';
+	import FOFError from '$lib/PageComponents/Error/FOFError.svelte';
+	import AuthError from '$lib/PageComponents/Error/AuthError.svelte';
 </script>
 
 <svelte:head>
