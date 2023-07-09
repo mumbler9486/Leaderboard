@@ -63,7 +63,6 @@
 			}
 		} catch (err) {
 			serverError = 'An error has ocurred. Please contact an administrator on our Discord.';
-		} finally {
 			isLoading = false;
 		}
 	};
