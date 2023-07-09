@@ -2,9 +2,9 @@
 	import HeaderMenu, { type MenuGroup } from './HeaderMenu.svelte';
 	import LanguageSelector from './LanguageSelector.svelte';
 	import { t } from 'svelte-i18n';
-	import { clientPrincipleStore, playerInfoStore } from './stores/userLogin';
-	import { UserRole } from './types/api/users/userRole';
-	import { consentSelected } from './stores/consent';
+	import { clientPrincipleStore, playerInfoStore } from '../../stores/userLogin';
+	import { UserRole } from '../../types/api/users/userRole';
+	import { consentSelected } from '../../stores/consent';
 	import { afterNavigate, goto } from '$app/navigation';
 	import { page } from '$app/stores';
 

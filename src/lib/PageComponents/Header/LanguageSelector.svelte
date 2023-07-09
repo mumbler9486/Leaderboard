@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Modal from './Components/Modal.svelte';
+	import Modal from '../../Components/Modal.svelte';
 	import { locale, locales } from 'svelte-i18n';
-	import { siteLanguage } from './stores/preferences';
+	import { siteLanguage } from '../../stores/preferences';
 
 	let modal: Modal;
 

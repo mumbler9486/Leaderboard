@@ -18,7 +18,7 @@
 </script>
 
 <script lang="ts">
-	import Tooltip from './Components/Tooltip.svelte';
+	import Tooltip from '../../Components/Tooltip.svelte';
 
 	export let title: string;
 	export let groups: MenuGroup[];
