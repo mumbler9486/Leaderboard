@@ -1,6 +1,5 @@
 import type { ConnectionPool, config } from 'mssql';
-import sql from 'mssql';
-
+import * as sql from 'mssql';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -10,33 +9,33 @@ const dbConfig: config = {
 	server: process.env.DB_SERVER ?? '',
 	database: process.env.DB_NAME,
 	options: {
-		encrypt: true, // For Azure
+		encrypt: true,
 		trustServerCertificate: true
 	}
 };
 
-class LeaderboardDb {
+class SqlDatabase {
 	private static connectionPool: ConnectionPool;
 
 	async connect() {
-		let pool = LeaderboardDb.connectionPool;
+		let pool = SqlDatabase.connectionPool;
 		if (!pool) {
-			LeaderboardDb.connectionPool = await sql.connect(dbConfig);
-			pool = LeaderboardDb.connectionPool;
+			SqlDatabase.connectionPool = await sql.connect(dbConfig);
+			pool = SqlDatabase.connectionPool;
 		}
 
 		if (!pool.connected) {
 			console.warn('Connection pool was closed sometime during runtime.');
-			LeaderboardDb.connectionPool = await sql.connect(dbConfig);
+			SqlDatabase.connectionPool = await sql.connect(dbConfig);
 		}
 
-		return LeaderboardDb.connectionPool;
+		return SqlDatabase.connectionPool;
 	}
 
 	async disconnect() {
-		return await LeaderboardDb.connectionPool.close();
+		return await SqlDatabase.connectionPool.close();
 	}
 }
 
-const db = new LeaderboardDb();
-export const leaderboardDb = db;
+const db = new SqlDatabase();
+export const sqlDb = db;

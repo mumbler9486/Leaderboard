@@ -1,17 +1,25 @@
 {
-	"name": "leaderboard",
+	"name": "leaderboard_api",
 	"version": "1.0.0",
-	"engines": {
-		"node": ">=16.16.0"
-	},
-	"description": "NodeJS implementation for the NGS leaderboard",
+	"description": "",
+	"main": "dist/src/functions/*.js",
 	"scripts": {
-		"build": ""
+		"build": "tsc",
+		"watch": "tsc -w",
+		"clean": "rimraf dist",
+		"prestart": "npm run clean && npm run build",
+		"start": "func start",
+		"test": "echo \"No tests yet...\""
 	},
-	"author": "SliWhist",
-	"license": "ISC",
 	"dependencies": {
-		"dotenv": "^16.0.3",
-		"mssql": "^9.0.1"
+		"@azure/functions": "^4.0.0-alpha.9",
+		"mssql": "^9.1.1"
+	},
+	"devDependencies": {
+		"@types/mssql": "^8.1.2",
+		"@types/node": "18.x",
+		"azure-functions-core-tools": "^4.x",
+		"rimraf": "^5.0.0",
+		"typescript": "^4.0.0"
 	}
 }
