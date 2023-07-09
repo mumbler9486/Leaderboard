@@ -48,7 +48,7 @@ async function getUserRole(request: sql.Request, userGuid: string) {
 		return [];
 	}
 
-	const roles = [userRoles.Role, userRoles.ExtraRole].filter((r) => !!r || r.length > 0);
+	const roles = [userRoles.Role, userRoles.ExtraRole].filter((r) => !!r && r.length > 0);
 	return roles;
 }
 
