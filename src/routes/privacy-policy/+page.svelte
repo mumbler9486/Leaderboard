@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 	// @ts-nocheck
-	import PrivacyPolicyComponent from '$lib/PrivacyPolicyComponent.svelte';
+	import PrivacyPolicyComponent from './PrivacyPolicyComponent.svelte';
 </script>
 
 <svelte:head>
