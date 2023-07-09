@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../app.css';
-	import GDPRCookieConsent from '$lib/cookieconsent/GDPRCookieConsent.svelte';
+	import GDPRCookieConsent from '$lib/Widgets/GDPRCookieConsent.svelte';
 	import LeaderboardHeader from '$lib/LeaderboardHeader.svelte';
 	import LeaderboardFooter from '$lib/LeaderboardFooter.svelte';
 	import BackgroundRandomizer from '$lib/BackgroundRandomizer.svelte';
