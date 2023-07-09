@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 
-	import HomeNews from '$lib/NewsComponents/HomeNews.svelte';
+	import HomeNews from '$lib/PageComponents/News/HomeNews.svelte';
 	import DiscordWidget from '$lib/Widgets/Discord/DiscordWidget.svelte';
 	import RunStatsWidget from '$lib/Widgets/RunStatsWidget.svelte';
 	import { consentDiscord, consentSelected } from '$lib/stores/consent';
