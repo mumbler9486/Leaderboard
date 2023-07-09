@@ -1,5 +1,5 @@
 <script lang="ts">
-	import LeaderboardTitle from '$lib/LeaderboardComponents/Parts/LeaderboardTitle.svelte';
+	import LeaderboardTitle from '$lib/Components/LeaderboardTitle.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
 	import DfaPartyRunsTable from './DfaPartyRunsTable.svelte';
 	import DfaPartyRunFilters from './DfaPartyRunFilters.svelte';
