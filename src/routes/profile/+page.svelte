@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ProfileEditModal from './ProfileEditModal.svelte';
 	import Button from '$lib/Components/Button.svelte';
-	import ArksId from '$lib/PageComponents/ArksId.svelte';
+	import ArksId from '$lib/PageComponents/Profile/ArksId.svelte';
 	import { t } from 'svelte-i18n';
 	import { playerInfoStore } from '$lib/stores/userLogin';
 	import { onMount } from 'svelte';

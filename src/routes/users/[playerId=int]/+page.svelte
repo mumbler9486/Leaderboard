@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/Components/Button.svelte';
-	import ArksId from '$lib/PageComponents/ArksId.svelte';
+	import ArksId from '$lib/PageComponents/Profile/ArksId.svelte';
 	import { t } from 'svelte-i18n';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';

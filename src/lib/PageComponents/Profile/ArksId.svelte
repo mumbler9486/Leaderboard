@@ -1,5 +1,5 @@
 <script lang="ts">
-	import TrophyList from '$lib/PageComponents/TrophyList.svelte';
+	import TrophyList from '$lib/PageComponents/Profile/TrophyList.svelte';
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import Badge from '$lib/Components/Badge.svelte';
 	import Divider from '$lib/Components/Divider.svelte';
