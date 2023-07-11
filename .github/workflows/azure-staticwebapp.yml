@@ -13,6 +13,7 @@
 name: Deploy web app to Azure Static Web Apps
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "master", "dev" ]
   pull_request:
