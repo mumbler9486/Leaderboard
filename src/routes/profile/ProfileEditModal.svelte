@@ -16,6 +16,7 @@
 	import Button from '$lib/Components/Button.svelte';
 	import Divider from '$lib/Components/Divider.svelte';
 	import FormControl from '$lib/Components/FormControl.svelte';
+	import TextInput from '$lib/Components/TextInput.svelte';
 
 	const dispatcher = createEventDispatcher();
 
@@ -237,12 +238,10 @@
 			</div>
 			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
 				<FormControl label="Main Character Name">
-					<input
-						class="input-bordered input bg-neutral"
-						type="text"
+					<TextInput
+						class="bg-neutral"
 						placeholder="(Required)"
-						required
-						maxlength="25"
+						maxlength={25}
 						bind:value={profileSettings.mainCharacterName}
 					/>
 				</FormControl>
@@ -289,52 +288,42 @@
 			<Divider />
 			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
 				<FormControl label="Youtube">
-					<label class="input-group">
-						<span>youtube.com/@</span>
-						<input
-							placeholder="(Optional)"
-							class="input-bordered input w-full"
-							maxlength="30"
-							bind:value={profileSettings.youtubeHandle}
-						/>
-					</label>
+					<TextInput
+						placeholder="(Required)"
+						prompt="youtube.com/@"
+						maxlength={25}
+						bind:value={profileSettings.youtubeHandle}
+					/>
 				</FormControl>
 				<FormControl label="Twitter">
-					<label class="input-group">
-						<span>twitter.com/</span>
-						<input
-							placeholder="(Optional)"
-							class="input-bordered input w-full"
-							maxlength="30"
-							bind:value={profileSettings.twitterHandle}
-						/>
-					</label>
+					<TextInput
+						placeholder="(Optional)"
+						prompt="twitter.com/"
+						maxlength={30}
+						bind:value={profileSettings.twitterHandle}
+					/>
 				</FormControl>
 				<FormControl label="Twitch Channel">
-					<label class="input-group">
-						<span>twitch.tv/</span>
-						<input
-							placeholder="(Optional)"
-							class="input-bordered input w-full"
-							maxlength="30"
-							bind:value={profileSettings.twitchChannel}
-						/>
-					</label>
+					<TextInput
+						placeholder="(Optional)"
+						prompt="twitch.tv/"
+						maxlength={30}
+						bind:value={profileSettings.twitchChannel}
+					/>
 				</FormControl>
 				<FormControl label="Discord Username">
-					<input
+					<TextInput
 						placeholder="(Optional)"
-						class="input-bordered input w-full"
-						maxlength="30"
+						maxlength={30}
 						bind:value={profileSettings.discordUsername}
 					/>
 				</FormControl>
 			</div>
 			<FormControl label="Profile Description">
-				<textarea
+				<TextInput
 					class="widget-discord textarea-bordered textarea h-24"
 					placeholder="(Optional)"
-					maxlength="500"
+					maxlength={500}
 					bind:value={profileSettings.description}
 				/>
 			</FormControl>
