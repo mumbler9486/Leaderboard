@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ColorInput from '$lib/Components/ColorInput.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import Modal from '$lib/Components/Modal.svelte';
 	import Tooltip from '$lib/Components/Tooltip.svelte';
@@ -268,18 +269,10 @@
 			</div>
 			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-3">
 				<FormControl label="Primary Color">
-					<input
-						type="color"
-						class="input-bordered input w-full"
-						bind:value={profileSettings.primaryColor}
-					/>
+					<ColorInput bind:value={profileSettings.primaryColor} />
 				</FormControl>
 				<FormControl label="Secondary Color">
-					<input
-						type="color"
-						class="input-bordered input w-full"
-						bind:value={profileSettings.secondaryColor}
-					/>
+					<ColorInput bind:value={profileSettings.secondaryColor} />
 				</FormControl>
 				<FormControl label="Name Effect">
 					<Dropdown options={nameEffectOptions} bind:value={profileSettings.nameEffect} />
