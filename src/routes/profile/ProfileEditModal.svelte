@@ -313,7 +313,7 @@
 				</FormControl>
 			</div>
 			<FormControl label="Profile Description">
-				<TextInput
+				<textarea
 					class="widget-discord textarea-bordered textarea h-24"
 					placeholder="(Optional)"
 					maxlength={500}
