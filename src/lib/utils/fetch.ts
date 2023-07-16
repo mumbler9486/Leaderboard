@@ -1,3 +1,5 @@
+import { BadRequestError, InternalServerError } from '$lib/types/api/error';
+
 export const fetchGetApi = async <T>(path: string, searchParams: any | undefined = undefined) => {
 	const urlSearchParams = new URLSearchParams(searchParams);
 	let url = `${path}?${urlSearchParams.toString()}`.trim();
@@ -28,7 +30,14 @@ export const fetchPutApi = async <T>(path: string, requestBody: any) => {
 	});
 
 	if (Math.floor(response.status / 500) == 1) {
-		throw new Error(`PUT Fetch failed. Status=${response.status} ${response.statusText}`);
+		throw new InternalServerError(
+			`PUT Fetch failed. Status=${response.status} ${response.statusText}`
+		);
+	}
+
+	if (Math.floor(response.status / 400) == 1) {
+		const responseBody = await response.json();
+		throw new BadRequestError(`Bad Request`, responseBody);
 	}
 
 	const responseBody = await response.json();
