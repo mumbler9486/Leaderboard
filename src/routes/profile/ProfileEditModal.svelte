@@ -94,36 +94,36 @@
 		japan_9: { region: 'japan', ship: 9 },
 		japan_10: { region: 'japan', ship: 10 }
 	};
-	$: selectedShip = shipOptionsInfo[$form.ship];
+	$: selectedShip = shipOptionsInfo[$form.ship ?? ''];
 
-	const defaultSettings = {
+	const defaultSettings: ProfileUpdateRequest = {
 		mainCharacterName: '',
-		preferredName: '0',
+		preferredName: 0,
 		youtubeHandle: '',
 		twitterHandle: '',
 		twitchChannel: '',
 		discordUsername: '',
-		ship: '',
+		ship: undefined,
 		playerCountry: '',
 		serverRegion: 'global',
 		primaryColor: '#ffffff',
 		secondaryColor: '#ffffff',
-		nameEffect: '0',
+		nameEffect: 0,
 		description: ''
 	};
 
 	$: namePreview = {
 		playerId: -1,
-		flag: $form.playerCountry.toLowerCase(),
+		flag: $form.playerCountry?.toLowerCase(),
 		ship: selectedShip?.ship,
 		region: selectedShip?.region,
 		playerName: $playerInfoStore?.playerName ?? '<Unknown>',
 		runCharacterName: 'Run character name',
 		characterName: $form.mainCharacterName,
-		namePreference: parseInt($form.preferredName),
-		nameType: parseInt($form.nameEffect),
-		nameColor1: $form.primaryColor.substring(1),
-		nameColor2: $form.secondaryColor.substring(1)
+		namePreference: parseInt($form.preferredName ?? '0'),
+		nameType: parseInt($form.nameEffect ?? '0'),
+		nameColor1: $form.primaryColor?.substring(1),
+		nameColor2: $form.secondaryColor?.substring(1)
 	} satisfies PlayerNameDisplay;
 
 	export const show = () => {
@@ -171,19 +171,19 @@
 			return;
 		}
 
-		let updateRequest: ProfileUpdateRequest = {
+		let updateRequest: Record<keyof ProfileUpdateRequest, string | undefined> = {
 			mainCharacterName: $form.mainCharacterName,
-			preferredName: parseInt($form.preferredName),
+			preferredName: $form.preferredName,
 			youtubeHandle: $form.youtubeHandle,
 			twitterHandle: $form.twitterHandle,
 			twitchChannel: $form.twitchChannel,
 			discordUsername: $form.discordUsername,
-			ship: selectedShip?.ship,
-			playerCountry: $form.playerCountry.toLowerCase(),
+			ship: selectedShip?.ship.toString(),
+			playerCountry: $form.playerCountry,
 			serverRegion: $form.serverRegion,
-			primaryColor: $form.primaryColor.substring(1),
-			secondaryColor: $form.secondaryColor.substring(1),
-			nameEffect: parseInt($form.nameEffect),
+			primaryColor: $form.primaryColor?.substring(1),
+			secondaryColor: $form.secondaryColor?.substring(1),
+			nameEffect: $form.nameEffect,
 			description: $form.description
 		};
 
@@ -218,7 +218,7 @@
 	};
 
 	const { form, errors, validate, resetForm, setValidationErrors, clearAllErrors } =
-		useValidation<ProfileUpdateRequest>(profileUpdateRequestSchema, { ...defaultSettings });
+		useValidation<ProfileUpdateRequest>(profileUpdateRequestSchema, defaultSettings);
 
 	const profileUpdated = () => {
 		dispatcher('profileUpdated');
@@ -267,7 +267,7 @@
 				<FormControl label="Ship" error={$errors.ship}>
 					<Dropdown options={shipOptions} bind:value={$form.ship} />
 				</FormControl>
-				<FormControl label="Country" error={$errors.country}>
+				<FormControl label="Country" error={$errors.playerCountry}>
 					<Dropdown options={countryOptions} bind:value={$form.playerCountry} />
 				</FormControl>
 			</div>

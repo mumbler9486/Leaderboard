@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let value: string;
+	export let value: string | undefined;
 	export let maxlength: number;
 	export let placeholder: string = '';
 	export let prompt: string | undefined = undefined;

@@ -11,14 +11,11 @@ import { ErrorCodes, type BadRequestApiError } from './error';
  * A validation function to set error messages.
  * An error store to get error messages. If no error for that prop, undefined is returned
  */
-export function useValidation<T extends AnyObject>(
-	schema: ObjectSchema<T>,
-	initialValues?: Record<string | symbol, any>
-) {
-	const errorStore = writable<Record<string | symbol, string | undefined>>({});
+export function useValidation<T extends AnyObject>(schema: ObjectSchema<T>, initialValues?: T) {
+	const errorStore = writable({} as Record<keyof T, string | undefined>);
 
 	// Clears a validation error
-	const clearError = (propName: string | symbol) => {
+	const clearError = (propName: keyof T) => {
 		errorStore.update((s) => {
 			s[propName] = undefined;
 			return s;
@@ -26,11 +23,12 @@ export function useValidation<T extends AnyObject>(
 	};
 
 	// Proxy to reset the errors if any form property changes
-	const proxyConstructor = (obj: Record<string | symbol, any>) => {
+	const proxyConstructor = (obj: any) => {
 		const proxy = new Proxy(obj, {
 			set(target, prop, value, receiver) {
-				clearError(prop);
-				target[prop] = value;
+				const propName = prop as keyof T;
+				clearError(propName);
+				target[propName] = value;
 				return true;
 			}
 		});
@@ -39,13 +37,13 @@ export function useValidation<T extends AnyObject>(
 	};
 
 	// Creates a form that has change tracking
-	const formStore = writable<Record<string | symbol, any>>(proxyConstructor({}));
-	const form: Writable<Record<string | symbol, any>> = {
+	const formStore = writable({} as Record<keyof T, string | undefined>);
+	const form: Writable<Record<keyof T, string | undefined>> = {
 		subscribe: formStore.subscribe,
 		set: (f) => {
 			let newValue = f;
 			if (!f?.__isFormValidationProxy) {
-				newValue = proxyConstructor(f);
+				newValue = proxyConstructor(f) as Record<keyof T, string | undefined>;
 			}
 			formStore.set(newValue);
 		},
@@ -58,9 +56,9 @@ export function useValidation<T extends AnyObject>(
 	const resetForm = () => {
 		if (initialValues) {
 			const initClone = structuredClone(initialValues);
-			form.set(proxyConstructor(initClone));
+			form.set(proxyConstructor(initClone) as Record<keyof T, string | undefined>);
 		} else {
-			form.set(proxyConstructor({}));
+			form.set(proxyConstructor({}) as Record<keyof T, string | undefined>);
 		}
 	};
 	resetForm();
@@ -68,7 +66,7 @@ export function useValidation<T extends AnyObject>(
 	// Sets validation errors from a yup validation error
 	// Requires abortEarly option to be false when validating
 	const setValidationErrors = (validationError: ValidationError | BadRequestApiError) => {
-		const errors: Record<string, string | undefined> = {};
+		const errors: any = {};
 
 		if (validationError instanceof ValidationError) {
 			validationError.inner.forEach((errorDetails) => {
@@ -88,11 +86,11 @@ export function useValidation<T extends AnyObject>(
 			});
 		}
 
-		errorStore.set(errors as { [P in keyof T]: string | undefined });
+		errorStore.set(errors as Record<keyof T, string | undefined>);
 	};
 
 	// Clears all errors
-	const clearAllErrors = () => errorStore.set({});
+	const clearAllErrors = () => errorStore.set({} as Record<keyof T, string | undefined>);
 
 	/**
 	 * Validates an object
@@ -100,7 +98,7 @@ export function useValidation<T extends AnyObject>(
 	 * @param value
 	 * @returns
 	 */
-	const validate = async (value: T): Promise<T | undefined> => {
+	const validate = async (value: any): Promise<T | undefined> => {
 		try {
 			const validated = (await schema.validate(value, {
 				abortEarly: false,
@@ -118,9 +116,7 @@ export function useValidation<T extends AnyObject>(
 	};
 	return {
 		form,
-		errors: { subscribe: errorStore.subscribe } as Readable<
-			Record<string | symbol, string | undefined>
-		>,
+		errors: { subscribe: errorStore.subscribe } as Readable<Record<keyof T, string | undefined>>,
 		validate,
 		resetForm,
 		setValidationErrors,
