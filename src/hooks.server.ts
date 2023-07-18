@@ -2,6 +2,9 @@
 import type { Handle, HandleServerError } from '@sveltejs/kit';
 import { browser } from '$app/environment';
 import { locale } from 'svelte-i18n';
+import { initYupLocale } from '$lib/types/api/validation/schemaInitLocale';
+
+initYupLocale();
 
 const englishHandler = [
 	'en',

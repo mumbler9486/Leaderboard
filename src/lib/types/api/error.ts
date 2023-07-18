@@ -9,6 +9,7 @@ export interface BadRequestApiError {
 	details?: {
 		path: string;
 		message: string;
+		values?: string[];
 	}[];
 }
 
