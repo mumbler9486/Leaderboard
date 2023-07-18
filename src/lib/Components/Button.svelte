@@ -1,5 +1,4 @@
 <script lang="ts">
-	//TODO improve by making keyup and click the same event
 	export let disabled = false;
 </script>
 

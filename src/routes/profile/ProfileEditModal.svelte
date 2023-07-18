@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ColorInput from '$lib/Components/ColorInput.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import Modal from '$lib/Components/Modal.svelte';
 	import Tooltip from '$lib/Components/Tooltip.svelte';
@@ -15,6 +16,11 @@
 	import Alert from '$lib/Components/Alert.svelte';
 	import Button from '$lib/Components/Button.svelte';
 	import Divider from '$lib/Components/Divider.svelte';
+	import FormControl from '$lib/Components/FormControl.svelte';
+	import TextInput from '$lib/Components/TextInput.svelte';
+	import { writable } from 'svelte/store';
+	import { useValidation } from '$lib/types/api/formValidation';
+	import { BadRequestError, InternalServerError } from '$lib/types/api/error';
 
 	const dispatcher = createEventDispatcher();
 
@@ -50,7 +56,7 @@
 	];
 
 	$: shipOptions =
-		profileSettings.serverRegion === 'global'
+		$form.serverRegion === 'global'
 			? [
 					{ label: '(None)', value: '' },
 					{ label: 'Ship 1 (global)', value: 'global_1' },
@@ -88,41 +94,40 @@
 		japan_9: { region: 'japan', ship: 9 },
 		japan_10: { region: 'japan', ship: 10 }
 	};
-	$: selectedShip = shipOptionsInfo[profileSettings.ship];
+	$: selectedShip = shipOptionsInfo[$form.ship ?? ''];
 
-	const defaultSettings = {
+	const defaultSettings: ProfileUpdateRequest = {
 		mainCharacterName: '',
-		preferredName: '0',
+		preferredName: 0,
 		youtubeHandle: '',
 		twitterHandle: '',
 		twitchChannel: '',
 		discordUsername: '',
-		ship: '',
+		ship: undefined,
 		playerCountry: '',
 		serverRegion: 'global',
 		primaryColor: '#ffffff',
 		secondaryColor: '#ffffff',
-		nameEffect: '0',
+		nameEffect: 0,
 		description: ''
 	};
-	let profileSettings = { ...defaultSettings };
 
 	$: namePreview = {
 		playerId: -1,
-		flag: profileSettings.playerCountry.toLowerCase(),
+		flag: $form.playerCountry?.toLowerCase(),
 		ship: selectedShip?.ship,
 		region: selectedShip?.region,
 		playerName: $playerInfoStore?.playerName ?? '<Unknown>',
 		runCharacterName: 'Run character name',
-		characterName: profileSettings.mainCharacterName,
-		namePreference: parseInt(profileSettings.preferredName),
-		nameType: parseInt(profileSettings.nameEffect),
-		nameColor1: profileSettings.primaryColor.substring(1),
-		nameColor2: profileSettings.secondaryColor.substring(1)
+		characterName: $form.mainCharacterName,
+		namePreference: parseInt($form.preferredName ?? '0'),
+		nameType: parseInt($form.nameEffect ?? '0'),
+		nameColor1: $form.primaryColor?.substring(1),
+		nameColor2: $form.secondaryColor?.substring(1)
 	} satisfies PlayerNameDisplay;
 
 	export const show = () => {
-		profileSettings = { ...defaultSettings };
+		resetForm();
 		loadProfile();
 		modal.show();
 	};
@@ -136,7 +141,7 @@
 		const ship = player.ship;
 		const regionShip = ship && serverRegion ? `${serverRegion}_${ship}` : '';
 
-		profileSettings = {
+		form.set({
 			mainCharacterName: player.characterName,
 			preferredName: player.preferredName.toString(),
 			youtubeHandle: player.youtube,
@@ -150,7 +155,7 @@
 			secondaryColor: `#${player.nameColor2}`,
 			nameEffect: player.nameType.toString(),
 			description: player.description
-		};
+		});
 
 		isLoading = false;
 	};
@@ -160,58 +165,60 @@
 			return;
 		}
 
-		let userInfo = $clientPrincipleStore;
+		const userInfo = $clientPrincipleStore;
 		if (!userInfo) {
 			serverError = 'Not logged in, please refresh the page and try again';
 			return;
 		}
 
+		let updateRequest: Record<keyof ProfileUpdateRequest, string | undefined> = {
+			mainCharacterName: $form.mainCharacterName,
+			preferredName: $form.preferredName,
+			youtubeHandle: $form.youtubeHandle,
+			twitterHandle: $form.twitterHandle,
+			twitchChannel: $form.twitchChannel,
+			discordUsername: $form.discordUsername,
+			ship: selectedShip?.ship.toString(),
+			playerCountry: $form.playerCountry,
+			serverRegion: $form.serverRegion,
+			primaryColor: $form.primaryColor?.substring(1),
+			secondaryColor: $form.secondaryColor?.substring(1),
+			nameEffect: $form.nameEffect,
+			description: $form.description
+		};
+
+		clearAllErrors();
+		const validRequest = await validate(updateRequest);
+		if (!validRequest) return;
+
 		isSubmitting = true;
 		serverError = undefined;
-
-		let updateRequest: ProfileUpdateRequest = {
-			mainCharacterName: profileSettings.mainCharacterName,
-			preferredName: parseInt(profileSettings.preferredName),
-			youtubeHandle: profileSettings.youtubeHandle,
-			twitterHandle: profileSettings.twitterHandle,
-			twitchChannel: profileSettings.twitchChannel,
-			discordUsername: profileSettings.discordUsername,
-			ship: selectedShip?.ship,
-			playerCountry: profileSettings.playerCountry.toLowerCase(),
-			serverRegion: profileSettings.serverRegion,
-			primaryColor: profileSettings.primaryColor.substring(1),
-			secondaryColor: profileSettings.secondaryColor.substring(1),
-			nameEffect: parseInt(profileSettings.nameEffect),
-			description: profileSettings.description
-		};
-		try {
-			updateRequest = await profileUpdateRequestSchema.validate(updateRequest);
-		} catch (err) {
-			serverError = (err as Error).message;
-			console.log(serverError);
-			isSubmitting = false;
-			return;
-		}
 
 		try {
 			const result = await fetchPutApi<boolean>(
 				`/ngs-api/users/${userInfo?.userId}/profile`,
-				updateRequest
+				validRequest
 			);
 
 			if (result === true) {
 				profileUpdated();
-			} else {
-				console.log(result);
-				serverError = (result as any)?.details[0];
 			}
 		} catch (err) {
-			console.error(err);
-			serverError = (err as Error).message;
+			if (err instanceof BadRequestError) {
+				setValidationErrors(err.response);
+			} else if (err instanceof InternalServerError) {
+				console.error(err);
+				serverError = (err as Error).message;
+			} else {
+				console.error(err);
+			}
 		} finally {
 			isSubmitting = false;
 		}
 	};
+
+	const { form, errors, validate, resetForm, setValidationErrors, clearAllErrors } =
+		useValidation<ProfileUpdateRequest>(profileUpdateRequestSchema, defaultSettings);
 
 	const profileUpdated = () => {
 		dispatcher('profileUpdated');
@@ -235,147 +242,84 @@
 				</span>
 			</div>
 			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
-				<div class="form-control">
-					<div class="label">
-						<span class="label-text text-base font-semibold">Main Character Name</span>
-					</div>
-					<input
-						class="input-bordered input bg-neutral"
-						type="text"
+				<FormControl label="Main Character Name" error={$errors.mainCharacterName}>
+					<TextInput
+						class="bg-neutral"
 						placeholder="(Required)"
-						required
-						maxlength="25"
-						bind:value={profileSettings.mainCharacterName}
+						maxlength={25}
+						bind:value={$form.mainCharacterName}
 					/>
-				</div>
-				<div class="form-control">
-					<div class="label">
-						<span class="label-text text-base font-semibold">Preferred Name</span>
-					</div>
-					<Dropdown options={nameOptions} bind:value={profileSettings.preferredName} />
-				</div>
+				</FormControl>
+				<FormControl label="Preferred Name" error={$errors.preferredName}>
+					<Dropdown options={nameOptions} bind:value={$form.preferredName} />
+				</FormControl>
 			</div>
 			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-3">
-				<div class="form-control">
-					<div class="label">
-						<span class="label-text text-base font-semibold">Server Region</span>
-					</div>
+				<FormControl label="Server Region">
 					<Dropdown
 						options={serverRegionOptions}
-						bind:value={profileSettings.serverRegion}
+						bind:value={$form.serverRegion}
 						on:change={() => {
-							profileSettings.ship = '';
+							$form.ship = '';
 						}}
 					/>
-				</div>
-				<div class="form-control">
-					<div class="label">
-						<span class="label-text text-base font-semibold">Ship</span>
-					</div>
-					<Dropdown options={shipOptions} bind:value={profileSettings.ship} />
-				</div>
-				<div class="form-control">
-					<div class="label">
-						<span class="label-text text-base font-semibold">Country</span>
-					</div>
-					<Dropdown options={countryOptions} bind:value={profileSettings.playerCountry} />
-				</div>
+				</FormControl>
+				<FormControl label="Ship" error={$errors.ship}>
+					<Dropdown options={shipOptions} bind:value={$form.ship} />
+				</FormControl>
+				<FormControl label="Country" error={$errors.playerCountry}>
+					<Dropdown options={countryOptions} bind:value={$form.playerCountry} />
+				</FormControl>
 			</div>
 			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-3">
-				<div class="form-control">
-					<div class="label">
-						<span class="label-text text-base font-semibold">Primary Color</span>
-					</div>
-					<input
-						type="color"
-						class="input-bordered input w-full"
-						bind:value={profileSettings.primaryColor}
-					/>
-				</div>
-				<div class="form-control">
-					<div class="label">
-						<span class="label-text text-base font-semibold">Secondary Color</span>
-					</div>
-					<input
-						type="color"
-						class="input-bordered input w-full"
-						bind:value={profileSettings.secondaryColor}
-					/>
-				</div>
-				<div class="form-control">
-					<div class="label">
-						<span class="label-text text-base font-semibold">Name Effect</span>
-					</div>
-					<Dropdown options={nameEffectOptions} bind:value={profileSettings.nameEffect} />
-				</div>
+				<FormControl label="Primary Color" error={$errors.primaryColor}>
+					<ColorInput bind:value={$form.primaryColor} />
+				</FormControl>
+				<FormControl label="Secondary Color" error={$errors.secondaryColor}>
+					<ColorInput bind:value={$form.secondaryColor} />
+				</FormControl>
+				<FormControl label="Name Effect" error={$errors.nameEffect}>
+					<Dropdown options={nameEffectOptions} bind:value={$form.nameEffect} />
+				</FormControl>
 			</div>
 			<Divider />
 			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
-				<div class="form-control">
-					<div class="label">
-						<span class="label-text text-base font-semibold">Youtube Handle</span>
-					</div>
-					<label class="input-group">
-						<span>youtube.com/@</span>
-						<input
-							placeholder="(Optional)"
-							class="input-bordered input w-full"
-							maxlength="30"
-							bind:value={profileSettings.youtubeHandle}
-						/>
-					</label>
-				</div>
-				<div class="form-control">
-					<div class="label">
-						<span class="label-text text-base font-semibold">Twitter</span>
-					</div>
-					<label class="input-group">
-						<span>twitter.com/</span>
-						<input
-							placeholder="(Optional)"
-							class="input-bordered input w-full"
-							maxlength="30"
-							bind:value={profileSettings.twitterHandle}
-						/>
-					</label>
-				</div>
-				<div class="form-control">
-					<div class="label">
-						<span class="label-text text-base font-semibold">Twitch Channel</span>
-					</div>
-					<label class="input-group">
-						<span>twitch.tv/</span>
-						<input
-							placeholder="(Optional)"
-							class="input-bordered input w-full"
-							maxlength="30"
-							bind:value={profileSettings.twitchChannel}
-						/>
-					</label>
-				</div>
-				<div class="form-control">
-					<div class="label">
-						<span class="label-text text-base font-semibold">Discord name</span>
-					</div>
-					<input
-						placeholder="(Optional)"
-						class="input-bordered input w-full"
-						maxlength="30"
-						bind:value={profileSettings.discordUsername}
+				<FormControl label="Youtube" error={$errors.youtubeHandle}>
+					<TextInput
+						placeholder="(Required)"
+						prompt="youtube.com/@"
+						maxlength={25}
+						bind:value={$form.youtubeHandle}
 					/>
-				</div>
+				</FormControl>
+				<FormControl label="Twitter" error={$errors.twitterHandle}>
+					<TextInput
+						placeholder="(Optional)"
+						prompt="twitter.com/"
+						maxlength={30}
+						bind:value={$form.twitterHandle}
+					/>
+				</FormControl>
+				<FormControl label="Twitch Channel" error={$errors.twitchChannel}>
+					<TextInput
+						placeholder="(Optional)"
+						prompt="twitch.tv/"
+						maxlength={30}
+						bind:value={$form.twitchChannel}
+					/>
+				</FormControl>
+				<FormControl label="Discord Username" error={$errors.discordUsername}>
+					<TextInput placeholder="(Optional)" maxlength={30} bind:value={$form.discordUsername} />
+				</FormControl>
 			</div>
-			<div class="form-control">
-				<div class="label">
-					<span class="label-text text-base font-semibold">Profile Description</span>
-				</div>
+			<FormControl label="Profile Description" error={$errors.description}>
 				<textarea
 					class="widget-discord textarea-bordered textarea h-24"
 					placeholder="(Optional)"
-					maxlength="500"
-					bind:value={profileSettings.description}
+					maxlength={500}
+					bind:value={$form.description}
 				/>
-			</div>
+			</FormControl>
 		</div>
 	{:else}
 		<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
@@ -393,7 +337,6 @@
 		<Button
 			class="btn-outline btn-success"
 			on:click={saveChanges}
-			on:keyup={saveChanges}
 			disabled={isLoading || isSubmitting}>Save</Button
 		>
 	</svelte:fragment>
