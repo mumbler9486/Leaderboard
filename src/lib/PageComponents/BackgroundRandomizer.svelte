@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	let backgrounds = [
 		'/background/aelio-purp.png',
 		'/background/aelio-purp-night.png',
