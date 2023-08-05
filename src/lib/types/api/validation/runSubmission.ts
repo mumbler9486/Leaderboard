@@ -5,6 +5,7 @@ import { NgsPlayerClass } from '../ngsPlayerClass';
 import { ServerRegion } from '../serverRegions';
 import { guidRegex } from '$lib/utils/validation';
 import { CurrentSubmissionPatchCode } from '$lib/constants/patchCodes';
+import { yupRunTime } from './schemas/timeSchema';
 
 const serverRegions = [ServerRegion.Global, ServerRegion.Japan];
 const mainClasses = [
@@ -52,11 +53,7 @@ export const runSubmissionRequestSchema = object({
 	serverRegion: mixed<ServerRegion>().required().oneOf(serverRegions),
 	patch: string().required().oneOf(patches),
 	rank: number().min(1).required(),
-	time: object({
-		hours: number().min(0).max(6).required(),
-		minutes: number().min(0).max(59).required(),
-		seconds: number().min(0).max(59).required()
-	}),
+	time: yupRunTime(),
 	notes: string().max(500).nullable(),
 	party: array(
 		object({

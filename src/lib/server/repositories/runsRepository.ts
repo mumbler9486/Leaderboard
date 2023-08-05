@@ -165,6 +165,8 @@ export const insertRun = async (
 	const request = transaction.request();
 
 	const serverRegion = mapServerRegionToDbVal(run.serverRegion);
+	const runDetails =
+		run.details === null || run.details === undefined ? null : JSON.stringify(run.details);
 
 	const serializedRunTime = serializeTimeToSqlTime(run.time);
 	const insertRequest = request
@@ -180,7 +182,7 @@ export const insertRun = async (
 		.input('submissionStatus', sql.TinyInt, SubmissionStatusDbValue.AwaitingApproval)
 		.input('dateApproved', sql.DateTime2, null)
 		.input('modNotes', sql.NVarChar(500), '')
-		.input('attributes', sql.NVarChar(4000), JSON.stringify(run.details));
+		.input('attributes', sql.NVarChar(4000), runDetails);
 
 	const runInsertResult = await insertRequest.query(`
     INSERT INTO dbo.Runs (

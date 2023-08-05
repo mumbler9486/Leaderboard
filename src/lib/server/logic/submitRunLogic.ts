@@ -5,7 +5,6 @@ import { leaderboardDb } from '../db/db';
 import { jsonError } from '../error';
 import { checkRunExists, insertRun } from '../repositories/runsRepository';
 import { getUser } from '../repositories/userRepository';
-import { notifyDiscordNewRunSubmitted } from '../discordNotify';
 import { json } from '@sveltejs/kit';
 import { notifyDiscordNewRun } from './discordNotifyLogic';
 
