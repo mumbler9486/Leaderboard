@@ -7,18 +7,7 @@ import { checkRunExists, insertRun } from '../repositories/runsRepository';
 import { getUser } from '../repositories/userRepository';
 import { notifyDiscordNewRunSubmitted } from '../discordNotify';
 import { json } from '@sveltejs/kit';
-
-// For webhook notify
-const partyTypeMap: { [key: number]: string } = {
-	1: 'Solo',
-	2: 'Duo',
-	8: 'Full MPA'
-};
-
-const questTypeMap: { [key: string]: string } = {
-	trigger: 'Trigger',
-	urgent: 'Urgent Quest'
-};
+import { notifyDiscordNewRun } from './discordNotifyLogic';
 
 export const submitRun = async (parsedRun: RunSubmissionRequest) => {
 	const pool = await leaderboardDb.connect();
@@ -43,10 +32,7 @@ export const submitRun = async (parsedRun: RunSubmissionRequest) => {
 		await insertRun(transaction, parsedRun, userId);
 		await transaction.commit();
 
-		const submitterName = parsedRun.submitterName;
-		const questName = 'Venogia UQ';
-		const partySize = parsedRun.party.length === 1 ? 'solo' : 'party';
-		notifyDiscordNewRunSubmitted(submitterName, `${questName} (${partySize})`);
+		notifyDiscordNewRun(parsedRun.submitterName, parsedRun);
 		return json({ data: 'success' });
 	} catch (err) {
 		await transaction.rollback();
