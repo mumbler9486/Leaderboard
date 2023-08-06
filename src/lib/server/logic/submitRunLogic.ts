@@ -7,6 +7,7 @@ import { checkRunExists, insertRun } from '../repositories/runsRepository';
 import { getUser } from '../repositories/userRepository';
 import { json } from '@sveltejs/kit';
 import { notifyDiscordNewRun } from './discordNotifyLogic';
+import type { SubmitResult } from '$lib/types/api/runs/submitResult';
 
 export const submitRun = async (parsedRun: RunSubmissionRequest) => {
 	const pool = await leaderboardDb.connect();
@@ -32,7 +33,10 @@ export const submitRun = async (parsedRun: RunSubmissionRequest) => {
 		await transaction.commit();
 
 		notifyDiscordNewRun(parsedRun.submitterName, parsedRun);
-		return json({ data: 'success' });
+		const successResponse: SubmitResult = {
+			success: true
+		};
+		return json(successResponse);
 	} catch (err) {
 		await transaction.rollback();
 		console.error(err);
