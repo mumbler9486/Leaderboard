@@ -7,10 +7,11 @@
 		'/background/retem-purp.png',
 		'/background/retem-purp-night.png',
 		'/background/stia-purp.png',
-		'/background/stia-purp-night.png'
+		'/background/stia-purp-night.png',
+		'/background/venogia.jpg'
 	];
 
-	$: backgroundUrl = `url(${backgrounds[(backgrounds.length * Math.random()) | 0]})`;
+	$: backgroundUrl = `url(${backgrounds[(backgrounds.length - 1 * Math.random()) | 0]})`;
 </script>
 
 <div class="background" style:background-image={backgroundUrl} />

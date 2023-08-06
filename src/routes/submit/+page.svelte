@@ -30,8 +30,8 @@
 					overlayColor="neutral"
 				/>
 				<JumboButton
-					label="Venogia"
-					image="/icons/submit/duel_nils_stia.png"
+					label="Venogia Vera"
+					image="/icons/submit/venogia.jpg"
 					link="/submit/venogia"
 					overlayColor="neutral"
 				/>

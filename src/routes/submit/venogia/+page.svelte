@@ -70,7 +70,9 @@
 			{:else}
 				<form id="submitForm" on:submit|preventDefault={submitRun}>
 					<div class="m-2 gap-1 rounded-md border border-secondary bg-secondary/10 p-4 px-8">
-						<div class="text-center text-xl font-semibold">Remnants of Ambition (Venogia UQ)</div>
+						<div class="text-center text-xl font-semibold">
+							Remnants of Ambition (Venogia Vera UQ)
+						</div>
 						<Divider />
 						<div class="text-center text-lg font-semibold">Information</div>
 						<div class="form-control">
