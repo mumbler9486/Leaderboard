@@ -12,11 +12,12 @@ const dbToServerRegionMap: Record<ServerRegionDbValue, ServerRegion> = {
 
 const serverRegionToDbMap: Record<ServerRegion, ServerRegionDbValue | undefined> = {
 	[ServerRegion.Global]: ServerRegionDbValue.Global,
-	[ServerRegion.Japan]: ServerRegionDbValue.Japan
+	[ServerRegion.Japan]: ServerRegionDbValue.Japan,
+	[ServerRegion.Unknown]: undefined
 };
 
 export const mapDbValToServerRegion = (dbWeapon: ServerRegionDbValue | undefined) =>
-	!dbWeapon ? undefined : dbToServerRegionMap[dbWeapon];
+	!dbWeapon ? ServerRegion.Unknown : dbToServerRegionMap[dbWeapon] ?? ServerRegion.Unknown;
 
 export const mapServerRegionToDbVal = (weapon: ServerRegion | undefined) =>
 	!weapon ? undefined : serverRegionToDbMap[weapon];

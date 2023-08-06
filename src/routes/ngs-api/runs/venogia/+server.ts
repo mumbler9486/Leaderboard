@@ -6,6 +6,8 @@ import { validateApiRequest } from '$lib/server/validation/requestValidation.js'
 import { submitRun } from '$lib/server/logic/submitRunLogic.js';
 import { venogiaRunSubmissionSchema } from '$lib/types/api/validation/venogiaSubmission.js';
 import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmission.js';
+import { mapRuns } from '$lib/server/mappers/api/runMapper.js';
+import { GameDbValue } from '$lib/server/types/db/runs/game.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params }) {
@@ -14,7 +16,8 @@ export async function GET({ params }) {
 
 	try {
 		const runs = await getRun(request, {});
-		return json(runs);
+		const mappedRuns = mapRuns(runs);
+		return json(mappedRuns);
 	} catch (err) {
 		console.error(err);
 	}
@@ -32,5 +35,5 @@ export async function POST({ request }) {
 		return jsonError(400, validationError);
 	}
 
-	return submitRun(parsedRun);
+	return submitRun(GameDbValue.Ngs, parsedRun);
 }

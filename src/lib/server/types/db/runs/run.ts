@@ -1,11 +1,12 @@
 export interface RunDbModel {
-	Id: number;
-	SubmitterId: number;
+	Id: string;
+	SubmitterId: string;
+	Game: string;
 	Quest: string;
 	Category: string;
 	ServerRegion: string;
 	Patch: string;
-	Rank: number;
+	QuestRank: string;
 	RunTime: string;
 	Notes: string;
 	SubmissionDate: string;

@@ -13,7 +13,7 @@ export enum NgsClassDbValue {
 	Slayer = 'ngs_slayer'
 }
 
-const dbToNgsClassMap: Record<NgsClassDbValue, NgsPlayerClass> = {
+const dbToNgsClassMap: Record<string, NgsPlayerClass> = {
 	[NgsClassDbValue.Hunter]: NgsPlayerClass.Hunter,
 	[NgsClassDbValue.Fighter]: NgsPlayerClass.Fighter,
 	[NgsClassDbValue.Ranger]: NgsPlayerClass.Ranger,
@@ -40,8 +40,8 @@ const ngsClassToDbMap: Record<NgsPlayerClass, NgsClassDbValue | undefined> = {
 	[NgsPlayerClass.Unknown]: undefined
 };
 
-export const mapDbValToNgsClass = (dbWeapon: NgsClassDbValue | undefined) =>
-	!dbWeapon ? undefined : dbToNgsClassMap[dbWeapon];
+export const mapDbValToNgsClass = (dbClass: string | undefined) =>
+	!dbClass ? NgsPlayerClass.Unknown : dbToNgsClassMap[dbClass] ?? NgsPlayerClass.Unknown;
 
-export const mapNgsClassToDbVal = (weapon: NgsPlayerClass | undefined) =>
-	!weapon ? undefined : ngsClassToDbMap[weapon];
+export const mapNgsClassToDbVal = (ngsClass: NgsPlayerClass | undefined) =>
+	!ngsClass ? undefined : ngsClassToDbMap[ngsClass];

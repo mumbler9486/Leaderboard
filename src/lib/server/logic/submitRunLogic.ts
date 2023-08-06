@@ -8,8 +8,9 @@ import { getUser } from '../repositories/userRepository';
 import { json } from '@sveltejs/kit';
 import { notifyDiscordNewRun } from './discordNotifyLogic';
 import type { SubmitResult } from '$lib/types/api/runs/submitResult';
+import type { GameDbValue } from '../types/db/runs/game';
 
-export const submitRun = async (parsedRun: RunSubmissionRequest) => {
+export const submitRun = async (game: GameDbValue, parsedRun: RunSubmissionRequest) => {
 	const pool = await leaderboardDb.connect();
 
 	// Check user
@@ -29,7 +30,7 @@ export const submitRun = async (parsedRun: RunSubmissionRequest) => {
 	const transaction = new sql.Transaction(pool);
 	try {
 		await transaction.begin();
-		await insertRun(transaction, parsedRun, userId);
+		await insertRun(transaction, game, parsedRun, userId);
 		await transaction.commit();
 
 		notifyDiscordNewRun(parsedRun.submitterName, parsedRun);

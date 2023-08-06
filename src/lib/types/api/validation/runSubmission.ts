@@ -15,7 +15,7 @@ export const runSubmissionRequestSchema = object({
 	category: string().required(),
 	serverRegion: mixed<ServerRegion>().required().oneOf(serverRegions),
 	patch: string().required().oneOf(patches),
-	rank: number().min(1).required(),
+	questRank: number().min(1).required(),
 	time: yupRunTime(),
 	notes: string().max(500).nullable(),
 	party: yupRunPartySchema(),

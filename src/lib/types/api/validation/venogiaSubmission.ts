@@ -11,7 +11,7 @@ export const venogiaRunSubmissionSchema: ObjectSchema<RunSubmissionRequest> =
 	runSubmissionRequestSchema.shape({
 		details: object().strip(),
 		quest: string().required().oneOf(quest),
-		rank: number().oneOf(ranks).required(),
+		questRank: number().oneOf(ranks).required(),
 		category: string().required().oneOf(categories),
 		party: yupRunPartySchema(8),
 		time: yupRunTime(3600)

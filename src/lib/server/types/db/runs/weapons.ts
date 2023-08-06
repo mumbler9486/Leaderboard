@@ -21,7 +21,7 @@ export enum NgsWeaponDbValue {
 	Harmonizer = 'ngs_harmonizer'
 }
 
-const dbToWeaponMap: Record<NgsWeaponDbValue, Weapon> = {
+const dbToWeaponMap: Record<string, Weapon> = {
 	[NgsWeaponDbValue.Sword]: Weapon.Sword,
 	[NgsWeaponDbValue.WiredLance]: Weapon.WiredLance,
 	[NgsWeaponDbValue.Partisan]: Weapon.Partisan,
@@ -64,8 +64,8 @@ const weaponToDbMap: Record<Weapon, NgsWeaponDbValue | undefined> = {
 	[Weapon.Unknown]: undefined
 };
 
-export const mapDbValToWeapon = (dbWeapon: NgsWeaponDbValue | undefined) =>
-	!dbWeapon ? undefined : dbToWeaponMap[dbWeapon];
+export const mapDbValToWeapon = (dbWeapon: string | undefined) =>
+	!dbWeapon ? Weapon.Unknown : dbToWeaponMap[dbWeapon] ?? Weapon.Unknown;
 
 export const mapWeaponToDbVal = (weapon: Weapon | undefined) =>
 	!weapon ? undefined : weaponToDbMap[weapon];

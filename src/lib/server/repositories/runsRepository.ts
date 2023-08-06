@@ -8,7 +8,7 @@ import { mapNgsClassToDbVal } from '../types/db/runs/ngsClasses';
 import { mapWeaponToDbVal } from '../types/db/runs/weapons';
 import { normalizeYoutubeLink } from '$lib/utils/youtube';
 import { mapServerRegionToDbVal } from '../types/db/runs/serverRegions';
-import { ServerRegion } from '$lib/types/api/serverRegions';
+import type { GameDbValue } from '../types/db/runs/game';
 
 const runsDbFields = fields<RunDbModel>();
 const runPartyDbFields = fields<RunPartyDbModel>();
@@ -26,12 +26,13 @@ export interface GetRunDbModel {
 	// Run
 	RunId: string;
 	RunSubmitterId: string;
+	RunGame: string;
 	RunQuest: string;
 	RunCategory: string;
 	RunServerRegion: string;
 	RunPatch: string;
-	RunRank: string;
-	RunRunTime: string;
+	RunQuestRank: string;
+	RunTime: string;
 	RunNotes: string;
 	RunSubmissionDate: string;
 	RunSubmissionStatus: string;
@@ -57,7 +58,7 @@ export interface GetRunDbModel {
 	PlayerServer: string;
 	PlayerShip: string;
 	PlayerFlag: string;
-	PlayerNameType: string;
+	PlayerNameEffectType: string;
 	PlayerNameColor1: string;
 	PlayerNameColor2: string;
 
@@ -68,7 +69,7 @@ export interface GetRunDbModel {
 	SubmitterServer: string;
 	SubmitterShip: string;
 	SubmitterFlag: string;
-	SubmitterNameType: string;
+	SubmitterNameEffectType: string;
 	SubmitterNameColor1: string;
 	SubmitterNameColor2: string;
 }
@@ -78,12 +79,13 @@ export const getRun = async (request: Request, filters: RunSearchOptions) => {
     SELECT 
       run.${runsDbFields.Id} AS ${getRunDbFields.RunId},
       run.${runsDbFields.SubmitterId} AS ${getRunDbFields.RunSubmitterId},
+			run.${runsDbFields.Game} AS ${getRunDbFields.RunGame},
       run.${runsDbFields.Quest} AS ${getRunDbFields.RunQuest},
       run.${runsDbFields.Category} AS ${getRunDbFields.RunCategory},
       run.${runsDbFields.ServerRegion} AS ${getRunDbFields.RunServerRegion},
       run.${runsDbFields.Patch} AS ${getRunDbFields.RunPatch},
-      run.${runsDbFields.Rank} AS ${getRunDbFields.RunRank},
-      run.${runsDbFields.RunTime} AS ${getRunDbFields.RunRunTime},
+      run.${runsDbFields.QuestRank} AS ${getRunDbFields.RunQuestRank},
+      run.${runsDbFields.RunTime} AS ${getRunDbFields.RunTime},
       run.${runsDbFields.Notes} AS ${getRunDbFields.RunNotes},
       run.${runsDbFields.SubmissionDate} AS ${getRunDbFields.RunSubmissionDate},
       run.${runsDbFields.SubmissionStatus} AS ${getRunDbFields.RunSubmissionStatus},
@@ -107,7 +109,7 @@ export const getRun = async (request: Request, filters: RunSearchOptions) => {
       pc.Server AS ${getRunDbFields.PlayerServer},
       pc.Ship AS ${getRunDbFields.PlayerShip},
       pc.Flag AS ${getRunDbFields.PlayerFlag},
-      pc.NameType AS ${getRunDbFields.PlayerNameType},
+      pc.NameType AS ${getRunDbFields.PlayerNameEffectType},
       pc.NameColor1 AS ${getRunDbFields.PlayerNameColor1},
       pc.NameColor2 AS ${getRunDbFields.PlayerNameColor2},
 
@@ -117,7 +119,7 @@ export const getRun = async (request: Request, filters: RunSearchOptions) => {
       sc.Server AS ${getRunDbFields.SubmitterServer},
       sc.Ship AS ${getRunDbFields.SubmitterShip},
       sc.Flag AS ${getRunDbFields.SubmitterFlag},
-      sc.NameType AS ${getRunDbFields.SubmitterNameType},
+      sc.NameType AS ${getRunDbFields.SubmitterNameEffectType},
       sc.NameColor1 AS ${getRunDbFields.SubmitterNameColor1},
       sc.NameColor2 AS ${getRunDbFields.SubmitterNameColor2}
 
@@ -144,7 +146,7 @@ export const getRun = async (request: Request, filters: RunSearchOptions) => {
 	}
 
 	if (filters.rank) {
-		query += ` AND ${getRunDbFields.RunRank} = @rank`;
+		query += ` AND ${getRunDbFields.RunQuestRank} = @rank`;
 		request = request.input('rank', sql.NVarChar, filters.rank);
 	}
 
@@ -159,6 +161,7 @@ export const getRun = async (request: Request, filters: RunSearchOptions) => {
 
 export const insertRun = async (
 	transaction: sql.Transaction,
+	game: GameDbValue,
 	run: RunSubmissionRequest,
 	submitterId: number
 ) => {
@@ -171,11 +174,12 @@ export const insertRun = async (
 	const serializedRunTime = serializeTimeToSqlTime(run.time);
 	const insertRequest = request
 		.input('submitterId', sql.Int, submitterId)
+		.input('game', sql.NVarChar(3), game)
 		.input('quest', sql.NVarChar(50), run.quest)
 		.input('category', sql.NVarChar(30), run.category)
 		.input('serverRegion', sql.NVarChar(10), serverRegion)
 		.input('patch', sql.NVarChar(30), run.patch)
-		.input('rank', sql.TinyInt, run.rank)
+		.input('rank', sql.TinyInt, run.questRank)
 		.input('runTime', sql.NVarChar, serializedRunTime)
 		.input('notes', sql.NVarChar(500), run.notes)
 		.input('submissionDate', sql.DateTime2, new Date())
@@ -187,11 +191,12 @@ export const insertRun = async (
 	const runInsertResult = await insertRequest.query(`
     INSERT INTO dbo.Runs (
       ${runsDbFields.SubmitterId},
+      ${runsDbFields.Game},
       ${runsDbFields.Quest},
       ${runsDbFields.Category},
       ${runsDbFields.ServerRegion},
       ${runsDbFields.Patch},
-      ${runsDbFields.Rank},
+      ${runsDbFields.QuestRank},
       ${runsDbFields.RunTime},
       ${runsDbFields.Notes},
       ${runsDbFields.SubmissionDate},
@@ -201,6 +206,7 @@ export const insertRun = async (
       ${runsDbFields.Attributes})
     VALUES (
       @submitterId,
+			@game,
       @quest,
       @category,
       @serverRegion,
@@ -294,10 +300,14 @@ export const checkRunExists = async (request: sql.Request, videoLinks: string[])
 
 export const approveRun = async (request: Request, runId: number, modNotes: string) => {
 	const submissionResult = await request
+		.input('approvalDate', sql.DateTime2, new Date())
 		.input('modNotes', sql.NVarChar(500), modNotes)
 		.input('runId', sql.Int, runId).query(`
       UPDATE dbo.Runs
-      SET ${runsDbFields.SubmissionStatus} = ${SubmissionStatusDbValue.Approved}, ${runsDbFields.ModNotes} = @modNotes
+      SET 
+				${runsDbFields.SubmissionStatus} = ${SubmissionStatusDbValue.Approved},
+				${runsDbFields.DateApproved} = @approvalDate,
+				${runsDbFields.ModNotes} = @modNotes
       WHERE ${runsDbFields.Id} = @runId;
     `);
 
