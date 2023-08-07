@@ -19,7 +19,7 @@ export interface RunSearchOptions {
 	rank?: number;
 	partySize?: number;
 	mainClass?: string;
-	attributes?: Record<string, string>;
+	approved?: boolean;
 }
 
 export interface GetRunDbModel {
@@ -74,7 +74,7 @@ export interface GetRunDbModel {
 	SubmitterNameColor2: string;
 }
 
-export const getRun = async (request: Request, filters: RunSearchOptions) => {
+export const getRuns = async (request: Request, filters: RunSearchOptions) => {
 	let query = `
     SELECT 
       run.${runsDbFields.Id} AS ${getRunDbFields.RunId},
@@ -139,6 +139,12 @@ export const getRun = async (request: Request, filters: RunSearchOptions) => {
 
     WHERE 1=1
   `;
+
+	if (filters.approved !== undefined && filters.approved !== null) {
+		const approved = filters.approved ? 1 : 0;
+		query += ` AND run.${runsDbFields.SubmissionStatus} = @approved`;
+		request = request.input('approved', sql.TinyInt, approved);
+	}
 
 	if (filters.quest) {
 		query += ` AND ${getRunDbFields.RunQuest} = @quest`;
@@ -277,7 +283,7 @@ const insertRunParty = async (
 	}
 };
 
-export const checkRunExists = async (request: sql.Request, videoLinks: string[]) => {
+export const checkRunVideoExists = async (request: sql.Request, videoLinks: string[]) => {
 	let videoLinkRequest = request;
 
 	const paramNames: string[] = [];
@@ -298,14 +304,40 @@ export const checkRunExists = async (request: sql.Request, videoLinks: string[])
 	return duplicateLinks.length > 0 ? duplicateLinks.map((r) => r.PovLink as string) : [];
 };
 
-export const approveRun = async (request: Request, runId: number, modNotes: string) => {
+export const checkRunExists = async (request: sql.Request, runId: number) => {
+	const runResult = await request.input('runId', sql.Int, runId).query(`
+      SELECT
+				${runsDbFields.Id},
+				${runsDbFields.SubmissionStatus},
+				${runsDbFields.SubmissionDate},
+				${runsDbFields.SubmitterId}
+			FROM dbo.Runs
+      WHERE ${runsDbFields.Id} = @runId;
+    `);
+	if (Array.from(runResult.recordset).length == 0) {
+		return undefined;
+	}
+	const submission = runResult.recordset[0] as RunDbModel;
+	return {
+		runId: submission?.Id,
+		submissionStatus: submission?.SubmissionStatus,
+		submitterId: submission?.SubmitterId
+	};
+};
+
+export const approveRun = async (
+	request: Request,
+	runId: number,
+	modNotes: string | null | undefined
+) => {
 	const submissionResult = await request
+		.input('approveStatus', sql.TinyInt, SubmissionStatusDbValue.Approved)
 		.input('approvalDate', sql.DateTime2, new Date())
 		.input('modNotes', sql.NVarChar(500), modNotes)
 		.input('runId', sql.Int, runId).query(`
       UPDATE dbo.Runs
       SET 
-				${runsDbFields.SubmissionStatus} = ${SubmissionStatusDbValue.Approved},
+				${runsDbFields.SubmissionStatus} = @approveStatus,
 				${runsDbFields.DateApproved} = @approvalDate,
 				${runsDbFields.ModNotes} = @modNotes
       WHERE ${runsDbFields.Id} = @runId;
@@ -316,17 +348,24 @@ export const approveRun = async (request: Request, runId: number, modNotes: stri
 	}
 };
 
-export const denyRun = async (request: Request, runId: number, modNotes: string) => {
+export const denyRun = async (
+	request: Request,
+	runId: number,
+	modNotes: string | null | undefined
+) => {
 	const submissionResult = await request
+		.input('denyStatus', sql.TinyInt, SubmissionStatusDbValue.Rejected)
 		.input('modNotes', sql.NVarChar(500), modNotes)
 		.input('runId', sql.Int, runId).query(`
       UPDATE dbo.Runs
-      SET ${runsDbFields.SubmissionStatus} = ${SubmissionStatusDbValue.Rejected}, ${runsDbFields.ModNotes} = @modNotes
-      WHERE ${runsDbFields.Id} = @runId;
+			SET 
+				${runsDbFields.SubmissionStatus} = @denyStatus,
+				${runsDbFields.ModNotes} = @modNotes
+			WHERE ${runsDbFields.Id} = @runId;
     `);
 
 	if (submissionResult.rowsAffected[0] == 0) {
-		throw Error(`Run approval failed.`);
+		throw Error(`Run denial failed.`);
 	}
 };
 

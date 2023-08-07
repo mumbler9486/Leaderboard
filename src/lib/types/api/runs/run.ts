@@ -1,12 +1,14 @@
 import type { Game } from '../game';
 import type { NgsPlayerClass } from '../ngsPlayerClass';
 import type { RunTime } from '../runTime';
+import type { ServerRegion } from '../serverRegions';
 import type { Weapon } from '../weapon';
 
 export interface Run {
 	rank: number;
 	runId: number;
 	game: Game;
+	serverRegion: ServerRegion;
 	quest: string;
 	category: string;
 	patch: string;
@@ -36,6 +38,7 @@ export interface PlayerInfo2 {
 	playerId: number;
 	ship?: number;
 	flag?: string;
+	name: string;
 	characterName: string;
 	preferredNameType: number;
 	nameEffectType: number;

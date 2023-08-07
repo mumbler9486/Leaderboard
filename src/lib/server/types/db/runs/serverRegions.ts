@@ -5,7 +5,7 @@ export enum ServerRegionDbValue {
 	Japan = 'japan'
 }
 
-const dbToServerRegionMap: Record<ServerRegionDbValue, ServerRegion> = {
+const dbToServerRegionMap: Record<string, ServerRegion> = {
 	[ServerRegionDbValue.Global]: ServerRegion.Global,
 	[ServerRegionDbValue.Japan]: ServerRegion.Japan
 };
@@ -16,7 +16,7 @@ const serverRegionToDbMap: Record<ServerRegion, ServerRegionDbValue | undefined>
 	[ServerRegion.Unknown]: undefined
 };
 
-export const mapDbValToServerRegion = (dbWeapon: ServerRegionDbValue | undefined) =>
+export const mapDbValToServerRegion = (dbWeapon: string | undefined) =>
 	!dbWeapon ? ServerRegion.Unknown : dbToServerRegionMap[dbWeapon] ?? ServerRegion.Unknown;
 
 export const mapServerRegionToDbVal = (weapon: ServerRegion | undefined) =>

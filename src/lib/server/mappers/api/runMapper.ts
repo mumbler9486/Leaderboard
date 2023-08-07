@@ -2,6 +2,7 @@ import { convertTimeToRunTime } from '$lib/server/db/util/datetime';
 import type { GetRunDbModel } from '$lib/server/repositories/runsRepository';
 import { mapDbValToGame } from '$lib/server/types/db/runs/game';
 import { mapDbValToNgsClass } from '$lib/server/types/db/runs/ngsClasses';
+import { mapDbValToServerRegion } from '$lib/server/types/db/runs/serverRegions';
 import { mapDbValToWeapon, type NgsWeaponDbValue } from '$lib/server/types/db/runs/weapons';
 import type { PartyMember, PlayerInfo2, VenogiaRun } from '$lib/types/api/runs/run';
 
@@ -26,27 +27,28 @@ export const mapRuns = (getRun: GetRunDbModel[]): VenogiaRun[] => {
 		const run = runGroup[1];
 		const runMeta = run[0];
 
-		const party: PartyMember[] = run.map((member) => {
-			const weapons = !!member.PartyWeapons
-				? (JSON.parse(member.PartyWeapons) as NgsWeaponDbValue[]).map(mapDbValToWeapon)
+		const party: PartyMember[] = run.map((rg) => {
+			const weapons = !!rg.PartyWeapons
+				? (JSON.parse(rg.PartyWeapons) as NgsWeaponDbValue[]).map(mapDbValToWeapon)
 				: [];
 			return {
-				playerId: parseInt(member.PartyPlayerId),
-				playerName: member.PlayerName,
-				runCharacterName: member.PartyRunCharacterName,
-				mainClass: mapDbValToNgsClass(member.PartyMainClass),
-				subClass: mapDbValToNgsClass(member.PartySubClass),
-				linkPov: member.PartyPovLink,
+				playerId: parseInt(rg.PartyPlayerId),
+				playerName: rg.PlayerName,
+				runCharacterName: rg.PartyRunCharacterName,
+				mainClass: mapDbValToNgsClass(rg.PartyMainClass),
+				subClass: mapDbValToNgsClass(rg.PartySubClass),
+				linkPov: rg.PartyPovLink,
 				weapons: weapons,
 				playerInfo: {
-					playerId: parseInt(member.PartyPlayerId),
-					ship: parseInt(member.PlayerShip),
-					flag: member.PlayerShip,
-					characterName: member.PlayerCharacterName,
-					preferredNameType: parseInt(member.PlayerPreferredNameType),
-					nameEffectType: parseInt(member.PlayerNameEffectType),
-					nameColor1: member.PlayerNameColor1,
-					nameColor2: member.PlayerNameColor2
+					playerId: parseInt(rg.PartyPlayerId),
+					ship: parseInt(rg.PlayerShip),
+					flag: rg.PlayerFlag,
+					name: rg.PlayerName,
+					characterName: rg.PlayerCharacterName,
+					preferredNameType: parseInt(rg.PlayerPreferredNameType),
+					nameEffectType: parseInt(rg.PlayerNameEffectType),
+					nameColor1: rg.PlayerNameColor1,
+					nameColor2: rg.PlayerNameColor2
 				}
 			} satisfies PartyMember;
 		});
@@ -54,7 +56,8 @@ export const mapRuns = (getRun: GetRunDbModel[]): VenogiaRun[] => {
 		const submitter: PlayerInfo2 = {
 			playerId: parseInt(runMeta.PartyPlayerId),
 			ship: parseInt(runMeta.SubmitterShip),
-			flag: runMeta.SubmitterShip,
+			flag: runMeta.SubmitterFlag,
+			name: runMeta.SubmitterName,
 			characterName: runMeta.SubmitterCharacterName,
 			preferredNameType: parseInt(runMeta.SubmitterPreferredNameType),
 			nameEffectType: parseInt(runMeta.SubmitterNameEffectType),
@@ -68,6 +71,7 @@ export const mapRuns = (getRun: GetRunDbModel[]): VenogiaRun[] => {
 			rank: i + 1,
 			runId: parseInt(runId),
 			game: mapDbValToGame(runMeta.RunGame),
+			serverRegion: mapDbValToServerRegion(runMeta.RunServerRegion),
 			quest: runMeta.RunQuest,
 			category: runMeta.RunCategory,
 			patch: runMeta.RunPatch,

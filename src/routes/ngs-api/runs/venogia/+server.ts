@@ -1,7 +1,7 @@
 import { error, json } from '@sveltejs/kit';
 import { leaderboardDb } from '$lib/server/db/db';
 import { jsonError } from '$lib/server/error.js';
-import { getRun } from '$lib/server/repositories/runsRepository.js';
+import { getRuns } from '$lib/server/repositories/runsRepository.js';
 import { validateApiRequest } from '$lib/server/validation/requestValidation.js';
 import { submitRun } from '$lib/server/logic/submitRunLogic.js';
 import { venogiaRunSubmissionSchema } from '$lib/types/api/validation/venogiaSubmission.js';
@@ -15,7 +15,7 @@ export async function GET({ params }) {
 	const request = await pool.request();
 
 	try {
-		const runs = await getRun(request, {});
+		const runs = await getRuns(request, { approved: true });
 		const mappedRuns = mapRuns(runs);
 		return json(mappedRuns);
 	} catch (err) {

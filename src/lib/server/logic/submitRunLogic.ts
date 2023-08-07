@@ -3,7 +3,7 @@ import sql from 'mssql';
 import type { Request } from 'mssql';
 import { leaderboardDb } from '../db/db';
 import { jsonError } from '../error';
-import { checkRunExists, insertRun } from '../repositories/runsRepository';
+import { checkRunVideoExists, insertRun } from '../repositories/runsRepository';
 import { getUser } from '../repositories/userRepository';
 import { json } from '@sveltejs/kit';
 import { notifyDiscordNewRun } from './discordNotifyLogic';
@@ -52,7 +52,7 @@ const checkRunData = async (run: RunSubmissionRequest) => {
 	// Video links not already in use
 	const videoLinks = run.party.map((p) => p.povLink).filter((l): l is string => l !== undefined);
 
-	const existingVideoLinks = await checkRunExists(pool.request(), videoLinks);
+	const existingVideoLinks = await checkRunVideoExists(pool.request(), videoLinks);
 
 	if (existingVideoLinks.length > 0) {
 		existingVideoLinks.forEach((l) => {
