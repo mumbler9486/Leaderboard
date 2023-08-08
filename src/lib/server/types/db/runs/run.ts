@@ -7,6 +7,7 @@ export interface RunDbModel {
 	ServerRegion: string;
 	Patch: string;
 	QuestRank: string;
+	PartySize: string;
 	RunTime: string;
 	Notes: string;
 	SubmissionDate: string;

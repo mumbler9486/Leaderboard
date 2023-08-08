@@ -32,6 +32,7 @@ export interface GetRunDbModel {
 	RunServerRegion: string;
 	RunPatch: string;
 	RunQuestRank: string;
+	RunPartySize: string;
 	RunTime: string;
 	RunNotes: string;
 	RunSubmissionDate: string;
@@ -85,6 +86,7 @@ export const getRuns = async (request: Request, filters: RunSearchOptions) => {
       run.${runsDbFields.ServerRegion} AS ${getRunDbFields.RunServerRegion},
       run.${runsDbFields.Patch} AS ${getRunDbFields.RunPatch},
       run.${runsDbFields.QuestRank} AS ${getRunDbFields.RunQuestRank},
+      run.${runsDbFields.PartySize} AS ${getRunDbFields.RunPartySize},
       run.${runsDbFields.RunTime} AS ${getRunDbFields.RunTime},
       run.${runsDbFields.Notes} AS ${getRunDbFields.RunNotes},
       run.${runsDbFields.SubmissionDate} AS ${getRunDbFields.RunSubmissionDate},
@@ -127,9 +129,9 @@ export const getRuns = async (request: Request, filters: RunSearchOptions) => {
     INNER JOIN 
     dbo.RunParty AS rp ON rp.${runPartyDbFields.RunId} = run.${runsDbFields.Id}  
 
-    INNER JOIN
+    JOIN
     Players.Information AS pi ON pi.PlayerID = rp.${runPartyDbFields.PlayerId} 
-    INNER JOIN 
+    JOIN 
     Players.Customization AS pc ON pc.PlayerID = rp.${runPartyDbFields.PlayerId} 
 
     INNER JOIN
@@ -156,9 +158,9 @@ export const getRuns = async (request: Request, filters: RunSearchOptions) => {
 		request = request.input('rank', sql.NVarChar, filters.rank);
 	}
 
-	if (filters.quest) {
-		query += ` AND run.${runsDbFields.Quest} = @quest`;
-		request = request.input('quest', sql.NVarChar, filters.quest);
+	if (filters.partySize) {
+		query += ` AND run.${runsDbFields.PartySize} = @partySize`;
+		request = request.input('partySize', sql.TinyInt, filters.partySize);
 	}
 
 	const results = await request.query(query);
@@ -184,6 +186,7 @@ export const insertRun = async (
 		.input('quest', sql.NVarChar(50), run.quest)
 		.input('category', sql.NVarChar(30), run.category)
 		.input('serverRegion', sql.NVarChar(10), serverRegion)
+		.input('partySize', sql.TinyInt, run.party.length)
 		.input('patch', sql.NVarChar(30), run.patch)
 		.input('rank', sql.TinyInt, run.questRank)
 		.input('runTime', sql.NVarChar, serializedRunTime)
@@ -203,6 +206,7 @@ export const insertRun = async (
       ${runsDbFields.ServerRegion},
       ${runsDbFields.Patch},
       ${runsDbFields.QuestRank},
+			${runsDbFields.PartySize},
       ${runsDbFields.RunTime},
       ${runsDbFields.Notes},
       ${runsDbFields.SubmissionDate},
@@ -218,6 +222,7 @@ export const insertRun = async (
       @serverRegion,
       @patch,
       @rank,
+			@partySize,
       @runTime,
       @notes,
       @submissionDate,

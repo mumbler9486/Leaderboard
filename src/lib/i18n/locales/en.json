@@ -20,7 +20,8 @@
 		"purpleTriggers": "Purple Triggers",
 		"darkFalzAegis": "Dark Falz Aegis",
 		"indomitables": "Indomitables",
-		"duels": "Duels"
+		"duels": "Duels",
+		"urgentQuest": "Urgent Quests"
 	},
 	"common": {
 		"loading": "Loading...",
@@ -89,7 +90,8 @@
 		"indomitableNilsStia": "Indomitable Nils Stia",
 		"indomitableRenusRetem": "Indomitable Renus Retem",
 		"indomitableHalvaldi": "Indomitable Halvaldi",
-		"duelsPageTitle": "Duels"
+		"duelsPageTitle": "Duels",
+		"venogia": "Venogia Vera"
 	},
 	"shared": {
 		"siteName": "Unofficial NGS Leaderboards",

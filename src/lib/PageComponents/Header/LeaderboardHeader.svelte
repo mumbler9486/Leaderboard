@@ -19,12 +19,11 @@
 			]
 		},
 		{
-			title: $t('navigation.darkFalzAegis'),
+			title: $t('navigation.urgentQuest'),
 			image: '/icons/quests/uq.png',
 			items: [
-				{ label: 'Solo', link: '/runs/dfa/solo' },
-				{ label: 'Duo', link: '/runs/dfa/duo' },
-				{ label: 'Party', link: '/runs/dfa/party' }
+				{ label: 'Venogia', link: '/runs/venogia/solo' },
+				{ label: 'Dark Falz Aegis', link: '/runs/dfa/solo' }
 			]
 		},
 		{
