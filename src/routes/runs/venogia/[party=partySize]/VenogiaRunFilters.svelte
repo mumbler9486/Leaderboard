@@ -1,12 +1,11 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
-	import DfaRules from '../VenogiaRules.svelte';
-	import DfaPartyModalRunFilters from './VenogiaModalRunFilters.svelte';
-	import { t } from 'svelte-i18n';
 	import DfaSupportFilterTag from '$lib/Components/Filters/FilterTags/DfaSupportFilterTag.svelte';
 	import ServerRegionFilterTag from '$lib/Components/Filters/FilterTags/ServerRegionFilterTag.svelte';
+	import PartySizeNavigation from '$lib/Components/PartySizeNavigation.svelte';
+	import DfaRules from '../VenogiaRules.svelte';
+	import DfaPartyModalRunFilters from './VenogiaModalRunFilters.svelte';
 	import { partyRunFilters, type VenogiaPartySearchFilters } from '../venogiaRunFilterStore';
-	import PartySizeNavigation from './PartySizeNavigation.svelte';
 
 	let filters: VenogiaPartySearchFilters = {
 		buff: 'no_filter',
@@ -38,7 +37,7 @@
 >
 	<div class="flex flex-row flex-wrap place-content-center items-stretch gap-2">
 		<div class="grid w-full grid-cols-3 gap-4 py-2 px-4">
-			<PartySizeNavigation />
+			<PartySizeNavigation baseRunPath="/runs/venogia" />
 		</div>
 	</div>
 

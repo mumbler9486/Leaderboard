@@ -4,6 +4,8 @@
 	import Button from '$lib/Components/Button.svelte';
 	import { PartySize, parsePartySize } from '$lib/types/api/partySizes';
 
+	export let baseRunPath: string;
+
 	const highlightClass = 'btn-primary';
 
 	$: partySize = parsePartySize($page.params.party) ?? PartySize.Solo;
@@ -16,6 +18,6 @@
 	};
 </script>
 
-<Button class={isSoloFocused} on:click={() => linkClick('/runs/venogia/solo')}>Solo</Button>
-<Button class={isDuoFocused} on:click={() => linkClick('/runs/venogia/duo')}>Duo</Button>
-<Button class={isPartyFocused} on:click={() => linkClick('/runs/venogia/party')}>Party</Button>
+<Button class={isSoloFocused} on:click={() => linkClick(`${baseRunPath}/solo`)}>Solo</Button>
+<Button class={isDuoFocused} on:click={() => linkClick(`${baseRunPath}/duo`)}>Duo</Button>
+<Button class={isPartyFocused} on:click={() => linkClick(`${baseRunPath}/party`)}>Party</Button>
