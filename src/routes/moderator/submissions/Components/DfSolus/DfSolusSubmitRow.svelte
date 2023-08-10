@@ -7,6 +7,7 @@
 	import { patchCodeLabelMap } from '$lib/constants/patchCodes';
 	import type { DfSolusRun } from '$lib/types/api/runs/run';
 	import type { Submission } from '$lib/types/api/submissions/submissions';
+	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
 
 	const dispatcher = createEventDispatcher();
 
@@ -41,6 +42,7 @@
 		{/each}
 	</th>
 	<td class="text-center">{partySize}</td>
+	<td class="text-center">{solusRank}</td>
 	<td class="text-center">
 		{#each submission.players as player}
 			<p>
@@ -49,7 +51,16 @@
 			</p>
 		{/each}
 	</td>
-	<td class="text-center">{solusRank}</td>
+	<td class="text-center">
+		{#if submission.players[0].weapons.length == 0}
+			N/A
+		{/if}
+		{#each submission.players[0].weapons as weapon}
+			<div class="inline w-[16px] object-none">
+				<WeaponIcon {weapon} />
+			</div>
+		{/each}
+	</td>
 	<td class="text-center">{patchCodeLabelMap[submission.patch.toLowerCase()]}</td>
 	<td class="text-center">
 		<TimeDisplay time={submission.time} />

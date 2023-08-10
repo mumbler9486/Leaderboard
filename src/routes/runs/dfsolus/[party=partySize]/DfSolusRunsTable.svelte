@@ -6,6 +6,7 @@
 	import RunInfoModal from '$lib/Components/RunInfoModal.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import VideoLink from '$lib/Components/VideoLink.svelte';
+	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
 	import { mapToNamePref } from '$lib/types/api/mapNamePref';
 	import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 	import type { PlayerInfo } from '$lib/types/api/playerInfo';
@@ -90,6 +91,9 @@
 					<th class="w-2 bg-neutral text-center text-neutral-content">#</th>
 					<th class="bg-neutral text-neutral-content">Player</th>
 					<th class="bg-neutral text-center text-neutral-content">Classes</th>
+					{#if solo}
+						<th class="bg-neutral text-center text-neutral-content">Weapons</th>
+					{/if}
 					<th class="bg-neutral text-center text-neutral-content">
 						IGT <InfoTooltip below tip={'In-Game Time'} />
 					</th>
@@ -119,6 +123,15 @@
 									<NgsClassIcon showTooltip combatClass={player.subClass} />
 								</p>
 							{/each}
+						</td>
+						<td class="text-center">
+							{#if solo}
+								{#each run.players[0].weapons as weapon}
+									<div class="inline w-[16px] object-none">
+										<WeaponIcon {weapon} />
+									</div>
+								{/each}
+							{/if}
 						</td>
 						<td class="text-center">
 							<TimeDisplay time={run.time} />
