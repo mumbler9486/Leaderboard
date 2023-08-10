@@ -46,4 +46,4 @@ export interface PlayerInfo2 {
 	nameColor2: string;
 }
 
-export interface VenogiaRun extends Run {}
+export interface DfSolusRun extends Run {}

@@ -2,7 +2,7 @@ import { get, writable } from 'svelte/store';
 import { runForm } from '../runStore';
 import { partyForm } from '../partyFormStore';
 import { fetchPostApi } from '$lib/utils/fetch';
-import type { VenogiaRunSubmission } from '$lib/types/api/validation/venogiaSubmission';
+import type { DfSolusRunSubmission } from '$lib/types/api/validation/dfSolusSubmission';
 import type { SubmitResult } from '$lib/types/api/runs/submitResult';
 import { clientPrincipleStore, playerInfoStore } from '$lib/stores/userLogin';
 import { Weapon, parseWeapon } from '$lib/types/api/weapon';
@@ -11,14 +11,14 @@ import { CurrentSubmissionPatchCode } from '$lib/constants/patchCodes';
 import { parseServerRegion } from '$lib/types/api/serverRegions';
 import type { BadRequestApiError } from '$lib/types/api/error';
 
-const venogiaFormStore = writable({
+const dfSolusFormStore = writable({
 	rank: 1,
 	category: 'urgent_quest'
 });
 
-const submitPath = '/ngs-api/runs/venogia';
+const submitPath = '/ngs-api/runs/dfsolus';
 
-export const submitVenogiaRun = async () => {
+export const submitDfSolusRun = async () => {
 	const clientPrincipal = get(clientPrincipleStore);
 	const playerInfo = get(playerInfoStore);
 	if (!clientPrincipal || !playerInfo) {
@@ -27,7 +27,7 @@ export const submitVenogiaRun = async () => {
 
 	const form = get(runForm);
 	const party = get(partyForm);
-	const venogiaDetails = get(venogiaForm);
+	const solusDetails = get(solusForm);
 
 	const submitParty = party.map((p, i) => {
 		p.povVideoLink = p.povVideoLink === '' ? undefined : p.povVideoLink;
@@ -43,13 +43,13 @@ export const submitVenogiaRun = async () => {
 		};
 	});
 
-	const request: VenogiaRunSubmission = {
+	const request: DfSolusRunSubmission = {
 		...form,
 		submitterUserId: clientPrincipal.userId,
 		submitterName: playerInfo.playerName,
 		serverRegion: parseServerRegion(form.serverRegion),
-		quest: 'venogia',
-		rank: venogiaDetails.rank,
+		quest: 'dfsolus',
+		questRank: solusDetails.rank,
 		patch: CurrentSubmissionPatchCode,
 		category: 'urgent_quest',
 		party: submitParty
@@ -59,7 +59,7 @@ export const submitVenogiaRun = async () => {
 	return response;
 };
 
-export const venogiaForm = {
-	...venogiaFormStore,
-	submitVenogiaRun
+export const solusForm = {
+	...dfSolusFormStore,
+	submitDfSolusRun: submitDfSolusRun
 };

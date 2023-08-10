@@ -3,11 +3,11 @@
 	import DfaSupportFilterTag from '$lib/Components/Filters/FilterTags/DfaSupportFilterTag.svelte';
 	import ServerRegionFilterTag from '$lib/Components/Filters/FilterTags/ServerRegionFilterTag.svelte';
 	import PartySizeNavigation from '$lib/Components/PartySizeNavigation.svelte';
-	import DfaRules from '../VenogiaRules.svelte';
-	import DfaPartyModalRunFilters from './VenogiaModalRunFilters.svelte';
-	import { partyRunFilters, type VenogiaPartySearchFilters } from '../venogiaRunFilterStore';
+	import DfaRules from '../DfSolusRules.svelte';
+	import DfaPartyModalRunFilters from './DfSolusModalRunFilters.svelte';
+	import { partyRunFilters, type DfSolusPartySearchFilters } from '../dfsolusRunFilterStore';
 
-	let filters: VenogiaPartySearchFilters = {
+	let filters: DfSolusPartySearchFilters = {
 		buff: 'no_filter',
 		server: 'no_filter',
 		rank: '1'
@@ -37,7 +37,7 @@
 >
 	<div class="flex flex-row flex-wrap place-content-center items-stretch gap-2">
 		<div class="grid w-full grid-cols-3 gap-4 py-2 px-4">
-			<PartySizeNavigation baseRunPath="/runs/venogia" />
+			<PartySizeNavigation baseRunPath="/runs/dfsolus" />
 		</div>
 	</div>
 

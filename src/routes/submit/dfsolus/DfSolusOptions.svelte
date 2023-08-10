@@ -3,7 +3,7 @@
 	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
 	import PartySizeOptions from '../PartySizeOptions.svelte';
 	import RunTimeInput from '../RunTimeInput.svelte';
-	import { venogiaForm } from './submit';
+	import { solusForm } from './submit';
 
 	let selectedRankStr: string = '1';
 
@@ -11,13 +11,13 @@
 		['urgent_quest']: [{ label: '1', value: '1' }]
 	};
 
-	$: rankOptions = rankOptionsDropdowns[$venogiaForm.category] ?? [];
+	$: rankOptions = rankOptionsDropdowns[$solusForm.category] ?? [];
 
-	$: $venogiaForm.rank = parseInt(selectedRankStr);
+	$: $solusForm.rank = parseInt(selectedRankStr);
 
 	const typeChanged = () => {
-		selectedRankStr = rankOptionsDropdowns[$venogiaForm.category][0].value;
-		$venogiaForm.rank = parseInt(selectedRankStr);
+		selectedRankStr = rankOptionsDropdowns[$solusForm.category][0].value;
+		$solusForm.rank = parseInt(selectedRankStr);
 	};
 </script>
 
@@ -35,7 +35,7 @@
 			label="Mode"
 			placeholder="Select a mode"
 			options={[{ label: 'Urgent Quest', value: 'urgent_quest' }]}
-			bind:value={$venogiaForm.category}
+			bind:value={$solusForm.category}
 			on:change={typeChanged}
 		/>
 	</div>

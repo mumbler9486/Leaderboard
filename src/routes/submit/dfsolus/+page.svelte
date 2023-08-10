@@ -3,12 +3,12 @@
 	import ServerRegionSelector from '../ServerRegionSelector.svelte';
 	import Alert from '$lib/Components/Alert.svelte';
 	import PartyOptions from '../PartyOptions.svelte';
-	import VenogiaOptions from './VenogiaOptions.svelte';
+	import DfSolusOptions from './DfSolusOptions.svelte';
 
 	import { t } from 'svelte-i18n';
 	import { resetForm, runForm } from '../runStore';
 	import { partyForm } from '../partyFormStore';
-	import { submitVenogiaRun } from './submit';
+	import { submitDfSolusRun } from './submit';
 	import { ErrorCodes } from '$lib/types/api/error';
 	import { afterNavigate } from '$app/navigation';
 
@@ -18,7 +18,7 @@
 
 	afterNavigate(() => {
 		resetForm();
-		$runForm.category = 'venogia';
+		$runForm.category = 'dfsolus';
 		partyForm.setPartySize(1);
 	});
 
@@ -30,7 +30,7 @@
 		try {
 			serverErrorMessage = undefined;
 			submitting = true;
-			const response: any = await submitVenogiaRun();
+			const response: any = await submitDfSolusRun();
 
 			if (response.code == ErrorCodes.ValidationError) {
 				serverErrorMessage = response.details[0].message;
@@ -71,7 +71,7 @@
 				<form id="submitForm" on:submit|preventDefault={submitRun}>
 					<div class="m-2 gap-1 rounded-md border border-secondary bg-secondary/10 p-4 px-8">
 						<div class="text-center text-xl font-semibold">
-							Remnants of Ambition (Venogia Vera UQ)
+							Signs of the Planetbreaker (Dark Falz Solus)
 						</div>
 						<Divider />
 						<div class="text-center text-lg font-semibold">Information</div>
@@ -79,7 +79,7 @@
 							<ServerRegionSelector />
 						</div>
 						<div class="form-control">
-							<VenogiaOptions />
+							<DfSolusOptions />
 						</div>
 					</div>
 					<PartyOptions />

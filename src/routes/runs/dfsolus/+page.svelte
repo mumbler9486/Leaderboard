@@ -1,5 +1,5 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 
-	goto('/runs/venogia/solo', { replaceState: true });
+	goto('/runs/dfsolus/solo', { replaceState: true });
 </script>

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import SubmissionInfoModal from '$lib/Components/SubmissionInfoModal.svelte';
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
-	import VenogiaSubmitRow from './VenogiaSubmitRow.svelte';
+	import DfSolusSubmitRow from './DfSolusSubmitRow.svelte';
 	import type { Submission } from '$lib/types/api/submissions/submissions';
-	import type { VenogiaRun } from '$lib/types/api/runs/run';
+	import type { DfSolusRun } from '$lib/types/api/runs/run';
 	import type { RunCategories } from '$lib/types/api/categories';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import type { PlayerInfo } from '$lib/types/api/playerInfo';
@@ -11,7 +11,7 @@
 
 	export let category: RunCategories;
 
-	let submissions: VenogiaRun[] = [];
+	let submissions: DfSolusRun[] = [];
 	let loading = true;
 
 	let submissionModal: SubmissionInfoModal;
@@ -19,14 +19,14 @@
 
 	$: workaroundViewSubmission = !viewSubmission
 		? undefined
-		: { ...viewSubmission, category: 'venogia' }; //TODO: temporary work around while refactoring Runs
+		: { ...viewSubmission, category: 'dfsolus' }; //TODO: temporary work around while refactoring Runs
 	$: mappedSubmissions = tempMapSubmissions(submissions);
 
 	$: reloadData(category);
 
 	async function reloadData(...watch: any[]) {
 		try {
-			const submittedRuns = await fetchGetApi<VenogiaRun[]>(`/ngs-api/submissions/venogia`);
+			const submittedRuns = await fetchGetApi<DfSolusRun[]>(`/ngs-api/submissions/dfsolus`);
 			submissions = submittedRuns;
 			return submittedRuns;
 		} catch (err) {
@@ -45,11 +45,11 @@
 		}
 
 		viewSubmission = run;
-		console.log({ ...viewSubmission, category: 'venogia' });
+		console.log({ ...viewSubmission, category: 'dfsolus' });
 		submissionModal.showModal();
 	};
 
-	const tempMapSubmissions = (runs: VenogiaRun[]) => {
+	const tempMapSubmissions = (runs: DfSolusRun[]) => {
 		return runs.map((r) => ({
 			//TODO : Temporary mapping, remove when runs refactored
 			...r,
@@ -119,7 +119,7 @@
 		{#if !loading}
 			<tbody>
 				{#each mappedSubmissions as submission}
-					<VenogiaSubmitRow on:openRunInfo={runInfoOpen} {submission} />
+					<DfSolusSubmitRow on:openRunInfo={runInfoOpen} {submission} />
 				{/each}
 			</tbody>
 		{/if}

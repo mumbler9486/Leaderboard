@@ -30,9 +30,9 @@
 					overlayColor="neutral"
 				/>
 				<JumboButton
-					label="Venogia Vera"
-					image="/icons/submit/venogia.jpg"
-					link="/submit/venogia"
+					label="Dark Falz Solus"
+					image="/icons/submit/dfsolus.jpg"
+					link="/submit/dfsolus"
 					overlayColor="neutral"
 				/>
 				<JumboButton

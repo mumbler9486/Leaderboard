@@ -9,12 +9,12 @@
 	import { mapToNamePref } from '$lib/types/api/mapNamePref';
 	import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 	import type { PlayerInfo } from '$lib/types/api/playerInfo';
-	import type { VenogiaRun } from '$lib/types/api/runs/run';
+	import type { DfSolusRun } from '$lib/types/api/runs/run';
 
 	let modal: RunInfoModal;
-	let viewRun: VenogiaRun | undefined;
+	let viewRun: DfSolusRun | undefined;
 
-	export let runs: VenogiaRun[];
+	export let runs: DfSolusRun[];
 	export let solo: boolean;
 
 	$: mappedRuns = tempMapSubmissions(runs);
@@ -31,7 +31,7 @@
 		modal.showModal();
 	};
 
-	const tempMapSubmissions = (runs: VenogiaRun[]) => {
+	const tempMapSubmissions = (runs: DfSolusRun[]) => {
 		return runs.map((r) => ({
 			//TODO : Temporary mapping, remove when runs refactored
 			...r,

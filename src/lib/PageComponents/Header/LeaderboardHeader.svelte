@@ -19,10 +19,10 @@
 			]
 		},
 		{
-			title: $t('navigation.urgentQuest'),
+			title: $t('navigation.bosses'),
 			image: '/icons/quests/uq.png',
 			items: [
-				{ label: 'Venogia', link: '/runs/venogia/solo' },
+				{ label: 'Dark Falz Solus', link: '/runs/dfsolus/solo' },
 				{ label: 'Dark Falz Aegis', link: '/runs/dfa/solo' }
 			]
 		},

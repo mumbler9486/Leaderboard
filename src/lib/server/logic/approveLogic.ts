@@ -7,7 +7,7 @@ import { approveRun, checkRunExists } from '$lib/server/repositories/runsReposit
 import { SubmissionStatusDbValue } from '$lib/server/types/db/runs/submissionStatus.js';
 import type { ApproveRequest } from '$lib/types/api/validation/submissions';
 
-const VenogiaQuestName = 'Venogia UQ';
+const DfSolusQuestName = 'Dark Falz Solus';
 
 export const approveRunSubmission = async (approveRequest: ApproveRequest) => {
 	const pool = await leaderboardDb.connect();
@@ -28,7 +28,7 @@ export const approveRunSubmission = async (approveRequest: ApproveRequest) => {
 		notifyDiscordNewRunApproved(
 			approveRequest.moderatorName,
 			playerName ?? '<Player_Name>',
-			VenogiaQuestName
+			DfSolusQuestName
 		);
 		return json({ data: 'success' });
 	} catch (err) {

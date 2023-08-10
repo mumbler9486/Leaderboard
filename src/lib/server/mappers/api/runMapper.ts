@@ -4,9 +4,9 @@ import { mapDbValToGame } from '$lib/server/types/db/runs/game';
 import { mapDbValToNgsClass } from '$lib/server/types/db/runs/ngsClasses';
 import { mapDbValToServerRegion } from '$lib/server/types/db/runs/serverRegions';
 import { mapDbValToWeapon, type NgsWeaponDbValue } from '$lib/server/types/db/runs/weapons';
-import type { PartyMember, PlayerInfo2, VenogiaRun } from '$lib/types/api/runs/run';
+import type { PartyMember, PlayerInfo2, DfSolusRun } from '$lib/types/api/runs/run';
 
-export const mapRuns = (getRun: GetRunDbModel[]): VenogiaRun[] => {
+export const mapRuns = (getRun: GetRunDbModel[]): DfSolusRun[] => {
 	const groupedRuns = getRun.reduce((prev, curr) => {
 		if (!prev[curr.RunId]) {
 			prev[curr.RunId] = [];
@@ -67,7 +67,7 @@ export const mapRuns = (getRun: GetRunDbModel[]): VenogiaRun[] => {
 
 		const runTime = convertTimeToRunTime(new Date(runMeta.RunTime));
 
-		const submission: VenogiaRun = {
+		const submission: DfSolusRun = {
 			rank: i + 1,
 			runId: parseInt(runId),
 			game: mapDbValToGame(runMeta.RunGame),

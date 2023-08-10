@@ -5,13 +5,13 @@
 	import { createEventDispatcher } from 'svelte';
 	import { mapToNamePref } from '$lib/types/api/mapNamePref';
 	import { patchCodeLabelMap } from '$lib/constants/patchCodes';
-	import type { VenogiaRun } from '$lib/types/api/runs/run';
+	import type { DfSolusRun } from '$lib/types/api/runs/run';
 	import type { Submission } from '$lib/types/api/submissions/submissions';
 
 	const dispatcher = createEventDispatcher();
 
 	export let submission: Submission;
-	const venogiaRank = 1; //TODO get from run data
+	const solusRank = 1; //TODO get from run data
 
 	let partySize = 'Solo';
 	$: {
@@ -49,7 +49,7 @@
 			</p>
 		{/each}
 	</td>
-	<td class="text-center">{venogiaRank}</td>
+	<td class="text-center">{solusRank}</td>
 	<td class="text-center">{patchCodeLabelMap[submission.patch.toLowerCase()]}</td>
 	<td class="text-center">
 		<TimeDisplay time={submission.time} />

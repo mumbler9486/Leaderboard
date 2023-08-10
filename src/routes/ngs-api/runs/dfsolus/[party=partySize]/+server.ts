@@ -8,7 +8,7 @@ import { json } from '@sveltejs/kit';
 const partySizeMap: Record<PartySize, number> = {
 	[PartySize.Solo]: 1,
 	[PartySize.Duo]: 2,
-	[PartySize.Party]: 8
+	[PartySize.Party]: 4
 };
 
 /** @type {import('./$types').RequestHandler} */

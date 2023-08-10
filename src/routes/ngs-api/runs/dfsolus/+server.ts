@@ -4,7 +4,7 @@ import { jsonError } from '$lib/server/error.js';
 import { getRuns } from '$lib/server/repositories/runsRepository.js';
 import { validateApiRequest } from '$lib/server/validation/requestValidation.js';
 import { submitRun } from '$lib/server/logic/submitRunLogic.js';
-import { venogiaRunSubmissionSchema } from '$lib/types/api/validation/venogiaSubmission.js';
+import { dfSolusRunSubmissionSchema } from '$lib/types/api/validation/dfSolusSubmission.js';
 import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmission.js';
 import { mapRuns } from '$lib/server/mappers/api/runMapper.js';
 import { GameDbValue } from '$lib/server/types/db/runs/game.js';
@@ -28,7 +28,7 @@ export async function POST({ request }) {
 	// Validate request
 	const body = await request.json();
 	const { object: parsedRun, validationError } = await validateApiRequest<RunSubmissionRequest>(
-		venogiaRunSubmissionSchema,
+		dfSolusRunSubmissionSchema,
 		body
 	);
 	if (!parsedRun) {

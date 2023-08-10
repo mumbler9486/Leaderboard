@@ -9,7 +9,7 @@ const partyTypeMap: Record<string, string> = {
 };
 
 const questTypeMap: Record<string, string> = {
-	venogia: 'Venogia'
+	dfsolus: 'Solus'
 };
 
 const categoryTypeMap: Record<string, string> = {
