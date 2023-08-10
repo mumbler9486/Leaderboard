@@ -19,6 +19,12 @@
 		rank: '1'
 	};
 
+	const partyLinks = [
+		{ link: '/runs/dfa/solo', label: 'Solo' },
+		{ link: '/runs/dfa/duo', label: 'Duo' },
+		{ link: '/runs/dfa/party', label: 'Party' }
+	];
+
 	const applyFilters = () => {
 		soloRunFilters.set({ ...filters });
 	};
@@ -50,7 +56,7 @@
 >
 	<div class="flex flex-row flex-wrap place-content-center items-stretch gap-2">
 		<div class="grid w-full grid-cols-3 gap-4 py-2 px-4">
-			<PartySizeNavigation baseRunPath="/runs/dfa" />
+			<PartySizeNavigation parties={partyLinks} />
 		</div>
 	</div>
 	<div class="flex flex-row flex-wrap place-content-center items-stretch gap-2">
