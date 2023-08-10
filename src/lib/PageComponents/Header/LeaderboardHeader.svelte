@@ -20,7 +20,7 @@
 		},
 		{
 			title: $t('navigation.bosses'),
-			image: '/icons/quests/uq.png',
+			image: '/icons/quests/skull.png',
 			items: [
 				{ label: 'Dark Falz Solus', link: '/runs/dfsolus/solo' },
 				{ label: 'Dark Falz Aegis', link: '/runs/dfa/solo' }
