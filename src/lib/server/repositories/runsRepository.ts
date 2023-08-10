@@ -68,7 +68,7 @@ export interface GetRunDbModel {
 	SubmitterNameColor2: string;
 }
 
-export const getRuns = async (request: Request, filters: RunsSearchFilter) => {
+export const getRuns = async (request: Request, filters: RunsSearchFilter, approved: boolean) => {
 	let query = `
     SELECT 
       run.${runsDbFields.Id} AS ${getRunDbFields.RunId},
@@ -135,24 +135,30 @@ export const getRuns = async (request: Request, filters: RunsSearchFilter) => {
     WHERE 1=1
   `;
 
-	if (filters.approved !== undefined && filters.approved !== null) {
-		const approved = filters.approved ? 1 : 0;
+	if (approved !== undefined && approved !== null) {
+		const approvedInt = approved ? 1 : 0;
 		query += ` AND run.${runsDbFields.SubmissionStatus} = @approved`;
-		request = request.input('approved', sql.TinyInt, approved);
+		request = request.input('approved', sql.TinyInt, approvedInt);
+	}
+
+	if (filters.class) {
+		const mappedClass = mapNgsClassToDbVal(filters.class);
+		query += ` AND rp.${runPartyDbFields.MainClass} = @class`;
+		request = request.input('class', sql.NVarChar, mappedClass);
 	}
 
 	if (filters.quest) {
-		query += ` AND ${runsDbFields.Quest} = @quest`;
+		query += ` AND run.${runsDbFields.Quest} = @quest`;
 		request = request.input('quest', sql.NVarChar, filters.quest);
 	}
 
 	if (filters.rank) {
-		query += ` AND ${runsDbFields.QuestRank} = @rank`;
+		query += ` AND run.${runsDbFields.QuestRank} = @rank`;
 		request = request.input('rank', sql.NVarChar, filters.rank);
 	}
 
 	if (filters.server) {
-		query += ` AND pc.Server = @server`;
+		query += ` AND run.${runsDbFields.ServerRegion} = @server`;
 		request = request.input('server', sql.NVarChar, filters.server);
 	}
 
@@ -212,7 +218,7 @@ export const insertRun = async (
 		.input('submissionDate', sql.DateTime2, new Date())
 		.input('submissionStatus', sql.TinyInt, SubmissionStatusDbValue.AwaitingApproval)
 		.input('dateApproved', sql.DateTime2, null)
-		.input('modNotes', sql.NVarChar(500), '')
+		.input('modNotes', sql.NVarChar(500), null)
 		.input('attributes', sql.NVarChar(4000), runDetails);
 
 	const runInsertResult = await insertRequest.query(`

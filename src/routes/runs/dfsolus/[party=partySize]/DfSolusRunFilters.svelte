@@ -1,14 +1,19 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
-	import DfaSupportFilterTag from '$lib/Components/Filters/FilterTags/DfaSupportFilterTag.svelte';
+	import NgsClassFilterTag from '$lib/Components/Filters/FilterTags/NgsClassFilterTag.svelte';
 	import ServerRegionFilterTag from '$lib/Components/Filters/FilterTags/ServerRegionFilterTag.svelte';
 	import PartySizeNavigation from '$lib/Components/PartySizeNavigation.svelte';
+	import { parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 	import DfaRules from '../DfSolusRules.svelte';
-	import DfaPartyModalRunFilters from './DfSolusModalRunFilters.svelte';
-	import { partyRunFilters, type DfSolusPartySearchFilters } from '../dfsolusRunFilterStore';
+	import { runFilters, type DfSolusSearchFilters } from '../dfSolusRunFilterStore';
+	import DfSolusModalRunFilters from './DfSolusModalRunFilters.svelte';
 
-	let filters: DfSolusPartySearchFilters = {
-		buff: 'no_filter',
+	export let solo: boolean;
+
+	$: playerClassFilterTag = parseNgsPlayerClass($runFilters.class);
+
+	let filters: DfSolusSearchFilters = {
+		class: 'no_filter',
 		server: 'no_filter',
 		rank: '1'
 	};
@@ -20,15 +25,15 @@
 	];
 
 	const applyFilters = () => {
-		partyRunFilters.set({ ...filters });
+		runFilters.set({ ...filters });
 	};
 
-	partyRunFilters.subscribe((f) => {
+	runFilters.subscribe((f) => {
 		filters = { ...f };
 	});
 
-	const resetBuffFilter = () => {
-		filters.buff = 'no_filter';
+	const resetClassFilter = () => {
+		filters.class = 'no_filter';
 		applyFilters();
 	};
 
@@ -50,10 +55,11 @@
 	<Divider class="-mx-1 my-0" />
 	<div class="flex flex-row flex-wrap place-content-center items-stretch">
 		<div class="m-1 md:flex-1">
-			<DfaPartyModalRunFilters
+			<DfSolusModalRunFilters
 				bind:server={filters.server}
-				bind:support={filters.buff}
+				bind:mainClass={filters.class}
 				on:applyFilters={applyFilters}
+				{solo}
 			/>
 		</div>
 		<div class="m-1 md:flex-initial">
@@ -64,11 +70,11 @@
 	<Divider class="-mx-1 my-0" />
 
 	<div class="flex flex-row gap-2 px-1">
-		{#if $partyRunFilters.buff && $partyRunFilters.buff != 'no_filter'}
-			<DfaSupportFilterTag support={$partyRunFilters.buff} on:click={resetBuffFilter} />
+		{#if !!playerClassFilterTag}
+			<NgsClassFilterTag ngsClass={playerClassFilterTag} on:click={resetClassFilter} />
 		{/if}
-		{#if $partyRunFilters.server && $partyRunFilters.server != 'no_filter'}
-			<ServerRegionFilterTag server={$partyRunFilters.server} on:click={resetServerRegion} />
+		{#if $runFilters.server && $runFilters.server != 'no_filter'}
+			<ServerRegionFilterTag server={$runFilters.server} on:click={resetServerRegion} />
 		{/if}
 	</div>
 </div>
