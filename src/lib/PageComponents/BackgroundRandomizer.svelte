@@ -8,7 +8,8 @@
 		'/background/retem-purp-night.png',
 		'/background/stia-purp.png',
 		'/background/stia-purp-night.png',
-		'/background/venogia.jpg'
+		'/background/venogia.jpg',
+		'/background/dfsolus_portal.jpg'
 	];
 
 	$: backgroundUrl = `url(${backgrounds[randInt(backgrounds.length)]})`;
