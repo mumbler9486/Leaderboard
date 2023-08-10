@@ -1,9 +1,25 @@
 import { type InferType, string, number, object, array } from 'yup';
 import { youtubeUrlRegex } from '$lib/utils/youtube';
 import { parseWeapon } from '$lib/types/api/weapon';
+import { NgsPlayerClass } from '../ngsPlayerClass';
 
 const questTypes = ['trigger', 'urgent'];
 const validRanks = [1];
+const mainClasses = [
+	NgsPlayerClass.Hunter,
+	NgsPlayerClass.Fighter,
+	NgsPlayerClass.Ranger,
+	NgsPlayerClass.Gunner,
+	NgsPlayerClass.Force,
+	NgsPlayerClass.Techter,
+	NgsPlayerClass.Braver,
+	NgsPlayerClass.Bouncer,
+	NgsPlayerClass.Waker,
+	NgsPlayerClass.Slayer
+];
+const subClasses = mainClasses;
+
+const supports = ['aina-manon', 'nadereh', 'ilma', 'glen'];
 
 export const dfaSubmissionRequestSchema = object({
 	userId: string().required(),
@@ -11,7 +27,7 @@ export const dfaSubmissionRequestSchema = object({
 	type: string().required().oneOf(questTypes),
 	rank: number().required().oneOf(validRanks),
 	serverRegion: string().required(),
-	support: string().required(),
+	support: string().required().oneOf(supports),
 	notes: string().max(500).nullable(),
 	time: object({
 		hours: number().required(),
@@ -28,8 +44,8 @@ export const dfaSubmissionRequestSchema = object({
 			playerName: string().required(),
 			inVideoName: string().required(),
 			playerServer: string().nullable(),
-			mainClass: string().required(),
-			subClass: string().required(),
+			mainClass: string().required().oneOf(mainClasses),
+			subClass: string().required().oneOf(subClasses),
 			weapons: array(
 				string()
 					.required()
