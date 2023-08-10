@@ -1,9 +1,9 @@
 import { type InferType, string, number, object, array, boolean } from 'yup';
 
 const runTimeSchema = object({
-	hours: number().min(0).max(6).required(),
-	minutes: number().min(0).max(59).required(),
-	seconds: number().min(0).max(59).required()
+	hours: number().integer().min(0).max(6).required(),
+	minutes: number().integer().min(0).max(59).required(),
+	seconds: number().integer().min(0).max(59).required()
 });
 
 export const yupRunTime = (maxSeconds: number = 21599) => {

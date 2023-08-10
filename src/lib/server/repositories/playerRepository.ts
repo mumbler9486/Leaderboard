@@ -29,6 +29,33 @@ export const getRunPlayer = async (request: Request, playerId: number) => {
 	};
 };
 
+export const getPlayers = async (request: Request, playerIds: number[]) => {
+	let playerLookupRequest = request;
+
+	const paramNames: string[] = [];
+	playerIds.forEach((pid, i) => {
+		const paramName = `playerId${i}`;
+		paramNames.push(paramName);
+		playerLookupRequest = playerLookupRequest.input(paramName, pid);
+	});
+
+	const paramList = paramNames.map((p) => `@${p}`);
+	const playerLookupResults = await playerLookupRequest.query(`
+    SELECT 
+			pi.${playerInfoDbFields.PlayerID},
+			pi.${playerInfoDbFields.PlayerName}
+		FROM Players.Information AS pi
+		WHERE ${playerInfoDbFields.PlayerID} IN (${paramList.join(',')})
+  `);
+
+	const players = playerLookupResults.recordset as PlayerInformationDbModel[];
+
+	return players.map((p) => ({
+		playerId: parseInt(p.PlayerID),
+		playerName: p.PlayerName as string
+	}));
+};
+
 export const getPlayerByGuid = async (request: Request, userIdGuid: string) => {
 	const submissionResults = await request.input('userIdGuid', sql.NVarChar, userIdGuid).query(`
 			SELECT

@@ -3,7 +3,7 @@ import { ServerRegion } from '../serverRegions';
 import { guidRegex } from '$lib/utils/validation';
 import { CurrentSubmissionPatchCode } from '$lib/constants/patchCodes';
 import { yupRunTime } from './schemas/timeSchema';
-import { yupRunPartySchema } from './schemas/runRartySchema';
+import { yupRunPartySchema } from './schemas/runPartySchema';
 
 const serverRegions = [ServerRegion.Global, ServerRegion.Japan];
 const patches = [CurrentSubmissionPatchCode];

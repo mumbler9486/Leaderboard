@@ -9,13 +9,23 @@
 
 	let isLoading: boolean = false;
 	let player: Player;
+	let error: string | undefined;
 
 	const reloadProfile = async () => {
 		isLoading = true;
+		error = undefined;
+
 		try {
 			const playerId = parseInt($page.params.playerId);
-			player = await fetchGetApi<Player>(`/ngs-api/users/${playerId}`);
+			const result = await fetchGetApi<Player>(`/ngs-api/users/${playerId}`);
+
+			if (typeof result == 'string') {
+				error = 'Unknown user';
+				return;
+			}
+			player = result;
 		} catch (err) {
+			error = 'Unknown user';
 			console.error(err);
 		} finally {
 			isLoading = false;
@@ -29,6 +39,12 @@
 	<title>{$t('shared.siteName')} | Your ARKs ID</title>
 </svelte:head>
 
-<div class="flex grow flex-col content-center">
-	<ArksId {player} {isLoading} />
-</div>
+{#if error}
+	<div class="container m-16 mx-auto flex grow rounded-md border border-secondary bg-base-100/75">
+		<div class="flex grow flex-col content-center p-4">{error}</div>
+	</div>
+{:else}
+	<div class="flex grow flex-col content-center">
+		<ArksId {player} {isLoading} />
+	</div>
+{/if}

@@ -41,8 +41,8 @@ const weapons = [
 export const yupRunPartySchema = (maxPlayers: number = 4) => {
 	return array(
 		object({
-			playerId: number(),
-			ordinal: number().default(0).min(0).max(maxPlayers),
+			playerId: number().nullable().positive().integer(),
+			ordinal: number().default(0).min(0).integer().max(maxPlayers),
 			povLink: string()
 				.matches(youtubeUrlRegex, (w) => `${w.path} must a valid youtube link`)
 				.nullable()

@@ -67,6 +67,12 @@
 	$: setPlayerNames(playerNameDisplay);
 
 	const setPlayerNames = (playerNameDisplay: PlayerNameDisplay) => {
+		if (!playerNameDisplay.playerId) {
+			primaryName = playerNameDisplay.runCharacterName;
+			secondaryName = '';
+			return;
+		}
+
 		switch (playerNameDisplay.namePreference) {
 			// Main Character Name
 			case 1:

@@ -122,9 +122,9 @@ export const getRuns = async (request: Request, filters: RunsSearchFilter, appro
     INNER JOIN 
     dbo.RunParty AS rp ON rp.${runPartyDbFields.RunId} = run.${runsDbFields.Id}  
 
-    JOIN
+    LEFT JOIN
     Players.Information AS pi ON pi.PlayerID = rp.${runPartyDbFields.PlayerId} 
-    JOIN 
+    LEFT JOIN 
     Players.Customization AS pc ON pc.PlayerID = rp.${runPartyDbFields.PlayerId} 
 
     INNER JOIN
