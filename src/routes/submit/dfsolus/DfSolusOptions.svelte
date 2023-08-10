@@ -23,7 +23,7 @@
 
 <div class="grid grid-cols-1 gap-2 md:grid-cols-4">
 	<div class="form-control md:col-span-3">
-		<PartySizeOptions sizes={[1, 2, 8]} />
+		<PartySizeOptions sizes={[1, 2, 4]} />
 	</div>
 	<div class="form-control">
 		<CurrentPatchLabel />

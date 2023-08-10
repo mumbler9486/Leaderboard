@@ -2,6 +2,7 @@ import { type InferType, string, number, object, array, mixed } from 'yup';
 import { NgsPlayerClass } from '../../ngsPlayerClass';
 import { Weapon } from '../../weapon';
 import { youtubeUrlRegex } from '$lib/utils/youtube';
+import { findDuplicates } from '../utils/duplicate';
 
 const mainClasses = [
 	NgsPlayerClass.Hunter,
@@ -65,6 +66,40 @@ export const yupRunPartySchema = (maxPlayers: number = 4) => {
 		)
 		.test('solo_requires_weapon', 'Solo requires at least 1 weapon used', (players) =>
 			players?.length == 1 ? players?.at(0)?.weapons[0] !== undefined : true
+		)
+		.test('duplicate_players', 'There are duplicate players', (players, testCtx) => {
+			if (!players) {
+				return true;
+			}
+			const nonNullPlayers = players.filter((p) => !!p.playerId);
+			const duplicates = findDuplicates(nonNullPlayers, (p) => p.playerId!);
+			if (duplicates.length == 0) {
+				return true;
+			}
+
+			const playerNames = duplicates.map((d) => d.inVideoName).join(',');
+			return testCtx.createError({
+				message: `Duplicate party members (same leaderboard account) not allowed: ${playerNames}`
+			});
+		})
+		.test(
+			'duplicate_anon_players',
+			'There are duplicate no account players',
+			(players, testCtx) => {
+				if (!players) {
+					return true;
+				}
+				const nullPlayers = players.filter((p) => !p.playerId);
+				const duplicates = findDuplicates(nullPlayers, (p) => p.inVideoName);
+				if (duplicates.length == 0) {
+					return true;
+				}
+
+				const playerNames = duplicates.map((d) => d.inVideoName).join(',');
+				return testCtx.createError({
+					message: `Duplicate party members not allowed: ${playerNames}`
+				});
+			}
 		)
 		.required();
 };
