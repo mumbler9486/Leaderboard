@@ -1,16 +1,18 @@
 <script lang="ts">
+	import Divider from './Divider.svelte';
+
 	export let category: string = 'No Assigned Title';
 	export let subCategory: string = '';
 </script>
 
 <div
-	class="container mx-auto mt-16 flex items-center justify-center rounded-md border border-secondary bg-base-100/75 p-4 md:p-8 md:pt-4"
+	class="container mx-auto mt-4 flex items-center justify-center rounded-md border border-secondary bg-base-100/75 p-4 md:p-4"
 >
 	<span
-		class="text-center text-4xl font-light drop-shadow-[2px_4px_6px_rgba(0,0,0,0.8)] md:text-8xl"
+		class="text-center text-4xl font-light drop-shadow-[2px_4px_6px_rgba(0,0,0,0.8)] md:text-4xl"
 		>{category}
 		{#if subCategory !== ''}
-			<div class="divider" />
+			<Divider />
 		{/if}
 		{subCategory}</span
 	>
