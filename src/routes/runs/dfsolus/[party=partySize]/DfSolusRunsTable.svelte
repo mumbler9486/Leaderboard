@@ -17,8 +17,8 @@
 	export let runs: DfSolusRun[];
 	export let solo: boolean;
 
-	$: mappedRuns = tempMapSubmissions(runs);
-	$: viewRunMapped = !!viewRun ? tempMapSubmissions([viewRun])[0] : undefined;
+	$: mappedRuns = tempMapRuns(runs);
+	$: viewRunMapped = !!viewRun ? tempMapRuns([viewRun])[0] : undefined;
 
 	const runInfoOpen = (runId: number) => {
 		const run = runs.find((r) => r.runId == runId);
@@ -31,7 +31,7 @@
 		modal.showModal();
 	};
 
-	const tempMapSubmissions = (runs: DfSolusRun[]) => {
+	const tempMapRuns = (runs: DfSolusRun[]) => {
 		return runs.map((r) => ({
 			//TODO : Temporary mapping, remove when runs refactored
 			...r,

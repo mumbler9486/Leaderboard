@@ -9,18 +9,11 @@ import { mapWeaponToDbVal } from '../types/db/runs/weapons';
 import { normalizeYoutubeLink } from '$lib/utils/youtube';
 import { mapServerRegionToDbVal } from '../types/db/runs/serverRegions';
 import type { GameDbValue } from '../types/db/runs/game';
+import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
 
 const runsDbFields = fields<RunDbModel>();
 const runPartyDbFields = fields<RunPartyDbModel>();
 const getRunDbFields = fields<GetRunDbModel>();
-
-export interface RunSearchOptions {
-	quest?: string;
-	rank?: number;
-	partySize?: number;
-	mainClass?: string;
-	approved?: boolean;
-}
 
 export interface GetRunDbModel {
 	// Run
@@ -75,7 +68,7 @@ export interface GetRunDbModel {
 	SubmitterNameColor2: string;
 }
 
-export const getRuns = async (request: Request, filters: RunSearchOptions) => {
+export const getRuns = async (request: Request, filters: RunsSearchFilter) => {
 	let query = `
     SELECT 
       run.${runsDbFields.Id} AS ${getRunDbFields.RunId},
@@ -149,19 +142,44 @@ export const getRuns = async (request: Request, filters: RunSearchOptions) => {
 	}
 
 	if (filters.quest) {
-		query += ` AND ${getRunDbFields.RunQuest} = @quest`;
+		query += ` AND ${runsDbFields.Quest} = @quest`;
 		request = request.input('quest', sql.NVarChar, filters.quest);
 	}
 
 	if (filters.rank) {
-		query += ` AND ${getRunDbFields.RunQuestRank} = @rank`;
+		query += ` AND ${runsDbFields.QuestRank} = @rank`;
 		request = request.input('rank', sql.NVarChar, filters.rank);
+	}
+
+	if (filters.server) {
+		query += ` AND pc.Server = @server`;
+		request = request.input('server', sql.NVarChar, filters.server);
 	}
 
 	if (filters.partySize) {
 		query += ` AND run.${runsDbFields.PartySize} = @partySize`;
 		request = request.input('partySize', sql.TinyInt, filters.partySize);
 	}
+
+	if (filters.partySize && filters.take) {
+		request = request.input('take', sql.Int, filters.take * filters.partySize);
+	} else {
+		request = request.input('take', sql.Int, 30000);
+	}
+
+	if (filters.partySize && filters.page && filters.take) {
+		request = request.input('offset', sql.Int, filters.page * filters.take * filters.partySize);
+	} else {
+		request = request.input('offset', sql.Int, 0);
+	}
+
+	if (filters.sort === 'recent') {
+		query += ` ORDER BY run.${runsDbFields.SubmissionDate} DESC`;
+	} else {
+		query += ` ORDER BY run.${runsDbFields.RunTime} ASC, run.${runsDbFields.SubmissionDate} ASC`;
+	}
+
+	query += ` OFFSET @offset ROWS FETCH NEXT @take ROWS ONLY`;
 
 	const results = await request.query(query);
 	return results.recordset as GetRunDbModel[];

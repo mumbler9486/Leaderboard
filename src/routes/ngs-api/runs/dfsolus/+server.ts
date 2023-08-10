@@ -8,14 +8,29 @@ import { dfSolusRunSubmissionSchema } from '$lib/types/api/validation/dfSolusSub
 import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmission.js';
 import { mapRuns } from '$lib/server/mappers/api/runMapper.js';
 import { GameDbValue } from '$lib/server/types/db/runs/game.js';
+import {
+	runsSearchFilterSchema,
+	type RunsSearchFilter
+} from '$lib/types/api/validation/runsSearchFilter.js';
+import { parseToRawSchema } from '$lib/utils/schemaValidation.js';
 
 /** @type {import('./$types').RequestHandler} */
-export async function GET({ params }) {
+export async function GET({ params, url }) {
+	const urlParams = parseToRawSchema(url, runsSearchFilterSchema);
+
+	const { object: parsedFilter, validationError } = await validateApiRequest<RunsSearchFilter>(
+		runsSearchFilterSchema,
+		urlParams
+	);
+	if (!parsedFilter) {
+		return jsonError(400, validationError);
+	}
+
 	const pool = await leaderboardDb.connect();
 	const request = await pool.request();
 
 	try {
-		const runs = await getRuns(request, { approved: true });
+		const runs = await getRuns(request, { ...parsedFilter, approved: true });
 		const mappedRuns = mapRuns(runs);
 		return json(mappedRuns);
 	} catch (err) {
