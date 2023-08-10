@@ -27,7 +27,9 @@
 	async function reloadData(...watch: any[]) {
 		try {
 			const submittedRuns = await fetchGetApi<DfSolusRun[]>(`/ngs-api/submissions/dfsolus`);
-			submissions = submittedRuns;
+			submissions = submittedRuns.sort((a, b) =>
+				new Date(a.submissionDate) > new Date(b.submissionDate) ? 1 : -1
+			);
 			return submittedRuns;
 		} catch (err) {
 			console.error(err);
@@ -104,8 +106,9 @@
 			<tr>
 				<th class="bg-neutral text-neutral-content">Players</th>
 				<th class="bg-neutral text-center text-neutral-content">Party</th>
-				<th class="bg-neutral text-center text-neutral-content">Class</th>
 				<th class="bg-neutral text-center text-neutral-content">Rank</th>
+				<th class="bg-neutral text-center text-neutral-content">Class</th>
+				<th class="bg-neutral text-center text-neutral-content">Weapons</th>
 				<th class="bg-neutral text-center text-neutral-content">Patch</th>
 				<th class="bg-neutral text-center text-neutral-content">
 					IGT <InfoTooltip tip="In-Game Time" below />
