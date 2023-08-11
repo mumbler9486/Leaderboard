@@ -5,15 +5,15 @@ import { notifyDiscordNewRunSubmitted } from '../discordNotify';
 const partyTypeMap: Record<string, string> = {
 	1: 'Solo',
 	2: 'Duo',
-	8: 'Full MPA'
+	4: 'Party'
 };
 
 const questTypeMap: Record<string, string> = {
-	dfsolus: 'Solus'
+	dfsolus: 'Dark Falz Solus'
 };
 
 const categoryTypeMap: Record<string, string> = {
-	urgent_quest: 'UQ'
+	quest: 'Quest'
 };
 
 export const notifyDiscordNewRun = async (submitter: string, run: RunSubmissionRequest) => {
@@ -26,7 +26,7 @@ export const notifyDiscordNewRun = async (submitter: string, run: RunSubmissionR
 const getPartySizeName = (size: number) => {
 	if (size == 0) return '<unknown_party_size>';
 	const partySizeName = partyTypeMap[size];
-	return !partySizeName ? partyTypeMap[8] : partySizeName;
+	return !partySizeName ? partyTypeMap[4] : partySizeName;
 };
 
 const getQuestName = (run: RunSubmissionRequest) => {

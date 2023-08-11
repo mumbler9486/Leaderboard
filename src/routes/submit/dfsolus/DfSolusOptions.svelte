@@ -3,13 +3,12 @@
 	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
 	import PartySizeOptions from '../PartySizeOptions.svelte';
 	import RemainingTimeInput from '../RemainingTimeInput.svelte';
-	import RunTimeInput from '../RunTimeInput.svelte';
 	import { solusForm } from './submit';
 
 	let selectedRankStr: string = '1';
 
 	const rankOptionsDropdowns: { [region: string]: { label: string; value: string }[] } = {
-		['urgent_quest']: [{ label: '1', value: '1' }]
+		['quest']: [{ label: '1', value: '1' }]
 	};
 
 	$: rankOptions = rankOptionsDropdowns[$solusForm.category] ?? [];
@@ -35,7 +34,7 @@
 		<Dropdown
 			label="Mode"
 			placeholder="Select a mode"
-			options={[{ label: 'Urgent Quest', value: 'urgent_quest' }]}
+			options={[{ label: 'Quest', value: 'quest' }]}
 			bind:value={$solusForm.category}
 			on:change={typeChanged}
 		/>
