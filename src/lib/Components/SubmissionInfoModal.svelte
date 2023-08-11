@@ -37,7 +37,7 @@
 		}
 
 		const { userId, username } = await getLogin();
-		console.log(submission);
+
 		const approveRequest: ApproveRequest = {
 			runId: submission?.runId,
 			moderatorName: username,

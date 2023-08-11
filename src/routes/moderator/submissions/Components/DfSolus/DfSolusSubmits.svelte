@@ -47,7 +47,6 @@
 		}
 
 		viewSubmission = run;
-		console.log({ ...viewSubmission, category: 'dfsolus' });
 		submissionModal.showModal();
 	};
 

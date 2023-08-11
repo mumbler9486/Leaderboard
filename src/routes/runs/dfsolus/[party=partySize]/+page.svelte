@@ -65,7 +65,7 @@
 	const fetchRuns = async (filters: DfSolusSearchFilters) => {
 		const basePath = `/ngs-api/runs/dfsolus`;
 		const runFilters = clearFilterValues(filters, filterDef);
-		console.log(runFilters);
+
 		runFilters.partySize = partyInfo.filterSize;
 		return (await fetchGetApi<DfSolusRun[]>(basePath, copyQueryParams(runFilters))) ?? [];
 	};
