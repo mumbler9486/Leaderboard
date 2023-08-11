@@ -124,15 +124,15 @@
 								</p>
 							{/each}
 						</td>
-						<td class="text-center">
-							{#if solo}
+						{#if solo}
+							<td class="text-center">
 								{#each run.players[0].weapons as weapon}
 									<div class="inline w-[16px] object-none">
 										<WeaponIcon {weapon} />
 									</div>
 								{/each}
-							{/if}
-						</td>
+							</td>
+						{/if}
 						<td class="text-center">
 							<TimeDisplay time={run.time} />
 						</td>
