@@ -54,7 +54,7 @@
 </script>
 
 <svelte:head>
-	<title>{pageTitle}</title>page
+	<title>{pageTitle}</title>
 </svelte:head>
 
 <LeaderboardTitle category={$t('leaderboard.halphiaLake')} subCategory={partySizeTitle} />
