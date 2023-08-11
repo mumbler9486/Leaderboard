@@ -16,7 +16,7 @@ export async function PUT({ params, request }) {
 	const { object: updateProfileRequest, validationError } =
 		await validateApiRequest<ProfileUpdateRequest>(profileUpdateRequestSchema, body);
 	if (!updateProfileRequest) {
-		return jsonError(404, validationError);
+		return jsonError(400, validationError);
 	}
 
 	try {

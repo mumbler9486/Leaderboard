@@ -2,7 +2,6 @@
 	import ColorInput from '$lib/Components/ColorInput.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import Modal from '$lib/Components/Modal.svelte';
-	import Tooltip from '$lib/Components/Tooltip.svelte';
 	import PlayerNameBadge, { type PlayerNameDisplay } from '$lib/Components/PlayerNameBadge.svelte';
 	import { clientPrincipleStore, playerInfoStore } from '$lib/stores/userLogin';
 	import { countries } from '$lib/types/api/countries';
@@ -18,7 +17,6 @@
 	import Divider from '$lib/Components/Divider.svelte';
 	import FormControl from '$lib/Components/FormControl.svelte';
 	import TextInput from '$lib/Components/TextInput.svelte';
-	import { writable } from 'svelte/store';
 	import { useValidation } from '$lib/types/api/formValidation';
 	import { BadRequestError, InternalServerError } from '$lib/types/api/error';
 

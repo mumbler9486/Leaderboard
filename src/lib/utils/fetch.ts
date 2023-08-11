@@ -35,7 +35,7 @@ export const fetchPutApi = async <T>(path: string, requestBody: any) => {
 		);
 	}
 
-	if (Math.floor(response.status / 400) == 1) {
+	if (response.status == 400) {
 		const responseBody = await response.json();
 		throw new BadRequestError(`Bad Request`, responseBody);
 	}

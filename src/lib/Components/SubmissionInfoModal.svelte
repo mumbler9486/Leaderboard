@@ -22,6 +22,7 @@
 	let errorMessage = '';
 
 	export const showModal = () => {
+		modNotes = '';
 		modal.show();
 	};
 

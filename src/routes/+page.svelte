@@ -23,6 +23,33 @@
 			>
 				<div class="text-center text-4xl font-light">News</div>
 				<HomeNews>
+					<span slot="newsTitle">Leaderboard 3.2.2 Update</span>
+					<p slot="newsContent">
+						<strong>Changelog (August 10, 2023):</strong><br />
+						<li class="pt-4">
+							<strong>⭐➖ New Standing Quest Leaderboard: Dark Falz Solus</strong><br />
+							<p>
+								A new boss Dark Falz Solus has been added to the leaderboard. The official release
+								date for the quest is Aug 9, 2023.
+							</p>
+							<p class="pt-2">
+								Some minor layout changes and some general improvements. This update prepares the
+								leaderboard for the upcoming data migrations so we can improve the development speed
+								of new quests and bosses as they are added into the game.
+							</p>
+							<p class="pt-2">
+								As usual if there are issues please contact us on
+								<a
+									href="https://discord.com/invite/fFtEEJHuFp"
+									target="_blank"
+									rel="noreferrer noopener"
+									class="link-primary link no-underline">Discord <i class="bi bi-discord" /></a
+								>.
+							</p>
+						</li>
+					</p>
+				</HomeNews>
+				<HomeNews>
 					<span slot="newsTitle">Leaderboard 3.2.1 Update</span>
 					<p slot="newsContent">
 						<strong>Changelog (June 18, 2023):</strong><br />

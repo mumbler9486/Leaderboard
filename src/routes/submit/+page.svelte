@@ -24,9 +24,9 @@
 					overlayColor="purple"
 				/>
 				<JumboButton
-					label="Dark Falz Aegis"
-					image="/icons/submit/dfa.png"
-					link="/submit/dfa"
+					label="Dark Falz Solus"
+					image="/icons/submit/dfsolus.jpg"
+					link="/submit/dfsolus"
 					overlayColor="neutral"
 				/>
 				<JumboButton
@@ -34,6 +34,12 @@
 					image="/icons/submit/duel_nils_stia.png"
 					link="/submit/indomitable"
 					overlayColor="red"
+				/>
+				<JumboButton
+					label="Dark Falz Aegis"
+					image="/icons/submit/dfa.png"
+					link="/submit/dfa"
+					overlayColor="neutral"
 				/>
 			</div>
 		</div>

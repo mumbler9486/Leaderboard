@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	let backgrounds = [
 		'/background/aelio-purp.png',
 		'/background/aelio-purp-night.png',
@@ -7,10 +7,15 @@
 		'/background/retem-purp.png',
 		'/background/retem-purp-night.png',
 		'/background/stia-purp.png',
-		'/background/stia-purp-night.png'
+		'/background/stia-purp-night.png',
+		'/background/venogia.jpg',
+		'/background/dfsolus_portal.jpg'
 	];
 
-	$: backgroundUrl = `url(${backgrounds[(backgrounds.length * Math.random()) | 0]})`;
+	$: backgroundUrl = `url(${backgrounds[randInt(backgrounds.length)]})`;
+
+	// Generates a number between 0 and high-1 inclusive
+	const randInt = (high: number) => Math.floor(high * Math.random());
 </script>
 
 <div class="background" style:background-image={backgroundUrl} />

@@ -7,6 +7,7 @@
 	import { t } from 'svelte-i18n';
 	import DfaSupportFilterTag from '$lib/Components/Filters/FilterTags/DfaSupportFilterTag.svelte';
 	import ServerRegionFilterTag from '$lib/Components/Filters/FilterTags/ServerRegionFilterTag.svelte';
+	import PartySizeNavigation from '$lib/Components/PartySizeNavigation.svelte';
 
 	let filters: DfaPartySearchFilters = {
 		trigger: 'urgent',
@@ -14,6 +15,12 @@
 		server: 'no_filter',
 		rank: '1'
 	};
+
+	const partyLinks = [
+		{ link: '/runs/dfa/solo', label: 'Solo' },
+		{ link: '/runs/dfa/duo', label: 'Duo' },
+		{ link: '/runs/dfa/party', label: 'Party' }
+	];
 
 	const applyFilters = () => {
 		partyRunFilters.set({ ...filters });
@@ -37,6 +44,11 @@
 <div
 	class="-mx-6 flex grow flex-col rounded-md border border-secondary bg-secondary/25 p-1 md:mx-0"
 >
+	<div class="flex flex-row flex-wrap place-content-center items-stretch gap-2">
+		<div class="grid w-full grid-cols-3 gap-4 py-2 px-4">
+			<PartySizeNavigation parties={partyLinks} />
+		</div>
+	</div>
 	<div class="flex flex-row flex-wrap place-content-center items-stretch gap-2">
 		<div class="flex grow flex-col">
 			<Dropdown

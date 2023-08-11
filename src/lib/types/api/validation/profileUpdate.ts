@@ -1,4 +1,4 @@
-import { type InferType, string, number, object } from 'yup';
+import { type InferType, string, number, object, setLocale } from 'yup';
 import { countries } from '../countries';
 import { kanjiAlphaNumericWithSpaceRegex } from '$lib/utils/validation';
 

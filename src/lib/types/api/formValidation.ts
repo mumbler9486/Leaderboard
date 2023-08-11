@@ -1,6 +1,7 @@
 import { writable, type Readable, type Writable } from 'svelte/store';
 import { ValidationError, type AnyObject, type ObjectSchema } from 'yup';
 import { ErrorCodes, type BadRequestApiError } from './error';
+import type { ValidationErrorMessage } from './validation/schemaInitLocale';
 
 /**
  * Creates a form that can be validated and present
@@ -67,11 +68,16 @@ export function useValidation<T extends AnyObject>(schema: ObjectSchema<T>, init
 	// Requires abortEarly option to be false when validating
 	const setValidationErrors = (validationError: ValidationError | BadRequestApiError) => {
 		const errors: any = {};
-
 		if (validationError instanceof ValidationError) {
 			validationError.inner.forEach((errorDetails) => {
 				if (errorDetails.path != null) {
-					errors[errorDetails.path] = errorDetails.message;
+					const isSimpleMessage = typeof errorDetails.message === 'string';
+					if (isSimpleMessage) {
+						errors[errorDetails.path] = errorDetails.message;
+					} else {
+						const codedMessage = errorDetails.message as unknown as ValidationErrorMessage;
+						errors[errorDetails.path] = codedMessage.code;
+					}
 				}
 			});
 		} else {

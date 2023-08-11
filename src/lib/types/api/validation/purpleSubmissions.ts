@@ -1,9 +1,23 @@
 import { type InferType, string, number, object, array } from 'yup';
 import { youtubeUrlRegex } from '$lib/utils/youtube';
-import { parseWeapon } from '$lib/types/api/weapon';
+import { Weapon, parseWeapon } from '$lib/types/api/weapon';
 import { PurpleRegion } from '../purpleRegions';
+import { NgsPlayerClass } from '../ngsPlayerClass';
 
 const regions = [PurpleRegion.Aelio, PurpleRegion.Retem, PurpleRegion.Kvaris, PurpleRegion.Stia];
+const mainClasses = [
+	NgsPlayerClass.Hunter,
+	NgsPlayerClass.Fighter,
+	NgsPlayerClass.Ranger,
+	NgsPlayerClass.Gunner,
+	NgsPlayerClass.Force,
+	NgsPlayerClass.Techter,
+	NgsPlayerClass.Braver,
+	NgsPlayerClass.Bouncer,
+	NgsPlayerClass.Waker,
+	NgsPlayerClass.Slayer
+];
+const subClasses = mainClasses;
 
 export const purpleSubmissionRequestSchema = object({
 	userId: string().required(),
@@ -27,8 +41,8 @@ export const purpleSubmissionRequestSchema = object({
 			playerName: string().required(),
 			inVideoName: string().required(),
 			playerServer: string().nullable(),
-			mainClass: string().required(),
-			subClass: string().required(),
+			mainClass: string().required().oneOf(mainClasses),
+			subClass: string().required().oneOf(subClasses),
 			weapons: array(
 				string()
 					.required()

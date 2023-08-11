@@ -1,6 +1,6 @@
 <script lang="ts">
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
-	import ClassIcon from '$lib/Components/NgsClassIcon.svelte';
+	import NgsClassIcon from '$lib/Components/NgsClassIcon.svelte';
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import RankingBadge from '$lib/Components/RankingBadge.svelte';
 	import RunInfoModal from '$lib/Components/RunInfoModal.svelte';
@@ -35,8 +35,7 @@
 				<tr>
 					<th class="w-2 bg-neutral text-center text-neutral-content">#</th>
 					<th class="bg-neutral text-neutral-content">Player</th>
-					<th class="bg-neutral text-center text-neutral-content">Main Class</th>
-					<th class="bg-neutral text-center text-neutral-content">Sub-Class</th>
+					<th class="bg-neutral text-center text-neutral-content">Classes</th>
 					<th class="bg-neutral text-center text-neutral-content">
 						IGT <InfoTooltip below tip={'In-Game Time'} />
 					</th>
@@ -60,10 +59,12 @@
 							{/each}
 						</td>
 						<td class="text-center">
-							<ClassIcon combatClass={run.players[0].mainClass} showLabel />
-						</td>
-						<td class="text-center">
-							<ClassIcon combatClass={run.players[0].subClass} showLabel />
+							{#each run.players as player}
+								<p>
+									<NgsClassIcon showTooltip combatClass={player.mainClass} />
+									<NgsClassIcon showTooltip combatClass={player.subClass} />
+								</p>
+							{/each}
 						</td>
 						<td class="text-center">
 							<TimeDisplay time={run.time} />

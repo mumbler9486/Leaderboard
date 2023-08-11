@@ -1,4 +1,5 @@
-import { ErrorCodes, type BadRequestError, type BadRequestApiError } from '$lib/types/api/error';
+import { ErrorCodes, type BadRequestApiError } from '$lib/types/api/error';
+import type { ValidationErrorMessage } from '$lib/types/api/validation/schemaInitLocale';
 import { ObjectSchema, ValidationError, type AnyObject } from 'yup';
 
 /**
@@ -27,17 +28,24 @@ export const validateApiRequest = async <T extends AnyObject>(
 };
 
 export const mapValidationError = (error: ValidationError): BadRequestApiError => {
-	const errors: {
-		path: string;
-		message: string;
-	}[] = [];
+	const errors: BadRequestApiError['details'] = [];
 
 	error.inner.forEach((errorDetails) => {
 		if (errorDetails.path != null) {
-			errors.push({
-				path: errorDetails.path,
-				message: errorDetails.message
-			});
+			const isSimpleMessage = typeof errorDetails.message === 'string';
+			if (isSimpleMessage) {
+				errors.push({
+					path: errorDetails.path,
+					message: errorDetails.message
+				});
+			} else {
+				const codedMessage = errorDetails.message as unknown as ValidationErrorMessage;
+				errors.push({
+					path: errorDetails.path,
+					message: codedMessage.code,
+					values: codedMessage.values
+				});
+			}
 		}
 	});
 	return {

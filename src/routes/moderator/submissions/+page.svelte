@@ -7,6 +7,7 @@
 	import DfaPartySubmits from './Components/Dfa/DfaPartySubmits.svelte';
 	import IndomitableSubmits from './Components/Indomitable/IndomitableSubmits.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import SolusSubmits from './Components/DfSolus/DfSolusSubmits.svelte';
 	import { RunCategories } from '$lib/types/api/categories';
 
 	const submissionCategoryOptions = [
@@ -20,10 +21,11 @@
 		{ value: RunCategories.IndomitableRenusRetem, label: 'Indomitable Renus Retem' },
 		{ value: RunCategories.IndomitableAmsKvaris, label: 'Indomitable Ams Kvaris' },
 		{ value: RunCategories.IndomitableNilsStia, label: 'Indomitable Nils Stia' },
-		{ value: RunCategories.IndomitableHalvaldi, label: 'Indomitable Halvaldi' }
+		{ value: RunCategories.IndomitableHalvaldi, label: 'Indomitable Halvaldi' },
+		{ value: 'dfsolus', label: 'Dark Falz Solus' }
 	];
 
-	const submitsMap: { [key: string]: { component: any; category: RunCategories } } = {
+	const submitsMap: { [key: string]: { component: any; category: RunCategories | string } } = {
 		[RunCategories.PurpleSolo]: {
 			component: PurpleSoloSubmits,
 			category: RunCategories.PurpleSolo
@@ -55,6 +57,10 @@
 		[RunCategories.IndomitableHalvaldi]: {
 			component: IndomitableSubmits,
 			category: RunCategories.IndomitableHalvaldi
+		},
+		['dfsolus']: {
+			component: SolusSubmits,
+			category: 'dfsolus'
 		}
 	};
 
