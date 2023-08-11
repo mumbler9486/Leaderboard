@@ -2,6 +2,7 @@
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
 	import PartySizeOptions from '../PartySizeOptions.svelte';
+	import RemainingTimeInput from '../RemainingTimeInput.svelte';
 	import RunTimeInput from '../RunTimeInput.svelte';
 	import { solusForm } from './submit';
 
@@ -48,6 +49,6 @@
 		/>
 	</div>
 	<div class="form-control">
-		<RunTimeInput maxMinutes={60} />
+		<RemainingTimeInput limitMinutes={15} />
 	</div>
 </div>
