@@ -91,7 +91,6 @@ export const notifyDiscordNewRunApproved = async (
 };
 
 const getThumbnailUrl = (questName: string) => {
-	console.log(questName);
 	questName = questName.toLowerCase();
 	if (questName.startsWith('dfa')) {
 		return RUN_APPROVAL_THUMBNAIL_DFA;
