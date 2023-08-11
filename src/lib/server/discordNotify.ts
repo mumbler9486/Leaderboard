@@ -6,6 +6,7 @@ const RUN_APPROVAL_THUMBNAIL_DFA = process.env.RUN_APPROVAL_THUMBNAIL_DFA;
 const RUN_APPROVAL_THUMBNAIL_STIA_PURPLE = process.env.RUN_APPROVAL_THUMBNAIL_STIA_PURPLE;
 const RUN_APPROVAL_WEBHOOK_USER_IMG = process.env.RUN_APPROVAL_WEBHOOK_USER_IMG;
 const RUN_APPROVAL_THUMBNAIL_RENUS_RETEM = process.env.RUN_APPROVAL_THUMBNAIL_RENUS_RETEM;
+const RUN_APPROVAL_THUMBNAIL_DF_SOLUS = process.env.RUN_APPROVAL_THUMBNAIL_DF_SOLUS;
 
 export const notifyDiscordNewRunSubmitted = async (userName: string, quest: string) => {
 	const webhookUrl = RUN_SUBMITTED_DISCORD_WEBHOOK_URL;
@@ -90,11 +91,14 @@ export const notifyDiscordNewRunApproved = async (
 };
 
 const getThumbnailUrl = (questName: string) => {
+	console.log(questName);
 	questName = questName.toLowerCase();
 	if (questName.startsWith('dfa')) {
 		return RUN_APPROVAL_THUMBNAIL_DFA;
 	} else if (questName.startsWith('indomitable')) {
 		return RUN_APPROVAL_THUMBNAIL_RENUS_RETEM;
+	} else if (questName.startsWith('dark falz solus')) {
+		return RUN_APPROVAL_THUMBNAIL_DF_SOLUS;
 	}
 
 	return RUN_APPROVAL_THUMBNAIL_STIA_PURPLE;

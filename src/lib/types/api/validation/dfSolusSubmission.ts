@@ -4,7 +4,7 @@ import { yupRunTime } from './schemas/timeSchema';
 import { yupRunPartySchema } from './schemas/runPartySchema';
 
 const quest = ['dfsolus'];
-const categories = ['urgent_quest'];
+const categories = ['quest'];
 const ranks = [1];
 
 export const dfSolusRunSubmissionSchema: ObjectSchema<RunSubmissionRequest> =

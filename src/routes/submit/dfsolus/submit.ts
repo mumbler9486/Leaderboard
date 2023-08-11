@@ -13,7 +13,7 @@ import type { BadRequestApiError } from '$lib/types/api/error';
 
 const dfSolusFormStore = writable({
 	rank: 1,
-	category: 'urgent_quest'
+	category: 'quest'
 });
 
 const submitPath = '/ngs-api/runs/dfsolus';
@@ -51,7 +51,7 @@ export const submitDfSolusRun = async () => {
 		quest: 'dfsolus',
 		questRank: solusDetails.rank,
 		patch: CurrentSubmissionPatchCode,
-		category: 'urgent_quest',
+		category: solusDetails.category,
 		party: submitParty
 	};
 
