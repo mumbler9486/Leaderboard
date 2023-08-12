@@ -3,26 +3,28 @@
 	import PurpleRules from '../PurpleRules.svelte';
 	import PurplePartyModalRunFilters from './PurplePartyModalRunFilters.svelte';
 	import PurpleCategorySelector from '../PurpleCategorySelector.svelte';
-	import { partyRunFilters, type PurplePartySearchFilters } from '../purpleRunFilterStore';
+	import { purpleRunFilters, type PurpleSearchFilters } from '../purpleRunFilterStore';
 	import { t } from 'svelte-i18n';
 	import ServerRegionFilterTag from '$lib/Components/Filters/FilterTags/ServerRegionFilterTag.svelte';
 
-	let filters: PurplePartySearchFilters = {
+	let filters: PurpleSearchFilters = {
 		region: 'stia',
 		rank: '1',
-		server: 'no_filter'
+		server: 'no_filter',
+		class: 'no_filter'
 	};
 
 	const applyFilters = () => {
-		partyRunFilters.set({ ...filters });
+		purpleRunFilters.set({ ...filters });
 	};
 
-	partyRunFilters.subscribe((f) => {
+	purpleRunFilters.subscribe((f) => {
 		filters = { ...f };
 	});
 
 	const resetServerRegion = () => {
 		filters.server = 'no_filter';
+		filters.class = 'no_filter';
 		applyFilters();
 	};
 </script>
@@ -48,8 +50,8 @@
 
 	<Divider class="-mx-1 my-0" />
 	<div class="flex flex-row gap-2 px-1">
-		{#if $partyRunFilters.server && $partyRunFilters.server != 'no_filter'}
-			<ServerRegionFilterTag server={$partyRunFilters.server} on:click={resetServerRegion} />
+		{#if $purpleRunFilters.server && $purpleRunFilters.server != 'no_filter'}
+			<ServerRegionFilterTag server={$purpleRunFilters.server} on:click={resetServerRegion} />
 		{/if}
 	</div>
 </div>

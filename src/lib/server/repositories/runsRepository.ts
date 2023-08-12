@@ -154,7 +154,7 @@ export const getRuns = async (request: Request, filters: RunsSearchFilter, appro
 
 	if (filters.rank) {
 		query += ` AND run.${runsDbFields.QuestRank} = @rank`;
-		request = request.input('rank', sql.NVarChar, filters.rank);
+		request = request.input('rank', sql.TinyInt, filters.rank);
 	}
 
 	if (filters.server) {

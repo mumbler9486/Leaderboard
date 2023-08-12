@@ -13,8 +13,9 @@
 	import type { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 	import type { PlayerInfo } from '$lib/types/api/playerInfo';
 	import type { RunTime } from '$lib/types/api/runTime';
-	import type { DfSolusRun, PartyMember } from '$lib/types/api/runs/run';
+	import type { DfSolusRun } from '$lib/types/api/runs/run';
 	import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
+	import { tempMapPartyPlayer } from '$lib/types/api/validation/utils/tempOldMapping';
 
 	const take = 10;
 
@@ -133,26 +134,6 @@
 			.splice(0, take);
 
 		return recentSolos;
-	};
-
-	const tempMapPartyPlayer = (partyMember: PartyMember) => {
-		return {
-			playerId: partyMember.playerId ?? 0,
-			playerName: partyMember.playerName,
-			ship: partyMember.playerInfo.ship,
-			flag: partyMember.playerInfo.flag ?? '',
-			characterName: partyMember.playerInfo.characterName,
-			preferredName: partyMember.playerInfo.preferredNameType,
-			runCharacterName: partyMember.runCharacterName,
-			mainClass: partyMember.mainClass,
-			subClass: partyMember.subClass,
-			linkPov: partyMember.linkPov,
-			server: '',
-			nameType: partyMember.playerInfo.nameEffectType,
-			nameColor1: partyMember.playerInfo.nameColor1,
-			nameColor2: partyMember.playerInfo.nameColor2,
-			weapons: partyMember.weapons
-		} satisfies PlayerInfo;
 	};
 </script>
 

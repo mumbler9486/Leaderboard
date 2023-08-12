@@ -6,8 +6,7 @@
 	import type { DfSolusRun } from '$lib/types/api/runs/run';
 	import type { RunCategories } from '$lib/types/api/categories';
 	import { fetchGetApi } from '$lib/utils/fetch';
-	import type { PlayerInfo } from '$lib/types/api/playerInfo';
-	import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
+	import { tempMapSubmissions } from '$lib/types/api/validation/utils/tempOldMapping';
 
 	export let category: RunCategories;
 
@@ -48,54 +47,6 @@
 
 		viewSubmission = run;
 		submissionModal.showModal();
-	};
-
-	const tempMapSubmissions = (runs: DfSolusRun[]) => {
-		return runs.map((r) => ({
-			//TODO : Temporary mapping, remove when runs refactored
-			...r,
-			submissionTime: r.submissionDate,
-			partySize: r.party.length,
-			server: r.serverRegion,
-			notes: r.notes ?? '',
-			submitter: {
-				playerId: r.submitter.playerId,
-				playerName: r.submitter.name,
-				ship: r.submitter.ship,
-				flag: r.submitter.flag ?? '',
-				characterName: r.submitter.characterName,
-				preferredName: r.submitter.preferredNameType,
-				runCharacterName: '',
-				mainClass: NgsPlayerClass.Unknown,
-				subClass: NgsPlayerClass.Unknown,
-				linkPov: '',
-				server: '',
-				nameType: r.submitter.nameEffectType,
-				nameColor1: r.submitter.nameColor1,
-				nameColor2: r.submitter.nameColor2,
-				weapons: []
-			},
-			players: r.party.map(
-				(pm) =>
-					({
-						playerId: pm.playerId ?? 0,
-						playerName: pm.playerName,
-						ship: pm.playerInfo.ship,
-						flag: pm.playerInfo.flag ?? '',
-						characterName: pm.playerInfo.characterName,
-						preferredName: pm.playerInfo.preferredNameType,
-						runCharacterName: pm.runCharacterName,
-						mainClass: pm.mainClass,
-						subClass: pm.subClass,
-						linkPov: pm.linkPov,
-						server: '',
-						nameType: pm.playerInfo.nameEffectType,
-						nameColor1: pm.playerInfo.nameColor1,
-						nameColor2: pm.playerInfo.nameColor2,
-						weapons: pm.weapons
-					} satisfies PlayerInfo)
-			)
-		}));
 	};
 </script>
 

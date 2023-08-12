@@ -15,13 +15,31 @@ const classes = [
 	NgsPlayerClass.Slayer
 ];
 
+const validCategories: Record<string, string[]> = {
+	purples: ['aelio', 'retem', 'kvaris', 'stia'],
+	dfsolus: ['quest']
+};
+
 const servers = [null, 'global', 'japan'];
-const quests = [null, 'dfsolus'];
+const quests = [null, 'dfsolus', 'purples'];
 const sortOrders = [null, 'ranking', 'recent'];
 const ranks = [null, 1, 2];
 
 export const runsSearchFilterSchema = object({
 	quest: string().nullable().oneOf(quests),
+	category: string()
+		.nullable()
+		.test(
+			'valid_quest_category',
+			(category) => `Quest category must be one of: ${validCategories[category]?.join(',')}`,
+			(category, ctx) => {
+				if (!category) {
+					return true;
+				}
+
+				return validCategories[ctx.parent.quest]?.includes(category) ?? false;
+			}
+		),
 	server: string().lowercase().nullable().oneOf(servers),
 	class: string().lowercase().nullable().oneOf(classes),
 	rank: number().nullable().oneOf(ranks),
