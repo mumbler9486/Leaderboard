@@ -43,7 +43,7 @@ export const mapRuns = (getRun: GetRunDbModel[]): DfSolusRun[] => {
 					playerId: parseInt(rg.PartyPlayerId),
 					ship: parseInt(rg.PlayerShip),
 					flag: rg.PlayerFlag,
-					server: !!rg.RunServerRegion ? mapDbValToServerRegion(rg.RunServerRegion) : undefined,
+					server: !!rg.PlayerServer ? mapDbValToServerRegion(rg.PlayerServer) : undefined,
 					name: rg.PlayerName,
 					characterName: rg.PlayerCharacterName,
 					preferredNameType: parseInt(rg.PlayerPreferredNameType),
