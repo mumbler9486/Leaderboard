@@ -2,7 +2,6 @@ import { get, writable } from 'svelte/store';
 import { runForm } from '../runStore';
 import { partyForm } from '../partyFormStore';
 import { fetchPostApi } from '$lib/utils/fetch';
-import type { DfSolusRunSubmission } from '$lib/types/api/validation/dfSolusSubmission';
 import type { SubmitResult } from '$lib/types/api/runs/submitResult';
 import { clientPrincipleStore, playerInfoStore } from '$lib/stores/userLogin';
 import { Weapon, parseWeapon } from '$lib/types/api/weapon';
@@ -10,10 +9,11 @@ import { NgsPlayerClass, parseNgsPlayerClass } from '$lib/types/api/ngsPlayerCla
 import { CurrentSubmissionPatchCode } from '$lib/constants/patchCodes';
 import { parseServerRegion } from '$lib/types/api/serverRegions';
 import type { BadRequestApiError } from '$lib/types/api/error';
+import type { PurpleRunSubmission } from '$lib/types/api/validation/purpleSubmissions';
 
 const purpleFormStore = writable({
 	rank: 1,
-	category: 'stia'
+	region: 'stia'
 });
 
 const submitPath = '/ngs-api/runs/purples';
@@ -43,7 +43,7 @@ export const submitPurplesRun = async () => {
 		};
 	});
 
-	const request: DfSolusRunSubmission = {
+	const request: PurpleRunSubmission = {
 		...form,
 		submitterUserId: clientPrincipal.userId,
 		submitterName: playerInfo.playerName,
@@ -51,7 +51,7 @@ export const submitPurplesRun = async () => {
 		quest: 'purples',
 		questRank: purpleDetails.rank,
 		patch: CurrentSubmissionPatchCode,
-		category: purpleDetails.category,
+		category: purpleDetails.region,
 		party: submitParty
 	};
 

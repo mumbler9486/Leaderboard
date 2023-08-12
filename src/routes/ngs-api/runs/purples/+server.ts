@@ -12,6 +12,7 @@ import {
 import { GameDbValue } from '$lib/server/types/db/runs/game.js';
 import { submitRun } from '$lib/server/logic/submitRunLogic.js';
 import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmission.js';
+import { purpleSubmissionSchema } from '$lib/types/api/validation/purpleSubmissions.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
@@ -42,7 +43,7 @@ export async function POST({ request }) {
 	// Validate request
 	const body = await request.json();
 	const { object: parsedRun, validationError } = await validateApiRequest<RunSubmissionRequest>(
-		dfSolusRunSubmissionSchema,
+		purpleSubmissionSchema,
 		body
 	);
 	if (!parsedRun) {

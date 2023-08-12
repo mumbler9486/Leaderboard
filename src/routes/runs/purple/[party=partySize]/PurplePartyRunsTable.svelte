@@ -7,7 +7,7 @@
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import VideoLink from '$lib/Components/VideoLink.svelte';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
-	import { mapToNamePref, mapToNamePref2 } from '$lib/types/api/mapNamePref';
+	import { mapToNamePref2 } from '$lib/types/api/mapNamePref';
 	import type { PurpleRun2 } from '$lib/types/api/runs/run';
 
 	let modal: RunInfoModal2;
@@ -37,7 +37,7 @@
 					<th class="bg-neutral text-neutral-content">Player</th>
 					<th class="bg-neutral text-center text-neutral-content">Classes</th>
 					{#if solo}
-						<th class="bg-neutral text-neutral-content">Weapons</th>
+						<th class="bg-neutral text-center text-neutral-content">Weapons</th>
 					{/if}
 					<th class="bg-neutral text-center text-neutral-content">
 						IGT <InfoTooltip below tip={'In-Game Time'} />

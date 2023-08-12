@@ -1,75 +1,47 @@
-import { type InferType, string, number, object, array } from 'yup';
-import { youtubeUrlRegex } from '$lib/utils/youtube';
-import { Weapon, parseWeapon } from '$lib/types/api/weapon';
+import { type InferType, string, number, object, array, ObjectSchema } from 'yup';
 import { PurpleRegion } from '../purpleRegions';
-import { NgsPlayerClass } from '../ngsPlayerClass';
+import { yupRunPartySchema } from './schemas/runPartySchema';
+import { yupRunTime } from './schemas/timeSchema';
+import { runSubmissionRequestSchema, type RunSubmissionRequest } from './runSubmission';
 
 const regions = [PurpleRegion.Aelio, PurpleRegion.Retem, PurpleRegion.Kvaris, PurpleRegion.Stia];
-const mainClasses = [
-	NgsPlayerClass.Hunter,
-	NgsPlayerClass.Fighter,
-	NgsPlayerClass.Ranger,
-	NgsPlayerClass.Gunner,
-	NgsPlayerClass.Force,
-	NgsPlayerClass.Techter,
-	NgsPlayerClass.Braver,
-	NgsPlayerClass.Bouncer,
-	NgsPlayerClass.Waker,
-	NgsPlayerClass.Slayer
-];
-const subClasses = mainClasses;
 
-export const purpleSubmissionRequestSchema = object({
-	userId: string().required(),
-	username: string().required(),
-	region: string().required().oneOf(regions),
-	serverRegion: string().required(),
-	rank: number().required(),
-	notes: string().max(500).nullable(),
-	time: object({
-		hours: number().required(),
-		minutes: number().required(),
-		seconds: number().required()
-	}),
-	players: array(
-		object({
-			playerId: number().nullable(),
-			povVideoLink: string()
-				.matches(youtubeUrlRegex, (w) => `${w.path} must a valid youtube link`)
-				.nullable()
-				.max(128),
-			playerName: string().required(),
-			inVideoName: string().required(),
-			playerServer: string().nullable(),
-			mainClass: string().required().oneOf(mainClasses),
-			subClass: string().required().oneOf(subClasses),
-			weapons: array(
-				string()
-					.required()
-					.test(
-						'known_weapon',
-						(w) => `${w.path} must be a valid weapon type`,
-						(w) => !!parseWeapon(w.toLowerCase())
-					)
-			)
-				.max(6)
-				.required()
-		})
-	)
-		.min(1)
-		.max(4)
-		.test('has_video', 'At least one player must have a video', (players) =>
-			players?.some((p) => p.povVideoLink !== undefined)
-		)
-		.test(
-			'player1_has_id',
-			'Player 1 must be an existing user',
-			(players) => players?.at(0)?.playerId !== undefined
-		)
-		.test('solo_requires_weapon', 'Solo requires at least 1 weapon used', (players) =>
-			players?.length == 1 ? players?.at(0)?.weapons[0] !== undefined : true
-		)
-		.required()
-});
+const quest = ['purples'];
+const validRanksMap: Record<string, number[]> = {
+	[PurpleRegion.Aelio]: [1, 2, 3],
+	[PurpleRegion.Retem]: [1, 2, 3],
+	[PurpleRegion.Kvaris]: [1, 2],
+	[PurpleRegion.Stia]: [1]
+};
 
-export type PurpleSubmissionRequest = InferType<typeof purpleSubmissionRequestSchema>;
+export const purpleSubmissionSchema: ObjectSchema<RunSubmissionRequest> =
+	runSubmissionRequestSchema.shape({
+		details: object().strip(),
+		quest: string().required().oneOf(quest),
+		questRank: number()
+			.integer()
+			.required()
+			.test(
+				'valid_quest_rank',
+				(questRank) => `Quest rank is invalid for the selected quest.`,
+				(questRank, ctx) => {
+					if (!questRank) {
+						return true;
+					}
+
+					const validRanks = validRanksMap[ctx.parent.category] ?? [];
+					const isValid = validRanks.includes(questRank) ?? false;
+					if (!isValid) {
+						return ctx.createError({
+							message: `Quest rank is invalid. Must be one of: ${validRanks.join(',')}`
+						});
+					}
+					return isValid;
+				}
+			),
+		category: string().required().oneOf(regions),
+		party: yupRunPartySchema(4),
+		time: yupRunTime(1200)
+	});
+
+export type PurpleRunSubmission = InferType<typeof purpleSubmissionSchema>;

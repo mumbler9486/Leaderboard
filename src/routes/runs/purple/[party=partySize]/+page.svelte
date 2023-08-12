@@ -70,7 +70,9 @@
 		const allFilters = {
 			...runFilters,
 			quest: 'purples',
-			category: runFilters.region
+			category: runFilters.region,
+			rank: runFilters.rank,
+			partySize: partyInfo.filterSize
 		};
 		return (await fetchGetApi<PurpleRun2[]>(basePath, copyQueryParams(allFilters))) ?? [];
 	};

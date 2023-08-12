@@ -31,8 +31,9 @@
 
 			if (response.code == ErrorCodes.ValidationError) {
 				serverErrorMessage = response.details[0].message;
-			}
-			if (response.code == 'unexpected') {
+			} else if (response.error == ErrorCodes.BadRequest) {
+				serverErrorMessage = response.details[0];
+			} else if (response.code == ErrorCodes.Unexpected) {
 				serverErrorMessage = 'Unexpected error, please contact site admin.';
 			}
 			if (response.success) {

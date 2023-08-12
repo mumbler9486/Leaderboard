@@ -1,19 +1,16 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 
-	import PurpleSoloSubmits from './Components/Purple/PurpleSoloSubmits.svelte';
-	import PurplePartySubmits from './Components/Purple/PurplePartySubmits.svelte';
 	import DfaSoloSubmits from './Components/Dfa/DfaSoloSubmits.svelte';
 	import DfaPartySubmits from './Components/Dfa/DfaPartySubmits.svelte';
 	import IndomitableSubmits from './Components/Indomitable/IndomitableSubmits.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import SolusSubmits from './Components/DfSolus/DfSolusSubmits.svelte';
 	import { RunCategories } from '$lib/types/api/categories';
+	import PurpleSubmits from './Components/Purple/PurpleSubmits.svelte';
 
 	const submissionCategoryOptions = [
-		{ value: RunCategories.PurpleSolo, label: 'Purple Triggers - Solo' },
-		{ value: RunCategories.PurpleDuo, label: 'Purple Triggers - Duo' },
-		{ value: RunCategories.PurpleParty, label: 'Purple Triggers - Party' },
+		{ value: 'purples', label: 'Purple Triggers (all regions)' },
 		{ value: RunCategories.DfaSolo, label: 'Dark Falz Aegis - Solo' },
 		{ value: RunCategories.DfaDuo, label: 'Dark Falz Aegis - Duo' },
 		{ value: RunCategories.DfaParty, label: 'Dark Falz Aegis - Party' },
@@ -26,14 +23,9 @@
 	];
 
 	const submitsMap: { [key: string]: { component: any; category: RunCategories | string } } = {
-		[RunCategories.PurpleSolo]: {
-			component: PurpleSoloSubmits,
+		['purples']: {
+			component: PurpleSubmits,
 			category: RunCategories.PurpleSolo
-		},
-		[RunCategories.PurpleDuo]: { component: PurplePartySubmits, category: RunCategories.PurpleDuo },
-		[RunCategories.PurpleParty]: {
-			component: PurplePartySubmits,
-			category: RunCategories.PurpleParty
 		},
 		[RunCategories.DfaSolo]: { component: DfaSoloSubmits, category: RunCategories.DfaSolo },
 		[RunCategories.DfaDuo]: { component: DfaPartySubmits, category: RunCategories.DfaDuo },

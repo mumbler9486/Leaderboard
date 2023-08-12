@@ -24,6 +24,8 @@
 	$: reloadData(category);
 
 	async function reloadData(...watch: any[]) {
+		loading = true;
+
 		try {
 			const submittedRuns = await fetchGetApi<DfSolusRun[]>(`/ngs-api/submissions/dfsolus`);
 			submissions = submittedRuns.sort((a, b) =>

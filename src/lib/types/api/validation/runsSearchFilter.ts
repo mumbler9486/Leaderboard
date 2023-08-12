@@ -23,7 +23,7 @@ const validCategories: Record<string, string[]> = {
 const servers = [null, 'global', 'japan'];
 const quests = [null, 'dfsolus', 'purples'];
 const sortOrders = [null, 'ranking', 'recent'];
-const ranks = [null, 1, 2];
+const ranks = [null, 1, 2, 3];
 
 export const runsSearchFilterSchema = object({
 	quest: string().nullable().oneOf(quests),
@@ -31,13 +31,20 @@ export const runsSearchFilterSchema = object({
 		.nullable()
 		.test(
 			'valid_quest_category',
-			(category) => `Quest category must be one of: ${validCategories[category]?.join(',')}`,
+			(category) => `Quest category is invalid for the selected quest.`,
 			(category, ctx) => {
 				if (!category) {
 					return true;
 				}
 
-				return validCategories[ctx.parent.quest]?.includes(category) ?? false;
+				const validQuestCategories = validCategories[ctx.parent.quest] ?? [];
+				const isValid = validQuestCategories.includes(category) ?? false;
+				if (!isValid) {
+					return ctx.createError({
+						message: `Quest category is invalid. Must be one of: ${validQuestCategories.join(',')}`
+					});
+				}
+				return isValid;
 			}
 		),
 	server: string().lowercase().nullable().oneOf(servers),

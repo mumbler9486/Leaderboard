@@ -26,13 +26,15 @@ export const mapToNamePref = (
 export const mapToNamePref2 = (partyMember: PartyMember): PlayerNameDisplay | undefined => {
 	if (!partyMember) return undefined;
 
+	const isNullPlayer = !partyMember.playerId;
+
 	return {
 		playerId: partyMember.playerId ?? -1,
 		flag: partyMember.playerInfo.flag,
 		ship: partyMember.playerInfo.ship,
 		region: partyMember.playerInfo.server,
-		playerName: partyMember.playerInfo.name,
-		runCharacterName: partyMember.runCharacterName,
+		playerName: isNullPlayer ? partyMember.runCharacterName : partyMember.playerInfo.name,
+		runCharacterName: isNullPlayer ? '' : partyMember.runCharacterName,
 		characterName: partyMember.playerInfo.characterName,
 		namePreference: partyMember.playerInfo.preferredNameType,
 		nameType: partyMember.playerInfo.nameEffectType,
