@@ -138,7 +138,7 @@ export const getRunById = async (
 	request: Request,
 	runId: number,
 	approved: boolean = true
-): GetRunDbModel | undefined => {
+): Promise<GetRunDbModel | undefined> => {
 	let query = RunQuery;
 
 	query += ` AND run.${runsDbFields.SubmissionStatus} = @approved`;
