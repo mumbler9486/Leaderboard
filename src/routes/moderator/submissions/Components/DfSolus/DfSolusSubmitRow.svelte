@@ -3,29 +3,28 @@
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import { createEventDispatcher } from 'svelte';
-	import { mapToNamePref } from '$lib/types/api/mapNamePref';
+	import { mapPlayerInfoNamePref, mapToNamePref, mapToNamePref2 } from '$lib/types/api/mapNamePref';
 	import { patchCodeLabelMap } from '$lib/constants/patchCodes';
 	import type { DfSolusRun } from '$lib/types/api/runs/run';
-	import type { Submission } from '$lib/types/api/submissions/submissions';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
 
 	const dispatcher = createEventDispatcher();
 
-	export let submission: Submission;
-	const solusRank = 1; //TODO get from run data
+	export let submission: DfSolusRun;
 
 	let partySize = 'Solo';
 	$: {
-		if (submission.partySize == 1) {
+		const size = submission.party.length;
+		if (size == 1) {
 			partySize = 'Solo';
 		}
-		if (submission.partySize == 2) {
+		if (size == 2) {
 			partySize = 'Duo';
 		}
-		if (submission.partySize > 2) {
+		if (size > 2) {
 			partySize = 'Party';
 		}
-		if (submission.partySize <= 0) {
+		if (size <= 0) {
 			partySize = 'Invalid';
 		}
 	}
@@ -37,14 +36,14 @@
 
 <tr class="hover border-t border-t-secondary/20">
 	<th>
-		{#each submission.players as player}
-			<PlayerNameBadge player={mapToNamePref(player)} on:click={openModal} />
+		{#each submission.party as player}
+			<PlayerNameBadge player={mapToNamePref2(player)} on:click={openModal} />
 		{/each}
 	</th>
 	<td class="text-center">{partySize}</td>
-	<td class="text-center">{solusRank}</td>
+	<td class="text-center">{submission.questRank}</td>
 	<td class="text-center">
-		{#each submission.players as player}
+		{#each submission.party as player}
 			<p>
 				<NgsClassIcon showTooltip combatClass={player.mainClass} />
 				<NgsClassIcon showTooltip combatClass={player.subClass} />
@@ -52,10 +51,10 @@
 		{/each}
 	</td>
 	<td class="text-center">
-		{#if submission.players[0].weapons.length == 0}
+		{#if submission.party[0].weapons.length == 0}
 			N/A
 		{/if}
-		{#each submission.players[0].weapons as weapon}
+		{#each submission.party[0].weapons as weapon}
 			<div class="inline w-[16px] object-none">
 				<WeaponIcon {weapon} />
 			</div>
@@ -66,10 +65,10 @@
 		<TimeDisplay time={submission.time} />
 	</td>
 	<td class="text-center">
-		<PlayerNameBadge player={mapToNamePref(submission.submitter)} on:click={openModal} />
+		<PlayerNameBadge player={mapPlayerInfoNamePref(submission.submitter)} on:click={openModal} />
 	</td>
 	<td class="text-center">
-		{new Date(submission.submissionTime).toLocaleString()}
+		{new Date(submission.submissionDate).toLocaleString()}
 	</td>
 	<td class="text-center">
 		{#if submission.notes != undefined}

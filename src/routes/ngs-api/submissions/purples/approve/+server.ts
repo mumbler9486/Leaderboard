@@ -5,7 +5,6 @@ import {
 } from '$lib/types/api/validation/submissions.js';
 import { approveRunSubmission } from '$lib/server/logic/approveLogic.js';
 import { validateApiRequest } from '$lib/server/validation/requestValidation.js';
-import { getRunById } from '$lib/server/repositories/runsRepository.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request }) {
