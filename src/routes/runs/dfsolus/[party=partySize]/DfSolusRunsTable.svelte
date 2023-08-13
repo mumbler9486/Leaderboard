@@ -3,22 +3,17 @@
 	import NgsClassIcon from '$lib/Components/NgsClassIcon.svelte';
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import RankingBadge from '$lib/Components/RankingBadge.svelte';
-	import RunInfoModal from '$lib/Components/RunInfoModal.svelte';
+	import RunInfoModal2 from '$lib/Components/RunInfoModal2.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import VideoLink from '$lib/Components/VideoLink.svelte';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
-	import { mapToNamePref } from '$lib/types/api/mapNamePref';
+	import { mapToNamePref2 } from '$lib/types/api/mapNamePref';
 	import type { DfSolusRun } from '$lib/types/api/runs/run';
-	import { tempMapRuns } from '$lib/types/api/validation/utils/tempOldMapping';
 
-	let modal: RunInfoModal;
-	let viewRun: DfSolusRun | undefined;
+	let modal: RunInfoModal2;
 
 	export let runs: DfSolusRun[];
 	export let solo: boolean;
-
-	$: mappedRuns = tempMapRuns(runs);
-	$: viewRunMapped = !!viewRun ? tempMapRuns([viewRun])[0] : undefined;
 
 	const runInfoOpen = (runId: number) => {
 		const run = runs.find((r) => r.runId == runId);
@@ -27,8 +22,7 @@
 			return;
 		}
 
-		viewRun = run;
-		modal.showModal();
+		modal.showModal(run);
 	};
 </script>
 
@@ -53,22 +47,22 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each mappedRuns as run}
+				{#each runs as run}
 					<tr class="hover border-t border-t-secondary/20">
 						<td class="text-center font-bold">
 							<RankingBadge rank={run.rank} />
 						</td>
 						<td class="font-bold">
-							{#each run.players as player}
+							{#each run.party as player}
 								<PlayerNameBadge
-									player={run.players[0] ? mapToNamePref(player) : undefined}
+									player={mapToNamePref2(player)}
 									on:click={() => runInfoOpen(run.runId)}
 									on:keyup={() => runInfoOpen(run.runId)}
 								/>
 							{/each}
 						</td>
 						<td class="text-center">
-							{#each run.players as player}
+							{#each run.party as player}
 								<p>
 									<NgsClassIcon showTooltip combatClass={player.mainClass} />
 									<NgsClassIcon showTooltip combatClass={player.subClass} />
@@ -77,7 +71,7 @@
 						</td>
 						{#if solo}
 							<td class="text-center">
-								{#each run.players[0].weapons as weapon}
+								{#each run.party[0].weapons as weapon}
 									<div class="inline w-[16px] object-none">
 										<WeaponIcon {weapon} />
 									</div>
@@ -88,7 +82,7 @@
 							<TimeDisplay time={run.time} />
 						</td>
 						<td class="text-center">
-							{#each run.players as player}
+							{#each run.party as player}
 								<p>
 									{#if player?.linkPov}
 										<VideoLink url={player?.linkPov} />
@@ -110,10 +104,4 @@
 	</div>
 {/if}
 
-<RunInfoModal
-	videoUrl={viewRunMapped?.players[0].linkPov ?? ''}
-	players={viewRunMapped?.players ?? []}
-	submitter={viewRunMapped?.submitter}
-	notes={viewRunMapped?.notes ?? ''}
-	bind:this={modal}
-/>
+<RunInfoModal2 bind:this={modal} />

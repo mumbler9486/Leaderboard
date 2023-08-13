@@ -7,7 +7,6 @@
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import { copyQueryParams } from '$lib/utils/queryParams';
-	import type { PurpleRun } from '$lib/types/api/purples/purples';
 	import type { DfaRun } from '$lib/types/api/dfa/dfa';
 	import type { IndomitableRun } from '$lib/types/api/duels/indomitable';
 	import type { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';

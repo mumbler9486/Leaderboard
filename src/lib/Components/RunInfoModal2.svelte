@@ -95,7 +95,7 @@
 	{#if isSolo}
 		<VideoPlayer url={player1.linkPov} />
 	{:else}
-		{#each run.party as player}
+		{#each run.party.filter((p) => p.linkPov != undefined) as player}
 			<PlayerNameBadge player={mapToNamePref2(player)} />
 			<div
 				class="flex basis-full justify-center rounded-md border border-secondary bg-secondary/25 p-2"
