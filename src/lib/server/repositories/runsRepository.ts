@@ -188,8 +188,14 @@ export const getRuns = async (request: Request, filters: RunsSearchFilter, appro
 	}
 
 	if (filters.partySize) {
-		query += ` AND run.${runsDbFields.PartySize} = @partySize`;
-		request = request.input('partySize', sql.TinyInt, filters.partySize);
+		if (filters.partySize >= 3) {
+			//TODO temporary support for 3 player runs
+			query += ` AND run.${runsDbFields.PartySize} >= @partySize`;
+			request = request.input('partySize', sql.TinyInt, filters.partySize);
+		} else {
+			query += ` AND run.${runsDbFields.PartySize} = @partySize`;
+			request = request.input('partySize', sql.TinyInt, filters.partySize);
+		}
 	}
 
 	if (filters.partySize && filters.take) {
