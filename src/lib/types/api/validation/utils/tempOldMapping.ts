@@ -2,7 +2,7 @@ import { NgsPlayerClass } from '../../ngsPlayerClass';
 import type { PlayerInfo } from '../../playerInfo';
 import type { DfSolusRun, PartyMember, Run } from '../../runs/run';
 
-export const tempMapPartyPlayer = (partyMember: PartyMember) => {
+export const tempMapPartyPlayer = (partyMember: PartyMember): PlayerInfo | undefined => {
 	if (!partyMember) {
 		return undefined;
 	}

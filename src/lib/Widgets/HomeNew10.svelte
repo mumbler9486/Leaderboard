@@ -13,7 +13,7 @@
 	import type { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 	import type { PlayerInfo } from '$lib/types/api/playerInfo';
 	import type { RunTime } from '$lib/types/api/runTime';
-	import type { DfSolusRun } from '$lib/types/api/runs/run';
+	import type { DfSolusRun, PurpleRun2 } from '$lib/types/api/runs/run';
 	import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
 	import { tempMapPartyPlayer } from '$lib/types/api/validation/utils/tempOldMapping';
 
@@ -21,7 +21,7 @@
 
 	interface RecentRun {
 		mainClass: NgsPlayerClass;
-		player: PlayerInfo;
+		player: PlayerInfo | string;
 		time: RunTime;
 		category: string;
 		submissionTime: Date;
@@ -42,14 +42,15 @@
 	};
 
 	const fetchRuns = async () => {
-		const purplePath = `/ngs-api/runs/purples/solo`;
+		const purplePath = `/ngs-api/runs/purples`;
 		const purpleFilters: any = {
 			page: 0,
 			take: take,
+			partySize: 1,
 			sort: 'recent'
 		};
 		const purpleSoloRuns =
-			(await fetchGetApi<PurpleRun[]>(purplePath, copyQueryParams(purpleFilters))) ?? [];
+			(await fetchGetApi<PurpleRun2[]>(purplePath, copyQueryParams(purpleFilters))) ?? [];
 
 		const dfaPath = `/ngs-api/runs/dfa/solo`;
 		const dfaFilters: any = {
@@ -87,11 +88,11 @@
 			.map(
 				(r) =>
 					({
-						category: categoryMap[r.region] + r.rank,
-						mainClass: r.players[0]?.mainClass,
+						category: `${categoryMap[r.category]}${r.rank}`,
+						mainClass: r.party[0]?.mainClass,
 						time: r.time,
-						player: r.players[0],
-						submissionTime: new Date(r.submissionTime)
+						player: tempMapPartyPlayer(r.party[0]) ?? '<Unknown>',
+						submissionTime: new Date(r.submissionDate)
 					} satisfies RecentRun)
 			)
 			.concat(
@@ -125,7 +126,7 @@
 							category: categoryMap[r.quest],
 							mainClass: r.party[0]?.mainClass,
 							time: r.time,
-							player: tempMapPartyPlayer(r.party[0]),
+							player: tempMapPartyPlayer(r.party[0]) ?? '<Unknown>',
 							submissionTime: new Date(r.submissionDate)
 						} satisfies RecentRun)
 				)
