@@ -89,7 +89,7 @@
 <div class="grow content-center">
 	<div class="container mx-auto mb-16 mt-2 rounded-md border border-secondary bg-base-100/75">
 		<div class="m-2 space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8">
-			<PurplePartyRunFilters />
+			<PurplePartyRunFilters solo={isSolo} />
 			{#await fetchRuns($purpleRunFilters)}
 				<LoadingBar />
 			{:then runs}

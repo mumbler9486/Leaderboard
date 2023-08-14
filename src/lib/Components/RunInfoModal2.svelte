@@ -4,7 +4,7 @@
 	import PlayerNameBadge from './PlayerNameBadge.svelte';
 	import VideoPlayer from './VideoPlayer.svelte';
 
-	import { mapPlayerInfoNamePref, mapToNamePref, mapToNamePref2 } from '$lib/types/api/mapNamePref';
+	import { mapPlayerInfoNamePref, mapToNamePref2 } from '$lib/types/api/mapNamePref';
 	import type { Run } from '$lib/types/api/runs/run';
 	import { Game } from '$lib/types/api/game';
 	import { ServerRegion } from '$lib/types/api/serverRegions';

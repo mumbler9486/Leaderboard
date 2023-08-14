@@ -7,6 +7,7 @@
 	import { t } from 'svelte-i18n';
 	const dispatch = createEventDispatcher();
 
+	export let solo: boolean;
 	export let server: string = 'no_filter';
 	export let mainClass: string = 'no_filter';
 
@@ -40,13 +41,14 @@
 	on:btn1Click={applyFilters}
 	on:btn2Click={resetFilters}
 >
-	<span
-		class="text-base-100-content mb-2 flex flex-row justify-center font-semibold md:justify-start"
-		>Main Class</span
-	>
-	<ClassFilter bind:selectedClass={mainClass} />
-	<Divider />
-
+	{#if solo}
+		<span
+			class="text-base-100-content mb-2 flex flex-row justify-center font-semibold md:justify-start"
+			>Main Class</span
+		>
+		<ClassFilter bind:selectedClass={mainClass} />
+		<Divider />
+	{/if}
 	<span
 		class="text-base-100-content mb-2 flex flex-row justify-center font-semibold md:justify-start"
 		>Server</span

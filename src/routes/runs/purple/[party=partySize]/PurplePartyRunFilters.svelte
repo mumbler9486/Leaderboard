@@ -6,6 +6,10 @@
 	import { purpleRunFilters, type PurpleSearchFilters } from '../purpleRunFilterStore';
 	import { t } from 'svelte-i18n';
 	import ServerRegionFilterTag from '$lib/Components/Filters/FilterTags/ServerRegionFilterTag.svelte';
+	import NgsClassFilterTag from '$lib/Components/Filters/FilterTags/NgsClassFilterTag.svelte';
+	import { parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
+
+	export let solo: boolean;
 
 	let filters: PurpleSearchFilters = {
 		region: 'stia',
@@ -13,6 +17,8 @@
 		server: 'no_filter',
 		class: 'no_filter'
 	};
+
+	$: playerClassFilterTag = parseNgsPlayerClass(filters.class);
 
 	const applyFilters = () => {
 		purpleRunFilters.set({ ...filters });
@@ -41,7 +47,12 @@
 	<Divider class="-mx-1 my-0" />
 	<div class="flex flex-row flex-wrap place-content-center items-stretch">
 		<div class="m-1 md:flex-1">
-			<PurplePartyModalRunFilters bind:server={filters.server} on:applyFilters={applyFilters} />
+			<PurplePartyModalRunFilters
+				{solo}
+				bind:server={filters.server}
+				bind:mainClass={filters.class}
+				on:applyFilters={applyFilters}
+			/>
 		</div>
 		<div class="m-1 md:flex-initial">
 			<PurpleRules />
@@ -50,6 +61,9 @@
 
 	<Divider class="-mx-1 my-0" />
 	<div class="flex flex-row gap-2 px-1">
+		{#if !!playerClassFilterTag}
+			<NgsClassFilterTag ngsClass={playerClassFilterTag} on:click={resetServerRegion} />
+		{/if}
 		{#if $purpleRunFilters.server && $purpleRunFilters.server != 'no_filter'}
 			<ServerRegionFilterTag server={$purpleRunFilters.server} on:click={resetServerRegion} />
 		{/if}
