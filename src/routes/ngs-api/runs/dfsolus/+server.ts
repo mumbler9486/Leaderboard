@@ -29,8 +29,15 @@ export async function GET({ params, url }) {
 	const pool = await leaderboardDb.connect();
 	const request = await pool.request();
 
+	const filter: RunsSearchFilter = {
+		...parsedFilter,
+		quest: 'dfsolus',
+		category: !parsedFilter.category ? 'quest' : parsedFilter.category,
+		partySize: !parsedFilter.partySize ? 1 : parsedFilter.partySize
+	};
+
 	try {
-		const runs = await getRuns(request, parsedFilter, true);
+		const runs = await getRuns(request, filter, true);
 		const mappedRuns = mapRuns(runs);
 		return json(mappedRuns);
 	} catch (err) {

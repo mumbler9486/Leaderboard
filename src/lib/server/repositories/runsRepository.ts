@@ -187,7 +187,7 @@ export const getRuns = async (request: Request, filters: RunsSearchFilter, appro
 		request = request.input('server', sql.NVarChar, filters.server);
 	}
 
-	if (filters.partySize) {
+	if (filters.partySize !== undefined && filters.partySize !== null) {
 		if (filters.partySize >= 3) {
 			//TODO temporary support for 3 player runs
 			query += ` AND run.${runsDbFields.PartySize} >= @partySize`;
@@ -213,6 +213,7 @@ export const getRuns = async (request: Request, filters: RunsSearchFilter, appro
 	if (filters.sort === 'recent') {
 		query += ` ORDER BY run.${runsDbFields.SubmissionDate} DESC`;
 	} else {
+		// Ranking sort order
 		query += ` ORDER BY run.${runsDbFields.RunTime} ASC, run.${runsDbFields.SubmissionDate} ASC`;
 	}
 
