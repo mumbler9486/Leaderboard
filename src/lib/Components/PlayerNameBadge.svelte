@@ -30,6 +30,7 @@
 
 <script lang="ts">
 	import { countriesMap } from '$lib/types/api/countries';
+	import { ServerRegion } from '$lib/types/api/serverRegions';
 	import Tooltip from './Tooltip.svelte';
 
 	export let player: PlayerNameDisplay | string | undefined;
@@ -53,7 +54,9 @@
 		? countriesMap[playerNameDisplay.flag.toUpperCase()].name ?? '<Unknown>'
 		: undefined;
 	$: shipImageUrl =
-		playerNameDisplay.ship && playerNameDisplay.region
+		playerNameDisplay.ship &&
+		playerNameDisplay.region &&
+		playerNameDisplay.region != ServerRegion.Unknown
 			? `/icons/ships/ship${playerNameDisplay.ship}-${playerNameDisplay.region}.png`
 			: '';
 
