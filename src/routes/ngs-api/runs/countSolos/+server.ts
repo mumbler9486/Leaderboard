@@ -12,7 +12,6 @@ export async function GET({ request }) {
 
 		const sqlQuery = `
     SELECT   
-      (SELECT COUNT(*) FROM DFAegis.Solo) AS ${countSoloFields.DfaCount},
       (SELECT COUNT(*) FROM IndomitableRuns) AS ${countSoloFields.IndomitableCount},
       (SELECT COUNT(*) FROM dbo.Runs WHERE dbo.Runs.PartySize = 1) AS ${countSoloFields.SoloRunsCount}
     `;
@@ -21,7 +20,6 @@ export async function GET({ request }) {
 		const counts = results.recordset[0] as CountSolosDbModel;
 
 		const response: SoloCounts = {
-			dfa: parseInt(counts.DfaCount),
 			indomitables: parseInt(counts.IndomitableCount),
 			soloRuns: parseInt(counts.SoloRunsCount)
 		};
