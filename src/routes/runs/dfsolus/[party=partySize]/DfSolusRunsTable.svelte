@@ -3,23 +3,17 @@
 	import NgsClassIcon from '$lib/Components/NgsClassIcon.svelte';
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import RankingBadge from '$lib/Components/RankingBadge.svelte';
-	import RunInfoModal from '$lib/Components/RunInfoModal.svelte';
+	import RunInfoModal2 from '$lib/Components/RunInfoModal2.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import VideoLink from '$lib/Components/VideoLink.svelte';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
-	import { mapToNamePref } from '$lib/types/api/mapNamePref';
-	import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
-	import type { PlayerInfo } from '$lib/types/api/playerInfo';
+	import { mapToNamePref2 } from '$lib/types/api/mapNamePref';
 	import type { DfSolusRun } from '$lib/types/api/runs/run';
 
-	let modal: RunInfoModal;
-	let viewRun: DfSolusRun | undefined;
+	let modal: RunInfoModal2;
 
 	export let runs: DfSolusRun[];
 	export let solo: boolean;
-
-	$: mappedRuns = tempMapRuns(runs);
-	$: viewRunMapped = !!viewRun ? tempMapRuns([viewRun])[0] : undefined;
 
 	const runInfoOpen = (runId: number) => {
 		const run = runs.find((r) => r.runId == runId);
@@ -28,56 +22,7 @@
 			return;
 		}
 
-		viewRun = run;
-		modal.showModal();
-	};
-
-	const tempMapRuns = (runs: DfSolusRun[]) => {
-		return runs.map((r) => ({
-			//TODO : Temporary mapping, remove when runs refactored
-			...r,
-			submissionTime: r.submissionDate,
-			partySize: r.party.length,
-			server: r.serverRegion,
-			notes: r.notes ?? '',
-			submitter: {
-				playerId: r.submitter.playerId,
-				playerName: r.submitter.name,
-				ship: r.submitter.ship,
-				flag: r.submitter.flag ?? '',
-				characterName: r.submitter.characterName,
-				preferredName: r.submitter.preferredNameType,
-				runCharacterName: '',
-				mainClass: NgsPlayerClass.Unknown,
-				subClass: NgsPlayerClass.Unknown,
-				linkPov: '',
-				server: '',
-				nameType: r.submitter.nameEffectType,
-				nameColor1: r.submitter.nameColor1,
-				nameColor2: r.submitter.nameColor2,
-				weapons: []
-			},
-			players: r.party.map(
-				(pm) =>
-					({
-						playerId: pm.playerId ?? 0,
-						playerName: pm.playerName,
-						ship: pm.playerInfo.ship,
-						flag: pm.playerInfo.flag ?? '',
-						characterName: pm.playerInfo.characterName,
-						preferredName: pm.playerInfo.preferredNameType,
-						runCharacterName: pm.runCharacterName,
-						mainClass: pm.mainClass,
-						subClass: pm.subClass,
-						linkPov: pm.linkPov,
-						server: '',
-						nameType: pm.playerInfo.nameEffectType,
-						nameColor1: pm.playerInfo.nameColor1,
-						nameColor2: pm.playerInfo.nameColor2,
-						weapons: pm.weapons
-					} satisfies PlayerInfo)
-			)
-		}));
+		modal.showModal(run);
 	};
 </script>
 
@@ -102,22 +47,22 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each mappedRuns as run}
+				{#each runs as run}
 					<tr class="hover border-t border-t-secondary/20">
 						<td class="text-center font-bold">
 							<RankingBadge rank={run.rank} />
 						</td>
 						<td class="font-bold">
-							{#each run.players as player}
+							{#each run.party as player}
 								<PlayerNameBadge
-									player={run.players[0] ? mapToNamePref(player) : undefined}
+									player={mapToNamePref2(player)}
 									on:click={() => runInfoOpen(run.runId)}
 									on:keyup={() => runInfoOpen(run.runId)}
 								/>
 							{/each}
 						</td>
 						<td class="text-center">
-							{#each run.players as player}
+							{#each run.party as player}
 								<p>
 									<NgsClassIcon showTooltip combatClass={player.mainClass} />
 									<NgsClassIcon showTooltip combatClass={player.subClass} />
@@ -126,7 +71,7 @@
 						</td>
 						{#if solo}
 							<td class="text-center">
-								{#each run.players[0].weapons as weapon}
+								{#each run.party[0].weapons as weapon}
 									<div class="inline w-[16px] object-none">
 										<WeaponIcon {weapon} />
 									</div>
@@ -137,7 +82,7 @@
 							<TimeDisplay time={run.time} />
 						</td>
 						<td class="text-center">
-							{#each run.players as player}
+							{#each run.party as player}
 								<p>
 									{#if player?.linkPov}
 										<VideoLink url={player?.linkPov} />
@@ -159,10 +104,4 @@
 	</div>
 {/if}
 
-<RunInfoModal
-	videoUrl={viewRunMapped?.players[0].linkPov ?? ''}
-	players={viewRunMapped?.players ?? []}
-	submitter={viewRunMapped?.submitter}
-	notes={viewRunMapped?.notes ?? ''}
-	bind:this={modal}
-/>
+<RunInfoModal2 bind:this={modal} />

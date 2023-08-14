@@ -68,72 +68,92 @@ export interface GetRunDbModel {
 	SubmitterNameColor2: string;
 }
 
+const RunQuery = `
+	SELECT 
+		run.${runsDbFields.Id} AS ${getRunDbFields.RunId},
+		run.${runsDbFields.SubmitterId} AS ${getRunDbFields.RunSubmitterId},
+		run.${runsDbFields.Game} AS ${getRunDbFields.RunGame},
+		run.${runsDbFields.Quest} AS ${getRunDbFields.RunQuest},
+		run.${runsDbFields.Category} AS ${getRunDbFields.RunCategory},
+		run.${runsDbFields.ServerRegion} AS ${getRunDbFields.RunServerRegion},
+		run.${runsDbFields.Patch} AS ${getRunDbFields.RunPatch},
+		run.${runsDbFields.QuestRank} AS ${getRunDbFields.RunQuestRank},
+		run.${runsDbFields.PartySize} AS ${getRunDbFields.RunPartySize},
+		run.${runsDbFields.RunTime} AS ${getRunDbFields.RunTime},
+		run.${runsDbFields.Notes} AS ${getRunDbFields.RunNotes},
+		run.${runsDbFields.SubmissionDate} AS ${getRunDbFields.RunSubmissionDate},
+		run.${runsDbFields.SubmissionStatus} AS ${getRunDbFields.RunSubmissionStatus},
+		run.${runsDbFields.DateApproved} AS ${getRunDbFields.RunDateApproved},
+		run.${runsDbFields.ModNotes} AS ${getRunDbFields.RunModNotes},
+		run.${runsDbFields.Attributes} AS ${getRunDbFields.RunAttributes},
+
+		rp.${runPartyDbFields.Id} AS ${getRunDbFields.PartyId},
+		rp.${runPartyDbFields.RunId} AS ${getRunDbFields.PartyRunId},
+		rp.${runPartyDbFields.PlayerId} AS ${getRunDbFields.PartyPlayerId},
+		rp.${runPartyDbFields.Ordinal} AS ${getRunDbFields.PartyOrdinal},
+		rp.${runPartyDbFields.PovLink} AS ${getRunDbFields.PartyPovLink},
+		rp.${runPartyDbFields.RunCharacterName} AS ${getRunDbFields.PartyRunCharacterName},
+		rp.${runPartyDbFields.MainClass} AS ${getRunDbFields.PartyMainClass},
+		rp.${runPartyDbFields.SubClass} AS ${getRunDbFields.PartySubClass},
+		rp.${runPartyDbFields.Weapons} AS ${getRunDbFields.PartyWeapons},
+
+		pi.PlayerName AS ${getRunDbFields.PlayerName},
+		pi.CharacterName AS ${getRunDbFields.PlayerCharacterName},
+		pc.PreferredName AS ${getRunDbFields.PlayerPreferredNameType},
+		pc.Server AS ${getRunDbFields.PlayerServer},
+		pc.Ship AS ${getRunDbFields.PlayerShip},
+		pc.Flag AS ${getRunDbFields.PlayerFlag},
+		pc.NameType AS ${getRunDbFields.PlayerNameEffectType},
+		pc.NameColor1 AS ${getRunDbFields.PlayerNameColor1},
+		pc.NameColor2 AS ${getRunDbFields.PlayerNameColor2},
+
+		si.PlayerName AS ${getRunDbFields.SubmitterName},
+		si.CharacterName AS ${getRunDbFields.SubmitterCharacterName},
+		sc.PreferredName AS ${getRunDbFields.SubmitterPreferredNameType},
+		sc.Server AS ${getRunDbFields.SubmitterServer},
+		sc.Ship AS ${getRunDbFields.SubmitterShip},
+		sc.Flag AS ${getRunDbFields.SubmitterFlag},
+		sc.NameType AS ${getRunDbFields.SubmitterNameEffectType},
+		sc.NameColor1 AS ${getRunDbFields.SubmitterNameColor1},
+		sc.NameColor2 AS ${getRunDbFields.SubmitterNameColor2}
+
+	FROM dbo.Runs AS run
+	INNER JOIN 
+	dbo.RunParty AS rp ON rp.${runPartyDbFields.RunId} = run.${runsDbFields.Id}  
+
+	LEFT JOIN
+	Players.Information AS pi ON pi.PlayerID = rp.${runPartyDbFields.PlayerId} 
+	LEFT JOIN 
+	Players.Customization AS pc ON pc.PlayerID = rp.${runPartyDbFields.PlayerId} 
+
+	INNER JOIN
+	Players.Information AS si ON run.${runsDbFields.SubmitterId} = si.PlayerID
+	INNER JOIN
+	Players.Customization AS sc ON run.${runsDbFields.SubmitterId} = sc.PlayerID
+
+	WHERE 1=1
+`;
+
+export const getRunById = async (
+	request: Request,
+	runId: number,
+	approved: boolean = true
+): Promise<GetRunDbModel | undefined> => {
+	let query = RunQuery;
+
+	query += ` AND run.${runsDbFields.SubmissionStatus} = @approved`;
+	request = request.input('approved', sql.TinyInt, approved);
+
+	query += ` AND run.${runsDbFields.Id} = @runId`;
+	request = request.input('runId', sql.Int, runId);
+
+	const results = await request.query(query);
+	const runs = results.recordset as GetRunDbModel[];
+	return runs[0];
+};
+
 export const getRuns = async (request: Request, filters: RunsSearchFilter, approved: boolean) => {
-	let query = `
-    SELECT 
-      run.${runsDbFields.Id} AS ${getRunDbFields.RunId},
-      run.${runsDbFields.SubmitterId} AS ${getRunDbFields.RunSubmitterId},
-			run.${runsDbFields.Game} AS ${getRunDbFields.RunGame},
-      run.${runsDbFields.Quest} AS ${getRunDbFields.RunQuest},
-      run.${runsDbFields.Category} AS ${getRunDbFields.RunCategory},
-      run.${runsDbFields.ServerRegion} AS ${getRunDbFields.RunServerRegion},
-      run.${runsDbFields.Patch} AS ${getRunDbFields.RunPatch},
-      run.${runsDbFields.QuestRank} AS ${getRunDbFields.RunQuestRank},
-      run.${runsDbFields.PartySize} AS ${getRunDbFields.RunPartySize},
-      run.${runsDbFields.RunTime} AS ${getRunDbFields.RunTime},
-      run.${runsDbFields.Notes} AS ${getRunDbFields.RunNotes},
-      run.${runsDbFields.SubmissionDate} AS ${getRunDbFields.RunSubmissionDate},
-      run.${runsDbFields.SubmissionStatus} AS ${getRunDbFields.RunSubmissionStatus},
-      run.${runsDbFields.DateApproved} AS ${getRunDbFields.RunDateApproved},
-      run.${runsDbFields.ModNotes} AS ${getRunDbFields.RunModNotes},
-      run.${runsDbFields.Attributes} AS ${getRunDbFields.RunAttributes},
-
-      rp.${runPartyDbFields.Id} AS ${getRunDbFields.PartyId},
-      rp.${runPartyDbFields.RunId} AS ${getRunDbFields.PartyRunId},
-      rp.${runPartyDbFields.PlayerId} AS ${getRunDbFields.PartyPlayerId},
-      rp.${runPartyDbFields.Ordinal} AS ${getRunDbFields.PartyOrdinal},
-      rp.${runPartyDbFields.PovLink} AS ${getRunDbFields.PartyPovLink},
-      rp.${runPartyDbFields.RunCharacterName} AS ${getRunDbFields.PartyRunCharacterName},
-      rp.${runPartyDbFields.MainClass} AS ${getRunDbFields.PartyMainClass},
-      rp.${runPartyDbFields.SubClass} AS ${getRunDbFields.PartySubClass},
-      rp.${runPartyDbFields.Weapons} AS ${getRunDbFields.PartyWeapons},
-
-      pi.PlayerName AS ${getRunDbFields.PlayerName},
-      pi.CharacterName AS ${getRunDbFields.PlayerCharacterName},
-      pc.PreferredName AS ${getRunDbFields.PlayerPreferredNameType},
-      pc.Server AS ${getRunDbFields.PlayerServer},
-      pc.Ship AS ${getRunDbFields.PlayerShip},
-      pc.Flag AS ${getRunDbFields.PlayerFlag},
-      pc.NameType AS ${getRunDbFields.PlayerNameEffectType},
-      pc.NameColor1 AS ${getRunDbFields.PlayerNameColor1},
-      pc.NameColor2 AS ${getRunDbFields.PlayerNameColor2},
-
-      si.PlayerName AS ${getRunDbFields.SubmitterName},
-      si.CharacterName AS ${getRunDbFields.SubmitterCharacterName},
-      sc.PreferredName AS ${getRunDbFields.SubmitterPreferredNameType},
-      sc.Server AS ${getRunDbFields.SubmitterServer},
-      sc.Ship AS ${getRunDbFields.SubmitterShip},
-      sc.Flag AS ${getRunDbFields.SubmitterFlag},
-      sc.NameType AS ${getRunDbFields.SubmitterNameEffectType},
-      sc.NameColor1 AS ${getRunDbFields.SubmitterNameColor1},
-      sc.NameColor2 AS ${getRunDbFields.SubmitterNameColor2}
-
-    FROM dbo.Runs AS run
-    INNER JOIN 
-    dbo.RunParty AS rp ON rp.${runPartyDbFields.RunId} = run.${runsDbFields.Id}  
-
-    LEFT JOIN
-    Players.Information AS pi ON pi.PlayerID = rp.${runPartyDbFields.PlayerId} 
-    LEFT JOIN 
-    Players.Customization AS pc ON pc.PlayerID = rp.${runPartyDbFields.PlayerId} 
-
-    INNER JOIN
-    Players.Information AS si ON run.${runsDbFields.SubmitterId} = si.PlayerID
-    INNER JOIN
-    Players.Customization AS sc ON run.${runsDbFields.SubmitterId} = sc.PlayerID
-
-    WHERE 1=1
-  `;
+	let query = RunQuery;
 
 	if (approved !== undefined && approved !== null) {
 		const approvedInt = approved ? 1 : 0;
@@ -152,9 +172,14 @@ export const getRuns = async (request: Request, filters: RunsSearchFilter, appro
 		request = request.input('quest', sql.NVarChar, filters.quest);
 	}
 
+	if (filters.category) {
+		query += ` AND run.${runsDbFields.Category} = @category`;
+		request = request.input('category', sql.NVarChar, filters.category);
+	}
+
 	if (filters.rank) {
 		query += ` AND run.${runsDbFields.QuestRank} = @rank`;
-		request = request.input('rank', sql.NVarChar, filters.rank);
+		request = request.input('rank', sql.TinyInt, filters.rank);
 	}
 
 	if (filters.server) {
@@ -162,9 +187,15 @@ export const getRuns = async (request: Request, filters: RunsSearchFilter, appro
 		request = request.input('server', sql.NVarChar, filters.server);
 	}
 
-	if (filters.partySize) {
-		query += ` AND run.${runsDbFields.PartySize} = @partySize`;
-		request = request.input('partySize', sql.TinyInt, filters.partySize);
+	if (filters.partySize !== undefined && filters.partySize !== null) {
+		if (filters.partySize >= 3) {
+			//TODO temporary support for 3 player runs
+			query += ` AND run.${runsDbFields.PartySize} >= @partySize`;
+			request = request.input('partySize', sql.TinyInt, filters.partySize);
+		} else {
+			query += ` AND run.${runsDbFields.PartySize} = @partySize`;
+			request = request.input('partySize', sql.TinyInt, filters.partySize);
+		}
 	}
 
 	if (filters.partySize && filters.take) {
@@ -182,6 +213,7 @@ export const getRuns = async (request: Request, filters: RunsSearchFilter, appro
 	if (filters.sort === 'recent') {
 		query += ` ORDER BY run.${runsDbFields.SubmissionDate} DESC`;
 	} else {
+		// Ranking sort order
 		query += ` ORDER BY run.${runsDbFields.RunTime} ASC, run.${runsDbFields.SubmissionDate} ASC`;
 	}
 

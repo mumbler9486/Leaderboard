@@ -1,18 +1,18 @@
 import { error, json } from '@sveltejs/kit';
 import { leaderboardDb } from '$lib/server/db/db';
 import { jsonError } from '$lib/server/error.js';
-import { getRuns } from '$lib/server/repositories/runsRepository.js';
+import { parseToRawSchema } from '$lib/utils/schemaValidation.js';
 import { validateApiRequest } from '$lib/server/validation/requestValidation.js';
-import { submitRun } from '$lib/server/logic/submitRunLogic.js';
-import { dfSolusRunSubmissionSchema } from '$lib/types/api/validation/dfSolusSubmission.js';
-import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmission.js';
+import { getRuns } from '$lib/server/repositories/runsRepository.js';
 import { mapRuns } from '$lib/server/mappers/api/runMapper.js';
-import { GameDbValue } from '$lib/server/types/db/runs/game.js';
 import {
 	runsSearchFilterSchema,
 	type RunsSearchFilter
 } from '$lib/types/api/validation/runsSearchFilter.js';
-import { parseToRawSchema } from '$lib/utils/schemaValidation.js';
+import { GameDbValue } from '$lib/server/types/db/runs/game.js';
+import { submitRun } from '$lib/server/logic/submitRunLogic.js';
+import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmission.js';
+import { purpleSubmissionSchema } from '$lib/types/api/validation/purpleSubmissions.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
@@ -31,8 +31,8 @@ export async function GET({ params, url }) {
 
 	const filter: RunsSearchFilter = {
 		...parsedFilter,
-		quest: 'dfsolus',
-		category: !parsedFilter.category ? 'quest' : parsedFilter.category,
+		quest: 'purples',
+		category: !parsedFilter.category ? 'stia' : parsedFilter.category,
 		partySize: !parsedFilter.partySize ? 1 : parsedFilter.partySize
 	};
 
@@ -50,7 +50,7 @@ export async function POST({ request }) {
 	// Validate request
 	const body = await request.json();
 	const { object: parsedRun, validationError } = await validateApiRequest<RunSubmissionRequest>(
-		dfSolusRunSubmissionSchema,
+		purpleSubmissionSchema,
 		body
 	);
 	if (!parsedRun) {

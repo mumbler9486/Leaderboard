@@ -2,8 +2,8 @@
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import RemainingTimeInput from '../RemainingTimeInput.svelte';
 	import PartySizeOptions from '../PartySizeOptions.svelte';
-	import { purpleForm } from '../runStore';
 	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
+	import { purplesForm } from './submit';
 
 	let selectedRankStr: string = '1';
 
@@ -20,13 +20,14 @@
 		[3]: { label: '3', value: '3' }
 	};
 
-	$: rankOptions = regionRankOptions[$purpleForm.region]?.map((r) => rankOptionsDropdowns[r]) ?? [];
+	$: rankOptions =
+		regionRankOptions[$purplesForm.region]?.map((r) => rankOptionsDropdowns[r]) ?? [];
 
-	$: $purpleForm.rank = parseInt(selectedRankStr);
+	$: $purplesForm.rank = parseInt(selectedRankStr);
 
 	const regionChanged = () => {
-		selectedRankStr = regionRankOptions[$purpleForm.region][0].toString();
-		$purpleForm.rank = parseInt(selectedRankStr);
+		selectedRankStr = regionRankOptions[$purplesForm.region][0].toString();
+		$purplesForm.rank = parseInt(selectedRankStr);
 	};
 </script>
 
@@ -49,7 +50,7 @@
 				{ label: 'Kvaris', value: 'kvaris' },
 				{ label: 'Stia', value: 'stia' }
 			]}
-			bind:value={$purpleForm.region}
+			bind:value={$purplesForm.region}
 			on:change={regionChanged}
 		/>
 	</div>

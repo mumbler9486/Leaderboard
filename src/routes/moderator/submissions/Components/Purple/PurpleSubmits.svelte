@@ -1,21 +1,23 @@
 <script lang="ts">
-	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
-	import SubmissionInfoModal from '$lib/Components/SubmissionInfoModal.svelte';
-	import { RunCategories } from '$lib/types/api/categories';
-	import type { PurpleSubmission, Submission } from '$lib/types/api/submissions/submissions';
+	import PurplePartySubmitRow from './PurpleSubmitRow.svelte';
 
-	import PurpleSoloSubmitRow from './PurpleSoloSubmitRow.svelte';
+	import type { Submission } from '$lib/types/api/submissions/submissions';
+	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
+	import { RunCategories } from '$lib/types/api/categories';
+	import { fetchGetApi } from '$lib/utils/fetch';
+	import type { Run } from '$lib/types/api/runs/run';
+	import SubmissionInfoModal2 from '$lib/Components/SubmissionInfoModal2.svelte';
 
 	export let category: RunCategories;
 
-	let submissions: PurpleSubmission[] = [];
+	let submissions: Run[] = [];
 	let loading = true;
 
-	let submissionModal: SubmissionInfoModal;
-	let viewSubmission: Submission;
+	let submissionModal: SubmissionInfoModal2;
 
 	const categoryPathMap: { [key: string]: string } = {
-		[RunCategories.PurpleSolo]: RunCategories.PurpleSolo
+		[RunCategories.PurpleDuo]: RunCategories.PurpleDuo,
+		[RunCategories.PurpleParty]: RunCategories.PurpleParty
 	};
 
 	$: reloadData(category);
@@ -27,14 +29,11 @@
 		loading = true;
 
 		try {
-			const response = await fetch(`/ngs-api/submissions/${categoryPath}`, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			});
-
-			submissions = (await response.json()) as PurpleSubmission[];
+			const submittedRuns = await fetchGetApi<Run[]>(`/ngs-api/submissions/purples`);
+			submissions = submittedRuns.sort((a, b) =>
+				new Date(a.submissionDate) > new Date(b.submissionDate) ? 1 : -1
+			);
+			return submittedRuns;
 		} catch (err) {
 			console.error(err);
 		} finally {
@@ -50,8 +49,7 @@
 			return;
 		}
 
-		viewSubmission = run;
-		submissionModal.showModal();
+		submissionModal.showModal(run);
 	};
 </script>
 
@@ -59,12 +57,13 @@
 	<table class="table-zebra table-compact table w-full">
 		<thead>
 			<tr>
-				<th class="bg-neutral text-neutral-content">Player</th>
+				<th class="bg-neutral text-neutral-content">Players</th>
+				<th class="bg-neutral text-center text-neutral-content">Party</th>
 				<th class="bg-neutral text-center text-neutral-content">Class</th>
+				<th class="bg-neutral text-center text-neutral-content">Weapons</th>
 				<th class="bg-neutral text-center text-neutral-content">Region</th>
 				<th class="bg-neutral text-center text-neutral-content">Rank</th>
 				<th class="bg-neutral text-center text-neutral-content">Patch</th>
-				<th class="bg-neutral text-center text-neutral-content">Weapon(s)</th>
 				<th class="bg-neutral text-center text-neutral-content">
 					IGT <InfoTooltip tip="In-Game Time" below />
 				</th>
@@ -77,7 +76,7 @@
 		{#if !loading}
 			<tbody>
 				{#each submissions as submission}
-					<PurpleSoloSubmitRow on:openRunInfo={runInfoOpen} {submission} />
+					<PurplePartySubmitRow on:openRunInfo={runInfoOpen} {submission} />
 				{/each}
 			</tbody>
 		{/if}
@@ -94,8 +93,4 @@
 	</div>
 {/if}
 
-<SubmissionInfoModal
-	bind:this={submissionModal}
-	submission={viewSubmission}
-	on:submissionChanged={reloadData}
-/>
+<SubmissionInfoModal2 bind:this={submissionModal} on:submissionChanged={reloadData} />

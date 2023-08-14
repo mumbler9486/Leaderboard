@@ -1,13 +1,11 @@
 import { leaderboardDb } from '$lib/server/db/db';
 import { json } from '@sveltejs/kit';
 import { jsonError } from '$lib/server/error.js';
-import { notifyDiscordNewRunApproved } from '$lib/server/discordNotify.js';
 import { getRunPlayer } from '$lib/server/repositories/playerRepository.js';
-import { approveRun, checkRunExists } from '$lib/server/repositories/runsRepository.js';
+import { approveRun, checkRunExists, getRunById } from '$lib/server/repositories/runsRepository.js';
 import { SubmissionStatusDbValue } from '$lib/server/types/db/runs/submissionStatus.js';
 import type { ApproveRequest } from '$lib/types/api/validation/submissions';
-
-const DfSolusQuestName = 'Dark Falz Solus';
+import { notifyDiscordNewRunApprovedLogic } from './discordNotifyLogic';
 
 export const approveRunSubmission = async (approveRequest: ApproveRequest) => {
 	const pool = await leaderboardDb.connect();
@@ -18,17 +16,23 @@ export const approveRunSubmission = async (approveRequest: ApproveRequest) => {
 		return jsonError(400, { error: 'bad_request', details: validationErrors });
 	}
 
-	// Get run data
+	// Get run player
 	const playerRequest = pool.request();
 	const { playerName } = await getRunPlayer(playerRequest, data.playerId);
+	if (!playerName) {
+		console.error('Player name is null on approval. Aborting approval.');
+		return jsonError(400, { error: 'bad_request', details: ['Unknown player in run'] });
+	}
 
 	try {
 		await approveRun(pool.request(), approveRequest.runId, approveRequest.modNotes);
 
-		notifyDiscordNewRunApproved(
+		notifyDiscordNewRunApprovedLogic(
 			approveRequest.moderatorName,
-			playerName ?? '<Player_Name>',
-			DfSolusQuestName
+			playerName ?? '<unknown_player>',
+			data.run.RunQuest,
+			data.run.RunCategory,
+			parseInt(data.run.RunPartySize)
 		);
 		return json({ data: 'success' });
 	} catch (err) {
@@ -43,22 +47,23 @@ const checkData = async (run: ApproveRequest) => {
 
 	// Run exists
 	const request = pool.request();
-	const submissionResult = await checkRunExists(request, run.runId);
+	const submissionResult = await getRunById(request, run.runId, false);
 
-	if (!submissionResult || !submissionResult.runId) {
-		errorList.push(`Unknown submissionId`);
+	if (!submissionResult) {
+		errorList.push(`Unknown run id`);
 		return {
 			errorList
 		};
 	}
-	if (parseInt(submissionResult.submissionStatus) != SubmissionStatusDbValue.AwaitingApproval) {
+	if (parseInt(submissionResult.RunSubmissionStatus) != SubmissionStatusDbValue.AwaitingApproval) {
 		errorList.push(`Submission already denied/approved`);
 	}
 
 	return {
 		errorList,
 		extra: {
-			playerId: parseInt(submissionResult.submitterId)
+			playerId: parseInt(submissionResult.RunSubmitterId),
+			run: submissionResult
 		}
 	};
 };

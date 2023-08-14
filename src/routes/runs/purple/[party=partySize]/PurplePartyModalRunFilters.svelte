@@ -1,11 +1,15 @@
 <script lang="ts">
+	import Divider from '$lib/Components/Divider.svelte';
+	import ClassFilter from '$lib/Components/Filters/ClassFilter.svelte';
 	import ServerFilter from '$lib/Components/Filters/ServerFilter.svelte';
 	import Modal from '$lib/Components/Modal.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { t } from 'svelte-i18n';
 	const dispatch = createEventDispatcher();
 
+	export let solo: boolean;
 	export let server: string = 'no_filter';
+	export let mainClass: string = 'no_filter';
 
 	let modal: Modal;
 
@@ -15,7 +19,8 @@
 
 	const applyFilters = () => {
 		dispatch('applyFilters', {
-			server: server
+			server: server,
+			mainClass: mainClass
 		});
 		modal.close();
 	};
@@ -36,6 +41,14 @@
 	on:btn1Click={applyFilters}
 	on:btn2Click={resetFilters}
 >
+	{#if solo}
+		<span
+			class="text-base-100-content mb-2 flex flex-row justify-center font-semibold md:justify-start"
+			>Main Class</span
+		>
+		<ClassFilter bind:selectedClass={mainClass} />
+		<Divider />
+	{/if}
 	<span
 		class="text-base-100-content mb-2 flex flex-row justify-center font-semibold md:justify-start"
 		>Server</span

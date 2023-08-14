@@ -37,6 +37,7 @@ export interface PartyMember {
 export interface PlayerInfo2 {
 	playerId: number;
 	ship?: number;
+	server?: ServerRegion;
 	flag?: string;
 	name: string;
 	characterName: string;
@@ -47,3 +48,5 @@ export interface PlayerInfo2 {
 }
 
 export interface DfSolusRun extends Run {}
+
+export interface PurpleRun2 extends Run {}

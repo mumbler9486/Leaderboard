@@ -3,6 +3,7 @@ export const CurrentSubmissionPatchCode = 'level75r';
 
 // Keep patch codes under 30 chars
 export const patchCodeLabelMap: { [code: string]: string } = {
+	['pre60r']: 'Pre +60 Release',
 	['60r']: '+60 Release',
 	['slayer']: 'Slayer Release',
 	['pot6r']: 'Potential Lv6. Release',

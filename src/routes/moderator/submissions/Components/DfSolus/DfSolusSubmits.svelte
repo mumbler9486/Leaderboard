@@ -1,30 +1,23 @@
 <script lang="ts">
-	import SubmissionInfoModal from '$lib/Components/SubmissionInfoModal.svelte';
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
 	import DfSolusSubmitRow from './DfSolusSubmitRow.svelte';
-	import type { Submission } from '$lib/types/api/submissions/submissions';
 	import type { DfSolusRun } from '$lib/types/api/runs/run';
 	import type { RunCategories } from '$lib/types/api/categories';
 	import { fetchGetApi } from '$lib/utils/fetch';
-	import type { PlayerInfo } from '$lib/types/api/playerInfo';
-	import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
+	import SubmissionInfoModal2 from '$lib/Components/SubmissionInfoModal2.svelte';
 
 	export let category: RunCategories;
 
 	let submissions: DfSolusRun[] = [];
 	let loading = true;
 
-	let submissionModal: SubmissionInfoModal;
-	let viewSubmission: Submission;
-
-	$: workaroundViewSubmission = !viewSubmission
-		? undefined
-		: { ...viewSubmission, category: 'dfsolus' }; //TODO: temporary work around while refactoring Runs
-	$: mappedSubmissions = tempMapSubmissions(submissions);
+	let submissionModal: SubmissionInfoModal2;
 
 	$: reloadData(category);
 
 	async function reloadData(...watch: any[]) {
+		loading = true;
+
 		try {
 			const submittedRuns = await fetchGetApi<DfSolusRun[]>(`/ngs-api/submissions/dfsolus`);
 			submissions = submittedRuns.sort((a, b) =>
@@ -40,62 +33,13 @@
 
 	const runInfoOpen = (e: CustomEvent) => {
 		const runId = e.detail as number;
-		const run = mappedSubmissions.find((r) => r.runId == runId);
+		const run = submissions.find((r) => r.runId == runId);
 		if (!run) {
 			console.error(`RunId=${runId} does not exist.`);
 			return;
 		}
 
-		viewSubmission = run;
-		submissionModal.showModal();
-	};
-
-	const tempMapSubmissions = (runs: DfSolusRun[]) => {
-		return runs.map((r) => ({
-			//TODO : Temporary mapping, remove when runs refactored
-			...r,
-			submissionTime: r.submissionDate,
-			partySize: r.party.length,
-			server: r.serverRegion,
-			notes: r.notes ?? '',
-			submitter: {
-				playerId: r.submitter.playerId,
-				playerName: r.submitter.name,
-				ship: r.submitter.ship,
-				flag: r.submitter.flag ?? '',
-				characterName: r.submitter.characterName,
-				preferredName: r.submitter.preferredNameType,
-				runCharacterName: '',
-				mainClass: NgsPlayerClass.Unknown,
-				subClass: NgsPlayerClass.Unknown,
-				linkPov: '',
-				server: '',
-				nameType: r.submitter.nameEffectType,
-				nameColor1: r.submitter.nameColor1,
-				nameColor2: r.submitter.nameColor2,
-				weapons: []
-			},
-			players: r.party.map(
-				(pm) =>
-					({
-						playerId: pm.playerId ?? 0,
-						playerName: pm.playerName,
-						ship: pm.playerInfo.ship,
-						flag: pm.playerInfo.flag ?? '',
-						characterName: pm.playerInfo.characterName,
-						preferredName: pm.playerInfo.preferredNameType,
-						runCharacterName: pm.runCharacterName,
-						mainClass: pm.mainClass,
-						subClass: pm.subClass,
-						linkPov: pm.linkPov,
-						server: '',
-						nameType: pm.playerInfo.nameEffectType,
-						nameColor1: pm.playerInfo.nameColor1,
-						nameColor2: pm.playerInfo.nameColor2,
-						weapons: pm.weapons
-					} satisfies PlayerInfo)
-			)
-		}));
+		submissionModal.showModal(run);
 	};
 </script>
 
@@ -120,7 +64,7 @@
 		</thead>
 		{#if !loading}
 			<tbody>
-				{#each mappedSubmissions as submission}
+				{#each submissions as submission}
 					<DfSolusSubmitRow on:openRunInfo={runInfoOpen} {submission} />
 				{/each}
 			</tbody>
@@ -138,8 +82,4 @@
 	</div>
 {/if}
 
-<SubmissionInfoModal
-	bind:this={submissionModal}
-	submission={workaroundViewSubmission}
-	on:submissionChanged={reloadData}
-/>
+<SubmissionInfoModal2 bind:this={submissionModal} on:submissionChanged={reloadData} />

@@ -2,15 +2,24 @@
 	import NgsClassIcon from '$lib/Components/NgsClassIcon.svelte';
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
+	import type { PurpleSubmission } from '$lib/types/api/submissions/submissions';
 	import { createEventDispatcher } from 'svelte';
 	import { mapPlayerInfoNamePref, mapToNamePref, mapToNamePref2 } from '$lib/types/api/mapNamePref';
 	import { patchCodeLabelMap } from '$lib/constants/patchCodes';
-	import type { DfSolusRun } from '$lib/types/api/runs/run';
+	import { PurpleRegion } from '$lib/types/api/purpleRegions';
+	import type { PurpleRun2 } from '$lib/types/api/runs/run';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
 
 	const dispatcher = createEventDispatcher();
 
-	export let submission: DfSolusRun;
+	export let submission: PurpleRun2;
+
+	const regionCodes = {
+		[PurpleRegion.Stia]: 'Stia',
+		[PurpleRegion.Aelio]: 'Aelio',
+		[PurpleRegion.Retem]: 'Retem',
+		[PurpleRegion.Kvaris]: 'Kvaris'
+	} as { [id: string]: string };
 
 	let partySize = 'Solo';
 	$: {
@@ -35,13 +44,14 @@
 </script>
 
 <tr class="hover border-t border-t-secondary/20">
-	<th>
+	<td>
 		{#each submission.party as player}
-			<PlayerNameBadge player={mapToNamePref2(player)} on:click={openModal} />
+			<p>
+				<PlayerNameBadge player={mapToNamePref2(player)} on:click={openModal} />
+			</p>
 		{/each}
-	</th>
+	</td>
 	<td class="text-center">{partySize}</td>
-	<td class="text-center">{submission.questRank}</td>
 	<td class="text-center">
 		{#each submission.party as player}
 			<p>
@@ -60,7 +70,10 @@
 			</div>
 		{/each}
 	</td>
+	<td class="text-center">{regionCodes[submission.category]}</td>
+	<td class="text-center">{submission.questRank}</td>
 	<td class="text-center">{patchCodeLabelMap[submission.patch.toLowerCase()]}</td>
+
 	<td class="text-center">
 		<TimeDisplay time={submission.time} />
 	</td>
