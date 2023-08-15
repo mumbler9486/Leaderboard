@@ -13,7 +13,7 @@
 
 	export let solo: boolean;
 
-	$: playerClassFilterTag = parseNgsPlayerClass(filters.class);
+	$: playerClassFilterTag = parseNgsPlayerClass($dfAegisRunFilters.class);
 
 	let filters: DfaSearchFilters = {
 		trigger: 'urgent',

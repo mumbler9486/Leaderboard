@@ -18,7 +18,7 @@
 		class: 'no_filter'
 	};
 
-	$: playerClassFilterTag = parseNgsPlayerClass(filters.class);
+	$: playerClassFilterTag = parseNgsPlayerClass($purpleRunFilters.class);
 
 	const applyFilters = () => {
 		purpleRunFilters.set({ ...filters });
