@@ -30,6 +30,10 @@
 
 	const resetServerRegion = () => {
 		filters.server = 'no_filter';
+		applyFilters();
+	};
+
+	const resetClassFilter = () => {
 		filters.class = 'no_filter';
 		applyFilters();
 	};
@@ -62,7 +66,7 @@
 	<Divider class="-mx-1 my-0" />
 	<div class="flex flex-row gap-2 px-1">
 		{#if !!playerClassFilterTag}
-			<NgsClassFilterTag ngsClass={playerClassFilterTag} on:click={resetServerRegion} />
+			<NgsClassFilterTag ngsClass={playerClassFilterTag} on:click={resetClassFilter} />
 		{/if}
 		{#if $purpleRunFilters.server && $purpleRunFilters.server != 'no_filter'}
 			<ServerRegionFilterTag server={$purpleRunFilters.server} on:click={resetServerRegion} />
