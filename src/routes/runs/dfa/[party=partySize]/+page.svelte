@@ -7,47 +7,75 @@
 	import { page } from '$app/stores';
 	import { t } from 'svelte-i18n';
 	import { fetchGetApi } from '$lib/utils/fetch';
-	import type { DfaRun } from '$lib/types/api/dfAegis/dfa';
-	import { partyRunFilters, type DfaPartySearchFilters } from '../dfaRunFilterStore';
+	import { dfAegisRunFilters, type DfaSearchFilters } from '../dfaRunFilterStore';
 	import { PartySize, parsePartySize } from '$lib/types/api/partySizes';
 	import {
 		copyQueryParams,
 		useUrlFilterStore,
-		type UrlQueryParamRule,
-		clearFilterValues
+		clearFilterValues,
+		type UrlQueryParamRule
 	} from '$lib/utils/queryParams';
 	import { onDestroy } from 'svelte';
+	import type { DfAegisRun } from '$lib/types/api/runs/run';
 
-	const partySizeMap: { [key: string]: string } = {
-		[PartySize.Duo]: $t('common.playerCount.duo'),
-		[PartySize.Party]: $t('common.playerCount.party')
+	interface PartySizeInfo {
+		filterSize: number;
+		name: string;
+		pageTitle: string;
+	}
+
+	const partySizeInfoMap: Record<string, PartySizeInfo> = {
+		[PartySize.Solo]: {
+			filterSize: 1,
+			name: $t('common.playerCount.solo'),
+			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.purpleTriggers')} - ${$t(
+				'common.playerCount.solo'
+			)}`
+		},
+		[PartySize.Duo]: {
+			filterSize: 2,
+			name: $t('common.playerCount.duo'),
+			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.purpleTriggers')} - ${$t(
+				'common.playerCount.duo'
+			)}`
+		},
+		[PartySize.Party]: {
+			filterSize: 4,
+			name: $t('common.playerCount.party'),
+			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.purpleTriggers')} - ${$t(
+				'common.playerCount.party'
+			)}`
+		}
 	};
 
-	$: partySize = parsePartySize($page.params.party) ?? PartySize.Party;
-	$: pageTitle =
-		partySize === PartySize.Duo
-			? `${$t('shared.siteName')} | ${$t('leaderboard.halphiaLake')} - ${$t(
-					'common.playerCount.duo'
-			  )}`
-			: `${$t('shared.siteName')} | ${$t('leaderboard.halphiaLake')} - ${$t(
-					'common.playerCount.party'
-			  )}`;
-	$: partySizeTitle = partySizeMap[partySize];
+	$: partySize = parsePartySize($page.params.party) ?? PartySize.Solo;
+	$: isSolo = partySize === PartySize.Solo;
+	$: partyInfo = partySizeInfoMap[partySize];
+	$: pageTitle = partyInfo.pageTitle;
+	$: partySizeTitle = partyInfo.name;
 
-	const partyFilterDef: UrlQueryParamRule<DfaPartySearchFilters>[] = [
+	const partyFilterDef: UrlQueryParamRule<DfaSearchFilters>[] = [
 		{ name: 'server', undefinedValue: 'no_filter' },
-		{ name: 'buff', undefinedValue: 'no_filter' },
-		{ name: 'trigger', defaultValue: 'urgent' },
-		{ name: 'rank', undefinedValue: '1' }
+		{ name: 'class', undefinedValue: 'no_filter' },
+		{ name: 'rank', defaultValue: '1' },
+		{ name: 'support', undefinedValue: 'no_filter' },
+		{ name: 'class', undefinedValue: 'no_filter' }
 	];
 
-	const { cleanup } = useUrlFilterStore(partyRunFilters, partyFilterDef);
+	const { cleanup } = useUrlFilterStore(dfAegisRunFilters, partyFilterDef);
 
-	const fetchRuns = async (filters: DfaPartySearchFilters) => {
-		const basePath = `/ngs-api/runs/dfa/${partySize}`;
+	const fetchRuns = async (filters: DfaSearchFilters) => {
+		const basePath = `/ngs-api/runs/dfaegis`;
 		const runFilters = clearFilterValues(filters, partyFilterDef);
 
-		return (await fetchGetApi<DfaRun[]>(basePath, copyQueryParams(runFilters))) ?? [];
+		const allFilters = {
+			...runFilters,
+			quest: 'dfaegis',
+			category: runFilters.region,
+			rank: runFilters.rank,
+			partySize: partyInfo.filterSize
+		};
+		return (await fetchGetApi<DfAegisRun[]>(basePath, copyQueryParams(allFilters))) ?? [];
 	};
 
 	onDestroy(cleanup);
@@ -62,11 +90,11 @@
 <div class="grow content-center">
 	<div class="container mx-auto mb-16 mt-2 rounded-md border border-secondary bg-base-100/75">
 		<div class="m-2 space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8">
-			<DfaPartyRunFilters />
-			{#await fetchRuns($partyRunFilters)}
+			<DfaPartyRunFilters solo={isSolo} />
+			{#await fetchRuns($dfAegisRunFilters)}
 				<LoadingBar />
 			{:then runs}
-				<DfaPartyRunsTable {runs} />
+				<DfaPartyRunsTable solo={isSolo} {runs} />
 			{:catch err}
 				<p>An error has occured, please try again later</p>
 			{/await}

@@ -4,16 +4,17 @@
 	import NgsClassIcon from '$lib/Components/NgsClassIcon.svelte';
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import RankingBadge from '$lib/Components/RankingBadge.svelte';
-	import RunInfoModal from '$lib/Components/RunInfoModal.svelte';
+	import RunInfoModal2 from '$lib/Components/RunInfoModal2.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import VideoLink from '$lib/Components/VideoLink.svelte';
-	import type { DfaRun } from '$lib/types/api/dfAegis/dfa';
-	import { mapToNamePref } from '$lib/types/api/mapNamePref';
+	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
+	import { mapToNamePref2 } from '$lib/types/api/mapNamePref';
+	import type { DfAegisRun } from '$lib/types/api/runs/run';
 
-	let modal: RunInfoModal;
-	let viewRun: DfaRun | undefined;
+	let modal: RunInfoModal2;
 
-	export let runs: DfaRun[];
+	export let solo: boolean;
+	export let runs: DfAegisRun[];
 
 	const runInfoOpen = (runId: number) => {
 		const run = runs.find((r) => r.runId == runId);
@@ -22,8 +23,7 @@
 			return;
 		}
 
-		viewRun = run;
-		modal.showModal();
+		modal.showModal(run);
 	};
 </script>
 
@@ -38,6 +38,9 @@
 					<th class="bg-neutral text-neutral-content">Player</th>
 					<th class="bg-neutral text-center text-neutral-content">Support</th>
 					<th class="bg-neutral text-center text-neutral-content">Classes</th>
+					{#if solo}
+						<th class="bg-neutral text-center text-neutral-content">Weapons</th>
+					{/if}
 					<th class="bg-neutral text-center text-neutral-content">
 						IGT <InfoTooltip below tip={'In-Game Time'} />
 					</th>
@@ -52,30 +55,37 @@
 							<RankingBadge rank={run.rank} />
 						</td>
 						<td class="font-bold">
-							{#each run.players as player}
+							{#each run.party as player}
 								<PlayerNameBadge
-									player={run.players[0] ? mapToNamePref(player) : undefined}
+									player={run.party[0] ? mapToNamePref2(player) : undefined}
 									on:click={() => runInfoOpen(run.runId)}
 									on:keyup={() => runInfoOpen(run.runId)}
 								/>
 							{/each}
 						</td>
 						<td class="text-center font-bold">
-							<DfaSupportIcon support={run.support} />
+							<DfaSupportIcon support={run.details.support} />
 						</td>
 						<td class="text-center">
-							{#each run.players as player}
+							{#each run.party as player}
 								<p>
 									<NgsClassIcon showTooltip combatClass={player.mainClass} />
 									<NgsClassIcon showTooltip combatClass={player.subClass} />
 								</p>
 							{/each}
 						</td>
+						{#if solo}
+							<td class="text-center">
+								{#each run.party[0].weapons as weapon}
+									<WeaponIcon {weapon} />
+								{/each}
+							</td>
+						{/if}
 						<td class="text-center">
 							<TimeDisplay time={run.time} />
 						</td>
 						<td class="text-center">
-							{#each run.players as player}
+							{#each run.party as player}
 								<p>
 									{#if player?.linkPov}
 										<VideoLink url={player?.linkPov} />
@@ -97,10 +107,4 @@
 	</div>
 {/if}
 
-<RunInfoModal
-	videoUrl={viewRun?.players[0].linkPov ?? ''}
-	players={viewRun?.players ?? []}
-	submitter={viewRun?.submitter}
-	notes={viewRun?.notes ?? ''}
-	bind:this={modal}
-/>
+<RunInfoModal2 bind:this={modal} />

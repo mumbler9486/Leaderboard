@@ -5,22 +5,22 @@ import { parseToRawSchema } from '$lib/utils/schemaValidation.js';
 import { validateApiRequest } from '$lib/server/validation/requestValidation.js';
 import { getRuns } from '$lib/server/repositories/runsRepository.js';
 import { mapRuns } from '$lib/server/mappers/api/runMapper.js';
-import {
-	runsSearchFilterSchema,
-	type RunsSearchFilter
-} from '$lib/types/api/validation/runsSearchFilter.js';
 import { GameDbValue } from '$lib/server/types/db/runs/game.js';
 import { submitRun } from '$lib/server/logic/submitRunLogic.js';
 import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmission.js';
-import { purpleSubmissionSchema } from '$lib/types/api/validation/purpleSubmissions.js';
 import { dfAegisSubmissionSchema } from '$lib/types/api/validation/dfAegisSubmission.js';
+import {
+	dfAegisRunsSearchFilterSchema,
+	type DfAegisRunsSearchFilter
+} from '$lib/types/api/validation/dfAegisRunsSearchFilter.js';
+import type { RunAttributeFilter } from '$lib/server/types/db/runAttributeFilter.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
-	const urlParams = parseToRawSchema(url, runsSearchFilterSchema);
+	const urlParams = parseToRawSchema(url, dfAegisRunsSearchFilterSchema);
 
 	const { object: parsedFilter, validationError } = await validateApiRequest<RunsSearchFilter>(
-		runsSearchFilterSchema,
+		dfAegisRunsSearchFilterSchema,
 		urlParams
 	);
 	if (!parsedFilter) {
@@ -30,15 +30,25 @@ export async function GET({ params, url }) {
 	const pool = await leaderboardDb.connect();
 	const request = await pool.request();
 
-	const filter: RunsSearchFilter = {
+	const filter: DfAegisRunsSearchFilter = {
 		...parsedFilter,
 		quest: 'dfaegis',
 		category: !parsedFilter.category ? 'urgent_quest' : parsedFilter.category,
 		partySize: !parsedFilter.partySize ? 1 : parsedFilter.partySize
 	};
 
+	const supportFilter: RunAttributeFilter[] | undefined = !filter.support
+		? undefined
+		: [
+				{
+					path: 'support',
+					type: 'string',
+					value: filter.support
+				}
+		  ];
+
 	try {
-		const runs = await getRuns(request, filter, true);
+		const runs = await getRuns(request, filter, true, supportFilter);
 		const mappedRuns = mapRuns(runs);
 		return json(mappedRuns);
 	} catch (err) {

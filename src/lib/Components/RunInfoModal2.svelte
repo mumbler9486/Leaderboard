@@ -59,7 +59,8 @@
 		},
 		submissionDate: '',
 		submissionStatus: -1,
-		dateApproved: ''
+		dateApproved: '',
+		details: undefined
 	};
 	let run: Run = defaultRun;
 
@@ -71,7 +72,7 @@
 
 	let errorMessage = '';
 
-	export const showModal = (viewRun: Run) => {
+	export const showModal = (viewRun: Run<any>) => {
 		run = viewRun;
 		modal.show();
 	};

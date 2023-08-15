@@ -1,5 +1,5 @@
 import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
-import { type InferType, string, number, object, boolean } from 'yup';
+import { type InferType, string, number, object, boolean, mixed } from 'yup';
 
 const classes = [
 	null,
@@ -17,11 +17,12 @@ const classes = [
 
 const validCategories: Record<string, string[]> = {
 	purples: ['aelio', 'retem', 'kvaris', 'stia'],
-	dfsolus: ['quest']
+	dfsolus: ['quest'],
+	dfaegis: ['urgent_quest', 'trigger']
 };
 
 const servers = [null, 'global', 'japan'];
-const quests = [null, 'dfsolus', 'purples'];
+const quests = [null, 'dfsolus', 'purples', 'dfaegis'];
 const sortOrders = [null, 'ranking', 'recent'];
 const ranks = [null, 1, 2, 3];
 
