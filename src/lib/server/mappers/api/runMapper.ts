@@ -4,9 +4,10 @@ import { mapDbValToGame } from '$lib/server/types/db/runs/game';
 import { mapDbValToNgsClass } from '$lib/server/types/db/runs/ngsClasses';
 import { mapDbValToServerRegion } from '$lib/server/types/db/runs/serverRegions';
 import { mapDbValToWeapon, type NgsWeaponDbValue } from '$lib/server/types/db/runs/weapons';
-import type { PartyMember, PlayerInfo2, DfSolusRun, Run } from '$lib/types/api/runs/run';
+import { runTimeEqual, type RunTime } from '$lib/types/api/runTime';
+import type { PartyMember, PlayerInfo2, Run } from '$lib/types/api/runs/run';
 
-export const mapRuns = (getRun: GetRunDbModel[]): DfSolusRun[] => {
+export const mapRuns = (getRun: GetRunDbModel[]): Run[] => {
 	const groupedRuns = getRun.reduce((prev, curr) => {
 		if (!prev[curr.RunId]) {
 			prev[curr.RunId] = [];
@@ -19,6 +20,9 @@ export const mapRuns = (getRun: GetRunDbModel[]): DfSolusRun[] => {
 		new Date(g1[1][0].RunTime) > new Date(g2[1][0].RunTime) ? 1 : -1
 	);
 
+	let currentRank = 0;
+	let lastTime: RunTime = { hours: -1, minutes: -1, seconds: -1 };
+
 	const mapped = sortedGroups.map((runGroup, i) => {
 		if (!runGroup[1] || runGroup[1].length == 0) {
 			console.error(`Run is null/invalid RunID=${runGroup[0]}`, runGroup);
@@ -26,6 +30,15 @@ export const mapRuns = (getRun: GetRunDbModel[]): DfSolusRun[] => {
 		const runId = runGroup[0];
 		const run = runGroup[1];
 		const runMeta = run[0];
+		const runTime = convertTimeToRunTime(new Date(runMeta.RunTime));
+
+		let runRank = currentRank;
+
+		if (!runTimeEqual(lastTime, runTime)) {
+			currentRank++;
+			runRank = currentRank;
+			lastTime = runTime;
+		}
 
 		const party: PartyMember[] = run.map((rg) => {
 			const weapons = !!rg.PartyWeapons
@@ -67,10 +80,8 @@ export const mapRuns = (getRun: GetRunDbModel[]): DfSolusRun[] => {
 			nameColor2: runMeta.SubmitterNameColor2
 		};
 
-		const runTime = convertTimeToRunTime(new Date(runMeta.RunTime));
-
 		const submission: Run = {
-			rank: i + 1,
+			rank: runRank,
 			runId: parseInt(runId),
 			game: mapDbValToGame(runMeta.RunGame),
 			serverRegion: mapDbValToServerRegion(runMeta.RunServerRegion),
