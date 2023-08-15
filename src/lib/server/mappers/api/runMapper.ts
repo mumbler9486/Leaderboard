@@ -4,7 +4,7 @@ import { mapDbValToGame } from '$lib/server/types/db/runs/game';
 import { mapDbValToNgsClass } from '$lib/server/types/db/runs/ngsClasses';
 import { mapDbValToServerRegion } from '$lib/server/types/db/runs/serverRegions';
 import { mapDbValToWeapon, type NgsWeaponDbValue } from '$lib/server/types/db/runs/weapons';
-import type { PartyMember, PlayerInfo2, DfSolusRun } from '$lib/types/api/runs/run';
+import type { PartyMember, PlayerInfo2, DfSolusRun, Run } from '$lib/types/api/runs/run';
 
 export const mapRuns = (getRun: GetRunDbModel[]): DfSolusRun[] => {
 	const groupedRuns = getRun.reduce((prev, curr) => {
@@ -68,7 +68,7 @@ export const mapRuns = (getRun: GetRunDbModel[]): DfSolusRun[] => {
 
 		const runTime = convertTimeToRunTime(new Date(runMeta.RunTime));
 
-		const submission: DfSolusRun = {
+		const submission: Run = {
 			rank: i + 1,
 			runId: parseInt(runId),
 			game: mapDbValToGame(runMeta.RunGame),
@@ -84,7 +84,8 @@ export const mapRuns = (getRun: GetRunDbModel[]): DfSolusRun[] => {
 			submitter: submitter,
 			submissionDate: runMeta.RunSubmissionDate,
 			submissionStatus: parseInt(runMeta.RunSubmissionStatus),
-			dateApproved: runMeta.RunDateApproved
+			dateApproved: runMeta.RunDateApproved,
+			details: !runMeta.RunAttributes ? undefined : JSON.parse(runMeta.RunAttributes)
 		};
 
 		return submission;

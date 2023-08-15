@@ -46,7 +46,7 @@ const defaultRun: Run = {
 };
 
 const defaultDfa: DfaRun = {
-	support: 'ainamanon',
+	support: 'aina_manon',
 	type: 'urgent',
 	rank: 1
 };

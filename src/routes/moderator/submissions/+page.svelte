@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 
-	import DfaSoloSubmits from './Components/Dfa/DfaSoloSubmits.svelte';
 	import DfaPartySubmits from './Components/Dfa/DfaPartySubmits.svelte';
 	import IndomitableSubmits from './Components/Indomitable/IndomitableSubmits.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
@@ -11,9 +10,7 @@
 
 	const submissionCategoryOptions = [
 		{ value: 'purples', label: 'Purple Triggers (all regions)' },
-		{ value: RunCategories.DfaSolo, label: 'Dark Falz Aegis - Solo' },
-		{ value: RunCategories.DfaDuo, label: 'Dark Falz Aegis - Duo' },
-		{ value: RunCategories.DfaParty, label: 'Dark Falz Aegis - Party' },
+		{ value: 'dfaegis', label: 'Dark Falz Aegis' },
 		{ value: RunCategories.IndomitableNexAelio, label: 'Indomitable Nex Aelio' },
 		{ value: RunCategories.IndomitableRenusRetem, label: 'Indomitable Renus Retem' },
 		{ value: RunCategories.IndomitableAmsKvaris, label: 'Indomitable Ams Kvaris' },
@@ -27,9 +24,7 @@
 			component: PurpleSubmits,
 			category: RunCategories.PurpleSolo
 		},
-		[RunCategories.DfaSolo]: { component: DfaSoloSubmits, category: RunCategories.DfaSolo },
-		[RunCategories.DfaDuo]: { component: DfaPartySubmits, category: RunCategories.DfaDuo },
-		[RunCategories.DfaParty]: { component: DfaPartySubmits, category: RunCategories.DfaParty },
+		['dfaegis']: { component: DfaPartySubmits, category: RunCategories.DfaSolo },
 		[RunCategories.IndomitableNexAelio]: {
 			component: IndomitableSubmits,
 			category: RunCategories.IndomitableNexAelio

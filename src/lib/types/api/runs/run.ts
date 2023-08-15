@@ -1,10 +1,11 @@
+import type { DfAegisSupport } from '../dfAegis/dfAegisSupports';
 import type { Game } from '../game';
 import type { NgsPlayerClass } from '../ngsPlayerClass';
 import type { RunTime } from '../runTime';
 import type { ServerRegion } from '../serverRegions';
 import type { Weapon } from '../weapon';
 
-export interface Run {
+export interface Run<T = void> {
 	rank: number;
 	runId: number;
 	game: Game;
@@ -21,6 +22,7 @@ export interface Run {
 	submissionDate: string;
 	submissionStatus: number;
 	dateApproved?: string;
+	details: T;
 }
 
 export interface PartyMember {
@@ -50,3 +52,8 @@ export interface PlayerInfo2 {
 export interface DfSolusRun extends Run {}
 
 export interface PurpleRun2 extends Run {}
+
+export interface DfAegisRun
+	extends Run<{
+		support: DfAegisSupport;
+	}> {}
