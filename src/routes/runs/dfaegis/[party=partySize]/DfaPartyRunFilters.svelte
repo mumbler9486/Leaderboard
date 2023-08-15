@@ -24,9 +24,9 @@
 	};
 
 	const partyLinks = [
-		{ link: '/runs/dfa/solo', label: 'Solo' },
-		{ link: '/runs/dfa/duo', label: 'Duo' },
-		{ link: '/runs/dfa/party', label: 'Party' }
+		{ link: '/runs/dfaegis/solo', label: 'Solo' },
+		{ link: '/runs/dfaegis/duo', label: 'Duo' },
+		{ link: '/runs/dfaegis/party', label: 'Party' }
 	];
 
 	const applyFilters = () => {

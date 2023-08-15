@@ -23,7 +23,7 @@
 			image: '/icons/quests/uq.png',
 			items: [
 				{ label: 'Dark Falz Solus', link: '/runs/dfsolus/solo' },
-				{ label: 'Dark Falz Aegis', link: '/runs/dfa/solo' }
+				{ label: 'Dark Falz Aegis', link: '/runs/dfaegis/solo' }
 			]
 		},
 		{
