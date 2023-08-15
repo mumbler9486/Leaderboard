@@ -20,7 +20,7 @@
 
 	interface RecentRun {
 		mainClass: NgsPlayerClass;
-		player: PlayerInfo | string;
+		player: PlayerInfo | undefined;
 		time: RunTime;
 		category: string;
 		submissionTime: Date;
@@ -90,7 +90,7 @@
 						category: `${categoryMap[r.category]}${r.rank}`,
 						mainClass: r.party[0]?.mainClass,
 						time: r.time,
-						player: tempMapPartyPlayer(r.party[0]) ?? '<Unknown>',
+						player: tempMapPartyPlayer(r.party[0]),
 						submissionTime: new Date(r.submissionDate)
 					} satisfies RecentRun)
 			)
@@ -125,7 +125,7 @@
 							category: categoryMap[r.quest],
 							mainClass: r.party[0]?.mainClass,
 							time: r.time,
-							player: tempMapPartyPlayer(r.party[0]) ?? '<Unknown>',
+							player: tempMapPartyPlayer(r.party[0]),
 							submissionTime: new Date(r.submissionDate)
 						} satisfies RecentRun)
 				)
@@ -159,7 +159,7 @@
 						<tr class="hover border-t border-t-secondary/20">
 							<td>
 								<div class="flex gap-1">
-									<NgsClassIcon combatClass={run.player.mainClass} />
+									<NgsClassIcon combatClass={run.player?.mainClass} />
 									<PlayerNameBadge player={mapToNamePref(run.player)} showShipFlag={false} />
 								</div>
 							</td>
