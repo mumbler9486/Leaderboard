@@ -54,24 +54,24 @@
 	$: pageTitle = partyInfo.pageTitle;
 	$: partySizeTitle = partyInfo.name;
 
-	const partyFilterDef: UrlQueryParamRule<DfaSearchFilters>[] = [
+	const filterDef: UrlQueryParamRule<DfaSearchFilters>[] = [
 		{ name: 'server', undefinedValue: 'no_filter' },
 		{ name: 'class', undefinedValue: 'no_filter' },
 		{ name: 'rank', defaultValue: '1' },
 		{ name: 'support', undefinedValue: 'no_filter' },
-		{ name: 'class', undefinedValue: 'no_filter' }
+		{ name: 'trigger', undefinedValue: 'urgent_quest' }
 	];
 
-	const { cleanup } = useUrlFilterStore(dfAegisRunFilters, partyFilterDef);
+	const { cleanup } = useUrlFilterStore(dfAegisRunFilters, filterDef);
 
 	const fetchRuns = async (filters: DfaSearchFilters) => {
 		const basePath = `/ngs-api/runs/dfaegis`;
-		const runFilters = clearFilterValues(filters, partyFilterDef);
+		const runFilters = clearFilterValues(filters, filterDef);
 
 		const allFilters = {
 			...runFilters,
 			quest: 'dfaegis',
-			category: runFilters.region,
+			category: runFilters.trigger,
 			rank: runFilters.rank,
 			partySize: partyInfo.filterSize
 		};

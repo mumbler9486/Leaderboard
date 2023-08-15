@@ -16,7 +16,7 @@
 	$: playerClassFilterTag = parseNgsPlayerClass($dfAegisRunFilters.class);
 
 	let filters: DfaSearchFilters = {
-		trigger: 'urgent',
+		trigger: 'urgent_quest',
 		class: 'no_filter',
 		support: 'no_filter',
 		server: 'no_filter',
@@ -66,7 +66,7 @@
 			<Dropdown
 				label="Type"
 				options={[
-					{ label: 'Urgent Quest', value: 'urgent' },
+					{ label: 'Urgent Quest', value: 'urgent_quest' },
 					{ label: 'Trigger', value: 'trigger' }
 				]}
 				bind:value={filters.trigger}
