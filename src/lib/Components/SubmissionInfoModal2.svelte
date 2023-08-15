@@ -22,7 +22,7 @@
 	let processing = false;
 	let errorMessage = '';
 
-	export const showModal = (viewRun: Run) => {
+	export const showModal = (viewRun: Run<any>) => {
 		submission = viewRun;
 		modNotes = '';
 		modal.show();
@@ -153,7 +153,8 @@
 				>
 					<div class="flex flex-col text-center">
 						<span class="text-lg font-semibold"
-							><i class="bi bi-youtube" /> {player.playerName}'s POV Video Link:</span
+							><i class="bi bi-youtube" />
+							{!player.playerId ? player.runCharacterName : player.playerName}'s POV Video Link:</span
 						>
 						<a
 							class="link-primary link"
@@ -168,7 +169,11 @@
 					class="flex basis-full justify-center rounded-md border border-secondary bg-secondary/25 bg-info p-2"
 				>
 					<div class="flex flex-col text-center">
-						<span class="text-lg font-semibold">No Video POV for {player.playerName}</span>
+						<span class="text-lg font-semibold"
+							>No Video POV for {!player.playerId
+								? player.runCharacterName
+								: player.playerName}</span
+						>
 					</div>
 				</div>
 			{/if}

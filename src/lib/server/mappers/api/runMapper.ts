@@ -32,13 +32,14 @@ export const mapRuns = (getRun: GetRunDbModel[]): DfSolusRun[] => {
 				? (JSON.parse(rg.PartyWeapons) as NgsWeaponDbValue[]).map(mapDbValToWeapon)
 				: [];
 			return {
-				playerId: parseInt(rg.PartyPlayerId),
+				playerId: !!rg.PartyPlayerId ? parseInt(rg.PartyPlayerId) : undefined,
 				playerName: rg.PlayerName,
 				runCharacterName: rg.PartyRunCharacterName,
 				mainClass: mapDbValToNgsClass(rg.PartyMainClass),
 				subClass: mapDbValToNgsClass(rg.PartySubClass),
 				linkPov: rg.PartyPovLink,
 				weapons: weapons,
+				//TODO make player info nullable as player may not exist
 				playerInfo: {
 					playerId: parseInt(rg.PartyPlayerId),
 					ship: parseInt(rg.PlayerShip),
