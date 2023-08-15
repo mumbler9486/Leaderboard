@@ -4,7 +4,7 @@ import { dbValToWeaponsMap } from '$lib/server/db/util/weaponType';
 import type { PlayerInfo } from '$lib/types/api/playerInfo';
 import type { DfaSoloRunDbModel } from '$lib/server/types/db/runs/dfa/dfaSolo';
 import type { DfaPartyRunDbModel } from '$lib/server/types/db/runs/dfa/dfaParty';
-import type { DfaRun } from '$lib/types/api/dfa/dfa';
+import type { DfaRun } from '$lib/types/api/dfAegis/dfa';
 
 const triggerDbMap: { [key: string]: string } = {
 	'1': 'trigger',

@@ -6,7 +6,7 @@
 
 	const filterSupports = [
 		{ name: 'No Filter', value: 'no_filter', icon: '/icons/class/class-unknown.png' },
-		{ name: 'Aina & Manon', value: 'ainamanon', icon: '/icons/dfa/ainamanon.png' },
+		{ name: 'Aina & Manon', value: 'aina_manon', icon: '/icons/dfa/ainamanon.png' },
 		{ name: 'Nadereh', value: 'nadereh', icon: '/icons/dfa/nadereh.png' },
 		{ name: 'Ilma', value: 'ilma', icon: '/icons/dfa/ilma.png' },
 		{ name: 'Glen', value: 'glen', icon: '/icons/dfa/glen.png' }

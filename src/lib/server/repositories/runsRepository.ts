@@ -10,6 +10,7 @@ import { normalizeYoutubeLink } from '$lib/utils/youtube';
 import { mapServerRegionToDbVal } from '../types/db/runs/serverRegions';
 import type { GameDbValue } from '../types/db/runs/game';
 import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
+import type { RunAttributeFilter } from '../types/db/runAttributeFilter';
 
 const runsDbFields = fields<RunDbModel>();
 const runPartyDbFields = fields<RunPartyDbModel>();
@@ -152,7 +153,12 @@ export const getRunById = async (
 	return runs[0];
 };
 
-export const getRuns = async (request: Request, filters: RunsSearchFilter, approved: boolean) => {
+export const getRuns = async (
+	request: Request,
+	filters: RunsSearchFilter,
+	approved: boolean,
+	attributeFilters?: RunAttributeFilter[]
+) => {
 	let query = RunQuery;
 
 	if (approved !== undefined && approved !== null) {
@@ -185,6 +191,18 @@ export const getRuns = async (request: Request, filters: RunsSearchFilter, appro
 	if (filters.server) {
 		query += ` AND run.${runsDbFields.ServerRegion} = @server`;
 		request = request.input('server', sql.NVarChar, filters.server);
+	}
+
+	if (!!attributeFilters && attributeFilters.length > 0) {
+		attributeFilters.forEach((f, i) => {
+			const paramName = `attr_value${i}`;
+			const attrPath = `attr_path${i}`;
+			query += ` AND JSON_VALUE(run.${runsDbFields.Attributes}, @${attrPath})= @${paramName}`;
+
+			request = request.input(attrPath, sql.NVarChar, `$.${f.path}`);
+			const inputType = f.type === 'number' ? sql.Int : sql.NVarChar(50);
+			request = request.input(paramName, inputType, f.value);
+		});
 	}
 
 	if (filters.partySize !== undefined && filters.partySize !== null) {

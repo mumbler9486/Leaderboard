@@ -5,6 +5,7 @@
 		ilma: { label: 'Ilma', icon: 'ilma.png' },
 		ainamanon: { label: 'Aina & Manon', icon: 'ainamanon.png' },
 		'aina-manon': { label: 'Aina & Manon', icon: 'ainamanon.png' }, //TODO replace DB values
+		aina_manon: { label: 'Aina & Manon', icon: 'ainamanon.png' }, //TODO replace DB values
 		nadereh: { label: 'Nadereh', icon: 'nadereh.png' },
 		glen: { label: 'Glen', icon: 'glen.png' }
 	};

@@ -7,12 +7,12 @@
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import { copyQueryParams } from '$lib/utils/queryParams';
-	import type { DfaRun } from '$lib/types/api/dfa/dfa';
+	import type { DfaRun } from '$lib/types/api/dfAegis/dfa';
 	import type { IndomitableRun } from '$lib/types/api/duels/indomitable';
 	import type { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 	import type { PlayerInfo } from '$lib/types/api/playerInfo';
 	import type { RunTime } from '$lib/types/api/runTime';
-	import type { DfSolusRun, PurpleRun2 } from '$lib/types/api/runs/run';
+	import type { DfAegisRun, DfSolusRun, PurpleRun2 } from '$lib/types/api/runs/run';
 	import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
 	import { tempMapPartyPlayer } from '$lib/types/api/validation/utils/tempOldMapping';
 
@@ -20,7 +20,7 @@
 
 	interface RecentRun {
 		mainClass: NgsPlayerClass;
-		player: PlayerInfo | string;
+		player: PlayerInfo | undefined;
 		time: RunTime;
 		category: string;
 		submissionTime: Date;
@@ -51,13 +51,15 @@
 		const purpleSoloRuns =
 			(await fetchGetApi<PurpleRun2[]>(purplePath, copyQueryParams(purpleFilters))) ?? [];
 
-		const dfaPath = `/ngs-api/runs/dfa/solo`;
+		const dfaPath = `/ngs-api/runs/dfaegis`;
 		const dfaFilters: any = {
 			page: 0,
 			take: take,
+			partySize: 1,
 			sort: 'recent'
 		};
-		const dfaSoloRuns = (await fetchGetApi<DfaRun[]>(dfaPath, copyQueryParams(dfaFilters))) ?? [];
+		const dfaSoloRuns =
+			(await fetchGetApi<DfAegisRun[]>(dfaPath, copyQueryParams(dfaFilters))) ?? [];
 
 		const indomitablePath = `/ngs-api/runs/duels/indomitable`;
 		const indomitablePathFilters: any = {
@@ -90,7 +92,7 @@
 						category: `${categoryMap[r.category]}${r.rank}`,
 						mainClass: r.party[0]?.mainClass,
 						time: r.time,
-						player: tempMapPartyPlayer(r.party[0]) ?? '<Unknown>',
+						player: tempMapPartyPlayer(r.party[0]),
 						submissionTime: new Date(r.submissionDate)
 					} satisfies RecentRun)
 			)
@@ -98,11 +100,11 @@
 				dfaSoloRuns.map(
 					(r) =>
 						({
-							category: categoryMap['dfasolo'],
-							mainClass: r.players[0]?.mainClass,
+							category: `${categoryMap[r.category]}${r.rank}`,
+							mainClass: r.party[0]?.mainClass,
 							time: r.time,
-							player: r.players[0],
-							submissionTime: new Date(r.submissionTime)
+							player: tempMapPartyPlayer(r.party[0]),
+							submissionTime: new Date(r.submissionDate)
 						} satisfies RecentRun)
 				)
 			)
@@ -125,7 +127,7 @@
 							category: categoryMap[r.quest],
 							mainClass: r.party[0]?.mainClass,
 							time: r.time,
-							player: tempMapPartyPlayer(r.party[0]) ?? '<Unknown>',
+							player: tempMapPartyPlayer(r.party[0]),
 							submissionTime: new Date(r.submissionDate)
 						} satisfies RecentRun)
 				)
@@ -159,7 +161,7 @@
 						<tr class="hover border-t border-t-secondary/20">
 							<td>
 								<div class="flex gap-1">
-									<NgsClassIcon combatClass={run.player.mainClass} />
+									<NgsClassIcon combatClass={run.player?.mainClass} />
 									<PlayerNameBadge player={mapToNamePref(run.player)} showShipFlag={false} />
 								</div>
 							</td>

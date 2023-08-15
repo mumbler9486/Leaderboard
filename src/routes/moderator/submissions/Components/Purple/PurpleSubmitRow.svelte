@@ -2,9 +2,8 @@
 	import NgsClassIcon from '$lib/Components/NgsClassIcon.svelte';
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
-	import type { PurpleSubmission } from '$lib/types/api/submissions/submissions';
 	import { createEventDispatcher } from 'svelte';
-	import { mapPlayerInfoNamePref, mapToNamePref, mapToNamePref2 } from '$lib/types/api/mapNamePref';
+	import { mapPlayerInfoNamePref, mapToNamePref2 } from '$lib/types/api/mapNamePref';
 	import { patchCodeLabelMap } from '$lib/constants/patchCodes';
 	import { PurpleRegion } from '$lib/types/api/purpleRegions';
 	import type { PurpleRun2 } from '$lib/types/api/runs/run';

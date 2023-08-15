@@ -38,7 +38,7 @@
 				<JumboButton
 					label="Dark Falz Aegis"
 					image="/icons/submit/dfa.png"
-					link="/submit/dfa"
+					link="/submit/dfaegis"
 					overlayColor="neutral"
 				/>
 			</div>

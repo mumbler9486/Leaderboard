@@ -59,7 +59,8 @@
 		},
 		submissionDate: '',
 		submissionStatus: -1,
-		dateApproved: ''
+		dateApproved: '',
+		details: undefined
 	};
 	let run: Run = defaultRun;
 
@@ -71,7 +72,7 @@
 
 	let errorMessage = '';
 
-	export const showModal = (viewRun: Run) => {
+	export const showModal = (viewRun: Run<any>) => {
 		run = viewRun;
 		modal.show();
 	};
@@ -97,6 +98,7 @@
 	{:else}
 		{#each run.party.filter((p) => p.linkPov != undefined) as player}
 			<PlayerNameBadge player={mapToNamePref2(player)} />
+			<VideoPlayer url={player.linkPov} />
 			<div
 				class="flex basis-full justify-center rounded-md border border-secondary bg-secondary/25 p-2"
 			>
@@ -143,7 +145,7 @@
 		>
 			<div class="flex grow flex-col">
 				<span class="text-center text-lg font-semibold">Runner's Notes:</span>
-				<div class="whitespace-pre-wrap p-2">{run.notes}</div>
+				<div class="whitespace-pre-wrap p-2">{run?.notes ?? ''}</div>
 			</div>
 		</div>
 	</div>

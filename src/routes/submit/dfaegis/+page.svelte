@@ -7,15 +7,16 @@
 
 	import { t } from 'svelte-i18n';
 	import { resetForm, runForm } from '../runStore';
-	import { submitForm } from '../submit';
 	import { partyForm } from '../partyFormStore';
+	import { submitDfAegisRun } from './submit';
+	import { ErrorCodes } from '$lib/types/api/error';
 
 	let submitting: boolean = false;
 	let serverErrorMessage: string | undefined = undefined;
 	let submitFinish = false;
 
 	resetForm();
-	$runForm.category = 'dfa';
+	$runForm.category = 'dfaegis';
 	partyForm.setPartySize(1);
 
 	async function submitRun() {
@@ -26,17 +27,20 @@
 		try {
 			serverErrorMessage = undefined;
 			submitting = true;
-			const response = await submitForm();
-			if (response.error) {
+			const response: any = await submitDfAegisRun();
+
+			if (response.code == ErrorCodes.ValidationError) {
+				serverErrorMessage = response.details[0].message;
+			} else if (response.error == ErrorCodes.BadRequest) {
 				serverErrorMessage = response.details[0];
-			}
-			if (response.code == 'unexpected') {
+			} else if (response.code == ErrorCodes.Unexpected) {
 				serverErrorMessage = 'Unexpected error, please contact site admin.';
 			}
-			if (response.data == 'success') {
+			if (response.success) {
 				submitFinish = true;
 			}
 		} catch (err) {
+			serverErrorMessage = 'Unexpected error, please contact site admin.';
 			console.error(err);
 		} finally {
 			submitting = false;

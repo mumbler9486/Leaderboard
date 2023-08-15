@@ -15,6 +15,7 @@
 
 	const resetFilters = () => {
 		server = 'no_filter';
+		mainClass = 'no_filter';
 	};
 
 	const applyFilters = () => {

@@ -1,18 +1,17 @@
 <script lang="ts">
-	import SubmissionInfoModal from '$lib/Components/SubmissionInfoModal.svelte';
 	import DfaPartySubmitRow from './DfaPartySubmitRow.svelte';
-
-	import type { DfaSubmission, Submission } from '$lib/types/api/submissions/submissions';
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
 	import { RunCategories } from '$lib/types/api/categories';
+	import type { DfAegisRun } from '$lib/types/api/runs/run';
+	import { fetchGetApi } from '$lib/utils/fetch';
+	import SubmissionInfoModal2 from '$lib/Components/SubmissionInfoModal2.svelte';
 
 	export let category: RunCategories;
 
-	let submissions: DfaSubmission[] = [];
+	let submissions: DfAegisRun[] = [];
 	let loading = true;
 
-	let submissionModal: SubmissionInfoModal;
-	let viewSubmission: Submission;
+	let submissionModal: SubmissionInfoModal2;
 
 	const categoryPathMap: { [key: string]: string } = {
 		[RunCategories.DfaDuo]: RunCategories.DfaDuo,
@@ -23,19 +22,16 @@
 
 	async function reloadData(...watch: any[]) {
 		const categoryPath = categoryPathMap[category];
-		if (!categoryPath) console.error('Unknown dfa category');
+		if (!categoryPath) console.error('Unknown DF Aegis category');
 
 		loading = true;
 
 		try {
-			const response = await fetch(`/ngs-api/submissions/${categoryPath}`, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			});
-
-			submissions = (await response.json()) as DfaSubmission[];
+			const submittedRuns = await fetchGetApi<DfAegisRun[]>(`/ngs-api/submissions/dfaegis`);
+			submissions = submittedRuns.sort((a, b) =>
+				new Date(a.submissionDate) > new Date(b.submissionDate) ? 1 : -1
+			);
+			return submittedRuns;
 		} catch (err) {
 			console.error(err);
 		} finally {
@@ -51,8 +47,7 @@
 			return;
 		}
 
-		viewSubmission = run;
-		submissionModal.showModal();
+		submissionModal.showModal(run);
 	};
 </script>
 
@@ -63,7 +58,7 @@
 				<th class="bg-neutral text-neutral-content">Players</th>
 				<th class="bg-neutral text-center text-neutral-content">Class</th>
 				<th class="bg-neutral text-center text-neutral-content">Quest</th>
-				<th class="bg-neutral text-center text-neutral-content">Rank</th>				
+				<th class="bg-neutral text-center text-neutral-content">Rank</th>
 				<th class="bg-neutral text-center text-neutral-content">Support</th>
 				<th class="bg-neutral text-center text-neutral-content">Patch</th>
 				<th class="bg-neutral text-center text-neutral-content">
@@ -95,8 +90,4 @@
 	</div>
 {/if}
 
-<SubmissionInfoModal
-	bind:this={submissionModal}
-	submission={viewSubmission}
-	on:submissionChanged={reloadData}
-/>
+<SubmissionInfoModal2 bind:this={submissionModal} on:submissionChanged={reloadData} />

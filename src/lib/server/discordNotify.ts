@@ -92,7 +92,7 @@ export const notifyDiscordNewRunApproved = async (
 
 const getThumbnailUrl = (questName: string) => {
 	questName = questName.toLowerCase();
-	if (questName.startsWith('dfa')) {
+	if (questName.startsWith('dark falz aegis')) {
 		return RUN_APPROVAL_THUMBNAIL_DFA;
 	} else if (questName.startsWith('indomitable')) {
 		return RUN_APPROVAL_THUMBNAIL_RENUS_RETEM;

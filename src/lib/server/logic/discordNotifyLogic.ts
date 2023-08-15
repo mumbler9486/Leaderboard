@@ -4,11 +4,16 @@ import { notifyDiscordNewRunApproved, notifyDiscordNewRunSubmitted } from '../di
 const partyTypeMap: Record<string, string> = {
 	1: 'Solo',
 	2: 'Duo',
+	3: 'Party',
 	4: 'Party',
+	5: 'MPA',
+	6: 'MPA',
+	7: 'MPA',
 	8: 'Full MPA'
 };
 
 const questTypeMap: Record<string, string> = {
+	dfaegis: 'Dark Falz Aegis',
 	dfsolus: 'Dark Falz Solus',
 	purples: 'Purple Trigger'
 };
@@ -18,7 +23,9 @@ const categoryTypeMap: Record<string, string> = {
 	aelio: 'Aelio',
 	retem: 'Retem',
 	kvaris: 'Kvaris',
-	stia: 'Stia'
+	stia: 'Stia',
+	urgent_quest: 'UQ',
+	trigger: 'Trigger'
 };
 
 export const notifyDiscordNewRun = async (submitter: string, run: RunSubmissionRequest) => {

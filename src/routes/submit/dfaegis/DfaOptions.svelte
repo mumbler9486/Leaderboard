@@ -1,24 +1,25 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import { DfAegisSupport } from '$lib/types/api/dfAegis/dfAegisSupports';
 	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
 	import PartySizeOptions from '../PartySizeOptions.svelte';
 	import RunTimeInput from '../RunTimeInput.svelte';
-	import { dfaForm } from '../runStore';
+	import { dfAegisForm } from './submit';
 
 	let selectedRankStr: string = '1';
 
 	const rankOptionsDropdowns: { [region: string]: { label: string; value: string }[] } = {
 		['trigger']: [{ label: '1', value: '1' }],
-		['urgent']: [{ label: '1', value: '1' }]
+		['urgent_quest']: [{ label: '1', value: '1' }]
 	};
 
-	$: rankOptions = rankOptionsDropdowns[$dfaForm.type] ?? [];
+	$: rankOptions = rankOptionsDropdowns[$dfAegisForm.category] ?? [];
 
-	$: $dfaForm.rank = parseInt(selectedRankStr);
+	$: $dfAegisForm.rank = parseInt(selectedRankStr);
 
 	const typeChanged = () => {
-		selectedRankStr = rankOptionsDropdowns[$dfaForm.type][0].value;
-		$dfaForm.rank = parseInt(selectedRankStr);
+		selectedRankStr = rankOptionsDropdowns[$dfAegisForm.category][0].value;
+		$dfAegisForm.rank = parseInt(selectedRankStr);
 	};
 </script>
 
@@ -37,9 +38,9 @@
 			placeholder="Select a mode"
 			options={[
 				{ label: 'Triggers / Drill', value: 'trigger' },
-				{ label: 'Urgent Quest', value: 'urgent' }
+				{ label: 'Urgent Quest', value: 'urgent_quest' }
 			]}
-			bind:value={$dfaForm.type}
+			bind:value={$dfAegisForm.category}
 			on:change={typeChanged}
 		/>
 	</div>
@@ -56,12 +57,12 @@
 			label="Support"
 			placeholder="Select a support"
 			options={[
-				{ label: 'Aina & Manon', value: 'aina-manon' },
-				{ label: 'Nadereh', value: 'nadereh' },
-				{ label: 'Ilma', value: 'ilma' },
-				{ label: 'Glen', value: 'glen' }
+				{ label: 'Aina & Manon', value: DfAegisSupport.AinaManon },
+				{ label: 'Nadereh', value: DfAegisSupport.Nadereh },
+				{ label: 'Ilma', value: DfAegisSupport.Ilma },
+				{ label: 'Glen', value: DfAegisSupport.Glen }
 			]}
-			bind:value={$dfaForm.support}
+			bind:value={$dfAegisForm.support}
 		/>
 	</div>
 	<div class="form-control">

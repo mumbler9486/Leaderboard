@@ -1,7 +1,6 @@
 <script lang="ts">
 	import PurplePartySubmitRow from './PurpleSubmitRow.svelte';
 
-	import type { Submission } from '$lib/types/api/submissions/submissions';
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
 	import { RunCategories } from '$lib/types/api/categories';
 	import { fetchGetApi } from '$lib/utils/fetch';

@@ -79,7 +79,7 @@ export const yupRunPartySchema = (maxPlayers: number = 4) => {
 
 			const playerNames = duplicates.map((d) => d.inVideoName).join(',');
 			return testCtx.createError({
-				message: `Duplicate party members (same leaderboard account) not allowed: ${playerNames}`
+				message: `Duplicate party members (same player/character name) not allowed`
 			});
 		})
 		.test(
