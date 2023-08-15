@@ -12,7 +12,7 @@
 	import type { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 	import type { PlayerInfo } from '$lib/types/api/playerInfo';
 	import type { RunTime } from '$lib/types/api/runTime';
-	import type { DfSolusRun, PurpleRun2 } from '$lib/types/api/runs/run';
+	import type { DfAegisRun, DfSolusRun, PurpleRun2 } from '$lib/types/api/runs/run';
 	import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
 	import { tempMapPartyPlayer } from '$lib/types/api/validation/utils/tempOldMapping';
 
@@ -51,13 +51,15 @@
 		const purpleSoloRuns =
 			(await fetchGetApi<PurpleRun2[]>(purplePath, copyQueryParams(purpleFilters))) ?? [];
 
-		const dfaPath = `/ngs-api/runs/dfa/solo`;
+		const dfaPath = `/ngs-api/runs/dfaegis`;
 		const dfaFilters: any = {
 			page: 0,
 			take: take,
+			partySize: 1,
 			sort: 'recent'
 		};
-		const dfaSoloRuns = (await fetchGetApi<DfaRun[]>(dfaPath, copyQueryParams(dfaFilters))) ?? [];
+		const dfaSoloRuns =
+			(await fetchGetApi<DfAegisRun[]>(dfaPath, copyQueryParams(dfaFilters))) ?? [];
 
 		const indomitablePath = `/ngs-api/runs/duels/indomitable`;
 		const indomitablePathFilters: any = {
@@ -98,11 +100,11 @@
 				dfaSoloRuns.map(
 					(r) =>
 						({
-							category: categoryMap['dfasolo'],
-							mainClass: r.players[0]?.mainClass,
+							category: `${categoryMap[r.category]}${r.rank}`,
+							mainClass: r.party[0]?.mainClass,
 							time: r.time,
-							player: r.players[0],
-							submissionTime: new Date(r.submissionTime)
+							player: tempMapPartyPlayer(r.party[0]),
+							submissionTime: new Date(r.submissionDate)
 						} satisfies RecentRun)
 				)
 			)
