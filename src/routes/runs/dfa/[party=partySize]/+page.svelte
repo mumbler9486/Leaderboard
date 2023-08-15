@@ -7,7 +7,7 @@
 	import { page } from '$app/stores';
 	import { t } from 'svelte-i18n';
 	import { fetchGetApi } from '$lib/utils/fetch';
-	import type { DfaRun } from '$lib/types/api/dfa/dfa';
+	import type { DfaRun } from '$lib/types/api/dfAegis/dfa';
 	import { partyRunFilters, type DfaPartySearchFilters } from '../dfaRunFilterStore';
 	import { PartySize, parsePartySize } from '$lib/types/api/partySizes';
 	import {

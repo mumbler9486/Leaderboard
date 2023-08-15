@@ -7,7 +7,7 @@
 	import RunInfoModal from '$lib/Components/RunInfoModal.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import VideoLink from '$lib/Components/VideoLink.svelte';
-	import type { DfaRun } from '$lib/types/api/dfa/dfa';
+	import type { DfaRun } from '$lib/types/api/dfAegis/dfa';
 	import { mapToNamePref } from '$lib/types/api/mapNamePref';
 
 	let modal: RunInfoModal;

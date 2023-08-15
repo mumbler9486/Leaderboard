@@ -4,7 +4,7 @@ import type { DfaSoloDbModel } from '$lib/server/types/db/submissions/dfa/dfaSol
 import sql, { type Request } from 'mssql';
 import { fields } from '../util/nameof';
 import type { ApproveRequest, DenyRequest } from '../../types/api/validation/submissions';
-import type { DfaSubmissionRequest } from '../../types/api/validation/dfaSubmissions';
+import type { DfaSubmissionRequest } from '../../types/api/validation/dfAegisSubmission';
 import { CurrentSubmissionPatchCode } from '$lib/constants/patchCodes';
 
 const dfaPartyDbFields = fields<DfaPartyDbModel>();

@@ -19,7 +19,7 @@ import { jsonError } from '$lib/server/error.js';
 import {
 	dfaSubmissionRequestSchema,
 	type DfaSubmissionRequest
-} from '$lib/types/api/validation/dfaSubmissions.js';
+} from '$lib/types/api/validation/dfAegisSubmission.js';
 import { weaponsToDbValMap } from '$lib/server/db/util/weaponType.js';
 import { parseWeapon } from '$lib/types/api/weapon.js';
 import { normalizeYoutubeLink } from '$lib/utils/youtube.js';

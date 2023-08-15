@@ -8,7 +8,7 @@
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import VideoLink from '$lib/Components/VideoLink.svelte';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
-	import type { DfaRun } from '$lib/types/api/dfa/dfa';
+	import type { DfaRun } from '$lib/types/api/dfAegis/dfa';
 	import { mapToNamePref } from '$lib/types/api/mapNamePref';
 
 	let modal: RunInfoModal;

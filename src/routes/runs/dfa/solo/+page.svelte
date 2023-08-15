@@ -6,7 +6,7 @@
 
 	import { t } from 'svelte-i18n';
 	import { fetchGetApi } from '$lib/utils/fetch';
-	import type { DfaRun } from '$lib/types/api/dfa/dfa';
+	import type { DfaRun } from '$lib/types/api/dfAegis/dfa';
 	import { soloRunFilters, type DfaSoloSearchFilters } from '../dfaRunFilterStore';
 	import { PartySize } from '$lib/types/api/partySizes';
 	import {
