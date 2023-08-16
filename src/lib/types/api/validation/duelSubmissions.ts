@@ -47,7 +47,7 @@ export const duelSubmissionSchema = (
 			),
 		category: string().required().oneOf(categories),
 		party: yupRunPartySchema(1),
-		time: yupRunTime(600)
+		time: yupRunTime(300)
 	}) satisfies ObjectSchema<RunSubmissionRequest>
 ).shape({
 	details: object({

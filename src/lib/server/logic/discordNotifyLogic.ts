@@ -15,7 +15,8 @@ const partyTypeMap: Record<string, string> = {
 const questTypeMap: Record<string, string> = {
 	dfaegis: 'Dark Falz Aegis',
 	dfsolus: 'Dark Falz Solus',
-	purples: 'Purple Trigger'
+	purples: 'Purple Trigger',
+	duels: 'Duel'
 };
 
 const categoryTypeMap: Record<string, string> = {
@@ -25,7 +26,12 @@ const categoryTypeMap: Record<string, string> = {
 	kvaris: 'Kvaris',
 	stia: 'Stia',
 	urgent_quest: 'UQ',
-	trigger: 'Trigger'
+	trigger: 'Trigger',
+	nex_aelio: 'Nex Aelio',
+	renus_retem: 'Renus Retem',
+	ams_kvaris: 'Ams Kvaris',
+	nils_stia: 'Nils Stia',
+	halvaldi: 'Halvaldi'
 };
 
 export const notifyDiscordNewRun = async (submitter: string, run: RunSubmissionRequest) => {

@@ -13,7 +13,10 @@ import {
 	duelRunsSearchFilterSchema,
 	type DuelRunsSearchFilter
 } from '$lib/types/api/validation/duelRunsSearchFilter.js';
-import { duelSubmissionSchema } from '$lib/types/api/validation/duelSubmissions.js';
+import {
+	duelSubmissionSchema,
+	type DuelRunSubmission
+} from '$lib/types/api/validation/duelSubmissions.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
@@ -60,7 +63,7 @@ export async function GET({ params, url }) {
 export async function POST({ request }) {
 	// Validate request
 	const body = await request.json();
-	const { object: parsedRun, validationError } = await validateApiRequest<RunSubmissionRequest>(
+	const { object: parsedRun, validationError } = await validateApiRequest<DuelRunSubmission>(
 		duelSubmissionSchema,
 		body
 	);
