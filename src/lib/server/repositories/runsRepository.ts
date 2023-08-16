@@ -469,7 +469,7 @@ const appendAttributeFilter = (
 			request = request.input(paramName, sql.Int, f.value);
 		} else if (f.type === 'boolean') {
 			//TODO what type should JSOn boolean be?
-			request = request.input(paramName, sql.NVarChar, f.value);
+			request = request.input(paramName, sql.Bit, f.value);
 		} else {
 			throw new Error('Unknown attribute type');
 		}

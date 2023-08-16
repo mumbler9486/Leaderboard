@@ -5,7 +5,6 @@
 	import IndomitableRunsTable from '../IndomitableRunsTable.svelte';
 
 	import { page } from '$app/stores';
-	import type { IndomitableRun } from '$lib/types/api/duels/indomitable';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import { t } from 'svelte-i18n';
 	import {
@@ -18,6 +17,7 @@
 	import { IndomitableBoss } from '$lib/types/api/duels/indomitableBoss';
 	import { onDestroy } from 'svelte';
 	import type { DuelRun } from '$lib/types/api/runs/run';
+	import type { DuelRunsSearchFilter } from '$lib/types/api/validation/duelRunsSearchFilter';
 
 	const pageTitles: { [key: string]: string } = {
 		[IndomitableBoss.NexAelio]: $t('leaderboard.indomitableNexAelio'),
@@ -50,12 +50,21 @@
 		const basePath = `/ngs-api/runs/duels`;
 		const runFilters = clearFilterValues(filters, filterDef);
 
-		const allFilters = {
+		let augmentFilter: boolean | undefined = undefined;
+		if (filters.augmentations === 'no') {
+			augmentFilter = false;
+		} else if (filters.augmentations === 'yes') {
+			augmentFilter = true;
+		} else {
+			augmentFilter = undefined;
+		}
+		const allFilters: DuelRunsSearchFilter = {
 			...runFilters,
 			quest: 'duels',
 			category: boss,
 			rank: runFilters.rank,
-			partySize: 1
+			partySize: 1,
+			augments: augmentFilter
 		};
 		return (await fetchGetApi<DuelRun[]>(basePath, copyQueryParams(allFilters))) ?? [];
 	};
