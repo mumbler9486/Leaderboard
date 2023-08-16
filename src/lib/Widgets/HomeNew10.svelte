@@ -13,6 +13,7 @@
 	import type { Run } from '$lib/types/api/runs/run';
 	import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
 	import { tempMapPartyPlayer } from '$lib/types/api/validation/utils/tempOldMapping';
+	import { IndomitableBoss } from '$lib/types/api/duels/indomitableBoss';
 
 	const take = 10;
 
@@ -39,11 +40,11 @@
 			quest: 'DF Solus R.'
 		},
 		duels: {
-			nexaelio: 'Duel Nex Aelio',
-			renusretem: 'Duel Renus Retem',
-			amskvaris: 'Duel Ams Kvaris',
-			nilsstia: 'Duel Nils Stia',
-			halvaldi: 'Duel Halvaldi'
+			[IndomitableBoss.NexAelio]: 'Duel Nex Aelio',
+			[IndomitableBoss.RenusRetem]: 'Duel Renus Retem',
+			[IndomitableBoss.AmsKvaris]: 'Duel Ams Kvaris',
+			[IndomitableBoss.NilsStia]: 'Duel Nils Stia',
+			[IndomitableBoss.Halvaldi]: 'Duel Halvaldi'
 		}
 	};
 

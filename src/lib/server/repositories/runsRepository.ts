@@ -194,15 +194,13 @@ export const getRuns = async (
 	}
 
 	if (!!attributeFilters && attributeFilters.length > 0) {
-		attributeFilters.forEach((f, i) => {
-			const paramName = `attr_value${i}`;
-			const attrPath = `attr_path${i}`;
-			query += ` AND JSON_VALUE(run.${runsDbFields.Attributes}, @${attrPath})= @${paramName}`;
-
-			request = request.input(attrPath, sql.NVarChar, `$.${f.path}`);
-			const inputType = f.type === 'number' ? sql.Int : sql.NVarChar(50);
-			request = request.input(paramName, inputType, f.value);
-		});
+		const { request: inputtedRequest, query: appendedQuery } = appendAttributeFilter(
+			request,
+			query,
+			attributeFilters
+		);
+		request = inputtedRequest;
+		query = appendedQuery;
 	}
 
 	if (filters.partySize !== undefined && filters.partySize !== null) {
@@ -452,3 +450,33 @@ const serializeTimeToSqlTime = (runTime: RunSubmissionRequest['time']) =>
 	`${runTime.hours.toString().padStart(2)}:${runTime.minutes
 		.toString()
 		.padStart(2)}:${runTime.seconds.toString().padStart(2)}`;
+
+const appendAttributeFilter = (
+	request: Request,
+	queryString: string,
+	attributeFilters: RunAttributeFilter[]
+) => {
+	attributeFilters.forEach((f, i) => {
+		const paramName = `attr_value${i}`;
+		const attrPath = `attr_path${i}`;
+		queryString += ` AND JSON_VALUE(run.${runsDbFields.Attributes}, @${attrPath})= @${paramName}`;
+
+		request = request.input(attrPath, sql.NVarChar, `$.${f.path}`);
+
+		if (f.type === 'string') {
+			request = request.input(paramName, sql.NVarChar, f.value);
+		} else if (f.type === 'number') {
+			request = request.input(paramName, sql.Int, f.value);
+		} else if (f.type === 'boolean') {
+			//TODO what type should JSOn boolean be?
+			request = request.input(paramName, sql.NVarChar, f.value);
+		} else {
+			throw new Error('Unknown attribute type');
+		}
+	});
+
+	return {
+		request: request,
+		query: queryString
+	};
+};
