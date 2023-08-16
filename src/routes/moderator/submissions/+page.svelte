@@ -5,45 +5,24 @@
 	import IndomitableSubmits from './Components/Indomitable/IndomitableSubmits.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import SolusSubmits from './Components/DfSolus/DfSolusSubmits.svelte';
-	import { RunCategories } from '$lib/types/api/categories';
 	import PurpleSubmits from './Components/Purple/PurpleSubmits.svelte';
 
 	const submissionCategoryOptions = [
 		{ value: 'purples', label: 'Purple Triggers (all regions)' },
+		{ value: 'dfsolus', label: 'Dark Falz Solus' },
 		{ value: 'dfaegis', label: 'Dark Falz Aegis' },
-		{ value: RunCategories.IndomitableNexAelio, label: 'Indomitable Nex Aelio' },
-		{ value: RunCategories.IndomitableRenusRetem, label: 'Indomitable Renus Retem' },
-		{ value: RunCategories.IndomitableAmsKvaris, label: 'Indomitable Ams Kvaris' },
-		{ value: RunCategories.IndomitableNilsStia, label: 'Indomitable Nils Stia' },
-		{ value: RunCategories.IndomitableHalvaldi, label: 'Indomitable Halvaldi' },
-		{ value: 'dfsolus', label: 'Dark Falz Solus' }
+		{ value: 'duels', label: 'Duels Indomitable' }
 	];
 
-	const submitsMap: { [key: string]: { component: any; category: RunCategories | string } } = {
+	const submitsMap: { [key: string]: { component: any; category: string } } = {
 		['purples']: {
 			component: PurpleSubmits,
-			category: RunCategories.PurpleSolo
+			category: 'purples'
 		},
-		['dfaegis']: { component: DfaPartySubmits, category: RunCategories.DfaSolo },
-		[RunCategories.IndomitableNexAelio]: {
+		['dfaegis']: { component: DfaPartySubmits, category: 'dfaegis' },
+		['duels']: {
 			component: IndomitableSubmits,
-			category: RunCategories.IndomitableNexAelio
-		},
-		[RunCategories.IndomitableRenusRetem]: {
-			component: IndomitableSubmits,
-			category: RunCategories.IndomitableRenusRetem
-		},
-		[RunCategories.IndomitableAmsKvaris]: {
-			component: IndomitableSubmits,
-			category: RunCategories.IndomitableAmsKvaris
-		},
-		[RunCategories.IndomitableNilsStia]: {
-			component: IndomitableSubmits,
-			category: RunCategories.IndomitableNilsStia
-		},
-		[RunCategories.IndomitableHalvaldi]: {
-			component: IndomitableSubmits,
-			category: RunCategories.IndomitableHalvaldi
+			category: 'duels'
 		},
 		['dfsolus']: {
 			component: SolusSubmits,

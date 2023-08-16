@@ -1,10 +1,10 @@
 import { stringEnumValuesToMap } from '$lib/utils/enum';
 
 export enum IndomitableBoss {
-	NexAelio = 'nexaelio',
-	RenusRetem = 'renusretem',
-	AmsKvaris = 'amskvaris',
-	NilsStia = 'nilsstia',
+	NexAelio = 'nex_aelio',
+	RenusRetem = 'renus_retem',
+	AmsKvaris = 'ams_kvaris',
+	NilsStia = 'nils_stia',
 	Halvaldi = 'halvaldi'
 }
 

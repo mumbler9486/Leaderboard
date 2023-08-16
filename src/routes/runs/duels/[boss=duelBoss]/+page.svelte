@@ -5,7 +5,6 @@
 	import IndomitableRunsTable from '../IndomitableRunsTable.svelte';
 
 	import { page } from '$app/stores';
-	import type { IndomitableRun } from '$lib/types/api/duels/indomitable';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import { t } from 'svelte-i18n';
 	import {
@@ -17,6 +16,8 @@
 	import { indomitableRunFilters, type IndomitableRunSearchFilters } from '../runFilterStore';
 	import { IndomitableBoss } from '$lib/types/api/duels/indomitableBoss';
 	import { onDestroy } from 'svelte';
+	import type { DuelRun } from '$lib/types/api/runs/run';
+	import type { DuelRunsSearchFilter } from '$lib/types/api/validation/duelRunsSearchFilter';
 
 	const pageTitles: { [key: string]: string } = {
 		[IndomitableBoss.NexAelio]: $t('leaderboard.indomitableNexAelio'),
@@ -26,7 +27,15 @@
 		[IndomitableBoss.Halvaldi]: $t('leaderboard.indomitableHalvaldi')
 	};
 
-	$: boss = $page.params.boss;
+	const bossUrlMapping: Record<string, IndomitableBoss> = {
+		['nex-aelio']: IndomitableBoss.NexAelio,
+		['renus-retem']: IndomitableBoss.RenusRetem,
+		['ams-kvaris']: IndomitableBoss.AmsKvaris,
+		['nils-stia']: IndomitableBoss.NilsStia,
+		['halvaldi']: IndomitableBoss.Halvaldi
+	};
+
+	$: boss = bossUrlMapping[$page.params.boss];
 	$: pageHeader = pageTitles[boss];
 
 	const filterDef: UrlQueryParamRule<IndomitableRunSearchFilters>[] = [
@@ -38,10 +47,26 @@
 	const { cleanup } = useUrlFilterStore(indomitableRunFilters, filterDef);
 
 	const fetchRuns = async (filters: IndomitableRunSearchFilters) => {
-		const basePath = `/ngs-api/runs/duels/indomitable/${boss}`;
+		const basePath = `/ngs-api/runs/duels`;
 		const runFilters = clearFilterValues(filters, filterDef);
 
-		return (await fetchGetApi<IndomitableRun[]>(basePath, copyQueryParams(runFilters))) ?? [];
+		let augmentFilter: boolean | undefined = undefined;
+		if (filters.augmentations === 'no') {
+			augmentFilter = false;
+		} else if (filters.augmentations === 'yes') {
+			augmentFilter = true;
+		} else {
+			augmentFilter = undefined;
+		}
+		const allFilters: DuelRunsSearchFilter = {
+			...runFilters,
+			quest: 'duels',
+			category: boss,
+			rank: runFilters.rank,
+			partySize: 1,
+			augments: augmentFilter
+		};
+		return (await fetchGetApi<DuelRun[]>(basePath, copyQueryParams(allFilters))) ?? [];
 	};
 
 	onDestroy(cleanup);

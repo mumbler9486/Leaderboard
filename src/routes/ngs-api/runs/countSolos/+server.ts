@@ -6,21 +6,20 @@ import { json } from '@sveltejs/kit';
 
 const countSoloFields = fields<CountSolosDbModel>();
 
-export async function GET({ request }) {
+export async function GET({}) {
 	try {
 		const pool = await leaderboardDb.connect();
 
 		const sqlQuery = `
-    SELECT   
-      (SELECT COUNT(*) FROM IndomitableRuns) AS ${countSoloFields.IndomitableCount},
-      (SELECT COUNT(*) FROM dbo.Runs WHERE dbo.Runs.PartySize = 1) AS ${countSoloFields.SoloRunsCount}
+			SELECT COUNT(*) AS ${countSoloFields.SoloRunsCount}
+			FROM dbo.Runs
+			WHERE dbo.Runs.PartySize = 1
     `;
 
 		const results = await pool.request().query(sqlQuery);
 		const counts = results.recordset[0] as CountSolosDbModel;
 
 		const response: SoloCounts = {
-			indomitables: parseInt(counts.IndomitableCount),
 			soloRuns: parseInt(counts.SoloRunsCount)
 		};
 

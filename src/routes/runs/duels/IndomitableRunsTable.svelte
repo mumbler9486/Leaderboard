@@ -3,17 +3,17 @@
 	import ClassIcon from '$lib/Components/NgsClassIcon.svelte';
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import RankingBadge from '$lib/Components/RankingBadge.svelte';
-	import RunInfoModal from '$lib/Components/RunInfoModal.svelte';
+	import RunInfoModal2 from '$lib/Components/RunInfoModal2.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import VideoLink from '$lib/Components/VideoLink.svelte';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
 	import type { IndomitableRun } from '$lib/types/api/duels/indomitable';
-	import { mapToNamePref } from '$lib/types/api/mapNamePref';
+	import { mapToNamePref, mapToNamePref2 } from '$lib/types/api/mapNamePref';
+	import type { DuelRun } from '$lib/types/api/runs/run';
 
-	let modal: RunInfoModal;
-	let viewRun: IndomitableRun;
+	let modal: RunInfoModal2;
 
-	export let runs: IndomitableRun[];
+	export let runs: DuelRun[];
 
 	const runInfoOpen = (runId: number) => {
 		const run = runs.find((r) => r.runId == runId);
@@ -22,8 +22,7 @@
 			return;
 		}
 
-		viewRun = run;
-		modal.showModal();
+		modal.showModal(run);
 	};
 </script>
 
@@ -55,20 +54,20 @@
 						</td>
 						<td class="font-bold">
 							<PlayerNameBadge
-								player={run.players[0] ? mapToNamePref(run.players[0]) : undefined}
+								player={run.party[0] ? mapToNamePref2(run.party[0]) : undefined}
 								on:click={() => runInfoOpen(run.runId)}
 								on:keyup={() => runInfoOpen(run.runId)}
 							/>
 						</td>
-						<td class="text-center font-bold">{run.augments ? 'Yes' : 'No'}</td>
+						<td class="text-center font-bold">{run.details.augments ? 'Yes' : 'No'}</td>
 						<td class="text-center">
-							<ClassIcon combatClass={run.players[0].mainClass} showLabel />
+							<ClassIcon combatClass={run.party[0].mainClass} showLabel />
 						</td>
 						<td class="text-center">
-							<ClassIcon combatClass={run.players[0].subClass} showLabel />
+							<ClassIcon combatClass={run.party[0].subClass} showLabel />
 						</td>
 						<td class="text-center">
-							{#each run.players[0].weapons as weapon}
+							{#each run.party[0].weapons as weapon}
 								<div class="inline w-[16px] object-none">
 									<WeaponIcon {weapon} />
 								</div>
@@ -78,7 +77,7 @@
 							<TimeDisplay time={run.time} />
 						</td>
 						<td class="text-center">
-							<VideoLink url={run.videoUrl} />
+							<VideoLink url={run.party[0].linkPov} />
 						</td>
 						<td class="text-center">
 							{#if run.notes != undefined}
@@ -92,10 +91,4 @@
 	</div>
 {/if}
 
-<RunInfoModal
-	videoUrl={viewRun?.players[0].linkPov ?? ''}
-	players={viewRun?.players ?? []}
-	submitter={viewRun?.submitter}
-	notes={viewRun?.notes ?? ''}
-	bind:this={modal}
-/>
+<RunInfoModal2 bind:this={modal} />

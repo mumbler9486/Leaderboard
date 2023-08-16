@@ -4,7 +4,7 @@
 
 	const getSoloCount = async () => {
 		const response = await fetchGetApi<SoloCounts>('/ngs-api/runs/countSolos');
-		return response.indomitables + response.soloRuns;
+		return response.soloRuns;
 	};
 </script>
 

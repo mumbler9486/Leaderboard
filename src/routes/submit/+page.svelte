@@ -32,7 +32,7 @@
 				<JumboButton
 					label="Duels"
 					image="/icons/submit/duel_nils_stia.png"
-					link="/submit/indomitable"
+					link="/submit/duels"
 					overlayColor="red"
 				/>
 				<JumboButton

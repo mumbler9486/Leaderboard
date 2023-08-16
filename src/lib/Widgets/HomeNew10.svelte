@@ -7,14 +7,13 @@
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import { copyQueryParams } from '$lib/utils/queryParams';
-	import type { DfaRun } from '$lib/types/api/dfAegis/dfa';
-	import type { IndomitableRun } from '$lib/types/api/duels/indomitable';
 	import type { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 	import type { PlayerInfo } from '$lib/types/api/playerInfo';
 	import type { RunTime } from '$lib/types/api/runTime';
-	import type { DfAegisRun, DfSolusRun, PurpleRun2 } from '$lib/types/api/runs/run';
+	import type { Run } from '$lib/types/api/runs/run';
 	import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
 	import { tempMapPartyPlayer } from '$lib/types/api/validation/utils/tempOldMapping';
+	import { IndomitableBoss } from '$lib/types/api/duels/indomitableBoss';
 
 	const take = 10;
 
@@ -23,117 +22,54 @@
 		player: PlayerInfo | undefined;
 		time: RunTime;
 		category: string;
-		submissionTime: Date;
+		approvalDate: Date;
 	}
 
-	const categoryMap: { [key: string]: string } = {
-		aelio: 'Purple Aelio R.',
-		retem: 'Purple Retem R.',
-		kvaris: 'Purple Kvaris R.',
-		stia: 'Purple Stia R.',
-		dfasolo: 'DFA Solo',
-		nexaelio: 'Duel Nex Aelio',
-		renusretem: 'Duel Renus Retem',
-		amskvaris: 'Duel Ams Kvaris',
-		nilsstia: 'Duel Nils Stia',
-		halvaldi: 'Duel Halvaldi',
-		dfsolus: 'Dark Falz Solus'
+	const questNameMap: Record<string, Record<string, string>> = {
+		purples: {
+			aelio: 'Purple Aelio R.',
+			retem: 'Purple Retem R.',
+			kvaris: 'Purple Kvaris R.',
+			stia: 'Purple Stia R.'
+		},
+		dfaegis: {
+			urgent_quest: 'DF Aegis R.',
+			trigger: 'DF Aegis R.'
+		},
+		dfsolus: {
+			quest: 'DF Solus R.'
+		},
+		duels: {
+			[IndomitableBoss.NexAelio]: 'Duel Nex Aelio',
+			[IndomitableBoss.RenusRetem]: 'Duel Renus Retem',
+			[IndomitableBoss.AmsKvaris]: 'Duel Ams Kvaris',
+			[IndomitableBoss.NilsStia]: 'Duel Nils Stia',
+			[IndomitableBoss.Halvaldi]: 'Duel Halvaldi'
+		}
 	};
 
 	const fetchRuns = async () => {
-		const purplePath = `/ngs-api/runs/purples`;
-		const purpleFilters: any = {
+		const runsSearchFilter: RunsSearchFilter = {
 			page: 0,
 			take: take,
 			partySize: 1,
 			sort: 'recent'
 		};
-		const purpleSoloRuns =
-			(await fetchGetApi<PurpleRun2[]>(purplePath, copyQueryParams(purpleFilters))) ?? [];
+		const runsPath = '/ngs-api/runs';
+		const soloRuns = (await fetchGetApi<Run[]>(runsPath, copyQueryParams(runsSearchFilter))) ?? [];
 
-		const dfaPath = `/ngs-api/runs/dfaegis`;
-		const dfaFilters: any = {
-			page: 0,
-			take: take,
-			partySize: 1,
-			sort: 'recent'
-		};
-		const dfaSoloRuns =
-			(await fetchGetApi<DfAegisRun[]>(dfaPath, copyQueryParams(dfaFilters))) ?? [];
-
-		const indomitablePath = `/ngs-api/runs/duels/indomitable`;
-		const indomitablePathFilters: any = {
-			page: undefined,
-			take: take,
-			sort: 'recent'
-		};
-
-		const indomitableRuns =
-			(await fetchGetApi<IndomitableRun[]>(
-				indomitablePath,
-				copyQueryParams(indomitablePathFilters)
-			)) ?? [];
-
-		const dfSolusPath = `/ngs-api/runs/dfsolus`;
-		const dfSolusFilters: RunsSearchFilter = {
-			page: null,
-			take: take,
-			partySize: 1,
-			quest: 'dfsolus',
-			sort: 'recent'
-		};
-		const dfSolusRuns =
-			(await fetchGetApi<DfSolusRun[]>(dfSolusPath, copyQueryParams(dfSolusFilters))) ?? [];
-
-		const recentSolos = purpleSoloRuns
+		const recentSolos = soloRuns
 			.map(
 				(r) =>
 					({
-						category: `${categoryMap[r.category]}${r.rank}`,
+						category: `${questNameMap[r.quest][r.category] ?? '<unknown_quest>'}${r.questRank}`,
 						mainClass: r.party[0]?.mainClass,
 						time: r.time,
 						player: tempMapPartyPlayer(r.party[0]),
-						submissionTime: new Date(r.submissionDate)
+						approvalDate: new Date(r.dateApproved!)
 					} satisfies RecentRun)
 			)
-			.concat(
-				dfaSoloRuns.map(
-					(r) =>
-						({
-							category: `${categoryMap[r.category]}${r.rank}`,
-							mainClass: r.party[0]?.mainClass,
-							time: r.time,
-							player: tempMapPartyPlayer(r.party[0]),
-							submissionTime: new Date(r.submissionDate)
-						} satisfies RecentRun)
-				)
-			)
-			.concat(
-				indomitableRuns.map(
-					(r) =>
-						({
-							category: categoryMap[r.boss],
-							mainClass: r.players[0]?.mainClass,
-							time: r.time,
-							player: r.players[0],
-							submissionTime: new Date(r.submissionTime)
-						} satisfies RecentRun)
-				)
-			)
-			.concat(
-				dfSolusRuns.map(
-					(r) =>
-						({
-							category: categoryMap[r.quest],
-							mainClass: r.party[0]?.mainClass,
-							time: r.time,
-							player: tempMapPartyPlayer(r.party[0]),
-							submissionTime: new Date(r.submissionDate)
-						} satisfies RecentRun)
-				)
-			)
-			.sort((a, b) => (a.submissionTime < b.submissionTime ? 1 : -1))
-			.splice(0, take);
+			.sort((a, b) => (a.approvalDate < b.approvalDate ? 1 : -1));
 
 		return recentSolos;
 	};

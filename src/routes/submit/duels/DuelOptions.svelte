@@ -2,17 +2,18 @@
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import { RunCategories } from '$lib/types/api/categories';
 	import { onMount } from 'svelte';
-	import { indomitableForm } from '../runStore';
 	import { partyForm } from '../partyFormStore';
 	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
 	import RunTimeInput from '../RunTimeInput.svelte';
+	import { duelsForm } from './submit';
+	import { IndomitableBoss } from '$lib/types/api/duels/indomitableBoss';
 
 	const bossOptions = [
-		{ label: 'Nex Aelio', value: RunCategories.IndomitableNexAelio },
-		{ label: 'Renus Retem', value: RunCategories.IndomitableRenusRetem },
-		{ label: 'Ams Kvaris', value: RunCategories.IndomitableAmsKvaris },
-		{ label: 'Nils Stia', value: RunCategories.IndomitableNilsStia },
-		{ label: 'Halvaldi', value: RunCategories.IndomitableHalvaldi }
+		{ label: 'Nex Aelio', value: IndomitableBoss.NexAelio },
+		{ label: 'Renus Retem', value: IndomitableBoss.RenusRetem },
+		{ label: 'Ams Kvaris', value: IndomitableBoss.AmsKvaris },
+		{ label: 'Nils Stia', value: IndomitableBoss.NilsStia },
+		{ label: 'Halvaldi', value: IndomitableBoss.Halvaldi }
 	];
 
 	const augmentOptions = [
@@ -25,7 +26,7 @@
 
 <div class="grid grid-cols-1 gap-2 md:grid-cols-4">
 	<div class="form-control md:col-span-2">
-		<Dropdown label="Boss" options={bossOptions} bind:value={$indomitableForm.boss} />
+		<Dropdown label="Boss" options={bossOptions} bind:value={$duelsForm.boss} />
 	</div>
 	<div class="form-control md:col-span-1">
 		<div class="label justify-center">
@@ -42,7 +43,7 @@
 		<Dropdown
 			label="Defi Augments Used?"
 			options={augmentOptions}
-			bind:value={$indomitableForm.augments}
+			bind:value={$duelsForm.augments}
 		/>
 	</div>
 	<div class="form-control">

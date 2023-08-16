@@ -1,5 +1,6 @@
 import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 import { type InferType, string, number, object, boolean, mixed } from 'yup';
+import { IndomitableBoss } from '../duels/indomitableBoss';
 
 const classes = [
 	null,
@@ -18,11 +19,18 @@ const classes = [
 const validCategories: Record<string, string[]> = {
 	purples: ['aelio', 'retem', 'kvaris', 'stia'],
 	dfsolus: ['quest'],
-	dfaegis: ['urgent_quest', 'trigger']
+	dfaegis: ['urgent_quest', 'trigger'],
+	duels: [
+		IndomitableBoss.NexAelio,
+		IndomitableBoss.RenusRetem,
+		IndomitableBoss.AmsKvaris,
+		IndomitableBoss.NilsStia,
+		IndomitableBoss.Halvaldi
+	]
 };
 
 const servers = [null, 'global', 'japan'];
-const quests = [null, 'dfsolus', 'purples', 'dfaegis'];
+const quests = [null, 'dfsolus', 'purples', 'dfaegis', 'duels'];
 const sortOrders = [null, 'ranking', 'recent'];
 const ranks = [null, 1, 2, 3];
 
