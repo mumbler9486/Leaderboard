@@ -1,45 +1,30 @@
 <script lang="ts">
-	import SubmissionInfoModal from '$lib/Components/SubmissionInfoModal.svelte';
-	import type { IndomitableSubmission } from '$lib/types/api/submissions/submissions';
-	import { mapToNamePref } from '$lib/types/api/mapNamePref';
 	import IndomitableSubmitRow from './IndomitableSubmitRow.svelte';
 
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
-	import { RunCategories } from '$lib/types/api/categories';
+	import type { DuelRun } from '$lib/types/api/runs/run';
+	import { fetchGetApi } from '$lib/utils/fetch';
+	import SubmissionInfoModal2 from '$lib/Components/SubmissionInfoModal2.svelte';
+	import type { RunCategories } from '$lib/types/api/categories';
 
 	export let category: RunCategories;
 
-	let submissions: IndomitableSubmission[] = [];
+	let submissions: DuelRun[] = [];
 	let loading = true;
 
-	let submissionModal: SubmissionInfoModal;
-	let viewSubmission: IndomitableSubmission;
-
-	const categoryPathMap: { [key: string]: string } = {
-		[RunCategories.IndomitableNexAelio]: RunCategories.IndomitableNexAelio,
-		[RunCategories.IndomitableRenusRetem]: RunCategories.IndomitableRenusRetem,
-		[RunCategories.IndomitableAmsKvaris]: RunCategories.IndomitableAmsKvaris,
-		[RunCategories.IndomitableNilsStia]: RunCategories.IndomitableNilsStia,
-		[RunCategories.IndomitableHalvaldi]: RunCategories.IndomitableHalvaldi
-	};
+	let submissionModal: SubmissionInfoModal2;
 
 	$: reloadData(category);
 
 	async function reloadData(...watch: any[]) {
-		const categoryPath = categoryPathMap[category];
-		if (!categoryPath) console.error('Unknown indomitable boss category');
-
 		loading = true;
 
 		try {
-			const response = await fetch(`/ngs-api/submissions/${category}`, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			});
-
-			submissions = (await response.json()) as IndomitableSubmission[];
+			const submittedRuns = await fetchGetApi<DuelRun[]>(`/ngs-api/submissions/duels`);
+			submissions = submittedRuns.sort((a, b) =>
+				new Date(a.submissionDate) > new Date(b.submissionDate) ? 1 : -1
+			);
+			return submittedRuns;
 		} catch (err) {
 			console.error(err);
 		} finally {
@@ -55,13 +40,12 @@
 			return;
 		}
 
-		viewSubmission = run;
-		submissionModal.showModal();
+		submissionModal.showModal(run);
 	};
 </script>
 
 <div class="-mx-6 overflow-x-auto overflow-y-hidden md:mx-0">
-	<table class="table-compact table-zebra table w-full">
+	<table class="table-zebra table-compact table w-full">
 		<thead>
 			<tr>
 				<th class="bg-neutral text-neutral-content">Player</th>
@@ -83,11 +67,7 @@
 		{#if !loading}
 			<tbody>
 				{#each submissions as submission}
-					<IndomitableSubmitRow
-						on:openRunInfo={runInfoOpen}
-						{submission}
-						nameDisplay={mapToNamePref(submission.players[0])}
-					/>
+					<IndomitableSubmitRow on:openRunInfo={runInfoOpen} {submission} />
 				{/each}
 			</tbody>
 		{/if}
@@ -99,13 +79,9 @@
 {#if loading}
 	<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
 		Loading - Please Wait...<br /><progress
-			class="progress-primary progress w-56 border border-neutral-content/20"
+			class="progress progress-primary w-56 border border-neutral-content/20"
 		/>
 	</div>
 {/if}
 
-<SubmissionInfoModal
-	bind:this={submissionModal}
-	submission={viewSubmission}
-	on:submissionChanged={reloadData}
-/>
+<SubmissionInfoModal2 bind:this={submissionModal} on:submissionChanged={reloadData} />

@@ -1,17 +1,18 @@
 <script lang="ts">
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
 	import NgsClassIcon from '$lib/Components/NgsClassIcon.svelte';
-	import PlayerNameBadge, { type PlayerNameDisplay } from '$lib/Components/PlayerNameBadge.svelte';
+	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
-	import type { IndomitableSubmission } from '$lib/types/api/submissions/submissions';
 	import { createEventDispatcher } from 'svelte';
-	import { RunCategories, parseRunCategory } from '$lib/types/api/categories';
+	import { parseRunCategory } from '$lib/types/api/categories';
 	import { patchCodeLabelMap } from '$lib/constants/patchCodes';
+	import type { DuelRun } from '$lib/types/api/runs/run';
+	import { mapPlayerInfoNamePref, mapToNamePref2 } from '$lib/types/api/mapNamePref';
+	import { IndomitableBoss } from '$lib/types/api/duels/indomitableBoss';
 
 	const dispatcher = createEventDispatcher();
 
-	export let submission: IndomitableSubmission;
-	export let nameDisplay: PlayerNameDisplay;
+	export let submission: DuelRun;
 
 	const usesAugments = {
 		true: 'Special Augments Used',
@@ -19,14 +20,14 @@
 	} as { [id: string]: string };
 
 	const bossNames = {
-		[RunCategories.IndomitableNexAelio]: 'Nex Aelio',
-		[RunCategories.IndomitableRenusRetem]: 'Renus Retem',
-		[RunCategories.IndomitableAmsKvaris]: 'Ams Kvaris',
-		[RunCategories.IndomitableNilsStia]: 'Nils Stia',
-		[RunCategories.IndomitableHalvaldi]: 'Halvaldi'
+		[IndomitableBoss.NexAelio]: 'Nex Aelio',
+		[IndomitableBoss.RenusRetem]: 'Renus Retem',
+		[IndomitableBoss.AmsKvaris]: 'Ams Kvaris',
+		[IndomitableBoss.NilsStia]: 'Nils Stia',
+		[IndomitableBoss.Halvaldi]: 'Halvaldi'
 	} as { [id: string]: string };
 
-	$: player1 = submission.players[0];
+	$: player1 = submission.party[0];
 
 	const openModal = () => {
 		dispatcher('openRunInfo', submission.runId);
@@ -35,16 +36,16 @@
 
 <tr class="hover border-t border-t-secondary/20">
 	<td>
-		<PlayerNameBadge player={nameDisplay} on:click={openModal} />
+		<PlayerNameBadge player={mapToNamePref2(submission.party[0])} on:click={openModal} />
 	</td>
 	<td>
 		<NgsClassIcon showTooltip combatClass={player1.mainClass} />
 		<NgsClassIcon showTooltip combatClass={player1.subClass} />
 	</td>
-	<td class="text-center">{bossNames[parseRunCategory(submission.category) ?? '']}</td>
+	<td class="text-center">{bossNames[submission.category]}</td>
 	<td class="text-center">{submission.rank}</td>
 	<td class="text-center">{patchCodeLabelMap[submission.patch.toLowerCase()]}</td>
-	<td class="text-center">{usesAugments[submission.augments.toString()]}</td>
+	<td class="text-center">{usesAugments[submission.details.augments.toString()]}</td>
 	<td class="text-center">
 		{#each player1.weapons ?? [] as weapon}
 			<WeaponIcon {weapon} />
@@ -54,10 +55,10 @@
 		<TimeDisplay time={submission.time} />
 	</td>
 	<td class="text-center">
-		<PlayerNameBadge player={nameDisplay} on:click={openModal} />
+		<PlayerNameBadge player={mapPlayerInfoNamePref(submission.submitter)} on:click={openModal} />
 	</td>
 	<td class="text-center">
-		{new Date(submission.submissionTime).toLocaleString()}
+		{new Date(submission.submissionDate).toLocaleString()}
 	</td>
 	<td class="text-center">
 		{#if submission.notes != undefined}
