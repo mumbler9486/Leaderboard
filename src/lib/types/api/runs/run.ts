@@ -53,7 +53,12 @@ export interface DfSolusRun extends Run {}
 
 export interface PurpleRun2 extends Run {}
 
-export interface DfAegisRun
-	extends Run<{
-		support: DfAegisSupport;
-	}> {}
+export interface DfAegisRunDetails {
+	support: DfAegisSupport;
+}
+export interface DfAegisRun extends Run<DfAegisRunDetails> {}
+
+export interface DuelRunDetails {
+	augments: DfAegisSupport;
+}
+export interface DuelRun extends Run<DuelRunDetails> {}
