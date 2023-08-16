@@ -30,11 +30,11 @@
 			title: $t('navigation.duels'),
 			image: '/icons/quests/duel.png',
 			items: [
-				{ label: 'Nex Aelio', link: '/runs/indomitable/nexaelio' },
-				{ label: 'Renus Retem', link: '/runs/indomitable/renusretem' },
-				{ label: 'Ams Kvaris', link: '/runs/indomitable/amskvaris' },
-				{ label: 'Nils Stia', link: '/runs/indomitable/nilsstia' },
-				{ label: 'Halvaldi', link: '/runs/indomitable/halvaldi' }
+				{ label: 'Nex Aelio', link: '/runs/duels/nex-aelio' },
+				{ label: 'Renus Retem', link: '/runs/duels/renus-retem' },
+				{ label: 'Ams Kvaris', link: '/runs/duels/ams-kvaris' },
+				{ label: 'Nils Stia', link: '/runs/duels/nils-stia' },
+				{ label: 'Halvaldi', link: '/runs/duels/halvaldi' }
 			]
 		}
 	];
