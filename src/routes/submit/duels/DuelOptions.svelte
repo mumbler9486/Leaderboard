@@ -6,6 +6,7 @@
 	import { partyForm } from '../partyFormStore';
 	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
 	import RunTimeInput from '../RunTimeInput.svelte';
+	import { duelsForm } from './submit';
 
 	const bossOptions = [
 		{ label: 'Nex Aelio', value: RunCategories.IndomitableNexAelio },
@@ -42,7 +43,7 @@
 		<Dropdown
 			label="Defi Augments Used?"
 			options={augmentOptions}
-			bind:value={$indomitableForm.augments}
+			bind:value={$duelsForm.augments}
 		/>
 	</div>
 	<div class="form-control">

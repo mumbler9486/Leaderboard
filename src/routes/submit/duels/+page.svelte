@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DuelsIndomitableOptions from './DuelsIndomitableOptions.svelte';
+	import DuelsOptions from './DuelOptions.svelte';
 	import Divider from '$lib/Components/Divider.svelte';
 	import PartyOptions from '../PartyOptions.svelte';
 	import ServerRegionSelector from '../ServerRegionSelector.svelte';
@@ -7,15 +7,16 @@
 
 	import { t } from 'svelte-i18n';
 	import { resetForm, runForm } from '../runStore';
-	import { submitForm } from '../submit';
 	import { partyForm } from '../partyFormStore';
+	import { ErrorCodes } from '$lib/types/api/error';
+	import { submitDuelRun } from './submit';
 
 	let submitting: boolean = false;
 	let serverErrorMessage: string | undefined = undefined;
 	let submitFinish = false;
 
 	resetForm();
-	$runForm.category = 'duels-indomitables';
+	$runForm.category = 'duels';
 	partyForm.setPartySize(1);
 
 	async function submitRun() {
@@ -26,17 +27,19 @@
 		try {
 			serverErrorMessage = undefined;
 			submitting = true;
-			const response = await submitForm();
-			if (response.error) {
-				serverErrorMessage = response.details[0];
+			const response: any = await submitDuelRun();
+
+			if (response.code == ErrorCodes.ValidationError) {
+				serverErrorMessage = response.details[0].message;
 			}
 			if (response.code == 'unexpected') {
 				serverErrorMessage = 'Unexpected error, please contact site admin.';
 			}
-			if (response.data == 'success') {
+			if (response.success) {
 				submitFinish = true;
 			}
 		} catch (err) {
+			serverErrorMessage = 'Unexpected error, please contact site admin.';
 			console.error(err);
 		} finally {
 			submitting = false;
@@ -71,7 +74,7 @@
 							<ServerRegionSelector />
 						</div>
 						<div class="form-control">
-							<DuelsIndomitableOptions />
+							<DuelsOptions />
 						</div>
 					</div>
 					<PartyOptions />

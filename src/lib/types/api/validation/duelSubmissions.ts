@@ -4,7 +4,7 @@ import { yupRunTime } from './schemas/timeSchema';
 import { runSubmissionRequestSchema, type RunSubmissionRequest } from './runSubmission';
 import { IndomitableBoss } from '../duels/indomitableBoss';
 
-const categories = [
+const categories: string[] = [
 	IndomitableBoss.NexAelio,
 	IndomitableBoss.RenusRetem,
 	IndomitableBoss.AmsKvaris,
@@ -12,7 +12,7 @@ const categories = [
 	IndomitableBoss.Halvaldi
 ];
 
-const quest = ['duel'];
+const quest = ['duels'];
 const validRanksMap: Record<string, number[]> = {
 	[IndomitableBoss.NexAelio]: [1],
 	[IndomitableBoss.RenusRetem]: [1],
@@ -55,4 +55,4 @@ export const duelSubmissionSchema = (
 	})
 });
 
-export type DfAegisRunSubmission = InferType<typeof duelSubmissionSchema>;
+export type DuelRunSubmission = InferType<typeof duelSubmissionSchema>;
