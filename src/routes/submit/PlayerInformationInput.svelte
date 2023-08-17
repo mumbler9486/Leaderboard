@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import ClassSelector from './ClassSelector.svelte';
 	import WeaponSelector from './WeaponSelector.svelte';
 	import { userInfo } from './playerInfoStore';
@@ -10,7 +9,6 @@
 
 	let playerName = '';
 	let inVideoName = '';
-	let playerServer = 'global';
 	let videoLink = '';
 
 	onMount(userInfo.loadPlayerInfo);
@@ -29,7 +27,6 @@
 	$: partyForm.update((p) => {
 		p[playerIndex].playerName = playerName;
 		p[playerIndex].inVideoName = inVideoName;
-		p[playerIndex].playerServer = playerServer;
 		p[playerIndex].povVideoLink = videoLink;
 		p[playerIndex].playerId = $userInfo?.find((x) => x.playerName == playerName)?.playerId ?? -1;
 		return p;
@@ -37,7 +34,7 @@
 </script>
 
 <div class="form-control">
-	<div class="grid grid-cols-1 gap-2 md:grid-cols-3">
+	<div class="grid grid-cols-1 gap-2 md:grid-cols-2">
 		<div class="form-control">
 			<label class="label" for="partysize-form1"
 				><span class="label-text text-base font-semibold">Player or Character Name</span></label
@@ -82,14 +79,6 @@
 						>Even if the In-Video Character Name is the same as the Main Character or Player Name,
 						you must still enter it here.</span
 					></span
-				>
-			</div>
-		</div>
-		<div class="form-control">
-			<Dropdown label="Player Server" options={serverOptions} bind:value={playerServer} />
-			<div class="label">
-				<span class="label-text-alt text-warning"
-					>This only applies to manual name entries! If you picked an existing player, ignore this!</span
 				>
 			</div>
 		</div>

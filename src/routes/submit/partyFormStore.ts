@@ -5,7 +5,6 @@ interface PlayerSubmissionInfo {
 	povVideoLink?: string;
 	playerName: string;
 	inVideoName: string;
-	playerServer: string;
 	mainClass: string;
 	subClass: string;
 	weapons: string[];
@@ -24,7 +23,6 @@ const setPartySize = (playerCount: number) => {
 			povVideoLink: undefined,
 			playerName: '',
 			inVideoName: '',
-			playerServer: '',
 			mainClass: '',
 			subClass: '',
 			weapons: []
