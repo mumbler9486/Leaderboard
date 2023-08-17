@@ -20,7 +20,7 @@
 		? countriesMap[player.flag.toUpperCase()].name ?? '<Unknown>'
 		: undefined;
 
-	$: serverRegion = player?.server ? serverRegionMap[player.server] : '<Unknown>';
+	$: serverRegion = player?.server ? serverRegionMap[player.server] : '';
 </script>
 
 <div class="container m-16 mx-auto flex grow rounded-md border border-secondary bg-base-100/75">

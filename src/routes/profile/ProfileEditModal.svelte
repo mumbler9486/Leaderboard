@@ -49,6 +49,7 @@
 	const countryOptions = countries.map((c) => ({ label: c.name, value: c.code.toLowerCase() }));
 
 	const serverRegionOptions = [
+		{ label: '(None)', value: '' },
 		{ label: 'Global', value: 'global' },
 		{ label: 'Japan', value: 'japan' }
 	];
@@ -103,7 +104,7 @@
 		discordUsername: '',
 		ship: undefined,
 		playerCountry: '',
-		serverRegion: 'global',
+		serverRegion: '',
 		primaryColor: '#ffffff',
 		secondaryColor: '#ffffff',
 		nameEffect: 0,
@@ -178,7 +179,7 @@
 			discordUsername: $form.discordUsername,
 			ship: selectedShip?.ship.toString(),
 			playerCountry: $form.playerCountry,
-			serverRegion: $form.serverRegion,
+			serverRegion: $form.serverRegion === '' ? undefined : $form.serverRegion,
 			primaryColor: $form.primaryColor?.substring(1),
 			secondaryColor: $form.secondaryColor?.substring(1),
 			nameEffect: $form.nameEffect,
@@ -263,7 +264,11 @@
 					/>
 				</FormControl>
 				<FormControl label="Ship" error={$errors.ship}>
-					<Dropdown options={shipOptions} bind:value={$form.ship} />
+					<Dropdown
+						options={shipOptions}
+						disabled={$form.serverRegion == ''}
+						bind:value={$form.ship}
+					/>
 				</FormControl>
 				<FormControl label="Country" error={$errors.playerCountry}>
 					<Dropdown options={countryOptions} bind:value={$form.playerCountry} />
