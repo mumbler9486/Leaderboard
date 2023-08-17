@@ -1,42 +1,40 @@
 import sql, { Request } from 'mssql';
-import type { UserInformationDbModel } from '../types/db/users/userInformation';
 import { fields } from '../util/nameof';
+import type { PlayersDbModel } from '../types/db/users/players';
 
-const userInfoDbModel = fields<UserInformationDbModel>();
+const playersDbFields = fields<PlayersDbModel>();
 
 export const getUserExists = async (request: Request, userGuid: string) => {
 	const user = await getUser(request, userGuid);
-	const playerId = parseInt(user?.PlayerID ?? '-1');
+	const playerId = parseInt(user?.UserId ?? '-1');
 	return playerId > 0;
 };
 
 export const getUser = async (request: Request, userGuid: string) => {
 	const results = await request.input('userGuid', sql.NVarChar, userGuid).query(`
 			SELECT 
-				ui.${userInfoDbModel.PlayerID},
-				ui.${userInfoDbModel.UserID},
-				ui.${userInfoDbModel.Role},
-				ui.${userInfoDbModel.ExtraRole}
-			FROM Users.Information AS ui
-			WHERE ui.${userInfoDbModel.UserID} = @userGuid
+				pi.${playersDbFields.Id},
+				pi.${playersDbFields.UserId},
+				pi.${playersDbFields.Roles}
+			FROM dbo.Players AS pi
+			WHERE pi.${playersDbFields.UserId} = @userGuid
 		`);
-	const user = results.recordset[0] as UserInformationDbModel | undefined;
+	const user = results.recordset[0] as PlayersDbModel | undefined;
 	return user;
 };
 
 export const getUserRoles = async (request: Request, userGuid: string) => {
 	const results = await request.input('userGuid', sql.NVarChar, userGuid).query(`
 			SELECT 
-        ui.${userInfoDbModel.Role},
-        ui.${userInfoDbModel.ExtraRole}
-			FROM Users.Information AS ui
-			WHERE ui.${userInfoDbModel.UserID} = @userGuid
+        pi.${playersDbFields.Roles}
+			FROM dbo.Players AS pi
+			WHERE pi.${playersDbFields.UserId} = @userGuid
 		`);
-	const user = results.recordset[0] as UserInformationDbModel;
+	const user = results.recordset[0] as PlayersDbModel | undefined;
 
 	if (!user) {
 		return [];
 	}
 
-	return [user.Role, user.ExtraRole].filter((r) => !!r);
+	return JSON.parse(user.Roles) as string[];
 };

@@ -11,9 +11,11 @@ import { mapServerRegionToDbVal } from '../types/db/runs/serverRegions';
 import type { GameDbValue } from '../types/db/runs/game';
 import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
 import type { RunAttributeFilter } from '../types/db/runAttributeFilter';
+import type { PlayersDbModel } from '../types/db/users/players';
 
 const runsDbFields = fields<RunDbModel>();
 const runPartyDbFields = fields<RunPartyDbModel>();
+const playersDbFields = fields<PlayersDbModel>();
 const getRunDbFields = fields<GetRunDbModel>();
 
 export interface GetRunDbModel {
@@ -98,39 +100,30 @@ const RunQuery = `
 		rp.${runPartyDbFields.SubClass} AS ${getRunDbFields.PartySubClass},
 		rp.${runPartyDbFields.Weapons} AS ${getRunDbFields.PartyWeapons},
 
-		pi.PlayerName AS ${getRunDbFields.PlayerName},
-		pi.CharacterName AS ${getRunDbFields.PlayerCharacterName},
-		pc.PreferredName AS ${getRunDbFields.PlayerPreferredNameType},
-		pc.Server AS ${getRunDbFields.PlayerServer},
-		pc.Ship AS ${getRunDbFields.PlayerShip},
-		pc.Flag AS ${getRunDbFields.PlayerFlag},
-		pc.NameType AS ${getRunDbFields.PlayerNameEffectType},
-		pc.NameColor1 AS ${getRunDbFields.PlayerNameColor1},
-		pc.NameColor2 AS ${getRunDbFields.PlayerNameColor2},
+		player.${playersDbFields.PlayerName} AS ${getRunDbFields.PlayerName},
+		player.${playersDbFields.CharacterName} AS ${getRunDbFields.PlayerCharacterName},
+		player.${playersDbFields.PreferredNameType} AS ${getRunDbFields.PlayerPreferredNameType},
+		player.${playersDbFields.Server} AS ${getRunDbFields.PlayerServer},
+		player.${playersDbFields.Ship} AS ${getRunDbFields.PlayerShip},
+		player.${playersDbFields.Flag} AS ${getRunDbFields.PlayerFlag},
+		player.${playersDbFields.NameEffectType} AS ${getRunDbFields.PlayerNameEffectType},
+		player.${playersDbFields.NameColor1} AS ${getRunDbFields.PlayerNameColor1},
+		player.${playersDbFields.NameColor2} AS ${getRunDbFields.PlayerNameColor2},
 
-		si.PlayerName AS ${getRunDbFields.SubmitterName},
-		si.CharacterName AS ${getRunDbFields.SubmitterCharacterName},
-		sc.PreferredName AS ${getRunDbFields.SubmitterPreferredNameType},
-		sc.Server AS ${getRunDbFields.SubmitterServer},
-		sc.Ship AS ${getRunDbFields.SubmitterShip},
-		sc.Flag AS ${getRunDbFields.SubmitterFlag},
-		sc.NameType AS ${getRunDbFields.SubmitterNameEffectType},
-		sc.NameColor1 AS ${getRunDbFields.SubmitterNameColor1},
-		sc.NameColor2 AS ${getRunDbFields.SubmitterNameColor2}
+		sp.${playersDbFields.PlayerName} AS ${getRunDbFields.SubmitterName},
+		sp.${playersDbFields.CharacterName} AS ${getRunDbFields.SubmitterCharacterName},
+		sp.${playersDbFields.PreferredNameType} AS ${getRunDbFields.SubmitterPreferredNameType},
+		sp.${playersDbFields.Server} AS ${getRunDbFields.SubmitterServer},
+		sp.${playersDbFields.Ship} AS ${getRunDbFields.SubmitterShip},
+		sp.${playersDbFields.Flag} AS ${getRunDbFields.SubmitterFlag},
+		sp.${playersDbFields.NameEffectType} AS ${getRunDbFields.SubmitterNameEffectType},
+		sp.${playersDbFields.NameColor1} AS ${getRunDbFields.SubmitterNameColor1},
+		sp.${playersDbFields.NameColor2} AS ${getRunDbFields.SubmitterNameColor2}
 
 	FROM dbo.Runs AS run
-	INNER JOIN 
-	dbo.RunParty AS rp ON rp.${runPartyDbFields.RunId} = run.${runsDbFields.Id}  
-
-	LEFT JOIN
-	Players.Information AS pi ON pi.PlayerID = rp.${runPartyDbFields.PlayerId} 
-	LEFT JOIN 
-	Players.Customization AS pc ON pc.PlayerID = rp.${runPartyDbFields.PlayerId} 
-
-	INNER JOIN
-	Players.Information AS si ON run.${runsDbFields.SubmitterId} = si.PlayerID
-	INNER JOIN
-	Players.Customization AS sc ON run.${runsDbFields.SubmitterId} = sc.PlayerID
+	INNER JOIN dbo.RunParty AS rp ON rp.${runPartyDbFields.RunId} = run.${runsDbFields.Id}
+	LEFT JOIN dbo.Players player ON player.${playersDbFields.Id} = rp.${runPartyDbFields.PlayerId}  
+	INNER JOIN dbo.Players AS sp ON run.${runsDbFields.SubmitterId} = sp.${playersDbFields.Id}
 
 	WHERE 1=1
 `;
