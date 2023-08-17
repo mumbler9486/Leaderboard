@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 	import { onMount } from 'svelte';
-	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import Button from '$lib/Components/Button.svelte';
 	import type { CreateAccountRequest } from '$lib/server/types/api/createAccount';
 	import { fetchPostApi } from '$lib/utils/fetch';
@@ -10,8 +9,8 @@
 	import { UserRole } from '$lib/types/api/users/userRole';
 	import Alert from '$lib/Components/Alert.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
+	import { ErrorCodes } from '$lib/types/api/error';
 
-	let serverRegion = 'global';
 	let characterName = '';
 
 	let isLoading = true;
@@ -47,30 +46,32 @@
 		const createAccountRequest: CreateAccountRequest = {
 			userId: $clientPrincipleStore.userId,
 			username: $clientPrincipleStore.userDetails,
-			characterName: characterName,
-			serverRegion: serverRegion
+			characterName: characterName
 		} satisfies CreateAccountRequest;
 
 		isLoading = true;
 		try {
-			const result = await fetchPostApi<boolean>('/ngs-api/users', createAccountRequest);
+			const response = await fetchPostApi<any>('/ngs-api/users', createAccountRequest);
 
-			if (result === true) {
+			if (response.error == ErrorCodes.ValidationError) {
+				serverError = response.details[0];
+				isLoading = false;
+			} else if (response.error == ErrorCodes.BadRequest) {
+				serverError = response.details[0];
+				isLoading = false;
+			} else if (response.error == ErrorCodes.Unexpected) {
+				serverError = 'Unexpected error, please contact site admin.';
+				isLoading = false;
+			}
+			if (response === true) {
 				goto('/logout');
-			} else {
-				console.log(result);
-				serverError = (result as any)?.details[0];
+				return;
 			}
 		} catch (err) {
 			serverError = 'An error has ocurred. Please contact an administrator on our Discord.';
 			isLoading = false;
 		}
 	};
-
-	const serverRegionOptions = [
-		{ label: 'Global', value: 'global' },
-		{ label: 'Japan', value: 'japan' }
-	];
 </script>
 
 <svelte:head>
@@ -83,23 +84,16 @@
 			class="m-2 flex grow flex-col place-content-center rounded-md border border-secondary bg-base-100 p-4 px-8 md:flex-col"
 		>
 			<div class="text-center text-4xl font-light">Account Setup</div>
+
 			{#if isLoading}
 				<LoadingBar />
 			{:else}
-				<div class="form-control">
-					<label class="label" for="server-form">
-						<span class="label-text">Your Server</span>
-					</label>
-					<Dropdown options={serverRegionOptions} bind:value={serverRegion} />
-					<label class="label">
-						<span class="label-text-alt text-warning"
-							>This cannot be changed later without the help of an administrator.</span
-						>
-					</label>
-				</div>
+				<p class="my-8">
+					Before you can use your leaderboard account, please finish setting up your account.
+				</p>
 				<div class="form-control mb-4">
 					<label class="label" for="charname-form">
-						<span class="label-text">Your Main Character Name</span>
+						<span class="label-text">Your Main Character Name (Required)</span>
 					</label>
 					<input
 						type="text"
@@ -110,7 +104,9 @@
 						bind:value={characterName}
 					/>
 					<label class="label">
-						<span class="label-text-alt">You can change this from your profile later.</span>
+						<span class="label-text-alt"
+							>You can change this name and how others see your name from your profile later.</span
+						>
 					</label>
 				</div>
 				<div class="flex place-content-end">

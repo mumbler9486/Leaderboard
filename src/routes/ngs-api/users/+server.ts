@@ -1,4 +1,3 @@
-import sql from 'mssql';
 import { json } from '@sveltejs/kit';
 import { leaderboardDb } from '$lib/server/db/db.js';
 import {
@@ -13,6 +12,7 @@ import {
 } from '$lib/server/types/api/createAccount.js';
 import { jsonError } from '$lib/server/error.js';
 import { getUserExists } from '$lib/server/repositories/userRepository.js';
+import { ErrorCodes } from '$lib/types/api/error.js';
 
 export async function GET({}) {
 	try {
@@ -36,7 +36,7 @@ export async function POST({ request }) {
 		updateProfileRequest = await createAccountSchema.validate(body, { stripUnknown: true });
 	} catch (err: any) {
 		return jsonError(400, {
-			error: 'bad_request',
+			error: ErrorCodes.ValidationError,
 			details: err.errors
 		});
 	}
@@ -46,7 +46,7 @@ export async function POST({ request }) {
 		const isUserExist = await getUserExists(pool.request(), updateProfileRequest.userId);
 		if (isUserExist) {
 			return jsonError(400, {
-				error: 'bad_request',
+				error: ErrorCodes.BadRequest,
 				details: ['Account setup already completed.']
 			});
 		}
@@ -54,8 +54,10 @@ export async function POST({ request }) {
 		const isNameUnique = await isPlayerNameUnique(pool.request(), updateProfileRequest.username);
 		if (!isNameUnique) {
 			return jsonError(400, {
-				error: 'bad_request',
-				details: ['Player name already exists. Please choose another.']
+				error: ErrorCodes.BadRequest,
+				details: [
+					'Username (not character name) already exists. Please contact the site administrator for assistance.'
+				]
 			});
 		}
 
