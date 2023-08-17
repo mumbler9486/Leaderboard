@@ -152,7 +152,7 @@
 			primaryColor: `#${player.nameColor1}`,
 			secondaryColor: `#${player.nameColor2}`,
 			nameEffect: player.nameType.toString(),
-			description: player.description
+			description: player.bio
 		});
 
 		isLoading = false;

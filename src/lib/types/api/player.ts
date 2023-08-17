@@ -9,7 +9,7 @@ export interface Player {
 	nameType: number;
 	nameColor1: string;
 	nameColor2: string;
-	description: string;
+	bio: string;
 	youtube: string;
 	twitch: string;
 	twitter: string;

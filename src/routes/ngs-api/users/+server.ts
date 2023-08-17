@@ -1,7 +1,11 @@
 import sql from 'mssql';
 import { json } from '@sveltejs/kit';
 import { leaderboardDb } from '$lib/server/db/db.js';
-import { createAccount, getPlayerList } from '$lib/server/repositories/playerRepository.js';
+import {
+	createAccount,
+	getPlayerList,
+	isPlayerNameUnique
+} from '$lib/server/repositories/playerRepository.js';
 import { mapPlayerAutoFillList } from '$lib/server/mappers/api/playerMapper.js';
 import {
 	createAccountSchema,
@@ -29,9 +33,8 @@ export async function POST({ request }) {
 
 	let updateProfileRequest: CreateAccountRequest;
 	try {
-		updateProfileRequest = await createAccountSchema.validate(body);
+		updateProfileRequest = await createAccountSchema.validate(body, { stripUnknown: true });
 	} catch (err: any) {
-		console.error('Cannot create account for user');
 		return jsonError(400, {
 			error: 'bad_request',
 			details: err.errors
@@ -39,7 +42,6 @@ export async function POST({ request }) {
 	}
 
 	const pool = await leaderboardDb.connect();
-	let transaction: sql.Transaction | undefined;
 	try {
 		const isUserExist = await getUserExists(pool.request(), updateProfileRequest.userId);
 		if (isUserExist) {
@@ -49,14 +51,18 @@ export async function POST({ request }) {
 			});
 		}
 
-		transaction = new sql.Transaction(pool);
-		await transaction.begin();
-		await createAccount(transaction, updateProfileRequest);
-		await transaction.commit();
+		const isNameUnique = await isPlayerNameUnique(pool.request(), updateProfileRequest.username);
+		if (!isNameUnique) {
+			return jsonError(400, {
+				error: 'bad_request',
+				details: ['Player name already exists. Please choose another.']
+			});
+		}
+
+		await createAccount(pool.request(), updateProfileRequest);
 
 		return json(true);
 	} catch (err) {
-		transaction?.rollback();
 		console.error(err);
 		throw err;
 	}
