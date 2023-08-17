@@ -23,6 +23,56 @@
 			>
 				<div class="text-center text-4xl font-light">News</div>
 				<HomeNews>
+					<span slot="newsTitle">Leaderboard 3.2.3 Update</span>
+					<div slot="newsContent">
+						<strong>Changelog (August 17, 2023):</strong><br />
+						<div class="pt-4">
+							<strong>🚚 Data Migrations Complete</strong><br />
+							<p>
+								In order to implement new quests and categories at a faster and more maintainable
+								rate we consolidated all the run data and player data on our backend database. These
+								migrations have been completed as of August 17, 2023.
+							</p>
+							<div class="pt-2">
+								With the new data infrastructure in place we had to add additional changes to
+								submissions so that all runs from all quests+categories are consistent. These are:
+								<div class="my-2 pl-2">
+									<p>
+										1. Player entries no longer require a server region. The server region that the
+										run was executed is per run instead of by player "one". With that, all runs on
+										the leaderboard have been assigned a run region (japan/global) based on evidence
+										in your run's video (usually by fan translation distinction) if they have not
+										before.
+									</p>
+									<p>
+										2. Runs tied by time (1 second precision) are awarded the same rank. Times
+										submitted earlier will still be ordered on first within the same time.
+									</p>
+									<p>
+										3. We did not have "submission dates" for runs in the early days of the
+										leaderboard. If your run was fairly old, we went by the youtube video's
+										publication date.
+									</p>
+									<p>4. It is now optional to provide a server region in your profile (ARKS ID).</p>
+								</div>
+							</div>
+							<p class="pt-2">
+								Moving forward we hope to implement more run quests (e.g., Venogia UQ) and be able
+								to adapt to new updates from SEGA as they happen.
+							</p>
+							<p class="pt-2">
+								As usual if there are issues or inaccuracies please contact us on
+								<a
+									href="https://discord.com/invite/fFtEEJHuFp"
+									target="_blank"
+									rel="noreferrer noopener"
+									class="link-primary link no-underline">Discord <i class="bi bi-discord" /></a
+								> and we can get your run updated. Thank you for your patience.
+							</p>
+						</div>
+					</div>
+				</HomeNews>
+				<HomeNews>
 					<span slot="newsTitle">Leaderboard 3.2.2 Update</span>
 					<p slot="newsContent">
 						<strong>Changelog (August 10, 2023):</strong><br />
