@@ -20,7 +20,7 @@ export const submitRun = async (game: GameDbValue, parsedRun: RunSubmissionReque
 	if (!!userErrors) {
 		return jsonError(403, { error: 'unauthorized', details: userErrors });
 	}
-	const userId = parseInt(user!.PlayerID);
+	const userId = parseInt(user!.Id);
 
 	// Check run data
 	const { errors: runRequestErrors } = await checkRunData(validationRequest, parsedRun);
@@ -75,15 +75,15 @@ const checkRunData = async (request: Request, run: RunSubmissionRequest) => {
 const checkSubmittingUser = async (request: Request, run: RunSubmissionRequest) => {
 	// Submitter exists
 	const submitterUser = await getUser(request, run.submitterUserId);
-	const playerId = parseInt(submitterUser?.PlayerID ?? '-1');
+	const playerId = parseInt(submitterUser?.Id ?? '-1');
 	if (!submitterUser || playerId <= 0) {
 		return {
 			user: null,
-			errors: ['Submitter user does not exists']
+			errors: ['Submitter user does not exist']
 		};
 	}
 
-	const submitterHasUserRole = submitterUser.Role === 'user' || submitterUser.ExtraRole === 'user';
+	const submitterHasUserRole = submitterUser.Roles.includes('user');
 	if (!submitterHasUserRole) {
 		return {
 			user: null,

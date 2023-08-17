@@ -1,13 +1,14 @@
 import { guidRegex, kanjiAlphaNumericWithSpaceRegex } from '$lib/utils/validation';
-import { type InferType, string, number, object, boolean } from 'yup';
-
-const serverRegions = ['global', 'japan'];
+import { type InferType, string, object } from 'yup';
 
 export const createAccountSchema = object({
 	userId: string().required().matches(guidRegex),
-	username: string().required().min(3).max(30),
-	characterName: string().required().max(25).matches(kanjiAlphaNumericWithSpaceRegex),
-	serverRegion: string().required().oneOf(serverRegions)
+	username: string().required().min(3).max(30).trim(),
+	characterName: string()
+		.required()
+		.max(25)
+		.matches(kanjiAlphaNumericWithSpaceRegex, 'Character name has bad characters.')
+		.trim()
 });
 
 export type CreateAccountRequest = InferType<typeof createAccountSchema>;

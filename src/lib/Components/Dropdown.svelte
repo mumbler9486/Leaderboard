@@ -3,6 +3,7 @@
 	export let label: string | undefined = undefined;
 	export let value: string | undefined = undefined;
 	export let placeholder: string | undefined = undefined;
+	export let disabled: boolean = false;
 
 	interface DropdownValues {
 		label: string;
@@ -17,7 +18,7 @@
 		<span class="label-text text-base font-semibold">{label}</span>
 	</div>
 {/if}
-<select class="select-bordered select rounded" bind:value on:change>
+<select class="select-bordered select rounded" {disabled} bind:value on:change>
 	{#if placeholder}
 		<option disabled selected>{placeholder}</option>
 	{/if}

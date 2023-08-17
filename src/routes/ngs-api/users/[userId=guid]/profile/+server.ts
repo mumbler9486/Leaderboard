@@ -27,7 +27,7 @@ export async function PUT({ params, request }) {
 			return jsonError(404, 'Unknown user.');
 		}
 
-		const playerId = parseInt(player.PlayerID);
+		const playerId = parseInt(player.Id);
 		await updatePlayerProfile(await pool.request(), playerId, updateProfileRequest!);
 
 		return json(true);

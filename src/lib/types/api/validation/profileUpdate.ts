@@ -2,7 +2,7 @@ import { type InferType, string, number, object, setLocale } from 'yup';
 import { countries } from '../countries';
 import { kanjiAlphaNumericWithSpaceRegex } from '$lib/utils/validation';
 
-const serverRegions = ['global', 'japan'];
+const serverRegions = [null, 'global', 'japan'];
 const selectableCountries = countries.map((c) => c.code.toLowerCase());
 const colorRegex = /[a-f\d]{6}/;
 const usernameAlphaOnlyRegex = /^[\w\-_]*$/;
@@ -24,7 +24,7 @@ export const profileUpdateRequestSchema = object({
 	discordUsername: string().nullable().optional().max(30).trim().matches(discordUsernameRegex),
 	ship: number().min(-1).max(10).notOneOf([0]),
 	playerCountry: string().optional().max(2).lowercase().oneOf(selectableCountries),
-	serverRegion: string().required().oneOf(serverRegions),
+	serverRegion: string().nullable().oneOf(serverRegions),
 	primaryColor: string().required().matches(colorRegex).max(6),
 	secondaryColor: string().required().matches(colorRegex).max(6),
 	nameEffect: number().required().min(0).max(3),

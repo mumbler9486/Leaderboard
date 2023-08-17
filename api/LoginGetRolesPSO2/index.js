@@ -18,11 +18,9 @@ module.exports = async function (context, req) {
 		const userId = req.body.userId;
 
 		const sqlQuery = `
-        SELECT
-					ui.Role,
-					ui.ExtraRole
-        FROM Users.Information as ui
-        WHERE ui.UserID = @userGuid`;
+        SELECT pi.Roles
+        FROM dbo.Players as pi
+        WHERE pi.UserId = @userGuid`;
 
 		const results = await pool.request().input('userGuid', sql.NVarChar, userId).query(sqlQuery);
 		const userRoles = results.recordset[0];
@@ -31,7 +29,7 @@ module.exports = async function (context, req) {
 			return [];
 		}
 
-		const roles = [userRoles.Role, userRoles.ExtraRole].filter((r) => !!r && r.length > 0);
+		const roles = JSON.parse(userRoles.Roles);
 		const response = {
 			roles: roles
 		};

@@ -20,7 +20,7 @@
 		? countriesMap[player.flag.toUpperCase()].name ?? '<Unknown>'
 		: undefined;
 
-	$: serverRegion = player?.server ? serverRegionMap[player.server] : '<Unknown>';
+	$: serverRegion = player?.server ? serverRegionMap[player.server] : '';
 </script>
 
 <div class="container m-16 mx-auto flex grow rounded-md border border-secondary bg-base-100/75">
@@ -109,9 +109,9 @@
 					<div
 						class="break-anywhere w-full whitespace-pre-wrap rounded bg-base-100 p-2 text-sm md:text-base"
 					>
-						{isNullOrEmpty(player.description)
+						{isNullOrEmpty(player.bio)
 							? `We don't have a profile for ${player.playerName} but they're definitely cool!`
-							: player.description}
+							: player.bio}
 					</div>
 				</div>
 			</div>

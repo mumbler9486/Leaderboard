@@ -11,7 +11,7 @@ export const mockPlayer: Player = {
 	nameType: 1,
 	nameColor1: 'ff0000',
 	nameColor2: '00ffff',
-	description: 'Profile description',
+	bio: 'Profile description',
 	youtube: '',
 	twitch: '',
 	twitter: '',
