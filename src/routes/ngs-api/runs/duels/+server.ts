@@ -8,7 +8,7 @@ import { mapRuns } from '$lib/server/mappers/api/runMapper.js';
 import { GameDbValue } from '$lib/server/types/db/runs/game.js';
 import { submitRun } from '$lib/server/logic/submitRunLogic.js';
 import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmission.js';
-import type { RunAttributeFilter } from '$lib/server/types/db/runAttributeFilter.js';
+import type { RunAttributeFilter } from '$lib/server/types/db/runs/runAttributeFilter.js';
 import {
 	duelRunsSearchFilterSchema,
 	type DuelRunsSearchFilter

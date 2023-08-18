@@ -13,7 +13,7 @@ import {
 	dfAegisRunsSearchFilterSchema,
 	type DfAegisRunsSearchFilter
 } from '$lib/types/api/validation/dfAegisRunsSearchFilter.js';
-import type { RunAttributeFilter } from '$lib/server/types/db/runAttributeFilter.js';
+import type { RunAttributeFilter } from '$lib/server/types/db/runs/runAttributeFilter.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
