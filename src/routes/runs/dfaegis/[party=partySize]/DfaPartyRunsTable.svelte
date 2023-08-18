@@ -4,14 +4,14 @@
 	import NgsClassIcon from '$lib/Components/NgsClassIcon.svelte';
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import RankingBadge from '$lib/Components/RankingBadge.svelte';
-	import RunInfoModal2 from '$lib/Components/RunInfoModal2.svelte';
+	import RunInfoModal from '$lib/Components/RunInfoModal.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import VideoLink from '$lib/Components/VideoLink.svelte';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
 	import { mapToNamePref2 } from '$lib/types/api/mapNamePref';
 	import type { DfAegisRun } from '$lib/types/api/runs/run';
 
-	let modal: RunInfoModal2;
+	let modal: RunInfoModal;
 
 	export let solo: boolean;
 	export let runs: DfAegisRun[];
@@ -107,4 +107,4 @@
 	</div>
 {/if}
 
-<RunInfoModal2 bind:this={modal} />
+<RunInfoModal bind:this={modal} />
