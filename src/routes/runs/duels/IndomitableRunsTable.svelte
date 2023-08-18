@@ -7,8 +7,7 @@
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import VideoLink from '$lib/Components/VideoLink.svelte';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
-	import type { IndomitableRun } from '$lib/types/api/duels/indomitable';
-	import { mapToNamePref, mapToNamePref2 } from '$lib/types/api/mapNamePref';
+	import { mapToNamePref2 } from '$lib/types/api/mapNamePref';
 	import type { DuelRun } from '$lib/types/api/runs/run';
 
 	let modal: RunInfoModal;
