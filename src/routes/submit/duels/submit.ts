@@ -10,10 +10,12 @@ import { CurrentSubmissionPatchCode } from '$lib/constants/patchCodes';
 import { parseServerRegion } from '$lib/types/api/serverRegions';
 import type { BadRequestApiError } from '$lib/types/api/error';
 import type { DuelRunSubmission } from '$lib/types/api/validation/duelSubmissions';
+import { NgsRunCategories } from '$lib/types/api/runs/categories';
+import { NgsQuests } from '$lib/types/api/runs/quests';
 
 const duelFormStore = writable({
 	rank: 1,
-	boss: 'halvaldi',
+	boss: NgsRunCategories.Halvaldi,
 	augments: 'yes'
 });
 
@@ -49,7 +51,7 @@ export const submitDuelRun = async () => {
 		submitterUserId: clientPrincipal.userId,
 		submitterName: playerInfo.playerName,
 		serverRegion: parseServerRegion(form.serverRegion),
-		quest: 'duels',
+		quest: NgsQuests.Duels,
 		questRank: duelDetails.rank,
 		patch: CurrentSubmissionPatchCode,
 		category: duelDetails.boss,

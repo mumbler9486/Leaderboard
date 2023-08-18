@@ -10,13 +10,14 @@
 	import { partyForm } from '../partyFormStore';
 	import { submitDfAegisRun } from './submit';
 	import { ErrorCodes } from '$lib/types/api/error';
+	import { NgsQuests } from '$lib/types/api/runs/quests';
 
 	let submitting: boolean = false;
 	let serverErrorMessage: string | undefined = undefined;
 	let submitFinish = false;
 
 	resetForm();
-	$runForm.category = 'dfaegis';
+	$runForm.category = NgsQuests.DfAegis;
 	partyForm.setPartySize(1);
 
 	async function submitRun() {

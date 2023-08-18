@@ -10,10 +10,12 @@ import { CurrentSubmissionPatchCode } from '$lib/constants/patchCodes';
 import { parseServerRegion } from '$lib/types/api/serverRegions';
 import type { BadRequestApiError } from '$lib/types/api/error';
 import type { PurpleRunSubmission } from '$lib/types/api/validation/purpleSubmissions';
+import { PurpleRegion } from '$lib/types/api/purpleRegions';
+import { NgsQuests } from '$lib/types/api/runs/quests';
 
 const purpleFormStore = writable({
 	rank: 1,
-	region: 'stia'
+	region: PurpleRegion.Stia
 });
 
 const submitPath = '/ngs-api/runs/purples';
@@ -48,7 +50,7 @@ export const submitPurplesRun = async () => {
 		submitterUserId: clientPrincipal.userId,
 		submitterName: playerInfo.playerName,
 		serverRegion: parseServerRegion(form.serverRegion),
-		quest: 'purples',
+		quest: NgsQuests.Purples,
 		questRank: purpleDetails.rank,
 		patch: CurrentSubmissionPatchCode,
 		category: purpleDetails.region,

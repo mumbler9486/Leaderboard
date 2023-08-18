@@ -10,10 +10,12 @@ import { NgsPlayerClass, parseNgsPlayerClass } from '$lib/types/api/ngsPlayerCla
 import { CurrentSubmissionPatchCode } from '$lib/constants/patchCodes';
 import { parseServerRegion } from '$lib/types/api/serverRegions';
 import type { BadRequestApiError } from '$lib/types/api/error';
+import { NgsRunCategories } from '$lib/types/api/runs/categories';
+import { NgsQuests } from '$lib/types/api/runs/quests';
 
 const dfSolusFormStore = writable({
 	rank: 1,
-	category: 'quest'
+	category: NgsRunCategories.Quest
 });
 
 const submitPath = '/ngs-api/runs/dfsolus';
@@ -48,7 +50,7 @@ export const submitDfSolusRun = async () => {
 		submitterUserId: clientPrincipal.userId,
 		submitterName: playerInfo.playerName,
 		serverRegion: parseServerRegion(form.serverRegion),
-		quest: 'dfsolus',
+		quest: NgsQuests.DfSolus,
 		questRank: solusDetails.rank,
 		patch: CurrentSubmissionPatchCode,
 		category: solusDetails.category,

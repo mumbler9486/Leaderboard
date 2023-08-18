@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import { DfAegisSupport } from '$lib/types/api/dfAegis/dfAegisSupports';
+	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
 	import PartySizeOptions from '../PartySizeOptions.svelte';
 	import RunTimeInput from '../RunTimeInput.svelte';
@@ -9,8 +10,8 @@
 	let selectedRankStr: string = '1';
 
 	const rankOptionsDropdowns: { [region: string]: { label: string; value: string }[] } = {
-		['trigger']: [{ label: '1', value: '1' }],
-		['urgent_quest']: [{ label: '1', value: '1' }]
+		[NgsRunCategories.Trigger]: [{ label: '1', value: '1' }],
+		[NgsRunCategories.UrgentQuest]: [{ label: '1', value: '1' }]
 	};
 
 	$: rankOptions = rankOptionsDropdowns[$dfAegisForm.category] ?? [];
@@ -37,8 +38,8 @@
 			label="Mode"
 			placeholder="Select a mode"
 			options={[
-				{ label: 'Triggers / Drill', value: 'trigger' },
-				{ label: 'Urgent Quest', value: 'urgent_quest' }
+				{ label: 'Triggers / Drill', value: NgsRunCategories.Trigger },
+				{ label: 'Urgent Quest', value: NgsRunCategories.UrgentQuest }
 			]}
 			bind:value={$dfAegisForm.category}
 			on:change={typeChanged}

@@ -11,9 +11,11 @@ import { parseServerRegion } from '$lib/types/api/serverRegions';
 import type { BadRequestApiError } from '$lib/types/api/error';
 import type { DfAegisRunSubmission } from '$lib/types/api/validation/dfAegisSubmission';
 import { DfAegisSupport } from '$lib/types/api/dfAegis/dfAegisSupports';
+import { NgsRunCategories } from '$lib/types/api/runs/categories';
+import { NgsQuests } from '$lib/types/api/runs/quests';
 
 const dfAegisFormStore = writable({
-	category: 'urgent_quest',
+	category: NgsRunCategories.UrgentQuest,
 	rank: 1,
 	support: DfAegisSupport.AinaManon
 });
@@ -50,7 +52,7 @@ export const submitDfAegisRun = async () => {
 		submitterUserId: clientPrincipal.userId,
 		submitterName: playerInfo.playerName,
 		serverRegion: parseServerRegion(form.serverRegion),
-		quest: 'dfaegis',
+		quest: NgsQuests.DfAegis,
 		questRank: dfAegisDetails.rank,
 		patch: CurrentSubmissionPatchCode,
 		category: dfAegisDetails.category,

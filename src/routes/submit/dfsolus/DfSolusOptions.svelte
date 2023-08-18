@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
 	import PartySizeOptions from '../PartySizeOptions.svelte';
 	import RemainingTimeInput from '../RemainingTimeInput.svelte';
@@ -8,7 +9,7 @@
 	let selectedRankStr: string = '1';
 
 	const rankOptionsDropdowns: { [region: string]: { label: string; value: string }[] } = {
-		['quest']: [{ label: '1', value: '1' }]
+		[NgsRunCategories.Quest]: [{ label: '1', value: '1' }]
 	};
 
 	$: rankOptions = rankOptionsDropdowns[$solusForm.category] ?? [];
@@ -34,7 +35,7 @@
 		<Dropdown
 			label="Mode"
 			placeholder="Select a mode"
-			options={[{ label: 'Quest', value: 'quest' }]}
+			options={[{ label: 'Quest', value: NgsRunCategories.Quest }]}
 			bind:value={$solusForm.category}
 			on:change={typeChanged}
 		/>

@@ -1,21 +1,5 @@
-import { RunCategories } from '$lib/types/api/categories';
+import type { RunTime } from '$lib/types/api/runTime';
 import { writable } from 'svelte/store';
-
-export interface DfaRun {
-	type: string;
-	support: string;
-	rank: number;
-}
-export interface PurpleRun {
-	region: string;
-	rank: number;
-}
-
-export interface IndomitableRun {
-	boss: RunCategories;
-	rank: number;
-	augments: string;
-}
 
 export interface Run {
 	userId: string;
@@ -24,12 +8,6 @@ export interface Run {
 	time: RunTime;
 	serverRegion: string;
 	notes: string;
-}
-
-export interface RunTime {
-	hours: number;
-	minutes: number;
-	seconds: number;
 }
 
 const defaultRun: Run = {
@@ -43,37 +21,10 @@ const defaultRun: Run = {
 	},
 	serverRegion: '',
 	notes: ''
-};
-
-const defaultDfa: DfaRun = {
-	support: 'aina_manon',
-	type: 'urgent',
-	rank: 1
-};
-
-const defaultPurple: PurpleRun = {
-	region: 'stia',
-	rank: 1
-};
-
-const defaultIndomitable: IndomitableRun = {
-	boss: RunCategories.IndomitableNexAelio,
-	rank: 1,
-	augments: 'yes'
-};
-
-const cloneDeep = <T>(object: T): T => {
-	return JSON.parse(JSON.stringify(object)) as T;
-};
+} as const;
 
 export const resetForm = () => {
-	runForm.set(cloneDeep(defaultRun));
-	dfaForm.set(cloneDeep(defaultDfa));
-	purpleForm.set(cloneDeep(defaultPurple));
-	indomitableForm.set(cloneDeep(defaultIndomitable));
+	runForm.set(structuredClone(defaultRun));
 };
 
-export const runForm = writable(cloneDeep(defaultRun));
-export const dfaForm = writable(cloneDeep(defaultDfa));
-export const purpleForm = writable(cloneDeep(defaultPurple));
-export const indomitableForm = writable(cloneDeep(defaultIndomitable));
+export const runForm = writable(structuredClone(defaultRun));
