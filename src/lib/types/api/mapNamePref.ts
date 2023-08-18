@@ -1,8 +1,11 @@
 import type { PlayerNameDisplay } from '$lib/Components/PlayerNameBadge.svelte';
 import type { PlayerInfo } from '$lib/types/api/playerInfo';
-import type { Player } from './player';
+import type { Player } from './players/player';
 import type { PartyMember, PlayerInfo2 } from './runs/run';
 
+/**
+ * @deprecated Old name pref mapper. Use v2 instead
+ */
 export const mapToNamePref = (
 	player: PlayerInfo | Player | undefined
 ): PlayerNameDisplay | undefined => {
