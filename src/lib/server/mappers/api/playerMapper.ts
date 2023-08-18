@@ -1,5 +1,5 @@
 import type { PlayersDbModel } from '$lib/server/types/db/users/players';
-import type { Player } from '$lib/types/api/player';
+import type { Player } from '$lib/types/api/players/player';
 import type { PlayerInfoAutoFill } from '$lib/types/api/players/playerInfoAutoFill';
 import { isNullOrEmpty } from '$lib/utils/string';
 

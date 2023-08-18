@@ -3,7 +3,7 @@
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import Badge from '$lib/Components/Badge.svelte';
 	import Divider from '$lib/Components/Divider.svelte';
-	import type { Player } from '$lib/types/api/player';
+	import type { Player } from '$lib/types/api/players/player';
 	import { isNullOrEmpty } from '$lib/utils/string';
 	import { countriesMap } from '$lib/types/api/countries';
 	import { mapToNamePref } from '$lib/types/api/mapNamePref';

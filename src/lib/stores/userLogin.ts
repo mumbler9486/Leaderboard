@@ -1,6 +1,6 @@
 import { consentSelected } from './consent';
 import { get, writable } from 'svelte/store';
-import type { Player } from '$lib/types/api/player';
+import type { Player } from '$lib/types/api/players/player';
 import { fetchGetApi } from '$lib/utils/fetch';
 import type { UserRole } from '$lib/types/api/users/userRole';
 import { consentedPersisted } from './gdprStoreFactory';

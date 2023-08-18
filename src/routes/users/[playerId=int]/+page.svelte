@@ -4,7 +4,7 @@
 	import { t } from 'svelte-i18n';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import type { Player } from '$lib/types/api/player';
+	import type { Player } from '$lib/types/api/players/player';
 	import { fetchGetApi } from '$lib/utils/fetch';
 
 	let isLoading: boolean = false;

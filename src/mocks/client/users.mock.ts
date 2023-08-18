@@ -1,4 +1,4 @@
-import type { Player } from '$lib/types/api/player';
+import type { Player } from '$lib/types/api/players/player';
 
 export const mockPlayer: Player = {
 	playerId: 123,
