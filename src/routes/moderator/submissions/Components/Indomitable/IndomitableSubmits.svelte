@@ -1,22 +1,18 @@
 <script lang="ts">
 	import IndomitableSubmitRow from './IndomitableSubmitRow.svelte';
-
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
 	import type { DuelRun } from '$lib/types/api/runs/run';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import SubmissionInfoModal2 from '$lib/Components/SubmissionInfoModal.svelte';
-	import type { RunCategories } from '$lib/types/api/categories';
-
-	export let category: RunCategories;
 
 	let submissions: DuelRun[] = [];
 	let loading = true;
 
 	let submissionModal: SubmissionInfoModal2;
 
-	$: reloadData(category);
+	$: reloadData();
 
-	async function reloadData(...watch: any[]) {
+	async function reloadData() {
 		loading = true;
 
 		try {

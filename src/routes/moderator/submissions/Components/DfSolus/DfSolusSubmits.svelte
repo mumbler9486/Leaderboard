@@ -6,16 +6,14 @@
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import SubmissionInfoModal2 from '$lib/Components/SubmissionInfoModal.svelte';
 
-	export let category: RunCategories;
-
 	let submissions: DfSolusRun[] = [];
 	let loading = true;
 
 	let submissionModal: SubmissionInfoModal2;
 
-	$: reloadData(category);
+	$: reloadData();
 
-	async function reloadData(...watch: any[]) {
+	async function reloadData() {
 		loading = true;
 
 		try {

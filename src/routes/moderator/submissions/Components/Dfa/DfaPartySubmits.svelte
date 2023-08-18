@@ -1,29 +1,18 @@
 <script lang="ts">
 	import DfaPartySubmitRow from './DfaPartySubmitRow.svelte';
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
-	import { RunCategories } from '$lib/types/api/categories';
 	import type { DfAegisRun } from '$lib/types/api/runs/run';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import SubmissionInfoModal2 from '$lib/Components/SubmissionInfoModal.svelte';
-
-	export let category: RunCategories;
 
 	let submissions: DfAegisRun[] = [];
 	let loading = true;
 
 	let submissionModal: SubmissionInfoModal2;
 
-	const categoryPathMap: { [key: string]: string } = {
-		[RunCategories.DfaDuo]: RunCategories.DfaDuo,
-		[RunCategories.DfaParty]: RunCategories.DfaParty
-	};
+	$: reloadData();
 
-	$: reloadData(category);
-
-	async function reloadData(...watch: any[]) {
-		const categoryPath = categoryPathMap[category];
-		if (!categoryPath) console.error('Unknown DF Aegis category');
-
+	async function reloadData() {
 		loading = true;
 
 		try {

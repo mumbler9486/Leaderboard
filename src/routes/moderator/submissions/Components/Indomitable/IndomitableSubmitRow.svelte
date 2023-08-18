@@ -4,7 +4,6 @@
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import { createEventDispatcher } from 'svelte';
-	import { parseRunCategory } from '$lib/types/api/categories';
 	import { patchCodeLabelMap } from '$lib/constants/patchCodes';
 	import type { DuelRun } from '$lib/types/api/runs/run';
 	import { mapPlayerInfoNamePref, mapToNamePref2 } from '$lib/types/api/mapNamePref';
