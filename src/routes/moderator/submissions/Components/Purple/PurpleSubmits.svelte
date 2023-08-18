@@ -5,7 +5,7 @@
 	import { RunCategories } from '$lib/types/api/categories';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import type { Run } from '$lib/types/api/runs/run';
-	import SubmissionInfoModal2 from '$lib/Components/SubmissionInfoModal2.svelte';
+	import SubmissionInfoModal2 from '$lib/Components/SubmissionInfoModal.svelte';
 
 	export let category: RunCategories;
 

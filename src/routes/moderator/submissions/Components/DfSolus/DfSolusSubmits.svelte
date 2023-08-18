@@ -4,7 +4,7 @@
 	import type { DfSolusRun } from '$lib/types/api/runs/run';
 	import type { RunCategories } from '$lib/types/api/categories';
 	import { fetchGetApi } from '$lib/utils/fetch';
-	import SubmissionInfoModal2 from '$lib/Components/SubmissionInfoModal2.svelte';
+	import SubmissionInfoModal2 from '$lib/Components/SubmissionInfoModal.svelte';
 
 	export let category: RunCategories;
 

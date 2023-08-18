@@ -4,7 +4,7 @@
 	import { RunCategories } from '$lib/types/api/categories';
 	import type { DfAegisRun } from '$lib/types/api/runs/run';
 	import { fetchGetApi } from '$lib/utils/fetch';
-	import SubmissionInfoModal2 from '$lib/Components/SubmissionInfoModal2.svelte';
+	import SubmissionInfoModal2 from '$lib/Components/SubmissionInfoModal.svelte';
 
 	export let category: RunCategories;
 
