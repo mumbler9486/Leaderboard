@@ -95,7 +95,7 @@
 	</div>
 </div>
 
-<style>
+<style scoped>
 	.widget-discord::-webkit-scrollbar {
 		width: 10px;
 	}
