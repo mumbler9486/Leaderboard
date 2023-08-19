@@ -3,7 +3,7 @@
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import NgsClassIcon from '$lib/Components/NgsClassIcon.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
-	import { mapToNamePref2 } from '$lib/types/api/mapNamePref';
+	import { mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import { copyQueryParams } from '$lib/utils/queryParams';
@@ -96,7 +96,10 @@
 							<td>
 								<div class="flex gap-1">
 									<NgsClassIcon combatClass={run.partyMember?.mainClass} />
-									<PlayerNameBadge player={mapToNamePref2(run.partyMember)} showShipFlag={false} />
+									<PlayerNameBadge
+										player={mapPartyMemberToNamePref(run.partyMember)}
+										showShipFlag={false}
+									/>
 								</div>
 							</td>
 							<td><TimeDisplay time={run.time} /></td>

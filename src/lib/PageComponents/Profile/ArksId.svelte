@@ -6,7 +6,8 @@
 	import type { Player } from '$lib/types/api/players/player';
 	import { isNullOrEmpty } from '$lib/utils/string';
 	import { countriesMap } from '$lib/types/api/countries';
-	import { mapToNamePref } from '$lib/types/api/mapNamePref';
+	import { mapPlayerToNamePref } from '$lib/types/api/mapNamePref';
+	import { PreferredName } from '$lib/types/api/players/preferredName';
 
 	export let player: Player | undefined;
 	export let isLoading: boolean;
@@ -41,12 +42,12 @@
 				<div class="mt-1 flex basis-full flex-col place-items-center md:mt-0 md:place-items-start">
 					<div class="w-full md:flex md:justify-between">
 						<span class="flexs text-2xl md:justify-start md:text-4xl">
-							<PlayerNameBadge player={mapToNamePref(player)} />
+							<PlayerNameBadge player={mapPlayerToNamePref(player)} />
 						</span>
 						<slot name="actions" />
 					</div>
 					<div class="flex flex-col items-start place-self-stretch">
-						{#if player.preferredName == 1 || player.preferredName == 2}
+						{#if player.preferredName !== PreferredName.Player}
 							<span>Player Name: {player.playerName}</span>
 						{:else}
 							<span>Character Name: {player.characterName}</span>

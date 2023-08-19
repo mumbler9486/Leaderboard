@@ -7,7 +7,7 @@
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import VideoLink from '$lib/Components/VideoLink.svelte';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
-	import { mapToNamePref2 } from '$lib/types/api/mapNamePref';
+	import { mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import type { DfSolusRun } from '$lib/types/api/runs/run';
 
 	let modal: RunInfoModal;
@@ -55,7 +55,7 @@
 						<td class="font-bold">
 							{#each run.party as player}
 								<PlayerNameBadge
-									player={mapToNamePref2(player)}
+									player={mapPartyMemberToNamePref(player)}
 									on:click={() => runInfoOpen(run.runId)}
 									on:keyup={() => runInfoOpen(run.runId)}
 								/>

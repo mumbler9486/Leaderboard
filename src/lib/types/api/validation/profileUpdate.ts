@@ -1,9 +1,14 @@
-import { type InferType, string, number, object, setLocale } from 'yup';
+import { type InferType, string, number, object } from 'yup';
 import { countries } from '../countries';
 import { kanjiAlphaNumericWithSpaceRegex } from '$lib/utils/validation';
 import { ServerRegion } from '../serverRegions';
+import { PreferredName } from '../players/preferredName';
+import { NameStyle } from '../players/nameStyle';
 
 const serverRegions = [null, ServerRegion.Global, ServerRegion.Japan];
+const preferredNames = [PreferredName.Player, PreferredName.Character];
+const nameEffectTypes = [NameStyle.None, NameStyle.Solid, NameStyle.Gradient, NameStyle.Glow];
+
 const selectableCountries = countries.map((c) => c.code.toLowerCase());
 const colorRegex = /[a-f\d]{6}/;
 const usernameAlphaOnlyRegex = /^[\w\-_]*$/;
@@ -18,7 +23,7 @@ export const profileUpdateRequestSchema = object({
 		.max(25)
 		.trim()
 		.matches(kanjiAlphaNumericWithSpaceRegex),
-	preferredName: number().required().default(0),
+	preferredName: number().required().default(PreferredName.Player).oneOf(preferredNames),
 	youtubeHandle: string().nullable().optional().max(30).trim().matches(usernameAlphaOnlyRegex),
 	twitterHandle: string().nullable().optional().max(30).trim().matches(usernameAlphaOnlyRegex),
 	twitchChannel: string().nullable().optional().max(30).trim().matches(usernameAlphaOnlyRegex),
@@ -28,7 +33,7 @@ export const profileUpdateRequestSchema = object({
 	serverRegion: string().nullable().oneOf(serverRegions),
 	primaryColor: string().required().matches(colorRegex).max(6),
 	secondaryColor: string().required().matches(colorRegex).max(6),
-	nameEffect: number().required().min(0).max(3),
+	nameEffect: number().required().default(NameStyle.None).oneOf(nameEffectTypes),
 	description: string()
 		.nullable()
 		.optional()

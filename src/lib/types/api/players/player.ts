@@ -1,12 +1,16 @@
+import type { ServerRegion } from '../serverRegions';
+import type { NameStyle } from './nameStyle';
+import type { PreferredName } from './preferredName';
+
 export interface Player {
 	playerId: number;
 	playerName: string;
 	ship?: number;
 	flag?: string;
 	characterName: string;
-	preferredName: number;
-	server?: string;
-	nameType: number;
+	preferredName: PreferredName;
+	server?: ServerRegion;
+	nameType: NameStyle;
 	nameColor1: string;
 	nameColor2: string;
 	bio: string;

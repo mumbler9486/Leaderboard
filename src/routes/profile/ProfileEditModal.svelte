@@ -120,12 +120,12 @@
 		playerId: -1,
 		flag: $form.playerCountry?.toLowerCase(),
 		ship: selectedShip?.ship,
-		region: selectedShip?.region,
+		serverRegion: selectedShip?.region,
 		playerName: $playerInfoStore?.playerName ?? '<Unknown>',
 		runCharacterName: 'Run character name',
 		characterName: $form.mainCharacterName,
 		namePreference: parseInt($form.preferredName ?? '0'),
-		nameType: parseInt($form.nameEffect ?? '0'),
+		nameEffectType: parseInt($form.nameEffect ?? '0'),
 		nameColor1: $form.primaryColor?.substring(1),
 		nameColor2: $form.secondaryColor?.substring(1)
 	} satisfies PlayerNameDisplay;

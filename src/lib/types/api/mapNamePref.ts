@@ -1,46 +1,47 @@
 import type { PlayerNameDisplay } from '$lib/Components/PlayerNameBadge.svelte';
-import type { PlayerInfo } from '$lib/types/api/playerInfo';
 import type { Player } from './players/player';
 import type { PartyMember, PlayerInfo2 } from './runs/run';
 
-/**
- * @deprecated Old name pref mapper. Use v2 instead
- */
-export const mapToNamePref = (
-	player: PlayerInfo | Player | undefined
-): PlayerNameDisplay | undefined => {
+export const mapPlayerToNamePref = (
+	player: Player | undefined
+): PlayerNameDisplay | string | undefined => {
 	if (!player) return undefined;
 
 	return {
 		playerId: player.playerId,
 		flag: player.flag,
 		ship: player.ship,
-		region: player.server,
+		serverRegion: player.server,
 		playerName: player.playerName,
-		runCharacterName: 'runCharacterName' in player ? player.runCharacterName : '',
 		characterName: player.characterName,
+		runCharacterName: undefined,
 		namePreference: player.preferredName,
-		nameType: player.nameType,
+		nameEffectType: player.nameType,
 		nameColor1: player.nameColor1,
 		nameColor2: player.nameColor2
 	};
 };
 
-export const mapToNamePref2 = (partyMember: PartyMember): PlayerNameDisplay | undefined => {
+export const mapPartyMemberToNamePref = (
+	partyMember: PartyMember
+): PlayerNameDisplay | string | undefined => {
 	if (!partyMember) return undefined;
 
 	const isNullPlayer = !partyMember.playerId;
+	if (isNullPlayer) {
+		return partyMember.runCharacterName;
+	}
 
 	return {
-		playerId: partyMember.playerId ?? -1,
+		playerId: partyMember.playerId,
 		flag: partyMember.playerInfo.flag,
 		ship: partyMember.playerInfo.ship,
-		region: partyMember.playerInfo.server,
-		playerName: isNullPlayer ? partyMember.runCharacterName : partyMember.playerInfo.name,
-		runCharacterName: isNullPlayer ? '' : partyMember.runCharacterName,
+		serverRegion: partyMember.playerInfo.server,
+		playerName: partyMember.playerInfo.name,
+		runCharacterName: partyMember.runCharacterName,
 		characterName: partyMember.playerInfo.characterName,
 		namePreference: partyMember.playerInfo.preferredNameType,
-		nameType: partyMember.playerInfo.nameEffectType,
+		nameEffectType: partyMember.playerInfo.nameEffectType,
 		nameColor1: partyMember.playerInfo.nameColor1,
 		nameColor2: partyMember.playerInfo.nameColor2
 	};
@@ -50,15 +51,15 @@ export const mapPlayerInfoNamePref = (player: PlayerInfo2): PlayerNameDisplay | 
 	if (!player) return undefined;
 
 	return {
-		playerId: player.playerId ?? -1,
+		playerId: player.playerId,
 		flag: player.flag,
 		ship: player.ship,
-		region: player.server,
+		serverRegion: player.server,
 		playerName: player.name,
 		runCharacterName: '',
 		characterName: player.characterName,
 		namePreference: player.preferredNameType,
-		nameType: player.nameEffectType,
+		nameEffectType: player.nameEffectType,
 		nameColor1: player.nameColor1,
 		nameColor2: player.nameColor2
 	};

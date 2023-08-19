@@ -7,7 +7,7 @@
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import VideoLink from '$lib/Components/VideoLink.svelte';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
-	import { mapToNamePref2 } from '$lib/types/api/mapNamePref';
+	import { mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import type { DuelRun } from '$lib/types/api/runs/run';
 
 	let modal: RunInfoModal;
@@ -53,7 +53,7 @@
 						</td>
 						<td class="font-bold">
 							<PlayerNameBadge
-								player={run.party[0] ? mapToNamePref2(run.party[0]) : undefined}
+								player={run.party[0] ? mapPartyMemberToNamePref(run.party[0]) : undefined}
 								on:click={() => runInfoOpen(run.runId)}
 								on:keyup={() => runInfoOpen(run.runId)}
 							/>

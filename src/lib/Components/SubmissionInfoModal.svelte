@@ -6,7 +6,7 @@
 	import PlayerNameBadge from './PlayerNameBadge.svelte';
 	import VideoPlayer from './VideoPlayer.svelte';
 
-	import { mapPlayerInfoNamePref, mapToNamePref2 } from '$lib/types/api/mapNamePref';
+	import { mapPlayerInfoNamePref, mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import { createEventDispatcher } from 'svelte';
 	import type { ApproveRequest, DenyRequest } from '$lib/types/api/validation/submissions';
 	import type { Run } from '$lib/types/api/runs/run';
@@ -147,7 +147,7 @@
 		{/if}
 		{#each submission?.party ?? [] as player}
 			{#if player.linkPov}
-				<PlayerNameBadge player={mapToNamePref2(player)} />
+				<PlayerNameBadge player={mapPartyMemberToNamePref(player)} />
 				<VideoPlayer url={player.linkPov} />
 				<div
 					class="flex basis-full justify-center rounded-md border border-secondary bg-secondary/25 p-2"
@@ -184,7 +184,7 @@
 				<span class="flex place-content-center md:mr-1">Run By:</span>
 				<PlayerNameBadge
 					showLink
-					player={submission ? mapToNamePref2(submission?.party[0]) : undefined}
+					player={submission ? mapPartyMemberToNamePref(submission?.party[0]) : undefined}
 				/>
 			</div>
 

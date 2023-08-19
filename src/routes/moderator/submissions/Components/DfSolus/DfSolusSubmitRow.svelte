@@ -3,7 +3,7 @@
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import { createEventDispatcher } from 'svelte';
-	import { mapPlayerInfoNamePref, mapToNamePref, mapToNamePref2 } from '$lib/types/api/mapNamePref';
+	import { mapPlayerInfoNamePref, mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import { patchCodeLabelMap } from '$lib/constants/patchCodes';
 	import type { DfSolusRun } from '$lib/types/api/runs/run';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
@@ -37,7 +37,7 @@
 <tr class="hover border-t border-t-secondary/20">
 	<th>
 		{#each submission.party as player}
-			<PlayerNameBadge player={mapToNamePref2(player)} on:click={openModal} />
+			<PlayerNameBadge player={mapPartyMemberToNamePref(player)} on:click={openModal} />
 		{/each}
 	</th>
 	<td class="text-center">{partySize}</td>

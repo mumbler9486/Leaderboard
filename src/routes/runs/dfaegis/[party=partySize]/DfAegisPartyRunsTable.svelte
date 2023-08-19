@@ -8,7 +8,7 @@
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import VideoLink from '$lib/Components/VideoLink.svelte';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
-	import { mapToNamePref2 } from '$lib/types/api/mapNamePref';
+	import { mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import type { DfAegisRun } from '$lib/types/api/runs/run';
 
 	let modal: RunInfoModal;
@@ -57,7 +57,7 @@
 						<td class="font-bold">
 							{#each run.party as player}
 								<PlayerNameBadge
-									player={run.party[0] ? mapToNamePref2(player) : undefined}
+									player={run.party[0] ? mapPartyMemberToNamePref(player) : undefined}
 									on:click={() => runInfoOpen(run.runId)}
 									on:keyup={() => runInfoOpen(run.runId)}
 								/>

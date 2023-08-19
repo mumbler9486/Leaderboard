@@ -4,7 +4,7 @@
 	import PlayerNameBadge from './PlayerNameBadge.svelte';
 	import VideoPlayer from './VideoPlayer.svelte';
 
-	import { mapPlayerInfoNamePref, mapToNamePref2 } from '$lib/types/api/mapNamePref';
+	import { mapPlayerInfoNamePref, mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import type { Run } from '$lib/types/api/runs/run';
 	import { Game } from '$lib/types/api/game';
 	import { ServerRegion } from '$lib/types/api/serverRegions';
@@ -97,7 +97,7 @@
 		<VideoPlayer url={player1.linkPov} />
 	{:else}
 		{#each run.party.filter((p) => p.linkPov != undefined) as player}
-			<PlayerNameBadge player={mapToNamePref2(player)} />
+			<PlayerNameBadge player={mapPartyMemberToNamePref(player)} />
 			<VideoPlayer url={player.linkPov} />
 			<div
 				class="flex basis-full justify-center rounded-md border border-secondary bg-secondary/25 p-2"
@@ -124,7 +124,7 @@
 				class:md:grid-rows-4={partySize > 4}
 			>
 				{#each run.party as player}
-					<PlayerNameBadge showLink player={mapToNamePref2(player)} />
+					<PlayerNameBadge showLink player={mapPartyMemberToNamePref(player)} />
 				{/each}
 			</div>
 		</div>
