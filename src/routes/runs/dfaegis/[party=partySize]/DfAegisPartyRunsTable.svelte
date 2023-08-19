@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DfaSupportIcon from '$lib/Components/DfAegisSupportIcon.svelte';
+	import DfAegisSupportIcon from '$lib/Components/DfAegisSupportIcon.svelte';
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
 	import NgsClassIcon from '$lib/Components/NgsClassIcon.svelte';
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
@@ -64,7 +64,7 @@
 							{/each}
 						</td>
 						<td class="text-center font-bold">
-							<DfaSupportIcon support={run.details.support} />
+							<DfAegisSupportIcon support={run.details.support} />
 						</td>
 						<td class="text-center">
 							{#each run.party as player}

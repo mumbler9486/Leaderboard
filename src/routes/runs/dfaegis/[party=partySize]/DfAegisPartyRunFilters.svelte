@@ -1,11 +1,11 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
-	import DfaRules from '../DfAegisRules.svelte';
-	import DfaPartyModalRunFilters from './DfAegisPartyModalRunFilters.svelte';
-	import { dfAegisRunFilters, type DfaSearchFilters } from '../dfAegisRunFilterStore';
+	import DfAegisRules from '../DfAegisRules.svelte';
+	import DfAegisPartyModalRunFilters from './DfAegisPartyModalRunFilters.svelte';
+	import { dfAegisRunFilters, type DfAegisSearchFilters } from '../dfAegisRunFilterStore';
 	import { t } from 'svelte-i18n';
-	import DfaSupportFilterTag from '$lib/Components/Filters/FilterTags/DfaSupportFilterTag.svelte';
+	import DfAegisSupportFilterTag from '$lib/Components/Filters/FilterTags/DfAegisSupportFilterTag.svelte';
 	import ServerRegionFilterTag from '$lib/Components/Filters/FilterTags/ServerRegionFilterTag.svelte';
 	import PartySizeNavigation from '$lib/Components/PartySizeNavigation.svelte';
 	import { parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
@@ -15,7 +15,7 @@
 
 	$: playerClassFilterTag = parseNgsPlayerClass($dfAegisRunFilters.class);
 
-	let filters: DfaSearchFilters = {
+	let filters: DfAegisSearchFilters = {
 		trigger: 'urgent_quest',
 		class: 'no_filter',
 		support: 'no_filter',
@@ -89,7 +89,7 @@
 	<Divider class="-mx-1 my-0" />
 	<div class="flex flex-row flex-wrap place-content-center items-stretch">
 		<div class="m-1 md:flex-1">
-			<DfaPartyModalRunFilters
+			<DfAegisPartyModalRunFilters
 				{solo}
 				bind:mainClass={filters.class}
 				bind:server={filters.server}
@@ -98,7 +98,7 @@
 			/>
 		</div>
 		<div class="m-1 md:flex-initial">
-			<DfaRules />
+			<DfAegisRules />
 		</div>
 	</div>
 
@@ -112,7 +112,7 @@
 			<ServerRegionFilterTag server={$dfAegisRunFilters.server} on:click={resetServerRegion} />
 		{/if}
 		{#if $dfAegisRunFilters.support && $dfAegisRunFilters.support != 'no_filter'}
-			<DfaSupportFilterTag support={$dfAegisRunFilters.support} on:click={resetBuffFilter} />
+			<DfAegisSupportFilterTag support={$dfAegisRunFilters.support} on:click={resetBuffFilter} />
 		{/if}
 	</div>
 </div>

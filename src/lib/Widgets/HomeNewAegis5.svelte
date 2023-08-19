@@ -3,7 +3,7 @@
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import NgsClassIcon from '$lib/Components/NgsClassIcon.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
-	import DfaSupportIcon from '$lib/Components/DfAegisSupportIcon.svelte';
+	import DfAegisSupportIcon from '$lib/Components/DfAegisSupportIcon.svelte';
 	import { mapToNamePref2 } from '$lib/types/api/mapNamePref';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
 	import { fetchGetApi } from '$lib/utils/fetch';
@@ -53,7 +53,7 @@
 								{/each}
 							</td>
 							<td><TimeDisplay time={run.time} /></td>
-							<td><DfaSupportIcon support={run.details.support} /></td>
+							<td><DfAegisSupportIcon support={run.details.support} /></td>
 						</tr>
 					{/each}
 				{:catch err}

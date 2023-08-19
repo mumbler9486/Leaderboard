@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 
-	import DfaPartySubmits from './Components/Dfa/DfAegisPartySubmits.svelte';
+	import DfAegisPartySubmits from './Components/DfAegis/DfAegisPartySubmits.svelte';
 	import IndomitableSubmits from './Components/Indomitable/IndomitableSubmits.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import SolusSubmits from './Components/DfSolus/DfSolusSubmits.svelte';
@@ -17,7 +17,7 @@
 
 	const submitsMap: { [key: string]: { component: any } } = {
 		[NgsQuests.Purples]: { component: PurpleSubmits },
-		[NgsQuests.DfAegis]: { component: DfaPartySubmits },
+		[NgsQuests.DfAegis]: { component: DfAegisPartySubmits },
 		[NgsQuests.Duels]: { component: IndomitableSubmits },
 		[NgsQuests.DfSolus]: { component: SolusSubmits }
 	};

@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-export interface DfaSearchFilters {
+export interface DfAegisSearchFilters {
 	server: string;
 	class: string;
 	support: string;
@@ -8,7 +8,7 @@ export interface DfaSearchFilters {
 	rank: string;
 }
 
-const defaultFilter: DfaSearchFilters = {
+const defaultFilter: DfAegisSearchFilters = {
 	class: 'no_filter',
 	server: 'no_filter',
 	support: 'no_filter',
@@ -16,4 +16,4 @@ const defaultFilter: DfaSearchFilters = {
 	rank: '1'
 };
 
-export const dfAegisRunFilters = writable<DfaSearchFilters>({ ...defaultFilter });
+export const dfAegisRunFilters = writable<DfAegisSearchFilters>({ ...defaultFilter });

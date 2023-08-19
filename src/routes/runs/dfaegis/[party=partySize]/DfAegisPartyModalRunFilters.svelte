@@ -3,7 +3,7 @@
 	import ClassFilter from '$lib/Components/Filters/ClassFilter.svelte';
 	import ServerFilter from '$lib/Components/Filters/ServerFilter.svelte';
 	import Modal from '$lib/Components/Modal.svelte';
-	import DfaSupportFilter from '../DfAegisSupportFilter.svelte';
+	import DfAegisSupportFilter from '../DfAegisSupportFilter.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { t } from 'svelte-i18n';
 	const dispatch = createEventDispatcher();
@@ -65,6 +65,6 @@
 		class="text-base-100-content mb-2 flex flex-row justify-center font-semibold md:justify-start"
 		>Support</span
 	>
-	<DfaSupportFilter bind:selectedSupport={support} />
+	<DfAegisSupportFilter bind:selectedSupport={support} />
 	<Divider />
 </Modal>

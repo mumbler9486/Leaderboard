@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DfaPartySubmitRow from './DfAegisPartySubmitRow.svelte';
+	import DfAegisPartySubmitRow from './DfAegisPartySubmitRow.svelte';
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
 	import type { DfAegisRun } from '$lib/types/api/runs/run';
 	import { fetchGetApi } from '$lib/utils/fetch';
@@ -62,7 +62,7 @@
 		{#if !loading}
 			<tbody>
 				{#each submissions as submission}
-					<DfaPartySubmitRow on:openRunInfo={runInfoOpen} {submission} />
+					<DfAegisPartySubmitRow on:openRunInfo={runInfoOpen} {submission} />
 				{/each}
 			</tbody>
 		{/if}

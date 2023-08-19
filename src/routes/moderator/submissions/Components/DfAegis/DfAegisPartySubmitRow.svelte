@@ -4,7 +4,7 @@
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { mapPlayerInfoNamePref, mapToNamePref2 } from '$lib/types/api/mapNamePref';
-	import DfaSupportIcon from '$lib/Components/DfAegisSupportIcon.svelte';
+	import DfAegisSupportIcon from '$lib/Components/DfAegisSupportIcon.svelte';
 	import { patchCodeLabelMap } from '$lib/constants/patchCodes';
 	import type { DfAegisRun } from '$lib/types/api/runs/run';
 
@@ -56,7 +56,7 @@
 	<td class="text-center">{typeCodes[submission.category]}</td>
 	<td class="text-center">{submission.rank}</td>
 	<td class="text-center">
-		<DfaSupportIcon support={submission.details.support} />
+		<DfAegisSupportIcon support={submission.details.support} />
 	</td>
 	<td class="text-center">{patchCodeLabelMap[submission.patch.toLowerCase()]}</td>
 	<td class="text-center">

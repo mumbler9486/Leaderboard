@@ -13,5 +13,5 @@
 	$: supportInfo = supportMap[support];
 </script>
 
-<img class="mr-1 inline" src="/icons/dfa/{supportInfo.icon}" alt={supportInfo.label} />
+<img class="mr-1 inline" src="/icons/dfaegis/{supportInfo.icon}" alt={supportInfo.label} />
 {supportInfo.label}

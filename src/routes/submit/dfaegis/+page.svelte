@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DfaOptions from './DfAegisOptions.svelte';
+	import DfAegisOptions from './DfAegisOptions.svelte';
 	import Divider from '$lib/Components/Divider.svelte';
 	import ServerRegionSelector from '../ServerRegionSelector.svelte';
 	import Alert from '$lib/Components/Alert.svelte';
@@ -76,7 +76,7 @@
 							<ServerRegionSelector />
 						</div>
 						<div class="form-control">
-							<DfaOptions />
+							<DfAegisOptions />
 						</div>
 					</div>
 					<PartyOptions />
