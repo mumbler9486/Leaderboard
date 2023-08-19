@@ -1,9 +1,9 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
-	import DfaRules from '../DfaRules.svelte';
-	import DfaPartyModalRunFilters from './DfaPartyModalRunFilters.svelte';
-	import { dfAegisRunFilters, type DfaSearchFilters } from '../dfaRunFilterStore';
+	import DfaRules from '../DfAegisRules.svelte';
+	import DfaPartyModalRunFilters from './DfAegisPartyModalRunFilters.svelte';
+	import { dfAegisRunFilters, type DfaSearchFilters } from '../dfAegisRunFilterStore';
 	import { t } from 'svelte-i18n';
 	import DfaSupportFilterTag from '$lib/Components/Filters/FilterTags/DfaSupportFilterTag.svelte';
 	import ServerRegionFilterTag from '$lib/Components/Filters/FilterTags/ServerRegionFilterTag.svelte';

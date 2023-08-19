@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DfaPartySubmitRow from './DfaPartySubmitRow.svelte';
+	import DfaPartySubmitRow from './DfAegisPartySubmitRow.svelte';
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
 	import type { DfAegisRun } from '$lib/types/api/runs/run';
 	import { fetchGetApi } from '$lib/utils/fetch';

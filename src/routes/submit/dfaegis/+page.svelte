@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DfaOptions from './DfaOptions.svelte';
+	import DfaOptions from './DfAegisOptions.svelte';
 	import Divider from '$lib/Components/Divider.svelte';
 	import ServerRegionSelector from '../ServerRegionSelector.svelte';
 	import Alert from '$lib/Components/Alert.svelte';

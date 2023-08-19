@@ -1,13 +1,13 @@
 <script lang="ts">
 	import LeaderboardTitle from '$lib/Components/LeaderboardTitle.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
-	import DfaPartyRunsTable from './DfaPartyRunsTable.svelte';
-	import DfaPartyRunFilters from './DfaPartyRunFilters.svelte';
+	import DfaPartyRunsTable from './DfAegisPartyRunsTable.svelte';
+	import DfaPartyRunFilters from './DfAegisPartyRunFilters.svelte';
 
 	import { page } from '$app/stores';
 	import { t } from 'svelte-i18n';
 	import { fetchGetApi } from '$lib/utils/fetch';
-	import { dfAegisRunFilters, type DfaSearchFilters } from '../dfaRunFilterStore';
+	import { dfAegisRunFilters, type DfaSearchFilters } from '../dfAegisRunFilterStore';
 	import { PartySize, parsePartySize } from '$lib/types/api/partySizes';
 	import {
 		copyQueryParams,

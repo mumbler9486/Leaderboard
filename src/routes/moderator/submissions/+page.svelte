@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 
-	import DfaPartySubmits from './Components/Dfa/DfaPartySubmits.svelte';
+	import DfaPartySubmits from './Components/Dfa/DfAegisPartySubmits.svelte';
 	import IndomitableSubmits from './Components/Indomitable/IndomitableSubmits.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import SolusSubmits from './Components/DfSolus/DfSolusSubmits.svelte';

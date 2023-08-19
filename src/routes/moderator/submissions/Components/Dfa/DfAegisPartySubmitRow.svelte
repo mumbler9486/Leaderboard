@@ -4,7 +4,7 @@
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { mapPlayerInfoNamePref, mapToNamePref2 } from '$lib/types/api/mapNamePref';
-	import DfaSupportIcon from '$lib/Components/DfaSupportIcon.svelte';
+	import DfaSupportIcon from '$lib/Components/DfAegisSupportIcon.svelte';
 	import { patchCodeLabelMap } from '$lib/constants/patchCodes';
 	import type { DfAegisRun } from '$lib/types/api/runs/run';
 
