@@ -3,10 +3,11 @@ import { PurpleRegion } from '../purpleRegions';
 import { yupRunPartySchema } from './schemas/runPartySchema';
 import { yupRunTime } from './schemas/timeSchema';
 import { runSubmissionRequestSchema, type RunSubmissionRequest } from './runSubmission';
+import { NgsQuests } from '../runs/quests';
 
 const regions = [PurpleRegion.Aelio, PurpleRegion.Retem, PurpleRegion.Kvaris, PurpleRegion.Stia];
 
-const quest = ['purples'];
+const quest = [NgsQuests.Purples];
 const validRanksMap: Record<string, number[]> = {
 	[PurpleRegion.Aelio]: [1, 2, 3],
 	[PurpleRegion.Retem]: [1, 2, 3],

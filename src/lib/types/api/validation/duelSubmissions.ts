@@ -3,6 +3,7 @@ import { yupRunPartySchema } from './schemas/runPartySchema';
 import { yupRunTime } from './schemas/timeSchema';
 import { runSubmissionRequestSchema, type RunSubmissionRequest } from './runSubmission';
 import { IndomitableBoss } from '../duels/indomitableBoss';
+import { NgsQuests } from '../runs/quests';
 
 const categories: string[] = [
 	IndomitableBoss.NexAelio,
@@ -12,7 +13,7 @@ const categories: string[] = [
 	IndomitableBoss.Halvaldi
 ];
 
-const quest = ['duels'];
+const quest = [NgsQuests.Duels];
 const validRanksMap: Record<string, number[]> = {
 	[IndomitableBoss.NexAelio]: [1],
 	[IndomitableBoss.RenusRetem]: [1],

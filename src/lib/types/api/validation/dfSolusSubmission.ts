@@ -2,9 +2,11 @@ import { type InferType, string, number, object, array, mixed, ObjectSchema } fr
 import { runSubmissionRequestSchema, type RunSubmissionRequest } from './runSubmission';
 import { yupRunTime } from './schemas/timeSchema';
 import { yupRunPartySchema } from './schemas/runPartySchema';
+import { NgsQuests } from '../runs/quests';
+import { NgsRunCategories } from '../runs/categories';
 
-const quest = ['dfsolus'];
-const categories = ['quest'];
+const quest = [NgsQuests.DfSolus];
+const categories = [NgsRunCategories.Quest];
 const ranks = [1];
 
 export const dfSolusRunSubmissionSchema: ObjectSchema<RunSubmissionRequest> =

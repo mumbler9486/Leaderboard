@@ -3,10 +3,12 @@ import { yupRunPartySchema } from './schemas/runPartySchema';
 import { yupRunTime } from './schemas/timeSchema';
 import { runSubmissionRequestSchema, type RunSubmissionRequest } from './runSubmission';
 import { DfAegisSupport } from '../dfAegis/dfAegisSupports';
+import { NgsQuests } from '../runs/quests';
+import { NgsRunCategories } from '../runs/categories';
 
-const categories = ['urgent_quest', 'trigger'];
+const categories = [NgsRunCategories.UrgentQuest, NgsRunCategories.Trigger];
 
-const quest = ['dfaegis'];
+const quest = [NgsQuests.DfAegis];
 const validRanksMap: Record<string, number[]> = {
 	urgent_quest: [1],
 	trigger: [1]

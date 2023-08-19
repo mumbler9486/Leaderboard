@@ -1,6 +1,10 @@
 import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 import { type InferType, string, number, object, boolean, mixed } from 'yup';
 import { IndomitableBoss } from '../duels/indomitableBoss';
+import { NgsRunCategories } from '../runs/categories';
+import { NgsQuests } from '../runs/quests';
+import { ServerRegion } from '../serverRegions';
+import { RunSortOption } from '../runs/sortOptions';
 
 const classes = [
 	null,
@@ -16,22 +20,27 @@ const classes = [
 	NgsPlayerClass.Slayer
 ];
 
-const validCategories: Record<string, string[]> = {
-	purples: ['aelio', 'retem', 'kvaris', 'stia'],
-	dfsolus: ['quest'],
-	dfaegis: ['urgent_quest', 'trigger'],
-	duels: [
-		IndomitableBoss.NexAelio,
-		IndomitableBoss.RenusRetem,
-		IndomitableBoss.AmsKvaris,
-		IndomitableBoss.NilsStia,
-		IndomitableBoss.Halvaldi
+const validCategories: Record<NgsQuests, string[]> = {
+	[NgsQuests.Purples]: [
+		NgsRunCategories.Aelio,
+		NgsRunCategories.Retem,
+		NgsRunCategories.Kvaris,
+		NgsRunCategories.Stia
+	],
+	[NgsQuests.DfSolus]: [NgsRunCategories.Quest],
+	[NgsQuests.DfAegis]: [NgsRunCategories.UrgentQuest, NgsRunCategories.Trigger],
+	[NgsQuests.Duels]: [
+		NgsRunCategories.NexAelio,
+		NgsRunCategories.RenusRetem,
+		NgsRunCategories.AmsKvaris,
+		NgsRunCategories.NilsStia,
+		NgsRunCategories.Halvaldi
 	]
 };
 
-const servers = [null, 'global', 'japan'];
-const quests = [null, 'dfsolus', 'purples', 'dfaegis', 'duels'];
-const sortOrders = [null, 'ranking', 'recent'];
+const servers = [null, ServerRegion.Global, ServerRegion.Japan];
+const quests = [null, NgsQuests.Purples, NgsQuests.DfSolus, NgsQuests.DfAegis, NgsQuests.Duels];
+const sortOrders = [null, RunSortOption.Ranking, RunSortOption.Recent];
 const ranks = [null, 1, 2, 3];
 
 export const runsSearchFilterSchema = object({

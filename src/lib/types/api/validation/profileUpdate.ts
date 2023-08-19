@@ -1,8 +1,9 @@
 import { type InferType, string, number, object, setLocale } from 'yup';
 import { countries } from '../countries';
 import { kanjiAlphaNumericWithSpaceRegex } from '$lib/utils/validation';
+import { ServerRegion } from '../serverRegions';
 
-const serverRegions = [null, 'global', 'japan'];
+const serverRegions = [null, ServerRegion.Global, ServerRegion.Japan];
 const selectableCountries = countries.map((c) => c.code.toLowerCase());
 const colorRegex = /[a-f\d]{6}/;
 const usernameAlphaOnlyRegex = /^[\w\-_]*$/;
