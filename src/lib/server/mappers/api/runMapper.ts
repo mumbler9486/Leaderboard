@@ -5,7 +5,7 @@ import { mapDbValToNgsClass } from '$lib/server/types/db/runs/ngsClasses';
 import { mapDbValToServerRegion } from '$lib/server/types/db/runs/serverRegions';
 import { mapDbValToWeapon, type NgsWeaponDbValue } from '$lib/server/types/db/runs/weapons';
 import { runTimeEqual, type RunTime } from '$lib/types/api/runTime';
-import type { PartyMember, PlayerInfo2, Run } from '$lib/types/api/runs/run';
+import type { PartyMember, PlayerInfo, Run } from '$lib/types/api/runs/run';
 
 export const mapRuns = (getRun: GetRunDbModel[]): Run[] => {
 	const groupedRuns = getRun.reduce((prev, curr) => {
@@ -68,7 +68,7 @@ export const mapRuns = (getRun: GetRunDbModel[]): Run[] => {
 			} satisfies PartyMember;
 		});
 
-		const submitter: PlayerInfo2 = {
+		const submitter: PlayerInfo = {
 			playerId: parseInt(runMeta.PartyPlayerId),
 			ship: parseInt(runMeta.SubmitterShip),
 			flag: runMeta.SubmitterFlag,

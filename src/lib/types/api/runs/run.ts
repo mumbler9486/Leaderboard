@@ -18,7 +18,7 @@ export interface Run<T = void> {
 	notes?: string;
 	modNotes?: string;
 	questRank: number;
-	submitter: PlayerInfo2;
+	submitter: PlayerInfo;
 	submissionDate: string;
 	submissionStatus: number;
 	dateApproved?: string;
@@ -33,10 +33,10 @@ export interface PartyMember {
 	subClass: NgsPlayerClass;
 	linkPov?: string;
 	weapons: Weapon[];
-	playerInfo: PlayerInfo2;
+	playerInfo: PlayerInfo;
 }
 
-export interface PlayerInfo2 {
+export interface PlayerInfo {
 	playerId: number;
 	ship?: number;
 	server?: ServerRegion;
