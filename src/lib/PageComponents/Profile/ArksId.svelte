@@ -3,13 +3,13 @@
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import Badge from '$lib/Components/Badge.svelte';
 	import Divider from '$lib/Components/Divider.svelte';
-	import type { Player } from '$lib/types/api/players/player';
+	import type { PlayerProfile } from '$lib/types/api/players/player';
 	import { isNullOrEmpty } from '$lib/utils/string';
 	import { countriesMap } from '$lib/types/api/countries';
 	import { mapPlayerToNamePref } from '$lib/types/api/mapNamePref';
 	import { PreferredName } from '$lib/types/api/players/preferredName';
 
-	export let player: Player | undefined;
+	export let player: PlayerProfile | undefined;
 	export let isLoading: boolean;
 
 	const serverRegionMap: Record<string, string> = {

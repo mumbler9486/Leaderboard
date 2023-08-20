@@ -2,7 +2,7 @@ import type { ServerRegion } from '../serverRegions';
 import type { NameStyle } from './nameStyle';
 import type { PreferredName } from './preferredName';
 
-export interface Player {
+export interface PlayerProfile {
 	playerId: number;
 	playerName: string;
 	ship?: number;

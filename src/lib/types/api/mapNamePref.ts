@@ -1,9 +1,9 @@
 import type { PlayerNameDisplay } from '$lib/Components/PlayerNameBadge.svelte';
-import type { Player } from './players/player';
+import type { PlayerProfile } from './players/player';
 import type { PartyMember, PlayerInfo2 } from './runs/run';
 
 export const mapPlayerToNamePref = (
-	player: Player | undefined
+	player: PlayerProfile | undefined
 ): PlayerNameDisplay | string | undefined => {
 	if (!player) return undefined;
 

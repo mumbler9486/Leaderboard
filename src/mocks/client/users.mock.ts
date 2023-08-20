@@ -1,6 +1,6 @@
-import type { Player } from '$lib/types/api/players/player';
+import type { PlayerProfile } from '$lib/types/api/players/player';
 
-export const mockPlayer: Player = {
+export const mockPlayer: PlayerProfile = {
 	playerId: 123,
 	playerName: 'Mock User',
 	ship: 1,

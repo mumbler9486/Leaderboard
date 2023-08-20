@@ -1,5 +1,6 @@
+import { mapDbValToServerRegion } from '$lib/server/types/db/runs/serverRegions';
 import type { PlayersDbModel } from '$lib/server/types/db/users/players';
-import type { Player } from '$lib/types/api/players/player';
+import type { PlayerProfile } from '$lib/types/api/players/player';
 import type { PlayerInfoAutoFill } from '$lib/types/api/players/playerInfoAutoFill';
 import { isNullOrEmpty } from '$lib/utils/string';
 
@@ -30,7 +31,7 @@ export const mapPlayer = (player: PlayersDbModel) => {
 		preferredName: parseInt(player.PreferredNameType),
 		flag: player.Flag,
 		ship: parseInt(player.Ship),
-		server: player.Server,
+		server: mapDbValToServerRegion(player.Server),
 		nameType: parseInt(player.NameEffectType),
 		nameColor1: player.NameColor1,
 		nameColor2: player.NameColor2,
@@ -40,5 +41,5 @@ export const mapPlayer = (player: PlayersDbModel) => {
 		twitter: player.Twitter,
 		discord: player.Discord,
 		trophies: trophies
-	} satisfies Player;
+	} satisfies PlayerProfile;
 };
