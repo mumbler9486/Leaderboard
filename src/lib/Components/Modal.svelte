@@ -94,3 +94,21 @@
 		</div>
 	</div>
 </div>
+
+<style scoped>
+	.modal-box::-webkit-scrollbar {
+		width: 10px;
+	}
+	.modal-box::-webkit-scrollbar-thumb,
+	::-webkit-scrollbar-track-piece {
+		background-clip: padding-box;
+		border: 3px solid transparent;
+		border-radius: 5px;
+	}
+	.modal-box::-webkit-scrollbar-thumb {
+		background-color: hsla(0, 0%, 100%, 0.1);
+	}
+	.modal-box::-webkit-scrollbar-track-piece {
+		background-color: transparent;
+	}
+</style>
