@@ -7,10 +7,10 @@ import { SubmissionStatusDbValue } from '../types/db/runs/submissionStatus';
 import { mapWeaponToDbVal } from '../types/db/runs/weapons';
 import { normalizeYoutubeLink } from '$lib/utils/youtube';
 import { mapServerRegionToDbVal } from '../types/db/runs/serverRegions';
-import type { GameDbValue } from '../types/db/runs/game';
 import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
 import type { RunAttributeFilter } from '../types/db/runs/runAttributeFilter';
 import type { PlayersDbModel } from '../types/db/users/players';
+import type { Game } from '$lib/types/api/game';
 
 const runsDbFields = fields<RunDbModel>();
 const runPartyDbFields = fields<RunPartyDbModel>();
@@ -233,7 +233,7 @@ export const getRuns = async (
 
 export const insertRun = async (
 	transaction: sql.Transaction,
-	game: GameDbValue,
+	game: Game,
 	run: RunSubmissionRequest,
 	submitterId: number
 ) => {

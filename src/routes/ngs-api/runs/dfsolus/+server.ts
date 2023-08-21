@@ -7,12 +7,14 @@ import { submitRun } from '$lib/server/logic/submitRunLogic.js';
 import { dfSolusRunSubmissionSchema } from '$lib/types/api/validation/dfSolusSubmission.js';
 import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmission.js';
 import { mapRuns } from '$lib/server/mappers/api/runMapper.js';
-import { GameDbValue } from '$lib/server/types/db/runs/game.js';
 import {
 	runsSearchFilterSchema,
 	type RunsSearchFilter
 } from '$lib/types/api/validation/runsSearchFilter.js';
 import { parseToRawSchema } from '$lib/utils/schemaValidation.js';
+import { Game } from '$lib/types/api/game.js';
+import { NgsQuests } from '$lib/types/api/runs/quests.js';
+import { NgsRunCategories } from '$lib/types/api/runs/categories.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
@@ -31,8 +33,8 @@ export async function GET({ params, url }) {
 
 	const filter: RunsSearchFilter = {
 		...parsedFilter,
-		quest: 'dfsolus',
-		category: !parsedFilter.category ? 'quest' : parsedFilter.category,
+		quest: NgsQuests.DfSolus,
+		category: !parsedFilter.category ? NgsRunCategories.Quest : parsedFilter.category,
 		partySize: !parsedFilter.partySize ? 1 : parsedFilter.partySize
 	};
 
@@ -57,5 +59,5 @@ export async function POST({ request }) {
 		return jsonError(400, validationError);
 	}
 
-	return submitRun(GameDbValue.Ngs, parsedRun);
+	return submitRun(Game.Ngs, parsedRun);
 }

@@ -8,10 +8,10 @@ import { getUser } from '../repositories/userRepository';
 import { json } from '@sveltejs/kit';
 import { notifyDiscordNewRun } from './discordNotifyLogic';
 import type { SubmitResult } from '$lib/types/api/runs/submitResult';
-import type { GameDbValue } from '../types/db/runs/game';
 import { getPlayers } from '../repositories/playerRepository';
+import type { Game } from '$lib/types/api/game';
 
-export const submitRun = async (game: GameDbValue, parsedRun: RunSubmissionRequest) => {
+export const submitRun = async (game: Game, parsedRun: RunSubmissionRequest) => {
 	const pool = await leaderboardDb.connect();
 	const validationRequest = await pool.request();
 
