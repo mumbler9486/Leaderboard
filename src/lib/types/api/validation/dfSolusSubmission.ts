@@ -12,9 +12,9 @@ const ranks = [1];
 export const dfSolusRunSubmissionSchema: ObjectSchema<RunSubmissionRequest> =
 	runSubmissionRequestSchema.shape({
 		details: object().strip(),
-		quest: string().required().oneOf(quest),
+		quest: mixed<NgsQuests>().required().oneOf(quest),
 		questRank: number().integer().oneOf(ranks).required(),
-		category: string().required().oneOf(categories),
+		category: mixed<NgsRunCategories>().required().oneOf(categories),
 		party: yupRunPartySchema(4),
 		time: yupRunTime(900)
 	});

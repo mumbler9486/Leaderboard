@@ -1,11 +1,17 @@
-import { type InferType, string, number, object, array, ObjectSchema } from 'yup';
+import { type InferType, string, number, object, array, ObjectSchema, mixed } from 'yup';
 import { PurpleRegion } from '../purpleRegions';
 import { yupRunPartySchema } from './schemas/runPartySchema';
 import { yupRunTime } from './schemas/timeSchema';
 import { runSubmissionRequestSchema, type RunSubmissionRequest } from './runSubmission';
 import { NgsQuests } from '../runs/quests';
+import { NgsRunCategories } from '../runs/categories';
 
-const regions = [PurpleRegion.Aelio, PurpleRegion.Retem, PurpleRegion.Kvaris, PurpleRegion.Stia];
+const regions = [
+	NgsRunCategories.Aelio,
+	NgsRunCategories.Retem,
+	NgsRunCategories.Kvaris,
+	NgsRunCategories.Stia
+];
 
 const quest = [NgsQuests.Purples];
 const validRanksMap: Record<string, number[]> = {
@@ -18,7 +24,7 @@ const validRanksMap: Record<string, number[]> = {
 export const purpleSubmissionSchema: ObjectSchema<RunSubmissionRequest> =
 	runSubmissionRequestSchema.shape({
 		details: object().strip(),
-		quest: string().required().oneOf(quest),
+		quest: mixed<NgsQuests>().required().oneOf(quest),
 		questRank: number()
 			.integer()
 			.required()
@@ -40,7 +46,7 @@ export const purpleSubmissionSchema: ObjectSchema<RunSubmissionRequest> =
 					return isValid;
 				}
 			),
-		category: string().required().oneOf(regions),
+		category: mixed<NgsRunCategories>().required().oneOf(regions),
 		party: yupRunPartySchema(4),
 		time: yupRunTime(1200)
 	});

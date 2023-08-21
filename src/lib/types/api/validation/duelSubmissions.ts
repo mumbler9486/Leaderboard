@@ -2,29 +2,29 @@ import { type InferType, string, number, object, array, ObjectSchema, mixed, boo
 import { yupRunPartySchema } from './schemas/runPartySchema';
 import { yupRunTime } from './schemas/timeSchema';
 import { runSubmissionRequestSchema, type RunSubmissionRequest } from './runSubmission';
-import { IndomitableBoss } from '../duels/indomitableBoss';
 import { NgsQuests } from '../runs/quests';
+import { NgsRunCategories } from '../runs/categories';
 
-const categories: string[] = [
-	IndomitableBoss.NexAelio,
-	IndomitableBoss.RenusRetem,
-	IndomitableBoss.AmsKvaris,
-	IndomitableBoss.NilsStia,
-	IndomitableBoss.Halvaldi
+const categories = [
+	NgsRunCategories.NexAelio,
+	NgsRunCategories.RenusRetem,
+	NgsRunCategories.AmsKvaris,
+	NgsRunCategories.NilsStia,
+	NgsRunCategories.Halvaldi
 ];
 
 const quest = [NgsQuests.Duels];
 const validRanksMap: Record<string, number[]> = {
-	[IndomitableBoss.NexAelio]: [1],
-	[IndomitableBoss.RenusRetem]: [1],
-	[IndomitableBoss.AmsKvaris]: [1],
-	[IndomitableBoss.NilsStia]: [1],
-	[IndomitableBoss.Halvaldi]: [1]
+	[NgsRunCategories.NexAelio]: [1],
+	[NgsRunCategories.RenusRetem]: [1],
+	[NgsRunCategories.AmsKvaris]: [1],
+	[NgsRunCategories.NilsStia]: [1],
+	[NgsRunCategories.Halvaldi]: [1]
 };
 
 export const duelSubmissionSchema = (
 	runSubmissionRequestSchema.shape({
-		quest: string().required().oneOf(quest),
+		quest: mixed<NgsQuests>().required().oneOf(quest),
 		questRank: number()
 			.integer()
 			.required()
@@ -46,7 +46,7 @@ export const duelSubmissionSchema = (
 					return isValid;
 				}
 			),
-		category: string().required().oneOf(categories),
+		category: mixed<NgsRunCategories>().required().oneOf(categories),
 		party: yupRunPartySchema(1),
 		time: yupRunTime(300)
 	}) satisfies ObjectSchema<RunSubmissionRequest>

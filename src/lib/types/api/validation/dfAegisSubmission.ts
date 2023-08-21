@@ -10,8 +10,8 @@ const categories = [NgsRunCategories.UrgentQuest, NgsRunCategories.Trigger];
 
 const quest = [NgsQuests.DfAegis];
 const validRanksMap: Record<string, number[]> = {
-	urgent_quest: [1],
-	trigger: [1]
+	[NgsRunCategories.UrgentQuest]: [1],
+	[NgsRunCategories.Trigger]: [1]
 };
 
 const supports = [
@@ -23,7 +23,7 @@ const supports = [
 
 export const dfAegisSubmissionSchema = (
 	runSubmissionRequestSchema.shape({
-		quest: string().required().oneOf(quest),
+		quest: mixed<NgsQuests>().required().oneOf(quest),
 		questRank: number()
 			.integer()
 			.required()
@@ -45,7 +45,7 @@ export const dfAegisSubmissionSchema = (
 					return isValid;
 				}
 			),
-		category: string().required().oneOf(categories),
+		category: mixed<NgsRunCategories>().required().oneOf(categories),
 		party: yupRunPartySchema(8),
 		time: yupRunTime(1200)
 	}) satisfies ObjectSchema<RunSubmissionRequest>
