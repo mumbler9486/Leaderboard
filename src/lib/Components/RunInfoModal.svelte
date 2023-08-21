@@ -6,67 +6,11 @@
 
 	import { mapPlayerInfoNamePref, mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import type { Run } from '$lib/types/api/runs/run';
-	import { Game } from '$lib/types/api/game';
-	import { ServerRegion } from '$lib/types/api/serverRegions';
-	import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 
-	const defaultRun: Run = {
-		rank: -1,
-		runId: -1,
-		game: Game.Unknown,
-		serverRegion: ServerRegion.Unknown,
-		quest: '',
-		category: '',
-		patch: '',
-		party: [
-			{
-				playerId: -1,
-				playerName: '',
-				runCharacterName: '',
-				mainClass: NgsPlayerClass.Unknown,
-				subClass: NgsPlayerClass.Unknown,
-				linkPov: '',
-				weapons: [],
-				playerInfo: {
-					playerId: -1,
-					ship: -1,
-					server: ServerRegion.Unknown,
-					flag: '',
-					name: '',
-					characterName: '',
-					preferredNameType: -1,
-					nameEffectType: -1,
-					nameColor1: '',
-					nameColor2: ''
-				}
-			}
-		],
-		time: { hours: 0, minutes: 0, seconds: 0 },
-		notes: '',
-		modNotes: '',
-		questRank: -1,
-		submitter: {
-			playerId: -1,
-			ship: -1,
-			server: ServerRegion.Unknown,
-			flag: '',
-			name: '',
-			characterName: '',
-			preferredNameType: -1,
-			nameEffectType: -1,
-			nameColor1: '',
-			nameColor2: ''
-		},
-		submissionDate: '',
-		submissionStatus: -1,
-		dateApproved: '',
-		details: undefined
-	};
-	let run: Run = defaultRun;
+	let run: Run | undefined;
 
-	$: isSolo = run.party.length == 0;
-	$: player1 = run.party[0];
-	$: partySize = run.party.length;
+	$: isSolo = run?.party.length == 0;
+	$: partySize = run?.party.length ?? 0;
 
 	let modal: Modal;
 
@@ -94,9 +38,9 @@
 		<Alert type="error" message={errorMessage} />
 	{/if}
 	{#if isSolo}
-		<VideoPlayer url={player1.linkPov} />
+		<VideoPlayer url={run?.party[0].linkPov} />
 	{:else}
-		{#each run.party.filter((p) => p.linkPov != undefined) as player}
+		{#each run?.party.filter((p) => p.linkPov != undefined) ?? [] as player}
 			<PlayerNameBadge player={mapPartyMemberToNamePref(player)} />
 			<VideoPlayer url={player.linkPov} />
 			<div
@@ -123,7 +67,7 @@
 				class:md:grid-cols-2={partySize > 4}
 				class:md:grid-rows-4={partySize > 4}
 			>
-				{#each run.party as player}
+				{#each run?.party ?? [] as player}
 					<PlayerNameBadge showLink player={mapPartyMemberToNamePref(player)} />
 				{/each}
 			</div>
@@ -134,7 +78,7 @@
 			<div class="grid grid-cols-1">
 				<PlayerNameBadge
 					showLink
-					player={run.submitter ? mapPlayerInfoNamePref(run.submitter) : undefined}
+					player={run?.submitter ? mapPlayerInfoNamePref(run.submitter) : undefined}
 				/>
 			</div>
 		</div>
