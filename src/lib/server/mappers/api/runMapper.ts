@@ -1,11 +1,11 @@
 import { convertTimeToRunTime } from '$lib/server/db/util/datetime';
 import type { GetRunDbModel } from '$lib/server/repositories/runsRepository';
-import { mapDbValToServerRegion } from '$lib/server/types/db/runs/serverRegions';
 import { mapDbValToWeapon, type NgsWeaponDbValue } from '$lib/server/types/db/runs/weapons';
 import { Game, parseGame } from '$lib/types/api/game';
 import { NgsPlayerClass, parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 import { runTimeEqual, type RunTime } from '$lib/types/api/runTime';
 import type { PartyMember, PlayerInfo, Run } from '$lib/types/api/runs/run';
+import { parseServerRegion } from '$lib/types/api/serverRegions';
 
 export const mapRuns = (getRun: GetRunDbModel[]): Run[] => {
 	const groupedRuns = getRun.reduce((prev, curr) => {
@@ -57,7 +57,7 @@ export const mapRuns = (getRun: GetRunDbModel[]): Run[] => {
 					playerId: parseInt(rg.PartyPlayerId),
 					ship: parseInt(rg.PlayerShip),
 					flag: rg.PlayerFlag,
-					server: !!rg.PlayerServer ? mapDbValToServerRegion(rg.PlayerServer) : undefined,
+					server: parseServerRegion(rg.PlayerServer),
 					name: rg.PlayerName,
 					characterName: rg.PlayerCharacterName,
 					preferredNameType: parseInt(rg.PlayerPreferredNameType),
@@ -84,7 +84,7 @@ export const mapRuns = (getRun: GetRunDbModel[]): Run[] => {
 			rank: runRank,
 			runId: parseInt(runId),
 			game: parseGame(runMeta.RunGame) ?? Game.Unknown,
-			serverRegion: mapDbValToServerRegion(runMeta.RunServerRegion),
+			serverRegion: parseServerRegion(runMeta.RunServerRegion),
 			quest: runMeta.RunQuest,
 			category: runMeta.RunCategory,
 			patch: runMeta.RunPatch,

@@ -6,12 +6,12 @@ import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmissi
 import { SubmissionStatusDbValue } from '../types/db/runs/submissionStatus';
 import { mapWeaponToDbVal } from '../types/db/runs/weapons';
 import { normalizeYoutubeLink } from '$lib/utils/youtube';
-import { mapServerRegionToDbVal } from '../types/db/runs/serverRegions';
 import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
 import type { RunAttributeFilter } from '../types/db/runs/runAttributeFilter';
 import type { PlayersDbModel } from '../types/db/users/players';
 import type { Game } from '$lib/types/api/game';
 import type { CountSolosDbModel } from '../types/db/runs/countSolo';
+import { parseServerRegion } from '$lib/types/api/serverRegions';
 
 const runsDbFields = fields<RunDbModel>();
 const runPartyDbFields = fields<RunPartyDbModel>();
@@ -241,7 +241,7 @@ export const insertRun = async (
 ) => {
 	const request = transaction.request();
 
-	const serverRegion = mapServerRegionToDbVal(run.serverRegion);
+	const serverRegion = parseServerRegion(run.serverRegion);
 	const runDetails =
 		run.details === null || run.details === undefined ? null : JSON.stringify(run.details);
 
