@@ -4,7 +4,6 @@ import type { RunDbModel } from '../types/db/runs/run';
 import { fields } from '../util/nameof';
 import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmission';
 import { SubmissionStatusDbValue } from '../types/db/runs/submissionStatus';
-import { mapWeaponToDbVal } from '../types/db/runs/weapons';
 import { normalizeYoutubeLink } from '$lib/utils/youtube';
 import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
 import type { RunAttributeFilter } from '../types/db/runs/runAttributeFilter';
@@ -12,6 +11,7 @@ import type { PlayersDbModel } from '../types/db/users/players';
 import type { Game } from '$lib/types/api/game';
 import type { CountSolosDbModel } from '../types/db/runs/countSolo';
 import { parseServerRegion } from '$lib/types/api/serverRegions';
+import { parseNgsWeapon } from '$lib/types/api/weapon';
 
 const runsDbFields = fields<RunDbModel>();
 const runPartyDbFields = fields<RunPartyDbModel>();
@@ -316,7 +316,7 @@ const insertRunParty = async (
 	partyMembers.forEach((member, i) => {
 		// Transform request
 		const normalizedPovLink = member.povLink ? normalizeYoutubeLink(member.povLink) : null;
-		const weapons = member.weapons.map((w) => mapWeaponToDbVal(w)!);
+		const weapons = member.weapons.map((w) => parseNgsWeapon(w)!);
 		const mainClass = member.mainClass;
 		const subClass = member.subClass;
 

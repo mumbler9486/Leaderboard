@@ -1,11 +1,11 @@
 import { convertTimeToRunTime } from '$lib/server/db/util/datetime';
 import type { GetRunDbModel } from '$lib/server/repositories/runsRepository';
-import { mapDbValToWeapon, type NgsWeaponDbValue } from '$lib/server/types/db/runs/weapons';
 import { Game, parseGame } from '$lib/types/api/game';
 import { NgsPlayerClass, parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 import { runTimeEqual, type RunTime } from '$lib/types/api/runTime';
 import type { PartyMember, PlayerInfo, Run } from '$lib/types/api/runs/run';
 import { parseServerRegion } from '$lib/types/api/serverRegions';
+import { parseNgsWeapon, type NgsWeapon } from '$lib/types/api/weapon';
 
 export const mapRuns = (getRun: GetRunDbModel[]): Run[] => {
 	const groupedRuns = getRun.reduce((prev, curr) => {
@@ -42,7 +42,7 @@ export const mapRuns = (getRun: GetRunDbModel[]): Run[] => {
 
 		const party: PartyMember[] = run.map((rg) => {
 			const weapons = !!rg.PartyWeapons
-				? (JSON.parse(rg.PartyWeapons) as NgsWeaponDbValue[]).map(mapDbValToWeapon)
+				? (JSON.parse(rg.PartyWeapons) as NgsWeapon[]).map(parseNgsWeapon)
 				: [];
 			return {
 				playerId: !!rg.PartyPlayerId ? parseInt(rg.PartyPlayerId) : undefined,

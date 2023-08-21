@@ -3,7 +3,7 @@ import type { Game } from '../game';
 import type { NgsPlayerClass } from '../ngsPlayerClass';
 import type { RunTime } from '../runTime';
 import type { ServerRegion } from '../serverRegions';
-import type { Weapon } from '../weapon';
+import type { NgsWeapon } from '../weapon';
 
 export interface Run<T = void> {
 	rank: number;
@@ -32,7 +32,7 @@ export interface PartyMember {
 	mainClass: NgsPlayerClass;
 	subClass: NgsPlayerClass;
 	linkPov?: string;
-	weapons: Weapon[];
+	weapons: NgsWeapon[];
 	playerInfo: PlayerInfo;
 }
 

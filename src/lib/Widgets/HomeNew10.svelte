@@ -12,6 +12,7 @@
 	import type { PartyMember, Run } from '$lib/types/api/runs/run';
 	import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
 	import { IndomitableBoss } from '$lib/types/api/duels/indomitableBoss';
+	import { RunSortOption } from '$lib/types/api/runs/sortOptions';
 
 	const take = 10;
 
@@ -51,7 +52,7 @@
 			page: 0,
 			take: take,
 			partySize: 1,
-			sort: 'recent'
+			sort: RunSortOption.Ranking
 		};
 		const runsPath = '/ngs-api/runs';
 		const soloRuns = (await fetchGetApi<Run[]>(runsPath, copyQueryParams(runsSearchFilter))) ?? [];
