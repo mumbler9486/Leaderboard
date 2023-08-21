@@ -1,17 +1,17 @@
 import { stringEnumValuesToMap } from '$lib/utils/enum';
 
 export enum NgsPlayerClass {
-	Hunter = 'hunter',
-	Fighter = 'fighter',
-	Ranger = 'ranger',
-	Gunner = 'gunner',
-	Force = 'force',
-	Techter = 'techter',
-	Braver = 'braver',
-	Bouncer = 'bouncer',
-	Waker = 'waker',
-	Slayer = 'slayer',
-	Unknown = 'unknown'
+	Hunter = 'ngs_hunter',
+	Fighter = 'ngs_fighter',
+	Ranger = 'ngs_ranger',
+	Gunner = 'ngs_gunner',
+	Force = 'ngs_force',
+	Techter = 'ngs_techter',
+	Braver = 'ngs_braver',
+	Bouncer = 'ngs_bouncer',
+	Waker = 'ngs_waker',
+	Slayer = 'ngs_slayer',
+	Unknown = 'ngs_unknown'
 }
 
 const playerClassMap = stringEnumValuesToMap<NgsPlayerClass>(NgsPlayerClass);

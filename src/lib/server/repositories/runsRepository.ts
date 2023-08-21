@@ -4,7 +4,6 @@ import type { RunDbModel } from '../types/db/runs/run';
 import { fields } from '../util/nameof';
 import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmission';
 import { SubmissionStatusDbValue } from '../types/db/runs/submissionStatus';
-import { mapNgsClassToDbVal } from '../types/db/runs/ngsClasses';
 import { mapWeaponToDbVal } from '../types/db/runs/weapons';
 import { normalizeYoutubeLink } from '$lib/utils/youtube';
 import { mapServerRegionToDbVal } from '../types/db/runs/serverRegions';
@@ -161,7 +160,7 @@ export const getRuns = async (
 	}
 
 	if (filters.class) {
-		const mappedClass = mapNgsClassToDbVal(filters.class);
+		const mappedClass = filters.class;
 		query += ` AND rp.${runPartyDbFields.MainClass} = @class`;
 		request = request.input('class', sql.NVarChar, mappedClass);
 	}
@@ -316,8 +315,8 @@ const insertRunParty = async (
 		// Transform request
 		const normalizedPovLink = member.povLink ? normalizeYoutubeLink(member.povLink) : null;
 		const weapons = member.weapons.map((w) => mapWeaponToDbVal(w)!);
-		const mainClass = mapNgsClassToDbVal(member.mainClass);
-		const subClass = mapNgsClassToDbVal(member.subClass);
+		const mainClass = member.mainClass;
+		const subClass = member.subClass;
 
 		partyInsertRequest = partyInsertRequest
 			.input(`playerId${i}`, sql.Int, member.playerId)
