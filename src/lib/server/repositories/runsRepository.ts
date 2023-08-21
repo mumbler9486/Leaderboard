@@ -11,11 +11,13 @@ import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilte
 import type { RunAttributeFilter } from '../types/db/runs/runAttributeFilter';
 import type { PlayersDbModel } from '../types/db/users/players';
 import type { Game } from '$lib/types/api/game';
+import type { CountSolosDbModel } from '../types/db/runs/countSolo';
 
 const runsDbFields = fields<RunDbModel>();
 const runPartyDbFields = fields<RunPartyDbModel>();
 const playersDbFields = fields<PlayersDbModel>();
 const getRunDbFields = fields<GetRunDbModel>();
+const countSoloFields = fields<CountSolosDbModel>();
 
 export interface GetRunDbModel {
 	// Run
@@ -471,4 +473,16 @@ const appendAttributeFilter = (
 		request: request,
 		query: queryString
 	};
+};
+
+export const countSoloRuns = async (request: Request) => {
+	const sqlQuery = `
+			SELECT COUNT(*) AS ${countSoloFields.SoloRunsCount}
+			FROM dbo.Runs
+			WHERE dbo.Runs.PartySize = 1
+    `;
+
+	const results = await request.query(sqlQuery);
+	const counts = results.recordset[0] as CountSolosDbModel;
+	return counts;
 };
