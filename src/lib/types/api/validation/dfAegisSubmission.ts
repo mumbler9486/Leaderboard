@@ -5,6 +5,7 @@ import { runSubmissionRequestSchema, type RunSubmissionRequest } from './runSubm
 import { DfAegisSupport } from '../dfAegis/dfAegisSupports';
 import { NgsQuests } from '../runs/quests';
 import { NgsRunCategories } from '../runs/categories';
+import { yupQuestRank } from './schemas/questRankSchema';
 
 const categories = [NgsRunCategories.UrgentQuest, NgsRunCategories.Trigger];
 
@@ -25,7 +26,6 @@ export const dfAegisSubmissionSchema = (
 	runSubmissionRequestSchema.shape({
 		quest: mixed<NgsQuests>().required().oneOf(quest),
 		questRank: yupQuestRank(validRanksMap),
-
 		category: mixed<NgsRunCategories>().required().oneOf(categories),
 		party: yupRunPartySchema(8),
 		time: yupRunTime(1200)

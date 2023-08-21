@@ -1,5 +1,10 @@
 import { number } from 'yup';
 
+/**
+ * Creates a quest rank validation based on the category of the quest
+ * @param validRanksMap A category mapped to a list of valid ranks
+ * @returns
+ */
 export const yupQuestRank = (validRanksMap: Record<string, number[]>) =>
 	number()
 		.integer()
