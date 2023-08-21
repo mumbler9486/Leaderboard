@@ -6,6 +6,7 @@ import { yupRunTime } from './schemas/timeSchema';
 import { yupRunPartySchema } from './schemas/runPartySchema';
 import type { NgsQuests } from '../runs/quests';
 import type { NgsRunCategories } from '../runs/categories';
+import { yupQuestRank } from './schemas/questRankSchema';
 
 const serverRegions = [ServerRegion.Global, ServerRegion.Japan];
 const patches = [CurrentSubmissionPatchCode];
@@ -18,7 +19,7 @@ export const runSubmissionRequestSchema = object({
 	category: mixed<NgsRunCategories>().required(),
 	serverRegion: mixed<ServerRegion>().required().oneOf(serverRegions),
 	patch: string().required().oneOf(patches),
-	questRank: number().min(1).required(),
+	questRank: yupQuestRank({}),
 	time: yupRunTime(),
 	notes: string().max(500).nullable(),
 	party: yupRunPartySchema(),

@@ -1,6 +1,5 @@
 import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 import { type InferType, string, number, object, boolean, mixed } from 'yup';
-import { IndomitableBoss } from '../duels/indomitableBoss';
 import { NgsRunCategories } from '../runs/categories';
 import { NgsQuests } from '../runs/quests';
 import { ServerRegion } from '../serverRegions';
@@ -20,7 +19,7 @@ const classes = [
 	NgsPlayerClass.Slayer
 ];
 
-const validCategories: Record<NgsQuests, string[]> = {
+const validCategories: Record<string, string[]> = {
 	[NgsQuests.Purples]: [
 		NgsRunCategories.Aelio,
 		NgsRunCategories.Retem,
