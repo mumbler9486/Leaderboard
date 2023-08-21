@@ -2,10 +2,10 @@ import { leaderboardDb } from '$lib/server/db/db';
 import { json } from '@sveltejs/kit';
 import { jsonError } from '$lib/server/error.js';
 import { getRunPlayer } from '$lib/server/repositories/playerRepository.js';
-import { approveRun, checkRunExists, getRunById } from '$lib/server/repositories/runsRepository.js';
-import { SubmissionStatusDbValue } from '$lib/types/api/runs/submissionStatus.js';
+import { approveRun, getRunById } from '$lib/server/repositories/runsRepository.js';
 import type { ApproveRequest } from '$lib/types/api/validation/submissions';
 import { notifyDiscordNewRunApprovedLogic } from './discordNotifyLogic';
+import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus';
 
 export const approveRunSubmission = async (approveRequest: ApproveRequest) => {
 	const pool = await leaderboardDb.connect();
@@ -55,7 +55,7 @@ const checkData = async (run: ApproveRequest) => {
 			errorList
 		};
 	}
-	if (parseInt(submissionResult.RunSubmissionStatus) != SubmissionStatusDbValue.AwaitingApproval) {
+	if (parseInt(submissionResult.RunSubmissionStatus) != RunSubmissionStatus.AwaitingApproval) {
 		errorList.push(`Submission already denied/approved`);
 	}
 

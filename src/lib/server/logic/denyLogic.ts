@@ -1,9 +1,9 @@
 import { leaderboardDb } from '$lib/server/db/db';
 import { json } from '@sveltejs/kit';
 import { jsonError } from '$lib/server/error.js';
-import { SubmissionStatusDbValue } from '$lib/types/api/runs/submissionStatus.js';
 import { checkRunExists, denyRun } from '$lib/server/repositories/runsRepository.js';
 import type { DenyRequest } from '$lib/types/api/validation/submissions';
+import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus';
 
 export const denyRunSubmission = async (denyRequest: DenyRequest) => {
 	// Check data in db
@@ -38,7 +38,7 @@ const checkData = async (denyRequest: DenyRequest) => {
 			errorList
 		};
 	}
-	if (parseInt(submissionResult.submissionStatus) != SubmissionStatusDbValue.AwaitingApproval) {
+	if (parseInt(submissionResult.submissionStatus) != RunSubmissionStatus.AwaitingApproval) {
 		errorList.push(`Submission already denied/approved`);
 	}
 
