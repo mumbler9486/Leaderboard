@@ -3,7 +3,6 @@ import type { RunPartyDbModel } from '../types/db/runs/runParty';
 import type { RunDbModel } from '../types/db/runs/run';
 import { fields } from '../util/nameof';
 import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmission';
-import { SubmissionStatusDbValue } from '../types/db/runs/submissionStatus';
 import { normalizeYoutubeLink } from '$lib/utils/youtube';
 import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
 import type { RunAttributeFilter } from '../types/db/runs/runAttributeFilter';
@@ -12,65 +11,14 @@ import type { Game } from '$lib/types/api/game';
 import type { CountSolosDbModel } from '../types/db/runs/countSolo';
 import { parseServerRegion } from '$lib/types/api/serverRegions';
 import { parseNgsWeapon } from '$lib/types/api/weapon';
+import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus';
+import type { GetRunDbModel } from '../types/db/runs/getRun';
 
 const runsDbFields = fields<RunDbModel>();
 const runPartyDbFields = fields<RunPartyDbModel>();
 const playersDbFields = fields<PlayersDbModel>();
 const getRunDbFields = fields<GetRunDbModel>();
 const countSoloFields = fields<CountSolosDbModel>();
-
-export interface GetRunDbModel {
-	// Run
-	RunId: string;
-	RunSubmitterId: string;
-	RunGame: string;
-	RunQuest: string;
-	RunCategory: string;
-	RunServerRegion: string;
-	RunPatch: string;
-	RunQuestRank: string;
-	RunPartySize: string;
-	RunTime: string;
-	RunNotes: string;
-	RunSubmissionDate: string;
-	RunSubmissionStatus: string;
-	RunDateApproved: string;
-	RunModNotes: string;
-	RunAttributes: string;
-
-	// Party
-	PartyId: string;
-	PartyRunId: string;
-	PartyPlayerId: string;
-	PartyOrdinal: string;
-	PartyPovLink: string;
-	PartyRunCharacterName: string;
-	PartyMainClass: string;
-	PartySubClass: string;
-	PartyWeapons: string;
-
-	// Players
-	PlayerName: string;
-	PlayerCharacterName: string;
-	PlayerPreferredNameType: string;
-	PlayerServer: string;
-	PlayerShip: string;
-	PlayerFlag: string;
-	PlayerNameEffectType: string;
-	PlayerNameColor1: string;
-	PlayerNameColor2: string;
-
-	// Submitter
-	SubmitterName: string;
-	SubmitterCharacterName: string;
-	SubmitterPreferredNameType: string;
-	SubmitterServer: string;
-	SubmitterShip: string;
-	SubmitterFlag: string;
-	SubmitterNameEffectType: string;
-	SubmitterNameColor1: string;
-	SubmitterNameColor2: string;
-}
 
 const RunQuery = `
 	SELECT 
@@ -258,7 +206,7 @@ export const insertRun = async (
 		.input('runTime', sql.NVarChar, serializedRunTime)
 		.input('notes', sql.NVarChar(500), run.notes)
 		.input('submissionDate', sql.DateTime2, new Date())
-		.input('submissionStatus', sql.TinyInt, SubmissionStatusDbValue.AwaitingApproval)
+		.input('submissionStatus', sql.TinyInt, RunSubmissionStatus.AwaitingApproval)
 		.input('dateApproved', sql.DateTime2, null)
 		.input('modNotes', sql.NVarChar(500), null)
 		.input('attributes', sql.NVarChar(4000), runDetails);
@@ -402,7 +350,7 @@ export const approveRun = async (
 	modNotes: string | null | undefined
 ) => {
 	const submissionResult = await request
-		.input('approveStatus', sql.TinyInt, SubmissionStatusDbValue.Approved)
+		.input('approveStatus', sql.TinyInt, RunSubmissionStatus.Approved)
 		.input('approvalDate', sql.DateTime2, new Date())
 		.input('modNotes', sql.NVarChar(500), modNotes)
 		.input('runId', sql.Int, runId).query(`
@@ -425,7 +373,7 @@ export const denyRun = async (
 	modNotes: string | null | undefined
 ) => {
 	const submissionResult = await request
-		.input('denyStatus', sql.TinyInt, SubmissionStatusDbValue.Rejected)
+		.input('denyStatus', sql.TinyInt, RunSubmissionStatus.Rejected)
 		.input('modNotes', sql.NVarChar(500), modNotes)
 		.input('runId', sql.Int, runId).query(`
       UPDATE dbo.Runs

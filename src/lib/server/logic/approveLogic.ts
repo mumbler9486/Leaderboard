@@ -3,7 +3,7 @@ import { json } from '@sveltejs/kit';
 import { jsonError } from '$lib/server/error.js';
 import { getRunPlayer } from '$lib/server/repositories/playerRepository.js';
 import { approveRun, checkRunExists, getRunById } from '$lib/server/repositories/runsRepository.js';
-import { SubmissionStatusDbValue } from '$lib/server/types/db/runs/submissionStatus.js';
+import { SubmissionStatusDbValue } from '$lib/types/api/runs/submissionStatus.js';
 import type { ApproveRequest } from '$lib/types/api/validation/submissions';
 import { notifyDiscordNewRunApprovedLogic } from './discordNotifyLogic';
 

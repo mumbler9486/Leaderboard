@@ -1,5 +1,5 @@
 import { convertTimeToRunTime } from '$lib/server/db/util/datetime';
-import type { GetRunDbModel } from '$lib/server/repositories/runsRepository';
+import type { GetRunDbModel } from '$lib/server/types/db/runs/getRun';
 import { Game, parseGame } from '$lib/types/api/game';
 import { NgsPlayerClass, parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 import { runTimeEqual, type RunTime } from '$lib/types/api/runTime';

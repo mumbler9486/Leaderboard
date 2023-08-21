@@ -4,7 +4,7 @@ import { partyForm } from '../partyFormStore';
 import { fetchPostApi } from '$lib/utils/fetch';
 import type { SubmitResult } from '$lib/types/api/runs/submitResult';
 import { clientPrincipleStore, playerInfoStore } from '$lib/stores/userLogin';
-import { Weapon, parseNgsWeapon } from '$lib/types/api/weapon';
+import { NgsWeapon, parseNgsWeapon } from '$lib/types/api/weapon';
 import { NgsPlayerClass, parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 import { CurrentSubmissionPatchCode } from '$lib/constants/patchCodes';
 import { parseServerRegion } from '$lib/types/api/serverRegions';
@@ -43,7 +43,7 @@ export const submitDfAegisRun = async () => {
 			inVideoName: p.inVideoName,
 			mainClass: parseNgsPlayerClass(p.mainClass) ?? NgsPlayerClass.Unknown,
 			subClass: parseNgsPlayerClass(p.subClass) ?? NgsPlayerClass.Unknown,
-			weapons: p.weapons.map((w) => parseNgsWeapon(w) ?? Weapon.Unknown)
+			weapons: p.weapons.map((w) => parseNgsWeapon(w) ?? NgsWeapon.Unknown)
 		};
 	});
 
