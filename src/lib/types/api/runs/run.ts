@@ -3,7 +3,7 @@ import type { Game } from '../game';
 import type { NgsPlayerClass } from '../ngsPlayerClass';
 import type { RunTime } from '../runTime';
 import type { ServerRegion } from '../serverRegions';
-import type { Weapon } from '../weapon';
+import type { NgsWeapon } from '../weapon';
 
 export interface Run<T = void> {
 	rank: number;
@@ -18,7 +18,7 @@ export interface Run<T = void> {
 	notes?: string;
 	modNotes?: string;
 	questRank: number;
-	submitter: PlayerInfo2;
+	submitter: PlayerInfo;
 	submissionDate: string;
 	submissionStatus: number;
 	dateApproved?: string;
@@ -32,11 +32,11 @@ export interface PartyMember {
 	mainClass: NgsPlayerClass;
 	subClass: NgsPlayerClass;
 	linkPov?: string;
-	weapons: Weapon[];
-	playerInfo: PlayerInfo2;
+	weapons: NgsWeapon[];
+	playerInfo: PlayerInfo;
 }
 
-export interface PlayerInfo2 {
+export interface PlayerInfo {
 	playerId: number;
 	ship?: number;
 	server?: ServerRegion;

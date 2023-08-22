@@ -5,10 +5,9 @@ import { parseToRawSchema } from '$lib/utils/schemaValidation.js';
 import { validateApiRequest } from '$lib/server/validation/requestValidation.js';
 import { getRuns } from '$lib/server/repositories/runsRepository.js';
 import { mapRuns } from '$lib/server/mappers/api/runMapper.js';
-import { GameDbValue } from '$lib/server/types/db/runs/game.js';
 import { submitRun } from '$lib/server/logic/submitRunLogic.js';
 import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmission.js';
-import type { RunAttributeFilter } from '$lib/server/types/db/runAttributeFilter.js';
+import type { RunAttributeFilter } from '$lib/server/types/db/runs/runAttributeFilter.js';
 import {
 	duelRunsSearchFilterSchema,
 	type DuelRunsSearchFilter
@@ -17,6 +16,9 @@ import {
 	duelSubmissionSchema,
 	type DuelRunSubmission
 } from '$lib/types/api/validation/duelSubmissions.js';
+import { Game } from '$lib/types/api/game.js';
+import { NgsQuests } from '$lib/types/api/runs/quests.js';
+import { NgsRunCategories } from '$lib/types/api/runs/categories.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
@@ -35,8 +37,8 @@ export async function GET({ params, url }) {
 
 	const filter: DuelRunsSearchFilter = {
 		...parsedFilter,
-		quest: 'duels',
-		category: !parsedFilter.category ? 'halvaldi' : parsedFilter.category
+		quest: NgsQuests.Duels,
+		category: !parsedFilter.category ? NgsRunCategories.Halvaldi : parsedFilter.category
 	};
 
 	const duelAugmentsFilter: RunAttributeFilter[] | undefined =
@@ -71,5 +73,5 @@ export async function POST({ request }) {
 		return jsonError(400, validationError);
 	}
 
-	return submitRun(GameDbValue.Ngs, parsedRun);
+	return submitRun(Game.Ngs, parsedRun);
 }

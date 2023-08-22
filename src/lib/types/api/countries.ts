@@ -1,3 +1,4 @@
+// Same codes used for country flag icons
 export const countries = [
 	{ name: '(None)', code: '' },
 	{ name: 'Afghanistan', code: 'AF' },

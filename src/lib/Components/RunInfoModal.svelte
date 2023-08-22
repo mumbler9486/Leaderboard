@@ -4,20 +4,20 @@
 	import PlayerNameBadge from './PlayerNameBadge.svelte';
 	import VideoPlayer from './VideoPlayer.svelte';
 
-	import { mapToNamePref } from '$lib/types/api/mapNamePref';
-	import type { PlayerInfo } from '$lib/types/api/playerInfo';
+	import { mapPlayerInfoNamePref, mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
+	import type { Run } from '$lib/types/api/runs/run';
 
-	export let videoUrl: string;
-	export let players: PlayerInfo[];
-	export let submitter: PlayerInfo | undefined;
-	export let notes: string;
+	let run: Run | undefined;
+
+	$: isSolo = run?.party.length == 0;
+	$: partySize = run?.party.length ?? 0;
 
 	let modal: Modal;
-	let modNotes: string;
 
 	let errorMessage = '';
 
-	export const showModal = () => {
+	export const showModal = (viewRun: Run<any>) => {
+		run = viewRun;
 		modal.show();
 	};
 
@@ -37,28 +37,38 @@
 	{#if errorMessage != ''}
 		<Alert type="error" message={errorMessage} />
 	{/if}
-	<VideoPlayer url={videoUrl} />
-	<div
-		class="flex basis-full justify-center rounded-md border border-secondary bg-secondary/25 p-2"
-	>
-		<div class="flex flex-col text-center">
-			<span class="text-lg font-semibold"><i class="bi bi-youtube" />Video Link:</span>
-			<a class="link-primary link" href={videoUrl} target="_blank" rel="noreferrer noopener"
-				>{videoUrl}</a
+	{#if isSolo}
+		<VideoPlayer url={run?.party[0].linkPov} />
+	{:else}
+		{#each run?.party.filter((p) => p.linkPov != undefined) ?? [] as player}
+			<PlayerNameBadge player={mapPartyMemberToNamePref(player)} />
+			<VideoPlayer url={player.linkPov} />
+			<div
+				class="flex basis-full justify-center rounded-md border border-secondary bg-secondary/25 p-2"
 			>
-		</div>
-	</div>
+				<div class="flex flex-col text-center">
+					<span class="text-lg font-semibold"><i class="bi bi-youtube" />Video Link:</span>
+					<a
+						class="link-primary link"
+						href={player.linkPov}
+						target="_blank"
+						rel="noreferrer noopener">{player.linkPov}</a
+					>
+				</div>
+			</div>
+		{/each}
+	{/if}
+
 	<div class="flex w-full flex-col justify-around gap-2 p-2 md:flex-row md:gap-0">
 		<div class="flex flex-col justify-center">
-			<span class="place-content-center md:mr-1">{players.length > 1 ? 'Runners:' : 'Runner:'}</span
-			>
+			<span class="place-content-center md:mr-1">{partySize > 1 ? 'Runners:' : 'Runner:'}</span>
 			<div
 				class="grid grid-cols-1 md:grid-cols-2 md:grid-rows-4 md:gap-x-4"
-				class:md:grid-cols-2={players.length > 4}
-				class:md:grid-rows-4={players.length > 4}
+				class:md:grid-cols-2={partySize > 4}
+				class:md:grid-rows-4={partySize > 4}
 			>
-				{#each players as player}
-					<PlayerNameBadge showLink player={mapToNamePref(player)} />
+				{#each run?.party ?? [] as player}
+					<PlayerNameBadge showLink player={mapPartyMemberToNamePref(player)} />
 				{/each}
 			</div>
 		</div>
@@ -66,7 +76,10 @@
 		<div class="flex flex-col justify-center">
 			<span class="place-content-center md:mr-1">Submitted By:</span>
 			<div class="grid grid-cols-1">
-				<PlayerNameBadge showLink player={submitter ? mapToNamePref(submitter) : undefined} />
+				<PlayerNameBadge
+					showLink
+					player={run?.submitter ? mapPlayerInfoNamePref(run.submitter) : undefined}
+				/>
 			</div>
 		</div>
 	</div>
@@ -76,26 +89,8 @@
 		>
 			<div class="flex grow flex-col">
 				<span class="text-center text-lg font-semibold">Runner's Notes:</span>
-				<div class="whitespace-pre-wrap p-2">{notes}</div>
+				<div class="whitespace-pre-wrap p-2">{run?.notes ?? ''}</div>
 			</div>
 		</div>
 	</div>
 </Modal>
-
-<style>
-	.widget-discord::-webkit-scrollbar {
-		width: 10px;
-	}
-	.widget-discord::-webkit-scrollbar-thumb,
-	::-webkit-scrollbar-track-piece {
-		background-clip: padding-box;
-		border: 3px solid transparent;
-		border-radius: 5px;
-	}
-	.widget-discord::-webkit-scrollbar-thumb {
-		background-color: hsla(0, 0%, 100%, 0.1);
-	}
-	.widget-discord::-webkit-scrollbar-track-piece {
-		background-color: transparent;
-	}
-</style>

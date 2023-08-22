@@ -3,14 +3,14 @@
 	import NgsClassIcon from '$lib/Components/NgsClassIcon.svelte';
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import RankingBadge from '$lib/Components/RankingBadge.svelte';
-	import RunInfoModal2 from '$lib/Components/RunInfoModal2.svelte';
+	import RunInfoModal from '$lib/Components/RunInfoModal.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import VideoLink from '$lib/Components/VideoLink.svelte';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
-	import { mapToNamePref2 } from '$lib/types/api/mapNamePref';
+	import { mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import type { PurpleRun2 } from '$lib/types/api/runs/run';
 
-	let modal: RunInfoModal2;
+	let modal: RunInfoModal;
 
 	export let solo: boolean;
 	export let runs: PurpleRun2[];
@@ -55,7 +55,7 @@
 						<td class="font-bold">
 							{#each run.party as player}
 								<PlayerNameBadge
-									player={run.party ? mapToNamePref2(player) : undefined}
+									player={run.party ? mapPartyMemberToNamePref(player) : undefined}
 									on:click={() => runInfoOpen(run.runId)}
 									on:keyup={() => runInfoOpen(run.runId)}
 								/>
@@ -102,4 +102,4 @@
 	</div>
 {/if}
 
-<RunInfoModal2 bind:this={modal} />
+<RunInfoModal bind:this={modal} />

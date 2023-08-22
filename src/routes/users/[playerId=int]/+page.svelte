@@ -1,14 +1,13 @@
 <script lang="ts">
-	import Button from '$lib/Components/Button.svelte';
 	import ArksId from '$lib/PageComponents/Profile/ArksId.svelte';
 	import { t } from 'svelte-i18n';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import type { Player } from '$lib/types/api/player';
+	import type { PlayerProfile } from '$lib/types/api/players/player';
 	import { fetchGetApi } from '$lib/utils/fetch';
 
 	let isLoading: boolean = false;
-	let player: Player;
+	let player: PlayerProfile;
 	let error: string | undefined;
 
 	const reloadProfile = async () => {
@@ -17,7 +16,7 @@
 
 		try {
 			const playerId = parseInt($page.params.playerId);
-			const result = await fetchGetApi<Player>(`/ngs-api/users/${playerId}`);
+			const result = await fetchGetApi<PlayerProfile>(`/ngs-api/users/${playerId}`);
 
 			if (typeof result == 'string') {
 				error = 'Unknown user';

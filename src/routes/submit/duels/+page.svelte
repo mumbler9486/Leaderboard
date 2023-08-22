@@ -10,13 +10,14 @@
 	import { partyForm } from '../partyFormStore';
 	import { ErrorCodes } from '$lib/types/api/error';
 	import { submitDuelRun } from './submit';
+	import { NgsQuests } from '$lib/types/api/runs/quests';
 
 	let submitting: boolean = false;
 	let serverErrorMessage: string | undefined = undefined;
 	let submitFinish = false;
 
 	resetForm();
-	$runForm.category = 'duels';
+	$runForm.category = NgsQuests.Duels;
 	partyForm.setPartySize(1);
 
 	async function submitRun() {
@@ -114,21 +115,3 @@
 		</div>
 	</div>
 </div>
-
-<style>
-	.widget-discord::-webkit-scrollbar {
-		width: 10px;
-	}
-	.widget-discord::-webkit-scrollbar-thumb,
-	::-webkit-scrollbar-track-piece {
-		background-clip: padding-box;
-		border: 3px solid transparent;
-		border-radius: 5px;
-	}
-	.widget-discord::-webkit-scrollbar-thumb {
-		background-color: hsla(0, 0%, 100%, 0.1);
-	}
-	.widget-discord::-webkit-scrollbar-track-piece {
-		background-color: transparent;
-	}
-</style>

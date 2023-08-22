@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DfaOptions from './DfaOptions.svelte';
+	import DfAegisOptions from './DfAegisOptions.svelte';
 	import Divider from '$lib/Components/Divider.svelte';
 	import ServerRegionSelector from '../ServerRegionSelector.svelte';
 	import Alert from '$lib/Components/Alert.svelte';
@@ -10,13 +10,14 @@
 	import { partyForm } from '../partyFormStore';
 	import { submitDfAegisRun } from './submit';
 	import { ErrorCodes } from '$lib/types/api/error';
+	import { NgsQuests } from '$lib/types/api/runs/quests';
 
 	let submitting: boolean = false;
 	let serverErrorMessage: string | undefined = undefined;
 	let submitFinish = false;
 
 	resetForm();
-	$runForm.category = 'dfaegis';
+	$runForm.category = NgsQuests.DfAegis;
 	partyForm.setPartySize(1);
 
 	async function submitRun() {
@@ -75,7 +76,7 @@
 							<ServerRegionSelector />
 						</div>
 						<div class="form-control">
-							<DfaOptions />
+							<DfAegisOptions />
 						</div>
 					</div>
 					<PartyOptions />
@@ -115,21 +116,3 @@
 		</div>
 	</div>
 </div>
-
-<style>
-	.widget-discord::-webkit-scrollbar {
-		width: 10px;
-	}
-	.widget-discord::-webkit-scrollbar-thumb,
-	::-webkit-scrollbar-track-piece {
-		background-clip: padding-box;
-		border: 3px solid transparent;
-		border-radius: 5px;
-	}
-	.widget-discord::-webkit-scrollbar-thumb {
-		background-color: hsla(0, 0%, 100%, 0.1);
-	}
-	.widget-discord::-webkit-scrollbar-track-piece {
-		background-color: transparent;
-	}
-</style>

@@ -2,17 +2,22 @@ import { type InferType, string, number, object, array, mixed, ObjectSchema } fr
 import { runSubmissionRequestSchema, type RunSubmissionRequest } from './runSubmission';
 import { yupRunTime } from './schemas/timeSchema';
 import { yupRunPartySchema } from './schemas/runPartySchema';
+import { NgsQuests } from '../runs/quests';
+import { NgsRunCategories } from '../runs/categories';
+import { yupQuestRank } from './schemas/questRankSchema';
 
-const quest = ['dfsolus'];
-const categories = ['quest'];
-const ranks = [1];
+const quest = [NgsQuests.DfSolus];
+const categories = [NgsRunCategories.Quest];
+const validRanksMap: Record<string, number[]> = {
+	[NgsRunCategories.Quest]: [1]
+};
 
 export const dfSolusRunSubmissionSchema: ObjectSchema<RunSubmissionRequest> =
 	runSubmissionRequestSchema.shape({
 		details: object().strip(),
-		quest: string().required().oneOf(quest),
-		questRank: number().integer().oneOf(ranks).required(),
-		category: string().required().oneOf(categories),
+		quest: mixed<NgsQuests>().required().oneOf(quest),
+		questRank: yupQuestRank(validRanksMap),
+		category: mixed<NgsRunCategories>().required().oneOf(categories),
 		party: yupRunPartySchema(4),
 		time: yupRunTime(900)
 	});

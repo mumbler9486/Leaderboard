@@ -11,6 +11,7 @@
 	import { submitDfSolusRun } from './submit';
 	import { ErrorCodes } from '$lib/types/api/error';
 	import { afterNavigate } from '$app/navigation';
+	import { NgsQuests } from '$lib/types/api/runs/quests';
 
 	let submitting: boolean = false;
 	let serverErrorMessage: string | undefined = undefined;
@@ -18,7 +19,7 @@
 
 	afterNavigate(() => {
 		resetForm();
-		$runForm.category = 'dfsolus';
+		$runForm.category = NgsQuests.DfSolus;
 		partyForm.setPartySize(1);
 	});
 

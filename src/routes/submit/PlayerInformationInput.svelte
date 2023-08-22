@@ -13,17 +13,6 @@
 
 	onMount(userInfo.loadPlayerInfo);
 
-	const serverOptions = [
-		{
-			label: 'Global',
-			value: 'global'
-		},
-		{
-			label: 'Japan',
-			value: 'japan'
-		}
-	];
-
 	$: partyForm.update((p) => {
 		p[playerIndex].playerName = playerName;
 		p[playerIndex].inVideoName = inVideoName;

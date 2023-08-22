@@ -3,7 +3,7 @@
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import { createEventDispatcher } from 'svelte';
-	import { mapPlayerInfoNamePref, mapToNamePref2 } from '$lib/types/api/mapNamePref';
+	import { mapPlayerInfoNamePref, mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import { patchCodeLabelMap } from '$lib/constants/patchCodes';
 	import { PurpleRegion } from '$lib/types/api/purpleRegions';
 	import type { PurpleRun2 } from '$lib/types/api/runs/run';
@@ -46,7 +46,7 @@
 	<td>
 		{#each submission.party as player}
 			<p>
-				<PlayerNameBadge player={mapToNamePref2(player)} on:click={openModal} />
+				<PlayerNameBadge player={mapPartyMemberToNamePref(player)} on:click={openModal} />
 			</p>
 		{/each}
 	</td>

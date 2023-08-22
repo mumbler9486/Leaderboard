@@ -5,15 +5,17 @@ import { fetchPostApi } from '$lib/utils/fetch';
 import type { DfSolusRunSubmission } from '$lib/types/api/validation/dfSolusSubmission';
 import type { SubmitResult } from '$lib/types/api/runs/submitResult';
 import { clientPrincipleStore, playerInfoStore } from '$lib/stores/userLogin';
-import { Weapon, parseWeapon } from '$lib/types/api/weapon';
+import { NgsWeapon, parseNgsWeapon } from '$lib/types/api/weapon';
 import { NgsPlayerClass, parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 import { CurrentSubmissionPatchCode } from '$lib/constants/patchCodes';
 import { parseServerRegion } from '$lib/types/api/serverRegions';
 import type { BadRequestApiError } from '$lib/types/api/error';
+import { NgsRunCategories } from '$lib/types/api/runs/categories';
+import { NgsQuests } from '$lib/types/api/runs/quests';
 
 const dfSolusFormStore = writable({
 	rank: 1,
-	category: 'quest'
+	category: NgsRunCategories.Quest
 });
 
 const submitPath = '/ngs-api/runs/dfsolus';
@@ -39,7 +41,7 @@ export const submitDfSolusRun = async () => {
 			inVideoName: p.inVideoName,
 			mainClass: parseNgsPlayerClass(p.mainClass) ?? NgsPlayerClass.Unknown,
 			subClass: parseNgsPlayerClass(p.subClass) ?? NgsPlayerClass.Unknown,
-			weapons: p.weapons.map((w) => parseWeapon(w) ?? Weapon.Unknown)
+			weapons: p.weapons.map((w) => parseNgsWeapon(w) ?? NgsWeapon.Unknown)
 		};
 	});
 
@@ -48,7 +50,7 @@ export const submitDfSolusRun = async () => {
 		submitterUserId: clientPrincipal.userId,
 		submitterName: playerInfo.playerName,
 		serverRegion: parseServerRegion(form.serverRegion),
-		quest: 'dfsolus',
+		quest: NgsQuests.DfSolus,
 		questRank: solusDetails.rank,
 		patch: CurrentSubmissionPatchCode,
 		category: solusDetails.category,

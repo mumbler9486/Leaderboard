@@ -3,23 +3,22 @@
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import NgsClassIcon from '$lib/Components/NgsClassIcon.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
-	import { mapToNamePref } from '$lib/types/api/mapNamePref';
+	import { mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import { copyQueryParams } from '$lib/utils/queryParams';
 	import type { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
-	import type { PlayerInfo } from '$lib/types/api/playerInfo';
 	import type { RunTime } from '$lib/types/api/runTime';
-	import type { Run } from '$lib/types/api/runs/run';
+	import type { PartyMember, Run } from '$lib/types/api/runs/run';
 	import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
-	import { tempMapPartyPlayer } from '$lib/types/api/validation/utils/tempOldMapping';
 	import { IndomitableBoss } from '$lib/types/api/duels/indomitableBoss';
+	import { RunSortOption } from '$lib/types/api/runs/sortOptions';
 
 	const take = 10;
 
 	interface RecentRun {
 		mainClass: NgsPlayerClass;
-		player: PlayerInfo | undefined;
+		partyMember: PartyMember | undefined;
 		time: RunTime;
 		category: string;
 		approvalDate: Date;
@@ -53,7 +52,7 @@
 			page: 0,
 			take: take,
 			partySize: 1,
-			sort: 'recent'
+			sort: RunSortOption.Ranking
 		};
 		const runsPath = '/ngs-api/runs';
 		const soloRuns = (await fetchGetApi<Run[]>(runsPath, copyQueryParams(runsSearchFilter))) ?? [];
@@ -65,7 +64,7 @@
 						category: `${questNameMap[r.quest][r.category] ?? '<unknown_quest>'}${r.questRank}`,
 						mainClass: r.party[0]?.mainClass,
 						time: r.time,
-						player: tempMapPartyPlayer(r.party[0]),
+						partyMember: r.party[0],
 						approvalDate: new Date(r.dateApproved!)
 					} satisfies RecentRun)
 			)
@@ -97,8 +96,11 @@
 						<tr class="hover border-t border-t-secondary/20">
 							<td>
 								<div class="flex gap-1">
-									<NgsClassIcon combatClass={run.player?.mainClass} />
-									<PlayerNameBadge player={mapToNamePref(run.player)} showShipFlag={false} />
+									<NgsClassIcon combatClass={run.partyMember?.mainClass} />
+									<PlayerNameBadge
+										player={mapPartyMemberToNamePref(run.partyMember)}
+										showShipFlag={false}
+									/>
 								</div>
 							</td>
 							<td><TimeDisplay time={run.time} /></td>

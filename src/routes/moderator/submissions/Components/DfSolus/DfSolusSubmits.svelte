@@ -4,18 +4,16 @@
 	import type { DfSolusRun } from '$lib/types/api/runs/run';
 	import type { RunCategories } from '$lib/types/api/categories';
 	import { fetchGetApi } from '$lib/utils/fetch';
-	import SubmissionInfoModal2 from '$lib/Components/SubmissionInfoModal2.svelte';
-
-	export let category: RunCategories;
+	import SubmissionInfoModal2 from '$lib/Components/SubmissionInfoModal.svelte';
 
 	let submissions: DfSolusRun[] = [];
 	let loading = true;
 
 	let submissionModal: SubmissionInfoModal2;
 
-	$: reloadData(category);
+	$: reloadData();
 
-	async function reloadData(...watch: any[]) {
+	async function reloadData() {
 		loading = true;
 
 		try {

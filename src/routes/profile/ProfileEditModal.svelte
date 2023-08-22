@@ -19,6 +19,9 @@
 	import TextInput from '$lib/Components/TextInput.svelte';
 	import { useValidation } from '$lib/types/api/formValidation';
 	import { BadRequestError, InternalServerError } from '$lib/types/api/error';
+	import { NameStyle } from '$lib/types/api/players/nameStyle';
+	import { PreferredName } from '$lib/types/api/players/preferredName';
+	import { ServerRegion } from '$lib/types/api/serverRegions';
 
 	const dispatcher = createEventDispatcher();
 
@@ -31,31 +34,31 @@
 	$: nameOptions = [
 		{
 			label: `Player Name (${namePreview.playerName})`,
-			value: '0'
+			value: PreferredName.Player.toString()
 		},
 		{
 			label: `Character Name (${namePreview.characterName})`,
-			value: '1'
+			value: PreferredName.Character.toString()
 		}
-	];
+	] satisfies { label: string; value: string }[];
 
 	const nameEffectOptions = [
-		{ label: 'No Effect', value: '0' },
-		{ label: 'Solid Color', value: '1' },
-		{ label: 'Gradient', value: '2' },
-		{ label: 'Glowing', value: '3' }
-	];
+		{ label: 'No Effect', value: NameStyle.None.toString() },
+		{ label: 'Solid Color', value: NameStyle.Solid.toString() },
+		{ label: 'Gradient', value: NameStyle.Gradient.toString() },
+		{ label: 'Glowing', value: NameStyle.Glow.toString() }
+	] satisfies { label: string; value: string }[];
 
 	const countryOptions = countries.map((c) => ({ label: c.name, value: c.code.toLowerCase() }));
 
 	const serverRegionOptions = [
 		{ label: '(None)', value: '' },
-		{ label: 'Global', value: 'global' },
-		{ label: 'Japan', value: 'japan' }
-	];
+		{ label: 'Global', value: ServerRegion.Global },
+		{ label: 'Japan', value: ServerRegion.Japan }
+	] satisfies { label: string; value: string }[];
 
 	$: shipOptions =
-		$form.serverRegion === 'global'
+		$form.serverRegion === ServerRegion.Global
 			? [
 					{ label: '(None)', value: '' },
 					{ label: 'Ship 1 (global)', value: 'global_1' },
@@ -77,21 +80,23 @@
 					{ label: 'Ship 10 (japan)', value: 'japan_10' }
 			  ];
 
-	const shipOptionsInfo: { [shipOption: string]: { region: 'global' | 'japan'; ship: number } } = {
-		global_1: { region: 'global', ship: 1 },
-		global_2: { region: 'global', ship: 2 },
-		global_3: { region: 'global', ship: 3 },
-		global_4: { region: 'global', ship: 4 },
-		japan_1: { region: 'japan', ship: 1 },
-		japan_2: { region: 'japan', ship: 2 },
-		japan_3: { region: 'japan', ship: 3 },
-		japan_4: { region: 'japan', ship: 4 },
-		japan_5: { region: 'japan', ship: 5 },
-		japan_6: { region: 'japan', ship: 6 },
-		japan_7: { region: 'japan', ship: 7 },
-		japan_8: { region: 'japan', ship: 8 },
-		japan_9: { region: 'japan', ship: 9 },
-		japan_10: { region: 'japan', ship: 10 }
+	const shipOptionsInfo: {
+		[shipOption: string]: { region: ServerRegion.Global | ServerRegion.Japan; ship: number };
+	} = {
+		global_1: { region: ServerRegion.Global, ship: 1 },
+		global_2: { region: ServerRegion.Global, ship: 2 },
+		global_3: { region: ServerRegion.Global, ship: 3 },
+		global_4: { region: ServerRegion.Global, ship: 4 },
+		japan_1: { region: ServerRegion.Japan, ship: 1 },
+		japan_2: { region: ServerRegion.Japan, ship: 2 },
+		japan_3: { region: ServerRegion.Japan, ship: 3 },
+		japan_4: { region: ServerRegion.Japan, ship: 4 },
+		japan_5: { region: ServerRegion.Japan, ship: 5 },
+		japan_6: { region: ServerRegion.Japan, ship: 6 },
+		japan_7: { region: ServerRegion.Japan, ship: 7 },
+		japan_8: { region: ServerRegion.Japan, ship: 8 },
+		japan_9: { region: ServerRegion.Japan, ship: 9 },
+		japan_10: { region: ServerRegion.Japan, ship: 10 }
 	};
 	$: selectedShip = shipOptionsInfo[$form.ship ?? ''];
 
@@ -115,12 +120,12 @@
 		playerId: -1,
 		flag: $form.playerCountry?.toLowerCase(),
 		ship: selectedShip?.ship,
-		region: selectedShip?.region,
+		serverRegion: selectedShip?.region,
 		playerName: $playerInfoStore?.playerName ?? '<Unknown>',
 		runCharacterName: 'Run character name',
 		characterName: $form.mainCharacterName,
 		namePreference: parseInt($form.preferredName ?? '0'),
-		nameType: parseInt($form.nameEffect ?? '0'),
+		nameEffectType: parseInt($form.nameEffect ?? '0'),
 		nameColor1: $form.primaryColor?.substring(1),
 		nameColor2: $form.secondaryColor?.substring(1)
 	} satisfies PlayerNameDisplay;
@@ -344,21 +349,3 @@
 		>
 	</svelte:fragment>
 </Modal>
-
-<style>
-	.widget-discord::-webkit-scrollbar {
-		width: 10px;
-	}
-	.widget-discord::-webkit-scrollbar-thumb,
-	::-webkit-scrollbar-track-piece {
-		background-clip: padding-box;
-		border: 3px solid transparent;
-		border-radius: 5px;
-	}
-	.widget-discord::-webkit-scrollbar-thumb {
-		background-color: hsla(0, 0%, 100%, 0.1);
-	}
-	.widget-discord::-webkit-scrollbar-track-piece {
-		background-color: transparent;
-	}
-</style>

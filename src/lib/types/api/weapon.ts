@@ -1,26 +1,27 @@
 import { stringEnumValuesToMap } from '$lib/utils/enum';
 
-export enum Weapon {
-	Sword = 'sword',
-	WiredLance = 'wired lance',
-	Partisan = 'partisan',
-	TwinDaggers = 'twin daggers',
-	DoubleSabers = 'double sabers',
-	Knuckles = 'knuckles',
-	Katana = 'katana',
-	SoaringBlades = 'soaring blades',
-	Gunblade = 'gunblade',
-	AssaultRifle = 'assault rifle',
-	Launcher = 'launcher',
-	TwinMachineGuns = 'twin machine guns',
-	Bow = 'bow',
-	Rod = 'rod',
-	Talis = 'talis',
-	Wand = 'wand',
-	JetBoots = 'jet boots',
-	Harmonizer = 'harmonizer',
-	Unknown = 'unknown'
+export enum NgsWeapon {
+	Sword = 'ngs_sword',
+	WiredLance = 'ngs_wired_lance',
+	Partisan = 'ngs_partisan',
+	TwinDaggers = 'ngs_twin_daggers',
+	DoubleSabers = 'ngs_double_sabers',
+	Knuckles = 'ngs_knuckles',
+	Katana = 'ngs_katana',
+	SoaringBlades = 'ngs_soaring_blades',
+	Gunblade = 'ngs_gunblade',
+	AssaultRifle = 'ngs_assault_rifle',
+	Launcher = 'ngs_launcher',
+	TwinMachineGuns = 'ngs_twin_machine_guns',
+	Bow = 'ngs_bow',
+	Rod = 'ngs_rod',
+	Talis = 'ngs_talis',
+	Wand = 'ngs_wand',
+	JetBoots = 'ngs_jet_boots',
+	Harmonizer = 'ngs_harmonizer',
+	Unknown = 'ngs_unknown'
 }
 
-const weaponMap = stringEnumValuesToMap<Weapon>(Weapon);
-export const parseWeapon = (str: string) => (!str ? undefined : weaponMap[str.toLowerCase()]);
+const weaponMap = stringEnumValuesToMap<NgsWeapon>(NgsWeapon);
+export const parseNgsWeapon = (str: string) =>
+	!str ? NgsWeapon.Unknown : weaponMap[str.toLowerCase()] ?? NgsWeapon.Unknown;

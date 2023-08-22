@@ -4,16 +4,18 @@ import { partyForm } from '../partyFormStore';
 import { fetchPostApi } from '$lib/utils/fetch';
 import type { SubmitResult } from '$lib/types/api/runs/submitResult';
 import { clientPrincipleStore, playerInfoStore } from '$lib/stores/userLogin';
-import { Weapon, parseWeapon } from '$lib/types/api/weapon';
+import { NgsWeapon, parseNgsWeapon } from '$lib/types/api/weapon';
 import { NgsPlayerClass, parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 import { CurrentSubmissionPatchCode } from '$lib/constants/patchCodes';
 import { parseServerRegion } from '$lib/types/api/serverRegions';
 import type { BadRequestApiError } from '$lib/types/api/error';
 import type { PurpleRunSubmission } from '$lib/types/api/validation/purpleSubmissions';
+import { NgsQuests } from '$lib/types/api/runs/quests';
+import { NgsRunCategories } from '$lib/types/api/runs/categories';
 
 const purpleFormStore = writable({
 	rank: 1,
-	region: 'stia'
+	region: NgsRunCategories.Stia
 });
 
 const submitPath = '/ngs-api/runs/purples';
@@ -39,7 +41,7 @@ export const submitPurplesRun = async () => {
 			inVideoName: p.inVideoName,
 			mainClass: parseNgsPlayerClass(p.mainClass) ?? NgsPlayerClass.Unknown,
 			subClass: parseNgsPlayerClass(p.subClass) ?? NgsPlayerClass.Unknown,
-			weapons: p.weapons.map((w) => parseWeapon(w) ?? Weapon.Unknown)
+			weapons: p.weapons.map((w) => parseNgsWeapon(w) ?? NgsWeapon.Unknown)
 		};
 	});
 
@@ -48,7 +50,7 @@ export const submitPurplesRun = async () => {
 		submitterUserId: clientPrincipal.userId,
 		submitterName: playerInfo.playerName,
 		serverRegion: parseServerRegion(form.serverRegion),
-		quest: 'purples',
+		quest: NgsQuests.Purples,
 		questRank: purpleDetails.rank,
 		patch: CurrentSubmissionPatchCode,
 		category: purpleDetails.region,

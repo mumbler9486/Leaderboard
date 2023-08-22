@@ -1,8 +1,8 @@
 import { type InferType, string, number, object, array, mixed } from 'yup';
 import { NgsPlayerClass } from '../../ngsPlayerClass';
-import { Weapon } from '../../weapon';
 import { youtubeUrlRegex } from '$lib/utils/youtube';
 import { findDuplicates } from '../utils/duplicate';
+import { NgsWeapon } from '../../weapon';
 
 const mainClasses = [
 	NgsPlayerClass.Hunter,
@@ -19,24 +19,24 @@ const mainClasses = [
 const subClasses = mainClasses;
 
 const weapons = [
-	Weapon.Sword,
-	Weapon.WiredLance,
-	Weapon.Partisan,
-	Weapon.TwinDaggers,
-	Weapon.DoubleSabers,
-	Weapon.Knuckles,
-	Weapon.Katana,
-	Weapon.SoaringBlades,
-	Weapon.Gunblade,
-	Weapon.AssaultRifle,
-	Weapon.Launcher,
-	Weapon.TwinMachineGuns,
-	Weapon.Bow,
-	Weapon.Rod,
-	Weapon.Talis,
-	Weapon.Wand,
-	Weapon.JetBoots,
-	Weapon.Harmonizer
+	NgsWeapon.Sword,
+	NgsWeapon.WiredLance,
+	NgsWeapon.Partisan,
+	NgsWeapon.TwinDaggers,
+	NgsWeapon.DoubleSabers,
+	NgsWeapon.Knuckles,
+	NgsWeapon.Katana,
+	NgsWeapon.SoaringBlades,
+	NgsWeapon.Gunblade,
+	NgsWeapon.AssaultRifle,
+	NgsWeapon.Launcher,
+	NgsWeapon.TwinMachineGuns,
+	NgsWeapon.Bow,
+	NgsWeapon.Rod,
+	NgsWeapon.Talis,
+	NgsWeapon.Wand,
+	NgsWeapon.JetBoots,
+	NgsWeapon.Harmonizer
 ];
 
 export const yupRunPartySchema = (maxPlayers: number = 4) => {
@@ -51,7 +51,7 @@ export const yupRunPartySchema = (maxPlayers: number = 4) => {
 			inVideoName: string().required().max(30),
 			mainClass: mixed<NgsPlayerClass>().required().oneOf(mainClasses),
 			subClass: mixed<NgsPlayerClass>().required().oneOf(subClasses),
-			weapons: array(mixed<Weapon>().required().oneOf(weapons)).max(6).ensure().required()
+			weapons: array(mixed<NgsWeapon>().required().oneOf(weapons)).max(6).ensure().required()
 		})
 	)
 		.min(1)

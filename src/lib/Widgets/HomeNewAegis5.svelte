@@ -3,8 +3,8 @@
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import NgsClassIcon from '$lib/Components/NgsClassIcon.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
-	import DfaSupportIcon from '$lib/Components/DfaSupportIcon.svelte';
-	import { mapToNamePref2 } from '$lib/types/api/mapNamePref';
+	import DfAegisSupportIcon from '$lib/Components/DfAegisSupportIcon.svelte';
+	import { mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import { copyQueryParams } from '$lib/utils/queryParams';
@@ -48,12 +48,15 @@
 								{#each run.party as player}
 									<div class="flex gap-1">
 										<NgsClassIcon combatClass={player.mainClass} />
-										<PlayerNameBadge player={mapToNamePref2(player)} showShipFlag={false} />
+										<PlayerNameBadge
+											player={mapPartyMemberToNamePref(player)}
+											showShipFlag={false}
+										/>
 									</div>
 								{/each}
 							</td>
 							<td><TimeDisplay time={run.time} /></td>
-							<td><DfaSupportIcon support={run.details.support} /></td>
+							<td><DfAegisSupportIcon support={run.details.support} /></td>
 						</tr>
 					{/each}
 				{:catch err}

@@ -2,29 +2,18 @@
 	import PurplePartySubmitRow from './PurpleSubmitRow.svelte';
 
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
-	import { RunCategories } from '$lib/types/api/categories';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import type { Run } from '$lib/types/api/runs/run';
-	import SubmissionInfoModal2 from '$lib/Components/SubmissionInfoModal2.svelte';
-
-	export let category: RunCategories;
+	import SubmissionInfoModal2 from '$lib/Components/SubmissionInfoModal.svelte';
 
 	let submissions: Run[] = [];
 	let loading = true;
 
 	let submissionModal: SubmissionInfoModal2;
 
-	const categoryPathMap: { [key: string]: string } = {
-		[RunCategories.PurpleDuo]: RunCategories.PurpleDuo,
-		[RunCategories.PurpleParty]: RunCategories.PurpleParty
-	};
+	$: reloadData();
 
-	$: reloadData(category);
-
-	async function reloadData(...watch: any[]) {
-		const categoryPath = categoryPathMap[category];
-		if (!categoryPath) console.error('Unknown purple category');
-
+	async function reloadData() {
 		loading = true;
 
 		try {

@@ -6,14 +6,15 @@
 	import PlayerNameBadge from './PlayerNameBadge.svelte';
 	import VideoPlayer from './VideoPlayer.svelte';
 
-	import type { Submission } from '$lib/types/api/submissions/submissions';
-	import { mapToNamePref } from '$lib/types/api/mapNamePref';
+	import { mapPlayerInfoNamePref, mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import { createEventDispatcher } from 'svelte';
 	import type { ApproveRequest, DenyRequest } from '$lib/types/api/validation/submissions';
+	import type { Run } from '$lib/types/api/runs/run';
+	import { fetchPostApi } from '$lib/utils/fetch';
 
 	const dispatcher = createEventDispatcher();
 
-	export let submission: Submission | undefined;
+	let submission: Run | undefined;
 
 	let modal: Modal;
 	let modNotes: string;
@@ -21,7 +22,8 @@
 	let processing = false;
 	let errorMessage = '';
 
-	export const showModal = () => {
+	export const showModal = (viewRun: Run<any>) => {
+		submission = viewRun;
 		modNotes = '';
 		modal.show();
 	};
@@ -46,14 +48,10 @@
 
 		processing = true;
 		try {
-			const response = await fetch(`/ngs-api/submissions/${submission?.category}/approve`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(approveRequest)
-			});
-			const result = await response.json();
+			const result = await fetchPostApi<any>(
+				`/ngs-api/submissions/${submission?.quest}/approve`,
+				approveRequest
+			);
 
 			if (result.error) {
 				errorMessage = result.details[0];
@@ -92,14 +90,10 @@
 
 		processing = true;
 		try {
-			const response = await fetch(`/ngs-api/submissions/${submission?.category}/deny`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(denyRequest)
-			});
-			const result = await response.json();
+			const result = await fetchPostApi<any>(
+				`/ngs-api/submissions/${submission?.quest}/deny`,
+				denyRequest
+			);
 
 			if (result.error) {
 				errorMessage = result.details[0];
@@ -151,15 +145,17 @@
 		{#if errorMessage != ''}
 			<Alert type="error" message={errorMessage} />
 		{/if}
-		{#each submission?.players ?? [] as player}
+		{#each submission?.party ?? [] as player}
 			{#if player.linkPov}
+				<PlayerNameBadge player={mapPartyMemberToNamePref(player)} />
 				<VideoPlayer url={player.linkPov} />
 				<div
 					class="flex basis-full justify-center rounded-md border border-secondary bg-secondary/25 p-2"
 				>
 					<div class="flex flex-col text-center">
 						<span class="text-lg font-semibold"
-							><i class="bi bi-youtube" /> {player.playerName}'s POV Video Link:</span
+							><i class="bi bi-youtube" />
+							{!player.playerId ? player.runCharacterName : player.playerName}'s POV Video Link:</span
 						>
 						<a
 							class="link-primary link"
@@ -174,7 +170,11 @@
 					class="flex basis-full justify-center rounded-md border border-secondary bg-secondary/25 bg-info p-2"
 				>
 					<div class="flex flex-col text-center">
-						<span class="text-lg font-semibold">No Video POV for {player.playerName}</span>
+						<span class="text-lg font-semibold"
+							>No Video POV for {!player.playerId
+								? player.runCharacterName
+								: player.playerName}</span
+						>
 					</div>
 				</div>
 			{/if}
@@ -184,7 +184,7 @@
 				<span class="flex place-content-center md:mr-1">Run By:</span>
 				<PlayerNameBadge
 					showLink
-					player={submission ? mapToNamePref(submission?.players[0]) : undefined}
+					player={submission ? mapPartyMemberToNamePref(submission?.party[0]) : undefined}
 				/>
 			</div>
 
@@ -192,7 +192,7 @@
 				<span class="flex place-content-center md:mr-1">Submitted By:</span>
 				<PlayerNameBadge
 					showLink
-					player={submission ? mapToNamePref(submission?.submitter) : undefined}
+					player={submission ? mapPlayerInfoNamePref(submission.submitter) : undefined}
 				/>
 			</div>
 
@@ -250,21 +250,3 @@
 		>
 	</svelte:fragment>
 </Modal>
-
-<style>
-	.widget-discord::-webkit-scrollbar {
-		width: 10px;
-	}
-	.widget-discord::-webkit-scrollbar-thumb,
-	::-webkit-scrollbar-track-piece {
-		background-clip: padding-box;
-		border: 3px solid transparent;
-		border-radius: 5px;
-	}
-	.widget-discord::-webkit-scrollbar-thumb {
-		background-color: hsla(0, 0%, 100%, 0.1);
-	}
-	.widget-discord::-webkit-scrollbar-track-piece {
-		background-color: transparent;
-	}
-</style>

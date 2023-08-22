@@ -1,6 +1,6 @@
 import { consentSelected } from './consent';
 import { get, writable } from 'svelte/store';
-import type { Player } from '$lib/types/api/player';
+import type { PlayerProfile } from '$lib/types/api/players/player';
 import { fetchGetApi } from '$lib/utils/fetch';
 import type { UserRole } from '$lib/types/api/users/userRole';
 import { consentedPersisted } from './gdprStoreFactory';
@@ -37,14 +37,14 @@ const fetchClientPrinciple = async () => {
 	return null;
 };
 
-const userInfoPersistedStore = writable<Player | undefined>(undefined);
+const userInfoPersistedStore = writable<PlayerProfile | undefined>(undefined);
 const refreshUserInfo = async () => {
 	const userGuid = get(clientPrincipleStore)?.userId;
 	if (!userGuid) {
 		throw new Error('Not logged in');
 	}
 
-	const player = await fetchGetApi<Player>(`/ngs-api/users/${userGuid}`);
+	const player = await fetchGetApi<PlayerProfile>(`/ngs-api/users/${userGuid}`);
 	userInfoPersistedStore.set(player);
 	return player;
 };

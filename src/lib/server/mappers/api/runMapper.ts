@@ -1,11 +1,11 @@
 import { convertTimeToRunTime } from '$lib/server/db/util/datetime';
-import type { GetRunDbModel } from '$lib/server/repositories/runsRepository';
-import { mapDbValToGame } from '$lib/server/types/db/runs/game';
-import { mapDbValToNgsClass } from '$lib/server/types/db/runs/ngsClasses';
-import { mapDbValToServerRegion } from '$lib/server/types/db/runs/serverRegions';
-import { mapDbValToWeapon, type NgsWeaponDbValue } from '$lib/server/types/db/runs/weapons';
+import type { GetRunDbModel } from '$lib/server/types/db/runs/getRun';
+import { Game, parseGame } from '$lib/types/api/game';
+import { NgsPlayerClass, parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 import { runTimeEqual, type RunTime } from '$lib/types/api/runTime';
-import type { PartyMember, PlayerInfo2, Run } from '$lib/types/api/runs/run';
+import type { PartyMember, PlayerInfo, Run } from '$lib/types/api/runs/run';
+import { parseServerRegion } from '$lib/types/api/serverRegions';
+import { parseNgsWeapon, type NgsWeapon } from '$lib/types/api/weapon';
 
 export const mapRuns = (getRun: GetRunDbModel[]): Run[] => {
 	const groupedRuns = getRun.reduce((prev, curr) => {
@@ -42,14 +42,14 @@ export const mapRuns = (getRun: GetRunDbModel[]): Run[] => {
 
 		const party: PartyMember[] = run.map((rg) => {
 			const weapons = !!rg.PartyWeapons
-				? (JSON.parse(rg.PartyWeapons) as NgsWeaponDbValue[]).map(mapDbValToWeapon)
+				? (JSON.parse(rg.PartyWeapons) as NgsWeapon[]).map(parseNgsWeapon)
 				: [];
 			return {
 				playerId: !!rg.PartyPlayerId ? parseInt(rg.PartyPlayerId) : undefined,
 				playerName: rg.PlayerName,
 				runCharacterName: rg.PartyRunCharacterName,
-				mainClass: mapDbValToNgsClass(rg.PartyMainClass),
-				subClass: mapDbValToNgsClass(rg.PartySubClass),
+				mainClass: parseNgsPlayerClass(rg.PartyMainClass) ?? NgsPlayerClass.Unknown,
+				subClass: parseNgsPlayerClass(rg.PartySubClass) ?? NgsPlayerClass.Unknown,
 				linkPov: rg.PartyPovLink,
 				weapons: weapons,
 				//TODO make player info nullable as player may not exist
@@ -57,7 +57,7 @@ export const mapRuns = (getRun: GetRunDbModel[]): Run[] => {
 					playerId: parseInt(rg.PartyPlayerId),
 					ship: parseInt(rg.PlayerShip),
 					flag: rg.PlayerFlag,
-					server: !!rg.PlayerServer ? mapDbValToServerRegion(rg.PlayerServer) : undefined,
+					server: parseServerRegion(rg.PlayerServer),
 					name: rg.PlayerName,
 					characterName: rg.PlayerCharacterName,
 					preferredNameType: parseInt(rg.PlayerPreferredNameType),
@@ -68,7 +68,7 @@ export const mapRuns = (getRun: GetRunDbModel[]): Run[] => {
 			} satisfies PartyMember;
 		});
 
-		const submitter: PlayerInfo2 = {
+		const submitter: PlayerInfo = {
 			playerId: parseInt(runMeta.PartyPlayerId),
 			ship: parseInt(runMeta.SubmitterShip),
 			flag: runMeta.SubmitterFlag,
@@ -83,8 +83,8 @@ export const mapRuns = (getRun: GetRunDbModel[]): Run[] => {
 		const submission: Run = {
 			rank: runRank,
 			runId: parseInt(runId),
-			game: mapDbValToGame(runMeta.RunGame),
-			serverRegion: mapDbValToServerRegion(runMeta.RunServerRegion),
+			game: parseGame(runMeta.RunGame) ?? Game.Unknown,
+			serverRegion: parseServerRegion(runMeta.RunServerRegion),
 			quest: runMeta.RunQuest,
 			category: runMeta.RunCategory,
 			patch: runMeta.RunPatch,

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
-	import { RunCategories } from '$lib/types/api/categories';
 	import { onMount } from 'svelte';
 	import { partyForm } from '../partyFormStore';
 	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';

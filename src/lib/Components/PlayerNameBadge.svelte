@@ -1,35 +1,37 @@
 <script context="module" lang="ts">
 	export interface PlayerNameDisplay {
-		playerId: number;
-		flag: string | undefined;
-		ship: number | undefined;
-		region: string | undefined;
+		playerId?: number;
+		flag?: string;
+		ship?: number;
+		serverRegion?: ServerRegion;
 		playerName: string;
-		runCharacterName: string;
+		runCharacterName?: string;
 		characterName: string | undefined;
-		namePreference: number | undefined;
-		nameType: number | undefined;
-		nameColor1: string | undefined;
-		nameColor2: string | undefined;
+		namePreference: PreferredName | undefined;
+		nameEffectType: NameStyle | undefined;
+		nameColor1?: string;
+		nameColor2?: string;
 	}
 
 	const stringToNameDisplay = (name: string): PlayerNameDisplay => ({
-		playerId: 0,
-		flag: '',
-		ship: 0,
-		region: '',
+		playerId: undefined,
+		flag: undefined,
+		ship: undefined,
+		serverRegion: undefined,
 		playerName: name,
 		runCharacterName: '',
 		characterName: '',
-		namePreference: 0,
-		nameType: 0,
-		nameColor1: '',
-		nameColor2: ''
+		namePreference: PreferredName.Player,
+		nameEffectType: NameStyle.None,
+		nameColor1: undefined,
+		nameColor2: undefined
 	});
 </script>
 
 <script lang="ts">
 	import { countriesMap } from '$lib/types/api/countries';
+	import { NameStyle } from '$lib/types/api/players/nameStyle';
+	import { PreferredName } from '$lib/types/api/players/preferredName';
 	import { ServerRegion } from '$lib/types/api/serverRegions';
 	import Tooltip from './Tooltip.svelte';
 
@@ -42,11 +44,15 @@
 
 	const unknownPlayerName = '<Unknown>';
 
-	$: isGenericPlayer = !player || typeof player === 'string';
-	$: playerNameDisplay =
-		!player || typeof player === 'string'
-			? stringToNameDisplay(player ?? unknownPlayerName)
-			: player;
+	$: isPlayerAnon = !player || typeof player === 'string' || (!player.playerId ? true : false);
+	$: playerNameDisplay = (() => {
+		if (!player) {
+			return stringToNameDisplay(unknownPlayerName);
+		} else if (typeof player === 'string') {
+			return stringToNameDisplay(player);
+		}
+		return player;
+	})();
 	$: playerLink = `/users/${playerNameDisplay.playerId}`;
 
 	$: flagClass = playerNameDisplay.flag ? `fi fi-${playerNameDisplay.flag}` : '';
@@ -55,14 +61,10 @@
 		: undefined;
 	$: shipImageUrl =
 		playerNameDisplay.ship &&
-		playerNameDisplay.region &&
-		playerNameDisplay.region != ServerRegion.Unknown
-			? `/icons/ships/ship${playerNameDisplay.ship}-${playerNameDisplay.region}.png`
+		playerNameDisplay.serverRegion &&
+		playerNameDisplay.serverRegion != ServerRegion.Unknown
+			? `/icons/ships/ship${playerNameDisplay.ship}-${playerNameDisplay.serverRegion}.png`
 			: '';
-
-	// TODO Refactor anon system
-	const anonPlayerIds = [106, 107];
-	$: isPlayerAnon = anonPlayerIds.includes(playerNameDisplay.playerId);
 
 	$: nameColor1 = playerNameDisplay.nameColor1 ?? 'ffffff';
 	$: nameColor2 = playerNameDisplay.nameColor2 ?? 'ffffff';
@@ -70,44 +72,29 @@
 	$: setPlayerNames(playerNameDisplay);
 
 	const setPlayerNames = (playerNameDisplay: PlayerNameDisplay) => {
-		if (!playerNameDisplay.playerId) {
-			primaryName = playerNameDisplay.runCharacterName;
-			secondaryName = '';
-			return;
-		}
-
 		switch (playerNameDisplay.namePreference) {
 			// Main Character Name
-			case 1:
+			case PreferredName.Character:
 				primaryName = playerNameDisplay.characterName ?? '';
-				secondaryName = playerNameDisplay.runCharacterName;
-				break;
-			// Run Character Name
-			case 2:
-				primaryName = playerNameDisplay.runCharacterName;
-				secondaryName = playerNameDisplay.playerName;
+				secondaryName = playerNameDisplay.runCharacterName ?? '';
 				break;
 			// Player Name
 			default:
 				primaryName = playerNameDisplay.playerName;
-				secondaryName = playerNameDisplay.runCharacterName;
+				secondaryName = playerNameDisplay.runCharacterName ?? '';
 				break;
 		}
 	};
 
 	const getNameColorStyle = (playerNameDisplay: PlayerNameDisplay) => {
-		if (isPlayerAnon) {
-			return '';
-		}
-
-		switch (playerNameDisplay.nameType) {
-			case 1:
+		switch (playerNameDisplay.nameEffectType) {
+			case NameStyle.Solid:
 				return `color: #${nameColor1};`;
-			case 2:
+			case NameStyle.Gradient:
 				return `background: -webkit-linear-gradient(0deg, #${nameColor1}, #${nameColor2});
 						-webkit-background-clip: text;
 						-webkit-text-fill-color: transparent;`;
-			case 3:
+			case NameStyle.Glow:
 				return `color: #${nameColor2};
 						text-shadow: 0px 0px 5px #${nameColor1}, 0px 0px 5px #${nameColor1}, 0px 0px 5px #${nameColor1};`;
 			default:
@@ -122,14 +109,14 @@
 			<span class="flag {flagClass}" />
 		</Tooltip>
 	{/if}
-	{#if showShipFlag && playerNameDisplay.region && playerNameDisplay.ship}
+	{#if showShipFlag && playerNameDisplay.serverRegion && playerNameDisplay.ship}
 		<img
 			src={shipImageUrl}
 			class="mr-1 object-none p-0"
-			alt="ship{playerNameDisplay.ship}-{playerNameDisplay.region}"
+			alt="ship{playerNameDisplay.ship}-{playerNameDisplay.serverRegion}"
 		/>
 	{/if}
-	{#if showLink && !isGenericPlayer}
+	{#if showLink && !isPlayerAnon}
 		<a href={playerLink} target="_blank" rel="noreferrer noopener" class="flex place-content-center"
 			><p style={playerNameStyle} class="primary-name inline place-self-center">
 				{primaryName}
@@ -143,7 +130,7 @@
 			on:keyup
 		>
 			{primaryName}
-			{#if (secondaryName && secondaryName != primaryName) || isPlayerAnon}
+			{#if secondaryName && secondaryName != primaryName}
 				<p class="ml-1 truncate text-xs">
 					({secondaryName})
 				</p>

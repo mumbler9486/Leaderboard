@@ -1,33 +1,25 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 
-	import DfaPartySubmits from './Components/Dfa/DfaPartySubmits.svelte';
+	import DfAegisPartySubmits from './Components/DfAegis/DfAegisPartySubmits.svelte';
 	import IndomitableSubmits from './Components/Indomitable/IndomitableSubmits.svelte';
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import SolusSubmits from './Components/DfSolus/DfSolusSubmits.svelte';
 	import PurpleSubmits from './Components/Purple/PurpleSubmits.svelte';
+	import { NgsQuests } from '$lib/types/api/runs/quests';
 
 	const submissionCategoryOptions = [
-		{ value: 'purples', label: 'Purple Triggers (all regions)' },
-		{ value: 'dfsolus', label: 'Dark Falz Solus' },
-		{ value: 'dfaegis', label: 'Dark Falz Aegis' },
-		{ value: 'duels', label: 'Duels Indomitable' }
+		{ value: NgsQuests.Purples, label: 'Purple Triggers (all regions)' },
+		{ value: NgsQuests.DfSolus, label: 'Dark Falz Solus' },
+		{ value: NgsQuests.DfAegis, label: 'Dark Falz Aegis' },
+		{ value: NgsQuests.Duels, label: 'Duels Indomitable' }
 	];
 
-	const submitsMap: { [key: string]: { component: any; category: string } } = {
-		['purples']: {
-			component: PurpleSubmits,
-			category: 'purples'
-		},
-		['dfaegis']: { component: DfaPartySubmits, category: 'dfaegis' },
-		['duels']: {
-			component: IndomitableSubmits,
-			category: 'duels'
-		},
-		['dfsolus']: {
-			component: SolusSubmits,
-			category: 'dfsolus'
-		}
+	const submitsMap: { [key: string]: { component: any } } = {
+		[NgsQuests.Purples]: { component: PurpleSubmits },
+		[NgsQuests.DfAegis]: { component: DfAegisPartySubmits },
+		[NgsQuests.Duels]: { component: IndomitableSubmits },
+		[NgsQuests.DfSolus]: { component: SolusSubmits }
 	};
 
 	let selectedCategoryRuns = submissionCategoryOptions[0].value;
@@ -61,7 +53,7 @@
 			<div
 				class="m-0 grow space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8 md:m-2"
 			>
-				<svelte:component this={tableComponent.component} category={tableComponent.category} />
+				<svelte:component this={tableComponent.component} />
 			</div>
 		</div>
 	</div>

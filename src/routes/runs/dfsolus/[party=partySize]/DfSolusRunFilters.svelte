@@ -4,7 +4,7 @@
 	import ServerRegionFilterTag from '$lib/Components/Filters/FilterTags/ServerRegionFilterTag.svelte';
 	import PartySizeNavigation from '$lib/Components/PartySizeNavigation.svelte';
 	import { parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
-	import DfaRules from '../DfSolusRules.svelte';
+	import DfAegisRules from '../DfSolusRules.svelte';
 	import { runFilters, type DfSolusSearchFilters } from '../dfSolusRunFilterStore';
 	import DfSolusModalRunFilters from './DfSolusModalRunFilters.svelte';
 
@@ -63,7 +63,7 @@
 			/>
 		</div>
 		<div class="m-1 md:flex-initial">
-			<DfaRules />
+			<DfAegisRules />
 		</div>
 	</div>
 

@@ -3,13 +3,16 @@ import { yupRunPartySchema } from './schemas/runPartySchema';
 import { yupRunTime } from './schemas/timeSchema';
 import { runSubmissionRequestSchema, type RunSubmissionRequest } from './runSubmission';
 import { DfAegisSupport } from '../dfAegis/dfAegisSupports';
+import { NgsQuests } from '../runs/quests';
+import { NgsRunCategories } from '../runs/categories';
+import { yupQuestRank } from './schemas/questRankSchema';
 
-const categories = ['urgent_quest', 'trigger'];
+const categories = [NgsRunCategories.UrgentQuest, NgsRunCategories.Trigger];
 
-const quest = ['dfaegis'];
+const quest = [NgsQuests.DfAegis];
 const validRanksMap: Record<string, number[]> = {
-	urgent_quest: [1],
-	trigger: [1]
+	[NgsRunCategories.UrgentQuest]: [1],
+	[NgsRunCategories.Trigger]: [1]
 };
 
 const supports = [
@@ -21,29 +24,9 @@ const supports = [
 
 export const dfAegisSubmissionSchema = (
 	runSubmissionRequestSchema.shape({
-		quest: string().required().oneOf(quest),
-		questRank: number()
-			.integer()
-			.required()
-			.test(
-				'valid_quest_rank',
-				(questRank) => `Quest rank is invalid for the selected quest.`,
-				(questRank, ctx) => {
-					if (!questRank) {
-						return true;
-					}
-
-					const validRanks = validRanksMap[ctx.parent.category] ?? [];
-					const isValid = validRanks.includes(questRank) ?? false;
-					if (!isValid) {
-						return ctx.createError({
-							message: `Quest rank is invalid. Must be one of: ${validRanks.join(',')}`
-						});
-					}
-					return isValid;
-				}
-			),
-		category: string().required().oneOf(categories),
+		quest: mixed<NgsQuests>().required().oneOf(quest),
+		questRank: yupQuestRank(validRanksMap),
+		category: mixed<NgsRunCategories>().required().oneOf(categories),
 		party: yupRunPartySchema(8),
 		time: yupRunTime(1200)
 	}) satisfies ObjectSchema<RunSubmissionRequest>

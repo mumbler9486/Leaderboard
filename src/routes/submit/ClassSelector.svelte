@@ -2,7 +2,6 @@
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 	import { partyForm } from './partyFormStore';
-	import { runForm } from './runStore';
 
 	export let playerIndex: number;
 	export let selectedMainClass: string | undefined = undefined;
@@ -11,61 +10,61 @@
 	const options = {
 		[NgsPlayerClass.Hunter]: {
 			label: 'Hunter',
-			value: 'hunter',
+			value: NgsPlayerClass.Hunter,
 			icon: '/icons/class/class-hunter.png',
 			disabled: false
 		},
 		[NgsPlayerClass.Fighter]: {
 			label: 'Fighter',
-			value: 'fighter',
+			value: NgsPlayerClass.Fighter,
 			icon: '/icons/class/class-fighter.png',
 			disabled: false
 		},
 		[NgsPlayerClass.Ranger]: {
 			label: 'Ranger',
-			value: 'ranger',
+			value: NgsPlayerClass.Ranger,
 			icon: '/icons/class/class-ranger.png',
 			disabled: false
 		},
 		[NgsPlayerClass.Gunner]: {
 			label: 'Gunner',
-			value: 'gunner',
+			value: NgsPlayerClass.Gunner,
 			icon: '/icons/class/class-gunner.png',
 			disabled: false
 		},
 		[NgsPlayerClass.Force]: {
 			label: 'Force',
-			value: 'force',
+			value: NgsPlayerClass.Force,
 			icon: '/icons/class/class-force.png',
 			disabled: false
 		},
 		[NgsPlayerClass.Techter]: {
 			label: 'Techter',
-			value: 'techter',
+			value: NgsPlayerClass.Techter,
 			icon: '/icons/class/class-techter.png',
 			disabled: false
 		},
 		[NgsPlayerClass.Braver]: {
 			label: 'Braver',
-			value: 'braver',
+			value: NgsPlayerClass.Braver,
 			icon: '/icons/class/class-braver.png',
 			disabled: false
 		},
 		[NgsPlayerClass.Bouncer]: {
 			label: 'Bouncer',
-			value: 'bouncer',
+			value: NgsPlayerClass.Bouncer,
 			icon: '/icons/class/class-bouncer.png',
 			disabled: false
 		},
 		[NgsPlayerClass.Waker]: {
 			label: 'Waker',
-			value: 'waker',
+			value: NgsPlayerClass.Waker,
 			icon: '/icons/class/class-waker.png',
 			disabled: false
 		},
 		[NgsPlayerClass.Slayer]: {
 			label: 'Slayer',
-			value: 'slayer',
+			value: NgsPlayerClass.Slayer,
 			icon: '/icons/class/class-slayer.png',
 			disabled: false
 		}

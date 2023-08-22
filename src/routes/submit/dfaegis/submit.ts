@@ -4,16 +4,18 @@ import { partyForm } from '../partyFormStore';
 import { fetchPostApi } from '$lib/utils/fetch';
 import type { SubmitResult } from '$lib/types/api/runs/submitResult';
 import { clientPrincipleStore, playerInfoStore } from '$lib/stores/userLogin';
-import { Weapon, parseWeapon } from '$lib/types/api/weapon';
+import { NgsWeapon, parseNgsWeapon } from '$lib/types/api/weapon';
 import { NgsPlayerClass, parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 import { CurrentSubmissionPatchCode } from '$lib/constants/patchCodes';
 import { parseServerRegion } from '$lib/types/api/serverRegions';
 import type { BadRequestApiError } from '$lib/types/api/error';
 import type { DfAegisRunSubmission } from '$lib/types/api/validation/dfAegisSubmission';
 import { DfAegisSupport } from '$lib/types/api/dfAegis/dfAegisSupports';
+import { NgsRunCategories } from '$lib/types/api/runs/categories';
+import { NgsQuests } from '$lib/types/api/runs/quests';
 
 const dfAegisFormStore = writable({
-	category: 'urgent_quest',
+	category: NgsRunCategories.UrgentQuest,
 	rank: 1,
 	support: DfAegisSupport.AinaManon
 });
@@ -41,7 +43,7 @@ export const submitDfAegisRun = async () => {
 			inVideoName: p.inVideoName,
 			mainClass: parseNgsPlayerClass(p.mainClass) ?? NgsPlayerClass.Unknown,
 			subClass: parseNgsPlayerClass(p.subClass) ?? NgsPlayerClass.Unknown,
-			weapons: p.weapons.map((w) => parseWeapon(w) ?? Weapon.Unknown)
+			weapons: p.weapons.map((w) => parseNgsWeapon(w) ?? NgsWeapon.Unknown)
 		};
 	});
 
@@ -50,7 +52,7 @@ export const submitDfAegisRun = async () => {
 		submitterUserId: clientPrincipal.userId,
 		submitterName: playerInfo.playerName,
 		serverRegion: parseServerRegion(form.serverRegion),
-		quest: 'dfaegis',
+		quest: NgsQuests.DfAegis,
 		questRank: dfAegisDetails.rank,
 		patch: CurrentSubmissionPatchCode,
 		category: dfAegisDetails.category,

@@ -1,4 +1,4 @@
-import { PartySize, parsePartySize } from '$lib/types/api/partySizes';
+import { parsePartySize } from '$lib/types/api/partySizes';
 import type { ParamMatcher } from '@sveltejs/kit';
 
 export const match = ((param) => {

@@ -1,13 +1,13 @@
 <script lang="ts">
 	import LeaderboardTitle from '$lib/Components/LeaderboardTitle.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
-	import DfaPartyRunsTable from './DfaPartyRunsTable.svelte';
-	import DfaPartyRunFilters from './DfaPartyRunFilters.svelte';
+	import DfAegisPartyRunsTable from './DfAegisPartyRunsTable.svelte';
+	import DfAegisPartyRunFilters from './DfAegisPartyRunFilters.svelte';
 
 	import { page } from '$app/stores';
 	import { t } from 'svelte-i18n';
 	import { fetchGetApi } from '$lib/utils/fetch';
-	import { dfAegisRunFilters, type DfaSearchFilters } from '../dfaRunFilterStore';
+	import { dfAegisRunFilters, type DfAegisSearchFilters } from '../dfAegisRunFilterStore';
 	import { PartySize, parsePartySize } from '$lib/types/api/partySizes';
 	import {
 		copyQueryParams,
@@ -54,7 +54,7 @@
 	$: pageTitle = partyInfo.pageTitle;
 	$: partySizeTitle = partyInfo.name;
 
-	const filterDef: UrlQueryParamRule<DfaSearchFilters>[] = [
+	const filterDef: UrlQueryParamRule<DfAegisSearchFilters>[] = [
 		{ name: 'server', undefinedValue: 'no_filter' },
 		{ name: 'class', undefinedValue: 'no_filter' },
 		{ name: 'rank', defaultValue: '1' },
@@ -64,7 +64,7 @@
 
 	const { cleanup } = useUrlFilterStore(dfAegisRunFilters, filterDef);
 
-	const fetchRuns = async (filters: DfaSearchFilters) => {
+	const fetchRuns = async (filters: DfAegisSearchFilters) => {
 		const basePath = `/ngs-api/runs/dfaegis`;
 		const runFilters = clearFilterValues(filters, filterDef);
 
@@ -90,11 +90,11 @@
 <div class="grow content-center">
 	<div class="container mx-auto mb-16 mt-2 rounded-md border border-secondary bg-base-100/75">
 		<div class="m-2 space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8">
-			<DfaPartyRunFilters solo={isSolo} />
+			<DfAegisPartyRunFilters solo={isSolo} />
 			{#await fetchRuns($dfAegisRunFilters)}
 				<LoadingBar />
 			{:then runs}
-				<DfaPartyRunsTable solo={isSolo} {runs} />
+				<DfAegisPartyRunsTable solo={isSolo} {runs} />
 			{:catch err}
 				<p>An error has occured, please try again later</p>
 			{/await}

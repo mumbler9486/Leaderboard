@@ -4,14 +4,15 @@
 	import PartySizeOptions from '../PartySizeOptions.svelte';
 	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
 	import { purplesForm } from './submit';
+	import { PurpleRegion } from '$lib/types/api/purpleRegions';
 
 	let selectedRankStr: string = '1';
 
 	const regionRankOptions: { [region: string]: number[] } = {
-		['aelio']: [1, 2, 3],
-		['retem']: [1, 2, 3],
-		['kvaris']: [1, 2],
-		['stia']: [1]
+		[PurpleRegion.Aelio]: [1, 2, 3],
+		[PurpleRegion.Retem]: [1, 2, 3],
+		[PurpleRegion.Kvaris]: [1, 2],
+		[PurpleRegion.Stia]: [1]
 	};
 
 	const rankOptionsDropdowns: { [region: number]: { label: string; value: string } } = {
@@ -45,10 +46,10 @@
 			label="Region"
 			placeholder="Select a region"
 			options={[
-				{ label: 'Aelio', value: 'aelio' },
-				{ label: 'Retem', value: 'retem' },
-				{ label: 'Kvaris', value: 'kvaris' },
-				{ label: 'Stia', value: 'stia' }
+				{ label: 'Aelio', value: PurpleRegion.Aelio },
+				{ label: 'Retem', value: PurpleRegion.Retem },
+				{ label: 'Kvaris', value: PurpleRegion.Kvaris },
+				{ label: 'Stia', value: PurpleRegion.Stia }
 			]}
 			bind:value={$purplesForm.region}
 			on:change={regionChanged}

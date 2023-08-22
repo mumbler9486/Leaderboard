@@ -3,15 +3,14 @@
 	import ClassIcon from '$lib/Components/NgsClassIcon.svelte';
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import RankingBadge from '$lib/Components/RankingBadge.svelte';
-	import RunInfoModal2 from '$lib/Components/RunInfoModal2.svelte';
+	import RunInfoModal from '$lib/Components/RunInfoModal.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import VideoLink from '$lib/Components/VideoLink.svelte';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
-	import type { IndomitableRun } from '$lib/types/api/duels/indomitable';
-	import { mapToNamePref, mapToNamePref2 } from '$lib/types/api/mapNamePref';
+	import { mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import type { DuelRun } from '$lib/types/api/runs/run';
 
-	let modal: RunInfoModal2;
+	let modal: RunInfoModal;
 
 	export let runs: DuelRun[];
 
@@ -54,7 +53,7 @@
 						</td>
 						<td class="font-bold">
 							<PlayerNameBadge
-								player={run.party[0] ? mapToNamePref2(run.party[0]) : undefined}
+								player={run.party[0] ? mapPartyMemberToNamePref(run.party[0]) : undefined}
 								on:click={() => runInfoOpen(run.runId)}
 								on:keyup={() => runInfoOpen(run.runId)}
 							/>
@@ -91,4 +90,4 @@
 	</div>
 {/if}
 
-<RunInfoModal2 bind:this={modal} />
+<RunInfoModal bind:this={modal} />

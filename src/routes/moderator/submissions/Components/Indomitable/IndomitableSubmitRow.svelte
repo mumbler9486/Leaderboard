@@ -4,10 +4,9 @@
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import { createEventDispatcher } from 'svelte';
-	import { parseRunCategory } from '$lib/types/api/categories';
 	import { patchCodeLabelMap } from '$lib/constants/patchCodes';
 	import type { DuelRun } from '$lib/types/api/runs/run';
-	import { mapPlayerInfoNamePref, mapToNamePref2 } from '$lib/types/api/mapNamePref';
+	import { mapPlayerInfoNamePref, mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import { IndomitableBoss } from '$lib/types/api/duels/indomitableBoss';
 
 	const dispatcher = createEventDispatcher();
@@ -36,7 +35,7 @@
 
 <tr class="hover border-t border-t-secondary/20">
 	<td>
-		<PlayerNameBadge player={mapToNamePref2(submission.party[0])} on:click={openModal} />
+		<PlayerNameBadge player={mapPartyMemberToNamePref(submission.party[0])} on:click={openModal} />
 	</td>
 	<td>
 		<NgsClassIcon showTooltip combatClass={player1.mainClass} />

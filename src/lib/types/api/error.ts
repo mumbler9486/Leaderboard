@@ -23,7 +23,7 @@ export class BadRequestError extends Error {
 	public response: BadRequestApiError;
 
 	constructor(message: string, errorResponse: BadRequestApiError) {
-		super();
+		super(message);
 		this.response = errorResponse;
 	}
 }
