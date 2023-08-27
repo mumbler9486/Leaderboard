@@ -42,7 +42,7 @@
 	<span class="flex justify-center">There are no runs that match the selected filters.</span>
 {:else}
 	<Table pinRows class="w-full" {headers}>
-		{#each runs.concat(runs.concat(runs.concat(runs.concat(runs.concat(runs))))) as run}
+		{#each runs as run}
 			<tr class="hover">
 				<td class="text-center font-bold">
 					<RankingBadge rank={run.rank} />
