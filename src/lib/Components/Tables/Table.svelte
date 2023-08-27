@@ -31,7 +31,7 @@
 	class:table-pin-cols={pinCols}
 >
 	<thead>
-		<tr class="text-sm">
+		<tr class="text-sm" class:top-16={pinRows}>
 			{#each headers as header}
 				<th
 					class="bg-neutral text-neutral-content {header.class ?? ''}"
