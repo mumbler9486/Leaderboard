@@ -51,7 +51,7 @@ export interface PlayerInfo {
 
 export interface DfSolusRun extends Run {}
 
-export interface PurpleRun2 extends Run {}
+export interface PurpleRun extends Run {}
 
 export interface DfAegisRunDetails {
 	support: DfAegisSupport;

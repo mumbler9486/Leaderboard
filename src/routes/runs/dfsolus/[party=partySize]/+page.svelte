@@ -1,7 +1,6 @@
 <script lang="ts">
 	import LeaderboardTitle from '$lib/Components/LeaderboardTitle.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
-	import DfSolusPartyRunsTable from './DfSolusRunsTable.svelte';
 	import DfSolusPartyRunFilters from './DfSolusRunFilters.svelte';
 
 	import { page } from '$app/stores';
@@ -17,6 +16,7 @@
 	} from '$lib/utils/queryParams';
 	import { onDestroy } from 'svelte';
 	import type { DfSolusRun } from '$lib/types/api/runs/run';
+	import RunsTable from '$lib/Components/Tables/RunsTable.svelte';
 
 	interface PartySizeInfo {
 		filterSize: number;
@@ -24,7 +24,7 @@
 		pageTitle: string;
 	}
 
-	const partySizeInfoMap: Record<string, PartySizeInfo> = {
+	$: partySizeInfoMap = {
 		[PartySize.Solo]: {
 			filterSize: 1,
 			name: $t('common.playerCount.solo'),
@@ -46,7 +46,7 @@
 				'common.playerCount.party'
 			)}`
 		}
-	};
+	} satisfies Record<string, PartySizeInfo>;
 
 	$: partySize = parsePartySize($page.params.party) ?? PartySize.Solo;
 	$: isSolo = partySize === PartySize.Solo;
@@ -86,7 +86,9 @@
 			{#await fetchRuns($runFilters)}
 				<LoadingBar />
 			{:then runs}
-				<DfSolusPartyRunsTable {runs} solo={isSolo} />
+				<div class="-mx-6 md:mx-0">
+					<RunsTable {runs} solosOnly={isSolo} />
+				</div>
 			{:catch err}
 				<p>An error has occured, please try again later</p>
 			{/await}

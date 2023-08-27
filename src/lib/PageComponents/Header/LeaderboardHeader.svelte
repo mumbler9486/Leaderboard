@@ -8,7 +8,7 @@
 	import { afterNavigate, goto } from '$app/navigation';
 	import { page } from '$app/stores';
 
-	const staticMenuItems: MenuGroup[] = [
+	$: staticMenuItems = [
 		{
 			title: $t('navigation.purpleTriggers'),
 			image: '/icons/quests/trigger.png',
@@ -37,7 +37,7 @@
 				{ label: 'Halvaldi', link: '/runs/duels/halvaldi' }
 			]
 		}
-	];
+	] satisfies MenuGroup[];
 
 	$: loginTitle = (() => {
 		if (isLoadingLogin) return 'Loading...';
@@ -91,7 +91,7 @@
 		loginMenu,
 		accountSetupMenu
 	] as MenuGroup[];
-	$: headerMenuItems = staticMenuItems.concat(dynamicMenuItems);
+	$: headerMenuItems = [...staticMenuItems, ...dynamicMenuItems];
 
 	let isLoadingLogin: boolean = false;
 

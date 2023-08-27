@@ -7,32 +7,37 @@
 	import { t } from 'svelte-i18n';
 	const dispatch = createEventDispatcher();
 
-	export let solo: boolean;
+	export let classFilter: boolean;
+
 	export let server: string = 'no_filter';
+	export let support: string = 'no_filter';
 	export let mainClass: string = 'no_filter';
 
 	let modal: Modal;
 
 	const resetFilters = () => {
 		server = 'no_filter';
+		support = 'no_filter';
 		mainClass = 'no_filter';
 	};
 
 	const applyFilters = () => {
 		dispatch('applyFilters', {
 			server: server,
+			support: support,
 			mainClass: mainClass
 		});
 		modal.close();
 	};
 </script>
 
-<label
-	for="modal-filters"
-	class="btn-outline btn-primary btn-sm btn rounded"
+<button
+	class="btn btn-primary btn-outline btn-sm rounded"
 	on:click={modal.show}
-	on:keyup={modal.show}><i class="bi bi-funnel mr-2" />Filters</label
+	on:keyup={modal.show}
 >
+	<i class="bi bi-funnel mr-2" />Filters
+</button>
 <Modal
 	modalId="run-filters"
 	title="Filters"
@@ -42,7 +47,7 @@
 	on:btn1Click={applyFilters}
 	on:btn2Click={resetFilters}
 >
-	{#if solo}
+	{#if classFilter}
 		<span
 			class="text-base-100-content mb-2 flex flex-row justify-center font-semibold md:justify-start"
 			>Main Class</span
@@ -50,6 +55,7 @@
 		<ClassFilter bind:selectedClass={mainClass} />
 		<Divider />
 	{/if}
+
 	<span
 		class="text-base-100-content mb-2 flex flex-row justify-center font-semibold md:justify-start"
 		>Server</span

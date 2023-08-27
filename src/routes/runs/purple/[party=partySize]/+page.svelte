@@ -1,13 +1,11 @@
 <script lang="ts">
 	import LeaderboardTitle from '$lib/Components/LeaderboardTitle.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
-	import PurplePartyRunsTable from './PurplePartyRunsTable.svelte';
 	import PurplePartyRunFilters from './PurplePartyRunFilters.svelte';
 
 	import { page } from '$app/stores';
 	import { t } from 'svelte-i18n';
 	import { fetchGetApi } from '$lib/utils/fetch';
-	import { purpleRunFilters, type PurpleSearchFilters } from '../purpleRunFilterStore';
 	import { PartySize, parsePartySize } from '$lib/types/api/partySizes';
 	import {
 		copyQueryParams,
@@ -16,7 +14,9 @@
 		clearFilterValues
 	} from '$lib/utils/queryParams';
 	import { onDestroy } from 'svelte';
-	import type { PurpleRun2 } from '$lib/types/api/runs/run';
+	import type { PurpleRun } from '$lib/types/api/runs/run';
+	import RunsTable from '$lib/Components/Tables/RunsTable.svelte';
+	import { runFilters, type RunSearchFilters } from '../../runFilter';
 
 	interface PartySizeInfo {
 		filterSize: number;
@@ -24,7 +24,7 @@
 		pageTitle: string;
 	}
 
-	const partySizeInfoMap: Record<string, PartySizeInfo> = {
+	$: partySizeInfoMap = {
 		[PartySize.Solo]: {
 			filterSize: 1,
 			name: $t('common.playerCount.solo'),
@@ -46,7 +46,7 @@
 				'common.playerCount.party'
 			)}`
 		}
-	};
+	} satisfies Record<string, PartySizeInfo>;
 
 	$: partySize = parsePartySize($page.params.party) ?? PartySize.Solo;
 	$: isSolo = partySize === PartySize.Solo;
@@ -54,16 +54,16 @@
 	$: pageTitle = partyInfo.pageTitle;
 	$: partySizeTitle = partyInfo.name;
 
-	const partyFilterDef: UrlQueryParamRule<PurpleSearchFilters>[] = [
+	const partyFilterDef: UrlQueryParamRule<RunSearchFilters>[] = [
 		{ name: 'server', undefinedValue: 'no_filter' },
 		{ name: 'rank', defaultValue: '1' },
 		{ name: 'region', defaultValue: 'stia' },
 		{ name: 'class', undefinedValue: 'no_filter' }
 	];
 
-	const { cleanup } = useUrlFilterStore(purpleRunFilters, partyFilterDef);
+	const { cleanup } = useUrlFilterStore(runFilters, partyFilterDef);
 
-	const fetchRuns = async (filters: PurpleSearchFilters) => {
+	const fetchRuns = async (filters: RunSearchFilters) => {
 		const basePath = `/ngs-api/runs/purples`;
 		const runFilters = clearFilterValues(filters, partyFilterDef);
 
@@ -74,7 +74,7 @@
 			rank: runFilters.rank,
 			partySize: partyInfo.filterSize
 		};
-		return (await fetchGetApi<PurpleRun2[]>(basePath, copyQueryParams(allFilters))) ?? [];
+		return (await fetchGetApi<PurpleRun[]>(basePath, copyQueryParams(allFilters))) ?? [];
 	};
 
 	onDestroy(cleanup);
@@ -90,10 +90,12 @@
 	<div class="container mx-auto mb-16 mt-2 rounded-md border border-secondary bg-base-100/75">
 		<div class="m-2 space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8">
 			<PurplePartyRunFilters solo={isSolo} />
-			{#await fetchRuns($purpleRunFilters)}
+			{#await fetchRuns($runFilters)}
 				<LoadingBar />
 			{:then runs}
-				<PurplePartyRunsTable solo={isSolo} {runs} />
+				<div class="-mx-6 md:mx-0">
+					<RunsTable {runs} solosOnly={isSolo} />
+				</div>
 			{:catch err}
 				<p>An error has occured, please try again later</p>
 			{/await}
