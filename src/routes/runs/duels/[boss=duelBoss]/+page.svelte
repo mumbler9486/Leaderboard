@@ -2,7 +2,6 @@
 	import LeaderboardTitle from '$lib/Components/LeaderboardTitle.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
 	import IndomitableRunFilters from '../IndomitableRunFilters.svelte';
-	import IndomitableRunsTable from '../IndomitableRunsTable.svelte';
 
 	import { page } from '$app/stores';
 	import { fetchGetApi } from '$lib/utils/fetch';
@@ -18,6 +17,7 @@
 	import { onDestroy } from 'svelte';
 	import type { DuelRun } from '$lib/types/api/runs/run';
 	import type { DuelRunsSearchFilter } from '$lib/types/api/validation/duelRunsSearchFilter';
+	import RunsTable from '$lib/Components/Tables/RunsTable.svelte';
 
 	const pageTitles: { [key: string]: string } = {
 		[IndomitableBoss.NexAelio]: $t('leaderboard.indomitableNexAelio'),
@@ -85,7 +85,9 @@
 			{#await fetchRuns($indomitableRunFilters)}
 				<LoadingBar />
 			{:then runs}
-				<IndomitableRunsTable {runs} />
+				<div class="-mx-6 md:mx-0">
+					<RunsTable {runs} solosOnly={true} />
+				</div>
 			{:catch err}
 				<p>An error has occured, please try again later</p>
 			{/await}

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import LeaderboardTitle from '$lib/Components/LeaderboardTitle.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
-	import PurplePartyRunsTable from './PurplePartyRunsTable.svelte';
 	import PurplePartyRunFilters from './PurplePartyRunFilters.svelte';
 
 	import { page } from '$app/stores';
@@ -17,6 +16,7 @@
 	} from '$lib/utils/queryParams';
 	import { onDestroy } from 'svelte';
 	import type { PurpleRun2 } from '$lib/types/api/runs/run';
+	import RunsTable from '$lib/Components/Tables/RunsTable.svelte';
 
 	interface PartySizeInfo {
 		filterSize: number;
@@ -93,7 +93,9 @@
 			{#await fetchRuns($purpleRunFilters)}
 				<LoadingBar />
 			{:then runs}
-				<PurplePartyRunsTable solo={isSolo} {runs} />
+				<div class="-mx-6 md:mx-0">
+					<RunsTable {runs} solosOnly={isSolo} />
+				</div>
 			{:catch err}
 				<p>An error has occured, please try again later</p>
 			{/await}
