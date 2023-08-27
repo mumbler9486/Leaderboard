@@ -6,7 +6,6 @@
 	import { page } from '$app/stores';
 	import { t } from 'svelte-i18n';
 	import { fetchGetApi } from '$lib/utils/fetch';
-	import { purpleRunFilters, type PurpleSearchFilters } from '../purpleRunFilterStore';
 	import { PartySize, parsePartySize } from '$lib/types/api/partySizes';
 	import {
 		copyQueryParams,
@@ -17,6 +16,7 @@
 	import { onDestroy } from 'svelte';
 	import type { PurpleRun } from '$lib/types/api/runs/run';
 	import RunsTable from '$lib/Components/Tables/RunsTable.svelte';
+	import { runFilters, type RunSearchFilters } from '../../runFilter';
 
 	interface PartySizeInfo {
 		filterSize: number;
@@ -54,16 +54,16 @@
 	$: pageTitle = partyInfo.pageTitle;
 	$: partySizeTitle = partyInfo.name;
 
-	const partyFilterDef: UrlQueryParamRule<PurpleSearchFilters>[] = [
+	const partyFilterDef: UrlQueryParamRule<RunSearchFilters>[] = [
 		{ name: 'server', undefinedValue: 'no_filter' },
 		{ name: 'rank', defaultValue: '1' },
 		{ name: 'region', defaultValue: 'stia' },
 		{ name: 'class', undefinedValue: 'no_filter' }
 	];
 
-	const { cleanup } = useUrlFilterStore(purpleRunFilters, partyFilterDef);
+	const { cleanup } = useUrlFilterStore(runFilters, partyFilterDef);
 
-	const fetchRuns = async (filters: PurpleSearchFilters) => {
+	const fetchRuns = async (filters: RunSearchFilters) => {
 		const basePath = `/ngs-api/runs/purples`;
 		const runFilters = clearFilterValues(filters, partyFilterDef);
 
@@ -90,7 +90,7 @@
 	<div class="container mx-auto mb-16 mt-2 rounded-md border border-secondary bg-base-100/75">
 		<div class="m-2 space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8">
 			<PurplePartyRunFilters solo={isSolo} />
-			{#await fetchRuns($purpleRunFilters)}
+			{#await fetchRuns($runFilters)}
 				<LoadingBar />
 			{:then runs}
 				<div class="-mx-6 md:mx-0">

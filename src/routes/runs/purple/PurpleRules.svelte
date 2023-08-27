@@ -4,11 +4,10 @@
 	let modal: Modal;
 </script>
 
-<label
-	for="modal-filters"
-	class="btn-outline btn-primary btn-sm btn rounded"
+<button
+	class="btn btn-primary btn-outline btn-sm rounded"
 	on:click={modal.show}
-	on:keyup={modal.show}><i class="bi bi-journal-check mr-2" />Rules</label
+	on:keyup={modal.show}><i class="bi bi-journal-check mr-2" />Rules</button
 >
 <Modal
 	bind:this={modal}

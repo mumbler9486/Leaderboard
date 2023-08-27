@@ -1,12 +1,13 @@
 <script lang="ts">
+	import { ServerRegion } from '$lib/types/api/serverRegions';
 	import RadioButton from '../RadioButton.svelte';
 
 	export let selectedServer: string = 'no_filter';
 
 	const filterServers = [
 		{ name: 'No Filter', value: 'no_filter' },
-		{ name: 'Global', value: 'global', icon: '/icons/server/server-global.png' },
-		{ name: 'Japan', value: 'japan', icon: '/icons/server/server-japan.png' }
+		{ name: 'Global', value: ServerRegion.Global, icon: '/icons/server/server-global.png' },
+		{ name: 'Japan', value: ServerRegion.Japan, icon: '/icons/server/server-japan.png' }
 	];
 </script>
 
