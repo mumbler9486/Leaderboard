@@ -24,7 +24,7 @@
 		pageTitle: string;
 	}
 
-	const partySizeInfoMap: Record<string, PartySizeInfo> = {
+	$: partySizeInfoMap = {
 		[PartySize.Solo]: {
 			filterSize: 1,
 			name: $t('common.playerCount.solo'),
@@ -46,7 +46,7 @@
 				'common.playerCount.party'
 			)}`
 		}
-	};
+	} satisfies Record<string, PartySizeInfo>;
 
 	$: partySize = parsePartySize($page.params.party) ?? PartySize.Solo;
 	$: isSolo = partySize === PartySize.Solo;
