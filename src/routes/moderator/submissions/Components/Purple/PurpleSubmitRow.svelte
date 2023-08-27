@@ -6,12 +6,12 @@
 	import { mapPlayerInfoNamePref, mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import { patchCodeLabelMap } from '$lib/constants/patchCodes';
 	import { PurpleRegion } from '$lib/types/api/purpleRegions';
-	import type { PurpleRun2 } from '$lib/types/api/runs/run';
+	import type { PurpleRun } from '$lib/types/api/runs/run';
 	import WeaponIcon from '$lib/Components/WeaponIcon.svelte';
 
 	const dispatcher = createEventDispatcher();
 
-	export let submission: PurpleRun2;
+	export let submission: PurpleRun;
 
 	const regionCodes = {
 		[PurpleRegion.Stia]: 'Stia',

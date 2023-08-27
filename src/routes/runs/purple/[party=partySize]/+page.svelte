@@ -15,7 +15,7 @@
 		clearFilterValues
 	} from '$lib/utils/queryParams';
 	import { onDestroy } from 'svelte';
-	import type { PurpleRun2 } from '$lib/types/api/runs/run';
+	import type { PurpleRun } from '$lib/types/api/runs/run';
 	import RunsTable from '$lib/Components/Tables/RunsTable.svelte';
 
 	interface PartySizeInfo {
@@ -74,7 +74,7 @@
 			rank: runFilters.rank,
 			partySize: partyInfo.filterSize
 		};
-		return (await fetchGetApi<PurpleRun2[]>(basePath, copyQueryParams(allFilters))) ?? [];
+		return (await fetchGetApi<PurpleRun[]>(basePath, copyQueryParams(allFilters))) ?? [];
 	};
 
 	onDestroy(cleanup);
