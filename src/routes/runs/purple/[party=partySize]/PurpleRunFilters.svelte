@@ -44,7 +44,7 @@
 				bind:server={filters.server}
 				bind:mainClass={filters.class}
 				on:applyFilters={applyFilters}
-			></RunFilterModal>
+			/>
 		</div>
 		<div class="m-1 md:flex-initial">
 			<RunRules {rules} />

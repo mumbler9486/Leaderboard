@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
@@ -35,10 +36,10 @@
 		<Dropdown
 			label="Region"
 			options={[
-				{ label: 'Aelio', value: 'aelio' },
-				{ label: 'Retem', value: 'retem' },
-				{ label: 'Kvaris', value: 'kvaris' },
-				{ label: 'Stia', value: 'stia' }
+				{ label: 'Aelio', value: NgsRunCategories.Aelio },
+				{ label: 'Retem', value: NgsRunCategories.Retem },
+				{ label: 'Kvaris', value: NgsRunCategories.Kvaris },
+				{ label: 'Stia', value: NgsRunCategories.Stia }
 			]}
 			bind:value={region}
 			on:change={applyFilters}
