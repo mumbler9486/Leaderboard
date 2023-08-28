@@ -6,6 +6,7 @@
 	import RunFilterModal from '../../RunFilterModal.svelte';
 	import RunFilterTags from '../../RunFilterTags.svelte';
 	import { runFilters, type RunSearchFilters } from '../../runFilter';
+	import RunRules from '../../RunRules.svelte';
 
 	export let solo: boolean;
 
@@ -15,6 +16,8 @@
 		server: 'no_filter',
 		class: 'no_filter'
 	};
+
+	const rules = ['Do not abuse bugs or exploits.'];
 
 	const applyFilters = () => {
 		runFilters.set({ ...filters });
@@ -45,7 +48,7 @@
 			></RunFilterModal>
 		</div>
 		<div class="m-1 md:flex-initial">
-			<PurpleRules />
+			<RunRules {rules} />
 		</div>
 	</div>
 
