@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
-	import PurpleRules from '../PurpleRules.svelte';
 	import PurpleCategorySelector from '../PurpleCategorySelector.svelte';
 	import { t } from 'svelte-i18n';
 	import RunFilterModal from '../../RunFilterModal.svelte';
