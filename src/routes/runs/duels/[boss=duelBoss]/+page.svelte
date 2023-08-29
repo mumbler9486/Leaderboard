@@ -86,7 +86,15 @@
 				<LoadingBar />
 			{:then runs}
 				<div class="-mx-6 md:mx-0">
-					<RunsTable {runs} solosOnly={true} />
+					<RunsTable
+						{runs}
+						solosOnly={true}
+						detailsColumn={{ label: 'Augments', textAlign: 'center' }}
+					>
+						<svelte:fragment slot="detailsItem" let:run>
+							{run.details.augments ? 'Yes' : 'No'}
+						</svelte:fragment>
+					</RunsTable>
 				</div>
 			{:catch err}
 				<p>An error has occured, please try again later</p>

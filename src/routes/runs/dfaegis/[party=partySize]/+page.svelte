@@ -18,6 +18,7 @@
 	import RunsTable from '$lib/Components/Tables/RunsTable.svelte';
 	import { NgsQuests } from '$lib/types/api/runs/quests';
 	import { runFilters, type RunSearchFilters } from '../../runFilter';
+	import DfAegisSupportIcon from '$lib/Components/DfAegisSupportIcon.svelte';
 
 	interface PartySizeInfo {
 		filterSize: number;
@@ -96,7 +97,15 @@
 				<LoadingBar />
 			{:then runs}
 				<div class="-mx-6 md:mx-0">
-					<RunsTable {runs} solosOnly={isSolo} />
+					<RunsTable
+						{runs}
+						solosOnly={isSolo}
+						detailsColumn={{ label: 'Support', textAlign: 'center' }}
+					>
+						<svelte:fragment slot="detailsItem" let:run>
+							<DfAegisSupportIcon support={run.details.support} />
+						</svelte:fragment>
+					</RunsTable>
 				</div>
 			{:catch err}
 				<p>An error has occured, please try again later</p>
