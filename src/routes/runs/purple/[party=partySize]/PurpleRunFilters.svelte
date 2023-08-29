@@ -4,16 +4,13 @@
 	import { t } from 'svelte-i18n';
 	import RunFilterModal from '../../RunFilterModal.svelte';
 	import RunFilterTags from '../../RunFilterTags.svelte';
-	import { runFilters, type RunSearchFilters } from '../../runFilter';
+	import { defaultRunFilter, runFilters, type RunSearchFilters } from '../../runFilter';
 	import RunRules from '../../RunRules.svelte';
 
 	export let solo: boolean;
 
 	let filters: RunSearchFilters = {
-		region: 'stia',
-		rank: '1',
-		server: 'no_filter',
-		class: 'no_filter'
+		...defaultRunFilter
 	};
 
 	const rules = ['Do not abuse bugs or exploits.'];

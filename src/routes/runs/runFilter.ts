@@ -5,13 +5,26 @@ export interface RunSearchFilters {
 	region: string;
 	rank: string;
 	class: string;
+	support: string;
+	trigger: string;
 }
 
-const defaultFilter: RunSearchFilters = {
+export const defaultRunFilter: RunSearchFilters = {
 	server: 'no_filter',
 	region: 'stia',
 	rank: '1',
-	class: 'no_filter'
+	class: 'no_filter',
+	support: 'no_filter',
+	trigger: 'no_filter'
+} as const;
+
+const searchFilterStore = writable<RunSearchFilters>({ ...defaultRunFilter });
+
+export const resetFilters = () => {
+	searchFilterStore.set({ ...defaultRunFilter });
 };
 
-export const runFilters = writable<RunSearchFilters>({ ...defaultFilter });
+export const runFilters = {
+	...searchFilterStore,
+	resetFilters
+};

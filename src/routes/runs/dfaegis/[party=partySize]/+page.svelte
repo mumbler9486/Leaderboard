@@ -6,7 +6,6 @@
 	import { page } from '$app/stores';
 	import { t } from 'svelte-i18n';
 	import { fetchGetApi } from '$lib/utils/fetch';
-	import { dfAegisRunFilters, type DfAegisSearchFilters } from '../dfAegisRunFilterStore';
 	import { PartySize, parsePartySize } from '$lib/types/api/partySizes';
 	import {
 		copyQueryParams,
@@ -17,6 +16,8 @@
 	import { onDestroy } from 'svelte';
 	import type { DfAegisRun } from '$lib/types/api/runs/run';
 	import RunsTable from '$lib/Components/Tables/RunsTable.svelte';
+	import { NgsQuests } from '$lib/types/api/runs/quests';
+	import { runFilters, type RunSearchFilters } from '../../runFilter';
 
 	interface PartySizeInfo {
 		filterSize: number;
@@ -54,7 +55,7 @@
 	$: pageTitle = partyInfo.pageTitle;
 	$: partySizeTitle = partyInfo.name;
 
-	const filterDef: UrlQueryParamRule<DfAegisSearchFilters>[] = [
+	const filterDef: UrlQueryParamRule<RunSearchFilters>[] = [
 		{ name: 'server', undefinedValue: 'no_filter' },
 		{ name: 'class', undefinedValue: 'no_filter' },
 		{ name: 'rank', defaultValue: '1' },
@@ -62,15 +63,15 @@
 		{ name: 'trigger', undefinedValue: 'urgent_quest' }
 	];
 
-	const { cleanup } = useUrlFilterStore(dfAegisRunFilters, filterDef);
+	const { cleanup } = useUrlFilterStore(runFilters, filterDef);
 
-	const fetchRuns = async (filters: DfAegisSearchFilters) => {
+	const fetchRuns = async (filters: RunSearchFilters) => {
 		const basePath = `/ngs-api/runs/dfaegis`;
 		const runFilters = clearFilterValues(filters, filterDef);
 
 		const allFilters = {
 			...runFilters,
-			quest: 'dfaegis',
+			quest: NgsQuests.DfAegis,
 			category: runFilters.trigger,
 			rank: runFilters.rank,
 			partySize: partyInfo.filterSize
@@ -91,7 +92,7 @@
 	<div class="container mx-auto mb-16 mt-2 rounded-md border border-secondary bg-base-100/75">
 		<div class="m-2 space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8">
 			<DfAegisPartyRunFilters solo={isSolo} />
-			{#await fetchRuns($dfAegisRunFilters)}
+			{#await fetchRuns($runFilters)}
 				<LoadingBar />
 			{:then runs}
 				<div class="-mx-6 md:mx-0">

@@ -5,13 +5,16 @@
 	import Modal from '$lib/Components/Modal.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { t } from 'svelte-i18n';
+	import DfAegisSupportFilter from './dfaegis/DfAegisSupportFilter.svelte';
 	const dispatch = createEventDispatcher();
 
-	export let classFilter: boolean;
+	export let classFilter: boolean = false;
+	export let dfAegisSupportFilter: boolean = false;
 
 	export let server: string = 'no_filter';
 	export let support: string = 'no_filter';
 	export let mainClass: string = 'no_filter';
+	export let dfAegisSupport: string = 'no_filter';
 
 	let modal: Modal;
 
@@ -19,13 +22,15 @@
 		server = 'no_filter';
 		support = 'no_filter';
 		mainClass = 'no_filter';
+		dfAegisSupport = 'no_filter';
 	};
 
 	const applyFilters = () => {
 		dispatch('applyFilters', {
 			server: server,
 			support: support,
-			mainClass: mainClass
+			mainClass: mainClass,
+			dfAegisSupport: dfAegisSupport
 		});
 		modal.close();
 	};
@@ -61,4 +66,14 @@
 		>Server</span
 	>
 	<ServerFilter bind:selectedServer={server} />
+	<Divider />
+
+	{#if dfAegisSupportFilter}
+		<span
+			class="text-base-100-content mb-2 flex flex-row justify-center font-semibold md:justify-start"
+			>Support</span
+		>
+		<DfAegisSupportFilter bind:selectedSupport={dfAegisSupport} />
+		<Divider />
+	{/if}
 </Modal>

@@ -45,7 +45,6 @@
 				label="Augmentations"
 				options={[
 					{ label: 'No Filter', value: 'no_filter' },
-
 					{ label: 'Yes', value: 'yes' },
 					{ label: 'No', value: 'no' }
 				]}
