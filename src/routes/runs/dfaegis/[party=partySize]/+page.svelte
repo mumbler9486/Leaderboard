@@ -1,7 +1,7 @@
 <script lang="ts">
 	import LeaderboardTitle from '$lib/Components/LeaderboardTitle.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
-	import DfAegisPartyRunFilters from './DfAegisPartyRunFilters.svelte';
+	import DfAegisPartyRunFilters from './DfAegisRunFilters.svelte';
 
 	import { page } from '$app/stores';
 	import { t } from 'svelte-i18n';
