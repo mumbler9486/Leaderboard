@@ -61,6 +61,7 @@
 		{ name: 'class', undefinedValue: 'no_filter' }
 	];
 
+	runFilters.resetFilters();
 	const { cleanup } = useUrlFilterStore(runFilters, partyFilterDef);
 
 	const fetchRuns = async (filters: RunSearchFilters) => {

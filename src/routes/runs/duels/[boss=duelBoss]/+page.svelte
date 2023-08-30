@@ -45,6 +45,7 @@
 		{ name: 'augments', undefinedValue: 'no_filter' }
 	];
 
+	runFilters.resetFilters();
 	const { cleanup } = useUrlFilterStore(runFilters, filterDef);
 
 	const fetchRuns = async (filters: RunSearchFilters) => {

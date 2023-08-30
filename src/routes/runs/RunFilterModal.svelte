@@ -13,7 +13,6 @@
 	let server: string = 'no_filter';
 	let support: string = 'no_filter';
 	let mainClass: string = 'no_filter';
-	let dfAegisSupport: string = 'no_filter';
 
 	let modal: Modal;
 
@@ -21,7 +20,6 @@
 		server = 'no_filter';
 		support = 'no_filter';
 		mainClass = 'no_filter';
-		dfAegisSupport = 'no_filter';
 	};
 
 	const applyFilters = () => {
@@ -29,11 +27,16 @@
 			f.server = server;
 			f.support = support;
 			f.class = mainClass;
-			f.support = dfAegisSupport;
 			return f;
 		});
 		modal.close();
 	};
+
+	runFilters.subscribe((f) => {
+		server = f.server;
+		support = f.support;
+		mainClass = f.class;
+	});
 </script>
 
 <button
@@ -73,7 +76,7 @@
 			class="text-base-100-content mb-2 flex flex-row justify-center font-semibold md:justify-start"
 			>Support</span
 		>
-		<DfAegisSupportFilter bind:selectedSupport={dfAegisSupport} />
+		<DfAegisSupportFilter bind:selectedSupport={support} />
 		<Divider />
 	{/if}
 </Modal>

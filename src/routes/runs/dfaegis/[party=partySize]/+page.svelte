@@ -64,6 +64,7 @@
 		{ name: 'trigger', undefinedValue: 'urgent_quest' }
 	];
 
+	runFilters.resetFilters();
 	const { cleanup } = useUrlFilterStore(runFilters, filterDef);
 
 	const fetchRuns = async (filters: RunSearchFilters) => {

@@ -60,6 +60,7 @@
 		{ name: 'rank', undefinedValue: '1' }
 	];
 
+	runFilters.resetFilters();
 	const { cleanup } = useUrlFilterStore(runFilters, filterDef);
 
 	const fetchRuns = async (filters: RunSearchFilters) => {
