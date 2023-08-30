@@ -17,6 +17,7 @@
 	import type { PurpleRun } from '$lib/types/api/runs/run';
 	import RunsTable from '$lib/Components/Tables/RunsTable.svelte';
 	import { runFilters, type RunSearchFilters } from '../../runFilter';
+	import { NgsQuests } from '$lib/types/api/runs/quests';
 
 	interface PartySizeInfo {
 		filterSize: number;
@@ -70,7 +71,7 @@
 
 		const allFilters = {
 			...runFilters,
-			quest: 'purples',
+			quest: NgsQuests.Purples,
 			category: runFilters.region,
 			rank: runFilters.rank,
 			partySize: partyInfo.filterSize
