@@ -4,15 +4,8 @@
 	import RunFilterModal from '../../RunFilterModal.svelte';
 	import RunFilterTags from '../../RunFilterTags.svelte';
 	import RunRules from '../../RunRules.svelte';
-	import { runFilters } from '../../runFilter';
 
 	export let solo: boolean;
-
-	let filters = {
-		class: 'no_filter',
-		server: 'no_filter',
-		rank: '1'
-	};
 
 	const partyLinks = [
 		{ link: '/runs/dfsolus/solo', label: 'Solo' },
@@ -20,19 +13,6 @@
 		{ link: '/runs/dfsolus/party', label: 'Party' }
 	];
 	const rules = ['Do not abuse bugs or exploits.'];
-
-	const applyFilters = () => {
-		runFilters.update((f) => {
-			f.server = filters.server;
-			f.class = filters.class;
-			f.rank = filters.rank;
-			return f;
-		});
-	};
-
-	runFilters.subscribe((f) => {
-		filters = { ...f };
-	});
 </script>
 
 <div
@@ -47,12 +27,7 @@
 	<Divider class="-mx-1 my-0" />
 	<div class="flex flex-row flex-wrap place-content-center items-stretch">
 		<div class="m-1 md:flex-1">
-			<RunFilterModal
-				classFilter={solo}
-				bind:server={filters.server}
-				bind:mainClass={filters.class}
-				on:applyFilters={applyFilters}
-			/>
+			<RunFilterModal classFilter={solo} />
 		</div>
 		<div class="m-1 md:flex-initial">
 			<RunRules {rules} />

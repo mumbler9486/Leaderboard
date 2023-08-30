@@ -7,13 +7,9 @@
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import RunFilterTags from '../../RunFilterTags.svelte';
 	import RunRules from '../../RunRules.svelte';
-	import { defaultRunFilter, runFilters, type RunSearchFilters } from '../../runFilter';
+	import { runFilters } from '../../runFilter';
 
 	export let solo: boolean;
-
-	let filters: RunSearchFilters = {
-		...defaultRunFilter
-	};
 
 	const rules = ['Do not abuse bugs or exploits.'];
 
@@ -22,14 +18,6 @@
 		{ link: '/runs/dfaegis/duo', label: 'Duo' },
 		{ link: '/runs/dfaegis/party', label: 'Party' }
 	];
-
-	const applyFilters = () => {
-		runFilters.set({ ...filters });
-	};
-
-	runFilters.subscribe((f) => {
-		filters = { ...f };
-	});
 </script>
 
 <div
@@ -48,8 +36,7 @@
 					{ label: 'Urgent Quest', value: NgsRunCategories.UrgentQuest },
 					{ label: 'Trigger', value: NgsRunCategories.Trigger }
 				]}
-				bind:value={filters.trigger}
-				on:change={applyFilters}
+				bind:value={$runFilters.trigger}
 			/>
 		</div>
 		<!-- <div class="flex grow flex-col">
@@ -68,14 +55,7 @@
 	<Divider class="-mx-1 my-0" />
 	<div class="flex flex-row flex-wrap place-content-center items-stretch">
 		<div class="m-1 md:flex-1">
-			<RunFilterModal
-				classFilter={solo}
-				dfAegisSupportFilter={true}
-				bind:server={filters.server}
-				bind:mainClass={filters.class}
-				bind:dfAegisSupport={filters.support}
-				on:applyFilters={applyFilters}
-			/>
+			<RunFilterModal dfAegisSupportFilter classFilter={solo} />
 		</div>
 		<div class="m-1 md:flex-initial">
 			<RunRules {rules} />

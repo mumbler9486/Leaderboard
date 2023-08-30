@@ -7,29 +7,10 @@
 	import RunFilterTags from '../../RunFilterTags.svelte';
 	import { runFilters } from '../../runFilter';
 
-	let filters = {
-		server: 'no_filter',
-		class: 'no_filter',
-		augments: 'no_filter'
-	};
-
 	const rules = [
 		'Do not abuse bugs or exploits.',
 		'A run is considered to have used a Duel Augment if any duel specific augments (e.g.,Defi-series) have been affixed to any equipment used during the run.'
 	];
-
-	const applyFilters = () => {
-		runFilters.update((f) => {
-			f.server = filters.server;
-			f.class = filters.class;
-			f.augments = filters.augments;
-			return f;
-		});
-	};
-
-	runFilters.subscribe((f) => {
-		filters = { ...f };
-	});
 </script>
 
 <div
@@ -44,8 +25,7 @@
 					{ label: 'Yes', value: 'yes' },
 					{ label: 'No', value: 'no' }
 				]}
-				bind:value={filters.augments}
-				on:change={applyFilters}
+				bind:value={$runFilters.augments}
 			/>
 		</div>
 		<div class="flex grow flex-col">
@@ -56,12 +36,7 @@
 	<Divider class="-mx-1 my-0" />
 	<div class="flex flex-row flex-wrap place-content-center items-stretch">
 		<div class="m-1 md:flex-1">
-			<RunFilterModal
-				classFilter
-				bind:server={filters.server}
-				bind:mainClass={filters.class}
-				on:applyFilters={applyFilters}
-			/>
+			<RunFilterModal classFilter />
 		</div>
 		<div class="m-1 md:flex-initial">
 			<RunRules {rules} />

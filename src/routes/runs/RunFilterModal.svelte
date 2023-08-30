@@ -3,22 +3,21 @@
 	import ClassFilter from '$lib/Components/Filters/ClassFilter.svelte';
 	import ServerFilter from '$lib/Components/Filters/ServerFilter.svelte';
 	import Modal from '$lib/Components/Modal.svelte';
-	import { createEventDispatcher } from 'svelte';
 	import { t } from 'svelte-i18n';
 	import DfAegisSupportFilter from './dfaegis/DfAegisSupportFilter.svelte';
-	const dispatch = createEventDispatcher();
+	import { runFilters } from './runFilter';
 
 	export let classFilter: boolean = false;
 	export let dfAegisSupportFilter: boolean = false;
 
-	export let server: string = 'no_filter';
-	export let support: string = 'no_filter';
-	export let mainClass: string = 'no_filter';
-	export let dfAegisSupport: string = 'no_filter';
+	let server: string = 'no_filter';
+	let support: string = 'no_filter';
+	let mainClass: string = 'no_filter';
+	let dfAegisSupport: string = 'no_filter';
 
 	let modal: Modal;
 
-	const resetFilters = () => {
+	export const resetFilters = () => {
 		server = 'no_filter';
 		support = 'no_filter';
 		mainClass = 'no_filter';
@@ -26,11 +25,12 @@
 	};
 
 	const applyFilters = () => {
-		dispatch('applyFilters', {
-			server: server,
-			support: support,
-			mainClass: mainClass,
-			dfAegisSupport: dfAegisSupport
+		runFilters.update((f) => {
+			f.server = server;
+			f.support = support;
+			f.class = mainClass;
+			f.support = dfAegisSupport;
+			return f;
 		});
 		modal.close();
 	};
