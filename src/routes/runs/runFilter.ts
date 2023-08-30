@@ -7,6 +7,7 @@ export interface RunSearchFilters {
 	class: string;
 	support: string;
 	trigger: string;
+	augments: string;
 }
 
 export const defaultRunFilter: RunSearchFilters = {
@@ -15,7 +16,8 @@ export const defaultRunFilter: RunSearchFilters = {
 	rank: '1',
 	class: 'no_filter',
 	support: 'no_filter',
-	trigger: 'no_filter'
+	trigger: 'no_filter',
+	augments: 'no_filter'
 } as const;
 
 const searchFilterStore = writable<RunSearchFilters>({ ...defaultRunFilter });

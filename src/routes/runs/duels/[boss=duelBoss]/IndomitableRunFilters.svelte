@@ -1,31 +1,28 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
-	import PartySizeNavigation from '$lib/Components/PartySizeNavigation.svelte';
+	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import { t } from 'svelte-i18n';
+	import RunRules from '../../RunRules.svelte';
 	import RunFilterModal from '../../RunFilterModal.svelte';
 	import RunFilterTags from '../../RunFilterTags.svelte';
-	import RunRules from '../../RunRules.svelte';
 	import { runFilters } from '../../runFilter';
 
-	export let solo: boolean;
-
 	let filters = {
-		class: 'no_filter',
 		server: 'no_filter',
-		rank: '1'
+		class: 'no_filter',
+		augments: 'no_filter'
 	};
 
-	const partyLinks = [
-		{ link: '/runs/dfsolus/solo', label: 'Solo' },
-		{ link: '/runs/dfsolus/duo', label: 'Duo' },
-		{ link: '/runs/dfsolus/party', label: 'Party' }
+	const rules = [
+		'Do not abuse bugs or exploits.',
+		'A run is considered to have used a Duel Augment if any duel specific augments (e.g.,Defi-series) have been affixed to any equipment used during the run.'
 	];
-	const rules = ['Do not abuse bugs or exploits.'];
 
 	const applyFilters = () => {
 		runFilters.update((f) => {
 			f.server = filters.server;
 			f.class = filters.class;
-			f.rank = filters.rank;
+			f.augments = filters.augments;
 			return f;
 		});
 	};
@@ -39,8 +36,20 @@
 	class="-mx-6 flex grow flex-col rounded-md border border-secondary bg-secondary/25 p-1 md:mx-0"
 >
 	<div class="flex flex-row flex-wrap place-content-center items-stretch gap-2">
-		<div class="grid w-full grid-cols-3 gap-4 px-4 py-2">
-			<PartySizeNavigation parties={partyLinks} />
+		<div class="flex grow flex-col">
+			<Dropdown
+				label="Augmentations"
+				options={[
+					{ label: 'No Filter', value: 'no_filter' },
+					{ label: 'Yes', value: 'yes' },
+					{ label: 'No', value: 'no' }
+				]}
+				bind:value={filters.augments}
+				on:change={applyFilters}
+			/>
+		</div>
+		<div class="flex grow flex-col">
+			<Dropdown label="Rank" options={[{ label: '1', value: 1 }]} />
 		</div>
 	</div>
 
@@ -48,7 +57,7 @@
 	<div class="flex flex-row flex-wrap place-content-center items-stretch">
 		<div class="m-1 md:flex-1">
 			<RunFilterModal
-				classFilter={solo}
+				classFilter
 				bind:server={filters.server}
 				bind:mainClass={filters.class}
 				on:applyFilters={applyFilters}
