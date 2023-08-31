@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" generics="T">
 	import { mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import type { Run } from '$lib/types/api/runs/run';
 	import NgsClassIcon from '../NgsClassIcon.svelte';
@@ -10,20 +10,23 @@
 	import WeaponIcon from '../WeaponIcon.svelte';
 	import Table, { type TableHeader } from './Table.svelte';
 
-	export let runs: Run<unknown>[];
+	export let runs: Run<T>[];
 	export let solosOnly: boolean = false;
-
+	export let detailsColumn: TableHeader | undefined = undefined;
 	let modal: RunInfoModal;
 
-	const headerDef = [
-		{ label: '#', textAlign: 'center', class: 'w-2' },
-		{ label: 'Player', textAlign: 'default' },
-		{ label: 'Class', textAlign: 'center' },
-		{ label: 'Weapons', textAlign: 'center' },
-		{ label: 'IGT', textAlign: 'center', tooltip: 'In-Game Time' },
-		{ label: 'Video', textAlign: 'center' },
-		{ label: '', textAlign: 'center', class: 'w-2' }
-	] satisfies TableHeader[];
+	$: headerDef = (
+		[
+			{ label: '#', textAlign: 'center', class: 'w-2' },
+			{ label: 'Player', textAlign: 'default' },
+			detailsColumn,
+			{ label: 'Class', textAlign: 'center' },
+			{ label: 'Weapons', textAlign: 'center' },
+			{ label: 'IGT', textAlign: 'center', tooltip: 'In-Game Time' },
+			{ label: 'Video', textAlign: 'center' },
+			{ label: '', textAlign: 'center', class: 'w-2' }
+		] satisfies (TableHeader | undefined)[]
+	).filter((h): h is TableHeader => !!h);
 
 	$: headers = solosOnly ? headerDef : headerDef.filter((x, i) => i !== 3);
 
@@ -56,6 +59,15 @@
 						/>
 					{/each}
 				</td>
+				{#if $$slots.detailsItem}
+					<td
+						class="text-center font-bold"
+						class:text-right={detailsColumn?.textAlign === 'right'}
+						class:text-center={detailsColumn?.textAlign === 'center'}
+					>
+						<slot name="detailsItem" {run} />
+					</td>
+				{/if}
 				<td class="text-center">
 					{#each run.party as player}
 						<p>

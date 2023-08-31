@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Modal from '$lib/Components/Modal.svelte';
 
+	export let rules: string[] = [];
+
 	let modal: Modal;
 </script>
 
@@ -16,7 +18,10 @@
 	btn2="Close"
 	on:btn2Click={modal.close}
 >
-	<ul class="list-inside list-disc space-y-2">
-		<li>Do not abuse bugs or exploits.</li>
-	</ul>
+	<slot />
+	{#each rules as rule}
+		<ul class="list-inside list-disc space-y-2">
+			<li>{rule}</li>
+		</ul>
+	{/each}
 </Modal>

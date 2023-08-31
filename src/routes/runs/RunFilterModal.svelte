@@ -3,32 +3,40 @@
 	import ClassFilter from '$lib/Components/Filters/ClassFilter.svelte';
 	import ServerFilter from '$lib/Components/Filters/ServerFilter.svelte';
 	import Modal from '$lib/Components/Modal.svelte';
-	import { createEventDispatcher } from 'svelte';
 	import { t } from 'svelte-i18n';
-	const dispatch = createEventDispatcher();
+	import DfAegisSupportFilter from './dfaegis/DfAegisSupportFilter.svelte';
+	import { runFilters } from './runFilter';
 
-	export let classFilter: boolean;
+	export let classFilter: boolean = false;
+	export let dfAegisSupportFilter: boolean = false;
 
-	export let server: string = 'no_filter';
-	export let support: string = 'no_filter';
-	export let mainClass: string = 'no_filter';
+	let server: string = 'no_filter';
+	let support: string = 'no_filter';
+	let mainClass: string = 'no_filter';
 
 	let modal: Modal;
 
-	const resetFilters = () => {
+	export const resetFilters = () => {
 		server = 'no_filter';
 		support = 'no_filter';
 		mainClass = 'no_filter';
 	};
 
 	const applyFilters = () => {
-		dispatch('applyFilters', {
-			server: server,
-			support: support,
-			mainClass: mainClass
+		runFilters.update((f) => {
+			f.server = server;
+			f.support = support;
+			f.class = mainClass;
+			return f;
 		});
 		modal.close();
 	};
+
+	runFilters.subscribe((f) => {
+		server = f.server;
+		support = f.support;
+		mainClass = f.class;
+	});
 </script>
 
 <button
@@ -61,4 +69,14 @@
 		>Server</span
 	>
 	<ServerFilter bind:selectedServer={server} />
+	<Divider />
+
+	{#if dfAegisSupportFilter}
+		<span
+			class="text-base-100-content mb-2 flex flex-row justify-center font-semibold md:justify-start"
+			>Support</span
+		>
+		<DfAegisSupportFilter bind:selectedSupport={support} />
+		<Divider />
+	{/if}
 </Modal>

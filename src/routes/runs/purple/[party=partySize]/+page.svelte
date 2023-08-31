@@ -1,7 +1,7 @@
 <script lang="ts">
 	import LeaderboardTitle from '$lib/Components/LeaderboardTitle.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
-	import PurplePartyRunFilters from './PurplePartyRunFilters.svelte';
+	import PurpleRunFilters from './PurpleRunFilters.svelte';
 
 	import { page } from '$app/stores';
 	import { t } from 'svelte-i18n';
@@ -17,6 +17,7 @@
 	import type { PurpleRun } from '$lib/types/api/runs/run';
 	import RunsTable from '$lib/Components/Tables/RunsTable.svelte';
 	import { runFilters, type RunSearchFilters } from '../../runFilter';
+	import { NgsQuests } from '$lib/types/api/runs/quests';
 
 	interface PartySizeInfo {
 		filterSize: number;
@@ -61,6 +62,7 @@
 		{ name: 'class', undefinedValue: 'no_filter' }
 	];
 
+	runFilters.resetFilters();
 	const { cleanup } = useUrlFilterStore(runFilters, partyFilterDef);
 
 	const fetchRuns = async (filters: RunSearchFilters) => {
@@ -69,7 +71,7 @@
 
 		const allFilters = {
 			...runFilters,
-			quest: 'purples',
+			quest: NgsQuests.Purples,
 			category: runFilters.region,
 			rank: runFilters.rank,
 			partySize: partyInfo.filterSize
@@ -89,7 +91,7 @@
 <div class="grow content-center">
 	<div class="container mx-auto mb-16 mt-2 rounded-md border border-secondary bg-base-100/75">
 		<div class="m-2 space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8">
-			<PurplePartyRunFilters solo={isSolo} />
+			<PurpleRunFilters solo={isSolo} />
 			{#await fetchRuns($runFilters)}
 				<LoadingBar />
 			{:then runs}

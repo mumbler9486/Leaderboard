@@ -6,7 +6,6 @@
 	import { page } from '$app/stores';
 	import { t } from 'svelte-i18n';
 	import { fetchGetApi } from '$lib/utils/fetch';
-	import { runFilters, type DfSolusSearchFilters } from '../dfSolusRunFilterStore';
 	import { PartySize, parsePartySize } from '$lib/types/api/partySizes';
 	import {
 		copyQueryParams,
@@ -17,6 +16,7 @@
 	import { onDestroy } from 'svelte';
 	import type { DfSolusRun } from '$lib/types/api/runs/run';
 	import RunsTable from '$lib/Components/Tables/RunsTable.svelte';
+	import { runFilters, type RunSearchFilters } from '../../runFilter';
 
 	interface PartySizeInfo {
 		filterSize: number;
@@ -54,15 +54,16 @@
 	$: pageTitle = partyInfo.pageTitle;
 	$: partySizeTitle = partyInfo.name;
 
-	const filterDef: UrlQueryParamRule<DfSolusSearchFilters>[] = [
+	const filterDef: UrlQueryParamRule<RunSearchFilters>[] = [
 		{ name: 'server', undefinedValue: 'no_filter' },
 		{ name: 'class', undefinedValue: 'no_filter' },
 		{ name: 'rank', undefinedValue: '1' }
 	];
 
+	runFilters.resetFilters();
 	const { cleanup } = useUrlFilterStore(runFilters, filterDef);
 
-	const fetchRuns = async (filters: DfSolusSearchFilters) => {
+	const fetchRuns = async (filters: RunSearchFilters) => {
 		const basePath = `/ngs-api/runs/dfsolus`;
 		const runFilters = clearFilterValues(filters, filterDef);
 
