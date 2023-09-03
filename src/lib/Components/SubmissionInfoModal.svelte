@@ -11,6 +11,7 @@
 	import type { ApproveRequest, DenyRequest } from '$lib/types/api/validation/submissions';
 	import type { Run } from '$lib/types/api/runs/run';
 	import { fetchPostApi } from '$lib/utils/fetch';
+	import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus';
 
 	const dispatcher = createEventDispatcher();
 
@@ -21,6 +22,8 @@
 
 	let processing = false;
 	let errorMessage = '';
+
+	$: canReview = submission?.submissionStatus === RunSubmissionStatus.AwaitingApproval;
 
 	export const showModal = (viewRun: Run<any>) => {
 		submission = viewRun;
@@ -103,7 +106,7 @@
 			}
 			if (result.data == 'success') {
 				closeModal();
-				dispatcher('submissionChanged', 'approved');
+				dispatcher('submissionChanged', 'denied');
 			}
 		} catch (err) {
 			console.error(err);
@@ -167,7 +170,7 @@
 				</div>
 			{:else}
 				<div
-					class="flex basis-full justify-center rounded-md border border-secondary bg-secondary/25 bg-info p-2"
+					class="flex basis-full justify-center rounded-md border border-secondary bg-info bg-secondary/25 p-2"
 				>
 					<div class="flex flex-col text-center">
 						<span class="text-lg font-semibold"
@@ -219,7 +222,7 @@
 					<span class="text-center text-lg font-semibold">Moderator's Notes:</span>
 					<div class="whitespace-pre-wrap p-2">
 						<textarea
-							class="widget-discord textarea-bordered textarea w-full grow"
+							class="widget-discord textarea textarea-bordered w-full grow"
 							placeholder="(Optional) Type any moderator notes you want to display here!"
 							maxlength="500"
 							bind:value={modNotes}
@@ -231,19 +234,19 @@
 	{/if}
 	<svelte:fragment slot="actions">
 		<Button
-			class="btn-outline btn-error"
+			class="btn-error btn-outline"
+			disabled={!canReview || processing}
 			on:click={denyRun}
-			on:keyup={denyRun}
-			disabled={processing}>Deny</Button
+			on:keyup={denyRun}>Deny</Button
 		>
 		<Button
-			class="btn-outline btn-success"
+			class="btn-success btn-outline"
+			disabled={!canReview || processing}
 			on:click={approveRun}
-			on:keyup={approveRun}
-			disabled={processing}>Approve</Button
+			on:keyup={approveRun}>Approve</Button
 		>
 		<Button
-			class="btn-outline btn-secondary"
+			class="btn-secondary btn-outline"
 			on:click={closeModal}
 			on:keyup={closeModal}
 			disabled={processing}>Close</Button

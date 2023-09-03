@@ -7,14 +7,17 @@ import type { PartyMember, PlayerInfo, Run } from '$lib/types/api/runs/run';
 import { parseServerRegion } from '$lib/types/api/serverRegions';
 import { parseNgsWeapon, type NgsWeapon } from '$lib/types/api/weapon';
 
-export const mapRuns = (getRun: GetRunDbModel[]): Run[] => {
-	const groupedRuns = getRun.reduce((prev, curr) => {
-		if (!prev[curr.RunId]) {
-			prev[curr.RunId] = [];
-		}
-		prev[curr.RunId].push(curr);
-		return prev;
-	}, {} as { [runId: string]: GetRunDbModel[] });
+export const mapRuns = (getRun: GetRunDbModel[]): Run<unknown>[] => {
+	const groupedRuns = getRun.reduce(
+		(prev, curr) => {
+			if (!prev[curr.RunId]) {
+				prev[curr.RunId] = [];
+			}
+			prev[curr.RunId].push(curr);
+			return prev;
+		},
+		{} as { [runId: string]: GetRunDbModel[] }
+	);
 
 	const sortedGroups = Object.entries(groupedRuns).sort((g1, g2) =>
 		new Date(g1[1][0].RunTime) > new Date(g2[1][0].RunTime) ? 1 : -1
@@ -96,7 +99,8 @@ export const mapRuns = (getRun: GetRunDbModel[]): Run[] => {
 			submitter: submitter,
 			submissionDate: runMeta.RunSubmissionDate,
 			submissionStatus: parseInt(runMeta.RunSubmissionStatus),
-			dateApproved: runMeta.RunDateApproved,
+			dateReviewed: runMeta.RunDateReviewed,
+			reviewedBy: runMeta.RunReviewedBy,
 			details: !runMeta.RunAttributes ? undefined : JSON.parse(runMeta.RunAttributes)
 		};
 

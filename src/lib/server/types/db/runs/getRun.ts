@@ -13,9 +13,10 @@ export interface GetRunDbModel {
 	RunNotes: string;
 	RunSubmissionDate: string;
 	RunSubmissionStatus: string;
-	RunDateApproved: string;
+	RunDateReviewed: string;
 	RunModNotes: string;
 	RunAttributes: string;
+	RunReviewedBy: string;
 
 	// Party
 	PartyId: string;

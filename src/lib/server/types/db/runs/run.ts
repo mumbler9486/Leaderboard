@@ -12,7 +12,8 @@ export interface RunDbModel {
 	Notes: string;
 	SubmissionDate: string;
 	SubmissionStatus: string;
-	DateApproved: string;
+	DateReviewed: string;
 	ModNotes: string;
 	Attributes: string;
+	ReviewedBy: string;
 }

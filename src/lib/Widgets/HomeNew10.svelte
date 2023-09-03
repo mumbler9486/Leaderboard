@@ -65,8 +65,8 @@
 						mainClass: r.party[0]?.mainClass,
 						time: r.time,
 						partyMember: r.party[0],
-						approvalDate: new Date(r.dateApproved!)
-					} satisfies RecentRun)
+						approvalDate: new Date(r.dateReviewed!)
+					}) satisfies RecentRun
 			)
 			.sort((a, b) => (a.approvalDate < b.approvalDate ? 1 : -1));
 
@@ -80,7 +80,7 @@
 	</div>
 	<div class="divider -mx-8" />
 	<div class="overflow-x-auto">
-		<table class="table-zebra table-compact table w-full">
+		<table class="table-compact table table-zebra w-full">
 			<thead>
 				<tr>
 					<th class="text-center">Player</th>

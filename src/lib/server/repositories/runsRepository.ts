@@ -35,7 +35,7 @@ const RunQuery = `
 		run.${runsDbFields.Notes} AS ${getRunDbFields.RunNotes},
 		run.${runsDbFields.SubmissionDate} AS ${getRunDbFields.RunSubmissionDate},
 		run.${runsDbFields.SubmissionStatus} AS ${getRunDbFields.RunSubmissionStatus},
-		run.${runsDbFields.DateApproved} AS ${getRunDbFields.RunDateApproved},
+		run.${runsDbFields.DateReviewed} AS ${getRunDbFields.RunDateReviewed},
 		run.${runsDbFields.ModNotes} AS ${getRunDbFields.RunModNotes},
 		run.${runsDbFields.Attributes} AS ${getRunDbFields.RunAttributes},
 
@@ -98,13 +98,13 @@ export const getRunById = async (
 export const getRuns = async (
 	request: Request,
 	filters: RunsSearchFilter,
-	approved: boolean,
+	submissionStatus?: RunSubmissionStatus,
 	attributeFilters?: RunAttributeFilter[]
 ) => {
 	let query = RunQuery;
 
-	if (approved !== undefined && approved !== null) {
-		const approvedInt = approved ? 1 : 0;
+	if (submissionStatus !== undefined && submissionStatus !== null) {
+		const approvedInt = submissionStatus ? 1 : 0;
 		query += ` AND run.${runsDbFields.SubmissionStatus} = @approved`;
 		request = request.input('approved', sql.TinyInt, approvedInt);
 	}
@@ -225,9 +225,10 @@ export const insertRun = async (
       ${runsDbFields.Notes},
       ${runsDbFields.SubmissionDate},
       ${runsDbFields.SubmissionStatus},
-      ${runsDbFields.DateApproved},
+      ${runsDbFields.DateReviewed},
       ${runsDbFields.ModNotes},
-      ${runsDbFields.Attributes})
+      ${runsDbFields.Attributes},
+      ${runsDbFields.ReviewedBy})
     VALUES (
       @submitterId,
 			@game,
@@ -243,7 +244,8 @@ export const insertRun = async (
       @submissionStatus,
       @dateApproved,
       @modNotes,
-      @attributes)
+      @attributes,
+			NULL)
     SELECT SCOPE_IDENTITY() AS LastID;
   `);
 	if (runInsertResult.rowsAffected[0] == 0) {
@@ -347,17 +349,20 @@ export const checkRunExists = async (request: sql.Request, runId: number) => {
 export const approveRun = async (
 	request: Request,
 	runId: number,
+	reviewerName: string,
 	modNotes: string | null | undefined
 ) => {
 	const submissionResult = await request
 		.input('approveStatus', sql.TinyInt, RunSubmissionStatus.Approved)
 		.input('approvalDate', sql.DateTime2, new Date())
+		.input('reviewerName', sql.NVarChar(30), reviewerName)
 		.input('modNotes', sql.NVarChar(500), modNotes)
 		.input('runId', sql.Int, runId).query(`
       UPDATE dbo.Runs
       SET 
 				${runsDbFields.SubmissionStatus} = @approveStatus,
-				${runsDbFields.DateApproved} = @approvalDate,
+				${runsDbFields.DateReviewed} = @approvalDate,
+				${runsDbFields.ReviewedBy} = @reviewerName,
 				${runsDbFields.ModNotes} = @modNotes
       WHERE ${runsDbFields.Id} = @runId;
     `);
@@ -370,15 +375,20 @@ export const approveRun = async (
 export const denyRun = async (
 	request: Request,
 	runId: number,
+	reviewerName: string,
 	modNotes: string | null | undefined
 ) => {
 	const submissionResult = await request
 		.input('denyStatus', sql.TinyInt, RunSubmissionStatus.Rejected)
+		.input('approvalDate', sql.DateTime2, new Date())
 		.input('modNotes', sql.NVarChar(500), modNotes)
+		.input('reviewerName', sql.NVarChar(30), reviewerName)
 		.input('runId', sql.Int, runId).query(`
       UPDATE dbo.Runs
 			SET 
 				${runsDbFields.SubmissionStatus} = @denyStatus,
+				${runsDbFields.DateReviewed} = @approvalDate,
+				${runsDbFields.ReviewedBy} = @reviewerName,
 				${runsDbFields.ModNotes} = @modNotes
 			WHERE ${runsDbFields.Id} = @runId;
     `);
@@ -427,7 +437,7 @@ export const countSoloRuns = async (request: Request) => {
 	const sqlQuery = `
 			SELECT COUNT(*) AS ${countSoloFields.SoloRunsCount}
 			FROM dbo.Runs
-			WHERE dbo.Runs.PartySize = 1
+			WHERE dbo.Runs.${runsDbFields.PartySize} = 1
     `;
 
 	const results = await request.query(sqlQuery);
