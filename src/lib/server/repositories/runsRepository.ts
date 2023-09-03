@@ -98,13 +98,13 @@ export const getRunById = async (
 export const getRuns = async (
 	request: Request,
 	filters: RunsSearchFilter,
-	approved: boolean,
+	submissionStatus?: RunSubmissionStatus,
 	attributeFilters?: RunAttributeFilter[]
 ) => {
 	let query = RunQuery;
 
-	if (approved !== undefined && approved !== null) {
-		const approvedInt = approved ? 1 : 0;
+	if (submissionStatus !== undefined && submissionStatus !== null) {
+		const approvedInt = submissionStatus ? 1 : 0;
 		query += ` AND run.${runsDbFields.SubmissionStatus} = @approved`;
 		request = request.input('approved', sql.TinyInt, approvedInt);
 	}
