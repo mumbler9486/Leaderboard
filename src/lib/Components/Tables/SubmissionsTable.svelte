@@ -1,7 +1,4 @@
 <script lang="ts">
-	import { mapPartyMemberToNamePref, mapPlayerInfoNamePref } from '$lib/types/api/mapNamePref';
-	import type { Run } from '$lib/types/api/runs/run';
-	import { createEventDispatcher } from 'svelte';
 	import Button from '../Button.svelte';
 	import NgsClassIcon from '../NgsClassIcon.svelte';
 	import PlayerNameBadge from '../PlayerNameBadge.svelte';
@@ -9,9 +6,15 @@
 	import SubmissionInfoModal from '../SubmissionInfoModal.svelte';
 	import TimeDisplay from '../TimeDisplay.svelte';
 	import WeaponIcon from '../WeaponIcon.svelte';
-	import Table, { type TableHeader } from './Table.svelte';
 	import RunDetailsCell from './RunDetailsCell.svelte';
+	import Table, { type TableHeader } from './Table.svelte';
+	import { mapPartyMemberToNamePref, mapPlayerInfoNamePref } from '$lib/types/api/mapNamePref';
+	import type { Run } from '$lib/types/api/runs/run';
+	import { createEventDispatcher } from 'svelte';
 	import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus';
+	import { t } from 'svelte-i18n';
+	import PartySizeLabel from '../PartySizeLabel.svelte';
+	import PatchLabel from '../PatchLabel.svelte';
 
 	export let submissions: Run<unknown>[];
 
@@ -20,34 +23,32 @@
 	const dispatcher = createEventDispatcher();
 
 	$: headerDef = [
-		{ label: 'Id', textAlign: 'center', class: 'w-4' },
-		{ label: 'Quest', textAlign: 'center' },
-		{ label: 'Category', textAlign: 'center' },
-		{ label: 'Details', textAlign: 'default' },
-		{ label: 'Players', textAlign: 'default' },
-		{ label: 'Class', textAlign: 'center' },
-		{ label: 'Party', textAlign: 'center' },
-		{ label: 'Weapons', textAlign: 'center' },
-		{ label: 'Patch', textAlign: 'center' },
-		{ label: 'IGT', textAlign: 'center', tooltip: 'In-Game Time' },
-		{ label: 'Submitted By', textAlign: 'center' },
-		{ label: 'Submission Date', textAlign: 'center' },
-		{ label: 'Status', textAlign: 'center' },
-		{ label: '📝', textAlign: 'center', class: 'w-2 text-lg' }
+		{ label: $t('page.moderator.submissions.header.id'), textAlign: 'center', class: 'w-4' },
+		{ label: $t('page.moderator.submissions.header.quest'), textAlign: 'center' },
+		{ label: $t('page.moderator.submissions.header.category'), textAlign: 'center' },
+		{ label: $t('page.moderator.submissions.header.details'), textAlign: 'default' },
+		{ label: $t('page.moderator.submissions.header.players'), textAlign: 'default' },
+		{ label: $t('page.moderator.submissions.header.class'), textAlign: 'center' },
+		{ label: $t('page.moderator.submissions.header.party'), textAlign: 'center' },
+		{ label: $t('page.moderator.submissions.header.weapons'), textAlign: 'center' },
+		{ label: $t('page.moderator.submissions.header.patch'), textAlign: 'center' },
+		{
+			label: $t('page.moderator.submissions.header.igt'),
+			textAlign: 'center',
+			tooltip: $t('page.moderator.submissions.header.igtTooltip')
+		},
+		{ label: $t('page.moderator.submissions.header.submittedBy'), textAlign: 'center' },
+		{
+			label: $t('page.moderator.submissions.header.submissionDate'),
+			textAlign: 'center'
+		},
+		{ label: $t('page.moderator.submissions.header.status'), textAlign: 'center' },
+		{
+			label: $t('page.moderator.submissions.header.review'),
+			textAlign: 'center',
+			class: 'w-2 text-lg'
+		}
 	] satisfies (TableHeader | undefined)[];
-
-	const mapPartySizeName = (size: number) => {
-		if (size == 1) {
-			return 'Solo';
-		}
-		if (size == 2) {
-			return 'Duo';
-		}
-		if (size > 2) {
-			return 'Party';
-		}
-		return 'Invalid';
-	};
 
 	const runInfoOpen = (runId: number) => {
 		const run = submissions.find((r) => r.runId == runId);
@@ -67,17 +68,17 @@
 {#if submissions.length <= 0}
 	<span class="flex justify-center">There are no runs that match the selected filters.</span>
 {:else}
-	<Table pinRows class="w-full" headers={headerDef}>
+	<Table pinRows size="sm" class="w-full" headers={headerDef}>
 		{#each submissions as run}
 			<tr class="hover">
 				<td class="text-center font-bold">
 					{run.runId}
 				</td>
 				<td class="text-center font-bold">
-					{run.quest}
+					{$t(`ngs.quests.${run.quest}`)}
 				</td>
 				<td class="text-center font-bold">
-					{run.category}
+					{$t(`ngs.categories.${run.category}`)}
 				</td>
 				<td class="font-bold">
 					<RunDetailsCell {run} />
@@ -100,7 +101,7 @@
 					{/each}
 				</td>
 				<td class="text-center font-bold">
-					{mapPartySizeName(run.party?.length ?? -1)}
+					<PartySizeLabel size={run.party?.length} />
 				</td>
 				<td class="text-center">
 					{#if run.party.length === 1}
@@ -114,7 +115,7 @@
 					{/if}
 				</td>
 				<td class="text-center">
-					{run.patch}
+					<PatchLabel code={run.patch} />
 				</td>
 				<td class="text-center">
 					<TimeDisplay time={run.time} />
@@ -126,8 +127,8 @@
 						on:keyup={() => runInfoOpen(run.runId)}
 					/>
 				</td>
-				<td class="text-center">
-					{new Date(run.submissionDate).toLocaleString()}
+				<td class="w-6 whitespace-pre-wrap text-center">
+					{new Date(run.submissionDate).toLocaleString().replace(',', ',\n')}
 				</td>
 				<td class="text-center">
 					<RunApprovalStatus submissionStatus={run.submissionStatus} />
