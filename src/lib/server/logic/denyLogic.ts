@@ -15,7 +15,7 @@ export const denyRunSubmission = async (denyRequest: DenyRequest) => {
 	try {
 		const pool = await leaderboardDb.connect();
 		const request = pool.request();
-		await denyRun(request, denyRequest.runId, denyRequest.modNotes);
+		await denyRun(request, denyRequest.runId, denyRequest.moderatorName, denyRequest.modNotes);
 
 		return json({ data: 'success' });
 	} catch (err) {

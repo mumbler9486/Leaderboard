@@ -25,7 +25,12 @@ export const approveRunSubmission = async (approveRequest: ApproveRequest) => {
 	}
 
 	try {
-		await approveRun(pool.request(), approveRequest.runId, approveRequest.modNotes);
+		await approveRun(
+			pool.request(),
+			approveRequest.runId,
+			approveRequest.moderatorName,
+			approveRequest.modNotes
+		);
 
 		notifyDiscordNewRunApprovedLogic(
 			approveRequest.moderatorName,

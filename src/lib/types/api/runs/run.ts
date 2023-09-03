@@ -21,7 +21,8 @@ export interface Run<T = void> {
 	submitter: PlayerInfo;
 	submissionDate: string;
 	submissionStatus: number;
-	dateApproved?: string;
+	dateReviewed?: string;
+	reviewedBy?: string;
 	details: T;
 }
 
@@ -33,6 +34,7 @@ export interface PartyMember {
 	subClass: NgsPlayerClass;
 	linkPov?: string;
 	weapons: NgsWeapon[];
+	//TODO make player info nullable as playerID may be null
 	playerInfo: PlayerInfo;
 }
 

@@ -99,7 +99,8 @@ export const mapRuns = (getRun: GetRunDbModel[]): Run<unknown>[] => {
 			submitter: submitter,
 			submissionDate: runMeta.RunSubmissionDate,
 			submissionStatus: parseInt(runMeta.RunSubmissionStatus),
-			dateApproved: runMeta.RunDateApproved,
+			dateReviewed: runMeta.RunDateReviewed,
+			reviewedBy: runMeta.RunReviewedBy,
 			details: !runMeta.RunAttributes ? undefined : JSON.parse(runMeta.RunAttributes)
 		};
 
