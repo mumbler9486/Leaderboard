@@ -1,6 +1,7 @@
 <script lang="ts" generics="T">
 	import { mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import type { Run } from '$lib/types/api/runs/run';
+	import Button from '../Button.svelte';
 	import NgsClassIcon from '../NgsClassIcon.svelte';
 	import PlayerNameBadge from '../PlayerNameBadge.svelte';
 	import RankingBadge from '../RankingBadge.svelte';
@@ -101,7 +102,9 @@
 				</td>
 				<td class="text-center">
 					{#if run.notes != undefined}
-						<i class="bi bi-sticky" />
+						<Button primary on:click={() => runInfoOpen(run.runId)}>
+							<i class="bi bi-sticky" />
+						</Button>
 					{/if}
 				</td>
 			</tr>
