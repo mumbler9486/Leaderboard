@@ -1,4 +1,7 @@
 export interface GetRunDbModel {
+	// Run Meta
+	RunMetaGroupNum: string;
+
 	// Run
 	RunId: string;
 	RunSubmitterId: string;
