@@ -3,6 +3,7 @@ import { jsonError } from '$lib/server/error.js';
 import { mapRuns } from '$lib/server/mappers/api/runMapper.js';
 import { getRuns } from '$lib/server/repositories/runsRepository.js';
 import { validateApiRequest } from '$lib/server/validation/requestValidation.js';
+import { RunSortOption } from '$lib/types/api/runs/sortOptions.js';
 import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus.js';
 import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter.js';
 import {
@@ -25,7 +26,8 @@ export async function GET({ params, url }) {
 
 	const filter = {
 		page: parsedFilter.page,
-		take: parsedFilter.take
+		take: parsedFilter.take,
+		sort: RunSortOption.Recent
 	} as RunsSearchFilter;
 	const submissionStatus = parsedFilter.status ?? undefined;
 
