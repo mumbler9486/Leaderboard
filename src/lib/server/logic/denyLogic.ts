@@ -7,31 +7,31 @@ import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus';
 import { getUser } from '../repositories/userRepository';
 import { UserRole } from '$lib/types/api/users/userRole';
 import { ErrorCodes } from '$lib/types/api/error';
+import type { PlayersDbModel } from '../types/db/users/players';
 
 export const denyRunSubmission = async (denyRequest: DenyRequest) => {
 	// Check user permission
-	const { errorList: roleError, name: moderatorName } = await checkUserPermission(
+	const { errorList: roleError, user: moderator } = await checkUserPermission(
 		denyRequest.moderatorUserId
 	);
-	if (roleError.length > 0 || !moderatorName) {
+	if (roleError.length > 0 || !moderator) {
 		return jsonError(401, { error: ErrorCodes.Unauthorized, details: roleError });
 	}
 
 	// Check data in db
-	const { errorList: validationErrors, extra: data } = await checkRunData(denyRequest);
-	if (validationErrors.length > 0 || !data) {
+	const { errorList: validationErrors, run: runData } = await checkRunData(denyRequest, moderator);
+	if (validationErrors.length > 0 || !runData) {
 		return jsonError(400, { error: ErrorCodes.BadRequest, details: validationErrors });
 	}
 
 	try {
 		const pool = await leaderboardDb.connect();
 		const request = pool.request();
-		await denyRun(request, denyRequest.runId, moderatorName, denyRequest.modNotes);
+		await denyRun(request, denyRequest.runId, moderator.PlayerName, denyRequest.modNotes);
 
 		return json({ data: 'success' });
 	} catch (err) {
 		console.error(err);
-		throw jsonError(500, { error: 'internal_server_error' });
 	}
 };
 
@@ -52,12 +52,12 @@ const checkUserPermission = async (moderatorUserId: string) => {
 	}
 
 	return {
-		name: user.PlayerName,
+		user: user,
 		errorList: []
 	};
 };
 
-const checkRunData = async (denyRequest: DenyRequest) => {
+const checkRunData = async (denyRequest: DenyRequest, moderator: PlayersDbModel) => {
 	const pool = await leaderboardDb.connect();
 	const errorList: string[] = [];
 
@@ -68,7 +68,8 @@ const checkRunData = async (denyRequest: DenyRequest) => {
 	if (!submissionResult || !submissionResult.runId) {
 		errorList.push(`Unknown submissionId`);
 		return {
-			errorList
+			errorList,
+			run: undefined
 		};
 	}
 	if (parseInt(submissionResult.submissionStatus) != RunSubmissionStatus.AwaitingApproval) {
@@ -77,8 +78,6 @@ const checkRunData = async (denyRequest: DenyRequest) => {
 
 	return {
 		errorList,
-		extra: {
-			playerId: parseInt(submissionResult.submitterId)
-		}
+		run: submissionResult
 	};
 };

@@ -9,31 +9,37 @@ import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus';
 import { ErrorCodes } from '$lib/types/api/error';
 import { getUser } from '../repositories/userRepository';
 import { UserRole } from '$lib/types/api/users/userRole';
+import type { PlayersDbModel } from '../types/db/users/players';
 
 export const approveRunSubmission = async (approveRequest: ApproveRequest) => {
 	const pool = await leaderboardDb.connect();
 
 	// Check user permission
-	const { errorList: roleError, name: moderatorName } = await checkUserPermission(
+	const { errorList: roleError, user: moderator } = await checkUserPermission(
 		approveRequest.moderatorUserId
 	);
-	if (roleError.length > 0 || !moderatorName) {
+	if (roleError.length > 0 || !moderator) {
 		return jsonError(401, { error: ErrorCodes.Unauthorized, details: roleError });
 	}
 
 	// Check data in db
-	const { errorList: validationErrors, extra: data } = await checkData(approveRequest);
-	if (validationErrors.length > 0 || !data) {
+	const { errorList: validationErrors, run: runData } = await checkRunData(
+		approveRequest,
+		moderator
+	);
+	if (validationErrors.length > 0 || !runData) {
 		return jsonError(400, { error: ErrorCodes.BadRequest, details: validationErrors });
 	}
 
 	// Get run player
 	const playerRequest = pool.request();
-	const { playerName } = await getRunPlayer(playerRequest, data.playerId);
+	const { playerName } = await getRunPlayer(playerRequest, parseInt(runData.RunSubmitterId));
 	if (!playerName) {
 		console.error('Player name is null on approval. Aborting approval.');
 		return jsonError(400, { error: 'bad_request', details: ['Unknown player in run'] });
 	}
+
+	const moderatorName = moderator.PlayerName;
 
 	try {
 		await approveRun(pool.request(), approveRequest.runId, moderatorName, approveRequest.modNotes);
@@ -41,9 +47,9 @@ export const approveRunSubmission = async (approveRequest: ApproveRequest) => {
 		notifyDiscordNewRunApprovedLogic(
 			moderatorName,
 			playerName ?? '<unknown_player>',
-			data.run.RunQuest,
-			data.run.RunCategory,
-			parseInt(data.run.RunPartySize)
+			runData.RunQuest,
+			runData.RunCategory,
+			parseInt(runData.RunPartySize)
 		);
 		return json({ data: 'success' });
 	} catch (err) {
@@ -57,7 +63,7 @@ const checkUserPermission = async (moderatorUserId: string) => {
 	const request = pool.request();
 
 	const user = await getUser(request, moderatorUserId);
-
+	console.log(user);
 	if (
 		!user ||
 		(!user.Roles?.includes(UserRole.Moderator) && !user.Roles?.includes(UserRole.Administrator))
@@ -69,12 +75,12 @@ const checkUserPermission = async (moderatorUserId: string) => {
 	}
 
 	return {
-		name: user.PlayerName,
+		user: user,
 		errorList: []
 	};
 };
 
-const checkData = async (run: ApproveRequest) => {
+const checkRunData = async (run: ApproveRequest, moderator: PlayersDbModel) => {
 	const pool = await leaderboardDb.connect();
 	const errorList: string[] = [];
 
@@ -85,18 +91,20 @@ const checkData = async (run: ApproveRequest) => {
 	if (!submissionResult) {
 		errorList.push(`Unknown run id`);
 		return {
-			errorList
+			errorList,
+			run: undefined
 		};
 	}
 	if (parseInt(submissionResult.RunSubmissionStatus) != RunSubmissionStatus.AwaitingApproval) {
 		errorList.push(`Submission already denied/approved`);
 	}
 
+	if (moderator.Id === submissionResult.RunSubmitterId) {
+		errorList.push(`Cannot approve a run submitted by one's self.`);
+	}
+
 	return {
 		errorList,
-		extra: {
-			playerId: parseInt(submissionResult.RunSubmitterId),
-			run: submissionResult
-		}
+		run: submissionResult
 	};
 };
