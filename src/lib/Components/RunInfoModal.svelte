@@ -32,7 +32,7 @@
 	btn2="Close"
 	on:btn2Click={closeModal}
 	bind:this={modal}
-	allowDefocusClose={false}
+	allowDefocusClose={true}
 >
 	{#if errorMessage != ''}
 		<Alert type="error" message={errorMessage} />

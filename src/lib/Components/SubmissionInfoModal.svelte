@@ -12,6 +12,7 @@
 	import type { Run } from '$lib/types/api/runs/run';
 	import { fetchPostApi } from '$lib/utils/fetch';
 	import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus';
+	import { ErrorCodes } from '$lib/types/api/error';
 
 	const dispatcher = createEventDispatcher();
 
@@ -45,7 +46,7 @@
 
 		const approveRequest: ApproveRequest = {
 			runId: submission?.runId,
-			moderatorName: username,
+			moderatorUserId: userId,
 			modNotes: modNotes ?? ''
 		};
 
@@ -59,7 +60,10 @@
 			if (result.error) {
 				errorMessage = result.details[0];
 			}
-			if (result.code == 'unexpected') {
+			if (result.code == ErrorCodes.Unauthorized) {
+				errorMessage = result.details[0];
+			}
+			if (result.code == ErrorCodes.Unexpected) {
 				errorMessage = 'Unexpected error, please contact site admin.';
 			}
 			if (result.data == 'success') {
@@ -68,6 +72,7 @@
 			}
 		} catch (err) {
 			console.error(err);
+			errorMessage = 'Unexpected error, please contact site admin.';
 		} finally {
 			processing = false;
 		}
@@ -87,7 +92,7 @@
 
 		const denyRequest: DenyRequest = {
 			runId: submission?.runId,
-			moderatorName: username,
+			moderatorUserId: userId,
 			modNotes: modNotes ?? ''
 		};
 
@@ -101,7 +106,10 @@
 			if (result.error) {
 				errorMessage = result.details[0];
 			}
-			if (result.code == 'unexpected') {
+			if (result.code == ErrorCodes.Unauthorized) {
+				errorMessage = result.details[0];
+			}
+			if (result.code == ErrorCodes.Unexpected) {
 				errorMessage = 'Unexpected error, please contact site admin.';
 			}
 			if (result.data == 'success') {
@@ -110,6 +118,7 @@
 			}
 		} catch (err) {
 			console.error(err);
+			errorMessage = 'Unexpected error, please contact site admin.';
 		} finally {
 			processing = false;
 		}

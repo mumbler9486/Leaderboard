@@ -21,8 +21,10 @@ const getRunDbFields = fields<GetRunDbModel>();
 const countSoloFields = fields<CountSolosDbModel>();
 
 const RunQuery = `
-	SELECT 
-		run.${runsDbFields.Id} AS ${getRunDbFields.RunId},
+	SELECT
+    DENSE_RANK() OVER (ORDER BY run.${runsDbFields.Id}) AS ${getRunDbFields.RunMetaGroupNum},
+		
+    run.${runsDbFields.Id} AS ${getRunDbFields.RunId},
 		run.${runsDbFields.SubmitterId} AS ${getRunDbFields.RunSubmitterId},
 		run.${runsDbFields.Game} AS ${getRunDbFields.RunGame},
 		run.${runsDbFields.Quest} AS ${getRunDbFields.RunQuest},
@@ -156,18 +158,6 @@ export const getRuns = async (
 		}
 	}
 
-	if (filters.partySize && filters.take) {
-		request = request.input('take', sql.Int, filters.take * filters.partySize);
-	} else {
-		request = request.input('take', sql.Int, 30000);
-	}
-
-	if (filters.partySize && filters.page && filters.take) {
-		request = request.input('offset', sql.Int, filters.page * filters.take * filters.partySize);
-	} else {
-		request = request.input('offset', sql.Int, 0);
-	}
-
 	if (filters.sort === 'recent') {
 		query += ` ORDER BY run.${runsDbFields.SubmissionDate} DESC`;
 	} else {
@@ -175,7 +165,29 @@ export const getRuns = async (
 		query += ` ORDER BY run.${runsDbFields.RunTime} ASC, run.${runsDbFields.SubmissionDate} ASC`;
 	}
 
-	query += ` OFFSET @offset ROWS FETCH NEXT @take ROWS ONLY`;
+	query += ` OFFSET 0 ROWS`;
+
+	let takeRange = 30000;
+	if (filters.take) {
+		takeRange = filters.take;
+	}
+
+	let skipAmount = 1;
+	if (filters.page && filters.take) {
+		skipAmount = filters.page * filters.take;
+	}
+	request = request.input('groupNumLower', sql.Int, skipAmount);
+	request = request.input('groupNumUpper', sql.Int, skipAmount + takeRange);
+
+	const limitQueryFilter = ` 
+    AND ${getRunDbFields.RunMetaGroupNum} >= @groupNumLower 
+    AND ${getRunDbFields.RunMetaGroupNum} < @groupNumUpper`;
+
+	query = `
+    SELECT *
+    FROM (${query}) runSearch
+    WHERE 1=1 ${limitQueryFilter}
+  `;
 
 	const results = await request.query(query);
 	return results.recordset as GetRunDbModel[];
