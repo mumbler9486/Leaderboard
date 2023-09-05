@@ -14,6 +14,7 @@ export const getUser = async (request: Request, userGuid: string) => {
 	const results = await request.input('userGuid', sql.NVarChar, userGuid).query(`
 			SELECT 
 				pi.${playersDbFields.Id},
+				pi.${playersDbFields.PlayerName},
 				pi.${playersDbFields.UserId},
 				pi.${playersDbFields.Roles}
 			FROM dbo.Players AS pi
