@@ -24,7 +24,7 @@ const defaultRun: Run = {
 } as const;
 
 export const resetForm = () => {
-	runForm.set(structuredClone(defaultRun));
+	runForm.set(JSON.parse(JSON.stringify(defaultRun)));
 };
 
-export const runForm = writable(structuredClone(defaultRun));
+export const runForm = writable(JSON.parse(JSON.stringify(defaultRun)));

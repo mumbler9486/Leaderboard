@@ -56,7 +56,7 @@ export function useValidation<T extends AnyObject>(schema: ObjectSchema<T>, init
 	// Resets form to default/initial values
 	const resetForm = () => {
 		if (initialValues) {
-			const initClone = structuredClone(initialValues);
+			const initClone = JSON.parse(JSON.stringify(initialValues));
 			form.set(proxyConstructor(initClone) as Record<keyof T, string | undefined>);
 		} else {
 			form.set(proxyConstructor({}) as Record<keyof T, string | undefined>);
