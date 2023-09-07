@@ -1,5 +1,6 @@
-import { type InferType, mixed, object, number } from 'yup';
+import { type InferType, mixed, object, number, string } from 'yup';
 import { RunSubmissionStatus } from '../runs/submissionStatus';
+import { RunSortOption } from '../runs/sortOptions';
 
 const submissionStatuses = [
 	null,
@@ -8,10 +9,13 @@ const submissionStatuses = [
 	RunSubmissionStatus.Rejected
 ];
 
+const sorts = [null, RunSortOption.Recent];
+
 export const submissionSearchFilterSchema = object({
 	take: number().min(1).max(100).nullable(),
 	page: number().min(0).max(30000).nullable(),
-	status: number().nullable().oneOf(submissionStatuses)
+	status: number().nullable().oneOf(submissionStatuses),
+	sort: string().nullable().oneOf(sorts)
 });
 
 export type SubmissionSearchFilter = InferType<typeof submissionSearchFilterSchema>;
