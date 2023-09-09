@@ -224,12 +224,16 @@
 				<div class="flex grow flex-col">
 					<span class="text-center text-lg font-semibold">Moderator's Notes:</span>
 					<div class="whitespace-pre-wrap p-2">
-						<textarea
-							class="widget-discord textarea textarea-bordered w-full grow"
-							placeholder="(Optional) Type any moderator notes you want to display here!"
-							maxlength="500"
-							bind:value={modNotes}
-						/>
+						{#if canReview}
+							<textarea
+								class="widget-discord textarea textarea-bordered w-full grow"
+								placeholder="(Optional) Type any moderator notes you want to display here!"
+								maxlength="500"
+								bind:value={modNotes}
+							/>
+						{:else}
+							{submission?.modNotes ?? ''}
+						{/if}
 					</div>
 				</div>
 			</div>
