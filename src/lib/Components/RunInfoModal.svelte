@@ -92,5 +92,15 @@
 				<div class="whitespace-pre-wrap p-2">{run?.notes ?? ''}</div>
 			</div>
 		</div>
+		<div
+			class="flex basis-1/2 justify-center rounded-md border border-secondary bg-secondary/25 p-2 md:basis-full"
+		>
+			<div class="flex grow flex-col">
+				<span class="text-center text-lg font-semibold">Moderator's Notes:</span>
+				<div class="whitespace-pre-wrap p-2">
+					{run?.modNotes ?? ''}
+				</div>
+			</div>
+		</div>
 	</div>
 </Modal>
