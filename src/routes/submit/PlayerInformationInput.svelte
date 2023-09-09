@@ -7,16 +7,14 @@
 
 	export let playerIndex: number;
 
-	let playerName = '';
-	let inVideoName = '';
-	let videoLink = '';
+	let playerName = $partyForm[playerIndex].playerName;
 
 	onMount(userInfo.loadPlayerInfo);
 
+	$: isPlayer1 = playerIndex == 0;
+
 	$: partyForm.update((p) => {
 		p[playerIndex].playerName = playerName;
-		p[playerIndex].inVideoName = inVideoName;
-		p[playerIndex].povVideoLink = videoLink;
 		p[playerIndex].playerId = $userInfo?.find((x) => x.playerName == playerName)?.playerId ?? -1;
 		return p;
 	});
@@ -32,16 +30,23 @@
 				placeholder="Search or enter name..."
 				list="playerName-datalist{playerIndex}"
 				name="player-name-form1"
-				class="input-bordered input"
+				class="input input-bordered"
 				bind:value={playerName}
 				required
+				disabled={isPlayer1}
+				readonly={isPlayer1}
 			/>
 			<div class="label">
-				<span class="label-text-alt"
-					>You can search for existing players by player and character name!<br /><span
-						class="text-warning">Please keep in mind that this list is sorted by Player Name.</span
-					></span
-				>
+				{#if isPlayer1}
+					<span class="label-text-alt">You must be a participant of your own run.</span>
+				{:else}
+					<span class="label-text-alt"
+						>You can search for existing players by player and character name!<br /><span
+							class="text-warning"
+							>Please keep in mind that this list is sorted by Player Name.</span
+						></span
+					>
+				{/if}
 			</div>
 			<datalist id="playerName-datalist{playerIndex}">
 				{#each $userInfo as user}
@@ -55,10 +60,10 @@
 			</div>
 			<input
 				placeholder="Enter character name..."
-				class="input-bordered input"
+				class="input input-bordered"
 				type="text"
 				required
-				bind:value={inVideoName}
+				bind:value={$partyForm[playerIndex].inVideoName}
 			/>
 			<div class="label">
 				<span class="label-text-alt"
@@ -79,10 +84,10 @@
 		</div>
 		<input
 			placeholder="Youtube video URL"
-			class="input-bordered input"
+			class="input input-bordered"
 			type="text"
 			required={playerIndex == 0}
-			bind:value={videoLink}
+			bind:value={$partyForm[playerIndex].povVideoLink}
 		/>
 	</div>
 	{#if $partyForm.length == 1}

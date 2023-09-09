@@ -1,4 +1,5 @@
-import { writable } from 'svelte/store';
+import { playerInfoStore } from '$lib/stores/userLogin';
+import { get, writable } from 'svelte/store';
 
 interface PlayerSubmissionInfo {
 	playerId: number;
@@ -27,6 +28,20 @@ const setPartySize = (playerCount: number) => {
 			subClass: '',
 			weapons: []
 		}));
+
+		const submitter = get(playerInfoStore);
+		newPlayers[0] = {
+			playerId: submitter?.playerId ?? -1,
+			povVideoLink: undefined,
+			playerName: submitter?.playerName ?? '',
+			inVideoName: '',
+			mainClass: '',
+			subClass: '',
+			weapons: []
+		};
+
+		console.log('derpnuts', newPlayers, submitter);
+
 		return newPlayers;
 	});
 };

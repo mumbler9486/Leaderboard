@@ -4,7 +4,7 @@
 
 	export let sizes: (1 | 2 | 4 | 8)[];
 
-	let selectedPartySize: string | undefined = undefined;
+	let selectedPartySize: string = sizes[0].toString();
 
 	const partySizes: { [key: number]: { label: string; value: string; disabled?: boolean } } = {
 		[1]: { label: 'Solo (1 Player)', value: '1' },
