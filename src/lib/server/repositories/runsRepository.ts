@@ -22,8 +22,6 @@ const countSoloFields = fields<CountSolosDbModel>();
 
 const RunQuery = `
 	SELECT
-    DENSE_RANK() OVER (ORDER BY run.${runsDbFields.Id}) AS ${getRunDbFields.RunMetaGroupNum},
-		
     run.${runsDbFields.Id} AS ${getRunDbFields.RunId},
 		run.${runsDbFields.SubmitterId} AS ${getRunDbFields.RunSubmitterId},
 		run.${runsDbFields.Game} AS ${getRunDbFields.RunGame},
@@ -105,6 +103,7 @@ export const getRuns = async (
 ) => {
 	let query = RunQuery;
 
+	// Build filters
 	if (submissionStatus !== undefined && submissionStatus !== null) {
 		const approvedInt = submissionStatus ? 1 : 0;
 		query += ` AND run.${runsDbFields.SubmissionStatus} = @approved`;
@@ -113,7 +112,7 @@ export const getRuns = async (
 
 	if (filters.class) {
 		const mappedClass = filters.class;
-		query += ` AND rp.${runPartyDbFields.MainClass} = @class`;
+		query += ` AND run.${runsDbFields.PartySize} = 1 && rp.${runPartyDbFields.MainClass} = @class`;
 		request = request.input('class', sql.NVarChar, mappedClass);
 	}
 
@@ -149,7 +148,7 @@ export const getRuns = async (
 
 	if (filters.partySize !== undefined && filters.partySize !== null) {
 		if (filters.partySize >= 3) {
-			//TODO temporary support for 3 player runs
+			//TODO temporary support for 3 player runs, provide enums
 			query += ` AND run.${runsDbFields.PartySize} >= @partySize`;
 			request = request.input('partySize', sql.TinyInt, filters.partySize);
 		} else {
@@ -158,14 +157,16 @@ export const getRuns = async (
 		}
 	}
 
+	// Sorting and Pagination
+	let rankSorting = '';
 	if (filters.sort === 'recent') {
-		query += ` ORDER BY run.${runsDbFields.SubmissionDate} DESC`;
+		rankSorting = `runSearch.${getRunDbFields.RunSubmissionDate} DESC, runSearch.${getRunDbFields.RunId} ASC`;
+		query += ` ORDER BY run.${runsDbFields.SubmissionDate} DESC, run.${runsDbFields.Id} ASC`;
 	} else {
 		// Ranking sort order
-		query += ` ORDER BY run.${runsDbFields.RunTime} ASC, run.${runsDbFields.SubmissionDate} ASC`;
+		rankSorting = `runSearch.${getRunDbFields.RunTime} ASC, runSearch.${getRunDbFields.RunSubmissionDate} ASC, runSearch.${getRunDbFields.RunId} ASC`;
+		query += ` ORDER BY run.${runsDbFields.RunTime} ASC, run.${runsDbFields.SubmissionDate} ASC, run.${runsDbFields.Id} ASC`;
 	}
-
-	query += ` OFFSET 0 ROWS`;
 
 	let takeRange = 30000;
 	if (filters.take) {
@@ -176,19 +177,28 @@ export const getRuns = async (
 	if (filters.page && filters.take) {
 		skipAmount = filters.page * filters.take;
 	}
+
+	query += ` OFFSET 0 ROWS`;
+
 	request = request.input('groupNumLower', sql.Int, skipAmount);
 	request = request.input('groupNumUpper', sql.Int, skipAmount + takeRange);
 
 	const limitQueryFilter = ` 
-    AND ${getRunDbFields.RunMetaGroupNum} >= @groupNumLower 
-    AND ${getRunDbFields.RunMetaGroupNum} < @groupNumUpper`;
+    AND runSearchRanked.${getRunDbFields.RunMetaGroupNum} BETWEEN @groupNumLower AND @groupNumUpper`;
 
 	query = `
-    SELECT *
-    FROM (${query}) runSearch
+    SELECT 
+			runSearchRanked.*
+    FROM (
+			SELECT 
+				DENSE_RANK() OVER (ORDER BY ${rankSorting}) AS ${getRunDbFields.RunMetaGroupNum},
+				runSearch.*
+			FROM (${query}) runSearch
+		) runSearchRanked
     WHERE 1=1 ${limitQueryFilter}
   `;
 
+	// Execute
 	const results = await request.query(query);
 	return results.recordset as GetRunDbModel[];
 };

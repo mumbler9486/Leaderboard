@@ -27,7 +27,7 @@ export async function GET({ params, url }) {
 	const filter = {
 		page: parsedFilter.page,
 		take: parsedFilter.take,
-		sort: RunSortOption.Recent
+		sort: parsedFilter.sort
 	} as RunsSearchFilter;
 	const submissionStatus = parsedFilter.status ?? undefined;
 

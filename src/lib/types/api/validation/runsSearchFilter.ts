@@ -65,7 +65,24 @@ export const runsSearchFilterSchema = object({
 			}
 		),
 	server: string().lowercase().nullable().oneOf(servers),
-	class: string().lowercase().nullable().oneOf(classes),
+	class: string()
+		.lowercase()
+		.nullable()
+		.oneOf(classes)
+		.test(
+			'must_be_solo_search',
+			`Main Class filter not supported on non-solo runs. Specify partySize=${1} to use this parameter.`,
+			(mainClass, ctx) => {
+				if (mainClass === null || mainClass === undefined) {
+					return true;
+				}
+
+				if (ctx.parent.partySize !== 1 && ctx.parent.partySize !== '1') {
+					return false;
+				}
+				return true;
+			}
+		),
 	rank: number().nullable().oneOf(ranks),
 	page: number().min(0).max(30000).default(0).nullable(),
 	take: number().min(1).max(1000).nullable(),

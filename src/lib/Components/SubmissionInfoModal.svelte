@@ -52,10 +52,7 @@
 
 		processing = true;
 		try {
-			const result = await fetchPostApi<any>(
-				`/ngs-api/submissions/${submission?.quest}/approve`,
-				approveRequest
-			);
+			const result = await fetchPostApi<any>(`/ngs-api/runs/submissions/approve`, approveRequest);
 
 			if (result.error) {
 				errorMessage = result.details[0];
@@ -98,10 +95,7 @@
 
 		processing = true;
 		try {
-			const result = await fetchPostApi<any>(
-				`/ngs-api/submissions/${submission?.quest}/deny`,
-				denyRequest
-			);
+			const result = await fetchPostApi<any>(`/ngs-api/runs/submissions/deny`, denyRequest);
 
 			if (result.error) {
 				errorMessage = result.details[0];

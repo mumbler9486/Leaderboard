@@ -9,8 +9,9 @@
 	import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus';
 	import type { SubmissionSearchFilter } from '$lib/types/api/validation/submissionSearchFilter';
 	import { copyQueryParams } from '$lib/utils/queryParams';
+	import { RunSortOption } from '$lib/types/api/runs/sortOptions';
 
-	const HistoryCount = 50;
+	const HistoryCount = 10;
 
 	let unapprovedCount = -1;
 	let showUnapproved = true;
@@ -19,6 +20,7 @@
 		const filter: SubmissionSearchFilter = {
 			status: showUnapproved ? RunSubmissionStatus.AwaitingApproval : undefined,
 			take: HistoryCount,
+			sort: RunSortOption.Recent,
 			page: 0
 		};
 
