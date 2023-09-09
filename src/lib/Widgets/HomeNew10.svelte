@@ -52,7 +52,7 @@
 			page: 0,
 			take: take,
 			partySize: 1,
-			sort: RunSortOption.Ranking
+			sort: RunSortOption.Recent
 		};
 		const runsPath = '/ngs-api/runs';
 		const soloRuns = (await fetchGetApi<Run[]>(runsPath, copyQueryParams(runsSearchFilter))) ?? [];
