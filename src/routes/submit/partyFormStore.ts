@@ -40,8 +40,6 @@ const setPartySize = (playerCount: number) => {
 			weapons: []
 		};
 
-		console.log('derpnuts', newPlayers, submitter);
-
 		return newPlayers;
 	});
 };

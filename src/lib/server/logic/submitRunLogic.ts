@@ -10,6 +10,9 @@ import { notifyDiscordNewRun } from './discordNotifyLogic';
 import type { SubmitResult } from '$lib/types/api/runs/submitResult';
 import { getPlayers } from '../repositories/playerRepository';
 import type { Game } from '$lib/types/api/game';
+import { UserRole } from '$lib/types/api/users/userRole';
+import type { PlayerInfo } from '$lib/types/api/runs/run';
+import type { PlayersDbModel } from '../types/db/users/players';
 
 export const submitRun = async (game: Game, parsedRun: RunSubmissionRequest) => {
 	const pool = await leaderboardDb.connect();
@@ -29,7 +32,7 @@ export const submitRun = async (game: Game, parsedRun: RunSubmissionRequest) => 
 	}
 
 	// Check players
-	const playerErrors = await checkPartyPlayers(validationRequest, parsedRun);
+	const playerErrors = await checkPartyPlayers(validationRequest, user, parsedRun);
 	if (playerErrors.length > 0) {
 		return jsonError(400, { error: 'bad_request', details: playerErrors });
 	}
@@ -75,8 +78,8 @@ const checkRunData = async (request: Request, run: RunSubmissionRequest) => {
 const checkSubmittingUser = async (request: Request, run: RunSubmissionRequest) => {
 	// Submitter exists
 	const submitterUser = await getUser(request, run.submitterUserId);
-	const playerId = parseInt(submitterUser?.Id ?? '-1');
-	if (!submitterUser || playerId <= 0) {
+	const submitterPlayerId = parseInt(submitterUser?.Id ?? '-1');
+	if (!submitterUser || submitterPlayerId <= 0) {
 		return {
 			user: null,
 			errors: ['Submitter user does not exist']
@@ -97,7 +100,19 @@ const checkSubmittingUser = async (request: Request, run: RunSubmissionRequest) 
 	};
 };
 
-const checkPartyPlayers = async (request: Request, run: RunSubmissionRequest) => {
+const checkPartyPlayers = async (
+	request: Request,
+	submitter: PlayersDbModel,
+	run: RunSubmissionRequest
+) => {
+	const submitterIsModerator =
+		!submitter.Roles?.includes(UserRole.Moderator) &&
+		!submitter.Roles?.includes(UserRole.Administrator);
+	const submitterIsPlayer1 = run.party[0]?.playerId === parseInt(submitter?.Id) ?? false;
+	if (!submitterIsModerator && !submitterIsPlayer1) {
+		return ['Submitter must be player 1.'];
+	}
+
 	// Party members exist
 	const playerIds = run.party.map((p) => p.playerId).filter((pid): pid is number => !!pid);
 	const existingPlayers = await getPlayers(request, playerIds);

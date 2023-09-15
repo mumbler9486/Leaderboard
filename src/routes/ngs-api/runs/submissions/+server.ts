@@ -3,8 +3,6 @@ import { jsonError } from '$lib/server/error.js';
 import { mapRuns } from '$lib/server/mappers/api/runMapper.js';
 import { getRuns } from '$lib/server/repositories/runsRepository.js';
 import { validateApiRequest } from '$lib/server/validation/requestValidation.js';
-import { RunSortOption } from '$lib/types/api/runs/sortOptions.js';
-import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus.js';
 import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter.js';
 import {
 	submissionSearchFilterSchema,
@@ -14,8 +12,7 @@ import { parseToRawSchema } from '$lib/utils/schemaValidation.js';
 import { json } from '@sveltejs/kit';
 
 /** @type {import('./$types').RequestHandler} */
-export async function GET({ params, url }) {
-	url.searchParams;
+export async function GET({ params, url, platform }) {
 	const urlParams = parseToRawSchema(url, submissionSearchFilterSchema);
 
 	const { object: parsedFilter, validationError } =

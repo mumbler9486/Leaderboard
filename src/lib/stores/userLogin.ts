@@ -49,6 +49,15 @@ const refreshUserInfo = async () => {
 	return player;
 };
 
+export const userHasRole = (role: UserRole) => {
+	const clientPrincipal = get(clientPrincipleStore);
+	if (!clientPrincipal) {
+		return false;
+	}
+
+	return;
+};
+
 export const playerInfoStore = {
 	subscribe: userInfoPersistedStore.subscribe,
 	refreshInfo: refreshUserInfo
@@ -56,5 +65,6 @@ export const playerInfoStore = {
 
 export const clientPrincipleStore = {
 	subscribe: clientPrinciplePersistedStore.subscribe,
-	fetchClientPrinciple
+	fetchClientPrinciple,
+	hasRole: userHasRole
 };
