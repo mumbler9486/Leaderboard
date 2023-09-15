@@ -50,14 +50,25 @@ export const yupRunPartySchema = (maxPlayers: number = 4) => {
 				.max(100),
 			inVideoName: string().required().max(30),
 			mainClass: mixed<NgsPlayerClass>().required().oneOf(mainClasses),
-			subClass: mixed<NgsPlayerClass>().required().oneOf(subClasses),
+			subClass: mixed<NgsPlayerClass>()
+				.required()
+				.oneOf(subClasses)
+				.test(
+					'valid_class_combination',
+					'Subclass is invalid. Check the mainclass and subclass combination.',
+					(subClass, ctx) => {
+						return ctx.parent.mainClass != subClass;
+					}
+				),
 			weapons: array(mixed<NgsWeapon>().required().oneOf(weapons)).max(6).ensure().required()
 		})
 	)
 		.min(1)
 		.max(maxPlayers)
-		.test('has_video', 'At least one player must have a video', (players) =>
-			players?.some((p) => p.povLink !== undefined)
+		.test(
+			'has_video',
+			'At least one player must have a video',
+			(players) => players?.some((p) => p.povLink !== undefined)
 		)
 		.test(
 			'player1_has_id',
