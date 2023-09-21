@@ -63,7 +63,7 @@ const checkUserPermission = async (moderatorUserId: string) => {
 	const request = pool.request();
 
 	const user = await getUser(request, moderatorUserId);
-	console.log(user);
+
 	if (
 		!user ||
 		(!user.Roles?.includes(UserRole.Moderator) && !user.Roles?.includes(UserRole.Administrator))

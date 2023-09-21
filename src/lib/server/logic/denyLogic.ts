@@ -32,6 +32,7 @@ export const denyRunSubmission = async (denyRequest: DenyRequest) => {
 		return json({ data: 'success' });
 	} catch (err) {
 		console.error(err);
+		throw jsonError(500, { error: 'internal_server_error' });
 	}
 };
 
@@ -40,7 +41,7 @@ const checkUserPermission = async (moderatorUserId: string) => {
 	const request = pool.request();
 
 	const user = await getUser(request, moderatorUserId);
-	console.log(user);
+
 	if (
 		!user ||
 		(!user.Roles?.includes(UserRole.Moderator) && !user.Roles?.includes(UserRole.Administrator))

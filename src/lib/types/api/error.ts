@@ -17,7 +17,8 @@ export enum ErrorCodes {
 	ValidationError = 'validation_error',
 	BadRequest = 'bad_request',
 	Unexpected = 'unexpected', //TODO, remove this code for Internal Server Error
-	Unauthorized = 'unauthorized'
+	Unauthorized = 'unauthorized',
+	Forbidden = 'forbidden'
 }
 
 export class BadRequestError extends Error {

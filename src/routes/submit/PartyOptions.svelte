@@ -2,7 +2,6 @@
 	import Divider from '$lib/Components/Divider.svelte';
 	import PlayerInformationInput from './PlayerInformationInput.svelte';
 	import { partyForm } from './partyFormStore';
-	partyForm.subscribe((f) => console.log(...f));
 </script>
 
 {#key $partyForm.length}

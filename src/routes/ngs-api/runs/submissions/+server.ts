@@ -2,7 +2,9 @@ import { leaderboardDb } from '$lib/server/db/db.js';
 import { jsonError } from '$lib/server/error.js';
 import { mapRuns } from '$lib/server/mappers/api/runMapper.js';
 import { getRuns } from '$lib/server/repositories/runsRepository.js';
+import { getUserValidated } from '$lib/server/validation/authorization.js';
 import { validateApiRequest } from '$lib/server/validation/requestValidation.js';
+import { UserRole } from '$lib/types/api/users/userRole.js';
 import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter.js';
 import {
 	submissionSearchFilterSchema,
@@ -12,7 +14,12 @@ import { parseToRawSchema } from '$lib/utils/schemaValidation.js';
 import { json } from '@sveltejs/kit';
 
 /** @type {import('./$types').RequestHandler} */
-export async function GET({ params, url, platform }) {
+export async function GET({ params, url, locals }) {
+	const { error } = getUserValidated(locals, [UserRole.Administrator, UserRole.Moderator]);
+	if (!!error) {
+		return error;
+	}
+
 	const urlParams = parseToRawSchema(url, submissionSearchFilterSchema);
 
 	const { object: parsedFilter, validationError } =
