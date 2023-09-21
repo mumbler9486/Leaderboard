@@ -1,7 +1,7 @@
 import { ErrorCodes } from '$lib/types/api/error';
 import type { UserRole } from '$lib/types/api/users/userRole';
 import { jsonError } from '../error';
-import { ServerUser } from '../types/auth/user';
+import { ServerUser } from '../types/auth/serverUser';
 
 export const getUserValidated = (requestLocals: App.Locals, atLeastRoles?: UserRole[]) => {
 	const clientPrincipal = requestLocals.clientPrincipal;
