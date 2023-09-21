@@ -26,7 +26,7 @@ export async function GET({ params, url }) {
 	const request = await pool.request();
 
 	try {
-		const runs = await getRuns(request, parsedFilter, true);
+		const runs = await getRuns(request, parsedFilter);
 		const mappedRuns = mapRuns(runs);
 		return json(mappedRuns);
 	} catch (err) {

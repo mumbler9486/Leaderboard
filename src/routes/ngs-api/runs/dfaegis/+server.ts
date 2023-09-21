@@ -16,6 +16,7 @@ import type { RunAttributeFilter } from '$lib/server/types/db/runs/runAttributeF
 import { Game } from '$lib/types/api/game.js';
 import { NgsQuests } from '$lib/types/api/runs/quests.js';
 import { NgsRunCategories } from '$lib/types/api/runs/categories.js';
+import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
@@ -48,7 +49,7 @@ export async function GET({ params, url }) {
 		  ];
 
 	try {
-		const runs = await getRuns(request, filter, true, supportFilter);
+		const runs = await getRuns(request, filter, RunSubmissionStatus.Approved, supportFilter);
 		const mappedRuns = mapRuns(runs);
 		return json(mappedRuns);
 	} catch (err) {
