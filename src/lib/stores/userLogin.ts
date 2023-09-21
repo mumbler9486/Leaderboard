@@ -44,7 +44,7 @@ const refreshUserInfo = async () => {
 		throw new Error('Not logged in');
 	}
 
-	const player = await fetchGetApi<PlayerProfile>(`/ngs-api/users/${userGuid}`);
+	const player = await fetchGetApi<PlayerProfile>(`/ngs-api/users/my-profile`);
 	userInfoPersistedStore.set(player);
 	return player;
 };

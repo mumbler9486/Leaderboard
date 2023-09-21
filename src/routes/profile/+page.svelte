@@ -31,7 +31,7 @@
 	<ArksId player={$playerInfoStore} {isLoading}>
 		<svelte:fragment slot="actions">
 			<Button
-				class="mt-2 mr-2 justify-self-end bg-[#54a851] text-white hover:bg-[#54a851] hover:brightness-75"
+				class="mr-2 mt-2 justify-self-end bg-[#54a851] text-white hover:bg-[#54a851] hover:brightness-75"
 				on:click={modalEdit.show}
 			>
 				<i class="bi bi-gear mr-2" />Edit Profile
