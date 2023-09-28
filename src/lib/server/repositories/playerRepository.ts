@@ -2,6 +2,7 @@ import sql, { type Request } from 'mssql';
 import { fields } from '../util/nameof';
 import type { CreateAccountRequest } from '../types/api/createAccount';
 import type { PlayersDbModel } from '../types/db/users/players';
+import { NameStyle } from '$lib/types/api/players/nameStyle';
 
 const playerDbFields = fields<PlayersDbModel>();
 
@@ -154,13 +155,19 @@ export const createAccount = async (
 			${playerDbFields.UserId},
 			${playerDbFields.PlayerName},
 			${playerDbFields.CharacterName},
-			${playerDbFields.Roles}
+			${playerDbFields.Roles},
+			${playerDbFields.NameEffectType},
+			${playerDbFields.NameColor1},
+			${playerDbFields.NameColor2}
 		)
 		VALUES (
 			@userId,
 			@playerName,
 			@characterName,
-			@roles
+			@roles,
+			@nameEffectType,
+			@nameColor1,
+			@nameColor2
 		);
 	`;
 
@@ -170,6 +177,9 @@ export const createAccount = async (
 		.input('playerName', sql.NVarChar, createAccountRequest.username)
 		.input('characterName', sql.NVarChar, createAccountRequest.characterName)
 		.input('roles', sql.NVarChar, JSON.stringify(DefaultUserRoles))
+		.input('nameEffectType', sql.TinyInt, NameStyle.None)
+		.input('nameColor1', sql.NVarChar, 'ffffff')
+		.input('nameColor2', sql.NVarChar, 'ffffff')
 		.query(insertInfoQuery);
 
 	if (insertPlayerResult.rowsAffected[0] == 0) {
