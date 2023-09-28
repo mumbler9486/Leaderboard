@@ -1,7 +1,9 @@
-import { writable } from 'svelte/store';
+import { playerInfoStore } from '$lib/stores/userLogin';
+import { get, writable } from 'svelte/store';
 
 interface PlayerSubmissionInfo {
 	playerId: number;
+	createPlayer: boolean;
 	povVideoLink?: string;
 	playerName: string;
 	inVideoName: string;
@@ -20,6 +22,7 @@ const setPartySize = (playerCount: number) => {
 
 		const newPlayers = [...Array(playerCount).keys()].map((p) => ({
 			playerId: -1,
+			createPlayer: false,
 			povVideoLink: undefined,
 			playerName: '',
 			inVideoName: '',
@@ -27,6 +30,19 @@ const setPartySize = (playerCount: number) => {
 			subClass: '',
 			weapons: []
 		}));
+
+		const submitter = get(playerInfoStore);
+		newPlayers[0] = {
+			playerId: submitter?.playerId ?? -1,
+			createPlayer: false,
+			povVideoLink: undefined,
+			playerName: submitter?.playerName ?? '',
+			inVideoName: '',
+			mainClass: '',
+			subClass: '',
+			weapons: []
+		};
+
 		return newPlayers;
 	});
 };

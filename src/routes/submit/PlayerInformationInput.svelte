@@ -1,53 +1,16 @@
 <script lang="ts">
 	import ClassSelector from './ClassSelector.svelte';
+	import PlayerSelector from './PlayerSelector.svelte';
 	import WeaponSelector from './WeaponSelector.svelte';
-	import { userInfo } from './playerInfoStore';
 	import { partyForm } from './partyFormStore';
-	import { onMount } from 'svelte';
 
 	export let playerIndex: number;
-
-	let playerName = '';
-	let inVideoName = '';
-	let videoLink = '';
-
-	onMount(userInfo.loadPlayerInfo);
-
-	$: partyForm.update((p) => {
-		p[playerIndex].playerName = playerName;
-		p[playerIndex].inVideoName = inVideoName;
-		p[playerIndex].povVideoLink = videoLink;
-		p[playerIndex].playerId = $userInfo?.find((x) => x.playerName == playerName)?.playerId ?? -1;
-		return p;
-	});
 </script>
 
 <div class="form-control">
 	<div class="grid grid-cols-1 gap-2 md:grid-cols-2">
 		<div class="form-control">
-			<label class="label" for="partysize-form1"
-				><span class="label-text text-base font-semibold">Player or Character Name</span></label
-			>
-			<input
-				placeholder="Search or enter name..."
-				list="playerName-datalist{playerIndex}"
-				name="player-name-form1"
-				class="input-bordered input"
-				bind:value={playerName}
-				required
-			/>
-			<div class="label">
-				<span class="label-text-alt"
-					>You can search for existing players by player and character name!<br /><span
-						class="text-warning">Please keep in mind that this list is sorted by Player Name.</span
-					></span
-				>
-			</div>
-			<datalist id="playerName-datalist{playerIndex}">
-				{#each $userInfo as user}
-					<option value={user.playerName} data-player={user.playerId}>{user.characterName}</option>
-				{/each}
-			</datalist>
+			<PlayerSelector {playerIndex} />
 		</div>
 		<div class="form-control">
 			<div class="label">
@@ -55,10 +18,10 @@
 			</div>
 			<input
 				placeholder="Enter character name..."
-				class="input-bordered input"
+				class="input input-bordered"
 				type="text"
 				required
-				bind:value={inVideoName}
+				bind:value={$partyForm[playerIndex].inVideoName}
 			/>
 			<div class="label">
 				<span class="label-text-alt"
@@ -79,10 +42,10 @@
 		</div>
 		<input
 			placeholder="Youtube video URL"
-			class="input-bordered input"
+			class="input input-bordered"
 			type="text"
 			required={playerIndex == 0}
-			bind:value={videoLink}
+			bind:value={$partyForm[playerIndex].povVideoLink}
 		/>
 	</div>
 	{#if $partyForm.length == 1}

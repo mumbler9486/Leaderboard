@@ -44,9 +44,18 @@ const refreshUserInfo = async () => {
 		throw new Error('Not logged in');
 	}
 
-	const player = await fetchGetApi<PlayerProfile>(`/ngs-api/users/${userGuid}`);
+	const player = await fetchGetApi<PlayerProfile>(`/ngs-api/users/my-profile`);
 	userInfoPersistedStore.set(player);
 	return player;
+};
+
+export const userHasRole = (role: UserRole) => {
+	const clientPrincipal = get(clientPrincipleStore);
+	if (!clientPrincipal) {
+		return false;
+	}
+
+	return clientPrincipal.userRoles.includes(role);
 };
 
 export const playerInfoStore = {
@@ -56,5 +65,6 @@ export const playerInfoStore = {
 
 export const clientPrincipleStore = {
 	subscribe: clientPrinciplePersistedStore.subscribe,
-	fetchClientPrinciple
+	fetchClientPrinciple,
+	hasRole: userHasRole
 };

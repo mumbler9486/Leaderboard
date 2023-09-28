@@ -10,14 +10,16 @@ import { ErrorCodes } from '$lib/types/api/error';
 import { getUser } from '../repositories/userRepository';
 import { UserRole } from '$lib/types/api/users/userRole';
 import type { PlayersDbModel } from '../types/db/users/players';
+import type { ServerUser } from '../types/auth/serverUser';
 
-export const approveRunSubmission = async (approveRequest: ApproveRequest) => {
+export const approveRunSubmission = async (
+	requestUser: ServerUser,
+	approveRequest: ApproveRequest
+) => {
 	const pool = await leaderboardDb.connect();
 
 	// Check user permission
-	const { errorList: roleError, user: moderator } = await checkUserPermission(
-		approveRequest.moderatorUserId
-	);
+	const { errorList: roleError, user: moderator } = await checkUserPermission(requestUser.userId);
 	if (roleError.length > 0 || !moderator) {
 		return jsonError(401, { error: ErrorCodes.Unauthorized, details: roleError });
 	}
@@ -63,7 +65,7 @@ const checkUserPermission = async (moderatorUserId: string) => {
 	const request = pool.request();
 
 	const user = await getUser(request, moderatorUserId);
-	console.log(user);
+
 	if (
 		!user ||
 		(!user.Roles?.includes(UserRole.Moderator) && !user.Roles?.includes(UserRole.Administrator))

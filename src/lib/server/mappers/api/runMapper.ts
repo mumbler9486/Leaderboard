@@ -8,25 +8,32 @@ import { parseServerRegion } from '$lib/types/api/serverRegions';
 import { parseNgsWeapon, type NgsWeapon } from '$lib/types/api/weapon';
 
 export const mapRuns = (getRun: GetRunDbModel[]): Run<unknown>[] => {
-	const groupedRuns = getRun.reduce(
-		(prev, curr) => {
-			if (!prev[curr.RunId]) {
-				prev[curr.RunId] = [];
-			}
-			prev[curr.RunId].push(curr);
-			return prev;
-		},
-		{} as { [runId: string]: GetRunDbModel[] }
-	);
+	const groupedRuns = Object.entries(
+		getRun.reduce(
+			(prev, curr) => {
+				if (!prev[curr.RunId]) {
+					prev[curr.RunId] = [];
+				}
+				prev[curr.RunId].push(curr);
+				return prev;
+			},
+			{} as { [runId: string]: GetRunDbModel[] }
+		)
+	).sort((g1, g2) => {
+		const g1RankNum = parseInt(g1[1][0].RunMetaGroupNum);
+		const g2RankNum = parseInt(g2[1][0].RunMetaGroupNum);
 
-	const sortedGroups = Object.entries(groupedRuns).sort((g1, g2) =>
-		new Date(g1[1][0].RunTime) > new Date(g2[1][0].RunTime) ? 1 : -1
-	);
+		if (g1RankNum == g2RankNum) {
+			return 0;
+		}
+
+		return g1RankNum > g2RankNum ? 1 : -1;
+	});
 
 	let currentRank = 0;
 	let lastTime: RunTime = { hours: -1, minutes: -1, seconds: -1 };
 
-	const mapped = sortedGroups.map((runGroup, i) => {
+	const mapped = groupedRuns.map((runGroup, i) => {
 		if (!runGroup[1] || runGroup[1].length == 0) {
 			console.error(`Run is null/invalid RunID=${runGroup[0]}`, runGroup);
 		}

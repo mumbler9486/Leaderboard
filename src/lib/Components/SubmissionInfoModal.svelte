@@ -42,11 +42,8 @@
 			return;
 		}
 
-		const { userId, username } = await getLogin();
-
 		const approveRequest: ApproveRequest = {
 			runId: submission?.runId,
-			moderatorUserId: userId,
 			modNotes: modNotes ?? ''
 		};
 
@@ -85,11 +82,8 @@
 			return;
 		}
 
-		const { userId, username } = await getLogin();
-
 		const denyRequest: DenyRequest = {
 			runId: submission?.runId,
-			moderatorUserId: userId,
 			modNotes: modNotes ?? ''
 		};
 
@@ -115,22 +109,6 @@
 			errorMessage = 'Unexpected error, please contact site admin.';
 		} finally {
 			processing = false;
-		}
-	};
-
-	const getLogin = async () => {
-		try {
-			const res = await fetch('/.auth/me');
-			const clientPrincipal = (await res.json()).clientPrincipal;
-			const userId = clientPrincipal.userId as string;
-			const username = clientPrincipal.userDetails as string;
-			return {
-				userId,
-				username
-			};
-		} catch (err) {
-			console.error('Failed to get user login', err);
-			throw err;
 		}
 	};
 
@@ -224,12 +202,16 @@
 				<div class="flex grow flex-col">
 					<span class="text-center text-lg font-semibold">Moderator's Notes:</span>
 					<div class="whitespace-pre-wrap p-2">
-						<textarea
-							class="widget-discord textarea textarea-bordered w-full grow"
-							placeholder="(Optional) Type any moderator notes you want to display here!"
-							maxlength="500"
-							bind:value={modNotes}
-						/>
+						{#if canReview}
+							<textarea
+								class="widget-discord textarea textarea-bordered w-full grow"
+								placeholder="(Optional) Type any moderator notes you want to display here!"
+								maxlength="500"
+								bind:value={modNotes}
+							/>
+						{:else}
+							{submission?.modNotes ?? ''}
+						{/if}
 					</div>
 				</div>
 			</div>

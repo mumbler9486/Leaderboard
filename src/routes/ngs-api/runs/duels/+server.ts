@@ -19,6 +19,9 @@ import {
 import { Game } from '$lib/types/api/game.js';
 import { NgsQuests } from '$lib/types/api/runs/quests.js';
 import { NgsRunCategories } from '$lib/types/api/runs/categories.js';
+import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus.js';
+import { getUserValidated } from '$lib/server/validation/authorization.js';
+import { UserRole } from '$lib/types/api/users/userRole.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
@@ -53,7 +56,7 @@ export async function GET({ params, url }) {
 			  ];
 
 	try {
-		const runs = await getRuns(request, filter, true, duelAugmentsFilter);
+		const runs = await getRuns(request, filter, RunSubmissionStatus.Approved, duelAugmentsFilter);
 		const mappedRuns = mapRuns(runs);
 		return json(mappedRuns);
 	} catch (err) {
@@ -62,7 +65,16 @@ export async function GET({ params, url }) {
 }
 
 /** @type {import('./$types').RequestHandler} */
-export async function POST({ request }) {
+export async function POST({ request, locals }) {
+	const { user, error } = getUserValidated(locals, [
+		UserRole.User,
+		UserRole.Administrator,
+		UserRole.Moderator
+	]);
+	if (!!error) {
+		return error;
+	}
+
 	// Validate request
 	const body = await request.json();
 	const { object: parsedRun, validationError } = await validateApiRequest<DuelRunSubmission>(
@@ -73,5 +85,5 @@ export async function POST({ request }) {
 		return jsonError(400, validationError);
 	}
 
-	return submitRun(Game.Ngs, parsedRun);
+	return submitRun(Game.Ngs, user, parsedRun);
 }

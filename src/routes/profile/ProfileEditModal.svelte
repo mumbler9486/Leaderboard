@@ -109,7 +109,7 @@
 		discordUsername: '',
 		ship: undefined,
 		playerCountry: '',
-		serverRegion: '',
+		serverRegion: undefined,
 		primaryColor: '#ffffff',
 		secondaryColor: '#ffffff',
 		nameEffect: 0,
@@ -199,10 +199,7 @@
 		serverError = undefined;
 
 		try {
-			const result = await fetchPutApi<boolean>(
-				`/ngs-api/users/${userInfo?.userId}/profile`,
-				validRequest
-			);
+			const result = await fetchPutApi<boolean>(`/ngs-api/users/my-profile`, validRequest);
 
 			if (result === true) {
 				profileUpdated();
@@ -322,7 +319,7 @@
 			</div>
 			<FormControl label="Profile Description" error={$errors.description}>
 				<textarea
-					class="widget-discord textarea-bordered textarea h-24"
+					class="widget-discord textarea textarea-bordered h-24"
 					placeholder="(Optional)"
 					maxlength={500}
 					bind:value={$form.description}
@@ -341,9 +338,9 @@
 		{#if serverError}
 			<Alert type="error" message={serverError} />
 		{/if}
-		<Button class="btn-outline btn-secondary" on:click={close} on:keyup={close}>Close</Button>
+		<Button class="btn-secondary btn-outline" on:click={close} on:keyup={close}>Close</Button>
 		<Button
-			class="btn-outline btn-success"
+			class="btn-success btn-outline"
 			on:click={saveChanges}
 			disabled={isLoading || isSubmitting}>Save</Button
 		>

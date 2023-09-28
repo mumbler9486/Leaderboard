@@ -1,40 +1,23 @@
 // hooks.server.ts
 import type { Handle, HandleServerError } from '@sveltejs/kit';
-import { browser } from '$app/environment';
-import { locale } from 'svelte-i18n';
+import { dev } from '$app/environment';
 import { initYupLocale } from '$lib/types/api/validation/schemaInitLocale';
 
 initYupLocale();
 
-const englishHandler = [
-	'en',
-	'en-AU',
-	'en-BZ',
-	'en-CA',
-	'en-CB',
-	'en-GB',
-	'en-IE',
-	'en-JM',
-	'en-NZ',
-	'en-PH',
-	'en-TT',
-	'en-US',
-	'en-ZA',
-	'en-ZW'
-];
-
 export const handle: Handle = async ({ event, resolve }) => {
-	const lang = browser
-		? localStorage.getItem('language') ??
-		  event.request.headers.get('accept-language')?.split(',')[0]
-		: event.request.headers.get('accept-language')?.split(',')[0];
-	if (lang) {
-		if (englishHandler.includes(lang)) {
-			locale.set('en');
-		} else {
-			locale.set(lang);
-		}
+	const isMswEnabled = dev && import.meta.env.VITE_MSW_ENABLED === 'true';
+	if (isMswEnabled) {
+		const mockClientPrincipal = await import('./mocks/client/auth.handlers').then(
+			(res) => res.authHeaderObject.clientPrincipal
+		);
+		event.locals.clientPrincipal = mockClientPrincipal;
+	} else {
+		// Client Principal only available on routes that are protected by roles
+		// See https://github.com/geoffrich/svelte-adapter-azure-swa/blob/main/index.d.ts#L27
+		event.locals.clientPrincipal = event.platform?.clientPrincipal;
 	}
+
 	return resolve(event);
 };
 

@@ -11,7 +11,7 @@
 	import { copyQueryParams } from '$lib/utils/queryParams';
 	import { RunSortOption } from '$lib/types/api/runs/sortOptions';
 
-	const HistoryCount = 10;
+	const HistoryCount = 50;
 
 	let unapprovedCount = -1;
 	let showUnapproved = true;

@@ -17,6 +17,7 @@
 {#each parties as party}
 	<Button
 		class={currentLinkPath === party.link ? highlightClass : ''}
+		primary={currentLinkPath === party.link}
 		on:click={() => linkClick(party.link)}>{party.label}</Button
 	>
 {/each}

@@ -44,7 +44,6 @@
 		}
 
 		const createAccountRequest: CreateAccountRequest = {
-			userId: $clientPrincipleStore.userId,
 			username: $clientPrincipleStore.userDetails,
 			characterName: characterName
 		} satisfies CreateAccountRequest;
@@ -98,7 +97,7 @@
 					<input
 						type="text"
 						placeholder="Please enter a character name..."
-						class="input-bordered input"
+						class="input input-bordered"
 						maxlength="25"
 						required
 						bind:value={characterName}
@@ -113,7 +112,7 @@
 					{#if serverError}
 						<Alert type="error" message={serverError} />
 					{/if}
-					<Button class="btn-outline btn-success" on:click={submitChanges} on:keyup={submitChanges}>
+					<Button class="btn-success btn-outline" on:click={submitChanges} on:keyup={submitChanges}>
 						Complete Setup
 					</Button>
 				</div>
