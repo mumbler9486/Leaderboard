@@ -8,12 +8,11 @@ import { getUser } from '../repositories/userRepository';
 import { UserRole } from '$lib/types/api/users/userRole';
 import { ErrorCodes } from '$lib/types/api/error';
 import type { PlayersDbModel } from '../types/db/users/players';
+import type { ServerUser } from '../types/auth/serverUser';
 
-export const denyRunSubmission = async (denyRequest: DenyRequest) => {
+export const denyRunSubmission = async (requestUser: ServerUser, denyRequest: DenyRequest) => {
 	// Check user permission
-	const { errorList: roleError, user: moderator } = await checkUserPermission(
-		denyRequest.moderatorUserId
-	);
+	const { errorList: roleError, user: moderator } = await checkUserPermission(requestUser.userId);
 	if (roleError.length > 0 || !moderator) {
 		return jsonError(401, { error: ErrorCodes.Unauthorized, details: roleError });
 	}

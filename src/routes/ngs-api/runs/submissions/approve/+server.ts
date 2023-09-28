@@ -25,7 +25,5 @@ export async function POST({ request, locals }) {
 		return jsonError(400, validationError);
 	}
 
-	approveRequest.moderatorUserId = user.userId;
-
-	return approveRunSubmission(approveRequest);
+	return approveRunSubmission(user, approveRequest);
 }

@@ -42,11 +42,8 @@
 			return;
 		}
 
-		const { userId, username } = await getLogin();
-
 		const approveRequest: ApproveRequest = {
 			runId: submission?.runId,
-			moderatorUserId: userId,
 			modNotes: modNotes ?? ''
 		};
 
@@ -85,11 +82,8 @@
 			return;
 		}
 
-		const { userId, username } = await getLogin();
-
 		const denyRequest: DenyRequest = {
 			runId: submission?.runId,
-			moderatorUserId: userId,
 			modNotes: modNotes ?? ''
 		};
 
@@ -115,22 +109,6 @@
 			errorMessage = 'Unexpected error, please contact site admin.';
 		} finally {
 			processing = false;
-		}
-	};
-
-	const getLogin = async () => {
-		try {
-			const res = await fetch('/.auth/me');
-			const clientPrincipal = (await res.json()).clientPrincipal;
-			const userId = clientPrincipal.userId as string;
-			const username = clientPrincipal.userDetails as string;
-			return {
-				userId,
-				username
-			};
-		} catch (err) {
-			console.error('Failed to get user login', err);
-			throw err;
 		}
 	};
 

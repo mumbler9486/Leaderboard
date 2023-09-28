@@ -22,7 +22,5 @@ export async function POST({ request, locals }) {
 		return jsonError(400, validationError);
 	}
 
-	denyRequest.moderatorUserId = user.userId;
-
-	return denyRunSubmission(denyRequest);
+	return denyRunSubmission(user, denyRequest);
 }
