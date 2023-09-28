@@ -1,10 +1,6 @@
 import { json } from '@sveltejs/kit';
 import { leaderboardDb } from '$lib/server/db/db.js';
-import {
-	createAccount,
-	getPlayerList,
-	isPlayerNameUnique
-} from '$lib/server/repositories/playerRepository.js';
+import { getPlayerList, isPlayerNameUnique } from '$lib/server/repositories/playerRepository.js';
 import { mapPlayerAutoFillList } from '$lib/server/mappers/api/playerMapper.js';
 import {
 	createAccountSchema,
@@ -13,6 +9,7 @@ import {
 import { jsonError } from '$lib/server/error.js';
 import { getUserExists } from '$lib/server/repositories/userRepository.js';
 import { ErrorCodes } from '$lib/types/api/error.js';
+import { getUserValidated } from '$lib/server/validation/authorization.js';
 
 export async function GET({}) {
 	try {
@@ -28,7 +25,12 @@ export async function GET({}) {
 	}
 }
 
-export async function POST({ request }) {
+export async function POST({ request, locals }) {
+	const { user, error } = getUserValidated(locals);
+	if (!!error) {
+		return error;
+	}
+
 	const body = await request.json();
 
 	let updateProfileRequest: CreateAccountRequest;
@@ -43,7 +45,7 @@ export async function POST({ request }) {
 
 	const pool = await leaderboardDb.connect();
 	try {
-		const isUserExist = await getUserExists(pool.request(), updateProfileRequest.userId);
+		const isUserExist = await getUserExists(pool.request(), user.userId);
 		if (isUserExist) {
 			return jsonError(400, {
 				error: ErrorCodes.BadRequest,
@@ -61,7 +63,7 @@ export async function POST({ request }) {
 			});
 		}
 
-		await createAccount(pool.request(), updateProfileRequest);
+		//await createAccount(pool.request(), updateProfileRequest);
 
 		return json(true);
 	} catch (err) {
