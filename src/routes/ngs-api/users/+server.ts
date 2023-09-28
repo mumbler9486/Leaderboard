@@ -1,6 +1,10 @@
 import { json } from '@sveltejs/kit';
 import { leaderboardDb } from '$lib/server/db/db.js';
-import { getPlayerList, isPlayerNameUnique } from '$lib/server/repositories/playerRepository.js';
+import {
+	createAccount,
+	getPlayerList,
+	isPlayerNameUnique
+} from '$lib/server/repositories/playerRepository.js';
 import { mapPlayerAutoFillList } from '$lib/server/mappers/api/playerMapper.js';
 import {
 	createAccountSchema,
@@ -63,7 +67,7 @@ export async function POST({ request, locals }) {
 			});
 		}
 
-		//await createAccount(pool.request(), updateProfileRequest);
+		await createAccount(pool.request(), updateProfileRequest);
 
 		return json(true);
 	} catch (err) {
