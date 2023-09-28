@@ -67,7 +67,7 @@ export async function POST({ request, locals }) {
 			});
 		}
 
-		await createAccount(pool.request(), updateProfileRequest);
+		await createAccount(pool.request(), user.userId, updateProfileRequest);
 
 		return json(true);
 	} catch (err) {

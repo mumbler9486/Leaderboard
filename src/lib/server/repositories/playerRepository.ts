@@ -146,6 +146,7 @@ export const isPlayerNameUnique = async (request: Request, playerName: string) =
 const DefaultUserRoles = ['user'];
 export const createAccount = async (
 	request: Request,
+	userGuid: string,
 	createAccountRequest: CreateAccountRequest
 ) => {
 	const insertInfoQuery = `
@@ -165,7 +166,7 @@ export const createAccount = async (
 
 	// Insert player info
 	const insertPlayerResult = await request
-		.input('userId', sql.NVarChar, createAccountRequest.userId)
+		.input('userId', sql.NVarChar, userGuid)
 		.input('playerName', sql.NVarChar, createAccountRequest.username)
 		.input('characterName', sql.NVarChar, createAccountRequest.characterName)
 		.input('roles', sql.NVarChar, JSON.stringify(DefaultUserRoles))
