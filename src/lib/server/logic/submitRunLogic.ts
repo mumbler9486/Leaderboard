@@ -11,37 +11,41 @@ import type { SubmitResult } from '$lib/types/api/runs/submitResult';
 import { getPlayers } from '../repositories/playerRepository';
 import type { Game } from '$lib/types/api/game';
 import { UserRole } from '$lib/types/api/users/userRole';
-import type { PlayerInfo } from '$lib/types/api/runs/run';
-import type { PlayersDbModel } from '../types/db/users/players';
+import type { ServerUser } from '../types/auth/serverUser';
+import { ErrorCodes } from '$lib/types/api/error';
 
-export const submitRun = async (game: Game, parsedRun: RunSubmissionRequest) => {
+export const submitRun = async (
+	game: Game,
+	requestUser: ServerUser,
+	parsedRun: RunSubmissionRequest
+) => {
 	const pool = await leaderboardDb.connect();
 	const validationRequest = await pool.request();
 
 	// Check user
-	const { user, errors: userErrors } = await checkSubmittingUser(validationRequest, parsedRun);
+	const { user, errors: userErrors } = await checkSubmittingUser(validationRequest, requestUser);
 	if (!!userErrors) {
-		return jsonError(403, { error: 'unauthorized', details: userErrors });
+		return jsonError(403, { error: ErrorCodes.Unauthorized, details: userErrors });
 	}
-	const userId = parseInt(user!.Id);
+	const playerId = parseInt(user!.Id);
 
 	// Check run data
 	const { errors: runRequestErrors } = await checkRunData(validationRequest, parsedRun);
 	if (runRequestErrors.length > 0) {
-		return jsonError(400, { error: 'bad_request', details: runRequestErrors });
+		return jsonError(400, { error: ErrorCodes.BadRequest, details: runRequestErrors });
 	}
 
 	// Check players
-	const playerErrors = await checkPartyPlayers(validationRequest, user, parsedRun);
+	const playerErrors = await checkPartyPlayers(validationRequest, requestUser, playerId, parsedRun);
 	if (playerErrors.length > 0) {
-		return jsonError(400, { error: 'bad_request', details: playerErrors });
+		return jsonError(400, { error: ErrorCodes.BadRequest, details: playerErrors });
 	}
 
 	// Insert run
 	const transaction = new sql.Transaction(pool);
 	try {
 		await transaction.begin();
-		await insertRun(transaction, game, parsedRun, userId);
+		await insertRun(transaction, game, parsedRun, playerId);
 		await transaction.commit();
 
 		notifyDiscordNewRun(parsedRun.submitterName, parsedRun);
@@ -75,9 +79,9 @@ const checkRunData = async (request: Request, run: RunSubmissionRequest) => {
 	};
 };
 
-const checkSubmittingUser = async (request: Request, run: RunSubmissionRequest) => {
+const checkSubmittingUser = async (request: Request, requestUser: ServerUser) => {
 	// Submitter exists
-	const submitterUser = await getUser(request, run.submitterUserId);
+	const submitterUser = await getUser(request, requestUser.userId);
 	const submitterPlayerId = parseInt(submitterUser?.Id ?? '-1');
 	if (!submitterUser || submitterPlayerId <= 0) {
 		return {
@@ -86,7 +90,7 @@ const checkSubmittingUser = async (request: Request, run: RunSubmissionRequest) 
 		};
 	}
 
-	const submitterHasUserRole = submitterUser.Roles.includes('user');
+	const submitterHasUserRole = requestUser.hasRole(UserRole.User);
 	if (!submitterHasUserRole) {
 		return {
 			user: null,
@@ -102,13 +106,13 @@ const checkSubmittingUser = async (request: Request, run: RunSubmissionRequest) 
 
 const checkPartyPlayers = async (
 	request: Request,
-	submitter: PlayersDbModel,
+	requestUser: ServerUser,
+	playerId: number,
 	run: RunSubmissionRequest
 ) => {
 	const submitterIsModerator =
-		!submitter.Roles?.includes(UserRole.Moderator) &&
-		!submitter.Roles?.includes(UserRole.Administrator);
-	const submitterIsPlayer1 = run.party[0]?.playerId === parseInt(submitter?.Id) ?? false;
+		requestUser.hasRole(UserRole.Moderator) || requestUser.hasRole(UserRole.Administrator);
+	const submitterIsPlayer1 = run.party[0]?.playerId === playerId ?? false;
 	if (!submitterIsModerator && !submitterIsPlayer1) {
 		return ['Submitter must be player 1.'];
 	}

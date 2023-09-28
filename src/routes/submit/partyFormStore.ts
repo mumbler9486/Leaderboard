@@ -3,6 +3,7 @@ import { get, writable } from 'svelte/store';
 
 interface PlayerSubmissionInfo {
 	playerId: number;
+	createPlayer: boolean;
 	povVideoLink?: string;
 	playerName: string;
 	inVideoName: string;
@@ -21,6 +22,7 @@ const setPartySize = (playerCount: number) => {
 
 		const newPlayers = [...Array(playerCount).keys()].map((p) => ({
 			playerId: -1,
+			createPlayer: false,
 			povVideoLink: undefined,
 			playerName: '',
 			inVideoName: '',
@@ -32,6 +34,7 @@ const setPartySize = (playerCount: number) => {
 		const submitter = get(playerInfoStore);
 		newPlayers[0] = {
 			playerId: submitter?.playerId ?? -1,
+			createPlayer: false,
 			povVideoLink: undefined,
 			playerName: submitter?.playerName ?? '',
 			inVideoName: '',

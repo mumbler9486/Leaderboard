@@ -55,7 +55,7 @@ export const userHasRole = (role: UserRole) => {
 		return false;
 	}
 
-	return;
+	return clientPrincipal.userRoles.includes(role);
 };
 
 export const playerInfoStore = {
