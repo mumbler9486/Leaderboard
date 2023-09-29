@@ -1,4 +1,5 @@
 <script lang="ts" generics="T">
+	import { patchCodeLabelMap } from '$lib/constants/patchCodes';
 	import { mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import type { Run } from '$lib/types/api/runs/run';
 	import Button from '../Button.svelte';
@@ -24,6 +25,7 @@
 			{ label: 'Class', textAlign: 'center' },
 			{ label: 'Weapons', textAlign: 'center' },
 			{ label: 'IGT', textAlign: 'center', tooltip: 'In-Game Time' },
+			{ label: 'Patch', textAlign: 'center' },
 			{ label: 'Video', textAlign: 'center' },
 			{ label: '', textAlign: 'center', class: 'w-2' }
 		] satisfies (TableHeader | undefined)[]
@@ -88,6 +90,9 @@
 				{/if}
 				<td class="text-center">
 					<TimeDisplay time={run.time} />
+				</td>
+				<td class="text-center">
+					{patchCodeLabelMap[run.patch]}
 				</td>
 				<td class="text-center">
 					{#each run.party as player}
