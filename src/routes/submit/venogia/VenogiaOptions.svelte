@@ -49,6 +49,6 @@
 		/>
 	</div>
 	<div class="form-control">
-		<RemainingTimeInput limitMinutes={15} />
+		<RemainingTimeInput limitMinutes={30} />
 	</div>
 </div>

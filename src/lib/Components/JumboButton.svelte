@@ -38,7 +38,7 @@
 				{subtitle ?? ''}
 			</p>
 			<button
-				class="btn-primary btn h-16 px-10 text-xl lg:h-auto lg:px-4 lg:text-base"
+				class="btn btn-primary h-16 px-10 text-xl lg:h-auto lg:px-4 lg:text-base"
 				on:click={buttonAction}>Submit</button
 			>
 		</div>
