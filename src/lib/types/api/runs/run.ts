@@ -53,6 +53,8 @@ export interface PlayerInfo {
 
 export interface DfSolusRun extends Run {}
 
+export interface VenogiaRun extends Run {}
+
 export interface PurpleRun extends Run {}
 
 export interface DfAegisRunDetails {

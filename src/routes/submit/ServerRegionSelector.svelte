@@ -15,4 +15,9 @@
 	];
 </script>
 
-<Dropdown label="Run Server Region" options={serverOptions} bind:value={$runForm.serverRegion} />
+<Dropdown
+	label="Run Server Region"
+	placeholder="Select a server region"
+	options={serverOptions}
+	bind:value={$runForm.serverRegion}
+/>

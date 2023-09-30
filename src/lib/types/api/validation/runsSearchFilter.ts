@@ -1,5 +1,5 @@
 import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
-import { type InferType, string, number, object, boolean, mixed } from 'yup';
+import { type InferType, string, number, object } from 'yup';
 import { NgsRunCategories } from '../runs/categories';
 import { NgsQuests } from '../runs/quests';
 import { ServerRegion } from '../serverRegions';
@@ -34,11 +34,19 @@ const validCategories: Record<string, string[]> = {
 		NgsRunCategories.AmsKvaris,
 		NgsRunCategories.NilsStia,
 		NgsRunCategories.Halvaldi
-	]
+	],
+	[NgsQuests.Venogia]: [NgsRunCategories.UrgentQuest]
 };
 
 const servers = [null, ServerRegion.Global, ServerRegion.Japan];
-const quests = [null, NgsQuests.Purples, NgsQuests.DfSolus, NgsQuests.DfAegis, NgsQuests.Duels];
+const quests = [
+	null,
+	NgsQuests.Purples,
+	NgsQuests.DfSolus,
+	NgsQuests.DfAegis,
+	NgsQuests.Duels,
+	NgsQuests.Venogia
+];
 const sortOrders = [null, RunSortOption.Ranking, RunSortOption.Recent];
 const ranks = [null, 1, 2, 3];
 
