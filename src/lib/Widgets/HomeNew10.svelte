@@ -13,6 +13,7 @@
 	import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
 	import { IndomitableBoss } from '$lib/types/api/duels/indomitableBoss';
 	import { RunSortOption } from '$lib/types/api/runs/sortOptions';
+	import { NgsQuests } from '$lib/types/api/runs/quests';
 
 	const take = 10;
 
@@ -25,25 +26,28 @@
 	}
 
 	const questNameMap: Record<string, Record<string, string>> = {
-		purples: {
+		[NgsQuests.Purples]: {
 			aelio: 'Purple Aelio R.',
 			retem: 'Purple Retem R.',
 			kvaris: 'Purple Kvaris R.',
 			stia: 'Purple Stia R.'
 		},
-		dfaegis: {
+		[NgsQuests.DfAegis]: {
 			urgent_quest: 'DF Aegis R.',
 			trigger: 'DF Aegis R.'
 		},
-		dfsolus: {
+		[NgsQuests.DfSolus]: {
 			quest: 'DF Solus R.'
 		},
-		duels: {
+		[NgsQuests.Duels]: {
 			[IndomitableBoss.NexAelio]: 'Duel Nex Aelio',
 			[IndomitableBoss.RenusRetem]: 'Duel Renus Retem',
 			[IndomitableBoss.AmsKvaris]: 'Duel Ams Kvaris',
 			[IndomitableBoss.NilsStia]: 'Duel Nils Stia',
 			[IndomitableBoss.Halvaldi]: 'Duel Halvaldi'
+		},
+		[NgsQuests.Venogia]: {
+			urgent_quest: 'Venogia R.'
 		}
 	};
 

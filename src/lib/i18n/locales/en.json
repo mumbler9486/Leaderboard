@@ -4,7 +4,8 @@
 			"dfsolus": "Dark Falz Solus",
 			"dfaegis": "Dark Falz Aegis",
 			"purples": "Purple Triggers",
-			"duels": "Duels"
+			"duels": "Duels",
+			"venogia": "Venogia"
 		},
 		"categories": {
 			"quest": "Quest",
@@ -136,7 +137,8 @@
 		"indomitableRenusRetem": "Indomitable Renus Retem",
 		"indomitableHalvaldi": "Indomitable Halvaldi",
 		"duelsPageTitle": "Duels",
-		"dfSolus": "Dark Falz Solus"
+		"dfSolus": "Dark Falz Solus",
+		"venogia": "Venogia"
 	},
 	"shared": {
 		"siteName": "Unofficial NGS Leaderboards",

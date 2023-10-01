@@ -9,6 +9,7 @@ import {
 	runsSearchFilterSchema,
 	type RunsSearchFilter
 } from '$lib/types/api/validation/runsSearchFilter.js';
+import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
@@ -26,7 +27,7 @@ export async function GET({ params, url }) {
 	const request = await pool.request();
 
 	try {
-		const runs = await getRuns(request, parsedFilter);
+		const runs = await getRuns(request, parsedFilter, RunSubmissionStatus.Approved);
 		const mappedRuns = mapRuns(runs);
 		return json(mappedRuns);
 	} catch (err) {

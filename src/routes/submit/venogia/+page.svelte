@@ -1,22 +1,25 @@
 <script lang="ts">
-	import DfAegisOptions from './DfAegisOptions.svelte';
 	import Divider from '$lib/Components/Divider.svelte';
 	import ServerRegionSelector from '../ServerRegionSelector.svelte';
 	import Alert from '$lib/Components/Alert.svelte';
 	import PartyOptions from '../PartyOptions.svelte';
+	import VenogiaOptions from './VenogiaOptions.svelte';
 
 	import { t } from 'svelte-i18n';
 	import { resetForm, runForm } from '../runStore';
 	import { partyForm } from '../partyFormStore';
-	import { submitDfAegisRun } from './submit';
+	import { afterNavigate } from '$app/navigation';
+	import { submitVenogiaRun } from './submit';
 	import { ErrorCodes } from '$lib/types/api/error';
 
 	let submitting: boolean = false;
 	let serverErrorMessage: string | undefined = undefined;
 	let submitFinish = false;
 
-	resetForm();
-	partyForm.setPartySize(1);
+	afterNavigate(() => {
+		resetForm();
+		partyForm.setPartySize(1);
+	});
 
 	async function submitRun() {
 		if (submitting) {
@@ -26,7 +29,7 @@
 		try {
 			serverErrorMessage = undefined;
 			submitting = true;
-			const response: any = await submitDfAegisRun();
+			const response: any = await submitVenogiaRun();
 
 			if (response.code == ErrorCodes.ValidationError) {
 				serverErrorMessage = response.details[0].message;
@@ -67,14 +70,14 @@
 			{:else}
 				<form id="submitForm" on:submit|preventDefault={submitRun}>
 					<div class="m-2 gap-1 rounded-md border border-secondary bg-secondary/10 p-4 px-8">
-						<div class="text-center text-xl font-semibold">Dark Falz Aegis</div>
+						<div class="text-center text-xl font-semibold">Remnants of Ambition (Venogia)</div>
 						<Divider />
 						<div class="text-center text-lg font-semibold">Information</div>
 						<div class="form-control">
 							<ServerRegionSelector />
 						</div>
 						<div class="form-control">
-							<DfAegisOptions />
+							<VenogiaOptions />
 						</div>
 					</div>
 					<PartyOptions />

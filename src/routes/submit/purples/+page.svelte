@@ -10,14 +10,12 @@
 	import { partyForm } from '../partyFormStore';
 	import { submitPurplesRun } from './submit';
 	import { ErrorCodes } from '$lib/types/api/error';
-	import { NgsQuests } from '$lib/types/api/runs/quests';
 
 	let submitting: boolean = false;
 	let serverErrorMessage: string | undefined = undefined;
 	let submitFinish = false;
 
 	resetForm();
-	$runForm.category = NgsQuests.Purples;
 	partyForm.setPartySize(1);
 
 	async function submitRun() {
@@ -86,7 +84,7 @@
 								<span class="label-text">Notes</span>
 							</label>
 							<textarea
-								class="widget-discord textarea-bordered textarea h-24"
+								class="widget-discord textarea textarea-bordered h-24"
 								placeholder="(Optional) Type any notes, extra run information, or descriptions here!"
 								bind:value={$runForm.notes}
 							/>
@@ -107,7 +105,7 @@
 					<div class="grid grid-cols-1 text-center">
 						<button
 							disabled={submitting}
-							class="btn-outline btn-success btn mt-4 w-1/2 justify-self-center"
+							class="btn btn-success btn-outline mt-4 w-1/2 justify-self-center"
 							on:click={submitRun}>Submit Run</button
 						>
 					</div>
