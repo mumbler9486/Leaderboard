@@ -9,7 +9,6 @@
 	import { resetForm, runForm } from '../runStore';
 	import { partyForm } from '../partyFormStore';
 	import { afterNavigate } from '$app/navigation';
-	import { NgsQuests } from '$lib/types/api/runs/quests';
 	import { submitVenogiaRun } from './submit';
 	import { ErrorCodes } from '$lib/types/api/error';
 
@@ -19,7 +18,6 @@
 
 	afterNavigate(() => {
 		resetForm();
-		$runForm.category = NgsQuests.DfSolus;
 		partyForm.setPartySize(1);
 	});
 

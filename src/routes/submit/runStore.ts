@@ -4,7 +4,6 @@ import { writable } from 'svelte/store';
 export interface Run {
 	userId: string;
 	username: string;
-	category: string;
 	time: RunTime;
 	serverRegion: string;
 	notes: string;
@@ -13,7 +12,6 @@ export interface Run {
 const defaultRun: Run = {
 	userId: '',
 	username: '',
-	category: '',
 	time: {
 		hours: 0,
 		minutes: 0,
@@ -27,4 +25,4 @@ export const resetForm = () => {
 	runForm.set(JSON.parse(JSON.stringify(defaultRun)));
 };
 
-export const runForm = writable(JSON.parse(JSON.stringify(defaultRun)));
+export const runForm = writable<Run>(JSON.parse(JSON.stringify(defaultRun)));
