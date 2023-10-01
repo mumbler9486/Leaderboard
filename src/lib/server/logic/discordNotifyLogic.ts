@@ -16,7 +16,8 @@ const questTypeMap: Record<string, string> = {
 	dfaegis: 'Dark Falz Aegis',
 	dfsolus: 'Dark Falz Solus',
 	purples: 'Purple Trigger',
-	duels: 'Duel'
+	duels: 'Duel',
+	venogia: 'Venogia'
 };
 
 const categoryTypeMap: Record<string, string> = {
