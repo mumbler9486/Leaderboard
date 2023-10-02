@@ -16,6 +16,7 @@
 			"ams_kvaris": "Ams Kvaris",
 			"nils_stia": "Nils Stia",
 			"halvaldi": "Halvaldi",
+			"zelvin": "Zelvin",
 			"aelio": "Aelio",
 			"retem": "Retem",
 			"kvaris": "Kvaris",
@@ -138,7 +139,8 @@
 		"indomitableHalvaldi": "Indomitable Halvaldi",
 		"duelsPageTitle": "Duels",
 		"dfSolus": "Dark Falz Solus",
-		"venogia": "Venogia"
+		"venogia": "Venogia",
+		"indomitableZelvin": "Indomitable Zelvin"
 	},
 	"shared": {
 		"siteName": "Unofficial NGS Leaderboards",

@@ -12,12 +12,13 @@
 		{ label: 'Renus Retem', value: IndomitableBoss.RenusRetem },
 		{ label: 'Ams Kvaris', value: IndomitableBoss.AmsKvaris },
 		{ label: 'Nils Stia', value: IndomitableBoss.NilsStia },
-		{ label: 'Halvaldi', value: IndomitableBoss.Halvaldi }
+		{ label: 'Halvaldi', value: IndomitableBoss.Halvaldi },
+		{ label: 'Zelvin', value: IndomitableBoss.Zelvin },
 	];
 
 	const augmentOptions = [
 		{ label: 'Yes, at least one', value: 'yes' },
-		{ label: 'No, not at all', value: 'no' }
+		{ label: 'No, not at all', value: 'no' },
 	];
 
 	onMount(() => partyForm.setPartySize(1));
@@ -31,7 +32,7 @@
 		<div class="label justify-center">
 			<span class="label-text text-center text-base font-semibold">Rank</span>
 		</div>
-		<input class="input-bordered input" value="1" type="text" disabled />
+		<input class="input input-bordered" value="1" type="text" disabled />
 	</div>
 	<div class="form-control md:col-span-1">
 		<CurrentPatchLabel />

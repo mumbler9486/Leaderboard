@@ -30,25 +30,26 @@
 			aelio: 'Purple Aelio R.',
 			retem: 'Purple Retem R.',
 			kvaris: 'Purple Kvaris R.',
-			stia: 'Purple Stia R.'
+			stia: 'Purple Stia R.',
 		},
 		[NgsQuests.DfAegis]: {
 			urgent_quest: 'DF Aegis R.',
-			trigger: 'DF Aegis R.'
+			trigger: 'DF Aegis R.',
 		},
 		[NgsQuests.DfSolus]: {
-			quest: 'DF Solus R.'
+			quest: 'DF Solus R.',
 		},
 		[NgsQuests.Duels]: {
 			[IndomitableBoss.NexAelio]: 'Duel Nex Aelio',
 			[IndomitableBoss.RenusRetem]: 'Duel Renus Retem',
 			[IndomitableBoss.AmsKvaris]: 'Duel Ams Kvaris',
 			[IndomitableBoss.NilsStia]: 'Duel Nils Stia',
-			[IndomitableBoss.Halvaldi]: 'Duel Halvaldi'
+			[IndomitableBoss.Halvaldi]: 'Duel Halvaldi',
+			[IndomitableBoss.Zelvin]: 'Duel Zelvin',
 		},
 		[NgsQuests.Venogia]: {
-			urgent_quest: 'Venogia R.'
-		}
+			urgent_quest: 'Venogia R.',
+		},
 	};
 
 	const fetchRuns = async () => {
@@ -56,7 +57,7 @@
 			page: 0,
 			take: take,
 			partySize: 1,
-			sort: RunSortOption.Recent
+			sort: RunSortOption.Recent,
 		};
 		const runsPath = '/ngs-api/runs';
 		const soloRuns = (await fetchGetApi<Run[]>(runsPath, copyQueryParams(runsSearchFilter))) ?? [];
@@ -69,7 +70,7 @@
 						mainClass: r.party[0]?.mainClass,
 						time: r.time,
 						partyMember: r.party[0],
-						approvalDate: new Date(r.dateReviewed!)
+						approvalDate: new Date(r.dateReviewed!),
 					}) satisfies RecentRun
 			)
 			.sort((a, b) => (a.approvalDate < b.approvalDate ? 1 : -1));

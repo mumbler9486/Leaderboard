@@ -16,7 +16,7 @@ const classes = [
 	NgsPlayerClass.Braver,
 	NgsPlayerClass.Bouncer,
 	NgsPlayerClass.Waker,
-	NgsPlayerClass.Slayer
+	NgsPlayerClass.Slayer,
 ];
 
 const validCategories: Record<string, string[]> = {
@@ -24,7 +24,7 @@ const validCategories: Record<string, string[]> = {
 		NgsRunCategories.Aelio,
 		NgsRunCategories.Retem,
 		NgsRunCategories.Kvaris,
-		NgsRunCategories.Stia
+		NgsRunCategories.Stia,
 	],
 	[NgsQuests.DfSolus]: [NgsRunCategories.Quest],
 	[NgsQuests.DfAegis]: [NgsRunCategories.UrgentQuest, NgsRunCategories.Trigger],
@@ -33,9 +33,10 @@ const validCategories: Record<string, string[]> = {
 		NgsRunCategories.RenusRetem,
 		NgsRunCategories.AmsKvaris,
 		NgsRunCategories.NilsStia,
-		NgsRunCategories.Halvaldi
+		NgsRunCategories.Halvaldi,
+		NgsRunCategories.Zelvin,
 	],
-	[NgsQuests.Venogia]: [NgsRunCategories.UrgentQuest]
+	[NgsQuests.Venogia]: [NgsRunCategories.UrgentQuest],
 };
 
 const servers = [null, ServerRegion.Global, ServerRegion.Japan];
@@ -45,7 +46,7 @@ const quests = [
 	NgsQuests.DfSolus,
 	NgsQuests.DfAegis,
 	NgsQuests.Duels,
-	NgsQuests.Venogia
+	NgsQuests.Venogia,
 ];
 const sortOrders = [null, RunSortOption.Ranking, RunSortOption.Recent];
 const ranks = [null, 1, 2, 3];
@@ -66,7 +67,7 @@ export const runsSearchFilterSchema = object({
 				const isValid = validQuestCategories.includes(category) ?? false;
 				if (!isValid) {
 					return ctx.createError({
-						message: `Quest category is invalid. Must be one of: ${validQuestCategories.join(',')}`
+						message: `Quest category is invalid. Must be one of: ${validQuestCategories.join(',')}`,
 					});
 				}
 				return isValid;
@@ -95,7 +96,7 @@ export const runsSearchFilterSchema = object({
 	page: number().min(0).max(30000).default(0).nullable(),
 	take: number().min(1).max(1000).nullable(),
 	sort: string().lowercase().nullable().default('ranking').oneOf(sortOrders),
-	partySize: number().min(1).max(24).nullable()
+	partySize: number().min(1).max(24).nullable(),
 });
 
 export type RunsSearchFilter = InferType<typeof runsSearchFilterSchema>;

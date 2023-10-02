@@ -11,7 +11,8 @@ const categories = [
 	NgsRunCategories.RenusRetem,
 	NgsRunCategories.AmsKvaris,
 	NgsRunCategories.NilsStia,
-	NgsRunCategories.Halvaldi
+	NgsRunCategories.Halvaldi,
+	NgsRunCategories.Zelvin,
 ];
 
 const quest = [NgsQuests.Duels];
@@ -20,7 +21,8 @@ const validRanksMap: Record<string, number[]> = {
 	[NgsRunCategories.RenusRetem]: [1],
 	[NgsRunCategories.AmsKvaris]: [1],
 	[NgsRunCategories.NilsStia]: [1],
-	[NgsRunCategories.Halvaldi]: [1]
+	[NgsRunCategories.Halvaldi]: [1],
+	[NgsRunCategories.Zelvin]: [1],
 };
 
 export const duelSubmissionSchema = (
@@ -29,12 +31,12 @@ export const duelSubmissionSchema = (
 		questRank: yupQuestRank(validRanksMap),
 		category: mixed<NgsRunCategories>().required().oneOf(categories),
 		party: yupRunPartySchema(1),
-		time: yupRunTime(300)
+		time: yupRunTime(300),
 	}) satisfies ObjectSchema<RunSubmissionRequest>
 ).shape({
 	details: object({
-		augments: boolean().required()
-	})
+		augments: boolean().required(),
+	}),
 });
 
 export type DuelRunSubmission = InferType<typeof duelSubmissionSchema>;

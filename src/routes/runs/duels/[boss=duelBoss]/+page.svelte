@@ -25,7 +25,8 @@
 		[IndomitableBoss.RenusRetem]: $t('leaderboard.indomitableRenusRetem'),
 		[IndomitableBoss.AmsKvaris]: $t('leaderboard.indomitableAmsKvaris'),
 		[IndomitableBoss.NilsStia]: $t('leaderboard.indomitableNilsStia'),
-		[IndomitableBoss.Halvaldi]: $t('leaderboard.indomitableHalvaldi')
+		[IndomitableBoss.Halvaldi]: $t('leaderboard.indomitableHalvaldi'),
+		[IndomitableBoss.Zelvin]: $t('leaderboard.indomitableZelvin')
 	};
 
 	const bossUrlMapping: Record<string, IndomitableBoss> = {
@@ -33,7 +34,8 @@
 		['renus-retem']: IndomitableBoss.RenusRetem,
 		['ams-kvaris']: IndomitableBoss.AmsKvaris,
 		['nils-stia']: IndomitableBoss.NilsStia,
-		['halvaldi']: IndomitableBoss.Halvaldi
+		['halvaldi']: IndomitableBoss.Halvaldi,
+		['zelvin']: IndomitableBoss.Zelvin
 	};
 
 	$: boss = bossUrlMapping[$page.params.boss];

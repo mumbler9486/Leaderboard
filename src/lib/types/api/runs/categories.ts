@@ -10,8 +10,9 @@ export enum NgsRunCategories {
 	AmsKvaris = IndomitableBoss.AmsKvaris,
 	NilsStia = IndomitableBoss.NilsStia,
 	Halvaldi = IndomitableBoss.Halvaldi,
+	Zelvin = IndomitableBoss.Zelvin,
 	Aelio = PurpleRegion.Aelio,
 	Retem = PurpleRegion.Retem,
 	Kvaris = PurpleRegion.Kvaris,
-	Stia = PurpleRegion.Stia
+	Stia = PurpleRegion.Stia,
 }
