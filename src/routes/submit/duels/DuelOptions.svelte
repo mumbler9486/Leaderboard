@@ -31,7 +31,7 @@
 		<div class="label justify-center">
 			<span class="label-text text-center text-base font-semibold">Rank</span>
 		</div>
-		<input class="input-bordered input" value="1" type="text" disabled />
+		<input class="input input-bordered" value="1" type="text" disabled />
 	</div>
 	<div class="form-control md:col-span-1">
 		<CurrentPatchLabel />
@@ -46,6 +46,6 @@
 		/>
 	</div>
 	<div class="form-control">
-		<RunTimeInput />
+		<RunTimeInput maxMinutes={10} />
 	</div>
 </div>

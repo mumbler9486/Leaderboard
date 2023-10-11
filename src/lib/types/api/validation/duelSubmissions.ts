@@ -29,7 +29,7 @@ export const duelSubmissionSchema = (
 		questRank: yupQuestRank(validRanksMap),
 		category: mixed<NgsRunCategories>().required().oneOf(categories),
 		party: yupRunPartySchema(1),
-		time: yupRunTime(300)
+		time: yupRunTime(600)
 	}) satisfies ObjectSchema<RunSubmissionRequest>
 ).shape({
 	details: object({
