@@ -31,19 +31,19 @@
 				/>
 				<JumboButton
 					label="Duels"
-					image="/icons/submit/duel_nils_stia.png"
+					image="/icons/submit/duel_nils_stia.jpg"
 					link="/submit/duels"
 					overlayColor="red"
 				/>
 				<JumboButton
 					label="Purples"
-					image="/icons/submit/purple_trigger_gate.png"
+					image="/icons/submit/purple_trigger_gate.jpg"
 					link="/submit/purples"
 					overlayColor="purple"
 				/>
 				<JumboButton
 					label="Dark Falz Aegis"
-					image="/icons/submit/dfaegis.png"
+					image="/icons/submit/dfaegis.jpg"
 					link="/submit/dfaegis"
 					overlayColor="neutral"
 				/>
