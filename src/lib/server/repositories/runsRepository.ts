@@ -112,7 +112,7 @@ export const getRuns = async (
 
 	if (filters.class) {
 		const mappedClass = filters.class;
-		query += ` AND run.${runsDbFields.PartySize} = 1 && rp.${runPartyDbFields.MainClass} = @class`;
+		query += ` AND run.${runsDbFields.PartySize} = 1 AND rp.${runPartyDbFields.MainClass} = @class`;
 		request = request.input('class', sql.NVarChar, mappedClass);
 	}
 
@@ -197,6 +197,7 @@ export const getRuns = async (
 		) runSearchRanked
     WHERE 1=1 ${limitQueryFilter}
   `;
+	console.log(query);
 
 	// Execute
 	const results = await request.query(query);
