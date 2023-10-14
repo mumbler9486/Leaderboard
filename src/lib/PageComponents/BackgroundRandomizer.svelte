@@ -61,12 +61,7 @@
 	onMount(() => {
 		wallpaper = getNextWallpaper(getWallpaperSet());
 		upcomingWallpaper = getNextWallpaper(getWallpaperSet(), wallpaper);
-
-		page.subscribe((p) => {
-			wallpaper = getNextWallpaper(getWallpaperSet());
-			upcomingWallpaper = getNextWallpaper(getWallpaperSet(), wallpaper);
-			startWallpaperSlideshow();
-		});
+		startWallpaperSlideshow();
 	});
 
 	const getWallpaperSet = () => {
