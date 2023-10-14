@@ -1,36 +1,112 @@
 <script lang="ts">
-	let backgrounds = [
-		'/background/aelio-purp.png',
-		'/background/aelio-purp-night.png',
-		'/background/kvaris-purp.png',
-		'/background/kvaris-purp-night.png',
-		'/background/retem-purp.png',
-		'/background/retem-purp-night.png',
-		'/background/stia-purp.png',
-		'/background/stia-purp-night.png',
-		'/background/venogia.jpg',
-		'/background/dfsolus_portal.jpg'
+	import { page } from '$app/stores';
+	import WallpaperImage from '$lib/Components/WallpaperImage.svelte';
+	import { onMount } from 'svelte';
+
+	let wallpaper: Wallpaper | null = null;
+	let upcomingWallpaper: Wallpaper | null = null;
+
+	interface Wallpaper {
+		src: string;
+		thumb: string; // 40% blur, then compressed
+	}
+
+	const backgrounds: Wallpaper[] = [
+		{
+			src: '/background/aelio-purp-evening.jpg',
+			thumb: '/background/thumb/aelio-purp-evening-min.jpg'
+		},
+		{
+			src: '/background/aelio-purp-night.jpg',
+			thumb: '/background/thumb/aelio-purp-night-min.jpg'
+		},
+		{ src: '/background/aelio-purp.jpg', thumb: '/background/thumb/aelio-purp-min.jpg' },
+		{ src: '/background/dfsolus_portal.jpg', thumb: '/background/thumb/dfsolus_portal-min.jpg' },
+		{
+			src: '/background/kvaris-purp-night.jpg',
+			thumb: '/background/thumb/kvaris-purp-night-min.jpg'
+		},
+		{ src: '/background/kvaris-purp.jpg', thumb: '/background/thumb/kvaris-purp-min.jpg' },
+		{
+			src: '/background/retem-purp-night.jpg',
+			thumb: '/background/thumb/retem-purp-night-min.jpg'
+		},
+		{ src: '/background/retem-purp.jpg', thumb: '/background/thumb/retem-purp-min.jpg' },
+		{ src: '/background/stia-purp-night.jpg', thumb: '/background/thumb/stia-purp-night-min.jpg' },
+		{ src: '/background/stia-purp.jpg', thumb: '/background/thumb/stia-purp-min.jpg' },
+		{ src: '/background/venogia.jpg', thumb: '/background/thumb/venogia-min.jpg' }
 	];
 
-	$: backgroundUrl = `url(${backgrounds[randInt(backgrounds.length)]})`;
+	const wallpaperSetsMap: { route: string; wallpapers: Wallpaper[] }[] = [
+		{ route: '/', wallpapers: backgrounds }
+	];
+
+	// Selects one Random wallpaper from the list
+	// Assumes wallpaper and upcomingWallpaper are intialized
+	const randomizeWallpaper = (wallpaperSet: Wallpaper[]) => {
+		wallpaper = upcomingWallpaper!;
+		upcomingWallpaper = getNextWallpaper(wallpaperSet, upcomingWallpaper!);
+	};
+
+	/**
+	 * Picks one wallpaper from the set
+	 * Set currentWallpaper to not pick the same wallpaper from the set
+	 */
+	const getNextWallpaper = (wallpaperSet: Wallpaper[], currentWallpaper?: Wallpaper) => {
+		const wallpapersNext = wallpaperSet.filter((w) => w.src !== currentWallpaper?.src);
+		const next = wallpapersNext[randInt(wallpapersNext.length)];
+		return next;
+	};
+
+	onMount(() => {
+		wallpaper = getNextWallpaper(getWallpaperSet());
+		upcomingWallpaper = getNextWallpaper(getWallpaperSet(), wallpaper);
+
+		page.subscribe((p) => {
+			wallpaper = getNextWallpaper(getWallpaperSet());
+			upcomingWallpaper = getNextWallpaper(getWallpaperSet(), wallpaper);
+			startWallpaperSlideshow();
+		});
+	});
+
+	const getWallpaperSet = () => {
+		const pathname = $page.url.pathname;
+		const wallpaperSet =
+			wallpaperSetsMap.find((w) => pathname.startsWith(w.route))?.wallpapers ?? backgrounds;
+
+		return wallpaperSet;
+	};
+
+	// Runs a wallpaper slideshow
+	const updateInterval = 1000 * 60 * 10;
+	let nextWallPaperUpdate: NodeJS.Timeout;
+	const startWallpaperSlideshow = () => {
+		if (!!nextWallPaperUpdate) {
+			clearTimeout(nextWallPaperUpdate);
+		}
+		nextWallPaperUpdate = setInterval(() => randomizeWallpaper(getWallpaperSet()), updateInterval);
+	};
 
 	// Generates a number between 0 and high-1 inclusive
 	const randInt = (high: number) => Math.floor(high * Math.random());
 </script>
 
-<div class="background" style:background-image={backgroundUrl} />
-
-<style>
-	.background {
-		position: fixed;
-		height: 100%;
-		width: 100%;
-		top: 0;
-		background-position: center;
-		box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 0px 100vmax inset;
-		background-size: cover;
-		background-repeat: no-repeat;
-		background-attachment: fixed;
-		z-index: -10;
-	}
-</style>
+{#if !!wallpaper}
+	{#key wallpaper}
+		<WallpaperImage
+			thumb={wallpaper.thumb}
+			src={wallpaper.src}
+			alt="Background"
+			loading="eager"
+			decoding="async"
+		/>
+	{/key}
+{/if}
+<img
+	src={upcomingWallpaper?.thumb}
+	class="hidden"
+	loading="eager"
+	decoding="async"
+	alt="Preload Background Thumbnail"
+	role="presentation"
+/>
