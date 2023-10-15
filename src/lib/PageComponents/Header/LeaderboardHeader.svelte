@@ -50,6 +50,7 @@
 		show: $consentSelected && !isNotCompleteAccountSetup,
 		items: isLoggedIn
 			? [
+					{ label: 'My Runs', link: '/profile/submissions', icon: 'bi-envelope-paper' },
 					{ label: 'Profile', link: '/profile', icon: 'bi-person-vcard' },
 					{ label: 'Settings', link: '/settings', icon: 'bi-gear' },
 					{ label: 'Logout', link: '/logout', icon: 'bi-box-arrow-right' }

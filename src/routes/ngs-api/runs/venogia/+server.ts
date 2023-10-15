@@ -8,7 +8,7 @@ import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmissi
 import { mapRuns } from '$lib/server/mappers/api/runMapper.js';
 import {
 	runsSearchFilterSchema,
-	type RunsSearchFilter
+	type RunsSearchFilter,
 } from '$lib/types/api/validation/runsSearchFilter.js';
 import { parseToRawSchema } from '$lib/utils/schemaValidation.js';
 import { Game } from '$lib/types/api/game.js';
@@ -18,6 +18,7 @@ import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus.js';
 import { getUserValidated } from '$lib/server/validation/authorization.js';
 import { UserRole } from '$lib/types/api/users/userRole.js';
 import { venogiaRunSubmissionSchema } from '$lib/types/api/validation/venogiaSubmission.js';
+import type { ServerSearchFilter } from '$lib/server/types/api/runsSearch.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
@@ -38,11 +39,14 @@ export async function GET({ params, url }) {
 		...parsedFilter,
 		quest: NgsQuests.Venogia,
 		category: !parsedFilter.category ? NgsRunCategories.UrgentQuest : parsedFilter.category,
-		partySize: !parsedFilter.partySize ? 1 : parsedFilter.partySize
+		partySize: !parsedFilter.partySize ? 1 : parsedFilter.partySize,
 	};
 
+	const serverFilters: ServerSearchFilter = {
+		submissionStatus: RunSubmissionStatus.Approved,
+	};
 	try {
-		const runs = await getRuns(request, filter, RunSubmissionStatus.Approved);
+		const runs = await getRuns(request, filter, serverFilters);
 		const mappedRuns = mapRuns(runs);
 		return json(mappedRuns);
 	} catch (err) {
@@ -55,7 +59,7 @@ export async function POST({ request, locals }) {
 	const { user, error } = getUserValidated(locals, [
 		UserRole.User,
 		UserRole.Administrator,
-		UserRole.Moderator
+		UserRole.Moderator,
 	]);
 	if (!!error) {
 		return error;

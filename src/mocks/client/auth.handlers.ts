@@ -3,7 +3,7 @@ import {
 	mockLoggedOutUser,
 	mockModeratorUser,
 	mockNewlyCreatedUser,
-	mockNormalUser
+	mockNormalUser,
 } from './auth.mock';
 
 export const B2C_LOGGED_IN_MODERATOR = rest.get('/.auth/me', (req, res, ctx) => {

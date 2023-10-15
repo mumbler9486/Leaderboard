@@ -5,8 +5,8 @@
 
 	const statusMap = {
 		[RunSubmissionStatus.Approved]: { label: 'Approved', class: 'text-success' },
-		[RunSubmissionStatus.AwaitingApproval]: { label: 'Needs Review', class: 'text-warning' },
-		[RunSubmissionStatus.Rejected]: { label: 'Rejected', class: 'text-error' }
+		[RunSubmissionStatus.AwaitingApproval]: { label: 'Awaiting Review', class: 'text-warning' },
+		[RunSubmissionStatus.Rejected]: { label: 'Rejected', class: 'text-error' },
 	};
 
 	$: statusInfo = statusMap[submissionStatus];

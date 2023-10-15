@@ -10,7 +10,7 @@ import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmissi
 import { dfAegisSubmissionSchema } from '$lib/types/api/validation/dfAegisSubmission.js';
 import {
 	dfAegisRunsSearchFilterSchema,
-	type DfAegisRunsSearchFilter
+	type DfAegisRunsSearchFilter,
 } from '$lib/types/api/validation/dfAegisRunsSearchFilter.js';
 import type { RunAttributeFilter } from '$lib/server/types/db/runs/runAttributeFilter.js';
 import { Game } from '$lib/types/api/game.js';
@@ -19,6 +19,7 @@ import { NgsRunCategories } from '$lib/types/api/runs/categories.js';
 import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus.js';
 import { getUserValidated } from '$lib/server/validation/authorization.js';
 import { UserRole } from '$lib/types/api/users/userRole.js';
+import type { ServerSearchFilter } from '$lib/server/types/api/runsSearch.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
@@ -37,7 +38,7 @@ export async function GET({ params, url }) {
 		...parsedFilter,
 		quest: NgsQuests.DfAegis,
 		category: !parsedFilter.category ? NgsRunCategories.UrgentQuest : parsedFilter.category,
-		partySize: !parsedFilter.partySize ? 1 : parsedFilter.partySize
+		partySize: !parsedFilter.partySize ? 1 : parsedFilter.partySize,
 	};
 
 	const supportFilter: RunAttributeFilter[] | undefined = !filter.support
@@ -46,12 +47,15 @@ export async function GET({ params, url }) {
 				{
 					path: 'support',
 					type: 'string',
-					value: filter.support
-				}
+					value: filter.support,
+				},
 		  ];
+	const serverFilters: ServerSearchFilter = {
+		submissionStatus: RunSubmissionStatus.Approved,
+	};
 
 	try {
-		const runs = await getRuns(request, filter, RunSubmissionStatus.Approved, supportFilter);
+		const runs = await getRuns(request, parsedFilter, serverFilters, supportFilter);
 		const mappedRuns = mapRuns(runs);
 		return json(mappedRuns);
 	} catch (err) {
@@ -64,7 +68,7 @@ export async function POST({ request, locals }) {
 	const { user, error } = getUserValidated(locals, [
 		UserRole.User,
 		UserRole.Administrator,
-		UserRole.Moderator
+		UserRole.Moderator,
 	]);
 	if (!!error) {
 		return error;

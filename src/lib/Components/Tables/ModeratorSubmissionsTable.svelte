@@ -35,19 +35,23 @@
 		{
 			label: $t('page.moderator.submissions.header.igt'),
 			textAlign: 'center',
-			tooltip: $t('page.moderator.submissions.header.igtTooltip')
+			tooltip: $t('page.moderator.submissions.header.igtTooltip'),
 		},
 		{ label: $t('page.moderator.submissions.header.submittedBy'), textAlign: 'center' },
 		{
 			label: $t('page.moderator.submissions.header.submissionDate'),
-			textAlign: 'center'
+			textAlign: 'center',
+		},
+		{
+			label: $t('page.moderator.submissions.header.dateReviewed'),
+			textAlign: 'center',
 		},
 		{ label: $t('page.moderator.submissions.header.status'), textAlign: 'center' },
 		{
 			label: $t('page.moderator.submissions.header.review'),
 			textAlign: 'center',
-			class: 'w-2 text-lg'
-		}
+			class: 'w-2 text-lg',
+		},
 	] satisfies (TableHeader | undefined)[];
 
 	const runInfoOpen = (runId: number) => {
@@ -77,7 +81,7 @@
 				<td class="text-center font-bold">
 					{$t(`ngs.quests.${run.quest}`)}
 				</td>
-				<td class="text-center font-bold">
+				<td class="break-all text-center font-bold">
 					{$t(`ngs.categories.${run.category}`)}
 				</td>
 				<td class="font-bold">
@@ -129,6 +133,13 @@
 				</td>
 				<td class="w-6 whitespace-pre-wrap text-center">
 					{new Date(run.submissionDate).toLocaleString().replace(',', ',\n')}
+				</td>
+				<td class="w-6 whitespace-pre-wrap text-center">
+					{#if !!run.dateReviewed}
+						{new Date(run.dateReviewed).toLocaleString().replace(',', ',\n')}
+					{:else}
+						-
+					{/if}
 				</td>
 				<td class="text-center">
 					<RunApprovalStatus submissionStatus={run.submissionStatus} />
