@@ -16,7 +16,7 @@ export const submissionSearchFilterSchema = object({
 	page: number().min(0).max(30000).nullable(),
 	status: number().nullable().oneOf(submissionStatuses),
 	sort: string().nullable().oneOf(sorts),
-	submitterId: number().min(0).nullable(),
+	submitterId: number().min(1).nullable(),
 });
 
 export type SubmissionSearchFilter = InferType<typeof submissionSearchFilterSchema>;

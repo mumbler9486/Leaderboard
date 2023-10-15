@@ -116,6 +116,15 @@ export const getRuns = async (
 		request = request.input('approved', sql.TinyInt, approvedInt);
 	}
 
+	if (userFilters.userId) {
+		query += ` AND run.${runsDbFields.Id} IN (
+			SELECT DISTINCT(RunId)
+			FROM RunParty
+			WHERE ${runPartyDbFields.PlayerId} = @participatingPlayerId
+		)`;
+		request = request.input('participatingPlayerId', sql.Int, userFilters.userId);
+	}
+
 	if (userFilters.class) {
 		const mappedClass = userFilters.class;
 		query += ` AND run.${runsDbFields.PartySize} = 1 AND rp.${runPartyDbFields.MainClass} = @class`;

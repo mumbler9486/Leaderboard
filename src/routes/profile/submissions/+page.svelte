@@ -9,10 +9,22 @@
 	import { RunSortOption } from '$lib/types/api/runs/sortOptions';
 	import { playerInfoStore } from '$lib/stores/userLogin';
 	import PlayerSubmissionsTable from '$lib/Components/Tables/PlayerSubmissionsTable.svelte';
+	import Button from '$lib/Components/Button.svelte';
+	import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
 
+	let submissionCount = -1;
 	let runCount = -1;
+	let showSubmissions = true;
 
-	const fetchRuns = async (): Promise<Run<unknown>[]> => {
+	const fetchRuns = (): Promise<Run<unknown>[]> => {
+		if (showSubmissions) {
+			return fetchSubmissions();
+		}
+
+		return fetchParticipatingRuns();
+	};
+
+	const fetchSubmissions = async (): Promise<Run<unknown>[]> => {
 		await playerInfoStore.refreshInfo();
 		const filter: SubmissionSearchFilter = {
 			sort: RunSortOption.Recent,
@@ -29,6 +41,32 @@
 				new Date(a.submissionDate) > new Date(b.submissionDate) ? -1 : 1
 			);
 
+			submissionCount = sortedRuns.length;
+
+			return sortedRuns;
+		} catch (err) {
+			console.error(err);
+		}
+		return [];
+	};
+
+	const fetchParticipatingRuns = async (): Promise<Run<unknown>[]> => {
+		await playerInfoStore.refreshInfo();
+		const filter: RunsSearchFilter = {
+			sort: RunSortOption.Recent,
+			page: 0,
+			userId: $playerInfoStore?.playerId,
+		};
+
+		try {
+			const submittedRuns = await fetchGetApi<Run<unknown>[]>(
+				`/ngs-api/runs`,
+				copyQueryParams(filter)
+			);
+			const sortedRuns = submittedRuns.sort((a, b) =>
+				new Date(a.submissionDate) > new Date(b.submissionDate) ? -1 : 1
+			);
+
 			runCount = sortedRuns.length;
 
 			return sortedRuns;
@@ -37,7 +75,17 @@
 		}
 		return [];
 	};
+
 	$: submissionPromise = fetchRuns();
+
+	const refreshRuns = () => {
+		submissionPromise = fetchRuns();
+	};
+
+	const changeTab = (submissions: boolean) => {
+		showSubmissions = submissions;
+		refreshRuns();
+	};
 </script>
 
 <svelte:head>
@@ -48,6 +96,14 @@
 <div class="flex grow content-center">
 	<div class="container m-8 mx-auto flex grow rounded-md border border-secondary bg-base-100/75">
 		<div class="m-0 grow space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8 md:m-2">
+			<div class="join mb-4">
+				<Button class="join-item" primary={showSubmissions} on:click={() => changeTab(true)}>
+					📩 {submissionCount < 0 ? '-' : submissionCount} Submissions
+				</Button>
+				<Button class="join-item" primary={!showSubmissions} on:click={() => changeTab(false)}>
+					👥 {runCount < 0 ? '-' : runCount} Participated Runs
+				</Button>
+			</div>
 			{#await submissionPromise}
 				<LoadingBar />
 			{:then runs}
