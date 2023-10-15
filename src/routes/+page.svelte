@@ -5,6 +5,7 @@
 	import DiscordWidget from '$lib/Widgets/Discord/DiscordWidget.svelte';
 	import RunStatsWidget from '$lib/Widgets/RunStatsWidget.svelte';
 	import { consentDiscord, consentSelected } from '$lib/stores/consent';
+	import DiscordContact from '$lib/Components/DiscordContact.svelte';
 </script>
 
 <svelte:head>
@@ -53,13 +54,7 @@
 							changes to the duel bosses is on October 11th.
 						</p>
 						<p class="pt-2">
-							As usual if there are issues please contact us on
-							<a
-								href="https://discord.com/invite/fFtEEJHuFp"
-								target="_blank"
-								rel="noreferrer noopener"
-								class="link-primary link no-underline">Discord <i class="bi bi-discord" /></a
-							>.
+							As usual if there are issues please contact us on <DiscordContact />.
 						</p>
 					</div>
 				</HomeNews>
@@ -129,13 +124,7 @@
 								of new quests and bosses as they are added into the game.
 							</p>
 							<p class="pt-2">
-								As usual if there are issues please contact us on
-								<a
-									href="https://discord.com/invite/fFtEEJHuFp"
-									target="_blank"
-									rel="noreferrer noopener"
-									class="link-primary link no-underline">Discord <i class="bi bi-discord" /></a
-								>.
+								As usual if there are issues please contact us on <DiscordContact />.
 							</p>
 						</li>
 					</p>
@@ -152,13 +141,8 @@
 							</p>
 							<p class="pt-2">
 								Also we performed some minor data migrations in the backend. These should have no
-								impact on the site operations but as usual if there are issues please contact us on
-								<a
-									href="https://discord.com/invite/fFtEEJHuFp"
-									target="_blank"
-									rel="noreferrer noopener"
-									class="link-primary link no-underline">Discord <i class="bi bi-discord" /></a
-								>.
+								impact on the site operations but as usual if there are issues please contact us on <DiscordContact
+								/>.
 							</p>
 						</li>
 					</p>

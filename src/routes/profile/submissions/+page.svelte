@@ -11,6 +11,7 @@
 	import PlayerSubmissionsTable from '$lib/Components/Tables/PlayerSubmissionsTable.svelte';
 	import Button from '$lib/Components/Button.svelte';
 	import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
+	import DiscordContact from '$lib/Components/DiscordContact.svelte';
 
 	let submissionCount = -1;
 	let runCount = -1;
@@ -104,12 +105,15 @@
 					👥 {runCount < 0 ? '-' : runCount} Participated Runs
 				</Button>
 			</div>
+			<p>
+				If there are issues with your runs, please contact us on <DiscordContact />.
+			</p>
 			{#await submissionPromise}
 				<LoadingBar />
 			{:then runs}
 				<PlayerSubmissionsTable submissions={runs ?? []} />
 			{:catch err}
-				<p>An error has occured, please try again later</p>
+				<p>An error has occurred, please try again later</p>
 			{/await}
 		</div>
 	</div>

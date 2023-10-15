@@ -76,7 +76,7 @@
 			{:then runs}
 				<ModeratorSubmissionsTable submissions={runs ?? []} on:submissionChanged={refreshRuns} />
 			{:catch err}
-				<p>An error has occured, please try again later</p>
+				<p>An error has occurred, please try again later</p>
 			{/await}
 		</div>
 	</div>
