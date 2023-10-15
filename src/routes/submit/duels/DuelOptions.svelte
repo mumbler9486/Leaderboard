@@ -47,6 +47,6 @@
 		/>
 	</div>
 	<div class="form-control">
-		<RunTimeInput />
+		<RunTimeInput maxMinutes={10} />
 	</div>
 </div>

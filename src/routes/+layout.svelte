@@ -27,7 +27,7 @@
 	<div class="flex min-h-screen flex-col">
 		<LeaderboardHeader />
 		<slot />
+		<BackgroundRandomizer />
 		<LeaderboardFooter />
 	</div>
-	<BackgroundRandomizer />
 {/if}

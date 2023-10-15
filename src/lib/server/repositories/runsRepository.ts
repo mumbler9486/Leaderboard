@@ -112,7 +112,7 @@ export const getRuns = async (
 
 	if (filters.class) {
 		const mappedClass = filters.class;
-		query += ` AND run.${runsDbFields.PartySize} = 1 && rp.${runPartyDbFields.MainClass} = @class`;
+		query += ` AND run.${runsDbFields.PartySize} = 1 AND rp.${runPartyDbFields.MainClass} = @class`;
 		request = request.input('class', sql.NVarChar, mappedClass);
 	}
 
@@ -364,7 +364,7 @@ export const checkRunExists = async (request: sql.Request, runId: number) => {
 	return {
 		runId: submission?.Id,
 		submissionStatus: submission?.SubmissionStatus,
-		submitterId: submission?.SubmitterId
+		submitterId: submission?.SubmitterId,
 	};
 };
 
@@ -451,7 +451,7 @@ const appendAttributeFilter = (
 
 	return {
 		request: request,
-		query: queryString
+		query: queryString,
 	};
 };
 
