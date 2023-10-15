@@ -15,7 +15,7 @@
 
 	const usesAugments = {
 		true: 'Special Augments Used',
-		false: 'No Special Augment Used'
+		false: 'No Special Augment Used',
 	} as { [id: string]: string };
 
 	const bossNames = {
@@ -23,7 +23,8 @@
 		[IndomitableBoss.RenusRetem]: 'Renus Retem',
 		[IndomitableBoss.AmsKvaris]: 'Ams Kvaris',
 		[IndomitableBoss.NilsStia]: 'Nils Stia',
-		[IndomitableBoss.Halvaldi]: 'Halvaldi'
+		[IndomitableBoss.Halvaldi]: 'Halvaldi',
+		[IndomitableBoss.Zelvin]: 'Zelvin',
 	} as { [id: string]: string };
 
 	$: player1 = submission.party[0];

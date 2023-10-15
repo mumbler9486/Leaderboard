@@ -1,3 +1,5 @@
+import { NgsRunCategories } from '$lib/types/api/runs/categories';
+import { NgsQuests } from '$lib/types/api/runs/quests';
 import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmission';
 import { notifyDiscordNewRunApproved, notifyDiscordNewRunSubmitted } from '../discordNotify';
 
@@ -13,26 +15,27 @@ const partyTypeMap: Record<string, string> = {
 };
 
 const questTypeMap: Record<string, string> = {
-	dfaegis: 'Dark Falz Aegis',
-	dfsolus: 'Dark Falz Solus',
-	purples: 'Purple Trigger',
-	duels: 'Duel',
-	venogia: 'Venogia'
+	[NgsQuests.DfAegis]: 'Dark Falz Aegis',
+	[NgsQuests.DfSolus]: 'Dark Falz Solus',
+	[NgsQuests.Purples]: 'Purple Trigger',
+	[NgsQuests.Duels]: 'Duel',
+	[NgsQuests.Venogia]: 'Venogia'
 };
 
 const categoryTypeMap: Record<string, string> = {
-	quest: 'Quest',
-	aelio: 'Aelio',
-	retem: 'Retem',
-	kvaris: 'Kvaris',
-	stia: 'Stia',
-	urgent_quest: 'UQ',
-	trigger: 'Trigger',
-	nex_aelio: 'Nex Aelio',
-	renus_retem: 'Renus Retem',
-	ams_kvaris: 'Ams Kvaris',
-	nils_stia: 'Nils Stia',
-	halvaldi: 'Halvaldi'
+	[NgsRunCategories.Quest]: 'Quest',
+	[NgsRunCategories.Aelio]: 'Aelio',
+	[NgsRunCategories.Retem]: 'Retem',
+	[NgsRunCategories.Kvaris]: 'Kvaris',
+	[NgsRunCategories.Stia]: 'Stia',
+	[NgsRunCategories.UrgentQuest]: 'UQ',
+	[NgsRunCategories.Trigger]: 'Trigger',
+	[NgsRunCategories.NexAelio]: 'Nex Aelio',
+	[NgsRunCategories.RenusRetem]: 'Renus Retem',
+	[NgsRunCategories.AmsKvaris]: 'Ams Kvaris',
+	[NgsRunCategories.NilsStia]: 'Nils Stia',
+	[NgsRunCategories.Halvaldi]: 'Halvaldi',
+	[NgsRunCategories.Zelvin]: 'Zelvin'
 };
 
 export const notifyDiscordNewRun = async (submitter: string, run: RunSubmissionRequest) => {
@@ -45,8 +48,8 @@ export const notifyDiscordNewRun = async (submitter: string, run: RunSubmissionR
 export const notifyDiscordNewRunApprovedLogic = async (
 	moderatorName: string,
 	runnerName: string,
-	quest: string,
-	category: string,
+	quest: NgsQuests,
+	category: NgsRunCategories,
 	partySize: number
 ) => {
 	const questName = getQuestName(quest, category);
@@ -64,7 +67,7 @@ const getPartySizeName = (size: number) => {
 	return !partySizeName ? partyTypeMap[4] : partySizeName;
 };
 
-const getQuestName = (quest: string, category: string) => {
+const getQuestName = (quest: NgsQuests, category: NgsRunCategories) => {
 	const questName = questTypeMap[quest] ?? '<unknown_quest>';
 	const categoryName = categoryTypeMap[category] ?? '<unknown_category>';
 	return `${questName} [${categoryName}]`;

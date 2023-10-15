@@ -10,7 +10,6 @@
 	import { partyForm } from '../partyFormStore';
 	import { ErrorCodes } from '$lib/types/api/error';
 	import { submitDuelRun } from './submit';
-	import { NgsQuests } from '$lib/types/api/runs/quests';
 
 	let submitting: boolean = false;
 	let serverErrorMessage: string | undefined = undefined;

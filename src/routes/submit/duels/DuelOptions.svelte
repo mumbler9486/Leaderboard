@@ -12,12 +12,13 @@
 		{ label: 'Renus Retem', value: IndomitableBoss.RenusRetem },
 		{ label: 'Ams Kvaris', value: IndomitableBoss.AmsKvaris },
 		{ label: 'Nils Stia', value: IndomitableBoss.NilsStia },
-		{ label: 'Halvaldi', value: IndomitableBoss.Halvaldi }
+		{ label: 'Halvaldi', value: IndomitableBoss.Halvaldi },
+		{ label: 'Zelvin', value: IndomitableBoss.Zelvin },
 	];
 
 	const augmentOptions = [
 		{ label: 'Yes, at least one', value: 'yes' },
-		{ label: 'No, not at all', value: 'no' }
+		{ label: 'No, not at all', value: 'no' },
 	];
 
 	onMount(() => partyForm.setPartySize(1));

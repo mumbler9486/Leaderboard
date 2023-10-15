@@ -11,6 +11,8 @@ import { getUser } from '../repositories/userRepository';
 import { UserRole } from '$lib/types/api/users/userRole';
 import type { PlayersDbModel } from '../types/db/users/players';
 import type { ServerUser } from '../types/auth/serverUser';
+import type { NgsQuests } from '$lib/types/api/runs/quests';
+import type { NgsRunCategories } from '$lib/types/api/runs/categories';
 
 export const approveRunSubmission = async (
 	requestUser: ServerUser,
@@ -49,8 +51,8 @@ export const approveRunSubmission = async (
 		notifyDiscordNewRunApprovedLogic(
 			moderatorName,
 			playerName ?? '<unknown_player>',
-			runData.RunQuest,
-			runData.RunCategory,
+			runData.RunQuest as NgsQuests,
+			runData.RunCategory as NgsRunCategories,
 			parseInt(runData.RunPartySize)
 		);
 		return json({ data: 'success' });
