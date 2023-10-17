@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import SubmissionsTable from '$lib/Components/Tables/SubmissionsTable.svelte';
+	import ModeratorSubmissionsTable from '$lib/Components/Tables/ModeratorSubmissionsTable.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import type { Run } from '$lib/types/api/runs/run';
@@ -21,7 +21,7 @@
 			status: showUnapproved ? RunSubmissionStatus.AwaitingApproval : undefined,
 			take: HistoryCount,
 			sort: RunSortOption.Recent,
-			page: 0
+			page: 0,
 		};
 
 		try {
@@ -74,9 +74,9 @@
 			{#await submissionPromise}
 				<LoadingBar />
 			{:then runs}
-				<SubmissionsTable submissions={runs ?? []} on:submissionChanged={refreshRuns} />
+				<ModeratorSubmissionsTable submissions={runs ?? []} on:submissionChanged={refreshRuns} />
 			{:catch err}
-				<p>An error has occured, please try again later</p>
+				<p>An error has occurred, please try again later</p>
 			{/await}
 		</div>
 	</div>

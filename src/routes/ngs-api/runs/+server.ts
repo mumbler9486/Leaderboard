@@ -7,9 +7,10 @@ import { getRuns } from '$lib/server/repositories/runsRepository.js';
 import { mapRuns } from '$lib/server/mappers/api/runMapper.js';
 import {
 	runsSearchFilterSchema,
-	type RunsSearchFilter
+	type RunsSearchFilter,
 } from '$lib/types/api/validation/runsSearchFilter.js';
 import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus.js';
+import type { ServerSearchFilter } from '$lib/server/types/api/runsSearch.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
@@ -23,11 +24,15 @@ export async function GET({ params, url }) {
 		return jsonError(400, validationError);
 	}
 
+	const serverFilters: ServerSearchFilter = {
+		submissionStatus: RunSubmissionStatus.Approved,
+	};
+
 	const pool = await leaderboardDb.connect();
 	const request = await pool.request();
 
 	try {
-		const runs = await getRuns(request, parsedFilter, RunSubmissionStatus.Approved);
+		const runs = await getRuns(request, parsedFilter, serverFilters);
 		const mappedRuns = mapRuns(runs);
 		return json(mappedRuns);
 	} catch (err) {

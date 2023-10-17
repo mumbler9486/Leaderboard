@@ -5,6 +5,7 @@
 	import DiscordWidget from '$lib/Widgets/Discord/DiscordWidget.svelte';
 	import RunStatsWidget from '$lib/Widgets/RunStatsWidget.svelte';
 	import { consentDiscord, consentSelected } from '$lib/stores/consent';
+	import DiscordContact from '$lib/Components/DiscordContact.svelte';
 </script>
 
 <svelte:head>
@@ -22,6 +23,28 @@
 				class="m-2 basis-full rounded-md border border-secondary bg-base-100 p-4 px-8 md:basis-2/3"
 			>
 				<div class="text-center text-4xl font-light">News</div>
+				<HomeNews>
+					<span slot="newsTitle">Leaderboard 3.2.4 Update (Oct 2023)</span>
+					<div slot="newsContent">
+						<strong>Changelog (Oct 17, 2023):</strong><br />
+						<strong>⚔ Duel Boss Zelvin</strong><br />
+						<p class="pt-2">
+							Early release of Zelvin Duel boss. Actual in game quest will be released after the
+							maintenance on October 18, 2023. Looking forward to see those runs!
+						</p>
+						<strong>👤 My Runs Page</strong><br />
+						<p class="py-2">
+							A new page was added to allow you to see all the runs you have submitted to us along
+							with their status. The new page is next to the Profile menu. Check it out! You can
+							also see the runs that you have participated in in other player's submissions as well
+							provided they linked your name to it.
+						</p>
+						<p>
+							If a run is rejected we will note it in the "Mod Notes" field. Feel free to contact us
+							on <DiscordContact /> should you need to clarify or dispute.
+						</p>
+					</div>
+				</HomeNews>
 				<HomeNews>
 					<span slot="newsTitle">Upcoming Leaderboard Updates (Oct 2023)</span>
 					<div slot="newsContent">
@@ -53,13 +76,7 @@
 							changes to the duel bosses is on October 11th.
 						</p>
 						<p class="pt-2">
-							As usual if there are issues please contact us on
-							<a
-								href="https://discord.com/invite/fFtEEJHuFp"
-								target="_blank"
-								rel="noreferrer noopener"
-								class="link-primary link no-underline">Discord <i class="bi bi-discord" /></a
-							>.
+							As usual if there are issues please contact us on <DiscordContact />.
 						</p>
 					</div>
 				</HomeNews>
@@ -129,13 +146,7 @@
 								of new quests and bosses as they are added into the game.
 							</p>
 							<p class="pt-2">
-								As usual if there are issues please contact us on
-								<a
-									href="https://discord.com/invite/fFtEEJHuFp"
-									target="_blank"
-									rel="noreferrer noopener"
-									class="link-primary link no-underline">Discord <i class="bi bi-discord" /></a
-								>.
+								As usual if there are issues please contact us on <DiscordContact />.
 							</p>
 						</li>
 					</p>
@@ -152,13 +163,8 @@
 							</p>
 							<p class="pt-2">
 								Also we performed some minor data migrations in the backend. These should have no
-								impact on the site operations but as usual if there are issues please contact us on
-								<a
-									href="https://discord.com/invite/fFtEEJHuFp"
-									target="_blank"
-									rel="noreferrer noopener"
-									class="link-primary link no-underline">Discord <i class="bi bi-discord" /></a
-								>.
+								impact on the site operations but as usual if there are issues please contact us on <DiscordContact
+								/>.
 							</p>
 						</li>
 					</p>

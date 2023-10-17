@@ -18,7 +18,7 @@
 			sort: 'ranking',
 			partySize: 8,
 			page: 0,
-			take: 5
+			take: 5,
 		};
 		return (await fetchGetApi<DfAegisRun[]>(path, copyQueryParams(filters))) ?? [];
 	};
@@ -30,7 +30,7 @@
 	</div>
 	<div class="divider -mx-8" />
 	<div class="overflow-x-auto">
-		<table class="table-zebra table-compact table w-full">
+		<table class="table-compact table table-zebra w-full">
 			<thead>
 				<tr>
 					<th class="text-center">Players</th>
@@ -56,7 +56,7 @@
 								{/each}
 							</td>
 							<td><TimeDisplay time={run.time} /></td>
-							<td><DfAegisSupportIcon support={run.details.support} /></td>
+							<td><DfAegisSupportIcon support={run.details?.support} /></td>
 						</tr>
 					{/each}
 				{:catch err}

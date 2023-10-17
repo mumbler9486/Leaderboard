@@ -21,6 +21,7 @@ import { NgsRunCategories } from '$lib/types/api/runs/categories.js';
 import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus.js';
 import { getUserValidated } from '$lib/server/validation/authorization.js';
 import { UserRole } from '$lib/types/api/users/userRole.js';
+import type { ServerSearchFilter } from '$lib/server/types/api/runsSearch.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
@@ -53,9 +54,11 @@ export async function GET({ params, url }) {
 						value: filter.augments,
 					},
 			  ];
-
+	const serverFilters: ServerSearchFilter = {
+		submissionStatus: RunSubmissionStatus.Approved,
+	};
 	try {
-		const runs = await getRuns(request, filter, RunSubmissionStatus.Approved, duelAugmentsFilter);
+		const runs = await getRuns(request, filter, serverFilters, duelAugmentsFilter);
 		const mappedRuns = mapRuns(runs);
 		return json(mappedRuns);
 	} catch (err) {

@@ -13,6 +13,7 @@ import { parseServerRegion } from '$lib/types/api/serverRegions';
 import { parseNgsWeapon } from '$lib/types/api/weapon';
 import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus';
 import type { GetRunDbModel } from '../types/db/runs/getRun';
+import type { ServerSearchFilter } from '../types/api/runsSearch';
 
 const runsDbFields = fields<RunDbModel>();
 const runPartyDbFields = fields<RunPartyDbModel>();
@@ -36,6 +37,7 @@ const RunQuery = `
 		run.${runsDbFields.SubmissionDate} AS ${getRunDbFields.RunSubmissionDate},
 		run.${runsDbFields.SubmissionStatus} AS ${getRunDbFields.RunSubmissionStatus},
 		run.${runsDbFields.DateReviewed} AS ${getRunDbFields.RunDateReviewed},
+		run.${runsDbFields.ReviewedBy} AS ${getRunDbFields.RunReviewedBy},
 		run.${runsDbFields.ModNotes} AS ${getRunDbFields.RunModNotes},
 		run.${runsDbFields.Attributes} AS ${getRunDbFields.RunAttributes},
 
@@ -97,43 +99,57 @@ export const getRunById = async (
 
 export const getRuns = async (
 	request: Request,
-	filters: RunsSearchFilter,
-	submissionStatus?: RunSubmissionStatus,
+	userFilters: RunsSearchFilter,
+	serverFilters: ServerSearchFilter,
 	attributeFilters?: RunAttributeFilter[]
 ) => {
 	let query = RunQuery;
 
 	// Build filters
-	if (submissionStatus !== undefined && submissionStatus !== null) {
-		const approvedInt = submissionStatus ? 1 : 0;
+	if (serverFilters.submitterId) {
+		query += ` AND run.${runsDbFields.SubmitterId} = @submitterId`;
+		request = request.input('submitterId', sql.Int, serverFilters.submitterId);
+	}
+
+	if (serverFilters.submissionStatus !== undefined && serverFilters.submissionStatus !== null) {
+		const approvedInt = serverFilters.submissionStatus ? 1 : 0;
 		query += ` AND run.${runsDbFields.SubmissionStatus} = @approved`;
 		request = request.input('approved', sql.TinyInt, approvedInt);
 	}
 
-	if (filters.class) {
-		const mappedClass = filters.class;
+	if (userFilters.userId) {
+		query += ` AND run.${runsDbFields.Id} IN (
+			SELECT DISTINCT(RunId)
+			FROM RunParty
+			WHERE ${runPartyDbFields.PlayerId} = @participatingPlayerId
+		)`;
+		request = request.input('participatingPlayerId', sql.Int, userFilters.userId);
+	}
+
+	if (userFilters.class) {
+		const mappedClass = userFilters.class;
 		query += ` AND run.${runsDbFields.PartySize} = 1 AND rp.${runPartyDbFields.MainClass} = @class`;
 		request = request.input('class', sql.NVarChar, mappedClass);
 	}
 
-	if (filters.quest) {
+	if (userFilters.quest) {
 		query += ` AND run.${runsDbFields.Quest} = @quest`;
-		request = request.input('quest', sql.NVarChar, filters.quest);
+		request = request.input('quest', sql.NVarChar, userFilters.quest);
 	}
 
-	if (filters.category) {
+	if (userFilters.category) {
 		query += ` AND run.${runsDbFields.Category} = @category`;
-		request = request.input('category', sql.NVarChar, filters.category);
+		request = request.input('category', sql.NVarChar, userFilters.category);
 	}
 
-	if (filters.rank) {
+	if (userFilters.rank) {
 		query += ` AND run.${runsDbFields.QuestRank} = @rank`;
-		request = request.input('rank', sql.TinyInt, filters.rank);
+		request = request.input('rank', sql.TinyInt, userFilters.rank);
 	}
 
-	if (filters.server) {
+	if (userFilters.server) {
 		query += ` AND run.${runsDbFields.ServerRegion} = @server`;
-		request = request.input('server', sql.NVarChar, filters.server);
+		request = request.input('server', sql.NVarChar, userFilters.server);
 	}
 
 	if (!!attributeFilters && attributeFilters.length > 0) {
@@ -146,20 +162,20 @@ export const getRuns = async (
 		query = appendedQuery;
 	}
 
-	if (filters.partySize !== undefined && filters.partySize !== null) {
-		if (filters.partySize >= 3) {
+	if (userFilters.partySize !== undefined && userFilters.partySize !== null) {
+		if (userFilters.partySize >= 3) {
 			//TODO temporary support for 3 player runs, provide enums
 			query += ` AND run.${runsDbFields.PartySize} >= @partySize`;
-			request = request.input('partySize', sql.TinyInt, filters.partySize);
+			request = request.input('partySize', sql.TinyInt, userFilters.partySize);
 		} else {
 			query += ` AND run.${runsDbFields.PartySize} = @partySize`;
-			request = request.input('partySize', sql.TinyInt, filters.partySize);
+			request = request.input('partySize', sql.TinyInt, userFilters.partySize);
 		}
 	}
 
 	// Sorting and Pagination
 	let rankSorting = '';
-	if (filters.sort === 'recent') {
+	if (userFilters.sort === 'recent') {
 		rankSorting = `runSearch.${getRunDbFields.RunSubmissionDate} DESC, runSearch.${getRunDbFields.RunId} ASC`;
 		query += ` ORDER BY run.${runsDbFields.SubmissionDate} DESC, run.${runsDbFields.Id} ASC`;
 	} else {
@@ -169,13 +185,13 @@ export const getRuns = async (
 	}
 
 	let takeRange = 30000;
-	if (filters.take) {
-		takeRange = filters.take;
+	if (userFilters.take) {
+		takeRange = userFilters.take;
 	}
 
 	let skipAmount = 1;
-	if (filters.page && filters.take) {
-		skipAmount = filters.page * filters.take;
+	if (userFilters.page && userFilters.take) {
+		skipAmount = userFilters.page * userFilters.take;
 	}
 
 	query += ` OFFSET 0 ROWS`;

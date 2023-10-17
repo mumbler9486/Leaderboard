@@ -44,7 +44,7 @@
 
 		const approveRequest: ApproveRequest = {
 			runId: submission?.runId,
-			modNotes: modNotes ?? ''
+			modNotes: modNotes ?? '',
 		};
 
 		processing = true;
@@ -84,7 +84,7 @@
 
 		const denyRequest: DenyRequest = {
 			runId: submission?.runId,
-			modNotes: modNotes ?? ''
+			modNotes: modNotes ?? '',
 		};
 
 		processing = true;
@@ -201,6 +201,9 @@
 			>
 				<div class="flex grow flex-col">
 					<span class="text-center text-lg font-semibold">Moderator's Notes:</span>
+					<span class="text-center text-xs"
+						>{submission?.reviewedBy ? `Reviewer: ${submission?.reviewedBy}` : ''}</span
+					>
 					<div class="whitespace-pre-wrap p-2">
 						{#if canReview}
 							<textarea

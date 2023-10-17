@@ -3,24 +3,20 @@
 	import NgsClassIcon from '../NgsClassIcon.svelte';
 	import PlayerNameBadge from '../PlayerNameBadge.svelte';
 	import RunApprovalStatus from '../RunApprovalStatus.svelte';
-	import SubmissionInfoModal from '../SubmissionInfoModal.svelte';
 	import TimeDisplay from '../TimeDisplay.svelte';
 	import WeaponIcon from '../WeaponIcon.svelte';
 	import RunDetailsCell from './RunDetailsCell.svelte';
 	import Table, { type TableHeader } from './Table.svelte';
 	import { mapPartyMemberToNamePref, mapPlayerInfoNamePref } from '$lib/types/api/mapNamePref';
 	import type { Run } from '$lib/types/api/runs/run';
-	import { createEventDispatcher } from 'svelte';
-	import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus';
 	import { t } from 'svelte-i18n';
 	import PartySizeLabel from '../PartySizeLabel.svelte';
 	import PatchLabel from '../PatchLabel.svelte';
+	import RunInfoModal from '../RunInfoModal.svelte';
 
 	export let submissions: Run<unknown>[];
 
-	let modal: SubmissionInfoModal;
-
-	const dispatcher = createEventDispatcher();
+	let modal: RunInfoModal;
 
 	$: headerDef = [
 		{ label: $t('page.moderator.submissions.header.id'), textAlign: 'center', class: 'w-4' },
@@ -35,19 +31,23 @@
 		{
 			label: $t('page.moderator.submissions.header.igt'),
 			textAlign: 'center',
-			tooltip: $t('page.moderator.submissions.header.igtTooltip')
+			tooltip: $t('page.moderator.submissions.header.igtTooltip'),
 		},
 		{ label: $t('page.moderator.submissions.header.submittedBy'), textAlign: 'center' },
 		{
 			label: $t('page.moderator.submissions.header.submissionDate'),
-			textAlign: 'center'
+			textAlign: 'center',
+		},
+		{
+			label: $t('page.moderator.submissions.header.dateReviewed'),
+			textAlign: 'center',
 		},
 		{ label: $t('page.moderator.submissions.header.status'), textAlign: 'center' },
 		{
 			label: $t('page.moderator.submissions.header.review'),
 			textAlign: 'center',
-			class: 'w-2 text-lg'
-		}
+			class: 'w-2 text-lg',
+		},
 	] satisfies (TableHeader | undefined)[];
 
 	const runInfoOpen = (runId: number) => {
@@ -58,10 +58,6 @@
 		}
 
 		modal.showModal(run);
-	};
-
-	const submissionsUpdated = () => {
-		dispatcher('submissionChanged');
 	};
 </script>
 
@@ -130,16 +126,25 @@
 				<td class="w-6 whitespace-pre-wrap text-center">
 					{new Date(run.submissionDate).toLocaleString().replace(',', ',\n')}
 				</td>
+				<td class="w-6 whitespace-pre-wrap text-center">
+					{#if !!run.dateReviewed}
+						{new Date(run.dateReviewed).toLocaleString().replace(',', ',\n')}
+						<br />
+						{run.reviewedBy}
+					{:else}
+						-
+					{/if}
+				</td>
 				<td class="text-center">
 					<RunApprovalStatus submissionStatus={run.submissionStatus} />
 				</td>
 				<td class="text-center">
-					{#if run.submissionStatus === RunSubmissionStatus.AwaitingApproval}
-						<Button primary on:click={() => runInfoOpen(run.runId)}>Review</Button>
-					{/if}
+					<Button primary on:click={() => runInfoOpen(run.runId)}>
+						<i class="bi bi-sticky" />
+					</Button>
 				</td>
 			</tr>
 		{/each}
 	</Table>
 {/if}
-<SubmissionInfoModal bind:this={modal} on:submissionChanged={submissionsUpdated} />
+<RunInfoModal bind:this={modal} />

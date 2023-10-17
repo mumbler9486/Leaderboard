@@ -27,7 +27,7 @@
 			{ label: 'IGT', textAlign: 'center', tooltip: 'In-Game Time' },
 			{ label: 'Patch', textAlign: 'center' },
 			{ label: 'Video', textAlign: 'center' },
-			{ label: '', textAlign: 'center', class: 'w-2' }
+			{ label: '', textAlign: 'center', class: 'w-2' },
 		] satisfies (TableHeader | undefined)[]
 	).filter((h): h is TableHeader => !!h);
 
@@ -106,11 +106,9 @@
 					{/each}
 				</td>
 				<td class="text-center">
-					{#if run.notes != undefined}
-						<Button primary on:click={() => runInfoOpen(run.runId)}>
-							<i class="bi bi-sticky" />
-						</Button>
-					{/if}
+					<Button primary on:click={() => runInfoOpen(run.runId)}>
+						<i class="bi bi-sticky" />
+					</Button>
 				</td>
 			</tr>
 		{/each}

@@ -97,6 +97,7 @@ export const runsSearchFilterSchema = object({
 	take: number().min(1).max(1000).nullable(),
 	sort: string().lowercase().nullable().default('ranking').oneOf(sortOrders),
 	partySize: number().min(1).max(24).nullable(),
+	userId: number().min(1).nullable(),
 });
 
 export type RunsSearchFilter = InferType<typeof runsSearchFilterSchema>;

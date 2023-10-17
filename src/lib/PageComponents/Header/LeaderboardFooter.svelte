@@ -1,3 +1,7 @@
+<script>
+	import DiscordContact from '$lib/Components/DiscordContact.svelte';
+</script>
+
 <footer class="border-t border-t-secondary">
 	<div class="container mx-auto px-2 pb-4 pt-4">
 		<div class="grid grid-cols-3">
@@ -33,12 +37,7 @@
 			<div class="text-right text-neutral-content">
 				<strong>Social</strong>
 				<br />
-				<a
-					href="https://discord.com/invite/fFtEEJHuFp"
-					target="_blank"
-					rel="noreferrer noopener"
-					class="link-primary link no-underline">Discord <i class="bi bi-discord" /></a
-				>
+				<DiscordContact />
 			</div>
 		</div>
 	</div>

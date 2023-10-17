@@ -40,12 +40,12 @@
 			quest: 'DF Solus R.',
 		},
 		[NgsQuests.Duels]: {
-			[IndomitableBoss.NexAelio]: 'Duel Nex Aelio',
-			[IndomitableBoss.RenusRetem]: 'Duel Renus Retem',
-			[IndomitableBoss.AmsKvaris]: 'Duel Ams Kvaris',
-			[IndomitableBoss.NilsStia]: 'Duel Nils Stia',
-			[IndomitableBoss.Halvaldi]: 'Duel Halvaldi',
-			[IndomitableBoss.Zelvin]: 'Duel Zelvin',
+			[IndomitableBoss.NexAelio]: 'Duel Nex Aelio R.',
+			[IndomitableBoss.RenusRetem]: 'Duel Renus Retem R.',
+			[IndomitableBoss.AmsKvaris]: 'Duel Ams Kvaris R.',
+			[IndomitableBoss.NilsStia]: 'Duel Nils Stia R.',
+			[IndomitableBoss.Halvaldi]: 'Duel Halvaldi R.',
+			[IndomitableBoss.Zelvin]: 'Duel Zelvin R.',
 		},
 		[NgsQuests.Venogia]: {
 			urgent_quest: 'Venogia R.',
