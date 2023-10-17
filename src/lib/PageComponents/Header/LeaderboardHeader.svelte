@@ -15,8 +15,8 @@
 			items: [
 				{ label: 'Solo', link: '/runs/purple/solo' },
 				{ label: 'Duo', link: '/runs/purple/duo' },
-				{ label: 'Party', link: '/runs/purple/party' }
-			]
+				{ label: 'Party', link: '/runs/purple/party' },
+			],
 		},
 		{
 			title: $t('navigation.bosses'),
@@ -24,8 +24,8 @@
 			items: [
 				{ label: 'Dark Falz Solus', link: '/runs/dfsolus/solo' },
 				{ label: 'Venogia', link: '/runs/venogia/solo' },
-				{ label: 'Dark Falz Aegis', link: '/runs/dfaegis/solo' }
-			]
+				{ label: 'Dark Falz Aegis', link: '/runs/dfaegis/solo' },
+			],
 		},
 		{
 			title: $t('navigation.duels'),
@@ -35,9 +35,10 @@
 				{ label: 'Renus Retem', link: '/runs/duels/renus-retem' },
 				{ label: 'Ams Kvaris', link: '/runs/duels/ams-kvaris' },
 				{ label: 'Nils Stia', link: '/runs/duels/nils-stia' },
-				{ label: 'Halvaldi', link: '/runs/duels/halvaldi' }
-			]
-		}
+				{ label: 'Halvaldi', link: '/runs/duels/halvaldi' },
+				{ label: 'Zelvin', link: '/runs/duels/zelvin' },
+			],
+		},
 	] satisfies MenuGroup[];
 
 	$: loginTitle = (() => {
@@ -53,9 +54,9 @@
 					{ label: 'My Runs', link: '/profile/submissions', icon: 'bi-envelope-paper' },
 					{ label: 'Profile', link: '/profile', icon: 'bi-person-vcard' },
 					{ label: 'Settings', link: '/settings', icon: 'bi-gear' },
-					{ label: 'Logout', link: '/logout', icon: 'bi-box-arrow-right' }
+					{ label: 'Logout', link: '/logout', icon: 'bi-box-arrow-right' },
 			  ]
-			: []
+			: [],
 	} satisfies MenuGroup;
 
 	$: consentMenu = {
@@ -63,27 +64,27 @@
 		link: '/',
 		disabled: true,
 		disabledTooltip: 'Accept cookies to use Account features',
-		show: !$consentSelected
+		show: !$consentSelected,
 	} satisfies MenuGroup;
 
 	$: accountSetupMenu = {
 		title: $clientPrincipleStore?.userDetails ?? '<Unknown>',
 		show: isNotCompleteAccountSetup,
-		items: [{ label: 'Logout', link: '/logout', icon: 'bi-box-arrow-right' }]
+		items: [{ label: 'Logout', link: '/logout', icon: 'bi-box-arrow-right' }],
 	};
 
 	$: submitMenu = {
 		title: 'Submit a Run',
 		show: isLoggedIn,
 		icon: 'bi-envelope-paper',
-		link: '/submit'
+		link: '/submit',
 	} satisfies MenuGroup;
 
 	$: moderationMenu = {
 		title: 'Moderation',
 		show: (isMod || isAdmin) && isLoggedIn,
 		icon: 'bi-shield-shaded',
-		link: '/moderator/submissions'
+		link: '/moderator/submissions',
 	} satisfies MenuGroup;
 
 	$: dynamicMenuItems = [
@@ -91,7 +92,7 @@
 		moderationMenu,
 		consentMenu,
 		loginMenu,
-		accountSetupMenu
+		accountSetupMenu,
 	] as MenuGroup[];
 	$: headerMenuItems = [...staticMenuItems, ...dynamicMenuItems];
 
@@ -137,7 +138,7 @@
 		'/logout',
 		'/account-setup',
 		'/privacy-policy',
-		'/tos'
+		'/tos',
 	];
 	afterNavigate(() => {
 		if (accountSetupIgnorePaths.some((path) => $page.url.pathname.startsWith(path))) {

@@ -34,6 +34,7 @@ const validCategories: Record<string, string[]> = {
 		NgsRunCategories.AmsKvaris,
 		NgsRunCategories.NilsStia,
 		NgsRunCategories.Halvaldi,
+		NgsRunCategories.Zelvin,
 	],
 	[NgsQuests.Venogia]: [NgsRunCategories.UrgentQuest],
 };

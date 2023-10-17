@@ -40,7 +40,7 @@ export const submitRun = async <T>(
 			inVideoName: p.inVideoName,
 			mainClass: parseNgsPlayerClass(p.mainClass) ?? NgsPlayerClass.Unknown,
 			subClass: parseNgsPlayerClass(p.subClass) ?? NgsPlayerClass.Unknown,
-			weapons: p.weapons.map((w) => parseNgsWeapon(w) ?? NgsWeapon.Unknown)
+			weapons: p.weapons.map((w) => parseNgsWeapon(w) ?? NgsWeapon.Unknown),
 		};
 	});
 
@@ -63,7 +63,7 @@ export const submitRun = async <T>(
 		patch: CurrentSubmissionPatchCode,
 		category: category,
 		party: submitParty,
-		details: details
+		details: details,
 	};
 
 	const response = await fetchPostApi<SubmitResult | BadRequestApiError>(submitPath, request);
