@@ -37,6 +37,7 @@ const RunQuery = `
 		run.${runsDbFields.SubmissionDate} AS ${getRunDbFields.RunSubmissionDate},
 		run.${runsDbFields.SubmissionStatus} AS ${getRunDbFields.RunSubmissionStatus},
 		run.${runsDbFields.DateReviewed} AS ${getRunDbFields.RunDateReviewed},
+		run.${runsDbFields.ReviewedBy} AS ${getRunDbFields.RunReviewedBy},
 		run.${runsDbFields.ModNotes} AS ${getRunDbFields.RunModNotes},
 		run.${runsDbFields.Attributes} AS ${getRunDbFields.RunAttributes},
 

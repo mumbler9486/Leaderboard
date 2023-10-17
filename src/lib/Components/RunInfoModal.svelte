@@ -97,6 +97,9 @@
 		>
 			<div class="flex grow flex-col">
 				<span class="text-center text-lg font-semibold">Moderator's Notes:</span>
+				<span class="text-center text-xs"
+					>{run?.reviewedBy ? `Reviewer: ${run?.reviewedBy}` : ''}</span
+				>
 				<div class="whitespace-pre-wrap p-2">
 					{run?.modNotes ?? ''}
 				</div>

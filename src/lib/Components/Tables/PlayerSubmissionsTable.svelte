@@ -129,6 +129,8 @@
 				<td class="w-6 whitespace-pre-wrap text-center">
 					{#if !!run.dateReviewed}
 						{new Date(run.dateReviewed).toLocaleString().replace(',', ',\n')}
+						<br />
+						{run.reviewedBy}
 					{:else}
 						-
 					{/if}
