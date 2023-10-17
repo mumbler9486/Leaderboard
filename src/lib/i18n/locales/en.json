@@ -99,7 +99,8 @@
 					"submittedBy": "Submitted By",
 					"submissionDate": "Submission Date",
 					"status": "Status",
-					"review": "📝"
+					"review": "📝",
+					"dateReviewed": "Date Reviewed"
 				}
 			}
 		}
