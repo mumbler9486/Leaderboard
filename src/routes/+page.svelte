@@ -24,6 +24,24 @@
 			>
 				<div class="text-center text-4xl font-light">News</div>
 				<HomeNews>
+					<span slot="newsTitle">Leaderboard 3.2.4 Update (Oct 2023)</span>
+					<div slot="newsContent">
+						<strong>Changelog (Oct 17, 2023):</strong><br />
+						<strong>⚔ Duel Boss Zelvin</strong><br />
+						<p class="pt-2">
+							Early release of Zelvin Duel boss. Actual in game quest will be released after the
+							maintenance on October 18, 2023. Looking forward to see those runs!
+						</p>
+						<strong>👤 My Runs Page</strong><br />
+						<p class="py-2">
+							A new page was added to allow you to see all the runs you have submitted to us along
+							with their status. It is next to the Profile menu. Check it out! You can also see the
+							runs that you have participated in in other player's submissions as well provided they
+							linked your name to it.
+						</p>
+					</div>
+				</HomeNews>
+				<HomeNews>
 					<span slot="newsTitle">Upcoming Leaderboard Updates (Oct 2023)</span>
 					<div slot="newsContent">
 						<strong>🤖 Venogia Leaderboard (October 1, 2023)</strong><br />
