@@ -55,12 +55,12 @@ export async function GET({ params, url, locals }) {
 		const request = await pool.request();
 		const player = await getUser(request, user.userId);
 
-		const submitterId = !player?.Id ? undefined : parseInt(player.Id);
-		if (!user.hasRole(UserRole.Moderator) && submitterId !== parsedFilter.submitterId) {
+		const playerId = !player?.Id ? undefined : parseInt(player.Id);
+		if (!user.hasRole(UserRole.Moderator) && playerId !== parsedFilter.submitterId) {
 			return jsonError(403, ErrorCodes.Forbidden);
 		}
 
-		serverFilters.submitterId = submitterId;
+		serverFilters.submitterId = playerId;
 	}
 
 	try {
