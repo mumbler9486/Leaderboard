@@ -35,9 +35,13 @@
 						<strong>👤 My Runs Page</strong><br />
 						<p class="py-2">
 							A new page was added to allow you to see all the runs you have submitted to us along
-							with their status. It is next to the Profile menu. Check it out! You can also see the
-							runs that you have participated in in other player's submissions as well provided they
-							linked your name to it.
+							with their status. The new page is next to the Profile menu. Check it out! You can
+							also see the runs that you have participated in in other player's submissions as well
+							provided they linked your name to it.
+						</p>
+						<p>
+							If a run is rejected we will note it in the "Mod Notes" field. Feel free to contact us
+							on <DiscordContact /> should you need to clarify or dispute.
 						</p>
 					</div>
 				</HomeNews>
