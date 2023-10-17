@@ -149,6 +149,10 @@
 				<td class="text-center">
 					{#if run.submissionStatus === RunSubmissionStatus.AwaitingApproval}
 						<Button primary on:click={() => runInfoOpen(run.runId)}>Review</Button>
+					{:else}
+						<Button primary on:click={() => runInfoOpen(run.runId)}>
+							<i class="bi bi-sticky" />
+						</Button>
 					{/if}
 				</td>
 			</tr>

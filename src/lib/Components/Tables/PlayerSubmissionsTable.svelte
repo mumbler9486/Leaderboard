@@ -139,11 +139,9 @@
 					<RunApprovalStatus submissionStatus={run.submissionStatus} />
 				</td>
 				<td class="text-center">
-					{#if run.notes != undefined}
-						<Button primary on:click={() => runInfoOpen(run.runId)}>
-							<i class="bi bi-sticky" />
-						</Button>
-					{/if}
+					<Button primary on:click={() => runInfoOpen(run.runId)}>
+						<i class="bi bi-sticky" />
+					</Button>
 				</td>
 			</tr>
 		{/each}
