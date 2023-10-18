@@ -18,11 +18,7 @@ import { json } from '@sveltejs/kit';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url, locals }) {
-	const { user, error } = getUserValidated(locals, [
-		UserRole.Administrator,
-		UserRole.Moderator,
-		UserRole.User,
-	]);
+	const { user, error } = getUserValidated(locals, [UserRole.Moderator, UserRole.User]);
 	if (!!error) {
 		return error;
 	}

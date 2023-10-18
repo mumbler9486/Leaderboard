@@ -3,12 +3,12 @@ import { leaderboardDb } from '$lib/server/db/db.js';
 import {
 	createAccount,
 	getPlayerList,
-	isPlayerNameUnique
+	isPlayerNameUnique,
 } from '$lib/server/repositories/playerRepository.js';
 import { mapPlayerAutoFillList } from '$lib/server/mappers/api/playerMapper.js';
 import {
 	createAccountSchema,
-	type CreateAccountRequest
+	type CreateAccountRequest,
 } from '$lib/server/types/api/createAccount.js';
 import { jsonError } from '$lib/server/error.js';
 import { getUserExists } from '$lib/server/repositories/userRepository.js';
@@ -43,7 +43,7 @@ export async function POST({ request, locals }) {
 	} catch (err: any) {
 		return jsonError(400, {
 			error: ErrorCodes.ValidationError,
-			details: err.errors
+			details: err.errors,
 		});
 	}
 
@@ -53,7 +53,7 @@ export async function POST({ request, locals }) {
 		if (isUserExist) {
 			return jsonError(400, {
 				error: ErrorCodes.BadRequest,
-				details: ['Account setup already completed.']
+				details: ['Account setup already completed.'],
 			});
 		}
 
@@ -62,8 +62,8 @@ export async function POST({ request, locals }) {
 			return jsonError(400, {
 				error: ErrorCodes.BadRequest,
 				details: [
-					'Username (not character name) already exists. Please contact the site administrator for assistance.'
-				]
+					'Username (not character name) already exists. Please contact the a moderator for assistance.',
+				],
 			});
 		}
 

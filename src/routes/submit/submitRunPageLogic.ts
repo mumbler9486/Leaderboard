@@ -44,12 +44,8 @@ export const submitRun = async <T>(
 		};
 	});
 
-	if (
-		clientPrincipleStore.hasRole(UserRole.Administrator) ||
-		clientPrincipleStore.hasRole(UserRole.Moderator)
-	) {
-		// TODO Send in data to create player??
-	} else {
+	//Not moderator, force player 1 to be current user
+	if (!clientPrincipleStore.hasRole(UserRole.Moderator)) {
 		submitParty[0].playerId = playerInfo.playerId;
 	}
 

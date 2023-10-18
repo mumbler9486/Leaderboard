@@ -45,7 +45,7 @@
 
 		const createAccountRequest: CreateAccountRequest = {
 			username: $clientPrincipleStore.userDetails,
-			characterName: characterName
+			characterName: characterName,
 		} satisfies CreateAccountRequest;
 
 		isLoading = true;
@@ -67,7 +67,7 @@
 				return;
 			}
 		} catch (err) {
-			serverError = 'An error has ocurred. Please contact an administrator on our Discord.';
+			serverError = 'An error has ocurred. Please contact a moderator on our Discord.';
 			isLoading = false;
 		}
 	};

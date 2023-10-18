@@ -68,19 +68,16 @@ const checkUserPermission = async (moderatorUserId: string) => {
 
 	const user = await getUser(request, moderatorUserId);
 
-	if (
-		!user ||
-		(!user.Roles?.includes(UserRole.Moderator) && !user.Roles?.includes(UserRole.Administrator))
-	) {
+	if (!user || !user.Roles?.includes(UserRole.Moderator)) {
 		return {
 			name: undefined,
-			errorList: ['Permission denied. User not a moderator.']
+			errorList: ['Permission denied. User not a moderator.'],
 		};
 	}
 
 	return {
 		user: user,
-		errorList: []
+		errorList: [],
 	};
 };
 
@@ -96,7 +93,7 @@ const checkRunData = async (run: ApproveRequest, moderator: PlayersDbModel) => {
 		errorList.push(`Unknown run id`);
 		return {
 			errorList,
-			run: undefined
+			run: undefined,
 		};
 	}
 	if (parseInt(submissionResult.RunSubmissionStatus) != RunSubmissionStatus.AwaitingApproval) {
@@ -109,6 +106,6 @@ const checkRunData = async (run: ApproveRequest, moderator: PlayersDbModel) => {
 
 	return {
 		errorList,
-		run: submissionResult
+		run: submissionResult,
 	};
 };
