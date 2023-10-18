@@ -32,7 +32,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@azure/storage-blob": "^12.16.0",
 		"dotenv": "^16.3.1",
 		"mssql": "^10.0.1",
 		"svelte-i18n": "^4.0.0",
