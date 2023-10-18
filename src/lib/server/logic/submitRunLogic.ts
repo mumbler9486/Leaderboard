@@ -50,7 +50,7 @@ export const submitRun = async (
 
 		notifyDiscordNewRun(parsedRun.submitterName, parsedRun);
 		const successResponse: SubmitResult = {
-			success: true
+			success: true,
 		};
 		return json(successResponse);
 	} catch (err) {
@@ -75,7 +75,7 @@ const checkRunData = async (request: Request, run: RunSubmissionRequest) => {
 	}
 
 	return {
-		errors: errorList
+		errors: errorList,
 	};
 };
 
@@ -86,7 +86,7 @@ const checkSubmittingUser = async (request: Request, requestUser: ServerUser) =>
 	if (!submitterUser || submitterPlayerId <= 0) {
 		return {
 			user: null,
-			errors: ['Submitter user does not exist']
+			errors: ['Submitter user does not exist'],
 		};
 	}
 
@@ -94,13 +94,13 @@ const checkSubmittingUser = async (request: Request, requestUser: ServerUser) =>
 	if (!submitterHasUserRole) {
 		return {
 			user: null,
-			errors: ["Submitter missing 'user' role"]
+			errors: ["Submitter missing 'user' role"],
 		};
 	}
 
 	return {
 		user: submitterUser,
-		errors: null
+		errors: null,
 	};
 };
 
@@ -110,8 +110,7 @@ const checkPartyPlayers = async (
 	playerId: number,
 	run: RunSubmissionRequest
 ) => {
-	const submitterIsModerator =
-		requestUser.hasRole(UserRole.Moderator) || requestUser.hasRole(UserRole.Administrator);
+	const submitterIsModerator = requestUser.hasRole(UserRole.Moderator);
 	const submitterIsPlayer1 = run.party[0]?.playerId === playerId ?? false;
 	if (!submitterIsModerator && !submitterIsPlayer1) {
 		return ['Submitter must be player 1.'];

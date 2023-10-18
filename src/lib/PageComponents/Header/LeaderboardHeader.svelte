@@ -82,7 +82,7 @@
 
 	$: moderationMenu = {
 		title: 'Moderation',
-		show: (isMod || isAdmin) && isLoggedIn,
+		show: isMod && isLoggedIn,
 		icon: 'bi-shield-shaded',
 		link: '/moderator/submissions',
 	} satisfies MenuGroup;
@@ -107,7 +107,6 @@
 	$: isNotCompleteAccountSetup =
 		!!$clientPrincipleStore &&
 		!($clientPrincipleStore?.userRoles?.includes(UserRole.User) ?? false);
-	$: isAdmin = $clientPrincipleStore?.userRoles?.includes(UserRole.Administrator) ?? false;
 	$: isMod = $clientPrincipleStore?.userRoles?.includes(UserRole.Moderator) ?? false;
 
 	const loadLogin = async () => {
