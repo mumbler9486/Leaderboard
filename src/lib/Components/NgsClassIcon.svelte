@@ -17,7 +17,7 @@
 		[NgsPlayerClass.Bouncer]: { name: 'Bouncer', icon: '/icons/class/class-bouncer.png' },
 		[NgsPlayerClass.Waker]: { name: 'Waker', icon: '/icons/class/class-waker.png' },
 		[NgsPlayerClass.Slayer]: { name: 'Slayer', icon: '/icons/class/class-slayer.png' },
-		[NgsPlayerClass.Unknown]: { name: 'Unknown', icon: '/icons/class/class-unknown.png' }
+		[NgsPlayerClass.Unknown]: { name: 'Unknown', icon: '/icons/class/class-unknown.png' },
 	};
 
 	$: classInfo = classMap[combatClass ?? NgsPlayerClass.Unknown];
@@ -25,13 +25,21 @@
 
 {#if showTooltip}
 	<Tooltip tip={classInfo.name}>
-		<img src={classInfo.icon} class="inline w-[16px] object-none" alt={classInfo.name} />
+		<img
+			src={classInfo.icon}
+			class="pointer-events-none inline w-[16px] object-none"
+			alt={classInfo.name}
+		/>
 		{#if showLabel}
 			{classInfo.name}
 		{/if}
 	</Tooltip>
 {:else}
-	<img src={classInfo.icon} class="inline w-[16px] object-none" alt={classInfo.name} />
+	<img
+		src={classInfo.icon}
+		class="pointer-events-none inline w-[16px] object-none"
+		alt={classInfo.name}
+	/>
 	{#if showLabel}
 		{classInfo.name}
 	{/if}

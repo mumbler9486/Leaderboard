@@ -18,13 +18,13 @@
 		<span class="label-text text-base font-semibold">{label}</span>
 	</div>
 {/if}
-<select class="select-bordered select rounded" {disabled} bind:value on:change>
+<select class="select select-bordered rounded" {disabled} bind:value on:change>
 	{#if placeholder}
 		<option disabled selected>{placeholder}</option>
 	{/if}
 	{#each options as option}
 		{#if option.icon}
-			<img src={option.icon} alt={`${option.value}-icon`} />
+			<img class="pointer-events-none" src={option.icon} alt={`${option.value}-icon`} />
 		{/if}
 		<option value={option.value} disabled={option.disabled ?? false}>{option.label}</option>
 	{/each}

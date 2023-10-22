@@ -24,7 +24,7 @@
 		red: 'bg-red-600',
 		blue: 'bg-blue-600',
 		purple: 'bg-purple-600',
-		neutral: ''
+		neutral: '',
 	};
 	$: overlayColorClass = overlayColorMap[overlayColor] ?? overlayColorMap['white'];
 </script>

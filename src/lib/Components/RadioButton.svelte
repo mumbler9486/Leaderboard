@@ -10,7 +10,7 @@
 	class="label w-32 cursor-pointer gap-2 rounded border border-neutral-content/25 bg-neutral px-2 md:w-[10.1rem]"
 >
 	{#if icon != undefined}
-		<img src={icon} {alt} />
+		<img class="pointer-events-none" src={icon} {alt} />
 	{/if}
 	<span class="label-text text-neutral-content">
 		<slot />

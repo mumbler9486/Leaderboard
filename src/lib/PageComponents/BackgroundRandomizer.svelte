@@ -14,31 +14,31 @@
 	const backgrounds: Wallpaper[] = [
 		{
 			src: '/background/aelio-purp-evening.jpg',
-			thumb: '/background/thumb/aelio-purp-evening-min.jpg'
+			thumb: '/background/thumb/aelio-purp-evening-min.jpg',
 		},
 		{
 			src: '/background/aelio-purp-night.jpg',
-			thumb: '/background/thumb/aelio-purp-night-min.jpg'
+			thumb: '/background/thumb/aelio-purp-night-min.jpg',
 		},
 		{ src: '/background/aelio-purp.jpg', thumb: '/background/thumb/aelio-purp-min.jpg' },
 		{ src: '/background/dfsolus_portal.jpg', thumb: '/background/thumb/dfsolus_portal-min.jpg' },
 		{
 			src: '/background/kvaris-purp-night.jpg',
-			thumb: '/background/thumb/kvaris-purp-night-min.jpg'
+			thumb: '/background/thumb/kvaris-purp-night-min.jpg',
 		},
 		{ src: '/background/kvaris-purp.jpg', thumb: '/background/thumb/kvaris-purp-min.jpg' },
 		{
 			src: '/background/retem-purp-night.jpg',
-			thumb: '/background/thumb/retem-purp-night-min.jpg'
+			thumb: '/background/thumb/retem-purp-night-min.jpg',
 		},
 		{ src: '/background/retem-purp.jpg', thumb: '/background/thumb/retem-purp-min.jpg' },
 		{ src: '/background/stia-purp-night.jpg', thumb: '/background/thumb/stia-purp-night-min.jpg' },
 		{ src: '/background/stia-purp.jpg', thumb: '/background/thumb/stia-purp-min.jpg' },
-		{ src: '/background/venogia.jpg', thumb: '/background/thumb/venogia-min.jpg' }
+		{ src: '/background/venogia.jpg', thumb: '/background/thumb/venogia-min.jpg' },
 	];
 
 	const wallpaperSetsMap: { route: string; wallpapers: Wallpaper[] }[] = [
-		{ route: '/', wallpapers: backgrounds }
+		{ route: '/', wallpapers: backgrounds },
 	];
 
 	// Selects one Random wallpaper from the list
@@ -99,7 +99,7 @@
 {/if}
 <img
 	src={upcomingWallpaper?.thumb}
-	class="hidden"
+	class="pointer-events-none hidden"
 	loading="eager"
 	decoding="async"
 	alt="Preload Background Thumbnail"

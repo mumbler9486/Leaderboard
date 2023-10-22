@@ -25,15 +25,15 @@
 </script>
 
 <!--Mobile Headers-->
-<div class="dropdown-end dropdown ml-auto md:hidden">
-	<label tabindex="0" class="btn-ghost rounded-btn btn">{title}</label>
-	<ul tabindex="0" class="dropdown-content menu rounded-box mt-4 w-52 bg-base-100 p-2 shadow">
+<div class="dropdown dropdown-end ml-auto md:hidden">
+	<label tabindex="0" class="btn btn-ghost rounded-btn">{title}</label>
+	<ul tabindex="0" class="menu dropdown-content rounded-box mt-4 w-52 bg-base-100 p-2 shadow">
 		{#each groups.filter((g) => g.show ?? true) as group}
 			{#if group.link}
 				<li>
 					<a class="flex text-sm font-semibold uppercase">
 						{#if group.image}
-							<img src={group.image} class="mr-2" />
+							<img src={group.image} class="pointer-events-none mr-2" />
 						{:else if group.icon}
 							<i class="bi mr-2 {group.icon}" />
 						{/if}
@@ -43,7 +43,7 @@
 			{:else if group.items}
 				<span class="m-2 flex text-xs font-semibold uppercase">
 					{#if group.image}
-						<img src={group.image} class="mr-2" />
+						<img src={group.image} class="pointer-events-none mr-2" />
 					{:else if group.icon}
 						<i class="bi mr-2 {group.icon}" />
 					{/if}
@@ -69,9 +69,9 @@
 	{#each groups.filter((g) => g.show ?? true) as group}
 		{#if group.link}
 			{#if !group.disabled}
-				<a href={group.link} class="btn-ghost no-animation btn rounded-none">
+				<a href={group.link} class="btn btn-ghost no-animation rounded-none">
 					{#if group.image}
-						<img src={group.image} class="mr-2" />
+						<img src={group.image} class="pointer-events-none mr-2" />
 					{:else if group.icon}
 						<i class="bi mr-2 {group.icon}" />
 					{/if}
@@ -79,9 +79,9 @@
 				</a>
 			{:else}
 				<Tooltip left tip={group.disabledTooltip ?? ''}>
-					<div class="btn-disabled no-animation btn cursor-not-allowed rounded-none">
+					<div class="btn btn-disabled no-animation cursor-not-allowed rounded-none">
 						{#if group.image}
-							<img src={group.image} class="mr-2" />
+							<img src={group.image} class="pointer-events-none mr-2" />
 						{:else if group.icon}
 							<i class="bi mr-2 {group.icon}" />
 						{/if}
@@ -91,10 +91,10 @@
 			{/if}
 		{:else if group.items}
 			<div class="dropdown-end dropdown">
-				<label tabindex="0" class="btn-ghost no-animation btn rounded-none">
+				<label tabindex="0" class="btn btn-ghost no-animation rounded-none">
 					<span class="flex whitespace-nowrap">
 						{#if group.image}
-							<img src={group.image} class="mr-2" />
+							<img src={group.image} class="pointer-events-none mr-2" />
 						{:else if group.icon}
 							<i class="bi mr-2 {group.icon}" />
 						{/if}{group.title}<i class="bi bi-caret-down ml-2" />
@@ -102,7 +102,7 @@
 				</label>
 				<ul
 					tabindex="-1"
-					class="dropdown-content menu whitespace-nowrap border border-secondary bg-neutral text-base shadow"
+					class="menu dropdown-content whitespace-nowrap border border-secondary bg-neutral text-base shadow"
 				>
 					{#each group.items as item}
 						<li>

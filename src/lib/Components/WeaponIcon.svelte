@@ -18,7 +18,7 @@
 		[NgsWeapon.Launcher]: { name: 'Launcher', icon: '/icons/weapon/weapon-launcher.png' },
 		[NgsWeapon.TwinMachineGuns]: {
 			name: 'Twin Machine Guns',
-			icon: '/icons/weapon/weapon-tmg.png'
+			icon: '/icons/weapon/weapon-tmg.png',
 		},
 		[NgsWeapon.Bow]: { name: 'Bow', icon: '/icons/weapon/weapon-bow.png' },
 		[NgsWeapon.Rod]: { name: 'Rod', icon: '/icons/weapon/weapon-rod.png' },
@@ -27,14 +27,18 @@
 		[NgsWeapon.JetBoots]: { name: 'Jet Boots', icon: '/icons/weapon/weapon-boots.png' },
 		[NgsWeapon.Harmonizer]: { name: 'Harmonizer', icon: '/icons/weapon/weapon-takt.png' },
 		[NgsWeapon.Gunblade]: { name: 'Gunblade', icon: '/icons/weapon/weapon-gunblade.png' },
-		[NgsWeapon.Unknown]: { name: 'Unknown', icon: '' }
+		[NgsWeapon.Unknown]: { name: 'Unknown', icon: '' },
 	};
 
 	$: weaponInfo = weaponsMap[weapon ?? NgsWeapon.Unknown];
 </script>
 
 <Tooltip tip={weaponInfo.name}>
-	<img src={weaponInfo.icon} class="inline w-[16px] object-none" alt={weaponInfo.name} />
+	<img
+		src={weaponInfo.icon}
+		class="pointer-events-none inline w-[16px] object-none"
+		alt={weaponInfo.name}
+	/>
 	{#if showLabel}
 		{weaponInfo.name}
 	{/if}

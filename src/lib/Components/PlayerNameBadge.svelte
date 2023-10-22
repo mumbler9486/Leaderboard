@@ -24,7 +24,7 @@
 		namePreference: PreferredName.Player,
 		nameEffectType: NameStyle.None,
 		nameColor1: undefined,
-		nameColor2: undefined
+		nameColor2: undefined,
 	});
 </script>
 
@@ -112,7 +112,7 @@
 	{#if showShipFlag && playerNameDisplay.serverRegion && playerNameDisplay.ship}
 		<img
 			src={shipImageUrl}
-			class="mr-1 object-none p-0"
+			class="pointer-events-none mr-1 object-none p-0"
 			alt="ship{playerNameDisplay.ship}-{playerNameDisplay.serverRegion}"
 		/>
 	{/if}

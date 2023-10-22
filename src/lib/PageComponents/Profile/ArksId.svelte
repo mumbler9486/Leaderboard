@@ -14,7 +14,7 @@
 
 	const serverRegionMap: Record<string, string> = {
 		global: 'Global',
-		japan: 'Japan'
+		japan: 'Japan',
 	};
 
 	$: playerCountry = player?.flag
@@ -33,9 +33,17 @@
 				<div class="avatar mr-0 place-self-center md:mr-2 md:place-self-auto">
 					<div class="w-32 rounded">
 						{#if false}
-							<img src="/system/avatar-punishment.png" alt="avatar-user-banned" />
+							<img
+								class="pointer-events-none"
+								src="/system/avatar-punishment.png"
+								alt="avatar-user-banned"
+							/>
 						{:else}
-							<img src="/system/avatar-none.png" alt="avatar-none-user" />
+							<img
+								class="pointer-events-none"
+								src="/system/avatar-none.png"
+								alt="avatar-none-user"
+							/>
 						{/if}
 					</div>
 				</div>

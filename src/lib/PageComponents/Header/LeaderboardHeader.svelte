@@ -168,7 +168,11 @@
 		<div class="navbar">
 			<div class="navbar-start">
 				<a href="/">
-					<img class="h-9 object-contain" src="/logos/logo.png" alt={$t('shared.siteName')} />
+					<img
+						class="pointer-events-none h-9 object-contain"
+						src="/logos/logo.png"
+						alt={$t('shared.siteName')}
+					/>
 				</a>
 			</div>
 

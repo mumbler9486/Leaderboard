@@ -16,6 +16,10 @@
 {#if !support}
 	-
 {:else}
-	<img class="mr-1 inline" src="/icons/dfaegis/{supportInfo.icon}" alt={supportInfo.label} />
+	<img
+		class="pointer-events-none mr-1 inline"
+		src="/icons/dfaegis/{supportInfo.icon}"
+		alt={supportInfo.label}
+	/>
 	{supportInfo.label}
 {/if}

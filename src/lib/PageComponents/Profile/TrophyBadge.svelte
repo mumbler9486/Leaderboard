@@ -6,6 +6,10 @@
 </script>
 
 <Tooltip tip={trophy.description}>
-	<img class="h-32 w-32 place-self-center drop-shadow-lg" src={trophy.image} alt={trophy.name} />
+	<img
+		class="pointer-events-none h-32 w-32 place-self-center drop-shadow-lg"
+		src={trophy.image}
+		alt={trophy.name}
+	/>
 	<span class="place-self-center text-lg font-semibold">{trophy.name}</span>
 </Tooltip>

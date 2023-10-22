@@ -4,9 +4,9 @@
 </script>
 
 <span class="badge badge-lg rounded border border-neutral-content/25 py-4">
-	<img src={icon} alt={label} class="mr-1" />
+	<img class="pointer-events-none mr-1" src={icon} alt={label} />
 	{label}
-	<button class="btn-square btn-xs btn ml-1 rounded" on:click>
+	<button class="btn btn-square btn-xs ml-1 rounded" on:click>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			class="h-6 w-6"

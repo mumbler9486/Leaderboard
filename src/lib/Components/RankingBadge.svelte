@@ -7,12 +7,12 @@
 	const crownImgs = [
 		'/icons/leaderboard/gold-1.png',
 		'/icons/leaderboard/silver-2.png',
-		'/icons/leaderboard/bronze-3.png'
+		'/icons/leaderboard/bronze-3.png',
 	];
 </script>
 
 {#if hasCrown}
-	<img class="inline w-[16px] max-w-none object-none" src={crownImg} alt="1" />
+	<img class="pointer-events-none inline w-[16px] max-w-none object-none" src={crownImg} alt="1" />
 {:else}
 	<span>{rank}</span>
 {/if}

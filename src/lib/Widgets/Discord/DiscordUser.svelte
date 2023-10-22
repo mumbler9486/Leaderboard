@@ -33,14 +33,18 @@
 <div class="flex flex-row items-center gap-1">
 	<div class="indicator">
 		<span
-			class="badge badge-xs indicator-center indicator-bottom indicator-item h-2 w-4 border-2 border-base-100 {statusBadgeClass}"
+			class="indicator-center indicator-bottom badge indicator-item badge-xs h-2 w-4 border-2 border-base-100 {statusBadgeClass}"
 		/>
 		<div class="avatar">
 			<div class="w-4 rounded-full">
 				{#if isStreamerMode}
-					<img src={avatar} alt="discord-user-avatar" />
+					<img class="pointer-events-none" src={avatar} alt="discord-user-avatar" />
 				{:else}
-					<img src="system/avatar-none.png" alt="discord-user-no-avatar" />
+					<img
+						class="pointer-events-none"
+						src="system/avatar-none.png"
+						alt="discord-user-no-avatar"
+					/>
 				{/if}
 			</div>
 		</div>

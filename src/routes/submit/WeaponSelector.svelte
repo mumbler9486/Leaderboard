@@ -29,7 +29,7 @@
 		[NgsWeapon.Launcher]: { name: 'Launcher', icon: '/icons/weapon/weapon-launcher.png' },
 		[NgsWeapon.TwinMachineGuns]: {
 			name: 'Twin Machine Guns',
-			icon: '/icons/weapon/weapon-tmg.png'
+			icon: '/icons/weapon/weapon-tmg.png',
 		},
 		[NgsWeapon.Bow]: { name: 'Bow', icon: '/icons/weapon/weapon-bow.png' },
 		[NgsWeapon.Gunblade]: { name: 'Gunblade', icon: '/icons/weapon/weapon-gunblade.png' },
@@ -37,7 +37,7 @@
 		[NgsWeapon.Talis]: { name: 'Talis', icon: '/icons/weapon/weapon-talis.png' },
 		[NgsWeapon.Wand]: { name: 'Wand', icon: '/icons/weapon/weapon-wand.png' },
 		[NgsWeapon.JetBoots]: { name: 'Jet Boots', icon: '/icons/weapon/weapon-boots.png' },
-		[NgsWeapon.Harmonizer]: { name: 'Harmonizer', icon: '/icons/weapon/weapon-takt.png' }
+		[NgsWeapon.Harmonizer]: { name: 'Harmonizer', icon: '/icons/weapon/weapon-takt.png' },
 	};
 
 	const maintainMaximum = (weaponKey: string) => {
@@ -65,7 +65,7 @@
 			class:bg-secondary={selectedWeapons[weaponKey]}
 			for={`player${playerIndex}-${weapon.name}-select`}
 		>
-			<img src={weapon.icon} alt={weapon.name} />
+			<img class="pointer-events-none" src={weapon.icon} alt={weapon.name} />
 			<span class="label-text">{weapon.name}</span>
 			<input
 				id={`player${playerIndex}-${weapon.name}-select`}

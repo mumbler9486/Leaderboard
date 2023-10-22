@@ -18,7 +18,7 @@
 
 <img
 	{src}
-	class="background"
+	class="background pointer-events-none"
 	{alt}
 	{loading}
 	{decoding}
@@ -30,7 +30,7 @@
 {#if !loaded}
 	<img
 		src={thumb}
-		class="background blur"
+		class="background blur pointer-events-none"
 		class:loaded
 		role="presentation"
 		{alt}

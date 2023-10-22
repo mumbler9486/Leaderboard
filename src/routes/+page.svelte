@@ -13,7 +13,7 @@
 </svelte:head>
 <div class="flex grow flex-col content-center">
 	<img
-		class="mx-8 my-16 object-scale-down drop-shadow-[2px_4px_6px_rgba(0,0,0,0.8)] md:my-0"
+		class="pointer-events-none mx-8 my-16 object-scale-down drop-shadow-[2px_4px_6px_rgba(0,0,0,0.8)] md:my-0"
 		alt={$t('shared.siteName')}
 		src="/logos/logo.png"
 	/>
