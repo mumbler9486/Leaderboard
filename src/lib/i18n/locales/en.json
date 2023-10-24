@@ -25,6 +25,10 @@
 	},
 	"pso2": {},
 	"common": {
+		"serverRegion": {
+			"global": "Global",
+			"japan": "Japan"
+		},
 		"loading": "Loading...",
 		"enemies": {
 			"darkFalzAegis": "Dark Falz Aegis"
@@ -96,11 +100,12 @@
 					"patch": "Patch",
 					"igt": "IGT",
 					"igtTooltip": "In-Game Time",
-					"submittedBy": "Submitted By",
-					"submissionDate": "Submission Date",
+					"submittedBy": "Submitted\nBy",
+					"submissionDate": "Submission\nDate",
 					"status": "Status",
 					"review": "📝",
-					"dateReviewed": "Date Reviewed"
+					"dateReviewed": "Date\nReviewed",
+					"serverRegion": "Server\nRegion"
 				}
 			}
 		}

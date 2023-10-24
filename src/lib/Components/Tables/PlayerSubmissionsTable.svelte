@@ -20,6 +20,11 @@
 
 	$: headerDef = [
 		{ label: $t('page.moderator.submissions.header.id'), textAlign: 'center', class: 'w-4' },
+		{
+			label: $t('page.moderator.submissions.header.serverRegion'),
+			textAlign: 'center',
+			class: 'w-4 whitespace-pre-wrap',
+		},
 		{ label: $t('page.moderator.submissions.header.quest'), textAlign: 'center' },
 		{ label: $t('page.moderator.submissions.header.category'), textAlign: 'center' },
 		{ label: $t('page.moderator.submissions.header.details'), textAlign: 'default' },
@@ -33,14 +38,20 @@
 			textAlign: 'center',
 			tooltip: $t('page.moderator.submissions.header.igtTooltip'),
 		},
-		{ label: $t('page.moderator.submissions.header.submittedBy'), textAlign: 'center' },
+		{
+			label: $t('page.moderator.submissions.header.submittedBy'),
+			textAlign: 'center',
+			class: 'whitespace-pre-wrap',
+		},
 		{
 			label: $t('page.moderator.submissions.header.submissionDate'),
 			textAlign: 'center',
+			class: 'whitespace-pre-wrap',
 		},
 		{
 			label: $t('page.moderator.submissions.header.dateReviewed'),
 			textAlign: 'center',
+			class: 'whitespace-pre-wrap',
 		},
 		{ label: $t('page.moderator.submissions.header.status'), textAlign: 'center' },
 		{
@@ -69,6 +80,9 @@
 			<tr class="hover">
 				<td class="text-center font-bold">
 					{run.runId}
+				</td>
+				<td class="text-center text-xs font-bold">
+					{$t(`common.serverRegion.${run.serverRegion}`)}
 				</td>
 				<td class="text-center font-bold">
 					{$t(`ngs.quests.${run.quest}`)}
