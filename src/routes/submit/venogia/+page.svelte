@@ -11,6 +11,7 @@
 	import { afterNavigate } from '$app/navigation';
 	import { submitVenogiaRun } from './submit';
 	import { ErrorCodes } from '$lib/types/api/error';
+	import SubmitFinish from '../SubmitFinish.svelte';
 
 	let submitting: boolean = false;
 	let serverErrorMessage: string | undefined = undefined;
@@ -62,11 +63,7 @@
 			<div class="text-center text-4xl font-light">Submit a Run</div>
 			<div class="divider -mx-8" />
 			{#if submitFinish}
-				<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
-					Your run has been submitted and will be reviewed as soon as possible!
-					<br />
-					<a class="link-primary link" href="/">Click here to return to the home page!</a>
-				</div>
+				<SubmitFinish />
 			{:else}
 				<form id="submitForm" on:submit|preventDefault={submitRun}>
 					<div class="m-2 gap-1 rounded-md border border-secondary bg-secondary/10 p-4 px-8">
