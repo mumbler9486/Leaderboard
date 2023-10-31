@@ -117,10 +117,10 @@
 	};
 
 	const videoPlayers: Record<string, VideoPlayer> = {};
-	$: videoPlayersList = Object.values(videoPlayers);
+	$: videoPlayersList = Object.values(videoPlayers) ?? [];
 
 	const stopAllVideoPlayers = () => {
-		videoPlayersList.forEach((v) => v.stop());
+		videoPlayersList.forEach((v) => v?.stop());
 	};
 </script>
 
