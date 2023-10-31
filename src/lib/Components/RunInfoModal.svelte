@@ -6,6 +6,7 @@
 
 	import { mapPlayerInfoNamePref, mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import type { Run } from '$lib/types/api/runs/run';
+	import Button from './Button.svelte';
 
 	let run: Run | undefined;
 
@@ -24,6 +25,13 @@
 	const closeModal = () => {
 		modal.close();
 	};
+
+	const videoPlayers: Record<string, VideoPlayer> = {};
+	$: videoPlayersList = Object.values(videoPlayers);
+
+	const stopAllVideoPlayers = () => {
+		videoPlayersList.forEach((v) => v.stop());
+	};
 </script>
 
 <Modal
@@ -33,6 +41,7 @@
 	on:btn2Click={closeModal}
 	bind:this={modal}
 	allowDefocusClose={true}
+	on:closed={stopAllVideoPlayers}
 >
 	{#if errorMessage != ''}
 		<Alert type="error" message={errorMessage} />
@@ -40,9 +49,9 @@
 	{#if isSolo}
 		<VideoPlayer url={run?.party[0].linkPov} />
 	{:else}
-		{#each run?.party.filter((p) => p.linkPov != undefined) ?? [] as player}
+		{#each run?.party.filter((p) => p.linkPov != undefined) ?? [] as player, i}
 			<PlayerNameBadge player={mapPartyMemberToNamePref(player)} />
-			<VideoPlayer url={player.linkPov} />
+			<VideoPlayer bind:this={videoPlayers[i]} url={player.linkPov} />
 			<div
 				class="flex basis-full justify-center rounded-md border border-secondary bg-secondary/25 p-2"
 			>
@@ -58,7 +67,6 @@
 			</div>
 		{/each}
 	{/if}
-
 	<div class="flex w-full flex-col justify-around gap-2 p-2 md:flex-row md:gap-0">
 		<div class="flex flex-col justify-center">
 			<span class="place-content-center md:mr-1">{partySize > 1 ? 'Runners:' : 'Runner:'}</span>

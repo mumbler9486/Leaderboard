@@ -115,6 +115,13 @@
 	const closeModal = () => {
 		modal.close();
 	};
+
+	const videoPlayers: Record<string, VideoPlayer> = {};
+	$: videoPlayersList = Object.values(videoPlayers);
+
+	const stopAllVideoPlayers = () => {
+		videoPlayersList.forEach((v) => v.stop());
+	};
 </script>
 
 <Modal
@@ -122,6 +129,7 @@
 	title="Submission Information"
 	bind:this={modal}
 	allowDefocusClose={false}
+	on:closed={stopAllVideoPlayers}
 >
 	{#if processing}
 		<LoadingBar />
@@ -129,10 +137,10 @@
 		{#if errorMessage != ''}
 			<Alert type="error" message={errorMessage} />
 		{/if}
-		{#each submission?.party ?? [] as player}
+		{#each submission?.party ?? [] as player, playerIndex}
 			{#if player.linkPov}
 				<PlayerNameBadge player={mapPartyMemberToNamePref(player)} />
-				<VideoPlayer url={player.linkPov} />
+				<VideoPlayer bind:this={videoPlayers[playerIndex]} url={player.linkPov} />
 				<div
 					class="flex basis-full justify-center rounded-md border border-secondary bg-secondary/25 p-2"
 				>
