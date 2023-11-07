@@ -38,7 +38,7 @@ export async function GET({ params, url }) {
 	const filter: RunsSearchFilter = {
 		...parsedFilter,
 		quest: NgsQuests.DfSolus,
-		category: !parsedFilter.category ? NgsRunCategories.Quest : parsedFilter.category,
+		category: !parsedFilter.category ? undefined : parsedFilter.category,
 		partySize: !parsedFilter.partySize ? 1 : parsedFilter.partySize,
 	};
 

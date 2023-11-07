@@ -1,18 +1,23 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
+	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import PartySizeNavigation from '$lib/Components/PartySizeNavigation.svelte';
+	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import RunFilterModal from '../../RunFilterModal.svelte';
 	import RunFilterTags from '../../RunFilterTags.svelte';
 	import RunRules from '../../RunRules.svelte';
+	import { runFilters } from '../../runFilter';
 
 	export let solo: boolean;
 
 	const partyLinks = [
 		{ link: '/runs/dfsolus/solo', label: 'Solo' },
 		{ link: '/runs/dfsolus/duo', label: 'Duo' },
-		{ link: '/runs/dfsolus/party', label: 'Party' }
+		{ link: '/runs/dfsolus/party', label: 'Party' },
 	];
 	const rules = ['Do not abuse bugs or exploits.'];
+
+	$runFilters.category = NgsRunCategories.Quest;
 </script>
 
 <div
@@ -23,7 +28,16 @@
 			<PartySizeNavigation parties={partyLinks} />
 		</div>
 	</div>
+	<Divider class="-mx-1 my-0" />
 
+	<Dropdown
+		label="Quest Type"
+		options={[
+			{ label: 'Quest', value: NgsRunCategories.Quest },
+			{ label: 'Urgent Quest', value: NgsRunCategories.UrgentQuest },
+		]}
+		bind:value={$runFilters.category}
+	/>
 	<Divider class="-mx-1 my-0" />
 	<div class="flex flex-row flex-wrap place-content-center items-stretch">
 		<div class="m-1 md:flex-1">
