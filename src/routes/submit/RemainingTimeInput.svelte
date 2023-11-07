@@ -15,7 +15,12 @@
 	$: $runForm.time = {
 		hours: 0,
 		minutes: Math.floor(actualSeconds / 60),
-		seconds: actualSeconds % 60
+		seconds: actualSeconds % 60,
+	};
+
+	export const resetForm = () => {
+		minutes = limitMinutes;
+		seconds = limitSeconds;
 	};
 </script>
 
@@ -33,7 +38,7 @@
 		<input
 			placeholder="MM"
 			type="number"
-			class="input-bordered input w-full"
+			class="input input-bordered w-full"
 			min="0"
 			max={limitMinutes}
 			maxlength="2"
@@ -44,7 +49,7 @@
 		<input
 			placeholder="SS"
 			type="number"
-			class="input-bordered input w-full"
+			class="input input-bordered w-full"
 			min="0"
 			max="60"
 			maxlength="2"
