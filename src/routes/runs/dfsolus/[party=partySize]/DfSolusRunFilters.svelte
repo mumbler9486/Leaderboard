@@ -10,10 +10,16 @@
 
 	export let solo: boolean;
 
-	const partyLinks = [
-		{ link: '/runs/dfsolus/solo', label: 'Solo' },
-		{ link: '/runs/dfsolus/duo', label: 'Duo' },
-		{ link: '/runs/dfsolus/party', label: 'Party' },
+	$: questCategory =
+		$runFilters.category === NgsRunCategories.UrgentQuest
+			? NgsRunCategories.UrgentQuest
+			: NgsRunCategories.Quest;
+	$: questCategoryQuery =
+		questCategory === NgsRunCategories.Quest ? '' : `?category=${questCategory}`;
+	$: partyLinks = [
+		{ link: `/runs/dfsolus/solo${questCategoryQuery}`, label: 'Solo' },
+		{ link: `/runs/dfsolus/duo${questCategoryQuery}`, label: 'Duo' },
+		{ link: `/runs/dfsolus/party${questCategoryQuery}`, label: 'Party' },
 	];
 	const rules = ['Do not abuse bugs or exploits.'];
 
