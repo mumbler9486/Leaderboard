@@ -1,30 +1,53 @@
 <script lang="ts">
 	import Dropdown from '$lib/Components/Dropdown.svelte';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
+	import { tick } from 'svelte';
 	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
 	import PartySizeOptions from '../PartySizeOptions.svelte';
 	import RemainingTimeInput from '../RemainingTimeInput.svelte';
+	import { partyForm } from '../partyFormStore';
 	import { solusForm } from './submit';
+
+	let partySizeInput: PartySizeOptions;
+	let timeInput: RemainingTimeInput;
 
 	let selectedRankStr: string = '1';
 
-	const rankOptionsDropdowns: { [region: string]: { label: string; value: string }[] } = {
-		[NgsRunCategories.Quest]: [{ label: '1', value: '1' }]
+	const questOptions = [
+		{ label: 'Quest', value: NgsRunCategories.Quest },
+		{ label: 'Urgent Quest', value: NgsRunCategories.UrgentQuest },
+	];
+
+	const rankOptionsDropdowns: { [quest: string]: { label: string; value: string }[] } = {
+		[NgsRunCategories.Quest]: [{ label: '1', value: '1' }],
+		[NgsRunCategories.UrgentQuest]: [{ label: '1', value: '1' }],
+	};
+
+	const partySizeOptions: { [quest: string]: (1 | 2 | 4 | 8)[] } = {
+		[NgsRunCategories.Quest]: [1, 2, 4],
+		[NgsRunCategories.UrgentQuest]: [1, 2, 8],
 	};
 
 	$: rankOptions = rankOptionsDropdowns[$solusForm.category] ?? [];
+	$: partyOptions = partySizeOptions[$solusForm.category] ?? [];
+	$: maxMinutes = $solusForm.category === NgsRunCategories.Quest ? 15 : 30;
 
 	$: $solusForm.rank = parseInt(selectedRankStr);
 
-	const typeChanged = () => {
+	const typeChanged = async () => {
 		selectedRankStr = rankOptionsDropdowns[$solusForm.category][0].value;
 		$solusForm.rank = parseInt(selectedRankStr);
+		timeInput?.resetForm();
+
+		await tick();
+		partySizeInput.reset();
+		partyForm.setPartySize(1);
 	};
 </script>
 
 <div class="grid grid-cols-1 gap-2 md:grid-cols-4">
 	<div class="form-control md:col-span-3">
-		<PartySizeOptions sizes={[1, 2, 4]} />
+		<PartySizeOptions bind:this={partySizeInput} sizes={partyOptions} />
 	</div>
 	<div class="form-control">
 		<CurrentPatchLabel />
@@ -35,7 +58,7 @@
 		<Dropdown
 			label="Mode"
 			placeholder="Select a mode"
-			options={[{ label: 'Quest', value: NgsRunCategories.Quest }]}
+			options={questOptions}
 			bind:value={$solusForm.category}
 			on:change={typeChanged}
 		/>
@@ -49,6 +72,6 @@
 		/>
 	</div>
 	<div class="form-control">
-		<RemainingTimeInput limitMinutes={15} />
+		<RemainingTimeInput bind:this={timeInput} limitMinutes={maxMinutes} />
 	</div>
 </div>

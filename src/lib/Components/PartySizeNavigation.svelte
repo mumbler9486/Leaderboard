@@ -1,9 +1,16 @@
+<script context="module" lang="ts">
+	export interface PartySizeLink {
+		link: string;
+		label: string;
+	}
+</script>
+
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Button from '$lib/Components/Button.svelte';
 
-	export let parties: { link: string; label: string }[];
+	export let parties: PartySizeLink[];
 
 	const highlightClass = 'btn-primary';
 

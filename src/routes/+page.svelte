@@ -24,6 +24,19 @@
 			>
 				<div class="text-center text-4xl font-light">News</div>
 				<HomeNews>
+					<span slot="newsTitle">Leaderboard 3.2.5 Update (Nov 2023)</span>
+					<div slot="newsContent">
+						<strong>Changelog (Nov 11, 2023):</strong><br />
+						<strong>⭐⚠ Urgent Quest Solus Category</strong><br />
+						<p class="pt-2">
+							On November 15th 2023, Sega will release a Urgent Quest version of Dark Falz Solus. We
+							will support this quest as a new category for this Boss. The leaderboard for this
+							ready for submission but we might make minor adjustments when the request is actually
+							released.
+						</p>
+					</div>
+				</HomeNews>
+				<HomeNews>
 					<span slot="newsTitle">Leaderboard 3.2.4 Update (Oct 2023)</span>
 					<div slot="newsContent">
 						<strong>Changelog (Oct 17, 2023):</strong><br />

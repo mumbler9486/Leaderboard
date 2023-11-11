@@ -8,7 +8,7 @@
 	import { t } from 'svelte-i18n';
 	import { resetForm, runForm } from '../runStore';
 	import { partyForm } from '../partyFormStore';
-	import { submitDfSolusRun } from './submit';
+	import { solusForm, submitDfSolusRun } from './submit';
 	import { ErrorCodes } from '$lib/types/api/error';
 	import { afterNavigate } from '$app/navigation';
 	import SubmitFinish from '../SubmitFinish.svelte';
@@ -19,6 +19,7 @@
 
 	afterNavigate(() => {
 		resetForm();
+		solusForm.resetForm();
 		partyForm.setPartySize(1);
 	});
 
