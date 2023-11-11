@@ -3,12 +3,18 @@ import { NgsRunCategories } from '$lib/types/api/runs/categories';
 import { NgsQuests } from '$lib/types/api/runs/quests';
 import { submitRun } from '../submitRunPageLogic';
 
-const dfSolusFormStore = writable({
+const defaultForm = {
 	rank: 1,
-	category: NgsRunCategories.Quest
-});
+	category: NgsRunCategories.Quest,
+};
+
+const dfSolusFormStore = writable(defaultForm);
 
 const submitPath = '/ngs-api/runs/dfsolus';
+
+export const resetForm = () => {
+	dfSolusFormStore.set(JSON.parse(JSON.stringify(defaultForm)));
+};
 
 export const submitDfSolusRun = async () => {
 	const solusDetails = get(solusForm);
@@ -18,5 +24,6 @@ export const submitDfSolusRun = async () => {
 
 export const solusForm = {
 	...dfSolusFormStore,
-	submitDfSolusRun: submitDfSolusRun
+	submitDfSolusRun: submitDfSolusRun,
+	resetForm,
 };
