@@ -37,9 +37,9 @@
 	const typeChanged = async () => {
 		selectedRankStr = rankOptionsDropdowns[$solusForm.category][0].value;
 		$solusForm.rank = parseInt(selectedRankStr);
-		timeInput?.resetForm();
 
 		await tick();
+		timeInput?.resetForm();
 		partySizeInput.reset();
 		partyForm.setPartySize(1);
 	};
