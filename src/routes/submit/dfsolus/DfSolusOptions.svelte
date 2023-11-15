@@ -30,7 +30,7 @@
 
 	$: rankOptions = rankOptionsDropdowns[$solusForm.category] ?? [];
 	$: partyOptions = partySizeOptions[$solusForm.category] ?? [];
-	$: maxMinutes = $solusForm.category === NgsRunCategories.Quest ? 15 : 30;
+	$: maxMinutes = $solusForm.category === NgsRunCategories.Quest ? 15 : 60;
 
 	$: $solusForm.rank = parseInt(selectedRankStr);
 

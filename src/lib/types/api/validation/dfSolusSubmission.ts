@@ -15,7 +15,7 @@ const validRanksMap: Record<string, number[]> = {
 
 const validTimeMap = {
 	[NgsRunCategories.Quest]: 900,
-	[NgsRunCategories.UrgentQuest]: 1800,
+	[NgsRunCategories.UrgentQuest]: 3600,
 };
 
 export const dfSolusRunSubmissionSchema: ObjectSchema<RunSubmissionRequest> =
