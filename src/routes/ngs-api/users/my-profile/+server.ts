@@ -1,12 +1,12 @@
 import { json } from '@sveltejs/kit';
-import { leaderboardDb } from '$lib/server/db/db.js';
+import { leaderboardDb } from '$lib/server/db/pgDb.js';
 import { getPlayerByGuid } from '$lib/server/repositories/playerRepository.js';
 import { mapPlayer } from '$lib/server/mappers/api/playerMapper.js';
 import { jsonError } from '$lib/server/error.js';
 import { validateApiRequest } from '$lib/server/validation/requestValidation.js';
 import {
 	profileUpdateRequestSchema,
-	type ProfileUpdateRequest
+	type ProfileUpdateRequest,
 } from '$lib/types/api/validation/profileUpdate.js';
 import { getUserValidated } from '$lib/server/validation/authorization.js';
 import { UserRole } from '$lib/types/api/users/userRole.js';
@@ -21,9 +21,8 @@ export async function GET({ locals }) {
 	const userId = user.userId;
 	try {
 		const pool = await leaderboardDb.connect();
-		const request = await pool.request();
 
-		const player = await getPlayerByGuid(request, userId);
+		const player = await getPlayerByGuid(pool, userId);
 		if (!player) {
 			return jsonError(404, 'Unknown user.');
 		}
@@ -53,13 +52,13 @@ export async function PUT({ request, locals }) {
 	try {
 		const pool = await leaderboardDb.connect();
 
-		const player = await getPlayerByGuid(await pool.request(), userId);
+		const player = await getPlayerByGuid(pool, userId);
 		if (!player) {
 			return jsonError(404, 'Unknown user.');
 		}
 
-		const playerId = parseInt(player.Id);
-		await updatePlayerProfile(await pool.request(), playerId, updateProfileRequest!);
+		const playerId = parseInt(player.id);
+		await updatePlayerProfile(pool, playerId, updateProfileRequest!);
 
 		return json(true);
 	} catch (err) {

@@ -1,5 +1,5 @@
 import { json } from '@sveltejs/kit';
-import { leaderboardDb } from '$lib/server/db/db.js';
+import { leaderboardDb } from '$lib/server/db/pgDb.js';
 import {
 	createAccount,
 	getPlayerList,
@@ -18,9 +18,8 @@ import { getUserValidated } from '$lib/server/validation/authorization.js';
 export async function GET({}) {
 	try {
 		const pool = await leaderboardDb.connect();
-		const request = await pool.request();
 
-		const playerList = await getPlayerList(request);
+		const playerList = await getPlayerList(pool);
 		const playerListAutoFill = mapPlayerAutoFillList(playerList);
 
 		return json(playerListAutoFill);
@@ -49,7 +48,7 @@ export async function POST({ request, locals }) {
 
 	const pool = await leaderboardDb.connect();
 	try {
-		const isUserExist = await getUserExists(pool.request(), user.userId);
+		const isUserExist = await getUserExists(pool, user.userId);
 		if (isUserExist) {
 			return jsonError(400, {
 				error: ErrorCodes.BadRequest,
@@ -57,7 +56,7 @@ export async function POST({ request, locals }) {
 			});
 		}
 
-		const isNameUnique = await isPlayerNameUnique(pool.request(), updateProfileRequest.username);
+		const isNameUnique = await isPlayerNameUnique(pool, updateProfileRequest.username);
 		if (!isNameUnique) {
 			return jsonError(400, {
 				error: ErrorCodes.BadRequest,
@@ -67,7 +66,7 @@ export async function POST({ request, locals }) {
 			});
 		}
 
-		await createAccount(pool.request(), user.userId, updateProfileRequest);
+		await createAccount(pool, user.userId, updateProfileRequest);
 
 		return json(true);
 	} catch (err) {

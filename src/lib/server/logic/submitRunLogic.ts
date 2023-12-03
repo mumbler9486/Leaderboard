@@ -13,6 +13,7 @@ import type { Game } from '$lib/types/api/game';
 import { UserRole } from '$lib/types/api/users/userRole';
 import type { ServerUser } from '../types/auth/serverUser';
 import { ErrorCodes } from '$lib/types/api/error';
+import type { Pool } from 'pg';
 
 export const submitRun = async (
 	game: Game,
@@ -79,9 +80,9 @@ const checkRunData = async (request: Request, run: RunSubmissionRequest) => {
 	};
 };
 
-const checkSubmittingUser = async (request: Request, requestUser: ServerUser) => {
+const checkSubmittingUser = async (pool: Pool, requestUser: ServerUser) => {
 	// Submitter exists
-	const submitterUser = await getUser(request, requestUser.userId);
+	const submitterUser = await getUser(pool, requestUser.userId);
 	const submitterPlayerId = parseInt(submitterUser?.Id ?? '-1');
 	if (!submitterUser || submitterPlayerId <= 0) {
 		return {

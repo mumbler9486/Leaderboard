@@ -1,16 +1,17 @@
 import sql, { Request } from 'mssql';
 import { fields } from '../util/nameof';
 import type { PlayersDbModel } from '../types/db/users/players';
+import type { Pool } from 'pg';
 
 const playersDbFields = fields<PlayersDbModel>();
 
-export const getUserExists = async (request: Request, userGuid: string) => {
+export const getUserExists = async (request: Pool, userGuid: string) => {
 	const user = await getUser(request, userGuid);
 	const playerId = parseInt(user?.UserId ?? '-1');
 	return playerId > 0;
 };
 
-export const getUser = async (request: Request, userGuid: string) => {
+export const getUser = async (request: Pool, userGuid: string) => {
 	const results = await request.input('userGuid', sql.NVarChar, userGuid).query(`
 			SELECT 
 				pi.${playersDbFields.Id},

@@ -1,61 +1,60 @@
-import sql, { NVarChar, type Request } from 'mssql';
 import type { ProfileUpdateRequest } from '$lib/types/api/validation/profileUpdate';
 import { fields } from '../util/nameof';
 import { isNullOrEmpty } from '$lib/utils/string';
-import type { PlayersDbModel } from '../types/db/users/players';
+import type { PlayersDbModel2 } from '../types/db/users/players';
+import type { Pool } from 'pg';
 
-const playerDbFields = fields<PlayersDbModel>();
+const playerDbFields = fields<PlayersDbModel2>();
 
 export const updatePlayerProfile = async (
-	request: Request,
+	pool: Pool,
 	playerId: number,
 	updateProfileRequest: ProfileUpdateRequest
 ) => {
 	const updateCustomizationQuery = `
-    UPDATE dbo.Players
+    UPDATE players
     SET 
-      ${playerDbFields.NameEffectType} = @nameType,
-      ${playerDbFields.NameColor1} = @nameColor1,
-      ${playerDbFields.NameColor2} = @nameColor2,
-      ${playerDbFields.Server} = @server,
-      ${playerDbFields.PreferredNameType} = @preferredName,
-      ${playerDbFields.Flag} = @flag,
-      ${playerDbFields.Ship} = @ship,
-      ${playerDbFields.CharacterName} = @characterName,
-      ${playerDbFields.Bio} = @description,
-      ${playerDbFields.Youtube} = @youtube,
-      ${playerDbFields.Twitch} = @twitch,
-      ${playerDbFields.Twitter} = @twitter,
-      ${playerDbFields.Discord} = @discord
-    WHERE ${playerDbFields.Id} = @playerId;
+      ${playerDbFields.name_effect_type} = $1,
+      ${playerDbFields.name_color1} = $2,
+      ${playerDbFields.name_color2} = $3,
+      ${playerDbFields.server} = $4,
+      ${playerDbFields.preferred_name_type} = $5,
+      ${playerDbFields.flag} = $6,
+      ${playerDbFields.ship} = $7,
+      ${playerDbFields.character_name} = $8,
+      ${playerDbFields.bio} = $9,
+      ${playerDbFields.youtube} = $10,
+      ${playerDbFields.twitch} = $11,
+      ${playerDbFields.twitter} = $12,
+      ${playerDbFields.discord} = $13
+    WHERE ${playerDbFields.id} = $14;
   `;
 
 	const flag = isNullOrEmpty(updateProfileRequest.playerCountry)
 		? undefined
 		: updateProfileRequest.playerCountry!.toLowerCase();
 
-	request = request
-		.input('playerId', sql.Int, playerId)
-		.input('nameType', sql.Int, updateProfileRequest.nameEffect)
-		.input('nameColor1', sql.NVarChar, updateProfileRequest.primaryColor)
-		.input('nameColor2', sql.NVarChar, updateProfileRequest.secondaryColor)
-		.input('server', sql.NVarChar, updateProfileRequest.serverRegion)
-		.input('preferredName', sql.Int, updateProfileRequest.preferredName)
-		.input('flag', sql.NVarChar, flag)
-		.input('ship', sql.Int, updateProfileRequest.ship)
-		.input('characterName', sql.NVarChar, updateProfileRequest.mainCharacterName)
-		.input('description', sql.NVarChar, updateProfileRequest.description)
-		.input('youtube', sql.NVarChar, updateProfileRequest.youtubeHandle)
-		.input('twitch', sql.NVarChar, updateProfileRequest.twitchChannel)
-		.input('twitter', sql.NVarChar, updateProfileRequest.twitterHandle)
-		.input('discord', sql.NVarChar, updateProfileRequest.discordUsername);
+	const results = await pool.query(updateCustomizationQuery, [
+		updateProfileRequest.nameEffect,
+		updateProfileRequest.primaryColor,
+		updateProfileRequest.secondaryColor,
+		updateProfileRequest.serverRegion,
+		updateProfileRequest.preferredName,
+		flag,
+		updateProfileRequest.ship,
+		updateProfileRequest.mainCharacterName,
+		updateProfileRequest.description,
+		updateProfileRequest.youtubeHandle,
+		updateProfileRequest.twitchChannel,
+		updateProfileRequest.twitterHandle,
+		updateProfileRequest.discordUsername,
+		playerId,
+	]);
 
-	const results = await request.query(updateCustomizationQuery);
-
-	const isSuccess = results?.rowsAffected[0] === 1;
+	const isSuccess = results?.rowCount === 1;
 	if (!isSuccess) {
 		throw Error(
-			`Player profile update failed, affected an erroneous number of rows. rowsAffected=${results.rowsAffected}`
+			`Player profile update failed, affected an erroneous number of rows. rowsAffected=${results.rowCount}`
 		);
 	}
 

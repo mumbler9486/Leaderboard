@@ -21,7 +21,7 @@
 		? countriesMap[player.flag.toUpperCase()].name ?? '<Unknown>'
 		: undefined;
 
-	$: serverRegion = player?.server ? serverRegionMap[player.server] : '';
+	$: serverRegion = player?.server ? serverRegionMap[player.server] : undefined;
 </script>
 
 <div class="container m-16 mx-auto flex grow rounded-md border border-secondary bg-base-100/75">
@@ -63,8 +63,8 @@
 						<div>
 							{#if player.ship}
 								Ship {player.ship} - {serverRegion}
-							{:else}
-								{serverRegion}
+							{:else if !!serverRegion}
+								Server Region: {serverRegion}
 							{/if}
 						</div>
 						<div>

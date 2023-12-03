@@ -1,0 +1,39 @@
+version: '3.8'
+name: pso2-lebrd-local
+
+services:
+  pg-db:
+    image: citusdata/citus:latest
+    container_name: pso2-lebrd-pg-db
+    environment:
+      POSTGRES_DB: pso2_leaderboard_local
+      POSTGRES_USER: local_dev
+      POSTGRES_PASSWORD: local_dev_password
+    ports:
+      - '6969:5432'
+    networks:
+      - pso2-leaderboard-network
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pso2-lebrd-pg-admin
+    environment:
+      PGADMIN_CONFIG_SERVER_MODE: 'False' # False for Desktop mode
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False' # Do not use false if using for managing databases with actual passwords
+      PGADMIN_DEFAULT_EMAIL: local_dev@example.com
+      PGADMIN_DEFAULT_PASSWORD: local_dev_password
+    ports:
+      - '6970:80'
+    networks:
+      - pso2-leaderboard-network
+    volumes:
+      - pg-admin-data:/var/lib/pgadmin
+
+networks:
+  pso2-leaderboard-network:
+
+volumes:
+  pg-data:
+  pg-admin-data:

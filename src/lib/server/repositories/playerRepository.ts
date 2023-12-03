@@ -1,188 +1,185 @@
-import sql, { type Request } from 'mssql';
 import { fields } from '../util/nameof';
 import type { CreateAccountRequest } from '../types/api/createAccount';
-import type { PlayersDbModel } from '../types/db/users/players';
+import type { PlayersDbModel2 } from '../types/db/users/players';
 import { NameStyle } from '$lib/types/api/players/nameStyle';
+import type { Pool } from 'pg';
 
-const playerDbFields = fields<PlayersDbModel>();
+const playerDbFields = fields<PlayersDbModel2>();
 
-export const getRunPlayer = async (request: Request, playerId: number) => {
-	const playerResult = await request.input('playerId', sql.Int, playerId).query(`
+export const getRunPlayer = async (pool: Pool, playerId: number) => {
+	const playerResult = await pool.query(
+		`
     SELECT
-			pi.${playerDbFields.Id}, 
-			pi.${playerDbFields.PlayerName}
+			pi.${playerDbFields.id}, 
+			pi.${playerDbFields.player_name}
     FROM dbo.Players as pi
-    WHERE pi.${playerDbFields.Id} = @playerId;
-		`);
+    WHERE pi.${playerDbFields.id} = $1;
+		`,
+		[playerId]
+	);
 
-	if (!playerResult.recordset[0]) {
+	if (playerResult.rowCount === 0) {
 		return { playerId: 0, playerName: undefined };
 	}
 
-	const player = playerResult.recordset[0];
+	const player = playerResult.rows[0];
 	return {
 		playerId: parseInt(player.PlayerId),
-		playerName: player.PlayerName as string
+		playerName: player.PlayerName as string,
 	};
 };
 
-export const getPlayers = async (request: Request, playerIds: number[]) => {
-	let playerLookupRequest = request;
-
-	const paramNames: string[] = [];
-	playerIds.forEach((pid, i) => {
-		const paramName = `playerId${i}`;
-		paramNames.push(paramName);
-		playerLookupRequest = playerLookupRequest.input(paramName, pid);
-	});
-
-	const paramList = paramNames.map((p) => `@${p}`);
-	const playerLookupResults = await playerLookupRequest.query(`
+export const getPlayers = async (pool: Pool, playerIds: number[]) => {
+	const playerLookupResults = await pool.query(
+		`
     SELECT 
-			pi.${playerDbFields.Id},
-			pi.${playerDbFields.PlayerName}
+			pi.${playerDbFields.id},
+			pi.${playerDbFields.player_name}
 		FROM dbo.Players AS pi
-		WHERE pi.${playerDbFields.Id} IN (${paramList.join(',')})
-  `);
+		WHERE pi.${playerDbFields.id} IN ($1::int[])
+  `,
+		playerIds
+	);
 
-	const players = playerLookupResults.recordset as PlayersDbModel[];
+	const players = playerLookupResults.rows as PlayersDbModel2[];
 
 	return players.map((p) => ({
-		playerId: parseInt(p.Id),
-		playerName: p.PlayerName as string
+		playerId: parseInt(p.id),
+		playerName: p.player_name as string,
 	}));
 };
 
-export const getPlayerByGuid = async (request: Request, userIdGuid: string) => {
-	const submissionResults = await request.input('userIdGuid', sql.NVarChar, userIdGuid).query(`
+export const getPlayerByGuid = async (pool: Pool, userIdGuid: string) => {
+	const submissionResults = await pool.query(
+		`
 			SELECT
-				pi.${playerDbFields.Id},
-				pi.${playerDbFields.PlayerName},
-				pi.${playerDbFields.CharacterName},
-				pi.${playerDbFields.Bio},
-				pi.${playerDbFields.Youtube},
-				pi.${playerDbFields.Twitch},
-				pi.${playerDbFields.Discord},
-				pi.${playerDbFields.Twitter},
-				pi.${playerDbFields.Trophies},
-				pi.${playerDbFields.PreferredNameType},
-				pi.${playerDbFields.Server},
-				pi.${playerDbFields.Ship},
-				pi.${playerDbFields.Flag},
-				pi.${playerDbFields.NameEffectType},
-				pi.${playerDbFields.NameColor1},
-				pi.${playerDbFields.NameColor2}
+				pi.${playerDbFields.id},
+				pi.${playerDbFields.player_name},
+				pi.${playerDbFields.character_name},
+				pi.${playerDbFields.bio},
+				pi.${playerDbFields.youtube},
+				pi.${playerDbFields.twitch},
+				pi.${playerDbFields.discord},
+				pi.${playerDbFields.twitter},
+				pi.${playerDbFields.trophies},
+				pi.${playerDbFields.preferred_name_type},
+				pi.${playerDbFields.server},
+				pi.${playerDbFields.ship},
+				pi.${playerDbFields.flag},
+				pi.${playerDbFields.name_effect_type},
+				pi.${playerDbFields.name_color1},
+				pi.${playerDbFields.name_color2}
 
-			FROM dbo.Players AS pi
-			WHERE pi.${playerDbFields.UserId} = @userIdGuid
-		`);
+			FROM players AS pi
+			WHERE pi.${playerDbFields.user_id} = $1
+		`,
+		[userIdGuid]
+	);
 
-	const player = submissionResults.recordset[0] as PlayersDbModel | undefined;
+	const player = submissionResults.rows[0] as PlayersDbModel2 | undefined;
 	return player;
 };
 
-export const getPlayerById = async (request: Request, playerId: number) => {
-	const submissionResults = await request.input('playerId', sql.Int, playerId).query(`
+export const getPlayerById = async (pool: Pool, playerId: number) => {
+	const playerResult = await pool.query(
+		`
 			SELECT
-				pi.${playerDbFields.Id},
-				pi.${playerDbFields.PlayerName},
-				pi.${playerDbFields.CharacterName},
-				pi.${playerDbFields.Bio},
-				pi.${playerDbFields.Youtube},
-				pi.${playerDbFields.Twitch},
-				pi.${playerDbFields.Discord},
-				pi.${playerDbFields.Twitter},
-				pi.${playerDbFields.Trophies},
-				pi.${playerDbFields.PreferredNameType},
-				pi.${playerDbFields.Server},
-				pi.${playerDbFields.Ship},
-				pi.${playerDbFields.Flag},
-				pi.${playerDbFields.NameEffectType},
-				pi.${playerDbFields.NameColor1},
-				pi.${playerDbFields.NameColor2}
+				pi.${playerDbFields.id},
+				pi.${playerDbFields.player_name},
+				pi.${playerDbFields.character_name},
+				pi.${playerDbFields.bio},
+				pi.${playerDbFields.youtube},
+				pi.${playerDbFields.twitch},
+				pi.${playerDbFields.discord},
+				pi.${playerDbFields.twitter},
+				pi.${playerDbFields.trophies},
+				pi.${playerDbFields.preferred_name_type},
+				pi.${playerDbFields.server},
+				pi.${playerDbFields.ship},
+				pi.${playerDbFields.flag},
+				pi.${playerDbFields.name_effect_type},
+				pi.${playerDbFields.name_color1},
+				pi.${playerDbFields.name_color2}
 
-			FROM dbo.Players AS pi
-			WHERE pi.${playerDbFields.Id} = @playerId
-		`);
+			FROM players AS pi
+			WHERE pi.${playerDbFields.id} = $1
+		`,
+		[playerId]
+	);
 
-	const player = submissionResults.recordset[0] as PlayersDbModel | undefined;
+	const player = playerResult.rows[0] as PlayersDbModel2 | undefined;
 	return player;
 };
 
-export const getPlayerList = async (request: Request) => {
+export const getPlayerList = async (pool: Pool) => {
 	const playerListQuery = `
 		SELECT
-			pi.${playerDbFields.Id},
-			pi.${playerDbFields.PlayerName},
-			pi.${playerDbFields.CharacterName}
+			pi.${playerDbFields.id},
+			pi.${playerDbFields.player_name},
+			pi.${playerDbFields.character_name}
 
 		FROM dbo.Players as pi
-		WHERE 1=1
 		ORDER BY PlayerName ASC`;
 
-	const results = await request.query(playerListQuery);
-	return results.recordset as PlayersDbModel[];
+	const results = await pool.query(playerListQuery);
+	return results.rows as PlayersDbModel2[];
 };
 
-export const isPlayerNameUnique = async (request: Request, playerName: string) => {
+export const isPlayerNameUnique = async (pool: Pool, playerName: string) => {
 	const playerListQuery = `
 		SELECT
-			pi.${playerDbFields.Id},
-			pi.${playerDbFields.PlayerName},
-			pi.${playerDbFields.CharacterName}
+			pi.${playerDbFields.id},
+			pi.${playerDbFields.player_name},
+			pi.${playerDbFields.character_name}
 
 		FROM dbo.Players as pi
-		WHERE pi.${playerDbFields.PlayerName} = @playerName
+		WHERE pi.${playerDbFields.player_name} = $1
 		ORDER BY PlayerName ASC`;
 
-	const results = await request
-		.input('playerName', sql.NVarChar, playerName)
-		.query(playerListQuery);
+	const results = await pool.query(playerListQuery, [playerName]);
 
-	const players = results.recordset as PlayersDbModel[];
-
-	return players?.length === 0 ?? false;
+	return results?.rowCount === 0 ?? false;
 };
 
 const DefaultUserRoles = ['user'];
 export const createAccount = async (
-	request: Request,
+	pool: Pool,
 	userGuid: string,
 	createAccountRequest: CreateAccountRequest
 ) => {
 	const insertInfoQuery = `
 		INSERT INTO dbo.Players (
-			${playerDbFields.UserId},
-			${playerDbFields.PlayerName},
-			${playerDbFields.CharacterName},
-			${playerDbFields.Roles},
-			${playerDbFields.NameEffectType},
-			${playerDbFields.NameColor1},
-			${playerDbFields.NameColor2}
+			${playerDbFields.user_id},
+			${playerDbFields.player_name},
+			${playerDbFields.character_name},
+			${playerDbFields.roles},
+			${playerDbFields.name_effect_type},
+			${playerDbFields.name_color1},
+			${playerDbFields.name_color2}
 		)
 		VALUES (
-			@userId,
-			@playerName,
-			@characterName,
-			@roles,
-			@nameEffectType,
-			@nameColor1,
-			@nameColor2
+			$1,
+			$2,
+			$3,
+			$4,
+			$5,
+			$6,
+			$7
 		);
 	`;
 
 	// Insert player info
-	const insertPlayerResult = await request
-		.input('userId', sql.NVarChar, userGuid)
-		.input('playerName', sql.NVarChar, createAccountRequest.username)
-		.input('characterName', sql.NVarChar, createAccountRequest.characterName)
-		.input('roles', sql.NVarChar, JSON.stringify(DefaultUserRoles))
-		.input('nameEffectType', sql.TinyInt, NameStyle.None)
-		.input('nameColor1', sql.NVarChar, 'ffffff')
-		.input('nameColor2', sql.NVarChar, 'ffffff')
-		.query(insertInfoQuery);
+	const insertPlayerResult = await pool.query(insertInfoQuery, [
+		userGuid,
+		createAccountRequest.username,
+		createAccountRequest.characterName,
+		JSON.stringify(DefaultUserRoles),
+		NameStyle.None,
+		'ffffff',
+		'ffffff',
+	]);
 
-	if (insertPlayerResult.rowsAffected[0] == 0) {
+	if (insertPlayerResult.rowCount == 0) {
 		throw Error(`Player information insert failed.`);
 	}
 };

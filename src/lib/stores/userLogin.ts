@@ -32,7 +32,7 @@ const fetchClientPrinciple = async () => {
 		clientPrinciplePersistedStore.set(clientPrincipal);
 		return clientPrincipal;
 	} catch (err) {
-		console.log(err);
+		console.error(err);
 	}
 	return null;
 };
@@ -60,11 +60,11 @@ export const userHasRole = (role: UserRole) => {
 
 export const playerInfoStore = {
 	subscribe: userInfoPersistedStore.subscribe,
-	refreshInfo: refreshUserInfo
+	refreshInfo: refreshUserInfo,
 };
 
 export const clientPrincipleStore = {
 	subscribe: clientPrinciplePersistedStore.subscribe,
 	fetchClientPrinciple,
-	hasRole: userHasRole
+	hasRole: userHasRole,
 };

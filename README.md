@@ -21,6 +21,10 @@ This project is developed in VS Code.
 5. On VS code, click on the "Run and Debug" icon on the left, select the configuration "Debug Chrome w/Mock" and run it
 6. A development chrome instance opens and you should see the Leaderboard.
 
+## Run Local DB
+
+See db_mocks/README.md for more details. Requires Docker to run. On Windows this also means setting up Windows subsystem for linux to run docker.
+
 # Development
 
 Please adhere to the following when developing:
