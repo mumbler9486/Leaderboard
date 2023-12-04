@@ -1,5 +1,5 @@
 // The current patch code for all submissions
-export const CurrentSubmissionPatchCode = 'level80r';
+export const CurrentSubmissionPatchCode = 'lvl80grind';
 
 // Keep patch codes under 30 chars
 export const patchCodeLabelMap: { [code: string]: string } = {
@@ -8,7 +8,8 @@ export const patchCodeLabelMap: { [code: string]: string } = {
 	['slayer']: 'Slayer Release',
 	['pot6r']: 'Potential Lv6. Release',
 	['level75r']: 'Level 75 Release',
-	['level80r']: 'Level 80 Release'
+	['level80r']: 'Level 80 Release',
+	['lvl80grind']: '+80 Weap. Release',
 };
 
 export const currentPatchLabel = patchCodeLabelMap[CurrentSubmissionPatchCode];
