@@ -24,6 +24,25 @@
 			>
 				<div class="text-center text-4xl font-light">News</div>
 				<HomeNews>
+					<span slot="newsTitle">Leaderboard December 2023 Updates</span>
+					<div slot="newsContent">
+						<strong>⤴ Patch Bump</strong><br />
+						<p class="pt-2">
+							From Dec 6th's Game Maintenance, we will increase the patch to "+80 Weap. Release".
+							This release of the game will feature +80 weapon grind and a host of new PA
+							customizations. All runs submitted at this point will be on the new patch.
+						</p>
+						<strong>😈Malignant Dark Falz Aegis</strong><br />
+						<p class="pt-2">
+							From Dec 14th's Game Maintenance, Malignant Dark Falz Aegis will be released. This
+							quest is similar to that of the 4-player Dark Falz Solus but it is Aegis instead. We
+							will consider this quest a new category but it will be the default category for Aegis
+							when you visit the boards. The old boards for the other Aegis categories can still be
+							visited however.
+						</p>
+					</div>
+				</HomeNews>
+				<HomeNews>
 					<span slot="newsTitle">Leaderboard 3.2.5 Update (Nov 2023)</span>
 					<div slot="newsContent">
 						<strong>Changelog (Nov 11, 2023):</strong><br />
