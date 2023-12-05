@@ -32,7 +32,13 @@
 							This release of the game will feature +80 weapon grind and a host of new PA
 							customizations. All runs submitted at this point will be on the new patch.
 						</p>
-						<strong>😈Malignant Dark Falz Aegis</strong><br />
+						<strong>⤴ New Aelio and Retem Purple Ranks</strong><br />
+						<p class="pt-2">
+							Also from Dec 6th, Aelio and Retem Battledia Purple quests will have new ranks. The
+							new rank will be the default for submissions and the board. Old ranks can still be
+							viewed and submitted to.
+						</p>
+						<strong>😈 Malignant Dark Falz Aegis</strong><br />
 						<p class="pt-2">
 							From Dec 14th's Game Maintenance, Malignant Dark Falz Aegis will be released. This
 							quest is similar to that of the 4-player Dark Falz Solus but it is Aegis instead. We

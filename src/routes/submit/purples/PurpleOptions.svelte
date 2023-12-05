@@ -9,16 +9,17 @@
 	let selectedRankStr: string = '1';
 
 	const regionRankOptions: { [region: string]: number[] } = {
-		[PurpleRegion.Aelio]: [1, 2, 3],
-		[PurpleRegion.Retem]: [1, 2, 3],
+		[PurpleRegion.Aelio]: [1, 2, 3, 4],
+		[PurpleRegion.Retem]: [1, 2, 3, 4],
 		[PurpleRegion.Kvaris]: [1, 2],
-		[PurpleRegion.Stia]: [1]
+		[PurpleRegion.Stia]: [1],
 	};
 
 	const rankOptionsDropdowns: { [region: number]: { label: string; value: string } } = {
 		[1]: { label: '1', value: '1' },
 		[2]: { label: '2', value: '2' },
-		[3]: { label: '3', value: '3' }
+		[3]: { label: '3', value: '3' },
+		[4]: { label: '4', value: '4' },
 	};
 
 	$: rankOptions =
@@ -49,7 +50,7 @@
 				{ label: 'Aelio', value: PurpleRegion.Aelio },
 				{ label: 'Retem', value: PurpleRegion.Retem },
 				{ label: 'Kvaris', value: PurpleRegion.Kvaris },
-				{ label: 'Stia', value: PurpleRegion.Stia }
+				{ label: 'Stia', value: PurpleRegion.Stia },
 			]}
 			bind:value={$purplesForm.region}
 			on:change={regionChanged}

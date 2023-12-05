@@ -11,7 +11,7 @@
 		copyQueryParams,
 		useUrlFilterStore,
 		type UrlQueryParamRule,
-		clearFilterValues
+		clearFilterValues,
 	} from '$lib/utils/queryParams';
 	import { onDestroy } from 'svelte';
 	import type { PurpleRun } from '$lib/types/api/runs/run';
@@ -31,22 +31,22 @@
 			name: $t('common.playerCount.solo'),
 			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.purpleTriggers')} - ${$t(
 				'common.playerCount.solo'
-			)}`
+			)}`,
 		},
 		[PartySize.Duo]: {
 			filterSize: 2,
 			name: $t('common.playerCount.duo'),
 			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.purpleTriggers')} - ${$t(
 				'common.playerCount.duo'
-			)}`
+			)}`,
 		},
 		[PartySize.Party]: {
 			filterSize: 4,
 			name: $t('common.playerCount.party'),
 			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.purpleTriggers')} - ${$t(
 				'common.playerCount.party'
-			)}`
-		}
+			)}`,
+		},
 	} satisfies Record<string, PartySizeInfo>;
 
 	$: partySize = parsePartySize($page.params.party) ?? PartySize.Solo;
@@ -57,9 +57,9 @@
 
 	const partyFilterDef: UrlQueryParamRule<RunSearchFilters>[] = [
 		{ name: 'server', undefinedValue: 'no_filter' },
-		{ name: 'rank', defaultValue: '1' },
-		{ name: 'region', defaultValue: 'stia' },
-		{ name: 'class', undefinedValue: 'no_filter' }
+		{ name: 'rank', defaultValue: '4' },
+		{ name: 'region', defaultValue: 'aelio' },
+		{ name: 'class', undefinedValue: 'no_filter' },
 	];
 
 	runFilters.resetFilters();
@@ -74,7 +74,7 @@
 			quest: NgsQuests.Purples,
 			category: runFilters.region,
 			rank: runFilters.rank,
-			partySize: partyInfo.filterSize
+			partySize: partyInfo.filterSize,
 		};
 		return (await fetchGetApi<PurpleRun[]>(basePath, copyQueryParams(allFilters))) ?? [];
 	};

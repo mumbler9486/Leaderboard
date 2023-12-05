@@ -49,7 +49,7 @@ const quests = [
 	NgsQuests.Venogia,
 ];
 const sortOrders = [null, RunSortOption.Ranking, RunSortOption.Recent];
-const ranks = [null, 1, 2, 3];
+const ranks = [null, 1, 2, 3, 4];
 
 export const runsSearchFilterSchema = object({
 	quest: string().nullable().oneOf(quests),
