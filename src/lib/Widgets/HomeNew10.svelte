@@ -38,6 +38,7 @@
 		},
 		[NgsQuests.DfSolus]: {
 			quest: 'DF Solus R.',
+			urgent_quest: 'DF Solus UQ R.',
 		},
 		[NgsQuests.Duels]: {
 			[IndomitableBoss.NexAelio]: 'Duel Nex Aelio R.',
