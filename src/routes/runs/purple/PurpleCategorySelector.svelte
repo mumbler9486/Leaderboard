@@ -8,10 +8,10 @@
 	export let rank: string = '1';
 
 	const validRankMap: { [region: string]: number[] } = {
-		aelio: [1, 2, 3],
-		retem: [1, 2, 3],
+		aelio: [1, 2, 3, 4],
+		retem: [1, 2, 3, 4],
 		kvaris: [1, 2],
-		stia: [1]
+		stia: [1],
 	};
 
 	$: regionSelections = generateRegionSelections(validRankMap[region] ?? []);
@@ -26,7 +26,7 @@
 	const applyFilters = () => {
 		dispatch('changed', {
 			region: region,
-			rank: rank
+			rank: rank,
 		});
 	};
 </script>
@@ -39,7 +39,7 @@
 				{ label: 'Aelio', value: NgsRunCategories.Aelio },
 				{ label: 'Retem', value: NgsRunCategories.Retem },
 				{ label: 'Kvaris', value: NgsRunCategories.Kvaris },
-				{ label: 'Stia', value: NgsRunCategories.Stia }
+				{ label: 'Stia', value: NgsRunCategories.Stia },
 			]}
 			bind:value={region}
 			on:change={applyFilters}
