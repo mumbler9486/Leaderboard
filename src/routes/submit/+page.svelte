@@ -18,10 +18,10 @@
 
 			<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
 				<JumboButton
-					label="Venogia"
-					image="/icons/submit/venogia.jpg"
-					link="/submit/venogia"
-					overlayColor="neutral"
+					label="Purples"
+					image="/icons/submit/purple_trigger_gate.jpg"
+					link="/submit/purples"
+					overlayColor="purple"
 				/>
 				<JumboButton
 					label="Dark Falz Solus"
@@ -36,10 +36,10 @@
 					overlayColor="red"
 				/>
 				<JumboButton
-					label="Purples"
-					image="/icons/submit/purple_trigger_gate.jpg"
-					link="/submit/purples"
-					overlayColor="purple"
+					label="Venogia"
+					image="/icons/submit/venogia.jpg"
+					link="/submit/venogia"
+					overlayColor="neutral"
 				/>
 				<JumboButton
 					label="Dark Falz Aegis"
