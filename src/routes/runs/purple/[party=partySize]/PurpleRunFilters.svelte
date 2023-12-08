@@ -4,7 +4,7 @@
 	import { t } from 'svelte-i18n';
 	import RunFilterModal from '../../RunFilterModal.svelte';
 	import RunFilterTags from '../../RunFilterTags.svelte';
-	import { defaultRunFilter, runFilters, type RunSearchFilters } from '../../runFilter';
+	import { runFilters } from '../../runFilter';
 	import RunRules from '../../RunRules.svelte';
 
 	export let solo: boolean;

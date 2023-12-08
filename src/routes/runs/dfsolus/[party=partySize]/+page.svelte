@@ -11,12 +11,14 @@
 		copyQueryParams,
 		useUrlFilterStore,
 		type UrlQueryParamRule,
-		clearFilterValues
+		clearFilterValues,
 	} from '$lib/utils/queryParams';
 	import { onDestroy } from 'svelte';
 	import type { DfSolusRun } from '$lib/types/api/runs/run';
 	import RunsTable from '$lib/Components/Tables/RunsTable.svelte';
 	import { runFilters, type RunSearchFilters } from '../../runFilter';
+	import { NgsRunCategories } from '$lib/types/api/runs/categories';
+	import { NgsQuests } from '$lib/types/api/runs/quests';
 
 	interface PartySizeInfo {
 		filterSize: number;
@@ -30,22 +32,22 @@
 			name: $t('common.playerCount.solo'),
 			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.dfSolus')} - ${$t(
 				'common.playerCount.solo'
-			)}`
+			)}`,
 		},
 		[PartySize.Duo]: {
 			filterSize: 2,
 			name: $t('common.playerCount.duo'),
 			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.dfSolus')} - ${$t(
 				'common.playerCount.duo'
-			)}`
+			)}`,
 		},
 		[PartySize.Party]: {
 			filterSize: 4,
 			name: $t('common.playerCount.party'),
 			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.dfSolus')} - ${$t(
 				'common.playerCount.party'
-			)}`
-		}
+			)}`,
+		},
 	} satisfies Record<string, PartySizeInfo>;
 
 	$: partySize = parsePartySize($page.params.party) ?? PartySize.Solo;
@@ -57,7 +59,8 @@
 	const filterDef: UrlQueryParamRule<RunSearchFilters>[] = [
 		{ name: 'server', undefinedValue: 'no_filter' },
 		{ name: 'class', undefinedValue: 'no_filter' },
-		{ name: 'rank', undefinedValue: '1' }
+		{ name: 'rank', undefinedValue: '1' },
+		{ name: 'category', undefinedValue: NgsRunCategories.Quest },
 	];
 
 	runFilters.resetFilters();
@@ -67,6 +70,7 @@
 		const basePath = `/ngs-api/runs/dfsolus`;
 		const runFilters = clearFilterValues(filters, filterDef);
 
+		runFilters.quest = NgsQuests.DfSolus;
 		runFilters.partySize = partyInfo.filterSize;
 		return (await fetchGetApi<DfSolusRun[]>(basePath, copyQueryParams(runFilters))) ?? [];
 	};
@@ -88,7 +92,15 @@
 				<LoadingBar />
 			{:then runs}
 				<div class="-mx-6 md:mx-0">
-					<RunsTable {runs} solosOnly={isSolo} />
+					<RunsTable
+						{runs}
+						detailsColumn={{ label: 'Quest Type', textAlign: 'center' }}
+						solosOnly={isSolo}
+					>
+						<svelte:fragment slot="detailsItem" let:run>
+							{$t(`ngs.categories.${run.category}`)}
+						</svelte:fragment>
+					</RunsTable>
 				</div>
 			{:catch err}
 				<p>An error has occured, please try again later</p>

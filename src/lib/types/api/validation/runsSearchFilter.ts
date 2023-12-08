@@ -26,7 +26,7 @@ const validCategories: Record<string, string[]> = {
 		NgsRunCategories.Kvaris,
 		NgsRunCategories.Stia,
 	],
-	[NgsQuests.DfSolus]: [NgsRunCategories.Quest],
+	[NgsQuests.DfSolus]: [NgsRunCategories.Quest, NgsRunCategories.UrgentQuest],
 	[NgsQuests.DfAegis]: [NgsRunCategories.UrgentQuest, NgsRunCategories.Trigger],
 	[NgsQuests.Duels]: [
 		NgsRunCategories.NexAelio,
@@ -49,7 +49,7 @@ const quests = [
 	NgsQuests.Venogia,
 ];
 const sortOrders = [null, RunSortOption.Ranking, RunSortOption.Recent];
-const ranks = [null, 1, 2, 3];
+const ranks = [null, 1, 2, 3, 4];
 
 export const runsSearchFilterSchema = object({
 	quest: string().nullable().oneOf(quests),

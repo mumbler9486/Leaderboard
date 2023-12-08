@@ -26,6 +26,11 @@
 		if (!allowDefocusClose) return;
 		close();
 	};
+
+	$: {
+		// Modal closed event
+		if (!modalState) dispatch('closed');
+	}
 </script>
 
 <input
@@ -50,7 +55,7 @@
 			<span class="flex-1 self-center text-3xl font-light md:text-4xl">{title}</span>
 			<label
 				for={modalId}
-				class="btn-outline btn-secondary btn-square btn-sm btn flex-initial self-center rounded"
+				class="btn btn-square btn-secondary btn-outline btn-sm flex-initial self-center rounded"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -81,14 +86,14 @@
 				<button
 					on:click={btn2Click}
 					on:keyup={btn2Click}
-					class="btn-outline btn-secondary btn rounded md:btn-sm">{btn2}</button
+					class="btn btn-secondary btn-outline rounded md:btn-sm">{btn2}</button
 				>
 			{/if}
 			{#if btn1 != undefined}
 				<button
 					on:click={btn1Click}
 					on:keyup={btn1Click}
-					class="btn-outline btn-primary btn rounded md:btn-sm">{btn1}</button
+					class="btn btn-primary btn-outline rounded md:btn-sm">{btn1}</button
 				>
 			{/if}
 		</div>
