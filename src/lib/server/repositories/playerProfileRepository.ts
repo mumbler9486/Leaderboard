@@ -11,45 +11,45 @@ export const updatePlayerProfile = async (
 	playerId: number,
 	updateProfileRequest: ProfileUpdateRequest
 ) => {
-	const updateCustomizationQuery = `
-    UPDATE players
-    SET 
-      ${playerDbFields.name_effect_type} = $1,
-      ${playerDbFields.name_color1} = $2,
-      ${playerDbFields.name_color2} = $3,
-      ${playerDbFields.server} = $4,
-      ${playerDbFields.preferred_name_type} = $5,
-      ${playerDbFields.flag} = $6,
-      ${playerDbFields.ship} = $7,
-      ${playerDbFields.character_name} = $8,
-      ${playerDbFields.bio} = $9,
-      ${playerDbFields.youtube} = $10,
-      ${playerDbFields.twitch} = $11,
-      ${playerDbFields.twitter} = $12,
-      ${playerDbFields.discord} = $13
-    WHERE ${playerDbFields.id} = $14;
-  `;
-
 	const flag = isNullOrEmpty(updateProfileRequest.playerCountry)
 		? undefined
 		: updateProfileRequest.playerCountry!.toLowerCase();
 
-	const results = await pool.query(updateCustomizationQuery, [
-		updateProfileRequest.nameEffect,
-		updateProfileRequest.primaryColor,
-		updateProfileRequest.secondaryColor,
-		updateProfileRequest.serverRegion,
-		updateProfileRequest.preferredName,
-		flag,
-		updateProfileRequest.ship,
-		updateProfileRequest.mainCharacterName,
-		updateProfileRequest.description,
-		updateProfileRequest.youtubeHandle,
-		updateProfileRequest.twitchChannel,
-		updateProfileRequest.twitterHandle,
-		updateProfileRequest.discordUsername,
-		playerId,
-	]);
+	const results = await pool.query(
+		`
+		UPDATE players
+		SET 
+			${playerDbFields.name_effect_type} = $1,
+			${playerDbFields.name_color1} = $2,
+			${playerDbFields.name_color2} = $3,
+			${playerDbFields.server} = $4,
+			${playerDbFields.preferred_name_type} = $5,
+			${playerDbFields.flag} = $6,
+			${playerDbFields.ship} = $7,
+			${playerDbFields.character_name} = $8,
+			${playerDbFields.bio} = $9,
+			${playerDbFields.youtube} = $10,
+			${playerDbFields.twitch} = $11,
+			${playerDbFields.twitter} = $12,
+			${playerDbFields.discord} = $13
+		WHERE ${playerDbFields.id} = $14;`,
+		[
+			updateProfileRequest.nameEffect,
+			updateProfileRequest.primaryColor,
+			updateProfileRequest.secondaryColor,
+			updateProfileRequest.serverRegion,
+			updateProfileRequest.preferredName,
+			flag,
+			updateProfileRequest.ship,
+			updateProfileRequest.mainCharacterName,
+			updateProfileRequest.description,
+			updateProfileRequest.youtubeHandle,
+			updateProfileRequest.twitchChannel,
+			updateProfileRequest.twitterHandle,
+			updateProfileRequest.discordUsername,
+			playerId,
+		]
+	);
 
 	const isSuccess = results?.rowCount === 1;
 	if (!isSuccess) {

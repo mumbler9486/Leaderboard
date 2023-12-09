@@ -44,7 +44,7 @@ export const getPlayers = async (pool: Pool, playerIds: number[]) => {
 	const players = playerLookupResults.rows as PlayersDbModel2[];
 
 	return players.map((p) => ({
-		playerId: parseInt(p.id),
+		playerId: p.id,
 		playerName: p.player_name as string,
 	}));
 };

@@ -8,7 +8,7 @@ export const mapPlayerAutoFillList = (players: PlayersDbModel2[]) => {
 	return players.map(
 		(p) =>
 			({
-				playerId: parseInt(p.id),
+				playerId: p.id,
 				playerName: p.player_name,
 				characterName: p.character_name,
 			}) as PlayerInfoAutoFill
@@ -25,14 +25,14 @@ export const mapPlayer = (player: PlayersDbModel2) => {
 	}
 
 	return {
-		playerId: parseInt(player.id),
+		playerId: player.id,
 		playerName: player.player_name,
 		characterName: player.character_name,
-		preferredName: parseInt(player.preferred_name_type),
+		preferredName: player.preferred_name_type,
 		flag: player.flag,
-		ship: parseInt(player.ship),
+		ship: player.ship,
 		server: parseServerRegion(player.server),
-		nameType: parseInt(player.name_effect_type),
+		nameType: player.name_effect_type,
 		nameColor1: player.name_color1,
 		nameColor2: player.name_color2,
 		bio: player.bio,

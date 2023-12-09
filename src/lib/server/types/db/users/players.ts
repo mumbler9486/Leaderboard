@@ -20,7 +20,7 @@ export interface PlayersDbModel {
 }
 
 export interface PlayersDbModel2 {
-	id: string;
+	id: number;
 	user_id: string;
 	roles: string;
 	player_name: string;
@@ -31,11 +31,11 @@ export interface PlayersDbModel2 {
 	discord: string;
 	twitter: string;
 	trophies: string;
-	preferred_name_type: string;
+	preferred_name_type: number;
 	server: string;
-	ship: string;
+	ship: number;
 	flag: string;
-	name_effect_type: string;
+	name_effect_type: number;
 	name_color1: string;
 	name_color2: string;
 }

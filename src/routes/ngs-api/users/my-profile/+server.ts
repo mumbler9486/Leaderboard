@@ -57,8 +57,7 @@ export async function PUT({ request, locals }) {
 			return jsonError(404, 'Unknown user.');
 		}
 
-		const playerId = parseInt(player.id);
-		await updatePlayerProfile(pool, playerId, updateProfileRequest!);
+		await updatePlayerProfile(pool, player.id, updateProfileRequest!);
 
 		return json(true);
 	} catch (err) {
