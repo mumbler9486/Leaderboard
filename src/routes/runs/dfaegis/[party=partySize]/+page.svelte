@@ -11,7 +11,7 @@
 		copyQueryParams,
 		useUrlFilterStore,
 		clearFilterValues,
-		type UrlQueryParamRule
+		type UrlQueryParamRule,
 	} from '$lib/utils/queryParams';
 	import { onDestroy } from 'svelte';
 	import type { DfAegisRun } from '$lib/types/api/runs/run';
@@ -19,6 +19,7 @@
 	import { NgsQuests } from '$lib/types/api/runs/quests';
 	import { runFilters, type RunSearchFilters } from '../../runFilter';
 	import DfAegisSupportIcon from '$lib/Components/DfAegisSupportIcon.svelte';
+	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 
 	interface PartySizeInfo {
 		filterSize: number;
@@ -32,22 +33,22 @@
 			name: $t('common.playerCount.solo'),
 			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.purpleTriggers')} - ${$t(
 				'common.playerCount.solo'
-			)}`
+			)}`,
 		},
 		[PartySize.Duo]: {
 			filterSize: 2,
 			name: $t('common.playerCount.duo'),
 			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.purpleTriggers')} - ${$t(
 				'common.playerCount.duo'
-			)}`
+			)}`,
 		},
 		[PartySize.Party]: {
 			filterSize: 4,
 			name: $t('common.playerCount.party'),
 			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.purpleTriggers')} - ${$t(
 				'common.playerCount.party'
-			)}`
-		}
+			)}`,
+		},
 	} satisfies Record<string, PartySizeInfo>;
 
 	$: partySize = parsePartySize($page.params.party) ?? PartySize.Solo;
@@ -61,7 +62,7 @@
 		{ name: 'class', undefinedValue: 'no_filter' },
 		{ name: 'rank', defaultValue: '1' },
 		{ name: 'support', undefinedValue: 'no_filter' },
-		{ name: 'trigger', undefinedValue: 'urgent_quest' }
+		{ name: 'category', undefinedValue: NgsRunCategories.Quest },
 	];
 
 	runFilters.resetFilters();
@@ -70,13 +71,13 @@
 	const fetchRuns = async (filters: RunSearchFilters) => {
 		const basePath = `/ngs-api/runs/dfaegis`;
 		const runFilters = clearFilterValues(filters, filterDef);
-
+		console.log(runFilters);
 		const allFilters = {
 			...runFilters,
 			quest: NgsQuests.DfAegis,
-			category: runFilters.trigger,
+			category: runFilters.category ?? NgsRunCategories.Quest,
 			rank: runFilters.rank,
-			partySize: partyInfo.filterSize
+			partySize: partyInfo.filterSize,
 		};
 		return (await fetchGetApi<DfAegisRun[]>(basePath, copyQueryParams(allFilters))) ?? [];
 	};

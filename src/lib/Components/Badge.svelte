@@ -1,31 +1,18 @@
 <script lang="ts">
-	import Tooltip from './Tooltip.svelte';
+	export let color: 'neutral' | 'primary' | 'secondary' | 'accent' | 'ghost' | undefined | null =
+		undefined;
 
-	export let label: string;
-	export let link: string | undefined = undefined;
-	export let color: string | undefined = undefined; //format bg-[#ffffff]
-	export let tooltip: string | undefined = undefined;
-	export let icon: string | undefined = undefined;
+	const colorClassMap: Record<string, string> = {
+		neutral: 'badge-neutral',
+		primary: 'badge-primary',
+		secondary: 'badge-secondary',
+		accent: 'badge-accent',
+		ghost: 'badge-ghost',
+	};
 
-	$: colorClass = color ?? '';
-	$: iconClass = icon ? `bi bi-${icon}` : '';
+	$: colorClass = !color ? '' : colorClassMap[color];
 </script>
 
-{#if link}
-	<Tooltip tip={tooltip}>
-		<a href={link} target="_blank" rel="noreferrer noopener"
-			><span
-				class="badge badge-lg rounded border-0 font-semibold text-white md:badge-md hover:brightness-75 {colorClass}"
-				><i class="mr-1 {iconClass}" />{label}</span
-			></a
-		>
-	</Tooltip>
-{:else}
-	<Tooltip tip={tooltip}>
-		<span
-			class="badge badge-lg cursor-pointer rounded border-0 font-semibold text-white md:badge-md hover:brightness-75 {colorClass}"
-		>
-			<i class="mr-1 {iconClass}" />{label}
-		</span>
-	</Tooltip>
-{/if}
+<div class="badge {colorClass}">
+	<slot />
+</div>
