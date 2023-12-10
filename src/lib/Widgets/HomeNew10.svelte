@@ -11,9 +11,9 @@
 	import type { RunTime } from '$lib/types/api/runTime';
 	import type { PartyMember, Run } from '$lib/types/api/runs/run';
 	import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
-	import { IndomitableBoss } from '$lib/types/api/duels/indomitableBoss';
 	import { RunSortOption } from '$lib/types/api/runs/sortOptions';
 	import { NgsQuests } from '$lib/types/api/runs/quests';
+	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 
 	const take = 10;
 
@@ -27,29 +27,30 @@
 
 	const questNameMap: Record<string, Record<string, string>> = {
 		[NgsQuests.Purples]: {
-			aelio: 'Purple Aelio R.',
-			retem: 'Purple Retem R.',
-			kvaris: 'Purple Kvaris R.',
-			stia: 'Purple Stia R.',
+			[NgsRunCategories.Aelio]: 'Purple Aelio R.',
+			[NgsRunCategories.Retem]: 'Purple Retem R.',
+			[NgsRunCategories.Kvaris]: 'Purple Kvaris R.',
+			[NgsRunCategories.Stia]: 'Purple Stia R.',
 		},
 		[NgsQuests.DfAegis]: {
-			urgent_quest: 'DF Aegis R.',
-			trigger: 'DF Aegis R.',
+			[NgsRunCategories.UrgentQuest]: 'DF Aegis R.',
+			[NgsRunCategories.Quest]: 'DF Aegis R.',
+			[NgsRunCategories.Trigger]: 'DF Aegis Trig R.',
 		},
 		[NgsQuests.DfSolus]: {
-			quest: 'DF Solus R.',
-			urgent_quest: 'DF Solus UQ R.',
+			[NgsRunCategories.Quest]: 'DF Solus R.',
+			[NgsRunCategories.UrgentQuest]: 'DF Solus UQ R.',
 		},
 		[NgsQuests.Duels]: {
-			[IndomitableBoss.NexAelio]: 'Duel Nex Aelio R.',
-			[IndomitableBoss.RenusRetem]: 'Duel Renus Retem R.',
-			[IndomitableBoss.AmsKvaris]: 'Duel Ams Kvaris R.',
-			[IndomitableBoss.NilsStia]: 'Duel Nils Stia R.',
-			[IndomitableBoss.Halvaldi]: 'Duel Halvaldi R.',
-			[IndomitableBoss.Zelvin]: 'Duel Zelvin R.',
+			[NgsRunCategories.NexAelio]: 'Duel Nex Aelio R.',
+			[NgsRunCategories.RenusRetem]: 'Duel Renus Retem R.',
+			[NgsRunCategories.AmsKvaris]: 'Duel Ams Kvaris R.',
+			[NgsRunCategories.NilsStia]: 'Duel Nils Stia R.',
+			[NgsRunCategories.Halvaldi]: 'Duel Halvaldi R.',
+			[NgsRunCategories.Zelvin]: 'Duel Zelvin R.',
 		},
 		[NgsQuests.Venogia]: {
-			urgent_quest: 'Venogia R.',
+			[NgsRunCategories.UrgentQuest]: 'Venogia R.',
 		},
 	};
 

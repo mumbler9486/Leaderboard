@@ -12,11 +12,11 @@
 	export let solo: boolean;
 
 	const rules = ['Do not abuse bugs or exploits.'];
-
-	const partyLinks = [
+	$: partyLabel = $runFilters.category === NgsRunCategories.Quest ? 'Party (4p)' : 'Party (8p)';
+	$: partyLinks = [
 		{ link: '/runs/dfaegis/solo', label: 'Solo' },
 		{ link: '/runs/dfaegis/duo', label: 'Duo' },
-		{ link: '/runs/dfaegis/party', label: 'Party' }
+		{ link: '/runs/dfaegis/party', label: partyLabel },
 	];
 </script>
 
@@ -33,10 +33,11 @@
 			<Dropdown
 				label="Type"
 				options={[
+					{ label: 'Quest', value: NgsRunCategories.Quest },
 					{ label: 'Urgent Quest', value: NgsRunCategories.UrgentQuest },
-					{ label: 'Trigger', value: NgsRunCategories.Trigger }
+					{ label: 'Trigger', value: NgsRunCategories.Trigger },
 				]}
-				bind:value={$runFilters.trigger}
+				bind:value={$runFilters.category}
 			/>
 		</div>
 		<!-- <div class="flex grow flex-col">
