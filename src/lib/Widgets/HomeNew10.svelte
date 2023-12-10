@@ -33,7 +33,7 @@
 			[NgsRunCategories.Stia]: 'Purple Stia R.',
 		},
 		[NgsQuests.DfAegis]: {
-			[NgsRunCategories.UrgentQuest]: 'DF Aegis R.',
+			[NgsRunCategories.UrgentQuest]: 'DF Aegis UQ R.',
 			[NgsRunCategories.Quest]: 'DF Aegis R.',
 			[NgsRunCategories.Trigger]: 'DF Aegis Trig R.',
 		},
