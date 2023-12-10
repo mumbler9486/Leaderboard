@@ -12,11 +12,14 @@
 	export let solo: boolean;
 
 	const rules = ['Do not abuse bugs or exploits.'];
+
+	$: questCategoryQuery =
+		$runFilters.category === NgsRunCategories.Quest ? '' : `?category=${$runFilters.category}`;
 	$: partyLabel = $runFilters.category === NgsRunCategories.Quest ? 'Party (4p)' : 'Party (8p)';
 	$: partyLinks = [
-		{ link: '/runs/dfaegis/solo', label: 'Solo' },
-		{ link: '/runs/dfaegis/duo', label: 'Duo' },
-		{ link: '/runs/dfaegis/party', label: partyLabel },
+		{ link: `/runs/dfaegis/solo${questCategoryQuery}`, label: 'Solo' },
+		{ link: `/runs/dfaegis/duo${questCategoryQuery}`, label: 'Duo' },
+		{ link: `/runs/dfaegis/party${questCategoryQuery}`, label: partyLabel },
 	];
 </script>
 
