@@ -5,9 +5,9 @@ import { NgsQuests } from '$lib/types/api/runs/quests';
 import { submitRun } from '../submitRunPageLogic';
 
 const dfAegisFormStore = writable({
-	category: NgsRunCategories.UrgentQuest,
+	category: NgsRunCategories.Quest,
 	rank: 1,
-	support: DfAegisSupport.AinaManon
+	support: DfAegisSupport.AinaManon,
 });
 
 const submitPath = '/ngs-api/runs/dfaegis';
@@ -27,5 +27,5 @@ export const submitDfAegisRun = async () => {
 
 export const dfAegisForm = {
 	...dfAegisFormStore,
-	submitDfSolusRun: submitDfAegisRun
+	submitDfSolusRun: submitDfAegisRun,
 };
