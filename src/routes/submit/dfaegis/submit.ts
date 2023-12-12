@@ -7,7 +7,7 @@ import { submitRun } from '../submitRunPageLogic';
 const dfAegisFormStore = writable({
 	category: NgsRunCategories.Quest,
 	rank: 1,
-	support: DfAegisSupport.AinaManon,
+	support: DfAegisSupport.None,
 });
 
 const submitPath = '/ngs-api/runs/dfaegis';
