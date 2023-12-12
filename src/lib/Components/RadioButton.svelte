@@ -4,6 +4,7 @@
 	export let value: string;
 	export let name: string;
 	export let group: any;
+	export let disabled: boolean = false;
 </script>
 
 <label
@@ -17,9 +18,10 @@
 	</span>
 	<input
 		type="radio"
-		{name}
-		bind:group
-		{value}
 		class="radio radio-sm rounded border-neutral-content/25 checked:bg-neutral-content"
+		{name}
+		{value}
+		{disabled}
+		bind:group
 	/>
 </label>

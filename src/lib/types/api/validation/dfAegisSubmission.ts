@@ -21,6 +21,7 @@ const supports = [
 	DfAegisSupport.Ilma,
 	DfAegisSupport.Nadereh,
 	DfAegisSupport.Glen,
+	DfAegisSupport.None,
 ];
 
 const validTimeMap = {
@@ -39,7 +40,20 @@ export const dfAegisSubmissionSchema = (
 	}) satisfies ObjectSchema<RunSubmissionRequest>
 ).shape({
 	details: object({
-		support: mixed<DfAegisSupport>().required().oneOf(supports),
+		support: mixed<DfAegisSupport>()
+			.required()
+			.oneOf(supports)
+			.test('valid_support', 'Support selection is invalid for this quest', (support, ctx) => {
+				const category = ctx.from?.at(1)?.value?.category as NgsRunCategories | undefined;
+				const isQuestCategory = category === NgsRunCategories.Quest;
+
+				if (isQuestCategory && support === DfAegisSupport.None) {
+					return true;
+				} else if (!isQuestCategory && support !== DfAegisSupport.None) {
+					return true;
+				}
+				return false;
+			}),
 	}),
 });
 

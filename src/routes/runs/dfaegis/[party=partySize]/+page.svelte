@@ -20,6 +20,7 @@
 	import { runFilters, type RunSearchFilters } from '../../runFilter';
 	import DfAegisSupportIcon from '$lib/Components/DfAegisSupportIcon.svelte';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
+	import { DfAegisSupport } from '$lib/types/api/dfAegis/dfAegisSupports';
 
 	interface PartySizeInfo {
 		filterSize: number;
@@ -71,7 +72,7 @@
 	const fetchRuns = async (filters: RunSearchFilters) => {
 		const basePath = `/ngs-api/runs/dfaegis`;
 		const runFilters = clearFilterValues(filters, filterDef);
-		console.log(runFilters);
+
 		const allFilters = {
 			...runFilters,
 			quest: NgsQuests.DfAegis,
@@ -79,6 +80,11 @@
 			rank: runFilters.rank,
 			partySize: partyInfo.filterSize,
 		};
+
+		if (runFilters.category) {
+			allFilters.support = undefined;
+		}
+
 		return (await fetchGetApi<DfAegisRun[]>(basePath, copyQueryParams(allFilters))) ?? [];
 	};
 
