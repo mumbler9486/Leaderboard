@@ -10,7 +10,7 @@
 		copyQueryParams,
 		useUrlFilterStore,
 		type UrlQueryParamRule,
-		clearFilterValues
+		clearFilterValues,
 	} from '$lib/utils/queryParams';
 	import { IndomitableBoss } from '$lib/types/api/duels/indomitableBoss';
 	import { onDestroy } from 'svelte';
@@ -26,7 +26,7 @@
 		[IndomitableBoss.AmsKvaris]: $t('leaderboard.indomitableAmsKvaris'),
 		[IndomitableBoss.NilsStia]: $t('leaderboard.indomitableNilsStia'),
 		[IndomitableBoss.Halvaldi]: $t('leaderboard.indomitableHalvaldi'),
-		[IndomitableBoss.Zelvin]: $t('leaderboard.indomitableZelvin')
+		[IndomitableBoss.Zelvin]: $t('leaderboard.indomitableZelvin'),
 	};
 
 	const bossUrlMapping: Record<string, IndomitableBoss> = {
@@ -35,7 +35,7 @@
 		['ams-kvaris']: IndomitableBoss.AmsKvaris,
 		['nils-stia']: IndomitableBoss.NilsStia,
 		['halvaldi']: IndomitableBoss.Halvaldi,
-		['zelvin']: IndomitableBoss.Zelvin
+		['zelvin']: IndomitableBoss.Zelvin,
 	};
 
 	$: boss = bossUrlMapping[$page.params.boss];
@@ -44,7 +44,7 @@
 	const filterDef: UrlQueryParamRule<RunSearchFilters>[] = [
 		{ name: 'server', undefinedValue: 'no_filter' },
 		{ name: 'class', undefinedValue: 'no_filter' },
-		{ name: 'augments', undefinedValue: 'no_filter' }
+		{ name: 'augments', undefinedValue: 'no_filter' },
 	];
 
 	runFilters.resetFilters();
@@ -68,7 +68,7 @@
 			category: boss,
 			rank: runFilters.rank,
 			partySize: 1,
-			augments: augmentFilter
+			augments: augmentFilter,
 		};
 		return (await fetchGetApi<DuelRun[]>(basePath, copyQueryParams(allFilters))) ?? [];
 	};
@@ -84,7 +84,9 @@
 
 <div class="grow content-center">
 	<div class="container mx-auto mb-16 mt-2 rounded-md border border-secondary bg-base-100/75">
-		<div class="m-2 space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8">
+		<div
+			class="m-2 space-y-2 overflow-x-scroll rounded-md border border-secondary bg-base-100 p-4 px-8"
+		>
 			<IndomitableRunFilters />
 			{#await fetchRuns($runFilters)}
 				<LoadingBar />
