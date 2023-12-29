@@ -11,7 +11,6 @@
 	$: staticMenuItems = [
 		{
 			title: 'Info',
-			show: isLoggedIn,
 			icon: 'bi-info-circle',
 			link: '/info',
 		} satisfies MenuGroup,
