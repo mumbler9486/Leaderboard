@@ -10,6 +10,12 @@
 
 	$: staticMenuItems = [
 		{
+			title: 'Info',
+			show: isLoggedIn,
+			icon: 'bi-info-circle',
+			link: '/info',
+		} satisfies MenuGroup,
+		{
 			title: $t('navigation.purpleTriggers'),
 			image: '/icons/quests/trigger.png',
 			items: [
