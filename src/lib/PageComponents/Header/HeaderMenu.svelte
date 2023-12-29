@@ -31,7 +31,7 @@
 		{#each groups.filter((g) => g.show ?? true) as group}
 			{#if group.link}
 				<li>
-					<a class="flex text-sm font-semibold uppercase">
+					<a class="flex text-sm font-semibold uppercase" href={group.link}>
 						{#if group.image}
 							<img src={group.image} class="pointer-events-none mr-2" />
 						{:else if group.icon}

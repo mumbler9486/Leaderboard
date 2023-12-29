@@ -9,6 +9,7 @@
 	export let link: string | undefined = undefined;
 	export let overlayColor: 'red' | 'blue' | 'purple' | 'neutral' = 'neutral';
 	export let newBadge: string | undefined = undefined;
+	export let buttonLabel: string;
 
 	const dispatcher = createEventDispatcher();
 
@@ -44,7 +45,7 @@
 			</p>
 			<button
 				class="btn btn-primary h-16 px-10 text-xl lg:h-auto lg:px-4 lg:text-base"
-				on:click={buttonAction}>Submit</button
+				on:click={buttonAction}>{buttonLabel}</button
 			>
 		</div>
 	</div>

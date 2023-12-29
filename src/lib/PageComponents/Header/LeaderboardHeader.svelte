@@ -10,6 +10,11 @@
 
 	$: staticMenuItems = [
 		{
+			title: 'Info',
+			icon: 'bi-info-circle',
+			link: '/info',
+		} satisfies MenuGroup,
+		{
 			title: $t('navigation.purpleTriggers'),
 			image: '/icons/quests/trigger.png',
 			items: [
@@ -93,7 +98,7 @@
 		consentMenu,
 		loginMenu,
 		accountSetupMenu,
-	] as MenuGroup[];
+	] satisfies MenuGroup[];
 	$: headerMenuItems = [...staticMenuItems, ...dynamicMenuItems];
 
 	let isLoadingLogin: boolean = false;

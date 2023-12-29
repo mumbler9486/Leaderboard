@@ -23,6 +23,7 @@
 					image="/icons/submit/dfaegis.jpg"
 					link="/submit/dfaegis"
 					overlayColor="neutral"
+					buttonLabel="Submit"
 				/>
 				<JumboButton
 					newBadge="New Ranks"
@@ -30,24 +31,28 @@
 					image="/icons/submit/purple_trigger_gate.jpg"
 					link="/submit/purples"
 					overlayColor="purple"
+					buttonLabel="Submit"
 				/>
 				<JumboButton
 					label="Dark Falz Solus"
 					image="/icons/submit/dfsolus.jpg"
 					link="/submit/dfsolus"
 					overlayColor="neutral"
+					buttonLabel="Submit"
 				/>
 				<JumboButton
 					label="Duels"
 					image="/icons/submit/duel_nils_stia.jpg"
 					link="/submit/duels"
 					overlayColor="red"
+					buttonLabel="Submit"
 				/>
 				<JumboButton
 					label="Venogia"
 					image="/icons/submit/venogia.jpg"
 					link="/submit/venogia"
 					overlayColor="neutral"
+					buttonLabel="Submit"
 				/>
 			</div>
 		</div>
