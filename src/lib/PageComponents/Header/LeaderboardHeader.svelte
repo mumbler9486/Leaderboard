@@ -98,7 +98,7 @@
 		consentMenu,
 		loginMenu,
 		accountSetupMenu,
-	] as MenuGroup[];
+	] satisfies MenuGroup[];
 	$: headerMenuItems = [...staticMenuItems, ...dynamicMenuItems];
 
 	let isLoadingLogin: boolean = false;
