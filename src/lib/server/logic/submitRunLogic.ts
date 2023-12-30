@@ -1,7 +1,5 @@
 import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmission';
-import sql from 'mssql';
-import type { Request } from 'mssql';
-import { leaderboardDb } from '../db/db';
+import { leaderboardDb } from '../db/pgDb';
 import { jsonError } from '../error';
 import { checkRunVideoExists, insertRun } from '../repositories/runsRepository';
 import { getUser } from '../repositories/userRepository';
@@ -21,10 +19,9 @@ export const submitRun = async (
 	parsedRun: RunSubmissionRequest
 ) => {
 	const pool = await leaderboardDb.connect();
-	const validationRequest = await pool.request();
 
 	// Check user
-	const { user, errors: userErrors } = await checkSubmittingUser(validationRequest, requestUser);
+	const { user, errors: userErrors } = await checkSubmittingUser(pool, requestUser);
 	if (!!userErrors) {
 		return jsonError(403, { error: ErrorCodes.Unauthorized, details: userErrors });
 	}

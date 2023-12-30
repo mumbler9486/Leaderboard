@@ -11,17 +11,17 @@ export const mapRuns = (getRun: GetRunDbModel[]): Run<unknown>[] => {
 	const groupedRuns = Object.entries(
 		getRun.reduce(
 			(prev, curr) => {
-				if (!prev[curr.RunId]) {
-					prev[curr.RunId] = [];
+				if (!prev[curr.run_id]) {
+					prev[curr.run_id] = [];
 				}
-				prev[curr.RunId].push(curr);
+				prev[curr.run_id].push(curr);
 				return prev;
 			},
 			{} as { [runId: string]: GetRunDbModel[] }
 		)
 	).sort((g1, g2) => {
-		const g1RankNum = parseInt(g1[1][0].RunMetaGroupNum);
-		const g2RankNum = parseInt(g2[1][0].RunMetaGroupNum);
+		const g1RankNum = parseInt(g1[1][0].run_meta_group_num);
+		const g2RankNum = parseInt(g2[1][0].run_meta_group_num);
 
 		if (g1RankNum == g2RankNum) {
 			return 0;
@@ -40,7 +40,7 @@ export const mapRuns = (getRun: GetRunDbModel[]): Run<unknown>[] => {
 		const runId = runGroup[0];
 		const run = runGroup[1];
 		const runMeta = run[0];
-		const runTime = convertTimeToRunTime(new Date(runMeta.RunTime));
+		const runTime = runMeta.run_time;
 
 		let runRank = currentRank;
 
@@ -51,64 +51,64 @@ export const mapRuns = (getRun: GetRunDbModel[]): Run<unknown>[] => {
 		}
 
 		const party: PartyMember[] = run.map((rg) => {
-			const weapons = !!rg.PartyWeapons
-				? (JSON.parse(rg.PartyWeapons) as NgsWeapon[]).map(parseNgsWeapon)
+			const weapons = !!rg.party_weapons
+				? (rg.party_weapons as NgsWeapon[]).map(parseNgsWeapon)
 				: [];
 			return {
-				playerId: !!rg.PartyPlayerId ? parseInt(rg.PartyPlayerId) : undefined,
-				playerName: rg.PlayerName,
-				runCharacterName: rg.PartyRunCharacterName,
-				mainClass: parseNgsPlayerClass(rg.PartyMainClass) ?? NgsPlayerClass.Unknown,
-				subClass: parseNgsPlayerClass(rg.PartySubClass) ?? NgsPlayerClass.Unknown,
-				linkPov: rg.PartyPovLink,
+				playerId: !!rg.party_player_id ? parseInt(rg.party_player_id) : undefined,
+				playerName: rg.player_name,
+				runCharacterName: rg.party_run_character_name,
+				mainClass: parseNgsPlayerClass(rg.party_main_class) ?? NgsPlayerClass.Unknown,
+				subClass: parseNgsPlayerClass(rg.party_sub_class) ?? NgsPlayerClass.Unknown,
+				linkPov: rg.party_pov_link,
 				weapons: weapons,
 				//TODO make player info nullable as player may not exist
 				playerInfo: {
-					playerId: parseInt(rg.PartyPlayerId),
-					ship: parseInt(rg.PlayerShip),
-					flag: rg.PlayerFlag,
-					server: parseServerRegion(rg.PlayerServer),
-					name: rg.PlayerName,
-					characterName: rg.PlayerCharacterName,
-					preferredNameType: parseInt(rg.PlayerPreferredNameType),
-					nameEffectType: parseInt(rg.PlayerNameEffectType),
-					nameColor1: rg.PlayerNameColor1,
-					nameColor2: rg.PlayerNameColor2
-				}
+					playerId: parseInt(rg.party_player_id),
+					ship: parseInt(rg.player_ship),
+					flag: rg.player_flag,
+					server: parseServerRegion(rg.player_server),
+					name: rg.player_name,
+					characterName: rg.player_character_name,
+					preferredNameType: parseInt(rg.player_preferred_name_type),
+					nameEffectType: parseInt(rg.player_name_effect_type),
+					nameColor1: rg.player_name_color1,
+					nameColor2: rg.player_name_color2,
+				},
 			} satisfies PartyMember;
 		});
 
 		const submitter: PlayerInfo = {
-			playerId: parseInt(runMeta.PartyPlayerId),
-			ship: parseInt(runMeta.SubmitterShip),
-			flag: runMeta.SubmitterFlag,
-			name: runMeta.SubmitterName,
-			characterName: runMeta.SubmitterCharacterName,
-			preferredNameType: parseInt(runMeta.SubmitterPreferredNameType),
-			nameEffectType: parseInt(runMeta.SubmitterNameEffectType),
-			nameColor1: runMeta.SubmitterNameColor1,
-			nameColor2: runMeta.SubmitterNameColor2
+			playerId: parseInt(runMeta.party_player_id),
+			ship: parseInt(runMeta.submitter_ship),
+			flag: runMeta.submitter_flag,
+			name: runMeta.submitter_name,
+			characterName: runMeta.submitter_character_name,
+			preferredNameType: parseInt(runMeta.submitter_preferred_name_type),
+			nameEffectType: parseInt(runMeta.submitter_name_effect_type),
+			nameColor1: runMeta.submitter_name_color1,
+			nameColor2: runMeta.submitter_name_color2,
 		};
 
 		const submission: Run = {
 			rank: runRank,
 			runId: parseInt(runId),
-			game: parseGame(runMeta.RunGame) ?? Game.Unknown,
-			serverRegion: parseServerRegion(runMeta.RunServerRegion),
-			quest: runMeta.RunQuest,
-			category: runMeta.RunCategory,
-			patch: runMeta.RunPatch,
+			game: parseGame(runMeta.run_game) ?? Game.Unknown,
+			serverRegion: parseServerRegion(runMeta.run_server_region),
+			quest: runMeta.run_quest,
+			category: runMeta.run_category,
+			patch: runMeta.run_patch,
 			party: party,
 			time: runTime,
-			notes: runMeta.RunNotes,
-			modNotes: runMeta.RunModNotes,
-			questRank: parseInt(runMeta.RunQuestRank),
+			notes: runMeta.run_notes,
+			modNotes: runMeta.run_mod_notes,
+			questRank: parseInt(runMeta.run_quest_rank),
 			submitter: submitter,
-			submissionDate: runMeta.RunSubmissionDate,
-			submissionStatus: parseInt(runMeta.RunSubmissionStatus),
-			dateReviewed: runMeta.RunDateReviewed,
-			reviewedBy: runMeta.RunReviewedBy,
-			details: !runMeta.RunAttributes ? undefined : JSON.parse(runMeta.RunAttributes)
+			submissionDate: runMeta.run_submission_date,
+			submissionStatus: parseInt(runMeta.run_submission_status),
+			dateReviewed: runMeta.run_date_reviewed,
+			reviewedBy: runMeta.run_reviewed_by,
+			details: !runMeta.run_attributes ? undefined : JSON.parse(runMeta.run_attributes),
 		};
 
 		return submission;

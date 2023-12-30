@@ -1,5 +1,5 @@
 import { error, json } from '@sveltejs/kit';
-import { leaderboardDb } from '$lib/server/db/db';
+import { leaderboardDb } from '$lib/server/db/pgDb.js';
 import { jsonError } from '$lib/server/error.js';
 import { parseToRawSchema } from '$lib/utils/schemaValidation.js';
 import { validateApiRequest } from '$lib/server/validation/requestValidation.js';
@@ -29,10 +29,9 @@ export async function GET({ params, url }) {
 	};
 
 	const pool = await leaderboardDb.connect();
-	const request = await pool.request();
 
 	try {
-		const runs = await getRuns(request, parsedFilter, serverFilters);
+		const runs = await getRuns(pool, parsedFilter, serverFilters);
 		const mappedRuns = mapRuns(runs);
 		return json(mappedRuns);
 	} catch (err) {

@@ -1,4 +1,4 @@
-import { leaderboardDb } from '$lib/server/db/db';
+import { leaderboardDb } from '$lib/server/db/pgDb';
 import { json } from '@sveltejs/kit';
 import { jsonError } from '$lib/server/error.js';
 import { checkRunExists, denyRun } from '$lib/server/repositories/runsRepository.js';
@@ -25,8 +25,7 @@ export const denyRunSubmission = async (requestUser: ServerUser, denyRequest: De
 
 	try {
 		const pool = await leaderboardDb.connect();
-		const request = pool.request();
-		await denyRun(request, denyRequest.runId, moderator.PlayerName, denyRequest.modNotes);
+		await denyRun(pool, denyRequest.runId, moderator.player_name, denyRequest.modNotes);
 
 		return json({ data: 'success' });
 	} catch (err) {
@@ -37,11 +36,10 @@ export const denyRunSubmission = async (requestUser: ServerUser, denyRequest: De
 
 const checkUserPermission = async (moderatorUserId: string) => {
 	const pool = await leaderboardDb.connect();
-	const request = pool.request();
 
-	const user = await getUser(request, moderatorUserId);
+	const user = await getUser(pool, moderatorUserId);
 
-	if (!user || !user.Roles?.includes(UserRole.Moderator)) {
+	if (!user || !user.roles?.includes(UserRole.Moderator)) {
 		return {
 			name: undefined,
 			errorList: ['Permission denied. User not a moderator.'],
@@ -59,8 +57,7 @@ const checkRunData = async (denyRequest: DenyRequest, moderator: PlayersDbModel)
 	const errorList: string[] = [];
 
 	// Run exists
-	const request = pool.request();
-	const submissionResult = await checkRunExists(request, denyRequest.runId);
+	const submissionResult = await checkRunExists(pool, denyRequest.runId);
 
 	if (!submissionResult || !submissionResult.runId) {
 		errorList.push(`Unknown submissionId`);

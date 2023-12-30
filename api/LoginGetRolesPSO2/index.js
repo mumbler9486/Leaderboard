@@ -8,8 +8,8 @@ const dbConfig = {
 	database: process.env.DB_NAME,
 	options: {
 		encrypt: true,
-		trustServerCertificate: true
-	}
+		trustServerCertificate: true,
+	},
 };
 
 module.exports = async function (context, req) {
@@ -19,7 +19,7 @@ module.exports = async function (context, req) {
 
 		const sqlQuery = `
         SELECT pi.Roles
-        FROM dbo.Players as pi
+        FROM players as pi
         WHERE pi.UserId = @userGuid`;
 
 		const results = await pool.request().input('userGuid', sql.NVarChar, userId).query(sqlQuery);
@@ -31,13 +31,13 @@ module.exports = async function (context, req) {
 
 		const roles = JSON.parse(userRoles.Roles);
 		const response = {
-			roles: roles
+			roles: roles,
 		};
 
 		context.res = {
 			contentType: 'application/json',
 			status: 200,
-			body: response
+			body: response,
 		};
 	} catch (err) {
 		console.error(err.message);

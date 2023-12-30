@@ -1,5 +1,5 @@
 import { error, json } from '@sveltejs/kit';
-import { leaderboardDb } from '$lib/server/db/db';
+import { leaderboardDb } from '$lib/server/db/pgDb';
 import { jsonError } from '$lib/server/error.js';
 import { parseToRawSchema } from '$lib/utils/schemaValidation.js';
 import { validateApiRequest } from '$lib/server/validation/requestValidation.js';
@@ -35,9 +35,6 @@ export async function GET({ params, url }) {
 		return jsonError(400, validationError);
 	}
 
-	const pool = await leaderboardDb.connect();
-	const request = await pool.request();
-
 	const filter: DuelRunsSearchFilter = {
 		...parsedFilter,
 		quest: NgsQuests.Duels,
@@ -58,7 +55,8 @@ export async function GET({ params, url }) {
 		submissionStatus: RunSubmissionStatus.Approved,
 	};
 	try {
-		const runs = await getRuns(request, filter, serverFilters, duelAugmentsFilter);
+		const pool = await leaderboardDb.connect();
+		const runs = await getRuns(pool, filter, serverFilters, duelAugmentsFilter);
 		const mappedRuns = mapRuns(runs);
 		return json(mappedRuns);
 	} catch (err) {

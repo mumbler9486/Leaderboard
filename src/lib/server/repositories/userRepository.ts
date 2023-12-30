@@ -18,7 +18,7 @@ export const getUser = async (request: Pool, userGuid: string) => {
 				pi.${playersDbFields.PlayerName},
 				pi.${playersDbFields.UserId},
 				pi.${playersDbFields.Roles}
-			FROM dbo.Players AS pi
+			FROM Players AS pi
 			WHERE pi.${playersDbFields.UserId} = $1
 		`,
 		[userGuid]
@@ -33,7 +33,7 @@ export const getUserRoles = async (pool: Pool, userGuid: string) => {
 		`
 			SELECT 
         pi.${playersDbFields.Roles}
-			FROM dbo.Players AS pi
+			FROM Players AS pi
 			WHERE pi.${playersDbFields.UserId} = $1
 		`,
 		[userGuid]

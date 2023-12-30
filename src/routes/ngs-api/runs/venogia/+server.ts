@@ -1,5 +1,5 @@
 import { error, json } from '@sveltejs/kit';
-import { leaderboardDb } from '$lib/server/db/db';
+import { leaderboardDb } from '$lib/server/db/pgDb';
 import { jsonError } from '$lib/server/error.js';
 import { getRuns } from '$lib/server/repositories/runsRepository.js';
 import { validateApiRequest } from '$lib/server/validation/requestValidation.js';
@@ -32,9 +32,6 @@ export async function GET({ params, url }) {
 		return jsonError(400, validationError);
 	}
 
-	const pool = await leaderboardDb.connect();
-	const request = await pool.request();
-
 	const filter: RunsSearchFilter = {
 		...parsedFilter,
 		quest: NgsQuests.Venogia,
@@ -46,7 +43,8 @@ export async function GET({ params, url }) {
 		submissionStatus: RunSubmissionStatus.Approved,
 	};
 	try {
-		const runs = await getRuns(request, filter, serverFilters);
+		const pool = await leaderboardDb.connect();
+		const runs = await getRuns(pool, filter, serverFilters);
 		const mappedRuns = mapRuns(runs);
 		return json(mappedRuns);
 	} catch (err) {

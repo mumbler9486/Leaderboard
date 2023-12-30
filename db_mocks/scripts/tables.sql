@@ -14,7 +14,7 @@ CREATE TABLE runs (
 	notes varchar(500) NULL,
 	submission_date timestamptz NOT NULL,
 	submission_status smallint NOT NULL,
-	date_approved timestamptz NULL,
+	date_reviewed timestamptz NULL,
 	mod_notes varchar(500) NULL,
 	attributes jsonb NULL,
 	reviewed_by varchar(30)
