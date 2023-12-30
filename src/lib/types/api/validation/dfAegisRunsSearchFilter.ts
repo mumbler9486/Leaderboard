@@ -7,11 +7,12 @@ const supports = [
 	DfAegisSupport.AinaManon,
 	DfAegisSupport.Ilma,
 	DfAegisSupport.Nadereh,
-	DfAegisSupport.Glen
+	DfAegisSupport.Glen,
+	DfAegisSupport.None,
 ];
 
 export const dfAegisRunsSearchFilterSchema = runsSearchFilterSchema.shape({
-	support: mixed<DfAegisSupport>().nullable().oneOf(supports)
+	support: mixed<DfAegisSupport>().nullable().oneOf(supports),
 });
 
 export type DfAegisRunsSearchFilter = InferType<typeof dfAegisRunsSearchFilterSchema>;

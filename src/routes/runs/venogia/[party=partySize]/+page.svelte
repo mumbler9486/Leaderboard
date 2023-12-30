@@ -11,7 +11,7 @@
 		copyQueryParams,
 		useUrlFilterStore,
 		type UrlQueryParamRule,
-		clearFilterValues
+		clearFilterValues,
 	} from '$lib/utils/queryParams';
 	import { onDestroy } from 'svelte';
 	import type { VenogiaRun } from '$lib/types/api/runs/run';
@@ -30,22 +30,22 @@
 			name: $t('common.playerCount.solo'),
 			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.venogia')} - ${$t(
 				'common.playerCount.solo'
-			)}`
+			)}`,
 		},
 		[PartySize.Duo]: {
 			filterSize: 2,
 			name: $t('common.playerCount.duo'),
 			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.venogia')} - ${$t(
 				'common.playerCount.duo'
-			)}`
+			)}`,
 		},
 		[PartySize.Party]: {
 			filterSize: 4,
 			name: $t('common.playerCount.party'),
 			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.venogia')} - ${$t(
 				'common.playerCount.party'
-			)}`
-		}
+			)}`,
+		},
 	} satisfies Record<string, PartySizeInfo>;
 
 	$: partySize = parsePartySize($page.params.party) ?? PartySize.Solo;
@@ -57,7 +57,7 @@
 	const filterDef: UrlQueryParamRule<RunSearchFilters>[] = [
 		{ name: 'server', undefinedValue: 'no_filter' },
 		{ name: 'class', undefinedValue: 'no_filter' },
-		{ name: 'rank', undefinedValue: '1' }
+		{ name: 'rank', undefinedValue: '1' },
 	];
 
 	runFilters.resetFilters();
@@ -82,7 +82,9 @@
 
 <div class="grow content-center">
 	<div class="container mx-auto mb-16 mt-2 rounded-md border border-secondary bg-base-100/75">
-		<div class="m-2 space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8">
+		<div
+			class="m-2 space-y-2 overflow-x-scroll rounded-md border border-secondary bg-base-100 p-4 px-8"
+		>
 			<VenogiaPartyRunFilters solo={isSolo} />
 			{#await fetchRuns($runFilters)}
 				<LoadingBar />

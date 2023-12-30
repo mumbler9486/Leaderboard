@@ -8,12 +8,15 @@
 		[DfAegisSupport.AinaManon]: { label: 'Aina & Manon', icon: 'ainamanon.png' }, //TODO replace DB values
 		[DfAegisSupport.Nadereh]: { label: 'Nadereh', icon: 'nadereh.png' },
 		[DfAegisSupport.Glen]: { label: 'Glen', icon: 'glen.png' },
+		[DfAegisSupport.None]: { label: 'N/A', icon: '' },
 	};
 
 	$: supportInfo = supportMap[support];
 </script>
 
 {#if !support}
+	-
+{:else if support === DfAegisSupport.None}
 	-
 {:else}
 	<img

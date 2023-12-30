@@ -24,6 +24,19 @@
 			>
 				<div class="text-center text-4xl font-light">News</div>
 				<HomeNews>
+					<span slot="newsTitle">Leaderboard January 2024 Updates</span>
+					<div slot="newsContent">
+						<strong>📅Patch Codes List</strong><br />
+						<p class="pt-2">
+							Not much in terms of in-game content releasing this month. For the team at the
+							leaderboards we plan to add some new useful information pages for rules, submission
+							guidelines, patch codes, and other tips for the leaderboard. The patch codes info page
+							has been released: <a class="link" href="/info">Check it out!</a>
+						</p>
+						<p class="pt-2">Happy new year from us at PSO2 Central! 🎉</p>
+					</div>
+				</HomeNews>
+				<HomeNews>
 					<span slot="newsTitle">Leaderboard December 2023 Updates</span>
 					<div slot="newsContent">
 						<strong>⤴ Patch Bump</strong><br />

@@ -15,6 +15,12 @@
 	let seconds = 0;
 
 	$: $runForm.time = { hours, minutes, seconds };
+
+	export const resetForm = () => {
+		hours = 0;
+		minutes = 0;
+		seconds = 0;
+	};
 </script>
 
 <div class="form-control">
@@ -32,7 +38,7 @@
 			<input
 				placeholder="H"
 				type="number"
-				class="svelte-blgex8 input-bordered input w-full"
+				class="svelte-blgex8 input input-bordered w-full"
 				min="0"
 				max={maxHours}
 				maxlength="1"
@@ -44,7 +50,7 @@
 		<input
 			placeholder="MM"
 			type="number"
-			class="input-bordered input w-full"
+			class="input input-bordered w-full"
 			min="0"
 			max={maxMinutes}
 			maxlength="2"
@@ -55,7 +61,7 @@
 		<input
 			placeholder="SS"
 			type="number"
-			class="input-bordered input w-full"
+			class="input input-bordered w-full"
 			min="0"
 			max={maxSeconds}
 			maxlength="2"

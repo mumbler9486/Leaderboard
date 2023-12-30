@@ -1,7 +1,7 @@
 <script lang="ts">
 	import TrophyList from '$lib/PageComponents/Profile/TrophyList.svelte';
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
-	import Badge from '$lib/Components/Badge.svelte';
+	import SocialBadge from '$lib/Components/SocialBadge.svelte';
 	import Divider from '$lib/Components/Divider.svelte';
 	import type { PlayerProfile } from '$lib/types/api/players/player';
 	import { isNullOrEmpty } from '$lib/utils/string';
@@ -76,7 +76,7 @@
 					<div class="mt-4 flex w-full justify-between">
 						<div class="flex flex-row flex-wrap gap-1">
 							{#if !isNullOrEmpty(player.twitch)}
-								<Badge
+								<SocialBadge
 									label="Twitch"
 									color="bg-[#803be5]"
 									icon="twitch"
@@ -84,7 +84,7 @@
 								/>
 							{/if}
 							{#if !isNullOrEmpty(player.youtube)}
-								<Badge
+								<SocialBadge
 									label="Youtube"
 									color="bg-[#d11414]"
 									icon="youtube"
@@ -92,7 +92,7 @@
 								/>
 							{/if}
 							{#if !isNullOrEmpty(player.twitter)}
-								<Badge
+								<SocialBadge
 									label="Twitter"
 									color="bg-[#1d9bf9]"
 									icon="twitter"
@@ -100,7 +100,7 @@
 								/>
 							{/if}
 							{#if !isNullOrEmpty(player.discord)}
-								<Badge
+								<SocialBadge
 									label="Discord"
 									color="bg-[#5865f2]"
 									icon="discord"
@@ -108,7 +108,7 @@
 								/>
 							{/if}
 						</div>
-						<Badge label="Share" icon="share" link="/users/{player.playerId}" />
+						<SocialBadge label="Share" icon="share" link="/users/{player.playerId}" />
 					</div>
 				</div>
 			</div>

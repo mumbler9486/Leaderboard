@@ -11,7 +11,7 @@
 		copyQueryParams,
 		useUrlFilterStore,
 		clearFilterValues,
-		type UrlQueryParamRule
+		type UrlQueryParamRule,
 	} from '$lib/utils/queryParams';
 	import { onDestroy } from 'svelte';
 	import type { DfAegisRun } from '$lib/types/api/runs/run';
@@ -19,6 +19,8 @@
 	import { NgsQuests } from '$lib/types/api/runs/quests';
 	import { runFilters, type RunSearchFilters } from '../../runFilter';
 	import DfAegisSupportIcon from '$lib/Components/DfAegisSupportIcon.svelte';
+	import { NgsRunCategories } from '$lib/types/api/runs/categories';
+	import { DfAegisSupport } from '$lib/types/api/dfAegis/dfAegisSupports';
 
 	interface PartySizeInfo {
 		filterSize: number;
@@ -32,22 +34,22 @@
 			name: $t('common.playerCount.solo'),
 			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.purpleTriggers')} - ${$t(
 				'common.playerCount.solo'
-			)}`
+			)}`,
 		},
 		[PartySize.Duo]: {
 			filterSize: 2,
 			name: $t('common.playerCount.duo'),
 			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.purpleTriggers')} - ${$t(
 				'common.playerCount.duo'
-			)}`
+			)}`,
 		},
 		[PartySize.Party]: {
 			filterSize: 4,
 			name: $t('common.playerCount.party'),
 			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.purpleTriggers')} - ${$t(
 				'common.playerCount.party'
-			)}`
-		}
+			)}`,
+		},
 	} satisfies Record<string, PartySizeInfo>;
 
 	$: partySize = parsePartySize($page.params.party) ?? PartySize.Solo;
@@ -61,7 +63,7 @@
 		{ name: 'class', undefinedValue: 'no_filter' },
 		{ name: 'rank', defaultValue: '1' },
 		{ name: 'support', undefinedValue: 'no_filter' },
-		{ name: 'trigger', undefinedValue: 'urgent_quest' }
+		{ name: 'category', undefinedValue: NgsRunCategories.Quest },
 	];
 
 	runFilters.resetFilters();
@@ -74,10 +76,15 @@
 		const allFilters = {
 			...runFilters,
 			quest: NgsQuests.DfAegis,
-			category: runFilters.trigger,
+			category: runFilters.category ?? NgsRunCategories.Quest,
 			rank: runFilters.rank,
-			partySize: partyInfo.filterSize
+			partySize: partyInfo.filterSize,
 		};
+
+		if (runFilters.category) {
+			allFilters.support = undefined;
+		}
+
 		return (await fetchGetApi<DfAegisRun[]>(basePath, copyQueryParams(allFilters))) ?? [];
 	};
 
@@ -92,7 +99,9 @@
 
 <div class="grow content-center">
 	<div class="container mx-auto mb-16 mt-2 rounded-md border border-secondary bg-base-100/75">
-		<div class="m-2 space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8">
+		<div
+			class="m-2 space-y-2 overflow-x-scroll rounded-md border border-secondary bg-base-100 p-4 px-8"
+		>
 			<DfAegisPartyRunFilters solo={isSolo} />
 			{#await fetchRuns($runFilters)}
 				<LoadingBar />

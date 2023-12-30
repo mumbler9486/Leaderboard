@@ -37,7 +37,7 @@ export async function GET({ params, url }) {
 	const filter: DfAegisRunsSearchFilter = {
 		...parsedFilter,
 		quest: NgsQuests.DfAegis,
-		category: !parsedFilter.category ? NgsRunCategories.UrgentQuest : parsedFilter.category,
+		category: parsedFilter.category,
 		partySize: !parsedFilter.partySize ? 1 : parsedFilter.partySize,
 	};
 

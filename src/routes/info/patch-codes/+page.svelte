@@ -1,0 +1,114 @@
+<script lang="ts">
+	import Divider from '$lib/Components/Divider.svelte';
+	import Timeline from '$lib/Components/Timeline.svelte';
+	import TimelineNode from '$lib/Components/TimelineNode.svelte';
+</script>
+
+<div class="flex flex-col content-center">
+	<div class="container m-16 mx-auto rounded-md border border-secondary bg-base-100/75">
+		<div class="m-2 flex flex-col rounded-md border border-secondary bg-base-100 p-4 px-8">
+			<div class="text-center text-4xl font-light">Patch Code History</div>
+			<Divider class="-mx-8" />
+			<div class="flex flex-col items-center">
+				<div class="flex max-w-4xl flex-col gap-2">
+					<p>
+						Patch codes are a common staple in speed-running. They denote eras of a game for a
+						particular version of a game. These often come with their own set of rules and
+						conventions as players optimize their game play around certain strategies in that
+						version.
+					</p>
+					<p>
+						PSO2 is considered a live-service game meaning we can only play the latest version of
+						the game for a limited amount of time. New gear, quest ranks, game updates, and class
+						skills eventually come out and eventually make some quest content a breeze, obsoleting
+						some run strategies, and usurping records. Therefore it is important to take note of the
+						patch code and appreciate the era in which the run was performed in. In this page we
+						will outline the history of the game's version releases as they pertain to speed-running
+						and the Leaderboards themselves.
+					</p>
+				</div>
+				<div class="mt-8 max-w-6xl">
+					<Timeline>
+						<TimelineNode
+							title="+60 Weapon Grind Release"
+							time="October 10, 2023"
+							side="left"
+							fillLineStart
+						>
+							Weapons were able to be upgraded to level 60 grind and level 5 potential for the first
+							time.
+						</TimelineNode>
+						<TimelineNode
+							title="Leaderboard Started"
+							time="Jan 12, 2023"
+							side="right"
+							fillLineEnd
+							fillLineStart
+						>
+							PSO2 Central's Leaderboard website established and began accepting runs. Speed-runs of
+							various quests in the game already existed as far back as December 8, 2023 were
+							entered in the leaderboard.
+						</TimelineNode>
+						<TimelineNode
+							title="Slayer Class Release"
+							time="April 12, 2023"
+							side="left"
+							fillLineEnd
+							fillLineStart
+						>
+							Slayer class was released. It opened new possibilities for sub-classing and critical
+							hit based builds. The first phase of Duels was released alongside with the Defi-series
+							Duel-only augment. Nex Aelio, Renus Retem, Ams Kvaris, and Nils Stia at rank 1 were
+							available to fight.
+						</TimelineNode>
+						<TimelineNode
+							title="Weapon Potential Lv6 Release"
+							time="April 19, 2023"
+							side="right"
+							fillLineEnd
+							fillLineStart
+						>
+							Weapon potential level 6 was released which required Photon Chunk II A & B to unlock.
+						</TimelineNode>
+						<TimelineNode
+							title="Level 75 Cap release"
+							time="June 14, 2023"
+							side="left"
+							fillLineEnd
+							fillLineStart
+						>
+							A skill re-balance from June 7th for several classes was released. On the 14th the
+							level cap was increased to level 75 alongside new rarity 9⭐ weapons. We decided to
+							roll the skill re-balance and level cap increase into the same patch. Dark Falz Aegis
+							gains a new rank. Duel Halvaldi released June 21st. Tisah weapons available for the
+							first time.
+						</TimelineNode>
+						<TimelineNode
+							title="Level 80 Cap release"
+							time="October 11, 2023"
+							side="right"
+							fillLineEnd
+							fillLineStart
+						>
+							The maximum player level was increased to level 80 and a few classes gained some new
+							class skills "to balance the use of long-range weapons in multiplayer". Existing Duel
+							quests (up to phase 2 Zelvin) increased the maximum quest time from 5 minutes to 10
+							minutes, nullifies region mag effects during the quest, and lowered HP enemies. Around
+							this time newly released Alliance mags offered 5% potency. Duel Boss Zelvin was
+							released later on October 18th.
+						</TimelineNode>
+						<TimelineNode
+							title="+80 Weapon Release"
+							time="December 6, 2023"
+							side="left"
+							fillLineStart
+						>
+							Weapon grind level +80 was introduced alongside various PA Tech Arts Customizations.
+							Bouncer re-balance was released.
+						</TimelineNode>
+					</Timeline>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
