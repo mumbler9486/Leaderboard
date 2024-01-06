@@ -1,8 +1,8 @@
 import { fields } from '../util/nameof';
-import type { PlayersDbModel, PlayersDbModel2 } from '../types/db/users/players';
+import type { PlayersDbModel2 } from '../types/db/users/players';
 import type { Pool } from 'pg';
 
-const playersDbFields = fields<PlayersDbModel>();
+const playersDbFields = fields<PlayersDbModel2>();
 
 export const getUserExists = async (request: Pool, userGuid: string) => {
 	const user = await getUser(request, userGuid);
@@ -14,12 +14,12 @@ export const getUser = async (request: Pool, userGuid: string) => {
 	const results = await request.query(
 		`
 			SELECT 
-				pi.${playersDbFields.Id},
-				pi.${playersDbFields.PlayerName},
-				pi.${playersDbFields.UserId},
-				pi.${playersDbFields.Roles}
-			FROM Players AS pi
-			WHERE pi.${playersDbFields.UserId} = $1
+				pi.${playersDbFields.id},
+				pi.${playersDbFields.player_name},
+				pi.${playersDbFields.user_id},
+				pi.${playersDbFields.roles}
+			FROM players AS pi
+			WHERE pi.${playersDbFields.user_id} = $1
 		`,
 		[userGuid]
 	);
@@ -32,9 +32,9 @@ export const getUserRoles = async (pool: Pool, userGuid: string) => {
 	const results = await pool.query(
 		`
 			SELECT 
-        pi.${playersDbFields.Roles}
-			FROM Players AS pi
-			WHERE pi.${playersDbFields.UserId} = $1
+        pi.${playersDbFields.roles}
+			FROM players AS pi
+			WHERE pi.${playersDbFields.user_id} = $1
 		`,
 		[userGuid]
 	);

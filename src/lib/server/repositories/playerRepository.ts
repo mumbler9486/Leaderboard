@@ -12,7 +12,7 @@ export const getRunPlayer = async (pool: Pool, playerId: number) => {
     SELECT
 			pi.${playerDbFields.id}, 
 			pi.${playerDbFields.player_name}
-    FROM Players as pi
+    FROM players as pi
     WHERE pi.${playerDbFields.id} = $1;
 		`,
 		[playerId]
@@ -35,7 +35,7 @@ export const getPlayers = async (pool: Pool, playerIds: number[]) => {
     SELECT 
 			pi.${playerDbFields.id},
 			pi.${playerDbFields.player_name}
-		FROM Players AS pi
+		FROM players AS pi
 		WHERE pi.${playerDbFields.id} IN ($1::int[])
   `,
 		playerIds
@@ -118,8 +118,8 @@ export const getPlayerList = async (pool: Pool) => {
 			pi.${playerDbFields.player_name},
 			pi.${playerDbFields.character_name}
 
-		FROM Players as pi
-		ORDER BY PlayerName ASC`;
+		FROM players as pi
+		ORDER BY ${playerDbFields.player_name} ASC`;
 
 	const results = await pool.query(playerListQuery);
 	return results.rows as PlayersDbModel2[];
@@ -132,9 +132,9 @@ export const isPlayerNameUnique = async (pool: Pool, playerName: string) => {
 			pi.${playerDbFields.player_name},
 			pi.${playerDbFields.character_name}
 
-		FROM Players as pi
+		FROM players as pi
 		WHERE pi.${playerDbFields.player_name} = $1
-		ORDER BY PlayerName ASC`;
+		ORDER BY ${playerDbFields.player_name} ASC`;
 
 	const results = await pool.query(playerListQuery, [playerName]);
 
@@ -148,7 +148,7 @@ export const createAccount = async (
 	createAccountRequest: CreateAccountRequest
 ) => {
 	const insertInfoQuery = `
-		INSERT INTO Players (
+		INSERT INTO players (
 			${playerDbFields.user_id},
 			${playerDbFields.player_name},
 			${playerDbFields.character_name},

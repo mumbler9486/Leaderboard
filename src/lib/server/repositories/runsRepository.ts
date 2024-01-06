@@ -14,7 +14,7 @@ import { parseNgsWeapon } from '$lib/types/api/weapon';
 import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus';
 import type { GetRunDbModel } from '../types/db/runs/getRun';
 import type { ServerSearchFilter } from '../types/api/runsSearch';
-import type { Pool } from 'pg';
+import type { Pool, PoolClient } from 'pg';
 
 const runsDbFields = fields<RunDbModel>();
 const runPartyDbFields = fields<RunPartyDbModel>();
@@ -220,26 +220,23 @@ export const getRuns = async (
 
 	// Execute
 	const results = await pool.query(query, queryParams);
-	console.log(query, queryParams, results.rows);
 	return results.rows as GetRunDbModel[];
 };
 
 export const insertRun = async (
-	pool: Pool,
+	poolClient: PoolClient,
 	game: Game,
 	run: RunSubmissionRequest,
 	submitterId: number
 ) => {
-	// TODO make transaction
-
 	const serverRegion = parseServerRegion(run.serverRegion);
 	const runDetails =
 		run.details === null || run.details === undefined ? null : JSON.stringify(run.details);
 	const serializedRunTime = serializeTimeToSqlTime(run.time);
 
-	const runInsertResult = await pool.query(
+	const runInsertResult = await poolClient.query(
 		`
-    INSERT INTO Runs (
+    INSERT INTO runs (
       ${runsDbFields.submitter_id},
       ${runsDbFields.game},
       ${runsDbFields.quest},
@@ -257,21 +254,21 @@ export const insertRun = async (
       ${runsDbFields.attributes},
       ${runsDbFields.reviewed_by})
     VALUES (
-      @submitterId,
-			@game,
-      @quest,
-      @category,
-      @serverRegion,
-      @patch,
-      @rank,
-			@partySize,
-      @runTime,
-      @notes,
-      @submissionDate,
-      @submissionStatus,
-      @dateApproved,
-      @modNotes,
-      @attributes,
+      $1,
+			$2,
+      $3,
+      $4,
+      $5,
+      $6,
+      $7,
+			$8,
+      $9,
+      $10,
+      $11,
+      $12,
+      $13,
+      $14,
+      $15,
 			NULL)
     RETURNING ${runsDbFields.id};
   `,
@@ -293,44 +290,56 @@ export const insertRun = async (
 			runDetails,
 		]
 	);
+
 	if (runInsertResult.rowCount == 0) {
 		throw Error(`Run insertion failed.`);
 	}
 	console.log(runInsertResult);
 	const insertedRunId = runInsertResult.rows[0].id;
 
-	await insertRunParty(pool, 1001, run.party);
+	await insertRunParty(poolClient, insertedRunId, run.party);
 };
 
 const insertRunParty = async (
-	pool: Pool,
+	poolClient: PoolClient,
 	runId: number,
 	partyMembers: RunSubmissionRequest['party']
 ) => {
 	const insertValueRows: string[] = [];
-	partyMembers.forEach((member, i) => {
+	let paramIndex = 0;
+	let insertValues: any[] = [runId];
+	paramIndex++;
+	partyMembers.forEach((member) => {
 		// Transform request
 		const normalizedPovLink = member.povLink ? normalizeYoutubeLink(member.povLink) : null;
 		const weapons = member.weapons.map((w) => parseNgsWeapon(w)!);
 		const mainClass = member.mainClass;
 		const subClass = member.subClass;
 
-		partyInsertRequest = partyInsertRequest
-			.input(`playerId${i}`, sql.Int, member.playerId)
-			.input(`ordinal${i}`, sql.Int, member.ordinal)
-			.input(`povLink${i}`, sql.NVarChar(100), normalizedPovLink)
-			.input(`runCharacterName${i}`, sql.NVarChar(30), member.inVideoName)
-			.input(`mainClass${i}`, sql.NVarChar(30), mainClass)
-			.input(`subClass${i}`, sql.NVarChar(30), subClass)
-			.input(`weapons${i}`, sql.NVarChar(4000), JSON.stringify(weapons));
-
+		const insertParams: any[] = [
+			member.playerId,
+			member.ordinal,
+			normalizedPovLink,
+			member.inVideoName,
+			mainClass,
+			subClass,
+			JSON.stringify(weapons),
+		];
 		insertValueRows.push(`
-      (@runId,@playerId${i},@ordinal${i},@povLink${i},@runCharacterName${i},@mainClass${i},@subClass${i},@weapons${i})
+      ($1,
+				$${++paramIndex},
+				$${++paramIndex},
+				$${++paramIndex},
+				$${++paramIndex},
+				$${++paramIndex},
+				$${++paramIndex},
+				$${++paramIndex})
     `);
+
+		insertValues = insertValues.concat(insertParams);
 	});
 
-	partyInsertRequest = partyInsertRequest.input(`runId`, sql.Int, runId);
-	const result = await partyInsertRequest.query(`
+	const result = await poolClient.query(`
     INSERT INTO run_party (
       ${runPartyDbFields.run_id},
       ${runPartyDbFields.player_id},
@@ -344,7 +353,7 @@ const insertRunParty = async (
       ${insertValueRows.join(',')}
   `);
 
-	if (result.rowsAffected[0] == 0) {
+	if (result.rowCount == 0) {
 		throw Error(`Run party insertion failed.`);
 	}
 };
@@ -376,7 +385,7 @@ export const checkRunExists = async (pool: Pool, runId: number) => {
 				${runsDbFields.submission_status},
 				${runsDbFields.submission_date},
 				${runsDbFields.submitter_id}
-			FROM Runs
+			FROM runs
       WHERE ${runsDbFields.id} = $1;
     `[runId]
 	);
@@ -400,7 +409,7 @@ export const approveRun = async (
 ) => {
 	const submissionResult = await pool.query(
 		`
-			UPDATE Runs
+			UPDATE runs
 			SET 
 				${runsDbFields.submission_status} = $1,
 				${runsDbFields.date_reviewed} = $2,
@@ -423,7 +432,7 @@ export const denyRun = async (
 ) => {
 	const submissionResult = await pool.query(
 		`
-      UPDATE Runs
+      UPDATE runs
 			SET 
 				${runsDbFields.submission_status} = $1,
 				${runsDbFields.date_reviewed} = $2,
@@ -477,7 +486,7 @@ const appendAttributeFilter = (
 export const countSoloRuns = async (request: Pool) => {
 	const sqlQuery = `
 			SELECT COUNT(*) AS ${countSoloFields.SoloRunsCount}
-			FROM Runs
+			FROM runs
 			WHERE Runs.${runsDbFields.party_size} = 1
     `;
 

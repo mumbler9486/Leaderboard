@@ -25,26 +25,27 @@ export const submitRun = async (
 	if (!!userErrors) {
 		return jsonError(403, { error: ErrorCodes.Unauthorized, details: userErrors });
 	}
-	const playerId = parseInt(user!.Id);
+	const playerId = user!.id;
 
 	// Check run data
-	const { errors: runRequestErrors } = await checkRunData(validationRequest, parsedRun);
+	const { errors: runRequestErrors } = await checkRunData(pool, parsedRun);
 	if (runRequestErrors.length > 0) {
 		return jsonError(400, { error: ErrorCodes.BadRequest, details: runRequestErrors });
 	}
 
 	// Check players
-	const playerErrors = await checkPartyPlayers(validationRequest, requestUser, playerId, parsedRun);
+	const playerErrors = await checkPartyPlayers(pool, requestUser, playerId, parsedRun);
 	if (playerErrors.length > 0) {
 		return jsonError(400, { error: ErrorCodes.BadRequest, details: playerErrors });
 	}
 
 	// Insert run
-	const transaction = new sql.Transaction(pool);
+	const poolClient = await pool.connect();
 	try {
-		await transaction.begin();
-		await insertRun(transaction, game, parsedRun, playerId);
-		await transaction.commit();
+		poolClient.query('BEGIN');
+
+		poolClient.query('COMMIT');
+		await insertRun(poolClient, game, parsedRun, playerId);
 
 		notifyDiscordNewRun(parsedRun.submitterName, parsedRun);
 		const successResponse: SubmitResult = {
@@ -52,19 +53,19 @@ export const submitRun = async (
 		};
 		return json(successResponse);
 	} catch (err) {
-		await transaction.rollback();
+		poolClient.query('ROLLBACK');
 		console.error(err);
 		throw jsonError(500, { error: 'internal_server_error' });
 	}
 };
 
-const checkRunData = async (request: Request, run: RunSubmissionRequest) => {
+const checkRunData = async (pool: Pool, run: RunSubmissionRequest) => {
 	const errorList: string[] = [];
 
 	// Video links not already in use
 	const videoLinks = run.party.map((p) => p.povLink).filter((l): l is string => l !== undefined);
 
-	const existingVideoLinks = await checkRunVideoExists(request, videoLinks);
+	const existingVideoLinks = await checkRunVideoExists(pool, videoLinks);
 
 	if (existingVideoLinks.length > 0) {
 		existingVideoLinks.forEach((l) => {
@@ -80,7 +81,7 @@ const checkRunData = async (request: Request, run: RunSubmissionRequest) => {
 const checkSubmittingUser = async (pool: Pool, requestUser: ServerUser) => {
 	// Submitter exists
 	const submitterUser = await getUser(pool, requestUser.userId);
-	const submitterPlayerId = parseInt(submitterUser?.Id ?? '-1');
+	const submitterPlayerId = submitterUser?.id ?? -1;
 	if (!submitterUser || submitterPlayerId <= 0) {
 		return {
 			user: null,
@@ -103,7 +104,7 @@ const checkSubmittingUser = async (pool: Pool, requestUser: ServerUser) => {
 };
 
 const checkPartyPlayers = async (
-	request: Request,
+	pool: Pool,
 	requestUser: ServerUser,
 	playerId: number,
 	run: RunSubmissionRequest
@@ -116,7 +117,7 @@ const checkPartyPlayers = async (
 
 	// Party members exist
 	const playerIds = run.party.map((p) => p.playerId).filter((pid): pid is number => !!pid);
-	const existingPlayers = await getPlayers(request, playerIds);
+	const existingPlayers = await getPlayers(pool, playerIds);
 
 	const playersNotExist = playerIds.filter((p) => !existingPlayers.some((e) => e.playerId === p));
 
