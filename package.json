@@ -17,6 +17,7 @@
 		"@azure/static-web-apps-cli": "^1.1.4",
 		"@sveltejs/kit": "^1.25.2",
 		"@types/mssql": "^9.1.4",
+		"@types/yup": "^0.32.0",
 		"autoprefixer": "^10.4.16",
 		"cross-env": "^7.0.3",
 		"daisyui": "^4.4.24",
