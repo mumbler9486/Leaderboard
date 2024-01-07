@@ -3,7 +3,7 @@ import { checkDockerRunning, copyFilesToDocker, dockerExec } from './utils/docke
 import { dockerExecAzureSql } from './utils/sql.js';
 
 // Config
-shell.config.verbose = true; // Show commands used
+//shell.config.verbose = true; // Show commands used
 
 const dbContainerName = 'pso2-lebrd-sql-db';
 const sourceScriptDir = 'db_mocks/';
@@ -45,9 +45,13 @@ execSqlFile('scripts/drop_tables.sql');
 
 // Initialize tables, must go in a particular order
 shell.echo('');
-shell.echo('Running script files.');
+shell.echo('Creating tables.');
 execSqlFile('scripts/tables.sql');
+
+shell.echo('Creating users.');
 execSqlFile('scripts/players.sql');
+
+shell.echo('Creating runs.');
 execSqlFile('scripts/runs.sql');
 
 // Done

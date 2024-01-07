@@ -73,7 +73,7 @@ ALTER TABLE dbo.[Runs] WITH CHECK ADD CONSTRAINT [FK_Runs_SubmitterId] FOREIGN K
 REFERENCES dbo.[Players] ([Id])
 ALTER TABLE dbo.[Runs] CHECK CONSTRAINT [FK_Runs_SubmitterId]
 
-ALTER TABLE dbo.[Players] 
+ALTER TABLE dbo.[Players]
 ADD CONSTRAINT [df_PreferredNameType] DEFAULT 0 FOR PreferredNameType;
 
 ALTER TABLE dbo.[Players]
