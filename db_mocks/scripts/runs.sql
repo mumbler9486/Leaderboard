@@ -3,22 +3,23 @@ SET IDENTITY_INSERT [dbo].[Runs] ON;
 INSERT INTO dbo.Runs
   (Id,SubmitterId,Game,Quest,Category,ServerRegion,Patch,QuestRank,PartySize,RunTime,Notes,SubmissionDate,SubmissionStatus,DateReviewed,ModNotes,Attributes,ReviewedBy)
 VALUES
-  (1000,1001,'ngs','purples','aelio','global','level80r',4,1,'0:12:55','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1001,1017,'ngs','purples','aelio','japan','level80r',4,1,'0:15:01','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1002,1011,'ngs','purples','aelio','global','60r',4,1,'0:17:47','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1003,1013,'ngs','purples','aelio','global','pre60r',4,1,'0:18:16','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1004,1001,'ngs','purples','aelio','global','pot6r',4,1,'0:16:51','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1005,1011,'ngs','purples','aelio','japan','pre60r',4,1,'0:10:54','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1006,1012,'ngs','purples','aelio','global','level75r',3,1,'0:17:21','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1007,1013,'ngs','purples','aelio','global','lvl80grind',3,1,'0:15:53','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1008,1014,'ngs','purples','aelio','japan','60r',3,1,'0:14:15','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1009,1013,'ngs','purples','aelio','japan','60r',2,1,'0:13:41','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1010,1015,'ngs','purples','aelio','global','pre60r',2,1,'0:17:24','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1011,1014,'ngs','purples','aelio','japan','level75r',2,1,'0:18:37','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1012,1017,'ngs','purples','aelio','global','level75r',1,1,'0:17:21','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1013,1016,'ngs','purples','aelio','global','level80r',1,1,'0:13:39','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1014,1011,'ngs','purples','aelio','global','60r',1,1,'0:19:36','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1015,1012,'ngs','purples','aelio','global','pre60r',4,1,'0:15:39','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool')
+  (1000,1001,'ngs','purples','aelio','global','level80r',4,1,'0:12:55','Notes','2023-05-16T00:46:06Z',1,'2023-05-16T02:46:06Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1001,1017,'ngs','purples','aelio','japan','level80r',4,1,'0:15:01','Notes','2023-11-25T05:38:26Z',1,'2023-11-25T07:38:26Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1002,1011,'ngs','purples','aelio','global','60r',4,1,'0:17:47','Notes','2023-05-29T11:54:52Z',1,'2023-05-29T13:54:52Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1003,1013,'ngs','purples','aelio','global','pre60r',4,1,'0:18:16','Notes','2023-07-27T07:52:03Z',1,'2023-07-27T09:52:03Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1004,1001,'ngs','purples','aelio','global','pot6r',4,1,'0:16:51','Notes','2023-07-07T01:12:28Z',1,'2023-07-07T03:12:28Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1005,1011,'ngs','purples','aelio','japan','pre60r',4,1,'0:10:54','Notes','2023-07-13T11:19:22Z',1,'2023-07-13T13:19:22Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1006,1012,'ngs','purples','aelio','global','level75r',3,1,'0:17:21','Notes','2023-06-14T15:25:32Z',1,'2023-06-14T18:25:32Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1007,1013,'ngs','purples','aelio','global','lvl80grind',3,1,'0:15:53','Notes','2023-12-02T11:58:04Z',1,'2023-12-03T11:58:04Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1008,1014,'ngs','purples','aelio','japan','60r',3,1,'0:14:15','Notes','2023-07-31T08:42:36Z',1,'2023-07-31T10:42:36Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1009,1013,'ngs','purples','aelio','japan','60r',2,1,'0:13:41','Notes','2023-03-27T01:20:57Z',1,'2023-03-28T01:20:57Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1010,1015,'ngs','purples','aelio','global','pre60r',2,1,'0:17:24','Notes','2023-07-04T18:33:23Z',1,'2023-07-06T18:33:23Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1011,1014,'ngs','purples','aelio','japan','level75r',2,1,'0:18:37','Notes','2023-11-19T07:56:40Z',1,'2023-11-20T07:56:40Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1012,1017,'ngs','purples','aelio','global','level75r',1,1,'0:17:21','Notes','2023-07-23T00:55:46Z',1,'2023-08-23T00:55:46Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1013,1016,'ngs','purples','aelio','global','level80r',1,1,'0:13:39','Notes','2023-02-05T22:27:06Z',1,'2023-02-05T23:27:06Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1014,1011,'ngs','purples','aelio','global','60r',1,1,'0:19:36','Notes','2023-10-10T23:10:22Z',1,'2023-10-11T01:10:22Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1015,1012,'ngs','purples','aelio','global','pre60r',4,1,'0:15:39','Notes','2023-04-06T19:10:05Z',1,'2023-04-06T21:10:05Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1016,1012,'ngs','purples','aelio','global','level80r',4,1,'0:13:39','New Time succeeds old run','2023-12-25T11:53:20Z',1,'2023-03-25T13:55:20Z','Mod Notes', NULL,'Tall Mommy Cool')
 ;
 SET IDENTITY_INSERT [dbo].[Runs] OFF;
 
@@ -41,7 +42,8 @@ VALUES
   (1012,1012,1017,0,'https://youtu.be/rUB9xWRRLe52','trying_to_rid_this_name','ngs_techter','ngs_slayer','["ngs_katana","ngs_soaring_blades","ngs_katana"]'),
   (1013,1013,1016,0,'https://youtu.be/1A5L6C6x0nH7','trying_to_rid_this_name','ngs_braver','ngs_ranger','["ngs_sword","ngs_katana","ngs_sword"]'),
   (1014,1014,1011,0,'https://youtu.be/r6Up2wbU3p0N','trying_to_rid_this_name','ngs_fighter','ngs_fighter','["ngs_sword","ngs_twin_daggers","ngs_bow"]'),
-  (1015,1015,1012,0,'https://youtu.be/bU5C66Rai64j','trying_to_rid_this_name','ngs_braver','ngs_gunner','["ngs_jet_boots","ngs_jet_boots","ngs_wired_lance"]')
+  (1015,1015,1012,0,'https://youtu.be/bU5C66Rai64j','trying_to_rid_this_name','ngs_braver','ngs_gunner','["ngs_jet_boots","ngs_jet_boots","ngs_wired_lance"]'),
+  (1016,1016,1012,0,'https://youtu.be/1a7682528888','trying_to_rid_this_name','ngs_braver','ngs_gunner','["ngs_double_sabers","ngs_gunblade","ngs_katana"]')
 ;
 SET IDENTITY_INSERT [dbo].[RunParty] OFF;
 
@@ -50,22 +52,23 @@ SET IDENTITY_INSERT [dbo].[Runs] ON;
 INSERT INTO dbo.Runs
   (Id,SubmitterId,Game,Quest,Category,ServerRegion,Patch,QuestRank,PartySize,RunTime,Notes,SubmissionDate,SubmissionStatus,DateReviewed,ModNotes,Attributes,ReviewedBy)
 VALUES
-  (1100,1001,'ngs','purples','aelio','global','level80r',4,2,'0:12:55','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1101,1017,'ngs','purples','aelio','japan','level80r',4,2,'0:15:01','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1102,1011,'ngs','purples','aelio','global','60r',4,2,'0:17:47','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1103,1013,'ngs','purples','aelio','global','pre60r',4,2,'0:18:16','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1104,1001,'ngs','purples','aelio','global','pot6r',4,2,'0:16:51','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1105,1011,'ngs','purples','aelio','japan','pre60r',4,2,'0:10:54','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1106,1012,'ngs','purples','aelio','global','level75r',3,2,'0:17:21','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1107,1013,'ngs','purples','aelio','global','lvl80grind',3,2,'0:15:53','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1108,1014,'ngs','purples','aelio','japan','60r',3,2,'0:14:15','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1109,1013,'ngs','purples','aelio','japan','60r',2,2,'0:13:41','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1110,1015,'ngs','purples','aelio','global','pre60r',2,2,'0:17:24','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1111,1014,'ngs','purples','aelio','japan','level75r',2,2,'0:18:37','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1112,1017,'ngs','purples','aelio','global','level75r',1,2,'0:17:21','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1113,1016,'ngs','purples','aelio','global','level80r',1,2,'0:13:39','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1114,1011,'ngs','purples','aelio','global','60r',1,2,'0:19:36','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1115,1012,'ngs','purples','aelio','global','pre60r',4,2,'0:15:39','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool')
+  (1100,1001,'ngs','purples','aelio','global','level80r',4,2,'0:12:55','Notes','2023-11-16T08:33:32Z',1,'2023-11-16T11:33:32Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1101,1017,'ngs','purples','aelio','japan','level80r',4,2,'0:15:01','Notes','2023-03-13T22:36:48Z',1,'2023-03-13T23:36:48Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1102,1011,'ngs','purples','aelio','global','60r',4,2,'0:17:47','Notes','2023-12-10T23:38:06Z',1,'2023-12-10T23:39:06Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1103,1013,'ngs','purples','aelio','global','pre60r',4,2,'0:18:16','Notes','2023-02-04T00:42:02Z',1,'2023-02-04T01:42:02Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1104,1001,'ngs','purples','aelio','global','pot6r',4,2,'0:16:51','Notes','2023-07-12T14:52:12Z',1,'2023-07-15T14:52:12Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1105,1011,'ngs','purples','aelio','japan','pre60r',4,2,'0:10:54','Notes','2023-09-23T17:51:04Z',1,'2023-09-24T17:51:04Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1106,1012,'ngs','purples','aelio','global','level75r',3,2,'0:17:21','Notes','2023-04-25T07:13:46Z',1,'2023-04-25T09:13:46Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1107,1013,'ngs','purples','aelio','global','lvl80grind',3,2,'0:15:53','Notes','2023-11-01T01:29:56Z',1,'2023-11-01T02:29:56Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1108,1014,'ngs','purples','aelio','japan','60r',3,2,'0:14:15','Notes','2023-01-15T11:20:44Z',1,'2023-01-15T17:20:44Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1109,1013,'ngs','purples','aelio','japan','60r',2,2,'0:13:41','Notes','2023-11-14T10:20:37Z',1,'2023-11-14T18:20:37Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1110,1015,'ngs','purples','aelio','global','pre60r',2,2,'0:17:24','Notes','2023-12-16T10:23:30Z',1,'2023-12-16T14:23:30Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1111,1014,'ngs','purples','aelio','japan','level75r',2,2,'0:18:37','Notes','2023-08-14T07:55:30Z',1,'2023-08-14T08:00:30Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1112,1017,'ngs','purples','aelio','global','level75r',1,2,'0:17:21','Notes','2023-06-30T06:09:22Z',1,'2023-07-30T06:09:22Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1113,1016,'ngs','purples','aelio','global','level80r',1,2,'0:13:39','Notes','2023-08-30T23:24:25Z',1,'2023-08-30T23:55:25Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1114,1011,'ngs','purples','aelio','global','60r',1,2,'0:19:36','Notes','2023-08-10T00:47:56Z',1,'2023-08-10T02:47:56Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1115,1012,'ngs','purples','aelio','global','pre60r',4,2,'0:15:39','Notes','2023-03-05T23:36:32Z',1,'2023-03-05T23:45:32Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1116,1012,'ngs','purples','aelio','global','level80r',4,2,'0:13:39','New Time succeeds old run','2023-07-25T01:23:16Z',1,'2023-07-25T03:23:16Z','Mod Notes', NULL,'Tall Mommy Cool')
 ;
 SET IDENTITY_INSERT [dbo].[Runs] OFF;
 
@@ -103,8 +106,10 @@ VALUES
   (1127,1113,1022,0,'https://youtu.be/8c0e2f579308','trying_to_rid_this_name','ngs_slayer','ngs_slayer',NULL),
   (1128,1114,1011,0,'https://youtu.be/528a576c21cc','trying_to_rid_this_name','ngs_gunner','ngs_bouncer',NULL),
   (1129,1114,1026,0,'https://youtu.be/8298d1283321','trying_to_rid_this_name','ngs_waker','ngs_braver',NULL),
-  (1130,1115,1012,0,'https://youtu.be/5dedb829566f','trying_to_rid_this_name','ngs_force','ngs_bouncer',NULL),
-  (1131,1115,1016,0,'https://youtu.be/2bd1e96d90d4','trying_to_rid_this_name','ngs_techter','ngs_bouncer',NULL)
+  (1130,1115,1012,0,'https://youtu.be/b325d39a45c7','trying_to_rid_this_name','ngs_force','ngs_bouncer',NULL),
+  (1131,1115,1016,0,'https://youtu.be/2bd1e96d90d4','trying_to_rid_this_name','ngs_techter','ngs_braver',NULL),
+  (1132,1116,1012,0,'https://youtu.be/e399f9333edd','trying_to_rid_this_name','ngs_force','ngs_slayer',NULL),
+  (1133,1116,1016,0,'https://youtu.be/d558c561fc4c','trying_to_rid_this_name','ngs_techter','ngs_fighter',NULL)
 ;
 SET IDENTITY_INSERT [dbo].[RunParty] OFF;
 
@@ -113,22 +118,23 @@ SET IDENTITY_INSERT [dbo].[Runs] ON;
 INSERT INTO dbo.Runs
   (Id,SubmitterId,Game,Quest,Category,ServerRegion,Patch,QuestRank,PartySize,RunTime,Notes,SubmissionDate,SubmissionStatus,DateReviewed,ModNotes,Attributes,ReviewedBy)
 VALUES
-  (1200,1001,'ngs','purples','aelio','global','level80r',4,4,'0:12:55','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1201,1017,'ngs','purples','aelio','japan','level80r',4,4,'0:15:01','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1202,1011,'ngs','purples','aelio','global','60r',4,4,'0:17:47','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1203,1013,'ngs','purples','aelio','global','pre60r',4,4,'0:18:16','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1204,1001,'ngs','purples','aelio','global','pot6r',4,4,'0:16:51','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1205,1011,'ngs','purples','aelio','japan','pre60r',4,4,'0:10:54','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1206,1012,'ngs','purples','aelio','global','level75r',3,4,'0:17:21','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1207,1013,'ngs','purples','aelio','global','lvl80grind',3,4,'0:15:53','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1208,1014,'ngs','purples','aelio','japan','60r',3,4,'0:14:15','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1209,1013,'ngs','purples','aelio','japan','60r',2,4,'0:13:41','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1210,1015,'ngs','purples','aelio','global','pre60r',2,4,'0:17:24','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1211,1014,'ngs','purples','aelio','japan','level75r',2,4,'0:18:37','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1212,1017,'ngs','purples','aelio','global','level75r',1,4,'0:17:21','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1213,1016,'ngs','purples','aelio','global','level80r',1,4,'0:13:39','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1214,1011,'ngs','purples','aelio','global','60r',1,4,'0:19:36','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool'),
-  (1215,1012,'ngs','purples','aelio','global','pre60r',4,4,'0:15:39','Notes',GETUTCDATE(),1, GETUTCDATE(),'Mod Notes', NULL,'Tall Mommy Cool')
+  (1200,1001,'ngs','purples','aelio','global','level80r',4,4,'0:12:55','Notes','2023-04-11T04:31:56Z',1,'2023-04-11T19:31:56Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1201,1017,'ngs','purples','aelio','japan','level80r',4,4,'0:15:01','Notes','2023-06-06T02:40:36Z',1,'2023-06-06T06:40:36Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1202,1011,'ngs','purples','aelio','global','60r',4,4,'0:17:47','Notes','2023-03-29T11:19:44Z',1,'2023-03-29T13:19:44Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1203,1013,'ngs','purples','aelio','global','pre60r',4,4,'0:18:16','Notes','2023-05-20T03:59:53Z',1,'2023-05-20T06:59:53Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1204,1001,'ngs','purples','aelio','global','pot6r',4,4,'0:16:51','Notes','2023-08-08T16:33:24Z',1,'2023-08-09T19:33:24Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1205,1011,'ngs','purples','aelio','japan','pre60r',4,4,'0:10:54','Notes','2023-06-25T03:07:28Z',1,'2023-06-25T03:12:28Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1206,1012,'ngs','purples','aelio','global','level75r',3,4,'0:17:21','Notes','2023-08-19T05:38:38Z',1,'2023-08-19T05:39:38Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1207,1013,'ngs','purples','aelio','global','lvl80grind',3,4,'0:15:53','Notes','2023-03-27T02:09:54Z',1,'2023-03-27T03:09:54Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1208,1014,'ngs','purples','aelio','japan','60r',3,4,'0:14:15','Notes','2023-03-05T08:07:47Z',1,'2023-04-05T09:07:47Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1209,1013,'ngs','purples','aelio','japan','60r',2,4,'0:13:41','Notes','2023-09-15T05:38:19Z',1,'2023-09-15T08:38:19Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1210,1015,'ngs','purples','aelio','global','pre60r',2,4,'0:17:24','Notes','2023-09-24T06:24:03Z',1,'2023-09-24T08:24:03Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1211,1014,'ngs','purples','aelio','japan','level75r',2,4,'0:18:37','Notes','2023-03-24T05:07:21Z',1,'2023-03-24T06:07:21Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1212,1017,'ngs','purples','aelio','global','level75r',1,4,'0:17:21','Notes','2023-07-07T03:22:31Z',1,'2023-07-07T04:22:31Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1213,1016,'ngs','purples','aelio','global','level80r',1,4,'0:13:39','Notes','2023-10-01T14:09:28Z',1,'2023-10-01T16:09:28Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1214,1011,'ngs','purples','aelio','global','60r',1,4,'0:19:36','Notes','2023-11-27T06:28:43Z',1,'2023-11-27T06:29:43Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1215,1012,'ngs','purples','aelio','global','pre60r',4,4,'0:15:39','Notes','2023-04-05T10:22:44Z',1,'2023-04-05T12:22:44Z','Mod Notes', NULL,'Tall Mommy Cool'),
+  (1216,1012,'ngs','purples','aelio','global','level80r',4,4,'0:13:39','New Time succeeds old run','2023-09-11T10:31:58Z',1,'2023-09-11T12:31:58Z','Mod Notes', NULL,'Tall Mommy Cool')
 ;
 SET IDENTITY_INSERT [dbo].[Runs] OFF;
 
@@ -199,7 +205,11 @@ VALUES
   (1260,1215,1012,0,'https://youtu.be/3c23545a02a09','trying_to_rid_this_name','ngs_force','ngs_fighter',NULL),
   (1261,1215,1027,0,'https://youtu.be/05e952f5aeab2','trying_to_rid_this_name','ngs_bouncer','ngs_fighter',NULL),
   (1262,1215,1017,0,'https://youtu.be/a4691be2cf59c','trying_to_rid_this_name','ngs_fighter','ngs_gunner',NULL),
-  (1263,1215,1004,0,'https://youtu.be/e57dd0a8c7225','trying_to_rid_this_name','ngs_waker','ngs_force',NULL)
+  (1263,1215,1004,0,'https://youtu.be/e57dd0a8c7225','trying_to_rid_this_name','ngs_waker','ngs_force',NULL),
+  (1264,1216,1012,0,'https://youtu.be/3c23545a02a09','trying_to_rid_this_name','ngs_force','ngs_gunner',NULL),
+  (1265,1216,1027,0,'https://youtu.be/05e952f5aeab2','trying_to_rid_this_name','ngs_bouncer','ngs_force',NULL),
+  (1266,1216,1017,0,'https://youtu.be/a4691be2cf59c','trying_to_rid_this_name','ngs_fighter','ngs_hunter',NULL),
+  (1267,1216,1004,0,'https://youtu.be/e57dd0a8c7225','trying_to_rid_this_name','ngs_waker','ngs_slayer',NULL)
 ;
 SET IDENTITY_INSERT [dbo].[RunParty] OFF;
 

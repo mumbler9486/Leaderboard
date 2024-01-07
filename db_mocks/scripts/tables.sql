@@ -1,5 +1,5 @@
 CREATE TABLE dbo.[Runs] (
-    [Id] int  IDENTITY(1000,1) NOT NULL,
+    [Id] int IDENTITY(1000,1) NOT NULL,
     [SubmitterId] int NOT NULL,
     [Game] nvarchar(3) NOT NULL,
     [Quest] nvarchar(50) NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE dbo.[RunParty] (
 )
 
 CREATE TABLE dbo.[Players] (
-    [Id] int  IDENTITY(1000,1) NOT NULL,
+    [Id] int IDENTITY(1000,1) NOT NULL,
     [UserId] uniqueidentifier NOT NULL,
     [Roles] nvarchar(4000) NOT NULL,
     [PlayerName] nvarchar(30) NOT NULL UNIQUE,
