@@ -23,7 +23,7 @@ VALUES
   (1009,'e1c94f82-987a-44d5-a811-382962247011','["user"]',N'doomster',N'doomster',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,3,'2c75d2','66290'),
   (1010,'56da90cc-cc30-4ffe-b746-dc7e38fbe7ff','["user"]',N'speedy_mcspeedface',N'speedy_mcspeedface',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,3,'122bb0','7e87be'),
   (1011,'83119ab2-0365-4ebd-9a30-7088d9eb878e','["user"]',N'shantae',N'shantae',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,1,'e2cc6d','3770a7'),
-  (1012,'3308d611-34f0-48b0-a3b2-61058bc64b0f','["user"]',N'vpn-express',N'vpn-express',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,1,'8094d7','f72987'),
+  (1012,'3308d611-34f0-48b0-a3b2-61058bc64b0f','["user"]',N'photoner-vpn-ex',N'vpn-express',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,1,'8094d7','f72987'),
   (1013,'244f8266-df08-4417-bc87-be3622911ba2','["user"]',N'handsome_dorf',N'handsome_dorf',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,1,'10d513','e537ce'),
   (1014,'ce8302de-5a86-4917-ac41-d7f9922d1d61','["user"]',N'Soda of Baking',N'Soda of Baking',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,1,'aa61ad','b62294'),
   (1015,'c3f509dd-917d-41be-88fc-3ae5dcd528fd','["user"]',N'世界光',N'世界光',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,0,'3e7019','0512c8'),
