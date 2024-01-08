@@ -20,8 +20,8 @@ VALUES
   (21014,1011,'ngs','dfaegis','urgent_quest','japan','60r',1,1,'0:18:18','Test notes','2023-07-13T09:16:42Z',1,'2023-07-13T12:51:03Z','Test Mod Notes','{"support":"nadereh"}','Tall Mommy Cool'),
   (21015,1012,'ngs','dfaegis','urgent_quest','global','pre60r',1,1,'0:18:44','Test notes','2023-08-26T12:15:50Z',1,'2023-08-26T22:25:37Z','Test Mod Notes','{"support":"nadereh"}','Tall Mommy Cool'),
   (21016,1012,'ngs','dfaegis','urgent_quest','global','level80r',1,1,'0:16:28','New Time succeeds old run','2023-03-28T04:14:49Z',1,'2023-03-28T11:42:55Z','Test Mod Notes','{"support":"ilma"}','Tall Mommy Cool'),
-  (21017,5000000,'ngs','dfaegis','urgent_quest','global','level80r',1,1,'0:13:52','Test not yet approved run','2023-05-10T02:14:07Z',0,NULL,'{"support":"aina_manon"}',NULL,NULL),
-  (21018,5000000,'ngs','dfaegis','urgent_quest','japan','level80r',1,1,'0:18:19','Test not yet approved run 2','2023-03-03T02:59:29Z',0,NULL,'{"support":"nadereh"}',NULL,NULL),
+  (21017,5000000,'ngs','dfaegis','urgent_quest','global','level80r',1,1,'0:13:52','Test not yet approved run','2023-05-10T02:14:07Z',0,NULL,NULL,'{"support":"aina_manon"}',NULL),
+  (21018,5000000,'ngs','dfaegis','urgent_quest','japan','level80r',1,1,'0:18:19','Test not yet approved run 2','2023-03-03T02:59:29Z',0,NULL,NULL,'{"support":"nadereh"}',NULL),
   (21019,5000000,'ngs','dfaegis','urgent_quest','global','level80r',1,1,'0:17:27','Test reject run','2023-05-27T17:18:04Z',9,'2023-05-28T00:48:22Z','Rejected run','{"support":"nadereh"}','Tall Mommy Cool')
 ;
 SET IDENTITY_INSERT [dbo].[Runs] OFF;
@@ -75,8 +75,8 @@ VALUES
   (22014,1011,'ngs','dfaegis','urgent_quest','japan','60r',1,2,'0:13:47','Test notes','2023-09-24T06:24:03Z',1,'2023-09-24T17:51:32Z','Test Mod Notes','{"support":"glen"}','Tall Mommy Cool'),
   (22015,1012,'ngs','dfaegis','urgent_quest','global','pre60r',1,2,'0:13:32','Test notes','2023-03-24T05:07:21Z',1,'2023-03-24T10:40:03Z','Test Mod Notes','{"support":"ilma"}','Tall Mommy Cool'),
   (22016,1012,'ngs','dfaegis','urgent_quest','global','level80r',1,2,'0:12:44','New Time succeeds old run','2023-07-07T03:22:31Z',1,'2023-07-07T06:32:52Z','Test Mod Notes','{"support":"nadereh"}','Tall Mommy Cool'),
-  (22017,5000000,'ngs','dfaegis','urgent_quest','global','level80r',1,2,'0:12:42','Test not yet approved run','2023-08-16T19:13:59Z',0,NULL,'{"support":"nadereh"}',NULL,NULL),
-  (22018,5000000,'ngs','dfaegis','urgent_quest','japan','level80r',1,2,'0:14:19','Test not yet approved run 2','2023-09-10T16:43:37Z',0,NULL,'{"support":"ilma"}',NULL,NULL),
+  (22017,5000000,'ngs','dfaegis','urgent_quest','global','level80r',1,2,'0:12:42','Test not yet approved run','2023-08-16T19:13:59Z',0,NULL,NULL,'{"support":"nadereh"}',NULL),
+  (22018,5000000,'ngs','dfaegis','urgent_quest','japan','level80r',1,2,'0:14:19','Test not yet approved run 2','2023-09-10T16:43:37Z',0,NULL,NULL,'{"support":"ilma"}',NULL),
   (22019,5000000,'ngs','dfaegis','urgent_quest','japan','level80r',1,2,'0:16:30','Test reject run','2023-03-10T09:22:57Z',9,'2023-03-10T19:37:44Z','Rejected run','{"support":"aina_manon"}','Tall Mommy Cool')
 ;
 SET IDENTITY_INSERT [dbo].[Runs] OFF;
@@ -170,8 +170,8 @@ VALUES
   (23014,1011,'ngs','dfaegis','urgent_quest','japan','60r',1,8,'0:15:09','Test notes','2023-06-27T07:53:54Z',1,'2023-06-27T15:56:03Z','Test Mod Notes','{"support":"nadereh"}','Tall Mommy Cool'),
   (23015,1012,'ngs','dfaegis','urgent_quest','global','pre60r',1,8,'0:18:13','Test notes','2023-09-24T23:10:35Z',1,'2023-09-25T03:28:02Z','Test Mod Notes','{"support":"aina_manon"}','Tall Mommy Cool'),
   (23016,1012,'ngs','dfaegis','urgent_quest','global','level80r',1,8,'0:17:52','New Time succeeds old run','2023-05-27T16:24:07Z',1,'2023-05-28T00:41:36Z','Test Mod Notes','{"support":"aina_manon"}','Tall Mommy Cool'),
-  (23017,5000000,'ngs','dfaegis','urgent_quest','global','level80r',1,8,'0:19:16','Test not yet approved run','2023-03-13T18:45:39Z',0,NULL,'{"support":"glen"}',NULL,NULL),
-  (23018,5000000,'ngs','dfaegis','urgent_quest','japan','level80r',1,8,'0:13:00','Test not yet approved run 2','2023-12-18T15:58:54Z',0,NULL,'{"support":"ilma"}',NULL,NULL),
+  (23017,5000000,'ngs','dfaegis','urgent_quest','global','level80r',1,8,'0:19:16','Test not yet approved run','2023-03-13T18:45:39Z',0,NULL,NULL,'{"support":"glen"}',NULL),
+  (23018,5000000,'ngs','dfaegis','urgent_quest','japan','level80r',1,8,'0:13:00','Test not yet approved run 2','2023-12-18T15:58:54Z',0,NULL,NULL,'{"support":"ilma"}',NULL),
   (23019,5000000,'ngs','dfaegis','urgent_quest','global','level80r',1,8,'0:13:56','Test reject run','2023-06-19T13:42:11Z',9,'2023-06-19T13:42:11Z','Rejected run','{"support":"aina_manon"}','Tall Mommy Cool')
 ;
 SET IDENTITY_INSERT [dbo].[Runs] OFF;
