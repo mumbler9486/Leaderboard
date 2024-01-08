@@ -6,7 +6,7 @@ services:
     image: mcr.microsoft.com/azure-sql-edge
     container_name: pso2-lebrd-sql-db
     environment:
-      ACCEPT_EULA: 1
+      ACCEPT_EULA: 1 # Please read the EULA, it has been accepted
       MSSQL_SA_PASSWORD: local_dev_password5#
       MSSQL_PID: Developer
       # Database name is "pso2_leaderboard_local"
