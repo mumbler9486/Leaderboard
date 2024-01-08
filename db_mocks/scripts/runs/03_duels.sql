@@ -1,1 +1,1 @@
--- Duel
+-- Duels
