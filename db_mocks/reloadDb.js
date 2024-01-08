@@ -52,7 +52,14 @@ shell.echo('Creating users.');
 execSqlFile('scripts/players.sql');
 
 shell.echo('Creating runs.');
-execSqlFile('scripts/runs.sql');
+execSqlFile('scripts/runs/01_purples.sql');
+execSqlFile('scripts/runs/02_dfaegis.sql');
+execSqlFile('scripts/runs/03_duels.sql');
+execSqlFile('scripts/runs/04_dfsolus.sql');
+execSqlFile('scripts/runs/05_venogia.sql');
+
+shell.echo('Cleaning up run creation.');
+execSqlFile('scripts/runs/99_cleanup.sql');
 
 // Done
 shell.echo('');
