@@ -23,7 +23,8 @@ export const runSubmissionRequestSchema = object({
 	time: yupRunTime(),
 	notes: string().max(500).nullable(),
 	party: yupRunPartySchema(),
-	details: mixed()
+	details: mixed(),
 });
 
 export type RunSubmissionRequest = InferType<typeof runSubmissionRequestSchema>;
+export type RunSubmissionParty = InferType<ReturnType<typeof yupRunPartySchema>>[number];

@@ -2,7 +2,10 @@ import sql, { type Request } from 'mssql';
 import type { RunPartyDbModel } from '../types/db/runs/runParty';
 import type { RunDbModel } from '../types/db/runs/run';
 import { fields } from '../util/nameof';
-import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmission';
+import type {
+	RunSubmissionParty,
+	RunSubmissionRequest,
+} from '$lib/types/api/validation/runSubmission';
 import { normalizeYoutubeLink } from '$lib/utils/youtube';
 import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
 import type { RunAttributeFilter } from '../types/db/runs/runAttributeFilter';
@@ -297,7 +300,7 @@ export const insertRun = async (
 const insertRunParty = async (
 	request: Request,
 	runId: number,
-	partyMembers: RunSubmissionRequest['party']
+	partyMembers: RunSubmissionParty[]
 ) => {
 	let partyInsertRequest = request;
 	const insertValueRows: string[] = [];

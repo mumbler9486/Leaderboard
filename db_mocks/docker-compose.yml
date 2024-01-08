@@ -1,0 +1,30 @@
+version: '3.8'
+name: pso2-lebrd-local
+
+services:
+  sql-db:
+    image: mcr.microsoft.com/azure-sql-edge
+    container_name: pso2-lebrd-sql-db
+    environment:
+      ACCEPT_EULA: 1 # Please read the EULA, it has been accepted
+      MSSQL_SA_PASSWORD: local_dev_password5#
+      MSSQL_PID: Developer
+      # Database name is "pso2_leaderboard_local"
+      # Database user is "sa"
+    cap_add:
+      - SYS_PTRACE
+    ports:
+      - '6970:1401'
+      - '6969:1433'
+    networks:
+      - pso2-leaderboard-network
+    volumes:
+      - sql-data:/var/opt/mssql-extensibility
+      - sql-data:/var/opt/mssql-extensibility/log
+      - sql-data:/var/opt/mssql-extensibility/data
+
+networks:
+  pso2-leaderboard-network:
+
+volumes:
+  sql-data:

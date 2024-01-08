@@ -26,3 +26,13 @@ This project is developed in VS Code.
 Please adhere to the following when developing:
 
 - Use "Format on Save" so we have consistent code throughout the code.
+
+# Environment
+
+To develop locally, first configure a `.env` file in the root of this repository. You may make a copy of `env.local.example` to get started. The values are already pre-configured for a local DB running in docker. See `/db_mocks` for more information on how to get a local DB running.
+
+Please do not commit config values to this repository.
+
+## Discord Webhooks
+
+It is recommended to test with Discord webhooks. Create a private discord server for yourself and in the server settings, create a webhook to dump webhook messages to. Thumbnail can be left blank.
