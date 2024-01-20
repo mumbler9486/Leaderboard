@@ -89,43 +89,43 @@
 		<p class="text-center text-4xl font-light">{message}</p>
 		{#if randomPick.key === 'HelvianSnoruq'}
 			<div class="mb-2 mt-4 text-center">
-				Consider rolling back to the <a class="link-primary link" href="/">Home</a> page!
+				Consider rolling back to the <a class="link link-primary" href="/">Home</a> page!
 			</div>
 		{:else if randomPick.key === 'HelvianBall'}
 			<div class="mb-2 mt-4 text-center">
 				We came up short while looking for this page.<br />Why not head
-				<a class="link-primary link" href="/">Home</a>?
+				<a class="link link-primary" href="/">Home</a>?
 			</div>
 		{:else if randomPick.key === 'HelvianBujin'}
 			<div class="mb-2 mt-4 text-center">
-				Don't drop the ball!<br />Restart and head <a class="link-primary link" href="/">Home</a>?
+				Don't drop the ball!<br />Restart and head <a class="link link-primary" href="/">Home</a>?
 			</div>
 		{:else if randomPick.key === 'HelvianSlots'}
 			<div class="mb-2 mt-4 text-center">
 				<strong>Jackpot!</strong><br />Someone just won big at slots!<br /><a
-					class="link-primary link"
+					class="link link-primary"
 					href="/">Spin again</a
 				>?
 			</div>
 		{:else if randomPick.key === 'KaistaraNogleth'}
 			<div class="mb-2 mt-4 text-center">
 				Our party couldn't find that page!<br />Try searching on the
-				<a class="link-primary link" href="/">Home</a> page!
+				<a class="link link-primary" href="/">Home</a> page!
 			</div>
 		{:else if randomPick.key === 'ZoutaAms'}
 			<div class="mb-2 mt-4 text-center">
 				"Oh, you're approaching me?"<br />"I can't go back to the
-				<a class="link-primary link" href="/">Home</a> page without getting closer."
+				<a class="link link-primary" href="/">Home</a> page without getting closer."
 			</div>
 		{:else if randomPick.key === 'ZoutaNex'}
 			<div class="mb-2 mt-4 text-center">
 				This page is about to have a blast.<br />Dodge to the
-				<a class="link-primary link" href="/">Home</a> page?
+				<a class="link link-primary" href="/">Home</a> page?
 			</div>
 		{:else if randomPick.key === 'ZoutaRenus'}
 			<div class="mb-2 mt-4 text-center">
 				We dug around, but we couldn't find that page.<br />Revive in 5 seconds at the
-				<a class="link-primary link" href="/">Home</a> page.
+				<a class="link link-primary" href="/">Home</a> page.
 			</div>
 		{:else if randomPick.key === 'SukeboyKaiby'}
 			<div class="mt-4 text-center">
@@ -134,7 +134,7 @@
 		{:else if randomPick.key === 'SukeboyRonaldine'}
 			<div class="mt-4 text-center">HAHAHAHA, RONALDINE SOCCER!</div>
 			<div class="mb-2 text-center">
-				<a class="link-primary link" href="/"><strong>START</strong></a>
+				<a class="link link-primary" href="/"><strong>START</strong></a>
 			</div>
 		{/if}
 	</div>
