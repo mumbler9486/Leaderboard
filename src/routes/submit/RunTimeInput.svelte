@@ -4,71 +4,56 @@
 	import Tooltip from '$lib/Components/Tooltip.svelte';
 	import { runForm } from './runStore';
 
-	export let showHours: boolean = false;
-
-	export let maxHours: number = 2;
 	export let maxMinutes: number = 59;
 	export let maxSeconds: number = 59;
 
-	let hours = 0;
 	let minutes = 0;
 	let seconds = 0;
 
-	$: $runForm.time = { hours, minutes, seconds };
+	$: $runForm.time = { hours: 0, minutes, seconds };
 
 	export const resetForm = () => {
-		hours = 0;
 		minutes = 0;
 		seconds = 0;
 	};
 </script>
 
 <div class="form-control">
-	<div class="label mt-1">
-		<span class="label-text font-bold">
-			Time Elapsed
-			<InfoTooltip
+	<div class="label">
+		<span class="label-text">
+			Time Elapsed <InfoTooltip
 				tip="Input the time elapsed as shown in game. It is the time shown with the last hit of damage occurred."
 			/>
 		</span>
 	</div>
-
-	<label class="input-group">
-		{#if showHours}
-			<input
-				placeholder="H"
-				type="number"
-				class="svelte-blgex8 input input-bordered w-full"
-				min="0"
-				max={maxHours}
-				maxlength="1"
-				required
-				bind:value={hours}
-			/>
-			<span>:</span>
-		{/if}
+	<label class="join">
 		<input
 			placeholder="MM"
 			type="number"
-			class="input input-bordered w-full"
+			class="input join-item input-bordered w-full"
 			min="0"
 			max={maxMinutes}
 			maxlength="2"
 			required
 			bind:value={minutes}
 		/>
-		<span>:</span>
+		<span class="border-fallback join-item select-none border-b border-t border-primary px-4 pt-2"
+			>:</span
+		>
 		<input
 			placeholder="SS"
 			type="number"
-			class="input input-bordered w-full"
+			class="input join-item input-bordered w-full"
 			min="0"
 			max={maxSeconds}
 			maxlength="2"
 			required
 			bind:value={seconds}
 		/>
-		<span><Tooltip left tip="Round your time down to nearest second">.000</Tooltip></span>
+		<span
+			class="border-fallback join-item select-none border border-primary bg-neutral px-4 pt-2 text-center"
+			><Tooltip left tip="Round your time down to nearest second">.000</Tooltip></span
+		>
 	</label>
 	<div class="text-xs">
 		<span class="text-info">
@@ -77,3 +62,9 @@
 		</span>
 	</div>
 </div>
+
+<style scoped>
+	.border-fallback {
+		border-color: var(--fallback-bc, oklch(var(--bc) / 0.2));
+	}
+</style>
