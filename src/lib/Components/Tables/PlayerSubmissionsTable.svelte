@@ -13,6 +13,7 @@
 	import PartySizeLabel from '../PartySizeLabel.svelte';
 	import PatchLabel from '../PatchLabel.svelte';
 	import RunInfoModal from '../RunInfoModal.svelte';
+	import { InformationCircle } from 'svelte-heros-v2';
 
 	export let submissions: Run<unknown>[];
 
@@ -154,7 +155,7 @@
 				</td>
 				<td class="text-center">
 					<Button primary on:click={() => runInfoOpen(run.runId)}>
-						<i class="bi bi-sticky" />
+						<InformationCircle size="20" />
 					</Button>
 				</td>
 			</tr>

@@ -2,6 +2,7 @@
 	import { patchCodeLabelMap } from '$lib/constants/patchCodes';
 	import { mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import type { Run } from '$lib/types/api/runs/run';
+	import { InformationCircle } from 'svelte-heros-v2';
 	import Button from '../Button.svelte';
 	import NgsClassIcon from '../NgsClassIcon.svelte';
 	import PlayerNameBadge from '../PlayerNameBadge.svelte';
@@ -107,7 +108,7 @@
 				</td>
 				<td class="text-center">
 					<Button primary on:click={() => runInfoOpen(run.runId)}>
-						<i class="bi bi-sticky" />
+						<InformationCircle size="20" />
 					</Button>
 				</td>
 			</tr>
