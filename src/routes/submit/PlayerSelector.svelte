@@ -23,39 +23,40 @@
 	});
 </script>
 
-<label class="label" for="partysize-form1"
-	><span class="label-text text-base font-semibold">Player or Character Name</span></label
->
-<input
-	required
-	disabled={isPlayer1 && !isModerator}
-	readonly={isPlayer1 && !isModerator}
-	placeholder="Search or enter name..."
-	list="playerName-datalist{playerIndex}"
-	name="player-name-form1"
-	class="input input-bordered bg-base-100"
-	class:player-exists={playerExists}
-	bind:value={playerName}
-/>
+<label class="form-control w-full">
+	<div class="label">
+		<span class="label-text">Player or Character Name</span>
+	</div>
+	<input
+		required
+		disabled={isPlayer1 && !isModerator}
+		readonly={isPlayer1 && !isModerator}
+		placeholder="Search or enter name..."
+		list="playerName-datalist{playerIndex}"
+		class="input input-bordered bg-base-100"
+		class:player-exists={playerExists}
+		bind:value={playerName}
+	/>
 
-<div class="label">
-	{#if isModerator}
-		<span class="label-text-alt">Moderator mode: can submit a run not their own.</span>
-	{:else if isPlayer1}
-		<span class="label-text-alt">You must be a participant of your own run.</span>
-	{:else}
-		<span class="label-text-alt"
-			>You can search for existing players by player and character name!<br /><span
-				class="text-warning">Please keep in mind that this list is sorted by Player Name.</span
-			></span
-		>
-	{/if}
-</div>
-<datalist id="playerName-datalist{playerIndex}">
-	{#each $userInfo as user}
-		<option value={user.playerName} data-player={user.playerId}>{user.characterName}</option>
-	{/each}
-</datalist>
+	<div class="label">
+		{#if isModerator}
+			<span class="label-text-alt">Moderator mode: can submit a run not their own.</span>
+		{:else if isPlayer1}
+			<span class="label-text-alt">You must be a participant of your own run.</span>
+		{:else}
+			<span class="label-text-alt"
+				>You can search for existing players by player and character name!<br /><span
+					class="text-warning">Please keep in mind that this list is sorted by Player Name.</span
+				></span
+			>
+		{/if}
+	</div>
+	<datalist id="playerName-datalist{playerIndex}">
+		{#each $userInfo as user}
+			<option value={user.playerName} data-player={user.playerId}>{user.characterName}</option>
+		{/each}
+	</datalist>
+</label>
 
 <style scoped>
 	.player-exists {
