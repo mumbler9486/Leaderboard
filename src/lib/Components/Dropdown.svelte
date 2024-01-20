@@ -4,6 +4,7 @@
 	export let value: string | undefined = undefined;
 	export let placeholder: string | undefined = undefined;
 	export let disabled: boolean = false;
+	export let error: string | undefined = undefined;
 
 	interface DropdownValues {
 		label: string;
@@ -13,19 +14,25 @@
 	}
 </script>
 
-{#if label}
-	<div class="label justify-center">
-		<span class="label-text text-base font-semibold">{label}</span>
+<!-- TODO Rename class to Select to align with daisy ui -->
+<label class="form-control w-full max-w-xs">
+	<div class="label">
+		<span class="label-text">{label}</span>
 	</div>
-{/if}
-<select class="select select-bordered rounded" {disabled} bind:value on:change>
-	{#if placeholder}
-		<option disabled selected>{placeholder}</option>
-	{/if}
-	{#each options as option}
-		{#if option.icon}
-			<img class="pointer-events-none" src={option.icon} alt={`${option.value}-icon`} />
+	<select class="select select-bordered" {disabled} bind:value on:change>
+		{#if placeholder}
+			<option disabled selected>{placeholder}</option>
 		{/if}
-		<option value={option.value} disabled={option.disabled ?? false}>{option.label}</option>
-	{/each}
-</select>
+		{#each options as option}
+			{#if option.icon}
+				<img class="pointer-events-none" src={option.icon} alt={`${option.value}-icon`} />
+			{/if}
+			<option value={option.value} disabled={option.disabled ?? false}>{option.label}</option>
+		{/each}
+	</select>
+	<div class="label">
+		{#if !!error && error.length > 0}
+			<span class="label-text-alt text-error">{error}</span>
+		{/if}
+	</div>
+</label>
