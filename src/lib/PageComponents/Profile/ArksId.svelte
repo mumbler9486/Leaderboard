@@ -52,7 +52,7 @@
 						{/if}
 					</div>
 				</div>
-				<div class="mt-1 flex flex-col place-items-center md:mt-0 md:place-items-start">
+				<div class="mt-1 flex basis-full flex-col place-items-center md:mt-0 md:place-items-start">
 					<div class="w-full md:flex md:justify-between">
 						<span class="flexs text-2xl md:justify-start md:text-4xl">
 							<PlayerNameBadge player={mapPlayerToNamePref(player)} />

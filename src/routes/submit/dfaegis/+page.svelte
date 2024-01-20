@@ -11,6 +11,7 @@
 	import { submitDfAegisRun } from './submit';
 	import { ErrorCodes } from '$lib/types/api/error';
 	import SubmitFinish from '../SubmitFinish.svelte';
+	import TextArea from '$lib/Components/TextArea.svelte';
 
 	let submitting: boolean = false;
 	let serverErrorMessage: string | undefined = undefined;
@@ -80,8 +81,8 @@
 							<label class="label" for="notes-form">
 								<span class="label-text">Notes</span>
 							</label>
-							<textarea
-								class="textarea textarea-bordered h-24"
+							<TextArea
+								maxlength={500}
 								placeholder="(Optional) Type any notes, extra run information, or descriptions here!"
 								bind:value={$runForm.notes}
 							/>

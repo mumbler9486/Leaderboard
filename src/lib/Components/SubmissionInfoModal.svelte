@@ -14,6 +14,7 @@
 	import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus';
 	import { ErrorCodes } from '$lib/types/api/error';
 	import YouTubeIcon from './Icons/YouTubeIcon.svelte';
+	import TextArea from './TextArea.svelte';
 
 	const dispatcher = createEventDispatcher();
 
@@ -197,7 +198,7 @@
 		</div>
 		<div class="flex grow flex-col gap-1 md:flex-row">
 			<div
-				class="flex basis-1/2 justify-center rounded-md border border-secondary bg-secondary/25 p-2 md:basis-full"
+				class="flex basis-1/2 justify-center rounded-md border border-secondary bg-secondary/25 p-2"
 			>
 				<div class="flex grow flex-col">
 					<span class="text-center text-lg font-semibold">Runner's Notes:</span>
@@ -205,7 +206,7 @@
 				</div>
 			</div>
 			<div
-				class="flex basis-1/2 justify-center rounded-md border border-secondary bg-secondary/25 p-2 md:basis-full"
+				class="flex basis-1/2 justify-center rounded-md border border-secondary bg-secondary/25 p-2"
 			>
 				<div class="flex grow flex-col">
 					<span class="text-center text-lg font-semibold">Moderator's Notes:</span>
@@ -214,10 +215,9 @@
 					>
 					<div class="whitespace-pre-wrap p-2">
 						{#if canReview}
-							<textarea
-								class="textarea textarea-bordered w-full grow"
+							<TextArea
+								maxlength={500}
 								placeholder="(Optional) Type any moderator notes you want to display here!"
-								maxlength="500"
 								bind:value={modNotes}
 							/>
 						{:else}

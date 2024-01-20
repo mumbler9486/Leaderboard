@@ -22,6 +22,7 @@
 	import { NameStyle } from '$lib/types/api/players/nameStyle';
 	import { PreferredName } from '$lib/types/api/players/preferredName';
 	import { ServerRegion } from '$lib/types/api/serverRegions';
+	import TextArea from '$lib/Components/TextArea.svelte';
 
 	const dispatcher = createEventDispatcher();
 
@@ -319,12 +320,7 @@
 				</FormControl>
 			</div>
 			<FormControl label="Profile Description" error={$errors.description}>
-				<textarea
-					class="textarea textarea-bordered h-24"
-					placeholder="(Optional)"
-					maxlength={500}
-					bind:value={$form.description}
-				/>
+				<TextArea maxlength={500} placeholder="(Optional)" bind:value={$form.description} />
 			</FormControl>
 		</div>
 	{:else}

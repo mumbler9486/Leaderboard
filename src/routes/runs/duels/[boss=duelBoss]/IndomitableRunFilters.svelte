@@ -9,7 +9,7 @@
 
 	const rules = [
 		'Do not abuse bugs or exploits.',
-		'A run is considered to have used a Duel Augment if any duel specific augments (e.g.,Defi-series) have been affixed to any equipment used during the run.'
+		'A run is considered to have used a Duel Augment if any duel specific augments (e.g.,Defi-series) have been affixed to any equipment used during the run.',
 	];
 </script>
 
@@ -23,7 +23,7 @@
 				options={[
 					{ label: 'No Filter', value: 'no_filter' },
 					{ label: 'Yes', value: 'yes' },
-					{ label: 'No', value: 'no' }
+					{ label: 'No', value: 'no' },
 				]}
 				bind:value={$runFilters.augments}
 			/>

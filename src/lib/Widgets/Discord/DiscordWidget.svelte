@@ -9,7 +9,7 @@
 		instant_invite: '',
 		presence_count: 0,
 		channels: [],
-		members: []
+		members: [],
 	};
 
 	$: presenseCount = `${discordServer?.presence_count} Member${
@@ -49,8 +49,8 @@
 		const response = await fetch('https://discord.com/api/guilds/1070314956991512636/widget.json', {
 			method: 'GET',
 			headers: {
-				'Content-Type': 'application/json'
-			}
+				'Content-Type': 'application/json',
+			},
 		});
 		discordServer = (await response.json()) as DiscordServerInfo;
 	};
@@ -70,7 +70,7 @@
 	</div>
 	<div
 		style="box-shadow: inset 0px -4px 8px rgba(0,0,0,0.4);"
-		class="widget-discord flex h-96 max-h-96 flex-col gap-1 overflow-y-auto border border-t-0 border-b-0 border-secondary bg-base-300 p-5"
+		class="widget-discord flex h-96 max-h-96 flex-col gap-1 overflow-y-auto border border-b-0 border-t-0 border-secondary bg-base-300 p-5"
 	>
 		{#each discordServer?.members ?? [] as member}
 			<DiscordUser
@@ -90,7 +90,7 @@
 			target="_blank"
 			rel="noreferrer noopener"
 			role="button"
-			class="btn-outline btn-secondary btn-sm btn rounded-md">Connect</a
+			class="btn btn-outline btn-secondary btn-sm rounded-md">Connect</a
 		>
 	</div>
 </div>
