@@ -15,7 +15,6 @@
 	import Alert from '$lib/Components/Alert.svelte';
 	import Button from '$lib/Components/Button.svelte';
 	import Divider from '$lib/Components/Divider.svelte';
-	import FormControl from '$lib/Components/FormControl.svelte';
 	import TextInput from '$lib/Components/TextInput.svelte';
 	import { useValidation } from '$lib/types/api/formValidation';
 	import { BadRequestError, InternalServerError } from '$lib/types/api/error';
@@ -245,83 +244,100 @@
 				</span>
 			</div>
 			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
-				<FormControl label="Main Character Name" error={$errors.mainCharacterName}>
-					<TextInput
-						primary
-						placeholder="(Required)"
-						maxlength={25}
-						bind:value={$form.mainCharacterName}
-					/>
-				</FormControl>
-				<FormControl label="Preferred Name" error={$errors.preferredName}>
-					<Dropdown options={nameOptions} bind:value={$form.preferredName} />
-				</FormControl>
+				<TextInput
+					prompt="Main Character Name"
+					primary
+					placeholder="(Required)"
+					maxlength={25}
+					error={$errors.mainCharacterName}
+					bind:value={$form.mainCharacterName}
+				/>
+				<Dropdown
+					label="Preferred Name"
+					options={nameOptions}
+					bind:value={$form.preferredName}
+					error={$errors.preferredName}
+				/>
 			</div>
 			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-3">
-				<FormControl label="Server Region">
-					<Dropdown
-						options={serverRegionOptions}
-						bind:value={$form.serverRegion}
-						on:change={() => {
-							$form.ship = '';
-						}}
-					/>
-				</FormControl>
-				<FormControl label="Ship" error={$errors.ship}>
-					<Dropdown
-						options={shipOptions}
-						disabled={$form.serverRegion == ''}
-						bind:value={$form.ship}
-					/>
-				</FormControl>
-				<FormControl label="Country" error={$errors.playerCountry}>
-					<Dropdown options={countryOptions} bind:value={$form.playerCountry} />
-				</FormControl>
+				<Dropdown
+					label="Server Region"
+					options={serverRegionOptions}
+					bind:value={$form.serverRegion}
+					on:change={() => {
+						$form.ship = '';
+					}}
+				/>
+				<Dropdown
+					label="Ship"
+					options={shipOptions}
+					disabled={$form.serverRegion == ''}
+					error={$errors.ship}
+					bind:value={$form.ship}
+				/>
+				<Dropdown
+					label="Country"
+					error={$errors.playerCountry}
+					options={countryOptions}
+					bind:value={$form.playerCountry}
+				/>
 			</div>
 			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-3">
-				<FormControl label="Primary Color" error={$errors.primaryColor}>
-					<ColorInput bind:value={$form.primaryColor} />
-				</FormControl>
-				<FormControl label="Secondary Color" error={$errors.secondaryColor}>
-					<ColorInput bind:value={$form.secondaryColor} />
-				</FormControl>
-				<FormControl label="Name Effect" error={$errors.nameEffect}>
-					<Dropdown options={nameEffectOptions} bind:value={$form.nameEffect} />
-				</FormControl>
+				<Dropdown
+					label="Name Effect"
+					error={$errors.nameEffect}
+					options={nameEffectOptions}
+					bind:value={$form.nameEffect}
+				/>
+				<ColorInput
+					prompt="Primary Color"
+					error={$errors.primaryColor}
+					bind:value={$form.primaryColor}
+				/>
+				<ColorInput
+					prompt="Secondary Color"
+					error={$errors.secondaryColor}
+					bind:value={$form.secondaryColor}
+				/>
 			</div>
 			<Divider />
 			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
-				<FormControl label="Youtube" error={$errors.youtubeHandle}>
-					<TextInput
-						placeholder="(Required)"
-						prompt="youtube.com/@"
-						maxlength={25}
-						bind:value={$form.youtubeHandle}
-					/>
-				</FormControl>
-				<FormControl label="Twitter" error={$errors.twitterHandle}>
-					<TextInput
-						placeholder="(Optional)"
-						prompt="twitter.com/"
-						maxlength={30}
-						bind:value={$form.twitterHandle}
-					/>
-				</FormControl>
-				<FormControl label="Twitch Channel" error={$errors.twitchChannel}>
-					<TextInput
-						placeholder="(Optional)"
-						prompt="twitch.tv/"
-						maxlength={30}
-						bind:value={$form.twitchChannel}
-					/>
-				</FormControl>
-				<FormControl label="Discord Username" error={$errors.discordUsername}>
-					<TextInput placeholder="(Optional)" maxlength={30} bind:value={$form.discordUsername} />
-				</FormControl>
+				<TextInput
+					prompt="Youtube"
+					placeholder="(Optional) youtube.com/@"
+					maxlength={25}
+					error={$errors.youtubeHandle}
+					bind:value={$form.youtubeHandle}
+				/>
+				<TextInput
+					prompt="Twitter"
+					placeholder="(Optional) @handle"
+					maxlength={30}
+					error={$errors.twitterHandle}
+					bind:value={$form.twitterHandle}
+				/>
+				<TextInput
+					prompt="Twitch Channel"
+					error={$errors.twitchChannel}
+					placeholder="(Optional) twitch.tv/"
+					maxlength={30}
+					bind:value={$form.twitchChannel}
+				/>
+				<TextInput
+					prompt="Discord Username"
+					error={$errors.discordUsername}
+					placeholder="(Optional)"
+					maxlength={30}
+					bind:value={$form.discordUsername}
+				/>
 			</div>
-			<FormControl label="Profile Description" error={$errors.description}>
-				<TextArea maxlength={500} placeholder="(Optional)" bind:value={$form.description} />
-			</FormControl>
+			<TextArea
+				prompt="Profile Description"
+				error={$errors.description}
+				maxlength={500}
+				placeholder="(Optional)"
+				bind:value={$form.description}
+			/>
 		</div>
 	{:else}
 		<div class="flex flex-col place-content-center place-items-center gap-1">

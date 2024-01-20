@@ -112,7 +112,7 @@
 					{#if serverError}
 						<Alert type="error" message={serverError} />
 					{/if}
-					<Button class="btn-success btn-outline" on:click={submitChanges} on:keyup={submitChanges}>
+					<Button class="btn-outline btn-success" on:click={submitChanges} on:keyup={submitChanges}>
 						Complete Setup
 					</Button>
 				</div>
