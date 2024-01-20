@@ -44,7 +44,7 @@ VALUES
   (11011,11011,1014,0,'https://youtu.be/5qtqhg1U9uM1',N'trying_to_rid_this_name','ngs_fighter','ngs_slayer','["ngs_rod","ngs_wand","ngs_soaring_blades"]'),
   (11012,11012,1017,0,'https://youtu.be/rUB9xWRRLe52',N'trying_to_rid_this_name','ngs_techter','ngs_slayer','["ngs_katana","ngs_soaring_blades","ngs_katana"]'),
   (11013,11013,1016,0,'https://youtu.be/1A5L6C6x0nH7',N'trying_to_rid_this_name','ngs_braver','ngs_ranger','["ngs_sword","ngs_katana","ngs_sword"]'),
-  (11014,11014,1011,0,'https://youtu.be/r6Up2wbU3p0N',N'trying_to_rid_this_name','ngs_fighter','ngs_fighter','["ngs_sword","ngs_twin_daggers","ngs_bow"]'),
+  (11014,11014,1011,0,'https://youtu.be/r6Up2wbU3p0N',N'trying_to_rid_this_name','ngs_fighter','ngs_waker','["ngs_sword","ngs_twin_daggers","ngs_bow"]'),
   (11015,11015,1012,0,'https://youtu.be/bU5C66Rai64j',N'trying_to_rid_this_name','ngs_braver','ngs_gunner','["ngs_jet_boots","ngs_jet_boots","ngs_wired_lance"]'),
   (11016,11016,1012,0,'https://youtu.be/1a7682528888',N'trying_to_rid_this_name','ngs_braver','ngs_gunner','["ngs_double_sabers","ngs_gunblade","ngs_katana"]'),
   (11017,11017,5000000,0,'https://youtu.be/9f175e2f5fe6',N'trying_to_rid_this_name','ngs_gunner','ngs_force','["ngs_twin_machine_guns","ngs_wired_lance","ngs_twin_machine_guns"]'),
