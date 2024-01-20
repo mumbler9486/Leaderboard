@@ -34,38 +34,29 @@
 </script>
 
 <div class="grid grid-cols-1 gap-2 md:grid-cols-4">
-	<div class="form-control md:col-span-3">
+	<div class="md:col-span-3">
 		<PartySizeOptions sizes={[1, 2, 4]} />
 	</div>
-	<div class="form-control">
-		<CurrentPatchLabel />
-	</div>
+	<CurrentPatchLabel />
 </div>
 <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
-	<div class="form-control">
-		<Dropdown
-			label="Region"
-			placeholder="Select a region"
-			options={[
-				{ label: 'Aelio', value: PurpleRegion.Aelio },
-				{ label: 'Retem', value: PurpleRegion.Retem },
-				{ label: 'Kvaris', value: PurpleRegion.Kvaris },
-				{ label: 'Stia', value: PurpleRegion.Stia },
-			]}
-			bind:value={$purplesForm.region}
-			on:change={regionChanged}
-		/>
-	</div>
-
-	<div class="form-control">
-		<Dropdown
-			label="Rank"
-			placeholder="Select a rank"
-			options={rankOptions}
-			bind:value={selectedRankStr}
-		/>
-	</div>
-	<div class="form-control">
-		<RemainingTimeInput limitMinutes={20} />
-	</div>
+	<Dropdown
+		label="Region"
+		placeholder="Select a region"
+		options={[
+			{ label: 'Aelio', value: PurpleRegion.Aelio },
+			{ label: 'Retem', value: PurpleRegion.Retem },
+			{ label: 'Kvaris', value: PurpleRegion.Kvaris },
+			{ label: 'Stia', value: PurpleRegion.Stia },
+		]}
+		bind:value={$purplesForm.region}
+		on:change={regionChanged}
+	/>
+	<Dropdown
+		label="Rank"
+		placeholder="Select a rank"
+		options={rankOptions}
+		bind:value={selectedRankStr}
+	/>
+	<RemainingTimeInput limitMinutes={20} />
 </div>

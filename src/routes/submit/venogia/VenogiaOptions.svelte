@@ -9,7 +9,7 @@
 	let selectedRankStr: string = '1';
 
 	const rankOptionsDropdowns: { [region: string]: { label: string; value: string }[] } = {
-		[NgsRunCategories.UrgentQuest]: [{ label: '1', value: '1' }]
+		[NgsRunCategories.UrgentQuest]: [{ label: '1', value: '1' }],
 	};
 
 	$: rankOptions = rankOptionsDropdowns[$venogiaForm.category] ?? [];
@@ -23,24 +23,20 @@
 </script>
 
 <div class="grid grid-cols-1 gap-2 md:grid-cols-4">
-	<div class="form-control md:col-span-3">
+	<div class=" md:col-span-3">
 		<PartySizeOptions sizes={[1, 2, 8]} />
 	</div>
-	<div class="form-control">
-		<CurrentPatchLabel />
-	</div>
+	<CurrentPatchLabel />
 </div>
 <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
-	<div class="form-control">
-		<Dropdown
-			label="Mode"
-			placeholder="Select a mode"
-			options={[{ label: 'Urgent Quest', value: NgsRunCategories.UrgentQuest }]}
-			bind:value={$venogiaForm.category}
-			on:change={typeChanged}
-		/>
-	</div>
-	<div class="form-control md:col-span-1">
+	<Dropdown
+		label="Mode"
+		placeholder="Select a mode"
+		options={[{ label: 'Urgent Quest', value: NgsRunCategories.UrgentQuest }]}
+		bind:value={$venogiaForm.category}
+		on:change={typeChanged}
+	/>
+	<div class=" md:col-span-1">
 		<Dropdown
 			label="Rank"
 			placeholder="Select a rank"
@@ -48,7 +44,5 @@
 			bind:value={selectedRankStr}
 		/>
 	</div>
-	<div class="form-control">
-		<RemainingTimeInput limitMinutes={30} />
-	</div>
+	<RemainingTimeInput limitMinutes={30} />
 </div>

@@ -6,7 +6,7 @@
 		consentPreferences,
 		consentTwitch,
 		consentGoogle,
-		consentDiscord
+		consentDiscord,
 	} from '$lib/stores/consent';
 </script>
 
@@ -30,7 +30,7 @@
 			>
 			<label class="label cursor-pointer place-self-center">
 				<span class="label-text mr-2 font-semibold">Enable Streamer Mode</span>
-				<input type="checkbox" class="toggle-primary toggle" bind:checked={$userStreamerMode} />
+				<input type="checkbox" class="toggle toggle-primary" bind:checked={$userStreamerMode} />
 			</label>
 			<span class="text-center">Streamer mode hides user avatars and user descriptions.</span><span
 				class="text-center text-warning"
@@ -47,14 +47,14 @@
 				<p class="mb-4">
 					We use cookies (and local storage) to log you in and store your settings.
 				</p>
-				<a href="/privacy-policy" target="_blank" rel="noreferrer noopener" class="link-accent link"
+				<a href="/privacy-policy" target="_blank" rel="noreferrer noopener" class="link link-accent"
 					>Please review our Privacy Policy for more information.</a
 				>
 
 				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 				<div
 					tabindex="0"
-					class="collapse-plus rounded-box collapse w-full border border-neutral-content/50 bg-neutral"
+					class="collapse collapse-plus w-full rounded-box border border-neutral-content/50 bg-neutral"
 				>
 					<div
 						class="collapse-title border-b border-b-neutral-content/50 text-xl font-light text-neutral-content"
@@ -76,12 +76,12 @@
 				</div>
 				<label class="label mb-4 w-full cursor-pointer">
 					<span class="label-text font-semibold">Enable Necessary Cookies</span>
-					<input type="checkbox" class="toggle-primary toggle" disabled checked />
+					<input type="checkbox" class="toggle toggle-primary" disabled checked />
 				</label>
 				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 				<div
 					tabindex="0"
-					class="collapse-plus rounded-box collapse w-full border border-neutral-content/50 bg-neutral"
+					class="collapse collapse-plus w-full rounded-box border border-neutral-content/50 bg-neutral"
 				>
 					<div
 						class="collapse-title border-b border-b-neutral-content/50 text-xl font-light text-neutral-content"
@@ -105,12 +105,12 @@
 				</div>
 				<label class="label mb-4 w-full cursor-pointer">
 					<span class="label-text font-semibold">Enable Preference Cookies</span>
-					<input type="checkbox" class="toggle-primary toggle" bind:checked={$consentPreferences} />
+					<input type="checkbox" class="toggle toggle-primary" bind:checked={$consentPreferences} />
 				</label>
 				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 				<div
 					tabindex="0"
-					class="collapse-plus rounded-box collapse w-full border border-neutral-content/50 bg-neutral"
+					class="collapse collapse-plus w-full rounded-box border border-neutral-content/50 bg-neutral"
 				>
 					<div
 						class="collapse-title border-b border-b-neutral-content/50 text-xl font-light text-neutral-content"
@@ -146,18 +146,18 @@
 				</div>
 				<label class="label w-full cursor-pointer">
 					<span class="label-text font-semibold">Enable Google Cookies</span>
-					<input type="checkbox" class="toggle-primary toggle" bind:checked={$consentGoogle} />
+					<input type="checkbox" class="toggle toggle-primary" bind:checked={$consentGoogle} />
 				</label>
 				<label class="label w-full cursor-pointer">
 					<span class="label-text font-semibold">Enable Twitch Cookies</span>
-					<input type="checkbox" class="toggle-primary toggle" bind:checked={$consentTwitch} />
+					<input type="checkbox" class="toggle toggle-primary" bind:checked={$consentTwitch} />
 				</label>
 				<label class="label mb-4 w-full cursor-pointer">
 					<span class="label-text font-semibold">Enable Discord Cookies</span>
-					<input type="checkbox" class="toggle-primary toggle" bind:checked={$consentDiscord} />
+					<input type="checkbox" class="toggle toggle-primary" bind:checked={$consentDiscord} />
 				</label>
 				<button
-					class="btn-warning btn-sm btn mb-4 rounded-none md:btn-md"
+					class="btn btn-warning btn-sm mb-4 rounded-none md:btn-md"
 					on:click={() => {
 						$consentSelected = true;
 					}}>Update Cookie Settings</button

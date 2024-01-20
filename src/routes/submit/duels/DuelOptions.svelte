@@ -6,6 +6,7 @@
 	import RunTimeInput from '../RunTimeInput.svelte';
 	import { duelsForm } from './submit';
 	import { IndomitableBoss } from '$lib/types/api/duels/indomitableBoss';
+	import TextInput from '$lib/Components/TextInput.svelte';
 
 	const bossOptions = [
 		{ label: 'Nex Aelio', value: IndomitableBoss.NexAelio },
@@ -25,28 +26,23 @@
 </script>
 
 <div class="grid grid-cols-1 gap-2 md:grid-cols-4">
-	<div class="form-control md:col-span-2">
+	<div class="md:col-span-2">
 		<Dropdown label="Boss" options={bossOptions} bind:value={$duelsForm.boss} />
 	</div>
-	<div class="form-control md:col-span-1">
-		<div class="label justify-center">
-			<span class="label-text text-center text-base font-semibold">Rank</span>
-		</div>
-		<input class="input input-bordered" value="1" type="text" disabled />
+	<div class="md:col-span-1">
+		<TextInput prompt="Rank" disabled maxlength={10} value="1" />
 	</div>
-	<div class="form-control md:col-span-1">
+	<div class="md:col-span-1">
 		<CurrentPatchLabel />
 	</div>
 </div>
 <div class="grid grid-cols-1 gap-2 md:grid-cols-4">
-	<div class="form-control md:col-span-3">
+	<div class="md:col-span-3">
 		<Dropdown
 			label="Defi Augments Used?"
 			options={augmentOptions}
 			bind:value={$duelsForm.augments}
 		/>
 	</div>
-	<div class="form-control">
-		<RunTimeInput maxMinutes={10} />
-	</div>
+	<RunTimeInput maxMinutes={10} />
 </div>

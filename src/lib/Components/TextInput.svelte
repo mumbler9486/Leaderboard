@@ -7,6 +7,7 @@
 	export let error: string | undefined = undefined;
 	export let alt: string | undefined = undefined;
 	export let primary: boolean = false;
+	export let disabled: boolean = false;
 </script>
 
 <label class="form-control w-full">
@@ -22,6 +23,7 @@
 		{required}
 		{maxlength}
 		{placeholder}
+		{disabled}
 		bind:value
 		on:keyup
 	/>
