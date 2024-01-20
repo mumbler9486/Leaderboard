@@ -84,7 +84,7 @@
 								<span class="label-text">Notes</span>
 							</label>
 							<textarea
-								class="widget-discord textarea textarea-bordered h-24"
+								class="textarea textarea-bordered h-24"
 								placeholder="(Optional) Type any notes, extra run information, or descriptions here!"
 								bind:value={$runForm.notes}
 							/>
@@ -96,7 +96,7 @@
 					{/if}
 					{#if submitting}
 						<Alert type="info" message="Submitting - Please Wait..." />
-						<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
+						<div class="flex flex-col place-content-center place-items-center gap-1">
 							Submitting - Please Wait...<br /><progress
 								class="progress progress-primary w-56 border border-neutral-content/20"
 							/>
@@ -105,7 +105,7 @@
 					<div class="grid grid-cols-1 text-center">
 						<button
 							disabled={submitting}
-							class="btn btn-success btn-outline mt-4 w-1/2 justify-self-center"
+							class="btn btn-outline btn-success mt-4 w-1/2 justify-self-center"
 							on:click={submitRun}>Submit Run</button
 						>
 					</div>

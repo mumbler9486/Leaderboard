@@ -320,7 +320,7 @@
 			</div>
 			<FormControl label="Profile Description" error={$errors.description}>
 				<textarea
-					class="widget-discord textarea textarea-bordered h-24"
+					class="textarea textarea-bordered h-24"
 					placeholder="(Optional)"
 					maxlength={500}
 					bind:value={$form.description}
