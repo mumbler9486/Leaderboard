@@ -3,27 +3,28 @@
 	export let maxlength: number;
 	export let placeholder: string = '';
 	export let prompt: string | undefined = undefined;
+	export let error: string | undefined = undefined;
+	export let primary: boolean = false;
 </script>
 
-{#if prompt}
-	<label class="input-group">
-		<span>{prompt}</span>
-		<input
-			type="text"
-			class="input-bordered input w-full {$$restProps.class ?? ''}"
-			{maxlength}
-			{placeholder}
-			bind:value
-			on:keyup
-		/>
-	</label>
-{:else}
+<label class="form-control w-full max-w-xs">
+	{#if !!prompt && prompt.length > 0}
+		<div class="label">
+			<span class="label-text">{prompt}</span>
+		</div>
+	{/if}
 	<input
 		type="text"
-		class="input-bordered input w-full {$$restProps.class ?? ''}"
+		class="input input-bordered w-full max-w-xs"
+		class:input-primary={primary}
 		{maxlength}
 		{placeholder}
 		bind:value
 		on:keyup
 	/>
-{/if}
+	{#if !!error && error.length > 0}
+		<div class="label">
+			<span class="label-text-alt text-error">{error}</span>
+		</div>
+	{/if}
+</label>

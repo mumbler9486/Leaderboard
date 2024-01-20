@@ -18,7 +18,7 @@
 <label class="form-control w-full max-w-xs">
 	{#if !!label && label.length > 0}
 		<div class="label">
-			<span class="label-text-alt text-error">{label}</span>
+			<span class="label-text-alt">{label}</span>
 		</div>
 	{/if}
 	<select class="select select-bordered" {disabled} bind:value on:change>

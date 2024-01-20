@@ -246,7 +246,7 @@
 			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
 				<FormControl label="Main Character Name" error={$errors.mainCharacterName}>
 					<TextInput
-						class="bg-neutral"
+						primary
 						placeholder="(Required)"
 						maxlength={25}
 						bind:value={$form.mainCharacterName}
