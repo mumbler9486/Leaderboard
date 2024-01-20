@@ -15,7 +15,7 @@
 </script>
 
 <!-- TODO Rename class to Select to align with daisy ui -->
-<label class="form-control w-full max-w-xs">
+<label class="form-control w-full">
 	{#if !!label && label.length > 0}
 		<div class="label">
 			<span class="label-text-alt">{label}</span>
