@@ -13,6 +13,7 @@
 	import { fetchPostApi } from '$lib/utils/fetch';
 	import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus';
 	import { ErrorCodes } from '$lib/types/api/error';
+	import YouTubeIcon from './Icons/YouTubeIcon.svelte';
 
 	const dispatcher = createEventDispatcher();
 
@@ -141,16 +142,14 @@
 			{#if player.linkPov}
 				<PlayerNameBadge player={mapPartyMemberToNamePref(player)} />
 				<VideoPlayer bind:this={videoPlayers[playerIndex]} url={player.linkPov} />
-				<div
-					class="flex basis-full justify-center rounded-md border border-secondary bg-secondary/25 p-2"
-				>
+				<div class="flex justify-center rounded-md border border-secondary bg-secondary/25 p-2">
 					<div class="flex flex-col text-center">
-						<span class="text-lg font-semibold"
-							><i class="bi bi-youtube" />
+						<span class="inline flex flex-row items-center gap-1 text-lg font-semibold"
+							><YouTubeIcon />
 							{!player.playerId ? player.runCharacterName : player.playerName}'s POV Video Link:</span
 						>
 						<a
-							class="link-primary link"
+							class="link link-primary"
 							href={player?.linkPov}
 							target="_blank"
 							rel="noreferrer noopener">{player?.linkPov}</a
@@ -159,7 +158,7 @@
 				</div>
 			{:else}
 				<div
-					class="flex basis-full justify-center rounded-md border border-secondary bg-info bg-secondary/25 p-2"
+					class="flex justify-center rounded-md border border-secondary bg-info bg-secondary/25 p-2"
 				>
 					<div class="flex flex-col text-center">
 						<span class="text-lg font-semibold"
@@ -172,7 +171,7 @@
 			{/if}
 		{/each}
 		<div class="flex flex-col gap-2 p-2 md:flex-row md:gap-0">
-			<div class="flex basis-full flex-col justify-center md:flex-row">
+			<div class="flex flex-col justify-center md:flex-row">
 				<span class="flex place-content-center md:mr-1">Run By:</span>
 				<PlayerNameBadge
 					showLink
@@ -180,7 +179,7 @@
 				/>
 			</div>
 
-			<div class="flex basis-full flex-col justify-center md:flex-row">
+			<div class="flex flex-col justify-center md:flex-row">
 				<span class="flex place-content-center md:mr-1">Submitted By:</span>
 				<PlayerNameBadge
 					showLink
@@ -189,8 +188,9 @@
 			</div>
 
 			{#if false}
+				<!-- TODO icon -->
 				<!-- TODO add video tags -->
-				<div class="flex basis-full justify-center">
+				<div class="flex justify-center">
 					<span><i class="bi bi-film mr-1" /> Low Video Quality</span>
 				</div>
 			{/if}
@@ -215,7 +215,7 @@
 					<div class="whitespace-pre-wrap p-2">
 						{#if canReview}
 							<textarea
-								class="widget-discord textarea textarea-bordered w-full grow"
+								class="textarea textarea-bordered w-full grow"
 								placeholder="(Optional) Type any moderator notes you want to display here!"
 								maxlength="500"
 								bind:value={modNotes}
@@ -230,19 +230,19 @@
 	{/if}
 	<svelte:fragment slot="actions">
 		<Button
-			class="btn-error btn-outline"
+			class="btn-outline btn-error"
 			disabled={!canReview || processing}
 			on:click={denyRun}
 			on:keyup={denyRun}>Deny</Button
 		>
 		<Button
-			class="btn-success btn-outline"
+			class="btn-outline btn-success"
 			disabled={!canReview || processing}
 			on:click={approveRun}
 			on:keyup={approveRun}>Approve</Button
 		>
 		<Button
-			class="btn-secondary btn-outline"
+			class="btn-outline btn-secondary"
 			on:click={closeModal}
 			on:keyup={closeModal}
 			disabled={processing}>Close</Button

@@ -19,9 +19,7 @@
 	/>
 	<div class="container mx-auto mb-16 rounded-md border border-secondary bg-base-100/75">
 		<div class="align-center flex flex-col md:flex-row">
-			<div
-				class="m-2 basis-full rounded-md border border-secondary bg-base-100 p-4 px-8 md:basis-2/3"
-			>
+			<div class="m-2 rounded-md border border-secondary bg-base-100 p-4 px-8 md:basis-2/3">
 				<div class="text-center text-4xl font-light">News</div>
 				<HomeNews>
 					<span slot="newsTitle">Leaderboard January 2024 Updates</span>
@@ -175,7 +173,7 @@
 									href="https://discord.com/invite/fFtEEJHuFp"
 									target="_blank"
 									rel="noreferrer noopener"
-									class="link-primary link no-underline">Discord <i class="bi bi-discord" /></a
+									class="link link-primary no-underline">Discord <i class="bi bi-discord" /></a
 								> and we can get your run updated. Thank you for your patience.
 							</p>
 						</div>
@@ -221,9 +219,7 @@
 					</p>
 				</HomeNews>
 			</div>
-			<div
-				class="mt-0 flex grow basis-full flex-col-reverse overflow-x-auto md:mt-2 md:basis-1/3 md:flex-col"
-			>
+			<div class="mt-0 flex grow flex-col-reverse overflow-x-auto md:mt-2 md:basis-1/3 md:flex-col">
 				<RunStatsWidget />
 				{#if $consentSelected && $consentDiscord}
 					<DiscordWidget />

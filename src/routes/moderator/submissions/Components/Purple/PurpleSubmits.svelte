@@ -42,7 +42,7 @@
 </script>
 
 <div class="-mx-6 overflow-x-auto overflow-y-hidden md:mx-0">
-	<table class="table-zebra table-compact table w-full">
+	<table class="table-compact table table-zebra w-full">
 		<thead>
 			<tr>
 				<th class="bg-neutral text-neutral-content">Players</th>
@@ -74,7 +74,7 @@
 	<span class="flex justify-center">There are no runs in the selected queue.</span>
 {/if}
 {#if loading}
-	<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
+	<div class="flex flex-col place-content-center place-items-center gap-1">
 		Loading - Please Wait...<br /><progress
 			class="progress progress-primary w-56 border border-neutral-content/20"
 		/>

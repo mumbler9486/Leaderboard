@@ -52,9 +52,7 @@
 		{#each run?.party.filter((p) => p.linkPov != undefined) ?? [] as player, i}
 			<PlayerNameBadge player={mapPartyMemberToNamePref(player)} />
 			<VideoPlayer bind:this={videoPlayers[i]} url={player.linkPov} />
-			<div
-				class="flex basis-full justify-center rounded-md border border-secondary bg-secondary/25 p-2"
-			>
+			<div class="flex justify-center rounded-md border border-secondary bg-secondary/25 p-2">
 				<div class="flex flex-col text-center">
 					<span class="text-lg font-semibold"><i class="bi bi-youtube" />Video Link:</span>
 					<a
@@ -93,7 +91,7 @@
 	</div>
 	<div class="flex grow flex-col gap-1 md:flex-row">
 		<div
-			class="flex basis-1/2 justify-center rounded-md border border-secondary bg-secondary/25 p-2 md:basis-full"
+			class="flex basis-1/2 justify-center rounded-md border border-secondary bg-secondary/25 p-2"
 		>
 			<div class="flex grow flex-col">
 				<span class="text-center text-lg font-semibold">Runner's Notes:</span>
@@ -101,7 +99,7 @@
 			</div>
 		</div>
 		<div
-			class="flex basis-1/2 justify-center rounded-md border border-secondary bg-secondary/25 p-2 md:basis-full"
+			class="flex basis-1/2 justify-center rounded-md border border-secondary bg-secondary/25 p-2"
 		>
 			<div class="flex grow flex-col">
 				<span class="text-center text-lg font-semibold">Moderator's Notes:</span>

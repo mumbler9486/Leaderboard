@@ -52,7 +52,7 @@
 						{/if}
 					</div>
 				</div>
-				<div class="mt-1 flex basis-full flex-col place-items-center md:mt-0 md:place-items-start">
+				<div class="mt-1 flex flex-col place-items-center md:mt-0 md:place-items-start">
 					<div class="w-full md:flex md:justify-between">
 						<span class="flexs text-2xl md:justify-start md:text-4xl">
 							<PlayerNameBadge player={mapPlayerToNamePref(player)} />
@@ -128,7 +128,7 @@
 				</div>
 			{/if}
 		{:else}
-			<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
+			<div class="flex flex-col place-content-center place-items-center gap-1">
 				Loading - Please Wait...<br /><progress
 					class="progress progress-primary w-56 border border-neutral-content/20"
 				/>
