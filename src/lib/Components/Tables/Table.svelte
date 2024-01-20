@@ -20,7 +20,7 @@
 		xs: 'table-xs',
 		sm: 'table-sm',
 		md: 'table-md',
-		lg: 'table-lg'
+		lg: 'table-lg',
 	};
 </script>
 
