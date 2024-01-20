@@ -3,7 +3,7 @@
 	import { currentPatchLabel } from '$lib/constants/patchCodes';
 </script>
 
-<label class="form-control w-full max-w-xs">
+<label class="form-control w-full">
 	<div class="label">
 		<span class="label-text"
 			>Current Patch <InfoTooltip
@@ -14,7 +14,8 @@
 	</div>
 	<input
 		type="text"
-		class="input input-bordered w-full max-w-xs bg-neutral"
+		class="input input-bordered w-full bg-neutral"
 		value={currentPatchLabel}
+		readonly
 	/>
 </label>
