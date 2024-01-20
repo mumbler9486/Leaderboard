@@ -97,7 +97,7 @@
 				</td>
 				<td class="text-center">
 					{#each run.party as player}
-						<p>
+						<p class="flex flex-row justify-center">
 							{#if player?.linkPov}
 								<VideoLink url={player?.linkPov} />
 							{:else}
