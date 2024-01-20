@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let options: DropdownValues[];
-	export let label: string | undefined = undefined;
+	export let label: string | undefined = '';
 	export let value: string | undefined = undefined;
 	export let placeholder: string | undefined = undefined;
 	export let disabled: boolean = false;
@@ -16,9 +16,11 @@
 
 <!-- TODO Rename class to Select to align with daisy ui -->
 <label class="form-control w-full max-w-xs">
-	<div class="label">
-		<span class="label-text">{label}</span>
-	</div>
+	{#if !!label && label.length > 0}
+		<div class="label">
+			<span class="label-text-alt text-error">{label}</span>
+		</div>
+	{/if}
 	<select class="select select-bordered" {disabled} bind:value on:change>
 		{#if placeholder}
 			<option disabled selected>{placeholder}</option>
@@ -30,9 +32,9 @@
 			<option value={option.value} disabled={option.disabled ?? false}>{option.label}</option>
 		{/each}
 	</select>
-	<div class="label">
-		{#if !!error && error.length > 0}
+	{#if !!error && error.length > 0}
+		<div class="label">
 			<span class="label-text-alt text-error">{error}</span>
-		{/if}
-	</div>
+		</div>
+	{/if}
 </label>

@@ -7,7 +7,7 @@
 	import { countries } from '$lib/types/api/countries';
 	import {
 		profileUpdateRequestSchema,
-		type ProfileUpdateRequest
+		type ProfileUpdateRequest,
 	} from '$lib/types/api/validation/profileUpdate';
 	import { fetchPutApi } from '$lib/utils/fetch';
 	import { createEventDispatcher } from 'svelte';
@@ -34,19 +34,19 @@
 	$: nameOptions = [
 		{
 			label: `Player Name (${namePreview.playerName})`,
-			value: PreferredName.Player.toString()
+			value: PreferredName.Player.toString(),
 		},
 		{
 			label: `Character Name (${namePreview.characterName})`,
-			value: PreferredName.Character.toString()
-		}
+			value: PreferredName.Character.toString(),
+		},
 	] satisfies { label: string; value: string }[];
 
 	const nameEffectOptions = [
 		{ label: 'No Effect', value: NameStyle.None.toString() },
 		{ label: 'Solid Color', value: NameStyle.Solid.toString() },
 		{ label: 'Gradient', value: NameStyle.Gradient.toString() },
-		{ label: 'Glowing', value: NameStyle.Glow.toString() }
+		{ label: 'Glowing', value: NameStyle.Glow.toString() },
 	] satisfies { label: string; value: string }[];
 
 	const countryOptions = countries.map((c) => ({ label: c.name, value: c.code.toLowerCase() }));
@@ -54,7 +54,7 @@
 	const serverRegionOptions = [
 		{ label: '(None)', value: '' },
 		{ label: 'Global', value: ServerRegion.Global },
-		{ label: 'Japan', value: ServerRegion.Japan }
+		{ label: 'Japan', value: ServerRegion.Japan },
 	] satisfies { label: string; value: string }[];
 
 	$: shipOptions =
@@ -64,7 +64,7 @@
 					{ label: 'Ship 1 (global)', value: 'global_1' },
 					{ label: 'Ship 2 (global)', value: 'global_2' },
 					{ label: 'Ship 3 (global)', value: 'global_3' },
-					{ label: 'Ship 4 (global)', value: 'global_4' }
+					{ label: 'Ship 4 (global)', value: 'global_4' },
 			  ]
 			: [
 					{ label: '(None)', value: '' },
@@ -77,7 +77,7 @@
 					{ label: 'Ship 7 (japan)', value: 'japan_7' },
 					{ label: 'Ship 8 (japan)', value: 'japan_8' },
 					{ label: 'Ship 9 (japan)', value: 'japan_9' },
-					{ label: 'Ship 10 (japan)', value: 'japan_10' }
+					{ label: 'Ship 10 (japan)', value: 'japan_10' },
 			  ];
 
 	const shipOptionsInfo: {
@@ -96,7 +96,7 @@
 		japan_7: { region: ServerRegion.Japan, ship: 7 },
 		japan_8: { region: ServerRegion.Japan, ship: 8 },
 		japan_9: { region: ServerRegion.Japan, ship: 9 },
-		japan_10: { region: ServerRegion.Japan, ship: 10 }
+		japan_10: { region: ServerRegion.Japan, ship: 10 },
 	};
 	$: selectedShip = shipOptionsInfo[$form.ship ?? ''];
 
@@ -113,7 +113,7 @@
 		primaryColor: '#ffffff',
 		secondaryColor: '#ffffff',
 		nameEffect: 0,
-		description: ''
+		description: '',
 	};
 
 	$: namePreview = {
@@ -127,15 +127,15 @@
 		namePreference: parseInt($form.preferredName ?? '0'),
 		nameEffectType: parseInt($form.nameEffect ?? '0'),
 		nameColor1: $form.primaryColor?.substring(1),
-		nameColor2: $form.secondaryColor?.substring(1)
+		nameColor2: $form.secondaryColor?.substring(1),
 	} satisfies PlayerNameDisplay;
 
-	export const show = () => {
+	export const show = async () => {
 		resetForm();
 		loadProfile();
 		modal.show();
 	};
-	export const close = () => modal.close();
+	export const close = async () => modal.close();
 
 	const loadProfile = async () => {
 		isLoading = true;
@@ -158,7 +158,7 @@
 			primaryColor: `#${player.nameColor1}`,
 			secondaryColor: `#${player.nameColor2}`,
 			nameEffect: player.nameType.toString(),
-			description: player.bio
+			description: player.bio,
 		});
 
 		isLoading = false;
@@ -188,7 +188,7 @@
 			primaryColor: $form.primaryColor?.substring(1),
 			secondaryColor: $form.secondaryColor?.substring(1),
 			nameEffect: $form.nameEffect,
-			description: $form.description
+			description: $form.description,
 		};
 
 		clearAllErrors();
@@ -227,6 +227,7 @@
 	};
 </script>
 
+<!-- TODO form control needed? Refactor -->
 <Modal
 	modalId="profile-edit-modal"
 	allowDefocusClose={false}
@@ -338,9 +339,9 @@
 		{#if serverError}
 			<Alert type="error" message={serverError} />
 		{/if}
-		<Button class="btn-secondary btn-outline" on:click={close} on:keyup={close}>Close</Button>
+		<Button class="btn-outline btn-secondary" on:click={close} on:keyup={close}>Close</Button>
 		<Button
-			class="btn-success btn-outline"
+			class="btn-outline btn-success"
 			on:click={saveChanges}
 			disabled={isLoading || isSubmitting}>Save</Button
 		>

@@ -58,7 +58,7 @@
 				<div class="flex flex-col text-center">
 					<span class="text-lg font-semibold"><i class="bi bi-youtube" />Video Link:</span>
 					<a
-						class="link-primary link"
+						class="link link-primary"
 						href={player.linkPov}
 						target="_blank"
 						rel="noreferrer noopener">{player.linkPov}</a
