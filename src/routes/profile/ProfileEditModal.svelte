@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ColorInput from '$lib/Components/ColorInput.svelte';
-	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import Select from '$lib/Components/Select.svelte';
 	import Modal from '$lib/Components/Modal.svelte';
 	import PlayerNameBadge, { type PlayerNameDisplay } from '$lib/Components/PlayerNameBadge.svelte';
 	import { clientPrincipleStore, playerInfoStore } from '$lib/stores/userLogin';
@@ -252,7 +252,7 @@
 					error={$errors.mainCharacterName}
 					bind:value={$form.mainCharacterName}
 				/>
-				<Dropdown
+				<Select
 					label="Preferred Name"
 					options={nameOptions}
 					bind:value={$form.preferredName}
@@ -260,7 +260,7 @@
 				/>
 			</div>
 			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-3">
-				<Dropdown
+				<Select
 					label="Server Region"
 					options={serverRegionOptions}
 					bind:value={$form.serverRegion}
@@ -268,14 +268,14 @@
 						$form.ship = '';
 					}}
 				/>
-				<Dropdown
+				<Select
 					label="Ship"
 					options={shipOptions}
 					disabled={$form.serverRegion == ''}
 					error={$errors.ship}
 					bind:value={$form.ship}
 				/>
-				<Dropdown
+				<Select
 					label="Country"
 					error={$errors.playerCountry}
 					options={countryOptions}
@@ -283,7 +283,7 @@
 				/>
 			</div>
 			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-3">
-				<Dropdown
+				<Select
 					label="Name Effect"
 					error={$errors.nameEffect}
 					options={nameEffectOptions}

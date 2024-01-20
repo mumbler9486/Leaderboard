@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import Select from '$lib/Components/Select.svelte';
 	import { DfAegisSupport } from '$lib/types/api/dfAegis/dfAegisSupports';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import { tick } from 'svelte';
@@ -71,7 +71,7 @@
 	<CurrentPatchLabel />
 </div>
 <div class="grid grid-cols-1 gap-2 md:grid-cols-4">
-	<Dropdown
+	<Select
 		label="Mode"
 		placeholder="Select a mode"
 		options={[
@@ -83,14 +83,14 @@
 		on:change={typeChanged}
 	/>
 	<div class="md:col-span-1">
-		<Dropdown
+		<Select
 			label="Rank"
 			placeholder="Select a rank"
 			options={rankOptions}
 			bind:value={selectedRankStr}
 		/>
 	</div>
-	<Dropdown
+	<Select
 		label="Support"
 		placeholder="Select a support"
 		options={supportOptions}

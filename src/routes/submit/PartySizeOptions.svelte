@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import Select from '$lib/Components/Select.svelte';
 	import { partyForm } from './partyFormStore';
 
 	export let sizes: (1 | 2 | 4 | 8)[];
@@ -23,4 +23,4 @@
 	};
 </script>
 
-<Dropdown label="Party Size" {options} bind:value={selectedPartySize} />
+<Select label="Party Size" {options} bind:value={selectedPartySize} />

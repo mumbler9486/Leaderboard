@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
-	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import Select from '$lib/Components/Select.svelte';
 	import { t } from 'svelte-i18n';
 	import RunRules from '../../RunRules.svelte';
 	import RunFilterModal from '../../RunFilterModal.svelte';
@@ -18,7 +18,7 @@
 >
 	<div class="flex flex-row flex-wrap place-content-center items-stretch gap-2">
 		<div class="flex grow flex-col">
-			<Dropdown
+			<Select
 				label="Augmentations"
 				options={[
 					{ label: 'No Filter', value: 'no_filter' },
@@ -29,7 +29,7 @@
 			/>
 		</div>
 		<div class="flex grow flex-col">
-			<Dropdown label="Rank" options={[{ label: '1', value: 1 }]} />
+			<Select label="Rank" options={[{ label: '1', value: 1 }]} />
 		</div>
 	</div>
 

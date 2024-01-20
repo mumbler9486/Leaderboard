@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import Select from '$lib/Components/Select.svelte';
 	import { onMount } from 'svelte';
 	import { partyForm } from '../partyFormStore';
 	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
@@ -27,7 +27,7 @@
 
 <div class="grid grid-cols-1 gap-2 md:grid-cols-4">
 	<div class="md:col-span-2">
-		<Dropdown label="Boss" options={bossOptions} bind:value={$duelsForm.boss} />
+		<Select label="Boss" options={bossOptions} bind:value={$duelsForm.boss} />
 	</div>
 	<div class="md:col-span-1">
 		<TextInput prompt="Rank" disabled maxlength={10} value="1" />
@@ -38,11 +38,7 @@
 </div>
 <div class="grid grid-cols-1 gap-2 md:grid-cols-4">
 	<div class="md:col-span-3">
-		<Dropdown
-			label="Defi Augments Used?"
-			options={augmentOptions}
-			bind:value={$duelsForm.augments}
-		/>
+		<Select label="Defi Augments Used?" options={augmentOptions} bind:value={$duelsForm.augments} />
 	</div>
 	<RunTimeInput maxMinutes={10} />
 </div>

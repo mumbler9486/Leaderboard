@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import Select from '$lib/Components/Select.svelte';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
 	import PartySizeOptions from '../PartySizeOptions.svelte';
@@ -29,7 +29,7 @@
 	<CurrentPatchLabel />
 </div>
 <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
-	<Dropdown
+	<Select
 		label="Mode"
 		placeholder="Select a mode"
 		options={[{ label: 'Urgent Quest', value: NgsRunCategories.UrgentQuest }]}
@@ -37,7 +37,7 @@
 		on:change={typeChanged}
 	/>
 	<div class=" md:col-span-1">
-		<Dropdown
+		<Select
 			label="Rank"
 			placeholder="Select a rank"
 			options={rankOptions}

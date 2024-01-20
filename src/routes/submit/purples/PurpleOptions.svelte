@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import Select from '$lib/Components/Select.svelte';
 	import RemainingTimeInput from '../RemainingTimeInput.svelte';
 	import PartySizeOptions from '../PartySizeOptions.svelte';
 	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
@@ -40,7 +40,7 @@
 	<CurrentPatchLabel />
 </div>
 <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
-	<Dropdown
+	<Select
 		label="Region"
 		placeholder="Select a region"
 		options={[
@@ -52,7 +52,7 @@
 		bind:value={$purplesForm.region}
 		on:change={regionChanged}
 	/>
-	<Dropdown
+	<Select
 		label="Rank"
 		placeholder="Select a rank"
 		options={rankOptions}
