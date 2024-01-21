@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Modal from '$lib/Components/Modal.svelte';
+	import { ListBullet } from 'svelte-heros-v2';
 
 	export let rules: string[] = [];
 
@@ -7,9 +8,9 @@
 </script>
 
 <button
-	class="btn btn-primary btn-outline btn-sm rounded"
+	class="btn btn-outline btn-primary btn-sm rounded"
 	on:click={modal.show}
-	on:keyup={modal.show}><i class="bi bi-journal-check mr-2" />Rules</button
+	on:keyup={modal.show}><ListBullet />Rules</button
 >
 <Modal
 	bind:this={modal}

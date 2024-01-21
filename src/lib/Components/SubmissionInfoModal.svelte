@@ -187,14 +187,6 @@
 					player={submission ? mapPlayerInfoNamePref(submission.submitter) : undefined}
 				/>
 			</div>
-
-			{#if false}
-				<!-- TODO icon -->
-				<!-- TODO add video tags -->
-				<div class="flex justify-center">
-					<span><i class="bi bi-film mr-1" /> Low Video Quality</span>
-				</div>
-			{/if}
 		</div>
 		<div class="flex grow flex-col gap-1 md:flex-row">
 			<div

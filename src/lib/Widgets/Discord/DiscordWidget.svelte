@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { afterNavigate } from '$app/navigation';
+	import DiscordIcon from '$lib/Components/Icons/DiscordIcon.svelte';
 	import DiscordUser from '$lib/Widgets/Discord/DiscordUser.svelte';
 	import { onMount } from 'svelte';
 
@@ -64,7 +65,7 @@
 		class="flex flex-col items-center rounded-t-md border border-secondary border-b-secondary/25 bg-base-100 py-4 text-lg font-light text-base-content"
 	>
 		<p class="text-2xl font-normal">
-			{discordServer?.name}<i class="bi bi-discord ml-2" />
+			{discordServer?.name}<DiscordIcon />
 		</p>
 		<span class="text-base-content/50">{presenseCount}</span>
 	</div>

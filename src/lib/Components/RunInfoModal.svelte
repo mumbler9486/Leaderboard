@@ -7,6 +7,7 @@
 	import { mapPlayerInfoNamePref, mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import type { Run } from '$lib/types/api/runs/run';
 	import Button from './Button.svelte';
+	import YouTubeIcon from './Icons/YouTubeIcon.svelte';
 
 	let run: Run | undefined;
 
@@ -54,7 +55,9 @@
 			<VideoPlayer bind:this={videoPlayers[i]} url={player.linkPov} />
 			<div class="flex justify-center rounded-md border border-secondary bg-secondary/25 p-2">
 				<div class="flex flex-col text-center">
-					<span class="text-lg font-semibold"><i class="bi bi-youtube" />Video Link:</span>
+					<span class="flex flex-row items-center gap-2 text-lg font-semibold"
+						><YouTubeIcon />Video Link:</span
+					>
 					<a
 						class="link link-primary"
 						href={player.linkPov}

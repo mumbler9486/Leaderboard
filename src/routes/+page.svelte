@@ -169,12 +169,7 @@
 							</p>
 							<p class="pt-2">
 								As usual if there are issues or inaccuracies please contact us on
-								<a
-									href="https://discord.com/invite/fFtEEJHuFp"
-									target="_blank"
-									rel="noreferrer noopener"
-									class="link link-primary no-underline">Discord <i class="bi bi-discord" /></a
-								> and we can get your run updated. Thank you for your patience.
+								<DiscordContact /> and we can get your run updated. Thank you for your patience.
 							</p>
 						</div>
 					</div>
