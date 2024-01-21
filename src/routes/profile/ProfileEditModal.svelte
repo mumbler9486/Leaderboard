@@ -227,7 +227,6 @@
 	};
 </script>
 
-<!-- TODO form control needed? Refactor -->
 <Modal
 	modalId="profile-edit-modal"
 	allowDefocusClose={false}

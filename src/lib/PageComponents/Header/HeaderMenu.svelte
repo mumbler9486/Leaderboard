@@ -45,8 +45,6 @@
 	};
 </script>
 
-<!-- TODO icon -->
-
 <!--Mobile Headers-->
 <div class="dropdown dropdown-end ml-auto md:hidden">
 	<label tabindex="0" class="btn btn-ghost rounded-btn">{title}</label>

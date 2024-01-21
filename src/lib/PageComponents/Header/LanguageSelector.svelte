@@ -37,8 +37,6 @@
 			<label
 				class="label w-64 cursor-pointer gap-2 rounded border border-neutral-content/25 bg-neutral px-2"
 			>
-				<!-- TODO label-text -->
-
 				<span class="label-text text-neutral-content"
 					>{languageOptions[availableLocaleCode].label}</span
 				>
