@@ -15,6 +15,7 @@
 	import { t } from 'svelte-i18n';
 	import PartySizeLabel from '../PartySizeLabel.svelte';
 	import PatchLabel from '../PatchLabel.svelte';
+	import { InformationCircle } from 'svelte-heros-v2';
 
 	export let submissions: Run<unknown>[];
 
@@ -165,7 +166,7 @@
 						<Button primary on:click={() => runInfoOpen(run.runId)}>Review</Button>
 					{:else}
 						<Button primary on:click={() => runInfoOpen(run.runId)}>
-							<i class="bi bi-sticky" />
+							<InformationCircle size="20" />
 						</Button>
 					{/if}
 				</td>

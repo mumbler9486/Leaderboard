@@ -8,6 +8,11 @@
 	import { countriesMap } from '$lib/types/api/countries';
 	import { mapPlayerToNamePref } from '$lib/types/api/mapNamePref';
 	import { PreferredName } from '$lib/types/api/players/preferredName';
+	import TwitchIcon from '$lib/Components/Icons/TwitchIcon.svelte';
+	import YouTubeIcon from '$lib/Components/Icons/YouTubeIcon.svelte';
+	import TwitterIcon from '$lib/Components/Icons/TwitterIcon.svelte';
+	import DiscordIcon from '$lib/Components/Icons/DiscordIcon.svelte';
+	import { Share } from 'svelte-heros-v2';
 
 	export let player: PlayerProfile | undefined;
 	export let isLoading: boolean;
@@ -76,39 +81,29 @@
 					<div class="mt-4 flex w-full justify-between">
 						<div class="flex flex-row flex-wrap gap-1">
 							{#if !isNullOrEmpty(player.twitch)}
-								<SocialBadge
-									label="Twitch"
-									color="bg-[#803be5]"
-									icon="twitch"
-									link="https://twitch.tv/{player.twitch}"
-								/>
+								<SocialBadge color="bg-[#803be5]" link="https://twitch.tv/{player.twitch}">
+									<TwitchIcon /> Twitch
+								</SocialBadge>
 							{/if}
 							{#if !isNullOrEmpty(player.youtube)}
-								<SocialBadge
-									label="Youtube"
-									color="bg-[#d11414]"
-									icon="youtube"
-									link="https://youtube.com/@{player.youtube}"
-								/>
+								<SocialBadge color="bg-[#d11414]" link="https://youtube.com/@{player.youtube}">
+									<YouTubeIcon /> YouTube
+								</SocialBadge>
 							{/if}
 							{#if !isNullOrEmpty(player.twitter)}
-								<SocialBadge
-									label="Twitter"
-									color="bg-[#1d9bf9]"
-									icon="twitter"
-									link="https://twitter.com/{player.twitter}"
-								/>
+								<SocialBadge color="bg-[#1d9bf9]" link="https://twitter.com/{player.twitter}"
+									><TwitterIcon />Twitter
+								</SocialBadge>
 							{/if}
 							{#if !isNullOrEmpty(player.discord)}
-								<SocialBadge
-									label="Discord"
-									color="bg-[#5865f2]"
-									icon="discord"
-									tooltip={player.discord}
-								/>
+								<SocialBadge color="bg-[#5865f2]" tooltip={player.discord}
+									><DiscordIcon /> Discord
+								</SocialBadge>
 							{/if}
 						</div>
-						<SocialBadge label="Share" icon="share" link="/users/{player.playerId}" />
+						<SocialBadge link="/users/{player.playerId}">
+							<Share size="16" /> Share
+						</SocialBadge>
 					</div>
 				</div>
 			</div>
@@ -133,7 +128,7 @@
 				</div>
 			{/if}
 		{:else}
-			<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
+			<div class="flex flex-col place-content-center place-items-center gap-1">
 				Loading - Please Wait...<br /><progress
 					class="progress progress-primary w-56 border border-neutral-content/20"
 				/>

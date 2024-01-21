@@ -11,7 +11,7 @@
 	$: staticMenuItems = [
 		{
 			title: 'Info',
-			icon: 'bi-info-circle',
+			icon: 'info-circle',
 			link: '/info',
 		} satisfies MenuGroup,
 		{
@@ -54,12 +54,13 @@
 		title: loginTitle,
 		link: !isLoggedIn ? '/login' : undefined,
 		show: $consentSelected && !isNotCompleteAccountSetup,
+		icon: 'person-circle',
 		items: isLoggedIn
 			? [
-					{ label: 'My Runs', link: '/profile/submissions', icon: 'bi-envelope-paper' },
-					{ label: 'Profile', link: '/profile', icon: 'bi-person-vcard' },
-					{ label: 'Settings', link: '/settings', icon: 'bi-gear' },
-					{ label: 'Logout', link: '/logout', icon: 'bi-box-arrow-right' },
+					{ label: 'My Runs', link: '/profile/submissions', icon: 'envelope-paper' },
+					{ label: 'Profile', link: '/profile', icon: 'profile' },
+					{ label: 'Settings', link: '/settings', icon: 'gear' },
+					{ label: 'Logout', link: '/logout', icon: 'logout' },
 			  ]
 			: [],
 	} satisfies MenuGroup;
@@ -75,20 +76,20 @@
 	$: accountSetupMenu = {
 		title: $clientPrincipleStore?.userDetails ?? '<Unknown>',
 		show: isNotCompleteAccountSetup,
-		items: [{ label: 'Logout', link: '/logout', icon: 'bi-box-arrow-right' }],
+		items: [{ label: 'Logout', link: '/logout', icon: 'box-arrow-right' }],
 	};
 
 	$: submitMenu = {
 		title: 'Submit a Run',
 		show: isLoggedIn,
-		icon: 'bi-envelope-paper',
+		icon: 'envelope-paper',
 		link: '/submit',
 	} satisfies MenuGroup;
 
 	$: moderationMenu = {
 		title: 'Moderation',
 		show: isMod && isLoggedIn,
-		icon: 'bi-shield-shaded',
+		icon: 'shield',
 		link: '/moderator/submissions',
 	} satisfies MenuGroup;
 

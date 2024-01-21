@@ -1,29 +1,40 @@
 <script lang="ts">
 	export let value: string | undefined;
 	export let maxlength: number;
+	export let required: boolean = false;
 	export let placeholder: string = '';
 	export let prompt: string | undefined = undefined;
+	export let error: string | undefined = undefined;
+	export let alt: string | undefined = undefined;
+	export let primary: boolean = false;
+	export let disabled: boolean = false;
 </script>
 
-{#if prompt}
-	<label class="input-group">
-		<span>{prompt}</span>
-		<input
-			type="text"
-			class="input-bordered input w-full {$$restProps.class ?? ''}"
-			{maxlength}
-			{placeholder}
-			bind:value
-			on:keyup
-		/>
-	</label>
-{:else}
+<label class="form-control w-full">
+	{#if !!prompt && prompt.length > 0}
+		<div class="label">
+			<span class="label-text">{prompt}</span>
+		</div>
+	{/if}
 	<input
 		type="text"
-		class="input-bordered input w-full {$$restProps.class ?? ''}"
+		class="input input-bordered w-full"
+		class:input-primary={primary}
+		{required}
 		{maxlength}
 		{placeholder}
+		{disabled}
 		bind:value
 		on:keyup
 	/>
-{/if}
+	{#if !!error && error.length > 0}
+		<div class="label">
+			<span class="label-text-alt text-error">{error}</span>
+		</div>
+	{/if}
+	{#if !!alt && alt.length > 0}
+		<div class="label">
+			<span class="label-text-alt">{alt}</span>
+		</div>
+	{/if}
+</label>

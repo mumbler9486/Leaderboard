@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import Select from '$lib/Components/Select.svelte';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import { tick } from 'svelte';
 	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
@@ -46,32 +46,26 @@
 </script>
 
 <div class="grid grid-cols-1 gap-2 md:grid-cols-4">
-	<div class="form-control md:col-span-3">
+	<div class="md:col-span-3">
 		<PartySizeOptions bind:this={partySizeInput} sizes={partyOptions} />
 	</div>
-	<div class="form-control">
-		<CurrentPatchLabel />
-	</div>
+	<CurrentPatchLabel />
 </div>
 <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
-	<div class="form-control">
-		<Dropdown
-			label="Mode"
-			placeholder="Select a mode"
-			options={questOptions}
-			bind:value={$solusForm.category}
-			on:change={typeChanged}
-		/>
-	</div>
-	<div class="form-control md:col-span-1">
-		<Dropdown
+	<Select
+		label="Mode"
+		placeholder="Select a mode"
+		options={questOptions}
+		bind:value={$solusForm.category}
+		on:change={typeChanged}
+	/>
+	<div class="md:col-span-1">
+		<Select
 			label="Rank"
 			placeholder="Select a rank"
 			options={rankOptions}
 			bind:value={selectedRankStr}
 		/>
 	</div>
-	<div class="form-control">
-		<RemainingTimeInput bind:this={timeInput} limitMinutes={maxMinutes} />
-	</div>
+	<RemainingTimeInput bind:this={timeInput} limitMinutes={maxMinutes} />
 </div>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
-	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import Select from '$lib/Components/Select.svelte';
 	import { t } from 'svelte-i18n';
 	import PartySizeNavigation from '$lib/Components/PartySizeNavigation.svelte';
 	import RunFilterModal from '../../RunFilterModal.svelte';
@@ -33,7 +33,7 @@
 	</div>
 	<div class="flex flex-row flex-wrap place-content-center items-stretch gap-2">
 		<div class="flex grow flex-col">
-			<Dropdown
+			<Select
 				label="Type"
 				options={[
 					{ label: 'Quest', value: NgsRunCategories.Quest },
@@ -44,7 +44,7 @@
 			/>
 		</div>
 		<!-- <div class="flex grow flex-col">
-			<Dropdown
+			<Select
 				label="Rank"
 				options={[
 					{ label: '1', value: '1' },

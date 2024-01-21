@@ -1,13 +1,13 @@
 <script lang="ts">
 	import ColorInput from '$lib/Components/ColorInput.svelte';
-	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import Select from '$lib/Components/Select.svelte';
 	import Modal from '$lib/Components/Modal.svelte';
 	import PlayerNameBadge, { type PlayerNameDisplay } from '$lib/Components/PlayerNameBadge.svelte';
 	import { clientPrincipleStore, playerInfoStore } from '$lib/stores/userLogin';
 	import { countries } from '$lib/types/api/countries';
 	import {
 		profileUpdateRequestSchema,
-		type ProfileUpdateRequest
+		type ProfileUpdateRequest,
 	} from '$lib/types/api/validation/profileUpdate';
 	import { fetchPutApi } from '$lib/utils/fetch';
 	import { createEventDispatcher } from 'svelte';
@@ -15,13 +15,13 @@
 	import Alert from '$lib/Components/Alert.svelte';
 	import Button from '$lib/Components/Button.svelte';
 	import Divider from '$lib/Components/Divider.svelte';
-	import FormControl from '$lib/Components/FormControl.svelte';
 	import TextInput from '$lib/Components/TextInput.svelte';
 	import { useValidation } from '$lib/types/api/formValidation';
 	import { BadRequestError, InternalServerError } from '$lib/types/api/error';
 	import { NameStyle } from '$lib/types/api/players/nameStyle';
 	import { PreferredName } from '$lib/types/api/players/preferredName';
 	import { ServerRegion } from '$lib/types/api/serverRegions';
+	import TextArea from '$lib/Components/TextArea.svelte';
 
 	const dispatcher = createEventDispatcher();
 
@@ -34,19 +34,19 @@
 	$: nameOptions = [
 		{
 			label: `Player Name (${namePreview.playerName})`,
-			value: PreferredName.Player.toString()
+			value: PreferredName.Player.toString(),
 		},
 		{
 			label: `Character Name (${namePreview.characterName})`,
-			value: PreferredName.Character.toString()
-		}
+			value: PreferredName.Character.toString(),
+		},
 	] satisfies { label: string; value: string }[];
 
 	const nameEffectOptions = [
 		{ label: 'No Effect', value: NameStyle.None.toString() },
 		{ label: 'Solid Color', value: NameStyle.Solid.toString() },
 		{ label: 'Gradient', value: NameStyle.Gradient.toString() },
-		{ label: 'Glowing', value: NameStyle.Glow.toString() }
+		{ label: 'Glowing', value: NameStyle.Glow.toString() },
 	] satisfies { label: string; value: string }[];
 
 	const countryOptions = countries.map((c) => ({ label: c.name, value: c.code.toLowerCase() }));
@@ -54,7 +54,7 @@
 	const serverRegionOptions = [
 		{ label: '(None)', value: '' },
 		{ label: 'Global', value: ServerRegion.Global },
-		{ label: 'Japan', value: ServerRegion.Japan }
+		{ label: 'Japan', value: ServerRegion.Japan },
 	] satisfies { label: string; value: string }[];
 
 	$: shipOptions =
@@ -64,7 +64,7 @@
 					{ label: 'Ship 1 (global)', value: 'global_1' },
 					{ label: 'Ship 2 (global)', value: 'global_2' },
 					{ label: 'Ship 3 (global)', value: 'global_3' },
-					{ label: 'Ship 4 (global)', value: 'global_4' }
+					{ label: 'Ship 4 (global)', value: 'global_4' },
 			  ]
 			: [
 					{ label: '(None)', value: '' },
@@ -77,7 +77,7 @@
 					{ label: 'Ship 7 (japan)', value: 'japan_7' },
 					{ label: 'Ship 8 (japan)', value: 'japan_8' },
 					{ label: 'Ship 9 (japan)', value: 'japan_9' },
-					{ label: 'Ship 10 (japan)', value: 'japan_10' }
+					{ label: 'Ship 10 (japan)', value: 'japan_10' },
 			  ];
 
 	const shipOptionsInfo: {
@@ -96,7 +96,7 @@
 		japan_7: { region: ServerRegion.Japan, ship: 7 },
 		japan_8: { region: ServerRegion.Japan, ship: 8 },
 		japan_9: { region: ServerRegion.Japan, ship: 9 },
-		japan_10: { region: ServerRegion.Japan, ship: 10 }
+		japan_10: { region: ServerRegion.Japan, ship: 10 },
 	};
 	$: selectedShip = shipOptionsInfo[$form.ship ?? ''];
 
@@ -113,7 +113,7 @@
 		primaryColor: '#ffffff',
 		secondaryColor: '#ffffff',
 		nameEffect: 0,
-		description: ''
+		description: '',
 	};
 
 	$: namePreview = {
@@ -127,15 +127,15 @@
 		namePreference: parseInt($form.preferredName ?? '0'),
 		nameEffectType: parseInt($form.nameEffect ?? '0'),
 		nameColor1: $form.primaryColor?.substring(1),
-		nameColor2: $form.secondaryColor?.substring(1)
+		nameColor2: $form.secondaryColor?.substring(1),
 	} satisfies PlayerNameDisplay;
 
-	export const show = () => {
+	export const show = async () => {
 		resetForm();
 		loadProfile();
 		modal.show();
 	};
-	export const close = () => modal.close();
+	export const close = async () => modal.close();
 
 	const loadProfile = async () => {
 		isLoading = true;
@@ -158,7 +158,7 @@
 			primaryColor: `#${player.nameColor1}`,
 			secondaryColor: `#${player.nameColor2}`,
 			nameEffect: player.nameType.toString(),
-			description: player.bio
+			description: player.bio,
 		});
 
 		isLoading = false;
@@ -188,7 +188,7 @@
 			primaryColor: $form.primaryColor?.substring(1),
 			secondaryColor: $form.secondaryColor?.substring(1),
 			nameEffect: $form.nameEffect,
-			description: $form.description
+			description: $form.description,
 		};
 
 		clearAllErrors();
@@ -243,91 +243,103 @@
 				</span>
 			</div>
 			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
-				<FormControl label="Main Character Name" error={$errors.mainCharacterName}>
-					<TextInput
-						class="bg-neutral"
-						placeholder="(Required)"
-						maxlength={25}
-						bind:value={$form.mainCharacterName}
-					/>
-				</FormControl>
-				<FormControl label="Preferred Name" error={$errors.preferredName}>
-					<Dropdown options={nameOptions} bind:value={$form.preferredName} />
-				</FormControl>
+				<TextInput
+					prompt="Main Character Name"
+					primary
+					placeholder="(Required)"
+					maxlength={25}
+					error={$errors.mainCharacterName}
+					bind:value={$form.mainCharacterName}
+				/>
+				<Select
+					label="Preferred Name"
+					options={nameOptions}
+					bind:value={$form.preferredName}
+					error={$errors.preferredName}
+				/>
 			</div>
 			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-3">
-				<FormControl label="Server Region">
-					<Dropdown
-						options={serverRegionOptions}
-						bind:value={$form.serverRegion}
-						on:change={() => {
-							$form.ship = '';
-						}}
-					/>
-				</FormControl>
-				<FormControl label="Ship" error={$errors.ship}>
-					<Dropdown
-						options={shipOptions}
-						disabled={$form.serverRegion == ''}
-						bind:value={$form.ship}
-					/>
-				</FormControl>
-				<FormControl label="Country" error={$errors.playerCountry}>
-					<Dropdown options={countryOptions} bind:value={$form.playerCountry} />
-				</FormControl>
+				<Select
+					label="Server Region"
+					options={serverRegionOptions}
+					bind:value={$form.serverRegion}
+					on:change={() => {
+						$form.ship = '';
+					}}
+				/>
+				<Select
+					label="Ship"
+					options={shipOptions}
+					disabled={$form.serverRegion == ''}
+					error={$errors.ship}
+					bind:value={$form.ship}
+				/>
+				<Select
+					label="Country"
+					error={$errors.playerCountry}
+					options={countryOptions}
+					bind:value={$form.playerCountry}
+				/>
 			</div>
 			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-3">
-				<FormControl label="Primary Color" error={$errors.primaryColor}>
-					<ColorInput bind:value={$form.primaryColor} />
-				</FormControl>
-				<FormControl label="Secondary Color" error={$errors.secondaryColor}>
-					<ColorInput bind:value={$form.secondaryColor} />
-				</FormControl>
-				<FormControl label="Name Effect" error={$errors.nameEffect}>
-					<Dropdown options={nameEffectOptions} bind:value={$form.nameEffect} />
-				</FormControl>
+				<Select
+					label="Name Effect"
+					error={$errors.nameEffect}
+					options={nameEffectOptions}
+					bind:value={$form.nameEffect}
+				/>
+				<ColorInput
+					prompt="Primary Color"
+					error={$errors.primaryColor}
+					bind:value={$form.primaryColor}
+				/>
+				<ColorInput
+					prompt="Secondary Color"
+					error={$errors.secondaryColor}
+					bind:value={$form.secondaryColor}
+				/>
 			</div>
 			<Divider />
 			<div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
-				<FormControl label="Youtube" error={$errors.youtubeHandle}>
-					<TextInput
-						placeholder="(Required)"
-						prompt="youtube.com/@"
-						maxlength={25}
-						bind:value={$form.youtubeHandle}
-					/>
-				</FormControl>
-				<FormControl label="Twitter" error={$errors.twitterHandle}>
-					<TextInput
-						placeholder="(Optional)"
-						prompt="twitter.com/"
-						maxlength={30}
-						bind:value={$form.twitterHandle}
-					/>
-				</FormControl>
-				<FormControl label="Twitch Channel" error={$errors.twitchChannel}>
-					<TextInput
-						placeholder="(Optional)"
-						prompt="twitch.tv/"
-						maxlength={30}
-						bind:value={$form.twitchChannel}
-					/>
-				</FormControl>
-				<FormControl label="Discord Username" error={$errors.discordUsername}>
-					<TextInput placeholder="(Optional)" maxlength={30} bind:value={$form.discordUsername} />
-				</FormControl>
-			</div>
-			<FormControl label="Profile Description" error={$errors.description}>
-				<textarea
-					class="widget-discord textarea textarea-bordered h-24"
-					placeholder="(Optional)"
-					maxlength={500}
-					bind:value={$form.description}
+				<TextInput
+					prompt="Youtube"
+					placeholder="(Optional) youtube.com/@"
+					maxlength={25}
+					error={$errors.youtubeHandle}
+					bind:value={$form.youtubeHandle}
 				/>
-			</FormControl>
+				<TextInput
+					prompt="Twitter"
+					placeholder="(Optional) @handle"
+					maxlength={30}
+					error={$errors.twitterHandle}
+					bind:value={$form.twitterHandle}
+				/>
+				<TextInput
+					prompt="Twitch Channel"
+					error={$errors.twitchChannel}
+					placeholder="(Optional) twitch.tv/"
+					maxlength={30}
+					bind:value={$form.twitchChannel}
+				/>
+				<TextInput
+					prompt="Discord Username"
+					error={$errors.discordUsername}
+					placeholder="(Optional)"
+					maxlength={30}
+					bind:value={$form.discordUsername}
+				/>
+			</div>
+			<TextArea
+				prompt="Profile Description"
+				error={$errors.description}
+				maxlength={500}
+				placeholder="(Optional)"
+				bind:value={$form.description}
+			/>
 		</div>
 	{:else}
-		<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
+		<div class="flex flex-col place-content-center place-items-center gap-1">
 			Loading - Please Wait...<br /><progress
 				class="progress progress-primary w-56 border border-neutral-content/20"
 			/>
@@ -338,9 +350,9 @@
 		{#if serverError}
 			<Alert type="error" message={serverError} />
 		{/if}
-		<Button class="btn-secondary btn-outline" on:click={close} on:keyup={close}>Close</Button>
+		<Button class="btn-outline btn-secondary" on:click={close} on:keyup={close}>Close</Button>
 		<Button
-			class="btn-success btn-outline"
+			class="btn-outline btn-success"
 			on:click={saveChanges}
 			disabled={isLoading || isSubmitting}>Save</Button
 		>

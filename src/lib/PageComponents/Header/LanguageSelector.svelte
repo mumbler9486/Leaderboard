@@ -2,13 +2,15 @@
 	import Modal from '../../Components/Modal.svelte';
 	import { locale, locales } from 'svelte-i18n';
 	import { siteLanguage } from '../../stores/preferences';
+	import { Language } from 'svelte-heros-v2';
+	import TranslateIcon from '$lib/Components/Icons/TranslateIcon.svelte';
 
 	let modal: Modal;
 
 	const languageOptions: Record<string, { label: string }> = {
 		en: { label: 'English (Global)' },
 		'en-alt': { label: 'English (Japan)' },
-		ja: { label: '日本語' }
+		ja: { label: '日本語' },
 	};
 
 	const updatePreferences = () => {
@@ -16,8 +18,10 @@
 	};
 </script>
 
-<div class="btn-ghost no-animation btn rounded-none" on:click={modal.show} on:keyup={modal.show}>
-	<i class="bi bi-translate" />
+<!-- TODO icon -->
+
+<div class="btn btn-ghost no-animation rounded-none" on:click={modal.show} on:keyup={modal.show}>
+	<TranslateIcon />
 </div>
 
 <Modal

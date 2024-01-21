@@ -1,11 +1,11 @@
-<div class="flex basis-full flex-col place-content-center place-items-center gap-1">
+<div class="flex flex-col place-content-center place-items-center gap-1">
 	<p>Your run has been submitted and will be reviewed as soon as possible!</p>
 	<p>
-		Your submissions can be viewed on the <a class="link-primary link" href="/profile/submissions"
+		Your submissions can be viewed on the <a class="link link-primary" href="/profile/submissions"
 			>My Runs</a
 		> page.
 	</p>
 	<p class="mt-4">
-		<a class="link-primary link" href="/">Click here to return to the home page!</a>
+		<a class="link link-primary" href="/">Click here to return to the home page!</a>
 	</p>
 </div>

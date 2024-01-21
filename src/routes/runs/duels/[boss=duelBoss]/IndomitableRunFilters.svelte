@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
-	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import Select from '$lib/Components/Select.svelte';
 	import { t } from 'svelte-i18n';
 	import RunRules from '../../RunRules.svelte';
 	import RunFilterModal from '../../RunFilterModal.svelte';
@@ -9,7 +9,7 @@
 
 	const rules = [
 		'Do not abuse bugs or exploits.',
-		'A run is considered to have used a Duel Augment if any duel specific augments (e.g.,Defi-series) have been affixed to any equipment used during the run.'
+		'A run is considered to have used a Duel Augment if any duel specific augments (e.g.,Defi-series) have been affixed to any equipment used during the run.',
 	];
 </script>
 
@@ -18,18 +18,18 @@
 >
 	<div class="flex flex-row flex-wrap place-content-center items-stretch gap-2">
 		<div class="flex grow flex-col">
-			<Dropdown
+			<Select
 				label="Augmentations"
 				options={[
 					{ label: 'No Filter', value: 'no_filter' },
 					{ label: 'Yes', value: 'yes' },
-					{ label: 'No', value: 'no' }
+					{ label: 'No', value: 'no' },
 				]}
 				bind:value={$runFilters.augments}
 			/>
 		</div>
 		<div class="flex grow flex-col">
-			<Dropdown label="Rank" options={[{ label: '1', value: 1 }]} />
+			<Select label="Rank" options={[{ label: '1', value: 1 }]} />
 		</div>
 	</div>
 

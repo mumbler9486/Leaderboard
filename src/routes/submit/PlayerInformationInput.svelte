@@ -1,4 +1,5 @@
 <script lang="ts">
+	import TextInput from '$lib/Components/TextInput.svelte';
 	import ClassSelector from './ClassSelector.svelte';
 	import PlayerSelector from './PlayerSelector.svelte';
 	import WeaponSelector from './WeaponSelector.svelte';
@@ -7,47 +8,26 @@
 	export let playerIndex: number;
 </script>
 
-<div class="form-control">
+<div>
 	<div class="grid grid-cols-1 gap-2 md:grid-cols-2">
-		<div class="form-control">
-			<PlayerSelector {playerIndex} />
-		</div>
-		<div class="form-control">
-			<div class="label">
-				<span class="label-text text-base font-semibold">In-Video Character Name</span>
-			</div>
-			<input
-				placeholder="Enter character name..."
-				class="input input-bordered"
-				type="text"
-				required
-				bind:value={$partyForm[playerIndex].inVideoName}
-			/>
-			<div class="label">
-				<span class="label-text-alt"
-					>This is required to help viewers determine who is playing who in situations where
-					Player/Main Character Name doesn't match the In-Video Character Name.<br /><span
-						class="text-warning"
-						>Even if the In-Video Character Name is the same as the Main Character or Player Name,
-						you must still enter it here.</span
-					></span
-				>
-			</div>
-		</div>
+		<PlayerSelector {playerIndex} />
+		<TextInput
+			prompt="In-Video Character Name"
+			placeholder="Enter character name..."
+			alt="Even if the In-Video Character Name is the same as the Main Character or Player Name, you must still enter it here."
+			required
+			maxlength={50}
+			bind:value={$partyForm[playerIndex].inVideoName}
+		/>
 		<ClassSelector {playerIndex} />
 	</div>
-	<div class="form-control mt-4">
-		<div class="label">
-			<span class="label-text text-base font-semibold">POV Video Link</span>
-		</div>
-		<input
-			placeholder="Youtube video URL"
-			class="input input-bordered"
-			type="text"
-			required={playerIndex == 0}
-			bind:value={$partyForm[playerIndex].povVideoLink}
-		/>
-	</div>
+	<TextInput
+		prompt="POV Video Link"
+		placeholder="Youtube video URL"
+		required={playerIndex == 0}
+		maxlength={50}
+		bind:value={$partyForm[playerIndex].povVideoLink}
+	/>
 	{#if $partyForm.length == 1}
 		<div class="mt-4">
 			<div class="mt-4 text-center text-lg font-semibold">Weapons Used</div>

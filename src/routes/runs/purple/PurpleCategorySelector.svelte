@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import Select from '$lib/Components/Select.svelte';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
@@ -33,7 +33,7 @@
 
 <div class="flex flex-row flex-wrap place-content-center items-stretch gap-2">
 	<div class="flex grow flex-col">
-		<Dropdown
+		<Select
 			label="Region"
 			options={[
 				{ label: 'Aelio', value: NgsRunCategories.Aelio },
@@ -46,6 +46,6 @@
 		/>
 	</div>
 	<div class="flex grow flex-col">
-		<Dropdown label="Rank" options={regionSelections} bind:value={rank} on:change={applyFilters} />
+		<Select label="Rank" options={regionSelections} bind:value={rank} on:change={applyFilters} />
 	</div>
 </div>

@@ -2,7 +2,7 @@
 	export let showLabel: boolean = true;
 </script>
 
-<div class="flex basis-full flex-col place-content-center place-items-center gap-1 {$$props.class}">
+<div class="flex flex-col place-content-center place-items-center gap-1 {$$props.class}">
 	{#if showLabel}
 		Loading - Please Wait...<br />
 	{/if}

@@ -6,6 +6,7 @@
 	import { t } from 'svelte-i18n';
 	import DfAegisSupportFilter from './dfaegis/DfAegisSupportFilter.svelte';
 	import { runFilters } from './runFilter';
+	import { Funnel } from 'svelte-heros-v2';
 
 	export let classFilter: boolean = false;
 	export let dfAegisSupportFilter: boolean = false;
@@ -40,11 +41,11 @@
 </script>
 
 <button
-	class="btn btn-primary btn-outline btn-sm rounded"
+	class="btn btn-outline btn-primary btn-sm rounded"
 	on:click={modal.show}
 	on:keyup={modal.show}
 >
-	<i class="bi bi-funnel mr-2" />Filters
+	<Funnel />Filters
 </button>
 <Modal
 	modalId="run-filters"

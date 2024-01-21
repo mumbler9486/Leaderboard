@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
-	import Dropdown from '$lib/Components/Dropdown.svelte';
+	import Select from '$lib/Components/Select.svelte';
 	import PartySizeNavigation from '$lib/Components/PartySizeNavigation.svelte';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import RunFilterModal from '../../RunFilterModal.svelte';
@@ -36,7 +36,7 @@
 	</div>
 	<Divider class="-mx-1 my-0" />
 
-	<Dropdown
+	<Select
 		label="Quest Type"
 		options={[
 			{ label: 'Quest', value: NgsRunCategories.Quest },
