@@ -20,9 +20,9 @@
 
 <!-- TODO icon -->
 
-<div class="btn btn-ghost no-animation rounded-none" on:click={modal.show} on:keyup={modal.show}>
+<button class="btn btn-ghost" on:click={modal.show} on:keyup={modal.show}>
 	<TranslateIcon />
-</div>
+</button>
 
 <Modal
 	modalId="language-modal"

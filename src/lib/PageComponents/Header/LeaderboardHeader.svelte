@@ -1,12 +1,11 @@
 <script lang="ts">
-	import HeaderMenu, { type MenuGroup } from './HeaderMenu.svelte';
-	import LanguageSelector from './LanguageSelector.svelte';
 	import { t } from 'svelte-i18n';
 	import { clientPrincipleStore, playerInfoStore } from '../../stores/userLogin';
 	import { UserRole } from '../../types/api/users/userRole';
 	import { consentSelected } from '../../stores/consent';
 	import { afterNavigate, goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import Navbar, { type MenuGroup } from '$lib/PageComponents/Header/Navbar.svelte';
 
 	$: staticMenuItems = [
 		{
@@ -54,7 +53,7 @@
 		title: loginTitle,
 		link: !isLoggedIn ? '/login' : undefined,
 		show: $consentSelected && !isNotCompleteAccountSetup,
-		icon: 'person-circle',
+		icon: !isLoggedIn ? 'login' : 'person-circle',
 		items: isLoggedIn
 			? [
 					{ label: 'My Runs', link: '/profile/submissions', icon: 'envelope-paper' },
@@ -68,6 +67,7 @@
 	$: consentMenu = {
 		title: 'Login',
 		link: '/',
+		icon: 'login',
 		disabled: true,
 		disabledTooltip: 'Accept cookies to use Account features',
 		show: !$consentSelected,
@@ -169,21 +169,4 @@
 	});
 </script>
 
-<header class="sticky top-0 z-50" style="background-color:RGBA(5,15,29,0.8);">
-	<div class="container mx-auto px-2">
-		<div class="navbar">
-			<div class="navbar-start">
-				<a href="/">
-					<img
-						class="pointer-events-none h-9 object-contain"
-						src="/logos/logo.png"
-						alt={$t('shared.siteName')}
-					/>
-				</a>
-			</div>
-
-			<HeaderMenu title="Menu" groups={headerMenuItems} />
-			<LanguageSelector />
-		</div>
-	</div>
-</header>
+<Navbar groups={headerMenuItems} />
