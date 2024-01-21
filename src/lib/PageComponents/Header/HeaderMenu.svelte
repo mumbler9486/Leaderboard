@@ -19,15 +19,38 @@
 
 <script lang="ts">
 	import Tooltip from '../../Components/Tooltip.svelte';
+	import AlertInfoIcon from '../../Components/Icons/AlertInfoIcon.svelte';
+	import {
+		Inbox,
+		Identification,
+		Cog8Tooth,
+		ArrowRightOnRectangle,
+		ShieldCheck,
+		ChevronDown,
+		UserCircle,
+	} from 'svelte-heros-v2';
+	import type { ComponentType } from 'svelte';
 
 	export let title: string;
 	export let groups: MenuGroup[];
+
+	const iconMap: Record<string, ComponentType> = {
+		'info-circle': AlertInfoIcon,
+		'envelope-paper': Inbox,
+		profile: Identification,
+		gear: Cog8Tooth,
+		logout: ArrowRightOnRectangle,
+		shield: ShieldCheck,
+		'person-circle': UserCircle,
+	};
 </script>
+
+<!-- TODO icon -->
 
 <!--Mobile Headers-->
 <div class="dropdown dropdown-end ml-auto md:hidden">
 	<label tabindex="0" class="btn btn-ghost rounded-btn">{title}</label>
-	<ul tabindex="0" class="menu dropdown-content rounded-box mt-4 w-52 bg-base-100 p-2 shadow">
+	<ul tabindex="0" class="menu dropdown-content mt-4 w-52 rounded-box bg-base-100 p-2 shadow">
 		{#each groups.filter((g) => g.show ?? true) as group}
 			{#if group.link}
 				<li>
@@ -35,7 +58,7 @@
 						{#if group.image}
 							<img src={group.image} class="pointer-events-none mr-2" />
 						{:else if group.icon}
-							<i class="bi mr-2 {group.icon}" />
+							<svelte:component this={iconMap[group.icon]} />
 						{/if}
 						{group.title}
 					</a>
@@ -45,7 +68,7 @@
 					{#if group.image}
 						<img src={group.image} class="pointer-events-none mr-2" />
 					{:else if group.icon}
-						<i class="bi mr-2 {group.icon}" />
+						<svelte:component this={iconMap[group.icon]} />
 					{/if}
 					{group.title}
 				</span>
@@ -53,7 +76,7 @@
 					<li>
 						<a href={item.link} tabindex="0" style="border-radius: 0px">
 							{#if item.icon}
-								<i class="bi mr-2 {item.icon}" />
+								<svelte:component this={iconMap[item.icon]} />
 							{/if}
 							{item.label}
 						</a>
@@ -73,7 +96,7 @@
 					{#if group.image}
 						<img src={group.image} class="pointer-events-none mr-2" />
 					{:else if group.icon}
-						<i class="bi mr-2 {group.icon}" />
+						<svelte:component this={iconMap[group.icon]} />
 					{/if}
 					{group.title}
 				</a>
@@ -83,21 +106,22 @@
 						{#if group.image}
 							<img src={group.image} class="pointer-events-none mr-2" />
 						{:else if group.icon}
-							<i class="bi mr-2 {group.icon}" />
+							<svelte:component this={iconMap[group.icon]} />
 						{/if}
 						{group.title}
 					</div>
 				</Tooltip>
 			{/if}
 		{:else if group.items}
-			<div class="dropdown-end dropdown">
+			<div class="dropdown dropdown-end">
 				<label tabindex="0" class="btn btn-ghost no-animation rounded-none">
 					<span class="flex whitespace-nowrap">
 						{#if group.image}
 							<img src={group.image} class="pointer-events-none mr-2" />
 						{:else if group.icon}
-							<i class="bi mr-2 {group.icon}" />
-						{/if}{group.title}<i class="bi bi-caret-down ml-2" />
+							<svelte:component this={iconMap[group.icon]} />
+						{/if}{group.title}
+						<ChevronDown />
 					</span>
 				</label>
 				<ul
@@ -108,7 +132,7 @@
 						<li>
 							<a href={item.link} tabindex="0" style="border-radius: 0px">
 								{#if item.icon}
-									<i class="bi mr-2 {item.icon}" />
+									<svelte:component this={iconMap[item.icon]} />
 								{/if}
 								{item.label}
 							</a>
