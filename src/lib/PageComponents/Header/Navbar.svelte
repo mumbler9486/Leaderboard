@@ -36,6 +36,10 @@
 
 	export let groups: MenuGroup[];
 
+	const dropdowns: Record<number, HTMLDetailsElement> = {};
+
+	let drawerOpen = false;
+
 	const iconMap: Record<string, ComponentType> = {
 		'info-circle': AlertInfoIcon,
 		'envelope-paper': Inbox,
@@ -46,15 +50,25 @@
 		'person-circle': UserCircle,
 		login: ArrowLeftOnRectangle,
 	};
+
+	const closeMenuAfterClick = async (e: MouseEvent) => {
+		Object.values(dropdowns).forEach((d) => {
+			d.open = false;
+		});
+	};
+
+	const closeSidebarAfterClick = async () => {
+		drawerOpen = false;
+	};
 </script>
 
 <div class="drawer fixed z-20">
-	<input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
+	<input id="navbar-drawer" type="checkbox" class="drawer-toggle" bind:checked={drawerOpen} />
 	<div class="drawer-content flex flex-col">
 		<!-- Navbar -->
 		<div class="navbar w-full bg-[#050f1d]">
 			<div class="flex-none lg:hidden">
-				<label for="my-drawer-3" aria-label="open sidebar" class="btn btn-square btn-ghost">
+				<label for="navbar-drawer" aria-label="open sidebar" class="btn btn-square btn-ghost">
 					<Bars3 />
 				</label>
 			</div>
@@ -70,12 +84,12 @@
 			</div>
 			<div class="navbar-center hidden lg:flex">
 				<ul class="menu menu-horizontal px-1">
-					{#each groups.filter((g) => g.show ?? true) as group}
+					{#each groups.filter((g) => g.show ?? true) as group, gIndex}
 						{#if group.link}
 							{#if !group.disabled}
 								<!-- Menu without children -->
 								<li>
-									<a href={group.link}>
+									<a href={group.link} on:click={closeMenuAfterClick}>
 										{#if group.image}
 											<img src={group.image} class="pointer-events-none mr-2" alt={group.title} />
 										{:else if group.icon}
@@ -102,7 +116,7 @@
 						{:else if group.items}
 							<!-- Item with submenu -->
 							<li>
-								<details>
+								<details class="menu-group" bind:this={dropdowns[gIndex]}>
 									<summary
 										>{#if group.image}
 											<img src={group.image} class="pointer-events-none mr-2" alt={group.title} />
@@ -115,7 +129,7 @@
 										<!-- Submenu -->
 										{#each group.items as item}
 											<li>
-												<a href={item.link}>
+												<a href={item.link} on:click={closeMenuAfterClick}>
 													{#if item.icon}
 														<svelte:component this={iconMap[item.icon]} />
 													{/if}
@@ -138,7 +152,7 @@
 		</div>
 	</div>
 	<div class="drawer-side">
-		<label for="my-drawer-3" aria-label="close sidebar" class="drawer-overlay"></label>
+		<label for="navbar-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
 		<ul class="menu min-h-full w-80 bg-[#050f1d] p-4">
 			<!-- Sidebar content here -->
 			{#each groups.filter((g) => g.show ?? true) as group}
@@ -146,7 +160,7 @@
 					{#if !group.disabled}
 						<!-- Menu without children -->
 						<li>
-							<a href={group.link}>
+							<a href={group.link} on:click={closeSidebarAfterClick}>
 								{#if group.image}
 									<img src={group.image} class="pointer-events-none mr-2" alt={group.title} />
 								{:else if group.icon}
@@ -186,7 +200,7 @@
 								<!-- Submenu -->
 								{#each group.items as item}
 									<li>
-										<a href={item.link}>
+										<a href={item.link} on:click={closeSidebarAfterClick}>
 											{#if item.icon}
 												<svelte:component this={iconMap[item.icon]} />
 											{/if}
