@@ -185,6 +185,12 @@
 	<div class="drawer-side">
 		<label for="navbar-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
 		<ul class="menu min-h-full w-80 bg-[#050f1d] p-4">
+			<div
+				data-sveltekit-preload-data=""
+				class="sticky top-0 z-20 mb-4 items-center gap-2 px-4 py-2 shadow-sm backdrop-blur lg:flex"
+			>
+				<div class="font-title inline-flex text-lg">PSO2 Central Leaderboard</div>
+			</div>
 			<!-- Sidebar content here -->
 			{#each groups.filter((g) => g.show ?? true) as group}
 				{#if group.link}
