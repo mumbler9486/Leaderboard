@@ -14,7 +14,7 @@
 			class="m-2 flex grow flex-col gap-1 rounded-md border border-secondary bg-base-100 p-4 px-8"
 		>
 			<div class="text-center text-4xl font-light">Submit a Run</div>
-			<Divider class="-mx-8" />
+			<Divider />
 
 			<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
 				<JumboButton

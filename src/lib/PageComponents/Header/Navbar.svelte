@@ -30,13 +30,14 @@
 		Bars3,
 		ArrowLeftOnRectangle,
 	} from 'svelte-heros-v2';
-	import type { ComponentType } from 'svelte';
+	import { onDestroy, type ComponentType, onMount } from 'svelte';
 	import Tooltip from '../../Components/Tooltip.svelte';
 	import LanguageSelector from '$lib/PageComponents/Header/LanguageSelector.svelte';
 
 	export let groups: MenuGroup[];
 
 	const dropdowns: Record<number, HTMLDetailsElement> = {};
+	$: allDropdowns = Object.values(dropdowns);
 
 	let drawerOpen = false;
 
@@ -60,6 +61,31 @@
 	const closeSidebarAfterClick = async () => {
 		drawerOpen = false;
 	};
+
+	const closeOtherMenus = async (e: Event, groupIndex: number) => {
+		const toggleEvent = e as ToggleEvent; //It should be a toggle event. Maybe bug on svelte
+		if (toggleEvent.newState !== 'open') {
+			return;
+		}
+		Object.entries(dropdowns)
+			.filter((d) => d[0] !== groupIndex.toString())
+			.forEach((d) => {
+				d[1].open = false;
+			});
+	};
+
+	const defocusClick = async (e: MouseEvent) => {
+		if (!e.target) {
+			return;
+		}
+		const targetElement = e.target as HTMLDetailsElement;
+		if (!allDropdowns.includes(targetElement)) {
+			closeMenuAfterClick(e);
+		}
+	};
+
+	onMount(() => document.addEventListener('click', defocusClick));
+	onDestroy(() => document.removeEventListener('click', defocusClick));
 </script>
 
 <div class="drawer fixed z-20">
@@ -84,7 +110,7 @@
 			</div>
 			<div class="navbar-center hidden lg:flex">
 				<ul class="menu menu-horizontal px-1">
-					{#each groups.filter((g) => g.show ?? true) as group, gIndex}
+					{#each groups.filter((g) => g.show ?? true) as group, groupIndex}
 						{#if group.link}
 							{#if !group.disabled}
 								<!-- Menu without children -->
@@ -116,7 +142,12 @@
 						{:else if group.items}
 							<!-- Item with submenu -->
 							<li>
-								<details class="menu-group" bind:this={dropdowns[gIndex]}>
+								<details
+									class="menu-group"
+									bind:this={dropdowns[groupIndex]}
+									on:toggle={(e) => closeOtherMenus(e, groupIndex)}
+									on:blur={() => console.log('monkye')}
+								>
 									<summary
 										>{#if group.image}
 											<img src={group.image} class="pointer-events-none mr-2" alt={group.title} />
