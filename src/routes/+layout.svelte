@@ -23,10 +23,9 @@
 
 {#if isReady}
 	<GDPRCookieConsent />
-	<LeaderboardHeader />
-	<div class="flex min-h-screen flex-col pt-16">
+	<BackgroundRandomizer />
+	<LeaderboardHeader>
 		<slot />
-		<BackgroundRandomizer />
 		<LeaderboardFooter />
-	</div>
+	</LeaderboardHeader>
 {/if}

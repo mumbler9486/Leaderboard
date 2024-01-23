@@ -88,11 +88,11 @@
 	onDestroy(() => document.removeEventListener('click', defocusClick));
 </script>
 
-<div class="drawer fixed z-20">
+<div class="drawer">
 	<input id="navbar-drawer" type="checkbox" class="drawer-toggle" bind:checked={drawerOpen} />
 	<div class="drawer-content flex flex-col">
 		<!-- Navbar -->
-		<div class="navbar w-full bg-[#050f1d]">
+		<div class="navbar sticky top-0 z-10 w-full bg-[#050f1d]">
 			<div class="flex-none lg:hidden">
 				<label for="navbar-drawer" aria-label="open sidebar" class="btn btn-square btn-ghost">
 					<Bars3 />
@@ -146,7 +146,6 @@
 									class="menu-group"
 									bind:this={dropdowns[groupIndex]}
 									on:toggle={(e) => closeOtherMenus(e, groupIndex)}
-									on:blur={() => console.log('monkye')}
 								>
 									<summary
 										>{#if group.image}
@@ -182,13 +181,10 @@
 			<slot />
 		</div>
 	</div>
-	<div class="drawer-side">
+	<div class="drawer-side z-10">
 		<label for="navbar-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
 		<ul class="menu min-h-full w-80 bg-[#050f1d] p-4">
-			<div
-				data-sveltekit-preload-data=""
-				class="sticky top-0 z-20 mb-4 items-center gap-2 px-4 py-2 shadow-sm backdrop-blur lg:flex"
-			>
+			<div class="sticky top-0 z-20 mb-4 items-center gap-2 px-4 py-2 shadow-sm backdrop-blur">
 				<div class="font-title inline-flex text-lg">PSO2 Central Leaderboard</div>
 			</div>
 			<!-- Sidebar content here -->
