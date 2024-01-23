@@ -33,6 +33,7 @@
 	import { onDestroy, type ComponentType, onMount } from 'svelte';
 	import Tooltip from '../../Components/Tooltip.svelte';
 	import LanguageSelector from '$lib/PageComponents/Header/LanguageSelector.svelte';
+	import { browser } from '$app/environment';
 
 	export let groups: MenuGroup[];
 
@@ -86,8 +87,16 @@
 		}
 	};
 
-	onMount(() => document.addEventListener('click', defocusClick));
-	onDestroy(() => document.removeEventListener('click', defocusClick));
+	onMount(() => {
+		if (browser) {
+			document.addEventListener('click', defocusClick);
+		}
+	});
+	onDestroy(() => {
+		if (browser) {
+			document.removeEventListener('click', defocusClick);
+		}
+	});
 </script>
 
 <div class="drawer">
