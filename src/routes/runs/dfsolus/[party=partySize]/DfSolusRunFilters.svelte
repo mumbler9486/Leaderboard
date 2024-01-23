@@ -1,11 +1,11 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
-	import Select from '$lib/Components/Select.svelte';
 	import PartySizeNavigation from '$lib/Components/PartySizeNavigation.svelte';
-	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import RunFilterModal from '../../RunFilterModal.svelte';
 	import RunFilterTags from '../../RunFilterTags.svelte';
 	import RunRules from '../../RunRules.svelte';
+	import RadioOptions from '$lib/Components/RadioOptions.svelte';
+	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import { runFilters } from '../../runFilter';
 
 	export let solo: boolean;
@@ -35,15 +35,16 @@
 		</div>
 	</div>
 	<Divider class="-mx-1 my-0" />
-
-	<Select
-		label="Quest Type"
-		options={[
-			{ label: 'Quest', value: NgsRunCategories.Quest },
-			{ label: 'Urgent Quest', value: NgsRunCategories.UrgentQuest },
-		]}
-		bind:value={$runFilters.category}
-	/>
+	<div class="w-full gap-4 px-4 py-2">
+		<RadioOptions
+			name="category"
+			bind:value={$runFilters.category}
+			options={[
+				{ label: 'Quest', value: NgsRunCategories.Quest },
+				{ label: 'Urgent Quest', value: NgsRunCategories.UrgentQuest },
+			]}
+		/>
+	</div>
 	<Divider class="-mx-1 my-0" />
 	<div class="flex flex-row flex-wrap place-content-center items-stretch">
 		<div class="m-1 md:flex-1">

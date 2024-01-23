@@ -1,8 +1,7 @@
 <script lang="ts">
-	import Select from '$lib/Components/Select.svelte';
+	import RadioOptions from '$lib/Components/RadioOptions.svelte';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();
 
 	export let region: string = 'stia';
 	export let rank: string = '1';
@@ -22,30 +21,17 @@
 		rank = options[options.length - 1].value;
 		return options;
 	};
-
-	const applyFilters = () => {
-		dispatch('changed', {
-			region: region,
-			rank: rank,
-		});
-	};
 </script>
 
-<div class="flex flex-row flex-wrap place-content-center items-stretch gap-2">
-	<div class="flex grow flex-col">
-		<Select
-			label="Region"
-			options={[
-				{ label: 'Aelio', value: NgsRunCategories.Aelio },
-				{ label: 'Retem', value: NgsRunCategories.Retem },
-				{ label: 'Kvaris', value: NgsRunCategories.Kvaris },
-				{ label: 'Stia', value: NgsRunCategories.Stia },
-			]}
-			bind:value={region}
-			on:change={applyFilters}
-		/>
-	</div>
-	<div class="flex grow flex-col">
-		<Select label="Rank" options={regionSelections} bind:value={rank} on:change={applyFilters} />
-	</div>
-</div>
+<RadioOptions
+	name="category"
+	label="Region"
+	bind:value={region}
+	options={[
+		{ label: 'Aelio', value: NgsRunCategories.Aelio },
+		{ label: 'Retem', value: NgsRunCategories.Retem },
+		{ label: 'Kvaris', value: NgsRunCategories.Kvaris },
+		{ label: 'Stia', value: NgsRunCategories.Stia },
+	]}
+/>
+<RadioOptions name="rank" label="Rank" bind:value={rank} options={regionSelections} />
