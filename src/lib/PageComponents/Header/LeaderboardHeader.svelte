@@ -169,4 +169,6 @@
 	});
 </script>
 
-<Navbar groups={headerMenuItems} />
+<Navbar groups={headerMenuItems}>
+	<slot />
+</Navbar>

@@ -30,13 +30,16 @@
 		Bars3,
 		ArrowLeftOnRectangle,
 	} from 'svelte-heros-v2';
-	import type { ComponentType } from 'svelte';
+	import { onDestroy, type ComponentType, onMount } from 'svelte';
 	import Tooltip from '../../Components/Tooltip.svelte';
 	import LanguageSelector from '$lib/PageComponents/Header/LanguageSelector.svelte';
 
 	export let groups: MenuGroup[];
 
 	const dropdowns: Record<number, HTMLDetailsElement> = {};
+	const dropdownSummaries: Record<number, HTMLElement> = {};
+	$: allDropdowns = Object.values(dropdowns);
+	$: allDropdownSummaries = Object.values(dropdownSummaries);
 
 	let drawerOpen = false;
 
@@ -60,13 +63,38 @@
 	const closeSidebarAfterClick = async () => {
 		drawerOpen = false;
 	};
+
+	const closeOtherMenus = async (e: Event, groupIndex: number) => {
+		const toggleEvent = e as ToggleEvent; //It should be a toggle event. Maybe bug on svelte
+		if (toggleEvent.newState !== 'open') {
+			return;
+		}
+		Object.entries(dropdowns)
+			.filter((d) => d[0] !== groupIndex.toString())
+			.forEach((d) => {
+				d[1].open = false;
+			});
+	};
+
+	const defocusClick = async (e: MouseEvent) => {
+		if (!e.target) {
+			return;
+		}
+		const targetElement = e.target as HTMLElement;
+		if (!allDropdownSummaries.includes(targetElement)) {
+			closeMenuAfterClick(e);
+		}
+	};
+
+	onMount(() => document.addEventListener('click', defocusClick));
+	onDestroy(() => document.removeEventListener('click', defocusClick));
 </script>
 
-<div class="drawer fixed z-20">
+<div class="drawer">
 	<input id="navbar-drawer" type="checkbox" class="drawer-toggle" bind:checked={drawerOpen} />
 	<div class="drawer-content flex flex-col">
 		<!-- Navbar -->
-		<div class="navbar w-full bg-[#050f1d]">
+		<div class="navbar sticky top-0 z-10 w-full bg-[#050f1d]">
 			<div class="flex-none lg:hidden">
 				<label for="navbar-drawer" aria-label="open sidebar" class="btn btn-square btn-ghost">
 					<Bars3 />
@@ -76,7 +104,7 @@
 				<!-- Logo -->
 				<a href="/">
 					<img
-						class="pointer-events-none h-9 object-contain"
+						class="pointer-events-none h-9 select-none object-contain"
 						src="/logos/logo.png"
 						alt={$t('shared.siteName')}
 					/>
@@ -84,7 +112,7 @@
 			</div>
 			<div class="navbar-center hidden lg:flex">
 				<ul class="menu menu-horizontal px-1">
-					{#each groups.filter((g) => g.show ?? true) as group, gIndex}
+					{#each groups.filter((g) => g.show ?? true) as group, groupIndex}
 						{#if group.link}
 							{#if !group.disabled}
 								<!-- Menu without children -->
@@ -116,8 +144,12 @@
 						{:else if group.items}
 							<!-- Item with submenu -->
 							<li>
-								<details class="menu-group" bind:this={dropdowns[gIndex]}>
-									<summary
+								<details
+									class="menu-group"
+									bind:this={dropdowns[groupIndex]}
+									on:toggle={(e) => closeOtherMenus(e, groupIndex)}
+								>
+									<summary bind:this={allDropdownSummaries[groupIndex]}
 										>{#if group.image}
 											<img src={group.image} class="pointer-events-none mr-2" alt={group.title} />
 										{:else if group.icon}
@@ -151,9 +183,12 @@
 			<slot />
 		</div>
 	</div>
-	<div class="drawer-side">
+	<div class="drawer-side z-10">
 		<label for="navbar-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
 		<ul class="menu min-h-full w-80 bg-[#050f1d] p-4">
+			<div class="sticky top-0 z-20 mb-4 items-center gap-2 px-4 py-2 shadow-sm backdrop-blur">
+				<div class="font-title inline-flex text-lg">PSO2 Central Leaderboard</div>
+			</div>
 			<!-- Sidebar content here -->
 			{#each groups.filter((g) => g.show ?? true) as group}
 				{#if group.link}
@@ -190,7 +225,7 @@
 						<details>
 							<summary
 								>{#if group.image}
-									<img src={group.image} class="pointer-events-none mr-2" alt={group.title} />
+									<img src={group.image} class="pointer-events-none ml-1 mr-1" alt={group.title} />
 								{:else if group.icon}
 									<svelte:component this={iconMap[group.icon]} />
 								{/if}
