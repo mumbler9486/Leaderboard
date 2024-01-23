@@ -15,9 +15,10 @@
 <div
 	class="-mx-6 flex grow flex-col rounded-md border border-secondary bg-secondary/25 p-1 md:mx-0"
 >
-	<PurpleCategorySelector bind:region={$runFilters.region} bind:rank={$runFilters.rank} />
-
-	<Divider class="-mx-1 my-0" />
+	<div class="flex w-full flex-row gap-4 px-4 py-2">
+		<PurpleCategorySelector bind:region={$runFilters.region} bind:rank={$runFilters.rank} />
+	</div>
+	<Divider slim />
 	<div class="flex flex-row flex-wrap place-content-center items-stretch">
 		<div class="m-1 md:flex-1">
 			<RunFilterModal classFilter={solo} />
@@ -27,7 +28,7 @@
 		</div>
 	</div>
 
-	<Divider class="-mx-1 my-0" />
+	<Divider slim />
 	<div class="flex flex-row gap-2 px-1">
 		<RunFilterTags />
 	</div>

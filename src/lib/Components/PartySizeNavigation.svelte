@@ -12,8 +12,6 @@
 
 	export let parties: PartySizeLink[];
 
-	const highlightClass = 'btn-primary';
-
 	$: currentLinkPath = $page.url.pathname;
 
 	const linkClick = (href: string) => {
@@ -22,9 +20,7 @@
 </script>
 
 {#each parties as party}
-	<Button
-		class={currentLinkPath === party.link ? highlightClass : ''}
-		primary={currentLinkPath === party.link}
-		on:click={() => linkClick(party.link)}>{party.label}</Button
+	<Button primary={party.link.startsWith(currentLinkPath)} on:click={() => linkClick(party.link)}
+		>{party.label}</Button
 	>
 {/each}

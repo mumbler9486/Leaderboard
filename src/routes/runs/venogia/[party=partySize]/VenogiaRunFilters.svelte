@@ -10,7 +10,7 @@
 	const partyLinks = [
 		{ link: '/runs/venogia/solo', label: 'Solo' },
 		{ link: '/runs/venogia/duo', label: 'Duo' },
-		{ link: '/runs/venogia/party', label: 'Party' }
+		{ link: '/runs/venogia/party', label: 'Party' },
 	];
 	const rules = ['Do not abuse bugs or exploits.'];
 </script>
@@ -24,7 +24,7 @@
 		</div>
 	</div>
 
-	<Divider class="-mx-1 my-0" />
+	<Divider slim />
 	<div class="flex flex-row flex-wrap place-content-center items-stretch">
 		<div class="m-1 md:flex-1">
 			<RunFilterModal classFilter={solo} />
@@ -34,7 +34,7 @@
 		</div>
 	</div>
 
-	<Divider class="-mx-1 my-0" />
+	<Divider slim />
 
 	<div class="flex flex-row gap-2 px-1">
 		<RunFilterTags />

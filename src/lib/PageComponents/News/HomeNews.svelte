@@ -3,7 +3,7 @@
 </script>
 
 <div>
-	<Divider class="-mx-8" />
+	<Divider />
 	<div class="text-center text-2xl font-medium">
 		<slot name="newsTitle">
 			<em>Loading news...</em>

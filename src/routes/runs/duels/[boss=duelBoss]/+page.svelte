@@ -1,7 +1,7 @@
 <script lang="ts">
 	import LeaderboardTitle from '$lib/Components/LeaderboardTitle.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
-	import IndomitableRunFilters from './IndomitableRunFilters.svelte';
+	import DuelRunFilters from './DuelRunFilters.svelte';
 
 	import { page } from '$app/stores';
 	import { fetchGetApi } from '$lib/utils/fetch';
@@ -87,7 +87,7 @@
 		<div
 			class="m-2 space-y-2 overflow-x-scroll rounded-md border border-secondary bg-base-100 p-4 px-8"
 		>
-			<IndomitableRunFilters />
+			<DuelRunFilters />
 			{#await fetchRuns($runFilters)}
 				<LoadingBar />
 			{:then runs}

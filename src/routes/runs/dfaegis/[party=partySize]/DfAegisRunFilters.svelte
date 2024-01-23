@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
-	import Select from '$lib/Components/Select.svelte';
 	import { t } from 'svelte-i18n';
 	import PartySizeNavigation from '$lib/Components/PartySizeNavigation.svelte';
 	import RunFilterModal from '../../RunFilterModal.svelte';
@@ -8,6 +7,7 @@
 	import RunFilterTags from '../../RunFilterTags.svelte';
 	import RunRules from '../../RunRules.svelte';
 	import { runFilters } from '../../runFilter';
+	import RadioOptions from '$lib/Components/RadioOptions.svelte';
 
 	export let solo: boolean;
 
@@ -31,32 +31,22 @@
 			<PartySizeNavigation parties={partyLinks} />
 		</div>
 	</div>
+	<Divider slim />
 	<div class="flex flex-row flex-wrap place-content-center items-stretch gap-2">
-		<div class="flex grow flex-col">
-			<Select
-				label="Type"
+		<div class="w-full gap-4 px-4 py-2">
+			<RadioOptions
+				name="category"
+				bind:value={$runFilters.category}
 				options={[
 					{ label: 'Quest', value: NgsRunCategories.Quest },
 					{ label: 'Urgent Quest', value: NgsRunCategories.UrgentQuest },
 					{ label: 'Trigger', value: NgsRunCategories.Trigger },
 				]}
-				bind:value={$runFilters.category}
 			/>
 		</div>
-		<!-- <div class="flex grow flex-col">
-			<Select
-				label="Rank"
-				options={[
-					{ label: '1', value: '1' },
-					{ label: '2', value: '2' }
-				]}
-				bind:value={filters.rank}
-				on:change={applyFilters}
-			/>
-		</div> -->
 	</div>
 
-	<Divider class="-mx-1 my-0" />
+	<Divider slim />
 	<div class="flex flex-row flex-wrap place-content-center items-stretch">
 		<div class="m-1 md:flex-1">
 			<RunFilterModal dfAegisSupportFilter classFilter={solo} />
@@ -66,7 +56,7 @@
 		</div>
 	</div>
 
-	<Divider class="-mx-1 my-0" />
+	<Divider slim />
 
 	<div class="flex flex-row gap-2 px-1">
 		<RunFilterTags />
