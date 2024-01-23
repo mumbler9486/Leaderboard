@@ -32,7 +32,7 @@
 <div class="container m-16 mx-auto flex grow rounded-md border border-secondary bg-base-100/75">
 	<div class="m-2 flex grow flex-col gap-1 rounded-md border border-secondary bg-base-100 p-4 px-8">
 		<div class="text-center text-4xl font-light">Your ARKs ID</div>
-		<Divider class="-mx-8" />
+		<Divider />
 		{#if player && !isLoading}
 			<div class="flex rounded-md border border-secondary bg-secondary/25 p-2 md:flex-row">
 				<div class="avatar mr-0 place-self-center md:mr-2 md:place-self-auto">

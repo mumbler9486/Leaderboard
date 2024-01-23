@@ -31,7 +31,7 @@
 			<PartySizeNavigation parties={partyLinks} />
 		</div>
 	</div>
-	<Divider class="-mx-1 my-0" />
+	<Divider slim />
 	<div class="flex flex-row flex-wrap place-content-center items-stretch gap-2">
 		<div class="w-full gap-4 px-4 py-2">
 			<RadioOptions
@@ -46,7 +46,7 @@
 		</div>
 	</div>
 
-	<Divider class="-mx-1 my-0" />
+	<Divider slim />
 	<div class="flex flex-row flex-wrap place-content-center items-stretch">
 		<div class="m-1 md:flex-1">
 			<RunFilterModal dfAegisSupportFilter classFilter={solo} />
@@ -56,7 +56,7 @@
 		</div>
 	</div>
 
-	<Divider class="-mx-1 my-0" />
+	<Divider slim />
 
 	<div class="flex flex-row gap-2 px-1">
 		<RunFilterTags />

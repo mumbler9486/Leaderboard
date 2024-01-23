@@ -34,7 +34,7 @@
 		/>
 	</div>
 
-	<Divider class="-mx-1 my-0" />
+	<Divider slim />
 	<div class="flex flex-row flex-wrap place-content-center items-stretch">
 		<div class="m-1 md:flex-1">
 			<RunFilterModal classFilter />
@@ -44,7 +44,7 @@
 		</div>
 	</div>
 
-	<Divider class="-mx-1 my-0" />
+	<Divider slim />
 
 	<div class="flex flex-row gap-2 px-1">
 		<RunFilterTags />

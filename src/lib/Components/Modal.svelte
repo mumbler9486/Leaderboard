@@ -55,7 +55,7 @@
 			<span class="flex-1 self-center text-3xl font-light md:text-4xl">{title}</span>
 			<label
 				for={modalId}
-				class="btn btn-square btn-secondary btn-outline btn-sm flex-initial self-center rounded"
+				class="btn btn-square btn-outline btn-secondary btn-sm flex-initial self-center rounded"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -73,27 +73,27 @@
 				</svg>
 			</label>
 		</div>
-		<Divider class="-mx-6" />
+		<Divider slim />
 
 		<div>
 			<slot />
 		</div>
 
-		<Divider class="-mx-6" />
+		<Divider slim />
 		<div class="modal-action justify-center md:justify-end">
 			<slot name="actions" />
 			{#if btn2 != undefined}
 				<button
 					on:click={btn2Click}
 					on:keyup={btn2Click}
-					class="btn btn-secondary btn-outline rounded md:btn-sm">{btn2}</button
+					class="btn btn-outline btn-secondary rounded md:btn-sm">{btn2}</button
 				>
 			{/if}
 			{#if btn1 != undefined}
 				<button
 					on:click={btn1Click}
 					on:keyup={btn1Click}
-					class="btn btn-primary btn-outline rounded md:btn-sm">{btn1}</button
+					class="btn btn-outline btn-primary rounded md:btn-sm">{btn1}</button
 				>
 			{/if}
 		</div>
