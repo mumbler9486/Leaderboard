@@ -227,7 +227,7 @@
 						<details>
 							<summary
 								>{#if group.image}
-									<img src={group.image} class="pointer-events-none mr-2" alt={group.title} />
+									<img src={group.image} class="pointer-events-none ml-1 mr-1" alt={group.title} />
 								{:else if group.icon}
 									<svelte:component this={iconMap[group.icon]} />
 								{/if}
