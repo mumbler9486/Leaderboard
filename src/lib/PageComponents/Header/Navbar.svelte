@@ -76,7 +76,7 @@
 				<!-- Logo -->
 				<a href="/">
 					<img
-						class="pointer-events-none h-9 object-contain"
+						class="pointer-events-none h-9 select-none object-contain"
 						src="/logos/logo.png"
 						alt={$t('shared.siteName')}
 					/>
