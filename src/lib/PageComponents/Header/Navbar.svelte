@@ -37,7 +37,9 @@
 	export let groups: MenuGroup[];
 
 	const dropdowns: Record<number, HTMLDetailsElement> = {};
+	const dropdownSummaries: Record<number, HTMLElement> = {};
 	$: allDropdowns = Object.values(dropdowns);
+	$: allDropdownSummaries = Object.values(dropdownSummaries);
 
 	let drawerOpen = false;
 
@@ -78,8 +80,8 @@
 		if (!e.target) {
 			return;
 		}
-		const targetElement = e.target as HTMLDetailsElement;
-		if (!allDropdowns.includes(targetElement)) {
+		const targetElement = e.target as HTMLElement;
+		if (!allDropdownSummaries.includes(targetElement)) {
 			closeMenuAfterClick(e);
 		}
 	};
@@ -147,7 +149,7 @@
 									bind:this={dropdowns[groupIndex]}
 									on:toggle={(e) => closeOtherMenus(e, groupIndex)}
 								>
-									<summary
+									<summary bind:this={allDropdownSummaries[groupIndex]}
 										>{#if group.image}
 											<img src={group.image} class="pointer-events-none mr-2" alt={group.title} />
 										{:else if group.icon}
