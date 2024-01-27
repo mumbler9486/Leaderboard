@@ -125,7 +125,7 @@ export const searchPlayers = async (request: Request, playerSearch: PlayerSearch
 			pi.${playerDbFields.NameColor2}
 
 		FROM dbo.Players as pi
-		WHERE pi.${playerDbFields.PlayerName} LIKE '%%' + @searchTerm + '%%'
+		WHERE pi.${playerDbFields.PlayerName} LIKE '%' + @searchTerm + '%'
 		ORDER BY PlayerName ASC
 		OFFSET 0 ROWS
 		FETCH NEXT @take ROWS ONLY;`;

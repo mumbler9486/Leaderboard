@@ -47,7 +47,7 @@
 
 		try {
 			searchResults = await fetchGetApi('/ngs-api/users/search', {
-				name: searchTerms.toLowerCase(),
+				name: searchTerms.trim().toLowerCase(),
 				take: 20,
 			});
 		} catch (err) {
