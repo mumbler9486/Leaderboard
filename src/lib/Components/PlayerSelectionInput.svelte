@@ -43,6 +43,8 @@
 			return;
 		}
 
+		searchResults = [];
+
 		try {
 			searchResults = await fetchGetApi('/ngs-api/users/search', {
 				name: searchTerms.toLowerCase(),
@@ -71,6 +73,8 @@
 
 	const showModal = () => {
 		firstSearched = false;
+		searchResults = [];
+		searchTerms = '';
 		modal.show();
 		searchInput.focus();
 	};
@@ -113,7 +117,7 @@
 		{#if !!error && error.length > 0}
 			<span class="label-text-alt text-error">{error}</span>
 		{/if}
-		{#if isModerator}
+		{#if isModerator && isPlayer1}
 			<span class="label-text-alt">Moderator mode: can submit a run not their own.</span>
 		{:else if isPlayer1}
 			<span class="label-text-alt">You must be a participant of your own run.</span>
