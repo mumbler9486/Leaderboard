@@ -38,6 +38,7 @@
 <Modal
 	modalId="run-info"
 	title="Run Information"
+	size="wide"
 	btn2="Close"
 	on:btn2Click={closeModal}
 	bind:this={modal}

@@ -1,7 +1,6 @@
 <script lang="ts">
-	import Divider from '$lib/Components/Divider.svelte';
-
 	import { createEventDispatcher } from 'svelte';
+	import Divider from './Divider.svelte';
 	const dispatch = createEventDispatcher();
 
 	export let modalId: string;
@@ -11,10 +10,11 @@
 	export let allowDefocusClose: boolean = true;
 	export let size: 'narrow' | 'default' | 'wide' = 'default';
 
+	let dialog: HTMLDialogElement;
 	let modalState: boolean = false;
 
-	export const show = () => (modalState = true);
-	export const close = () => (modalState = false);
+	export const show = () => dialog.showModal();
+	export const close = () => dialog.close();
 
 	const btn1Click = (e: Event) => {
 		dispatch('btn1Click', e);
@@ -23,86 +23,54 @@
 		dispatch('btn2Click', e);
 	};
 
-	const defocusCloseHandler = () => {
-		if (!allowDefocusClose) return;
-		close();
-	};
-
 	$: {
 		// Modal closed event
 		if (!modalState) dispatch('closed');
 	}
 </script>
 
-<input
-	type="checkbox"
-	id={modalId}
-	bind:checked={modalState}
-	class="modal-toggle"
-	autocomplete="off"
-/>
-<div
-	class="modal"
-	class:cursor-pointer={allowDefocusClose}
-	on:click={defocusCloseHandler}
-	on:keydown|stopPropagation
->
+<dialog id={modalId} class="modal" bind:this={dialog}>
 	<div
-		class="modal-box relative cursor-default rounded"
-		on:click|stopPropagation
-		on:keydown|stopPropagation
+		class="modal-box rounded-md"
 		class:max-w-xl={size === 'narrow'}
-		class:max-w-4xl={size === 'default'}
-		class:max-w-6xl={size === 'wide'}
+		class:max-w-3xl={size === 'default'}
+		class:max-w-5xl={size === 'wide'}
 	>
-		<div class="flex flex-row">
-			<span class="flex-1 self-center text-3xl font-light md:text-4xl">{title}</span>
-			<label
-				for={modalId}
-				class="btn btn-square btn-outline btn-secondary btn-sm flex-initial self-center rounded"
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					class="h-6 w-6"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke="currentColor"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M6 18L18 6M6 6l12 12"
-					/>
-				</svg>
-			</label>
-		</div>
-		<Divider slim />
-
 		<div>
-			<slot />
+			<button class="btn btn-circle btn-ghost btn-sm absolute right-2 top-2" on:click={close}
+				>✕</button
+			>
 		</div>
-
+		<h3 class="text-lg font-bold">{title}</h3>
 		<Divider slim />
-		<div class="modal-action justify-center md:justify-end">
-			<slot name="actions" />
-			{#if btn2 != undefined}
-				<button
-					on:click={btn2Click}
-					on:keyup={btn2Click}
-					class="btn btn-outline btn-secondary rounded md:btn-sm">{btn2}</button
-				>
-			{/if}
-			{#if btn1 != undefined}
-				<button
-					on:click={btn1Click}
-					on:keyup={btn1Click}
-					class="btn btn-outline btn-primary rounded md:btn-sm">{btn1}</button
-				>
-			{/if}
+		<slot />
+		<div class="modal-action">
+			<form method="dialog">
+				<!-- if there is a button in form, it will close the modal -->
+				<slot name="actions" />
+				{#if btn2 != undefined}
+					<button
+						on:click={btn2Click}
+						on:keyup={btn2Click}
+						class="btn btn-outline btn-secondary rounded md:btn-sm">{btn2}</button
+					>
+				{/if}
+				{#if btn1 != undefined}
+					<button
+						on:click={btn1Click}
+						on:keyup={btn1Click}
+						class="btn btn-outline btn-primary rounded md:btn-sm">{btn1}</button
+					>
+				{/if}
+			</form>
 		</div>
 	</div>
-</div>
+	{#if allowDefocusClose}
+		<div class="modal-backdrop">
+			<button on:click={close}>close</button>
+		</div>
+	{/if}
+</dialog>
 
 <style scoped>
 	.modal-box::-webkit-scrollbar {
