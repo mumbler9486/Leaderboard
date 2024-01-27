@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Modal from './Modal.svelte';
 	import PlayerNameBadge from './PlayerNameBadge.svelte';
+	import LoadingBar from './LoadingBar.svelte';
 	import { mapPlayerInfoNamePref } from '$lib/types/api/mapNamePref';
 	import { clientPrincipleStore } from '$lib/stores/userLogin';
 	import { UserRole } from '$lib/types/api/users/userRole';
@@ -20,11 +21,11 @@
 	let playerNameChanged: boolean = true;
 	let firstSearched = false;
 
-	let searchResults: PlayerSearchResult[] = [];
-
 	$: isModerator = $clientPrincipleStore?.userRoles.includes(UserRole.Moderator);
 	$: isPlayer1 = playerIndex == 0;
 	$: isAnonymousPlayer = playerNameChanged && (playerNameSelection?.length ?? -1 > 0);
+
+	$: searchResultPromise = new Promise<PlayerSearchResult[]>((resolve) => resolve([]));
 
 	const playerSelected = (player: PlayerSearchResult) => {
 		playerNameSelection = player.playerName;
@@ -40,21 +41,21 @@
 
 	const searchName = async () => {
 		if (searchTerms.length < 0) {
-			return;
+			return [] as PlayerSearchResult[];
 		}
 
-		searchResults = [];
-
 		try {
-			searchResults = await fetchGetApi('/ngs-api/users/search', {
+			const searchResults = await fetchGetApi<PlayerSearchResult[]>('/ngs-api/users/search', {
 				name: searchTerms.trim().toLowerCase(),
 				take: 20,
 			});
+			return searchResults;
 		} catch (err) {
 			console.error(err);
 		} finally {
 			firstSearched = true;
 		}
+		return [] as PlayerSearchResult[];
 	};
 
 	const textChanged = () => {
@@ -67,14 +68,13 @@
 	};
 	const searchEntered = (e: KeyboardEvent) => {
 		if (e.key === 'Enter') {
-			searchName();
+			searchResultPromise = searchName();
 		}
 	};
 
 	const showModal = () => {
-		firstSearched = false;
-		searchResults = [];
 		searchTerms = '';
+		firstSearched = false;
 		modal.show();
 		searchInput.focus();
 	};
@@ -135,6 +135,7 @@
 	title="Player Search"
 	size="narrow"
 	btn2="Cancel"
+	on:btn2Click={() => modal.close()}
 >
 	<div class="form-control">
 		<div class="join">
@@ -148,7 +149,10 @@
 				/>
 			</div>
 			<div class="indicator">
-				<button class="btn join-item" on:click|preventDefault={searchName}>Search</button>
+				<button
+					class="btn join-item"
+					on:click|preventDefault={() => (searchResultPromise = searchName())}>Search</button
+				>
 			</div>
 		</div>
 		{#if !!error && error.length > 0}
@@ -158,44 +162,51 @@
 		{/if}
 	</div>
 	<div class="mt-4 overflow-x-auto">
-		{#if searchResults.length > 0}
-			<table class="table table-zebra table-sm">
-				<thead>
-					<tr>
-						<th>Player Name</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					{#each searchResults as user}
-						<tr class="hover">
-							<td><PlayerNameBadge showLink player={mapPlayerInfoNamePref(user.playerInfo)} /></td>
-							<td class="float-right">
-								<button class="btn btn-neutral btn-sm" on:click={() => playerSelected(user)}>
-									Select
-								</button>
-							</td>
+		{#await searchResultPromise}
+			<LoadingBar />
+		{:then searchResults}
+			{#if searchResults.length > 0}
+				<table class="table table-zebra table-sm">
+					<thead>
+						<tr>
+							<th>Player Name</th>
+							<th></th>
 						</tr>
-					{/each}
-				</tbody>
-			</table>
-		{:else if !firstSearched}
-			<div class="hero h-36 bg-base-200">
-				<div class="hero-content text-center">
-					<div class="w-full">
-						<p class="py-6">Enter search terms to search for a player</p>
+					</thead>
+					<tbody>
+						{#each searchResults as user}
+							<tr class="hover">
+								<td><PlayerNameBadge showLink player={mapPlayerInfoNamePref(user.playerInfo)} /></td
+								>
+								<td class="float-right">
+									<button class="btn btn-neutral btn-sm" on:click={() => playerSelected(user)}>
+										Select
+									</button>
+								</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			{:else if !firstSearched}
+				<div class="hero h-36 bg-base-200">
+					<div class="hero-content text-center">
+						<div class="w-full">
+							<p class="py-6">Enter search terms to search for a player</p>
+						</div>
 					</div>
 				</div>
-			</div>
-		{:else}
-			<div class="hero h-36 bg-base-200">
-				<div class="hero-content text-center">
-					<div class="w-full">
-						<p class="py-6">No search fesults found</p>
+			{:else}
+				<div class="hero h-36 bg-base-200">
+					<div class="hero-content text-center">
+						<div class="w-full">
+							<p class="py-6">No search fesults found</p>
+						</div>
 					</div>
 				</div>
-			</div>
-		{/if}
+			{/if}
+		{:catch err}
+			<p>An error has occured, please try again later</p>
+		{/await}
 	</div>
 </Modal>
 

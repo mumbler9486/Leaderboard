@@ -45,7 +45,7 @@
 		<Divider slim />
 		<slot />
 		<div class="modal-action">
-			<form method="dialog">
+			<div>
 				<!-- if there is a button in form, it will close the modal -->
 				<slot name="actions" />
 				{#if btn2 != undefined}
@@ -62,7 +62,7 @@
 						class="btn btn-outline btn-primary rounded md:btn-sm">{btn1}</button
 					>
 				{/if}
-			</form>
+			</div>
 		</div>
 	</div>
 	{#if allowDefocusClose}
