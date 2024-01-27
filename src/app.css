@@ -19,3 +19,9 @@
 ::-webkit-scrollbar-track-piece {
   background-color: transparent;
 }
+
+body {
+  overflow: scroll;
+  scrollbar-color: hsla(0, 0%, 100%, 0.1);
+  scrollbar-width: thin;
+}
