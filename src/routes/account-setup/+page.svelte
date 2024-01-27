@@ -99,7 +99,6 @@
 						placeholder="Please enter a character name..."
 						class="input input-bordered"
 						maxlength="25"
-						required
 						bind:value={characterName}
 					/>
 					<label class="label">

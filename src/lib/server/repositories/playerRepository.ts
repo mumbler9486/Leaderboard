@@ -3,6 +3,7 @@ import { fields } from '../util/nameof';
 import type { CreateAccountRequest } from '../types/api/createAccount';
 import type { PlayersDbModel } from '../types/db/users/players';
 import { NameStyle } from '$lib/types/api/players/nameStyle';
+import type { PlayerSearchSchema } from '$lib/types/api/validation/playerSearch';
 
 const playerDbFields = fields<PlayersDbModel>();
 
@@ -22,7 +23,7 @@ export const getRunPlayer = async (request: Request, playerId: number) => {
 	const player = playerResult.recordset[0];
 	return {
 		playerId: parseInt(player.PlayerId),
-		playerName: player.PlayerName as string
+		playerName: player.PlayerName as string,
 	};
 };
 
@@ -49,7 +50,7 @@ export const getPlayers = async (request: Request, playerIds: number[]) => {
 
 	return players.map((p) => ({
 		playerId: parseInt(p.Id),
-		playerName: p.PlayerName as string
+		playerName: p.PlayerName as string,
 	}));
 };
 
@@ -109,18 +110,30 @@ export const getPlayerById = async (request: Request, playerId: number) => {
 	return player;
 };
 
-export const getPlayerList = async (request: Request) => {
+export const searchPlayers = async (request: Request, playerSearch: PlayerSearchSchema) => {
 	const playerListQuery = `
 		SELECT
 			pi.${playerDbFields.Id},
 			pi.${playerDbFields.PlayerName},
-			pi.${playerDbFields.CharacterName}
+			pi.${playerDbFields.CharacterName},
+			pi.${playerDbFields.PreferredNameType},
+			pi.${playerDbFields.Server},
+			pi.${playerDbFields.Ship},
+			pi.${playerDbFields.Flag},
+			pi.${playerDbFields.NameEffectType},
+			pi.${playerDbFields.NameColor1},
+			pi.${playerDbFields.NameColor2}
 
 		FROM dbo.Players as pi
-		WHERE 1=1
-		ORDER BY PlayerName ASC`;
+		WHERE pi.${playerDbFields.PlayerName} LIKE '%%' + @searchTerm + '%%'
+		ORDER BY PlayerName ASC
+		OFFSET 0 ROWS
+		FETCH NEXT @take ROWS ONLY;`;
 
-	const results = await request.query(playerListQuery);
+	const results = await request
+		.input('searchTerm', sql.NVarChar(50), playerSearch.name)
+		.input('take', sql.Int, playerSearch.take)
+		.query(playerListQuery);
 	return results.recordset as PlayersDbModel[];
 };
 

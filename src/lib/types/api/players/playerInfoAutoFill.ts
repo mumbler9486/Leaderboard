@@ -1,5 +1,7 @@
-export interface PlayerInfoAutoFill {
+import type { PlayerInfo } from '../runs/run';
+
+export interface PlayerSearchResult {
 	playerId: number;
 	playerName: string;
-	characterName: string;
+	playerInfo: PlayerInfo;
 }

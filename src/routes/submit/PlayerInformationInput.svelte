@@ -1,7 +1,7 @@
 <script lang="ts">
+	import PlayerSelectionInput from '$lib/Components/PlayerSelectionInput.svelte';
 	import TextInput from '$lib/Components/TextInput.svelte';
 	import ClassSelector from './ClassSelector.svelte';
-	import PlayerSelector from './PlayerSelector.svelte';
 	import WeaponSelector from './WeaponSelector.svelte';
 	import { partyForm } from './partyFormStore';
 
@@ -10,12 +10,11 @@
 
 <div>
 	<div class="grid grid-cols-1 gap-2 md:grid-cols-2">
-		<PlayerSelector {playerIndex} />
+		<PlayerSelectionInput {playerIndex}></PlayerSelectionInput>
 		<TextInput
 			prompt="In-Video Character Name"
 			placeholder="Enter character name..."
 			alt="Even if the In-Video Character Name is the same as the Main Character or Player Name, you must still enter it here."
-			required
 			maxlength={50}
 			bind:value={$partyForm[playerIndex].inVideoName}
 		/>
@@ -24,7 +23,6 @@
 	<TextInput
 		prompt="POV Video Link"
 		placeholder="Youtube video URL"
-		required={playerIndex == 0}
 		maxlength={50}
 		bind:value={$partyForm[playerIndex].povVideoLink}
 	/>

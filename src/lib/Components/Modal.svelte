@@ -9,6 +9,7 @@
 	export let btn1: string | undefined = undefined;
 	export let btn2: string | undefined = undefined;
 	export let allowDefocusClose: boolean = true;
+	export let size: 'narrow' | 'default' | 'wide' = 'default';
 
 	let modalState: boolean = false;
 
@@ -47,9 +48,12 @@
 	on:keydown|stopPropagation
 >
 	<div
-		class="modal-box relative max-w-4xl cursor-default rounded"
+		class="modal-box relative cursor-default rounded"
 		on:click|stopPropagation
 		on:keydown|stopPropagation
+		class:max-w-xl={size === 'narrow'}
+		class:max-w-4xl={size === 'default'}
+		class:max-w-6xl={size === 'wide'}
 	>
 		<div class="flex flex-row">
 			<span class="flex-1 self-center text-3xl font-light md:text-4xl">{title}</span>

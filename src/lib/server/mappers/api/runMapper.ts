@@ -73,8 +73,8 @@ export const mapRuns = (getRun: GetRunDbModel[]): Run<unknown>[] => {
 					preferredNameType: parseInt(rg.PlayerPreferredNameType),
 					nameEffectType: parseInt(rg.PlayerNameEffectType),
 					nameColor1: rg.PlayerNameColor1,
-					nameColor2: rg.PlayerNameColor2
-				}
+					nameColor2: rg.PlayerNameColor2,
+				},
 			} satisfies PartyMember;
 		});
 
@@ -87,7 +87,7 @@ export const mapRuns = (getRun: GetRunDbModel[]): Run<unknown>[] => {
 			preferredNameType: parseInt(runMeta.SubmitterPreferredNameType),
 			nameEffectType: parseInt(runMeta.SubmitterNameEffectType),
 			nameColor1: runMeta.SubmitterNameColor1,
-			nameColor2: runMeta.SubmitterNameColor2
+			nameColor2: runMeta.SubmitterNameColor2,
 		};
 
 		const submission: Run = {
@@ -108,7 +108,7 @@ export const mapRuns = (getRun: GetRunDbModel[]): Run<unknown>[] => {
 			submissionStatus: parseInt(runMeta.RunSubmissionStatus),
 			dateReviewed: runMeta.RunDateReviewed,
 			reviewedBy: runMeta.RunReviewedBy,
-			details: !runMeta.RunAttributes ? undefined : JSON.parse(runMeta.RunAttributes)
+			details: !runMeta.RunAttributes ? undefined : JSON.parse(runMeta.RunAttributes),
 		};
 
 		return submission;
