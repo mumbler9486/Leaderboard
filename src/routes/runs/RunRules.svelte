@@ -14,6 +14,7 @@
 >
 <Modal
 	bind:this={modal}
+	size="narrow"
 	modalId="indomitable-rules"
 	title="Rules"
 	btn2="Close"

@@ -2,10 +2,10 @@ import { json } from '@sveltejs/kit';
 import { leaderboardDb } from '$lib/server/db/db.js';
 import {
 	createAccount,
-	getPlayerList,
+	searchPlayers,
 	isPlayerNameUnique,
 } from '$lib/server/repositories/playerRepository.js';
-import { mapPlayerAutoFillList } from '$lib/server/mappers/api/playerMapper.js';
+import { mapPlayerSearch } from '$lib/server/mappers/api/playerMapper.js';
 import {
 	createAccountSchema,
 	type CreateAccountRequest,
@@ -20,8 +20,8 @@ export async function GET({}) {
 		const pool = await leaderboardDb.connect();
 		const request = await pool.request();
 
-		const playerList = await getPlayerList(request);
-		const playerListAutoFill = mapPlayerAutoFillList(playerList);
+		const playerList = await searchPlayers(request);
+		const playerListAutoFill = mapPlayerSearch(playerList);
 
 		return json(playerListAutoFill);
 	} catch (err) {

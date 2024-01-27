@@ -40,7 +40,6 @@
 			min="0"
 			max={limitMinutes}
 			maxlength="2"
-			required
 			bind:value={minutes}
 		/>
 		<span class="border-fallback join-item select-none border-b border-t border-primary px-4 pt-2"
@@ -53,7 +52,6 @@
 			min="0"
 			max="60"
 			maxlength="2"
-			required
 			bind:value={seconds}
 		/>
 		<span

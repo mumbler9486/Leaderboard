@@ -1,7 +1,6 @@
 <script lang="ts">
 	export let value: string | undefined;
 	export let maxlength: number;
-	export let required: boolean = false;
 	export let placeholder: string = '';
 	export let prompt: string | undefined = undefined;
 	export let error: string | undefined = undefined;
@@ -20,7 +19,6 @@
 		type="text"
 		class="input input-bordered w-full"
 		class:input-primary={primary}
-		{required}
 		{maxlength}
 		{placeholder}
 		{disabled}

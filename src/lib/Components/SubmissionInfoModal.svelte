@@ -128,6 +128,7 @@
 
 <Modal
 	modalId="submission-info"
+	size="wide"
 	title="Submission Information"
 	bind:this={modal}
 	allowDefocusClose={false}
@@ -171,7 +172,7 @@
 				</div>
 			{/if}
 		{/each}
-		<div class="flex flex-col gap-2 p-2 md:flex-row md:gap-0">
+		<div class="flex flex-col gap-2 p-2">
 			<div class="flex flex-col justify-center md:flex-row">
 				<span class="flex place-content-center md:mr-1">Run By:</span>
 				<PlayerNameBadge

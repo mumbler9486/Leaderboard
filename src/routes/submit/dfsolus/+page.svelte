@@ -66,7 +66,7 @@
 			{#if submitFinish}
 				<SubmitFinish />
 			{:else}
-				<form id="submitForm" on:submit|preventDefault={submitRun}>
+				<div id="submitForm" on:submit|preventDefault={submitRun}>
 					<div class="m-2 gap-1 rounded-md border border-secondary bg-secondary/10 p-4 px-8">
 						<div class="text-center text-xl font-semibold">
 							Signs of the Planetbreaker (Dark Falz Solus)
@@ -112,7 +112,7 @@
 							on:click={submitRun}>Submit Run</button
 						>
 					</div>
-				</form>
+				</div>
 			{/if}
 		</div>
 	</div>

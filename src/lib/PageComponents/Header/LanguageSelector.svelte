@@ -26,6 +26,7 @@
 
 <Modal
 	modalId="language-modal"
+	size="narrow"
 	title="Language"
 	allowDefocusClose
 	bind:this={modal}
