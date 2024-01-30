@@ -106,6 +106,18 @@
 							Weapon grind level +80 was introduced alongside various PA Tech Arts Customizations.
 							Bouncer re-balance was released.
 						</TimelineNode>
+						<TimelineNode
+							title="Level 85 Release"
+							time="January 31, 2024"
+							side="right"
+							fillLineStart
+						>
+							Player level cap has been increased to level 85. Ranger and Gunner classes were also
+							expanded with new class skills, Photon Art charge phases, attack ranges, cancel
+							timings, and other class balance adjustments. 10* Reyaar Weapons and 9* Einea Units
+							were released. Lastly, some Fixas have been adjusted in power with the Verschmelz
+							weapon series being rebalanced to accommodate for the changes to Termina.
+						</TimelineNode>
 					</Timeline>
 				</div>
 			</div>
