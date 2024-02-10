@@ -7,7 +7,7 @@
 	export let subtitle: string | undefined = undefined;
 	export let image: string | undefined = undefined;
 	export let link: string | undefined = undefined;
-	export let overlayColor: 'red' | 'blue' | 'purple' | 'neutral' = 'neutral';
+	export let overlayColor: 'red' | 'blue' | 'purple' | 'black' | 'neutral' = 'neutral';
 	export let newBadge: string | undefined = undefined;
 	export let buttonLabel: string;
 
@@ -27,6 +27,7 @@
 		red: 'bg-red-600',
 		blue: 'bg-blue-600',
 		purple: 'bg-purple-600',
+		black: 'bg-black',
 		neutral: '',
 	};
 	$: overlayColorClass = overlayColorMap[overlayColor] ?? overlayColorMap['white'];

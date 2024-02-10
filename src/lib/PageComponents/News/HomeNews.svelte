@@ -1,16 +1,28 @@
-<script>
+<script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
+
+	export let publicationDate: string; // UTC time
+	export let lastUpdated: string | undefined = undefined; // UTC time
+	export let title: string;
+
+	$: publicationDateObj = new Date(publicationDate);
+	$: lastUpdatedObj = new Date(publicationDate);
 </script>
 
 <div>
 	<Divider />
 	<div class="text-center text-2xl font-medium">
-		<slot name="newsTitle">
-			<em>Loading news...</em>
-		</slot>
+		{title}
 	</div>
-	<br />
-	<slot name="newsContent">
-		<em>Loading content...</em>
+	<p class="mb-4">
+		<em class="text-xs"
+			>Published: {publicationDateObj.toLocaleDateString()}
+			{#if !!lastUpdated}
+				(Updated {lastUpdatedObj.toLocaleString()})
+			{/if}
+		</em>
+	</p>
+	<slot>
+		<em>No content</em>
 	</slot>
 </div>
