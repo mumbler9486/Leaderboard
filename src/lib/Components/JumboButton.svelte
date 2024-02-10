@@ -8,7 +8,7 @@
 	export let image: string | undefined = undefined;
 	export let link: string | undefined = undefined;
 	export let overlayColor: 'red' | 'blue' | 'purple' | 'black' | 'neutral' = 'neutral';
-	export let newBadge: string | undefined = undefined;
+	export let badge: string | undefined = undefined;
 	export let buttonLabel: string;
 
 	const dispatcher = createEventDispatcher();
@@ -37,8 +37,8 @@
 	<div class="hero-overlay bg-opacity-20 {overlayColorClass}" />
 	<div class="hero-content text-center text-neutral-content">
 		<div class="max-w-md">
-			{#if !!newBadge}
-				<Badge color="primary">{newBadge}</Badge>
+			{#if !!badge}
+				<Badge color="primary">{badge}</Badge>
 			{/if}
 			<h1 class="mb-5 text-5xl font-bold">{label}</h1>
 			<p class="mb-5">

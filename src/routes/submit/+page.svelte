@@ -18,7 +18,6 @@
 
 			<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
 				<JumboButton
-					newBadge="New Category"
 					label="Dark Falz Aegis"
 					image="/icons/submit/dfaegis.jpg"
 					link="/submit/dfaegis"
@@ -26,7 +25,6 @@
 					buttonLabel="Submit"
 				/>
 				<JumboButton
-					newBadge="New Ranks"
 					label="Purples"
 					image="/icons/submit/purple_trigger_gate.jpg"
 					link="/submit/purples"
