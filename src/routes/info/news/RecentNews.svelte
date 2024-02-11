@@ -3,7 +3,7 @@
 	import HomeNews from '$lib/PageComponents/News/HomeNews.svelte';
 </script>
 
-<HomeNews publicationDate="2023-02-10T00:00:00.000Z" title="Leaderboard February 2024 Updates">
+<HomeNews publicationDateIso="2023-02-10T00:00:00.000Z" title="Leaderboard February 2024 Updates">
 	<strong>⤴ Patch Bump</strong><br />
 	<p>
 		Patch code has been bumped to Level 85. All runs submitted from Jan 31st and beyond will be on
@@ -27,7 +27,7 @@
 		</ul>
 	</div>
 </HomeNews>
-<HomeNews publicationDate="2024-01-01T00:00:00.000Z" title="Leaderboard January 2024 Updates">
+<HomeNews publicationDateIso="2024-01-01T00:00:00.000Z" title="Leaderboard January 2024 Updates">
 	<strong>📅Patch Codes List</strong><br />
 	<p class="pt-2">
 		Not much in terms of in-game content releasing this month. For the team at the leaderboards we
@@ -39,7 +39,7 @@
 	</p>
 	<p class="pt-2">Happy new year from us at PSO2 Central! 🎉</p>
 </HomeNews>
-<HomeNews publicationDate="2023-12-06T00:00:00.000Z" title="Leaderboard December 2023 Updates">
+<HomeNews publicationDateIso="2023-12-06T00:00:00.000Z" title="Leaderboard December 2023 Updates">
 	<strong>⤴ Patch Bump</strong><br />
 	<p class="pt-2">
 		From Dec 6th's Game Maintenance, we will increase the patch to "+80 Weap. Release". This release
@@ -60,7 +60,7 @@
 		The old boards for the other Aegis categories can still be visited however.
 	</p>
 </HomeNews>
-<HomeNews publicationDate="2023-11-11T00:00:00.000Z" title="Leaderboard 3.2.5 Update (Nov 2023)">
+<HomeNews publicationDateIso="2023-11-11T00:00:00.000Z" title="Leaderboard 3.2.5 Update (Nov 2023)">
 	<strong>⭐⚠ Urgent Quest Solus Category</strong><br />
 	<p class="pt-2">
 		On November 15th 2023, Sega will release a Urgent Quest version of Dark Falz Solus. We will
@@ -68,7 +68,7 @@
 		submission but we might make minor adjustments when the request is actually released.
 	</p>
 </HomeNews>
-<HomeNews publicationDate="2023-10-17T00:00:00.000Z" title="Leaderboard 3.2.4 Update (Oct 2023)">
+<HomeNews publicationDateIso="2023-10-17T00:00:00.000Z" title="Leaderboard 3.2.4 Update (Oct 2023)">
 	<strong>⚔ Duel Boss Zelvin</strong><br />
 	<p class="pt-2">
 		Early release of Zelvin Duel boss. Actual in game quest will be released after the maintenance

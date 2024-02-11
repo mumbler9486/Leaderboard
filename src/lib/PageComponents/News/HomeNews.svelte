@@ -1,12 +1,12 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
 
-	export let publicationDate: string; // UTC time
-	export let lastUpdated: string | undefined = undefined; // UTC time
+	export let publicationDateIso: string; // UTC time, iso format
+	export let lastUpdatedIso: string | undefined = undefined; // UTC time, iso format
 	export let title: string;
 
-	$: publicationDateObj = new Date(publicationDate);
-	$: lastUpdatedObj = new Date(publicationDate);
+	$: publicationDateObj = new Date(publicationDateIso);
+	$: lastUpdatedObj = new Date(publicationDateIso);
 </script>
 
 <div>
@@ -16,8 +16,8 @@
 	</div>
 	<p class="mb-4">
 		<em class="text-xs"
-			>Published: {publicationDateObj.toLocaleDateString()}
-			{#if !!lastUpdated}
+			>Published: {publicationDateObj.toLocaleString()}
+			{#if !!lastUpdatedIso}
 				(Updated {lastUpdatedObj.toLocaleString()})
 			{/if}
 		</em>

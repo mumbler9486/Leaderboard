@@ -7,7 +7,7 @@
 <RecentNews />
 
 <HomeNews
-	publicationDate="2023-10-01T00:00:00.000Z"
+	publicationDateIso="2023-10-01T00:00:00.000Z"
 	title="Upcoming Leaderboard Updates (Oct 2023)"
 >
 	<strong>🤖 Venogia Leaderboard (October 1, 2023)</strong><br />
@@ -41,7 +41,7 @@
 		As usual if there are issues please contact us on <DiscordContact />.
 	</p>
 </HomeNews>
-<HomeNews publicationDate="2023-08-17T00:00:00.000Z" title="Leaderboard 3.2.3 Update">
+<HomeNews publicationDateIso="2023-08-17T00:00:00.000Z" title="Leaderboard 3.2.3 Update">
 	<div class="pt-4">
 		<strong>🚚 Data Migrations Complete</strong><br />
 		<p>
@@ -80,7 +80,7 @@
 		</p>
 	</div>
 </HomeNews>
-<HomeNews publicationDate="2023-08-10T00:00:00.000Z" title="Leaderboard 3.2.2 Update">
+<HomeNews publicationDateIso="2023-08-10T00:00:00.000Z" title="Leaderboard 3.2.2 Update">
 	<p>
 		<li>
 			<strong>⭐➖ New Standing Quest Leaderboard: Dark Falz Solus</strong><br />
@@ -99,7 +99,7 @@
 		</li>
 	</p>
 </HomeNews>
-<HomeNews publicationDate="2023-06-18T00:00:00.000Z" title="Leaderboard 3.2.1 Update">
+<HomeNews publicationDateIso="2023-06-18T00:00:00.000Z" title="Leaderboard 3.2.1 Update">
 	<li>
 		<strong>⚔️ New Duel Boss: Halvaldi</strong><br />
 		<p>
