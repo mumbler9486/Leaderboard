@@ -4,7 +4,7 @@
 	import DiscordWidget from '$lib/Widgets/Discord/DiscordWidget.svelte';
 	import RunStatsWidget from '$lib/Widgets/RunStatsWidget.svelte';
 	import { consentDiscord, consentSelected } from '$lib/stores/consent';
-	import AllNews from './info/news/articles/AllNews.svelte';
+	import RecentNews from './info/news/RecentNews.svelte';
 </script>
 
 <svelte:head>
@@ -20,7 +20,7 @@
 		<div class="align-center flex flex-col lg:flex-row">
 			<div class="m-2 rounded-md border border-secondary bg-base-100 p-4 px-8 lg:basis-2/3">
 				<div class="text-center text-4xl font-light">News</div>
-				<AllNews />
+				<RecentNews />
 			</div>
 			<div class="mt-0 flex grow flex-col-reverse overflow-x-auto lg:mt-2 lg:basis-1/3 lg:flex-col">
 				<RunStatsWidget />
