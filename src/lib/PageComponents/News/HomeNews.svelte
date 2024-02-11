@@ -16,7 +16,7 @@
 	</div>
 	<p class="mb-4">
 		<em class="text-xs"
-			>Published: {publicationDateObj.toLocaleString()}
+			>Published: {publicationDateObj.toLocaleDateString()}
 			{#if !!lastUpdatedIso}
 				(Updated {lastUpdatedObj.toLocaleString()})
 			{/if}
