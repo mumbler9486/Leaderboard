@@ -18,7 +18,7 @@
 
 			<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
 				<JumboButton
-					label="News"
+					label="All News"
 					image="/info/news-icon.jpg"
 					link="/info/news"
 					overlayColor="black"
