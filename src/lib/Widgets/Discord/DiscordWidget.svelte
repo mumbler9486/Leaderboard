@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { afterNavigate } from '$app/navigation';
 	import DiscordIcon from '$lib/Components/Icons/DiscordIcon.svelte';
+	import Panel from '$lib/Components/Panel.svelte';
 	import DiscordUser from '$lib/Widgets/Discord/DiscordUser.svelte';
 	import { onMount } from 'svelte';
 
@@ -15,7 +16,7 @@
 
 	$: presenseCount = `${discordServer?.presence_count} Member${
 		discordServer?.presence_count > 1 ? 's' : ''
-	}s Online`;
+	} Online`;
 
 	interface DiscordServerInfo {
 		id: string;
@@ -60,18 +61,17 @@
 	afterNavigate(getDiscord);
 </script>
 
-<div class="m-2 mt-0 grow md:ml-0">
-	<div
-		class="flex flex-col items-center rounded-t-md border border-secondary border-b-secondary/25 bg-base-100 py-4 text-lg font-light text-base-content"
-	>
-		<p class="text-2xl font-normal">
-			{discordServer?.name}<DiscordIcon />
-		</p>
+<Panel>
+	<div class="p-4">
+		<h1 class="text-2xl">
+			{discordServer?.name}
+			<DiscordIcon />
+		</h1>
 		<span class="text-base-content/50">{presenseCount}</span>
 	</div>
 	<div
 		style="box-shadow: inset 0px -4px 8px rgba(0,0,0,0.4);"
-		class="widget-discord flex h-96 max-h-96 flex-col gap-1 overflow-y-auto border border-b-0 border-t-0 border-secondary bg-base-300 p-5"
+		class="widget-discord flex h-96 max-h-96 flex-col gap-1 overflow-y-auto bg-base-300 p-5"
 	>
 		{#each discordServer?.members ?? [] as member}
 			<DiscordUser
@@ -82,9 +82,7 @@
 			/>
 		{/each}
 	</div>
-	<div
-		class="flex flex-row items-center justify-between rounded-b-md border border-secondary border-t-secondary/25 bg-base-100 p-4 px-8"
-	>
+	<div class="flex flex-row items-center justify-between rounded-b-md border-secondary/25 p-4 px-8">
 		<p class="text-xl font-light text-base-content/50">Join us on Discord!</p>
 		<a
 			href={discordServer?.instant_invite}
@@ -94,7 +92,7 @@
 			class="btn btn-outline btn-secondary btn-sm rounded-md">Connect</a
 		>
 	</div>
-</div>
+</Panel>
 
 <style scoped>
 	.widget-discord::-webkit-scrollbar {

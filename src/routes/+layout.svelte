@@ -11,6 +11,7 @@
 	let isReady = !isMswEnabled;
 
 	if (isMswEnabled) {
+		// Lazy load so we tree shake it out
 		import('../mocks/inject')
 			.then((res) => res.inject())
 			.then(() => (isReady = true));
@@ -25,7 +26,9 @@
 	<GDPRCookieConsent />
 	<BackgroundRandomizer />
 	<LeaderboardHeader>
-		<slot />
-		<LeaderboardFooter />
+		<div class="container mx-auto">
+			<slot />
+		</div>
 	</LeaderboardHeader>
+	<LeaderboardFooter />
 {/if}
