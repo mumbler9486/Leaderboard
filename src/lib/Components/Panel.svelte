@@ -4,7 +4,7 @@
 
 <div class="rounded-md border-base-100 bg-base-100">
 	{#if !!title}
-		<div class="mt-4 text-center text-4xl font-light">{title}</div>
+		<div class="pt-6 text-center text-4xl font-light">{title}</div>
 	{/if}
 	<slot />
 </div>
