@@ -14,6 +14,7 @@
 	import { RunSortOption } from '$lib/types/api/runs/sortOptions';
 	import { NgsQuests } from '$lib/types/api/runs/quests';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
+	import Divider from '$lib/Components/Divider.svelte';
 
 	const take = 10;
 
@@ -82,10 +83,7 @@
 </script>
 
 <div>
-	<div class="text-center text-4xl font-light">
-		{$t('page.home.newestRuns')}
-	</div>
-	<div class="divider -mx-8" />
+	<Divider />
 	<div class="overflow-x-auto">
 		<table class="table-compact table table-zebra w-full">
 			<thead>

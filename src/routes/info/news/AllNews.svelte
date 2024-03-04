@@ -7,6 +7,29 @@
 
 <RecentNews />
 
+<HomeNews publicationDateIso="2023-11-11T00:00:00.000Z" title="Leaderboard 3.2.5 Update (Nov 2023)">
+	<NewsSection sectionTitle="⭐⚠ Urgent Quest Solus Category">
+		On November 15th 2023, Sega will release a Urgent Quest version of Dark Falz Solus. We will
+		support this quest as a new category for this Boss. The leaderboard for this ready for
+		submission but we might make minor adjustments when the request is actually released.
+	</NewsSection>
+</HomeNews>
+<HomeNews publicationDateIso="2023-10-17T00:00:00.000Z" title="Leaderboard 3.2.4 Update (Oct 2023)">
+	<NewsSection sectionTitle="⚔ Duel Boss Zelvin">
+		Early release of Zelvin Duel boss. Actual in game quest will be released after the maintenance
+		on October 18, 2023. Looking forward to see those runs!
+	</NewsSection>
+	<NewsSection sectionTitle="👤 My Runs Page">
+		A new page was added to allow you to see all the runs you have submitted to us along with their
+		status. The new page is next to the Profile menu. Check it out! You can also see the runs that
+		you have participated in in other player's submissions as well provided they linked your name to
+		it.
+	</NewsSection>
+	<NewsSection>
+		If a run is rejected we will note it in the "Mod Notes" field. Feel free to contact us on <DiscordContact
+		/> should you need to clarify or dispute.
+	</NewsSection>
+</HomeNews>
 <HomeNews
 	publicationDateIso="2023-10-01T00:00:00.000Z"
 	title="Upcoming Leaderboard Updates (Oct 2023)"

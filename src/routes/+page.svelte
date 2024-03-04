@@ -1,33 +1,31 @@
 <script lang="ts">
+	import LeaderboardBanner from '../lib/Components/LeaderboardBanner.svelte';
+
 	import { t } from 'svelte-i18n';
 
 	import DiscordWidget from '$lib/Widgets/Discord/DiscordWidget.svelte';
 	import RunStatsWidget from '$lib/Widgets/RunStatsWidget.svelte';
 	import { consentDiscord, consentSelected } from '$lib/stores/consent';
 	import RecentNews from './info/news/RecentNews.svelte';
+	import Panel from '$lib/Components/Panel.svelte';
 </script>
 
 <svelte:head>
 	<title>{$t('shared.siteName')}</title>
 </svelte:head>
-<div class="flex grow flex-col content-center">
-	<img
-		class="pointer-events-none mx-8 my-16 select-none object-scale-down drop-shadow-[2px_4px_6px_rgba(0,0,0,0.8)] lg:my-0"
-		alt={$t('shared.siteName')}
-		src="/logos/logo.png"
-	/>
-	<div class="container mx-auto mb-16 rounded-md border border-secondary bg-base-100/75">
-		<div class="align-center flex flex-col lg:flex-row">
-			<div class="m-2 rounded-md border border-secondary bg-base-100 p-4 px-8 lg:basis-2/3">
-				<div class="text-center text-4xl font-light">News</div>
+<LeaderboardBanner />
+<div class="grid grid-cols-3 gap-2">
+	<div class="col-span-2 row-span-2">
+		<Panel title="News">
+			<div class="px-4 pb-4 sm:px-8">
 				<RecentNews />
 			</div>
-			<div class="mt-0 flex grow flex-col-reverse overflow-x-auto lg:mt-2 lg:basis-1/3 lg:flex-col">
-				<RunStatsWidget />
-				{#if $consentSelected && $consentDiscord}
-					<DiscordWidget />
-				{/if}
-			</div>
-		</div>
+		</Panel>
+	</div>
+	<div class="col-start-3 flex flex-col items-start gap-2">
+		<RunStatsWidget />
+		{#if $consentSelected && $consentDiscord}
+			<DiscordWidget />
+		{/if}
 	</div>
 </div>
