@@ -14,15 +14,15 @@
 	<title>{$t('shared.siteName')}</title>
 </svelte:head>
 <LeaderboardBanner />
-<div class="grid grid-cols-3 gap-2">
-	<div class="col-span-2 row-span-2">
+<div class="grid grid-cols-1 lg:grid-cols-3">
+	<div class="col-span-2 row-span-2 mt-2 lg:mr-2 lg:mt-0">
 		<Panel title="News">
 			<div class="px-4 pb-4 sm:px-8">
 				<RecentNews />
 			</div>
 		</Panel>
 	</div>
-	<div class="col-start-3 flex flex-col items-start gap-2">
+	<div class="row-start-1 flex w-full flex-col items-start gap-2 lg:col-start-3">
 		<RunStatsWidget />
 		{#if $consentSelected && $consentDiscord}
 			<DiscordWidget />
