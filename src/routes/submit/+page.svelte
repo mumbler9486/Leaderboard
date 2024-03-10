@@ -18,6 +18,14 @@
 
 			<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
 				<JumboButton
+					label="Duels"
+					image="/icons/submit/duel_nils_stia.jpg"
+					link="/submit/duels"
+					overlayColor="red"
+					buttonLabel="Submit"
+					badge="New Boss Ringwedge"
+				/>
+				<JumboButton
 					label="Dark Falz Aegis"
 					image="/icons/submit/dfaegis.jpg"
 					link="/submit/dfaegis"
@@ -36,13 +44,6 @@
 					image="/icons/submit/dfsolus.jpg"
 					link="/submit/dfsolus"
 					overlayColor="neutral"
-					buttonLabel="Submit"
-				/>
-				<JumboButton
-					label="Duels"
-					image="/icons/submit/duel_nils_stia.jpg"
-					link="/submit/duels"
-					overlayColor="red"
 					buttonLabel="Submit"
 				/>
 				<JumboButton
