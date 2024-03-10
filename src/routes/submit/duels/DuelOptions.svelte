@@ -15,6 +15,7 @@
 		{ label: 'Nils Stia', value: IndomitableBoss.NilsStia },
 		{ label: 'Halvaldi', value: IndomitableBoss.Halvaldi },
 		{ label: 'Zelvin', value: IndomitableBoss.Zelvin },
+		{ label: 'Ringwedge', value: IndomitableBoss.Ringwedge },
 	];
 
 	const augmentOptions = [

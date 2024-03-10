@@ -6,7 +6,8 @@ const indomitableBosses: { [key: string]: boolean } = {
 	['ams-kvaris']: true,
 	['nils-stia']: true,
 	['halvaldi']: true,
-	['zelvin']: true
+	['zelvin']: true,
+	['ringwedge']: true,
 };
 
 export const match = ((param) => {

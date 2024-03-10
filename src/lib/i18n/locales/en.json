@@ -17,6 +17,7 @@
 			"nils_stia": "Nils Stia",
 			"halvaldi": "Halvaldi",
 			"zelvin": "Zelvin",
+			"ringwedge": "Ringwedge",
 			"aelio": "Aelio",
 			"retem": "Retem",
 			"kvaris": "Kvaris",
@@ -143,7 +144,8 @@
 		"duelsPageTitle": "Duels",
 		"dfSolus": "Dark Falz Solus",
 		"venogia": "Venogia",
-		"indomitableZelvin": "Indomitable Zelvin"
+		"indomitableZelvin": "Indomitable Zelvin",
+		"indomitableRingwedge": "Indomitable Ringwedge"
 	},
 	"shared": {
 		"siteName": "Unofficial NGS Leaderboards",
