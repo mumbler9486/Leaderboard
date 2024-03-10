@@ -6,7 +6,8 @@ export enum IndomitableBoss {
 	AmsKvaris = 'ams_kvaris',
 	NilsStia = 'nils_stia',
 	Halvaldi = 'halvaldi',
-	Zelvin = 'zelvin'
+	Zelvin = 'zelvin',
+	Ringwedge = 'ringwedge',
 }
 
 const runCategoryMap = stringEnumValuesToMap<IndomitableBoss>(IndomitableBoss);

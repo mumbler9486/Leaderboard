@@ -13,6 +13,7 @@ const categories = [
 	NgsRunCategories.NilsStia,
 	NgsRunCategories.Halvaldi,
 	NgsRunCategories.Zelvin,
+	NgsRunCategories.Ringwedge,
 ];
 
 const quest = [NgsQuests.Duels];
@@ -23,6 +24,7 @@ const validRanksMap: Record<string, number[]> = {
 	[NgsRunCategories.NilsStia]: [1],
 	[NgsRunCategories.Halvaldi]: [1],
 	[NgsRunCategories.Zelvin]: [1],
+	[NgsRunCategories.Ringwedge]: [1],
 };
 
 export const duelSubmissionSchema = (

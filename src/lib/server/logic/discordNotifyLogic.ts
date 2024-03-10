@@ -11,7 +11,7 @@ const partyTypeMap: Record<string, string> = {
 	5: 'MPA',
 	6: 'MPA',
 	7: 'MPA',
-	8: 'Full MPA'
+	8: 'Full MPA',
 };
 
 const questTypeMap: Record<string, string> = {
@@ -19,7 +19,7 @@ const questTypeMap: Record<string, string> = {
 	[NgsQuests.DfSolus]: 'Dark Falz Solus',
 	[NgsQuests.Purples]: 'Purple Trigger',
 	[NgsQuests.Duels]: 'Duel',
-	[NgsQuests.Venogia]: 'Venogia'
+	[NgsQuests.Venogia]: 'Venogia',
 };
 
 const categoryTypeMap: Record<string, string> = {
@@ -35,7 +35,8 @@ const categoryTypeMap: Record<string, string> = {
 	[NgsRunCategories.AmsKvaris]: 'Ams Kvaris',
 	[NgsRunCategories.NilsStia]: 'Nils Stia',
 	[NgsRunCategories.Halvaldi]: 'Halvaldi',
-	[NgsRunCategories.Zelvin]: 'Zelvin'
+	[NgsRunCategories.Zelvin]: 'Zelvin',
+	[NgsRunCategories.Ringwedge]: 'Ringwedge',
 };
 
 export const notifyDiscordNewRun = async (submitter: string, run: RunSubmissionRequest) => {

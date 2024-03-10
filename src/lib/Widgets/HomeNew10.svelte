@@ -49,6 +49,7 @@
 			[NgsRunCategories.NilsStia]: 'Duel Nils Stia R.',
 			[NgsRunCategories.Halvaldi]: 'Duel Halvaldi R.',
 			[NgsRunCategories.Zelvin]: 'Duel Zelvin R.',
+			[NgsRunCategories.Ringwedge]: 'Duel Ringwedge R.',
 		},
 		[NgsQuests.Venogia]: {
 			[NgsRunCategories.UrgentQuest]: 'Venogia R.',
