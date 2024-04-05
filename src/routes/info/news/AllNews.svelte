@@ -7,6 +7,24 @@
 
 <RecentNews />
 
+<HomeNews publicationDateIso="2023-12-06T00:00:00.000Z" title="Leaderboard December 2023 Updates">
+	<NewsSection sectionTitle="⤴ Patch Bump">
+		From Dec 6th's Game Maintenance, we will increase the patch to "+80 Weap. Release". This release
+		of the game will feature +80 weapon grind and a host of new PA customizations. All runs
+		submitted at this point will be on the new patch.
+	</NewsSection>
+	<NewsSection sectionTitle="⤴ New Aelio and Retem Purple Ranks">
+		Also from Dec 6th, Aelio and Retem Battledia Purple quests will have new ranks. The new rank
+		will be the default for submissions and the board. Old ranks can still be viewed and submitted
+		to.
+	</NewsSection>
+	<NewsSection sectionTitle="😈 Malignant Dark Falz Aegis">
+		From Dec 14th's Game Maintenance, Malignant Dark Falz Aegis will be released. This quest is
+		similar to that of the 4-player Dark Falz Solus but it is Aegis instead. We will consider this
+		quest a new category but it will be the default category for Aegis when you visit the boards.
+		The old boards for the other Aegis categories can still be visited however.
+	</NewsSection>
+</HomeNews>
 <HomeNews publicationDateIso="2023-11-11T00:00:00.000Z" title="Leaderboard 3.2.5 Update (Nov 2023)">
 	<NewsSection sectionTitle="⭐⚠ Urgent Quest Solus Category">
 		On November 15th 2023, Sega will release a Urgent Quest version of Dark Falz Solus. We will
