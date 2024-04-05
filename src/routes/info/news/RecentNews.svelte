@@ -5,7 +5,7 @@
 </script>
 
 <HomeNews publicationDateIso="2024-04-05T13:00:00.000Z" title="Leaderboard April 2024 Updates">
-	<NewsSection sectionTitle="⏳ Dark Falz Dalion">
+	<NewsSection sectionTitle="🦁 Dark Falz Dalion">
 		A brand new boss is coming to NGS. Dark Falz Dalion is the newest high difficulty quest boss. We
 		will create leader board for this quest for solo, duo, and party categories. The quest will be
 		released in game on April 17th after maintenance. Hope to see some strong runs!
