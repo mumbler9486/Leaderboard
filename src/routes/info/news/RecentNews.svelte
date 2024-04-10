@@ -4,11 +4,23 @@
 	import NewsSection from '$lib/PageComponents/News/NewsSection.svelte';
 </script>
 
-<HomeNews publicationDateIso="2024-04-05T13:00:00.000Z" title="Leaderboard April 2024 Updates">
+<HomeNews
+	publicationDateIso="2024-04-05T13:00:00.000Z"
+	title="Leaderboard April 2024 Updates"
+	lastUpdatedIso="2024-04-10T14:00:00.000Z"
+>
 	<NewsSection sectionTitle="🦁 Dark Falz Dalion">
 		A brand new boss is coming to NGS. Dark Falz Dalion is the newest high difficulty quest boss. We
 		will create leader board for this quest for solo, duo, and party categories. The quest will be
 		released in game on April 17th after maintenance. Hope to see some strong runs!
+	</NewsSection>
+	<NewsSection sectionTitle="💿 April 2024 PA Customs Patch bump">
+		New PA customizations were released alongside the 10-star Xover weapon series. The PA
+		customizations seems to have more impact on the way players approach boss battles so we have
+		decided to do a patch bump for all leaderboards. For more details see the <a
+			class="link"
+			href="/info/patch-codes">patch codes</a
+		> list.
 	</NewsSection>
 </HomeNews>
 <HomeNews publicationDateIso="2024-03-04T13:00:00.000Z" title="Leaderboard March 2024 Updates">

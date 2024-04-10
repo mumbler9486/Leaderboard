@@ -6,7 +6,7 @@
 	export let title: string;
 
 	$: publicationDateObj = new Date(publicationDateIso);
-	$: lastUpdatedObj = new Date(publicationDateIso);
+	$: lastUpdatedObj = new Date(lastUpdatedIso ?? '');
 </script>
 
 <div>

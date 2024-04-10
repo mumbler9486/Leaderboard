@@ -2,6 +2,7 @@
 	import Divider from '$lib/Components/Divider.svelte';
 	import Timeline from '$lib/Components/Timeline.svelte';
 	import TimelineNode from '$lib/Components/TimelineNode.svelte';
+	import { patchCodeLabelMap } from '$lib/constants/patchCodes';
 </script>
 
 <div class="flex flex-col content-center">
@@ -117,6 +118,17 @@
 							timings, and other class balance adjustments. 10* Reyaar Weapons and 9* Einea Units
 							were released. Lastly, some Fixas have been adjusted in power with the Verschmelz
 							weapon series being rebalanced to accommodate for the changes to Termina.
+						</TimelineNode>
+						<TimelineNode
+							title="Tech Arts Customs and 10⭐ Xover series"
+							time="April 10, 2024"
+							side="left"
+							fillLineStart
+						>
+							Known as the {patchCodeLabelMap['apr2024xover']} patch, New Tech Art customizations were
+							released alongside 10-star Xover weapon series. The patch brings about significant changes
+							to various classes that we think would have an impact on the way players approach bosses
+							with their classes. Such as Slayer's Regulus PA and fixes to Hunter's PAs.
 						</TimelineNode>
 					</Timeline>
 				</div>
