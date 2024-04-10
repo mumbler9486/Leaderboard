@@ -16,9 +16,11 @@
 	import type { Run } from '$lib/types/api/runs/run';
 	import RunsTable from '$lib/Components/Tables/RunsTable.svelte';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
-	import { allLeaderboards } from '$lib/leaderboard/boards';
+	import { allLeaderboards, lookupBoardsByQuest } from '$lib/leaderboard/boards';
 	import { runFilters, type RunSearchFilters } from '../../runFilter';
 	import DefaultRunFilter from './RunFilters/DefaultRunFilter.svelte';
+	import RunDetails from './RunDetails.svelte/RunDetails.svelte';
+	import type { NgsQuests } from '$lib/types/api/runs/quests';
 
 	interface PartySizeInfo {
 		filterSize: number;
@@ -28,6 +30,7 @@
 
 	$: quest = $page.params.quest;
 	$: boardInfo = allLeaderboards.find((b) => b.quest === quest)!;
+	$: categories = lookupBoardsByQuest(quest as NgsQuests).map((b) => b.category);
 
 	$: partySizeInfoMap = {
 		[PartySize.Solo]: {
@@ -100,20 +103,19 @@
 		<div
 			class="m-2 space-y-2 overflow-x-scroll rounded-md border border-secondary bg-base-100 p-4 px-8"
 		>
-			<DefaultRunFilter solo={isSolo} rules={boardInfo.rules} route={boardInfo.route} />
+			<DefaultRunFilter
+				solo={isSolo}
+				rules={boardInfo.rules}
+				route={boardInfo.route}
+				{categories}
+			/>
 			{#await fetchRuns($runFilters)}
 				<LoadingBar />
 			{:then runs}
 				<div class="-mx-6 md:mx-0">
-					<RunsTable
-						{runs}
-						solosOnly={isSolo}
-						detailsColumn={{ label: 'Support', textAlign: 'center' }}
-					>
+					<RunsTable {runs} solosOnly={isSolo}>
 						<svelte:fragment slot="detailsItem" let:run>
-							{#if !!boardInfo.runDetailComponent}
-								<svelte:component this={boardInfo.runDetailComponent} details={run.details} />
-							{/if}
+							<RunDetails {boardInfo} runDetails={run.details} />
 						</svelte:fragment>
 					</RunsTable>
 				</div>

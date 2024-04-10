@@ -8,10 +8,13 @@
 export const stringEnumValuesToMap = <T>(enumType: any): { [key: string]: T } => {
 	const map = Object.keys(enumType)
 		.filter((key) => isNaN(Number(key)))
-		.reduce((prev, curr) => {
-			prev[enumType[curr].toLowerCase()] = enumType[curr];
-			return prev;
-		}, {} as { [key: string]: T });
+		.reduce(
+			(prev, curr) => {
+				prev[enumType[curr].toLowerCase()] = enumType[curr];
+				return prev;
+			},
+			{} as { [key: string]: T }
+		);
 
 	return map;
 };
@@ -22,3 +25,11 @@ export const stringEnumValuesToMap = <T>(enumType: any): { [key: string]: T } =>
  * @returns
  */
 export const stringEnumValuesToList = <T>(enumType: any): string[] => Object.values(enumType);
+
+/**
+ * Converts enum object to list of its values
+ * @param enumType The enum to iterate through
+ * @returns List of all enum values
+ */
+export const listEnumValues = <T extends Record<string, string>>(enumType: T) =>
+	Object.keys(enumType).map((key) => enumType[key as keyof T]);

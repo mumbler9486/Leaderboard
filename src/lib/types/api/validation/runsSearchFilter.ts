@@ -4,6 +4,9 @@ import { NgsRunCategories } from '../runs/categories';
 import { NgsQuests } from '../runs/quests';
 import { ServerRegion } from '../serverRegions';
 import { RunSortOption } from '../runs/sortOptions';
+import { allLeaderboards } from '$lib/leaderboard/boards';
+import { listEnumValues, stringEnumValuesToList } from '$lib/utils/enum';
+import { onMount } from 'svelte';
 
 const classes = [
 	null,
@@ -45,16 +48,11 @@ const validCategories: Record<string, string[]> = {
 };
 
 const servers = [null, ServerRegion.Global, ServerRegion.Japan];
-const quests = [
+const quests = [null, ...listEnumValues(NgsQuests)];
+const sortOrders: (string | null)[] = [
 	null,
-	NgsQuests.Purples,
-	NgsQuests.DfSolus,
-	NgsQuests.DfAegis,
-	NgsQuests.Duels,
-	NgsQuests.Venogia,
+	...stringEnumValuesToList<RunSortOption>(RunSortOption),
 ];
-const sortOrders = [null, RunSortOption.Ranking, RunSortOption.Recent];
-const ranks = [null, 1, 2, 3, 4];
 
 export const runsSearchFilterSchema = object({
 	quest: string().nullable().oneOf(quests),
@@ -97,7 +95,7 @@ export const runsSearchFilterSchema = object({
 				return true;
 			}
 		),
-	rank: number().nullable().oneOf(ranks),
+	rank: number().integer().nullable().min(0).max(30),
 	page: number().min(0).max(30000).default(0).nullable(),
 	take: number().min(1).max(1000).nullable(),
 	sort: string().lowercase().nullable().default('ranking').oneOf(sortOrders),

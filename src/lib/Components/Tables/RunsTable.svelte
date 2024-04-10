@@ -63,7 +63,7 @@
 						/>
 					{/each}
 				</td>
-				{#if $$slots.detailsItem}
+				{#if !!detailsColumn && $$slots.detailsItem}
 					<td
 						class="text-center font-bold"
 						class:text-right={detailsColumn?.textAlign === 'right'}

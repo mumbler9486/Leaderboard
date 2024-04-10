@@ -1,5 +1,5 @@
 import shell from 'shelljs';
-import { checkDockerRunning, copyFilesToDocker, dockerExec } from './utils/docker.js';
+import { checkDockerRunning, copyFilesToDocker } from './utils/docker.js';
 import { dockerExecAzureSql } from './utils/sql.js';
 
 // Config
@@ -23,6 +23,7 @@ copyFilesToDocker(dbContainerName, sourceScriptDir, destScriptDir);
 
 // SQL File Executer
 const execSqlFile = (sqlFile) => {
+	shell.echo('Running SQL file: ' + sqlFile);
 	dockerExecAzureSql(
 		dbContainerName,
 		workDir,
@@ -67,6 +68,9 @@ execSqlFile('scripts/runs/04_dfsolus.sql');
 
 shell.echo('Creating Venogia runs.');
 execSqlFile('scripts/runs/05_venogia.sql');
+
+shell.echo('Creating Dalion runs.');
+execSqlFile('scripts/runs/06_dfdalion.sql');
 
 // Run creation cleanup
 shell.echo('Cleaning up run creation.');

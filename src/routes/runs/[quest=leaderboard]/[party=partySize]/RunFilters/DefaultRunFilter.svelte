@@ -10,7 +10,15 @@
 
 	export let solo: boolean;
 	export let rules: string[];
+	export let categories: NgsRunCategories[];
 	export let route: string;
+
+	const categoryOptions = [
+		{ label: 'Quest', value: NgsRunCategories.Quest },
+		{ label: 'Urgent Quest', value: NgsRunCategories.UrgentQuest },
+		{ label: 'Trigger', value: NgsRunCategories.Trigger },
+	];
+	$: selectableCategories = categoryOptions.filter((c) => categories.includes(c.value));
 
 	$: questCategoryQuery =
 		$runFilters.category === NgsRunCategories.Quest ? '' : `?category=${$runFilters.category}`;
@@ -36,11 +44,7 @@
 			<RadioOptions
 				name="category"
 				bind:value={$runFilters.category}
-				options={[
-					{ label: 'Quest', value: NgsRunCategories.Quest },
-					{ label: 'Urgent Quest', value: NgsRunCategories.UrgentQuest },
-					{ label: 'Trigger', value: NgsRunCategories.Trigger },
-				]}
+				options={selectableCategories}
 			/>
 		</div>
 	</div>
