@@ -128,7 +128,7 @@
 							Known as the {patchCodeLabelMap['apr2024xover']} patch, New Tech Art customizations were
 							released alongside 10-star Xover weapon series. The patch brings about significant changes
 							to various classes that we think would have an impact on the way players approach bosses
-							with their classes. Such as Slayer's Regulus PA and fixes to Hunter's PAs.
+							with their classes. Such as Slayer's Regulus PA and changes to Hunter's PAs.
 						</TimelineNode>
 					</Timeline>
 				</div>
