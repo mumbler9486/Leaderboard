@@ -1,8 +1,8 @@
 // The current patch code for all submissions
-export const CurrentSubmissionPatchCode = 'level85r';
+export const CurrentSubmissionPatchCode = 'apr2024xover';
 
 // Keep patch codes under 30 chars
-export const patchCodeLabelMap: { [code: string]: string } = {
+export const patchCodeLabelMap = {
 	['pre60r']: 'Pre +60 Release',
 	['60r']: '+60 Release',
 	['slayer']: 'Slayer Release',
@@ -11,6 +11,9 @@ export const patchCodeLabelMap: { [code: string]: string } = {
 	['level80r']: 'Level 80 Release',
 	['lvl80grind']: '+80 Weap. Release',
 	['level85r']: 'Level 85 Release',
-};
+	['apr2024xover']: 'Apr. 2024 PA Customs',
+} as const satisfies Record<string, string>;
+
+export type PatchCodes = keyof typeof patchCodeLabelMap;
 
 export const currentPatchLabel = patchCodeLabelMap[CurrentSubmissionPatchCode];
