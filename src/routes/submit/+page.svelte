@@ -30,9 +30,9 @@
 				{/each}
 				<JumboButton
 					label="Duels"
-					image="/icons/submit/duel_nils_stia.jpg"
+					image="/icons/submit/ringwedge.jpg"
 					link="/submit/duels"
-					overlayColor="red"
+					overlayColor="neutral"
 					buttonLabel="Submit"
 					badge="New Boss Ringwedge"
 				/>
