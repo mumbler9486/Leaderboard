@@ -3,5 +3,6 @@ export enum NgsQuests {
 	DfSolus = 'dfsolus',
 	DfAegis = 'dfaegis',
 	Duels = 'duels',
-	Venogia = 'venogia'
+	Venogia = 'venogia',
+	DfDalion = 'dfdalion',
 }

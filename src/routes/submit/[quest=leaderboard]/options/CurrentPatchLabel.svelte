@@ -5,7 +5,7 @@
 
 <label class="form-control w-full">
 	<div class="label">
-		<span class="label-text flex items-center text-xs"
+		<span class="label-text"
 			>Current Patch <InfoTooltip
 				class="ml-1"
 				tip="If you need a different patch, please let us know in the run notes or contact us. For more info about the patches themselves, see the Patch Codes page under Info."

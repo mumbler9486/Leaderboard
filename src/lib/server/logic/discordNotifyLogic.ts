@@ -15,6 +15,7 @@ const partyTypeMap: Record<string, string> = {
 };
 
 const questTypeMap: Record<string, string> = {
+	[NgsQuests.DfDalion]: 'Dark Falz Dalion',
 	[NgsQuests.DfAegis]: 'Dark Falz Aegis',
 	[NgsQuests.DfSolus]: 'Dark Falz Solus',
 	[NgsQuests.Purples]: 'Purple Trigger',

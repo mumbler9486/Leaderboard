@@ -1,27 +1,39 @@
-<script lang="ts">
-	export let options: DropdownValues[];
-	export let label: string | undefined = '';
-	export let value: string | undefined = undefined;
-	export let placeholder: string | undefined = undefined;
-	export let disabled: boolean = false;
-	export let error: string | undefined = undefined;
-
-	interface DropdownValues {
+<script lang="ts" context="module">
+	export interface SelectValues<T> {
 		label: string;
-		value: string | number;
+		value: T;
 		icon?: string | undefined;
 		disabled?: boolean;
 	}
+	export type DropdownSize = 'lg' | 'md' | 'sm' | 'xs' | 'default';
 </script>
 
-<!-- TODO Rename class to Select to align with daisy ui -->
-<label class="form-control w-full">
+<script lang="ts" generics="T">
+	export let options: SelectValues<T>[];
+	export let label: string | undefined = '';
+	export let value: T | null | undefined = null;
+	export let placeholder: string | undefined = undefined;
+	export let disabled: boolean = false;
+	export let error: string | undefined = undefined;
+	export let size: DropdownSize = 'default';
+	export let fullWidth: boolean = false;
+
+	const sizeClasses: Record<DropdownSize, string> = {
+		lg: 'select-lg',
+		md: 'select-md',
+		sm: 'select-sm',
+		xs: 'select-xs',
+		default: '',
+	};
+</script>
+
+<label class="form-control {$$props.class}" class:w-full={fullWidth}>
 	{#if !!label && label.length > 0}
 		<div class="label">
 			<span class="label-text-alt">{label}</span>
 		</div>
 	{/if}
-	<select class="select select-bordered" {disabled} bind:value on:change>
+	<select class="select select-bordered {sizeClasses[size]}" {disabled} bind:value on:change>
 		{#if placeholder}
 			<option disabled selected>{placeholder}</option>
 		{/if}

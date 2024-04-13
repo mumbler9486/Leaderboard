@@ -1,6 +1,7 @@
 {
 	"ngs": {
 		"quests": {
+			"dfdalion": "Dark Falz Dalion",
 			"dfsolus": "Dark Falz Solus",
 			"dfaegis": "Dark Falz Aegis",
 			"purples": "Purple Triggers",
@@ -142,6 +143,7 @@
 		"indomitableRenusRetem": "Indomitable Renus Retem",
 		"indomitableHalvaldi": "Indomitable Halvaldi",
 		"duelsPageTitle": "Duels",
+		"dfDalion": "Dark Falz Dalion",
 		"dfSolus": "Dark Falz Solus",
 		"venogia": "Venogia",
 		"indomitableZelvin": "Indomitable Zelvin",

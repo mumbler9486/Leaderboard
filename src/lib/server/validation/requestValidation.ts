@@ -10,12 +10,12 @@ import { ObjectSchema, ValidationError, type AnyObject } from 'yup';
  */
 export const validateApiRequest = async <T extends AnyObject>(
 	schema: ObjectSchema<T>,
-	value: T
+	value: unknown
 ): Promise<{ object?: T; validationError?: BadRequestApiError }> => {
 	try {
 		const castedObject = (await schema.validate(value, {
 			stripUnknown: true,
-			abortEarly: false
+			abortEarly: false,
 		})) as T;
 		return { object: castedObject, validationError: undefined };
 	} catch (err) {
@@ -36,14 +36,14 @@ export const mapValidationError = (error: ValidationError): BadRequestApiError =
 			if (isSimpleMessage) {
 				errors.push({
 					path: errorDetails.path,
-					message: errorDetails.message
+					message: errorDetails.message,
 				});
 			} else {
 				const codedMessage = errorDetails.message as unknown as ValidationErrorMessage;
 				errors.push({
 					path: errorDetails.path,
 					message: codedMessage.code,
-					values: codedMessage.values
+					values: codedMessage.values,
 				});
 			}
 		}
@@ -51,6 +51,6 @@ export const mapValidationError = (error: ValidationError): BadRequestApiError =
 	return {
 		code: ErrorCodes.ValidationError,
 		message: 'Bad Request',
-		details: errors
+		details: errors,
 	};
 };

@@ -8,7 +8,10 @@ import type { AnyObject, ObjectSchema } from 'yup';
 export const parseToRawSchema = <T extends AnyObject>(url: URL, schema: ObjectSchema<T>) =>
 	Object.keys(schema.fields)
 		.map((paramName) => paramName)
-		.reduce((prev, paramName) => {
-			prev[paramName] = url.searchParams.get(paramName);
-			return prev;
-		}, {} as any);
+		.reduce(
+			(prev, paramName) => {
+				prev[paramName] = url.searchParams.get(paramName);
+				return prev;
+			},
+			{} as Record<string, string | null>
+		);

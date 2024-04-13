@@ -1,11 +1,12 @@
 <script lang="ts">
-	import Modal from './Modal.svelte';
-	import PlayerNameBadge from './PlayerNameBadge.svelte';
-	import LoadingBar from './LoadingBar.svelte';
+	import Modal from '$lib/Components/Modal.svelte';
+	import LoadingBar from '$lib/Components/LoadingBar.svelte';
+	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
+
 	import { mapPlayerInfoNamePref } from '$lib/types/api/mapNamePref';
 	import { clientPrincipleStore } from '$lib/stores/userLogin';
 	import { UserRole } from '$lib/types/api/users/userRole';
-	import { partyForm } from '../../routes/submit/partyFormStore';
+	import { partyForm } from '../partyForm';
 	import type { PlayerSearchResult } from '$lib/types/api/players/playerInfoAutoFill';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import { onMount } from 'svelte';
