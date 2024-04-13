@@ -21,9 +21,9 @@
 				{#each allLeaderboards as board}
 					<JumboButton
 						label={$t(board.name)}
-						image="/icons/submit/dfaegis.jpg"
+						image="/icons/submit/dfdalion.jpg"
 						link={`/submit/${board.route}`}
-						overlayColor="red"
+						overlayColor="neutral"
 						buttonLabel="Submit"
 						badge={`New Boss`}
 					/>
