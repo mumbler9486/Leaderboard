@@ -3,14 +3,16 @@
 	import TextInput from '$lib/Components/TextInput.svelte';
 	import ClassSelector from './ClassSelector.svelte';
 	import WeaponSelector from './WeaponSelector.svelte';
-	import { partyForm } from './partyFormStore';
+	import { partyForm } from '../partyForm';
 
 	export let playerIndex: number;
+
+	$: console.log($partyForm);
 </script>
 
 <div>
 	<div class="grid grid-cols-1 gap-2 md:grid-cols-2">
-		<PlayerSelectionInput {playerIndex}></PlayerSelectionInput>
+		<PlayerSelectionInput {playerIndex} />
 		<TextInput
 			prompt="In-Video Character Name"
 			placeholder="Enter character name..."

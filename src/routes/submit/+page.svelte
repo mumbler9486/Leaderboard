@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
 	import JumboButton from '$lib/Components/JumboButton.svelte';
+	import { allLeaderboards } from '$lib/leaderboard/boards';
 	import { t } from 'svelte-i18n';
 </script>
 
@@ -17,6 +18,16 @@
 			<Divider />
 
 			<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+				{#each allLeaderboards as board}
+					<JumboButton
+						label={$t(board.name)}
+						image="/icons/submit/dfaegis.jpg"
+						link={`/submit/${board.route}`}
+						overlayColor="red"
+						buttonLabel="Submit"
+						badge={`New Boss`}
+					/>
+				{/each}
 				<JumboButton
 					label="Duels"
 					image="/icons/submit/duel_nils_stia.jpg"

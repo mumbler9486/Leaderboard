@@ -3,7 +3,7 @@
 	import type { LeaderboardDefinition } from '$lib/leaderboard/leaderboard';
 	import type { Run } from '$lib/types/api/runs/run';
 
-	export let boardInfo: LeaderboardDefinition;
+	export let boardInfo: LeaderboardDefinition<any, any>;
 	export let runDetails: Run<T>['details'];
 
 	const detailsMap: Record<string, ComponentType> = {};
