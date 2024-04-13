@@ -54,6 +54,9 @@
 		[NgsQuests.Venogia]: {
 			[NgsRunCategories.UrgentQuest]: 'Venogia R.',
 		},
+		[NgsQuests.DfDalion]: {
+			[NgsRunCategories.Quest]: 'DF Dalion R.',
+		},
 	};
 
 	const fetchRuns = async () => {
