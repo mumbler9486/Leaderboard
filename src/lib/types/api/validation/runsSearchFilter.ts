@@ -4,9 +4,7 @@ import { NgsRunCategories } from '../runs/categories';
 import { NgsQuests } from '../runs/quests';
 import { ServerRegion } from '../serverRegions';
 import { RunSortOption } from '../runs/sortOptions';
-import { allLeaderboards } from '$lib/leaderboard/boards';
 import { listEnumValues, stringEnumValuesToList } from '$lib/utils/enum';
-import { onMount } from 'svelte';
 
 const classes = [
 	null,
