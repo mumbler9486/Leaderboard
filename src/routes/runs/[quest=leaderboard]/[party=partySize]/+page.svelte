@@ -18,8 +18,8 @@
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import { allLeaderboards, lookupBoardsByQuest } from '$lib/leaderboard/boards';
 	import { runFilters, type RunSearchFilters } from '../../runFilter';
-	import DefaultRunFilter from './RunFilters/DefaultRunFilter.svelte';
-	import RunDetails from './RunDetails.svelte/RunDetails.svelte';
+	import DefaultRunFilter from './filters/DefaultRunFilter.svelte';
+	import RunDetails from './details/RunDetails.svelte';
 	import type { NgsQuests } from '$lib/types/api/runs/quests';
 
 	interface PartySizeInfo {
@@ -28,9 +28,9 @@
 		pageTitle: string;
 	}
 
-	$: quest = $page.params.quest;
+	$: quest = $page.params.quest as NgsQuests;
 	$: boardInfo = allLeaderboards.find((b) => b.quest === quest)!;
-	$: categories = lookupBoardsByQuest(quest as NgsQuests).map((b) => b.category);
+	$: categories = lookupBoardsByQuest(quest).map((b) => b.category);
 
 	$: partySizeInfoMap = {
 		[PartySize.Solo]: {
@@ -64,7 +64,7 @@
 		{ name: 'class', undefinedValue: 'no_filter' },
 		{ name: 'rank', defaultValue: '1' },
 		{ name: 'support', undefinedValue: 'no_filter' },
-		{ name: 'category', undefinedValue: NgsRunCategories.Quest },
+		{ name: 'category', defaultValue: NgsRunCategories.Quest },
 	];
 
 	runFilters.resetFilters();
@@ -77,16 +77,11 @@
 		const allFilters = {
 			...runFilters,
 			quest: boardInfo.quest,
-			category: boardInfo.category,
 			rank: runFilters.rank,
 			partySize: partyInfo.filterSize,
 		};
 
-		if (runFilters.category) {
-			allFilters.support = undefined;
-		}
-
-		return (await fetchGetApi<Run[]>(basePath, copyQueryParams(allFilters))) ?? [];
+		return (await fetchGetApi<Run<unknown>[]>(basePath, copyQueryParams(allFilters))) ?? [];
 	};
 
 	onDestroy(cleanup);
@@ -107,20 +102,21 @@
 				solo={isSolo}
 				rules={boardInfo.rules}
 				route={boardInfo.route}
+				{boardInfo}
 				{categories}
 			/>
 			{#await fetchRuns($runFilters)}
 				<LoadingBar />
 			{:then runs}
 				<div class="-mx-6 md:mx-0">
-					<RunsTable {runs} solosOnly={isSolo}>
+					<RunsTable {runs} solosOnly={isSolo} detailsColumn={boardInfo.detailsTableHeader}>
 						<svelte:fragment slot="detailsItem" let:run>
 							<RunDetails {boardInfo} runDetails={run.details} />
 						</svelte:fragment>
 					</RunsTable>
 				</div>
 			{:catch err}
-				<p>An error has occured, please try again later</p>
+				<p>An error has occurred, please try again later</p>
 			{/await}
 		</div>
 	</div>

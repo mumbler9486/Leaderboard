@@ -12,6 +12,7 @@ import {
 	runsSearchFilterSchema,
 	type RunsSearchFilter,
 } from '$lib/types/api/validation/runsSearchFilter';
+import type { TableHeader } from '$lib/Components/Tables/Table.svelte';
 
 const validGames = [Game.Ngs, Game.Pso2];
 const validQuests = listEnumValues(NgsQuests);
@@ -24,6 +25,7 @@ const createLeaderboardSchema = <S extends RunSubmissionRequest, R extends RunsS
 		name: string().required(),
 		route: string().lowercase().required(),
 		game: mixed<Game>().required().oneOf(validGames),
+		icon: string().required(),
 		quest: mixed<NgsQuests>().required().oneOf(validQuests),
 		category: string().required().oneOf(validCategories),
 		maxQuestRank: number().integer().min(1).required(),
@@ -36,12 +38,14 @@ const createLeaderboardSchema = <S extends RunSubmissionRequest, R extends RunsS
 			filterDefaults: mixed<RunSearchValidator<R>['filterDefaults']>().required(),
 			attributeFilter: mixed<RunSearchValidator<R>['attributeFilter']>().required(),
 		}).required() satisfies ObjectSchema<RunSearchValidator<R>>,
+		detailsTableHeader: mixed<TableHeader>().optional(),
 	}) satisfies ObjectSchema<LeaderBoardOptions<S, R>>;
 };
 
 interface LeaderBoardOptions<S extends RunSubmissionRequest, R extends RunsSearchFilter> {
 	name: string;
 	route: string;
+	icon: string;
 	game: Game;
 	quest: NgsQuests;
 	category: string;
@@ -51,12 +55,13 @@ interface LeaderBoardOptions<S extends RunSubmissionRequest, R extends RunsSearc
 	rules?: string[];
 	runSubmissionSchema?: ObjectSchema<S>;
 	runSearch: RunSearchValidator<R>;
+	detailsTableHeader?: TableHeader;
 }
 
 interface RunSearchValidator<R extends AnyObject> {
 	runSearchSchema?: ObjectSchema<R>;
 	filterDefaults: (filter: R) => void;
-	attributeFilter: (filter: R) => RunAttributeFilter[];
+	attributeFilter: (filter: R) => RunAttributeFilter[] | undefined;
 }
 
 export class LeaderboardDefinition<
@@ -66,6 +71,7 @@ export class LeaderboardDefinition<
 	public readonly name;
 	public readonly route;
 	public readonly game;
+	public readonly icon;
 	public readonly quest;
 	public readonly category;
 	public readonly maxQuestRank;
@@ -74,6 +80,7 @@ export class LeaderboardDefinition<
 	public readonly rules;
 	public readonly runSubmissionSchema: ObjectSchema<S>;
 	public readonly runSearchSchema;
+	public readonly detailsTableHeader?: TableHeader;
 	private readonly runSearchOptions: RunSearchValidator<R>;
 
 	constructor(options: LeaderBoardOptions<S, R>) {
@@ -83,6 +90,7 @@ export class LeaderboardDefinition<
 		this.name = validatedOptions.name;
 		this.route = validatedOptions.route;
 		this.game = validatedOptions.game;
+		this.icon = validatedOptions.icon;
 		this.quest = validatedOptions.quest;
 		this.category = validatedOptions.category;
 		this.maxQuestRank = validatedOptions.maxQuestRank;
@@ -92,6 +100,7 @@ export class LeaderboardDefinition<
 		this.runSubmissionSchema = validatedOptions.runSubmissionSchema ?? runSubmissionRequestSchema;
 		this.runSearchSchema = validatedOptions.runSearch.runSearchSchema ?? runsSearchFilterSchema;
 		this.runSearchOptions = validatedOptions.runSearch;
+		this.detailsTableHeader = validatedOptions.detailsTableHeader;
 	}
 
 	/**

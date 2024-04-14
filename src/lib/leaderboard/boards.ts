@@ -1,6 +1,7 @@
 import { Game } from '$lib/types/api/game';
 import { NgsRunCategories } from '$lib/types/api/runs/categories';
 import { NgsQuests } from '$lib/types/api/runs/quests';
+import { dfAegisQuest, dfAegisTrigger, dfAegisUrgentQuest } from './boards/dfAegis';
 import { LeaderboardDefinition } from './leaderboard';
 import { createRunSearchSchema } from './runSearchSchema';
 import { createRunSubmissionSchema } from './submissionSchema';
@@ -8,6 +9,7 @@ import { createRunSubmissionSchema } from './submissionSchema';
 export const dfDalionQuest = new LeaderboardDefinition({
 	name: 'leaderboard.dfDalion',
 	route: 'dfdalion',
+	icon: '/icons/submit/dfdalion.jpg',
 	game: Game.Ngs,
 	quest: NgsQuests.DfDalion,
 	category: NgsRunCategories.Quest,
@@ -32,7 +34,7 @@ export const dfDalionQuest = new LeaderboardDefinition({
 	},
 });
 
-export const allLeaderboards = [dfDalionQuest];
+export const allLeaderboards = [dfDalionQuest, dfAegisQuest, dfAegisUrgentQuest, dfAegisTrigger];
 
 /**
  * Looks up all leaderboards by a quest. This primarily

@@ -1,4 +1,4 @@
-import { ObjectSchema, mixed } from 'yup';
+import { ObjectSchema, mixed, object, type AnyObject } from 'yup';
 import {
 	runSubmissionRequestSchema,
 	type RunSubmissionRequest,
@@ -20,23 +20,47 @@ import { generateRankList } from '$lib/utils/game/rank';
  * @param {number} maxTime - The maximum time allowed in minutes
  * @return {ObjectSchema<RunSubmissionRequest>} schema for the run submission request.
  */
-export const createRunSubmissionSchema = (
+export const createRunSubmissionSchema = <T extends AnyObject, V>(
 	quest: NgsQuests,
 	category: NgsRunCategories,
 	maxRank: number,
 	maxPartySize: number,
 	maxTimeSeconds: number
 ) => {
+	return createDetailedRunSubmissionSchema(
+		quest,
+		category,
+		maxRank,
+		maxPartySize,
+		maxTimeSeconds,
+		object()
+	);
+};
+
+export const createDetailedRunSubmissionSchema = <T extends AnyObject>(
+	quest: NgsQuests,
+	category: NgsRunCategories,
+	maxRank: number,
+	maxPartySize: number,
+	maxTimeSeconds: number,
+	details: ObjectSchema<T>
+) => {
 	const validRanks = generateRankList(maxRank);
-	return runSubmissionRequestSchema.shape({
-		quest: mixed<NgsQuests>().required().oneOf([quest]),
-		questRank: yupQuestRank({
-			[category]: validRanks,
-		}),
-		category: mixed<NgsRunCategories>().required().oneOf([category]),
-		party: yupRunPartySchema(maxPartySize),
-		time: yupRunTimeMapped({
-			[category]: maxTimeSeconds,
-		}),
-	}) satisfies ObjectSchema<RunSubmissionRequest>;
+	let boardSchema = (
+		runSubmissionRequestSchema.shape({
+			quest: mixed<NgsQuests>().required().oneOf([quest]),
+			questRank: yupQuestRank({
+				[category]: validRanks,
+			}),
+			category: mixed<NgsRunCategories>().required().oneOf([category]),
+			party: yupRunPartySchema(maxPartySize),
+			time: yupRunTimeMapped({
+				[category]: maxTimeSeconds,
+			}),
+		}) satisfies ObjectSchema<RunSubmissionRequest>
+	).shape({
+		details: details,
+	});
+
+	return boardSchema;
 };
