@@ -7,6 +7,16 @@
 
 <RecentNews />
 
+<HomeNews publicationDateIso="2024-01-01T00:00:00.000Z" title="Leaderboard January 2024 Updates">
+	<NewsSection sectionTitle="📅Patch Codes List">
+		Not much in terms of in-game content releasing this month. For the team at the leaderboards we
+		plan to add some new useful information pages for rules, submission guidelines, patch codes, and
+		other tips for the leaderboard. The patch codes info page has been released: <a
+			class="link"
+			href="/info">Check it out!</a
+		>
+	</NewsSection>
+</HomeNews>
 <HomeNews publicationDateIso="2023-12-06T00:00:00.000Z" title="Leaderboard December 2023 Updates">
 	<NewsSection sectionTitle="⤴ Patch Bump">
 		From Dec 6th's Game Maintenance, we will increase the patch to "+80 Weap. Release". This release
