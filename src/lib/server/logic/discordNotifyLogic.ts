@@ -29,6 +29,7 @@ const categoryTypeMap: Record<string, string> = {
 	[NgsRunCategories.Retem]: 'Retem',
 	[NgsRunCategories.Kvaris]: 'Kvaris',
 	[NgsRunCategories.Stia]: 'Stia',
+	[NgsRunCategories.AelioIntruders]: 'Aelio Intruders',
 	[NgsRunCategories.UrgentQuest]: 'UQ',
 	[NgsRunCategories.Trigger]: 'Trigger',
 	[NgsRunCategories.NexAelio]: 'Nex Aelio',
