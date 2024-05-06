@@ -91,6 +91,7 @@
 				"header": {
 					"id": "Id",
 					"quest": "Quest",
+					"rank": "Rank",
 					"category": "Category",
 					"details": "Details",
 					"players": "Players",
