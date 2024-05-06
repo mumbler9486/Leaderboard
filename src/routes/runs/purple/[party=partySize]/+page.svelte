@@ -18,6 +18,7 @@
 	import RunsTable from '$lib/Components/Tables/RunsTable.svelte';
 	import { runFilters, type RunSearchFilters } from '../../runFilter';
 	import { NgsQuests } from '$lib/types/api/runs/quests';
+	import { PurpleRegion } from '$lib/types/api/purpleRegions';
 
 	interface PartySizeInfo {
 		filterSize: number;
@@ -45,6 +46,13 @@
 			name: $t('common.playerCount.party'),
 			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.purpleTriggers')} - ${$t(
 				'common.playerCount.party'
+			)}`,
+		},
+		[PartySize.MultiParty]: {
+			filterSize: 8,
+			name: $t('common.playerCount.mpa'),
+			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.purpleTriggers')} - ${$t(
+				'common.playerCount.mpa'
 			)}`,
 		},
 	} satisfies Record<string, PartySizeInfo>;
@@ -93,7 +101,7 @@
 		<div
 			class="m-2 space-y-2 overflow-x-scroll rounded-md border border-secondary bg-base-100 p-4 px-8"
 		>
-			<PurpleRunFilters solo={isSolo} />
+			<PurpleRunFilters {partySize} />
 			{#await fetchRuns($runFilters)}
 				<LoadingBar />
 			{:then runs}

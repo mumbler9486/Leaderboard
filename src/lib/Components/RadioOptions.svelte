@@ -10,7 +10,7 @@
 	}
 </script>
 
-<div class="form-control w-full max-w-xs">
+<div class="form-control">
 	{#if !!label && label.length > 0}
 		<div class="label">
 			<span class="label-text">{label}</span>

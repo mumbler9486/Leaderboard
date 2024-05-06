@@ -16,4 +16,5 @@ export enum NgsRunCategories {
 	Retem = PurpleRegion.Retem,
 	Kvaris = PurpleRegion.Kvaris,
 	Stia = PurpleRegion.Stia,
+	AelioIntruders = PurpleRegion.AelioIntruders,
 }

@@ -26,6 +26,7 @@ const validCategories: Record<string, string[]> = {
 		NgsRunCategories.Retem,
 		NgsRunCategories.Kvaris,
 		NgsRunCategories.Stia,
+		NgsRunCategories.AelioIntruders,
 	],
 	[NgsQuests.DfSolus]: [NgsRunCategories.Quest, NgsRunCategories.UrgentQuest],
 	[NgsQuests.DfAegis]: [

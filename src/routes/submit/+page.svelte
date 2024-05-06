@@ -29,6 +29,14 @@
 					/>
 				{/each}
 				<JumboButton
+					label="Purples"
+					image="/icons/submit/purple_trigger_gate.jpg"
+					link="/submit/purples"
+					overlayColor="purple"
+					buttonLabel="Submit"
+					badge="New Region"
+				/>
+				<JumboButton
 					label="Duels"
 					image="/icons/submit/ringwedge.jpg"
 					link="/submit/duels"
@@ -41,13 +49,6 @@
 					image="/icons/submit/dfaegis.jpg"
 					link="/submit/dfaegis"
 					overlayColor="neutral"
-					buttonLabel="Submit"
-				/>
-				<JumboButton
-					label="Purples"
-					image="/icons/submit/purple_trigger_gate.jpg"
-					link="/submit/purples"
-					overlayColor="purple"
 					buttonLabel="Submit"
 				/>
 				<JumboButton

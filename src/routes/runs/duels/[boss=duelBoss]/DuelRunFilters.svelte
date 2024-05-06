@@ -15,7 +15,7 @@
 <div
 	class="-mx-6 flex grow flex-col rounded-md border border-secondary bg-secondary/25 p-1 md:mx-0"
 >
-	<div class="flex w-full flex-row flex-wrap items-stretch gap-4 px-4 py-2">
+	<div class="flex w-full flex-row flex-wrap items-stretch gap-8 px-4 py-2">
 		<RadioOptions
 			name="augments"
 			label="Duel Augmentations"
