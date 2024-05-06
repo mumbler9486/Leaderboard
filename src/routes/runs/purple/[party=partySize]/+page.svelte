@@ -43,10 +43,7 @@
 		},
 		[PartySize.Party]: {
 			filterSize: 4,
-			name:
-				$runFilters.region === PurpleRegion.AelioIntruders
-					? `${$t('common.playerCount.party')} (4P~8P)`
-					: $t('common.playerCount.party'),
+			name: $t('common.playerCount.party'),
 			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.purpleTriggers')} - ${$t(
 				'common.playerCount.party'
 			)}`,
@@ -104,7 +101,7 @@
 		<div
 			class="m-2 space-y-2 overflow-x-scroll rounded-md border border-secondary bg-base-100 p-4 px-8"
 		>
-			<PurpleRunFilters solo={isSolo} />
+			<PurpleRunFilters {partySize} />
 			{#await fetchRuns($runFilters)}
 				<LoadingBar />
 			{:then runs}

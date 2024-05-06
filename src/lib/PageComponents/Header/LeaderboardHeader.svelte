@@ -20,6 +20,7 @@
 				{ label: 'Solo', link: '/runs/purple/solo' },
 				{ label: 'Duo', link: '/runs/purple/duo' },
 				{ label: 'Party', link: '/runs/purple/party' },
+				{ label: 'Multi-Party', link: '/runs/purple/multi-party?rank=2&region=aelio_intruders' }, //TODO: temporary to support default region in MPA purples
 			],
 		},
 		{
