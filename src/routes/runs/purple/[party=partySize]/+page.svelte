@@ -18,6 +18,7 @@
 	import RunsTable from '$lib/Components/Tables/RunsTable.svelte';
 	import { runFilters, type RunSearchFilters } from '../../runFilter';
 	import { NgsQuests } from '$lib/types/api/runs/quests';
+	import { PurpleRegion } from '$lib/types/api/purpleRegions';
 
 	interface PartySizeInfo {
 		filterSize: number;
@@ -42,7 +43,10 @@
 		},
 		[PartySize.Party]: {
 			filterSize: 4,
-			name: $t('common.playerCount.party'),
+			name:
+				$runFilters.region === PurpleRegion.AelioIntruders
+					? `${$t('common.playerCount.party')} (4P~8P)`
+					: $t('common.playerCount.party'),
 			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.purpleTriggers')} - ${$t(
 				'common.playerCount.party'
 			)}`,

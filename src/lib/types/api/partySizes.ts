@@ -5,7 +5,7 @@ export enum PartySize {
 	Solo = 'solo',
 	Duo = 'duo',
 	Party = 'party',
-	MultiParty = 'multi_party',
+	MultiParty = 'multi-party',
 }
 
 export const runCategoryValues = stringEnumValuesToList<PartySize>(PartySize);
