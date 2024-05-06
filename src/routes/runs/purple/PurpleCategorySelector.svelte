@@ -1,16 +1,16 @@
 <script lang="ts">
 	import RadioOptions from '$lib/Components/RadioOptions.svelte';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
-	import { createEventDispatcher } from 'svelte';
 
-	export let region: string = 'stia';
-	export let rank: string = '1';
+	export let region: NgsRunCategories = NgsRunCategories.AelioIntruders;
+	export let rank: string = '2';
 
-	const validRankMap: { [region: string]: number[] } = {
-		aelio: [1, 2, 3, 4],
-		retem: [1, 2, 3, 4],
-		kvaris: [1, 2],
-		stia: [1],
+	const validRankMap: Partial<Record<NgsRunCategories, number[]>> = {
+		[NgsRunCategories.Aelio]: [1, 2, 3, 4],
+		[NgsRunCategories.Retem]: [1, 2, 3, 4],
+		[NgsRunCategories.Kvaris]: [1, 2],
+		[NgsRunCategories.Stia]: [1],
+		[NgsRunCategories.AelioIntruders]: [1, 2],
 	};
 
 	$: regionSelections = generateRegionSelections(validRankMap[region] ?? []);
@@ -32,6 +32,7 @@
 		{ label: 'Retem', value: NgsRunCategories.Retem },
 		{ label: 'Kvaris', value: NgsRunCategories.Kvaris },
 		{ label: 'Stia', value: NgsRunCategories.Stia },
+		{ label: 'Aelio Intruders', value: NgsRunCategories.AelioIntruders },
 	]}
 />
 <RadioOptions name="rank" label="Rank" bind:value={rank} options={regionSelections} />

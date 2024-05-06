@@ -15,7 +15,7 @@
 <div
 	class="-mx-6 flex grow flex-col rounded-md border border-secondary bg-secondary/25 p-1 md:mx-0"
 >
-	<div class="flex w-full flex-row gap-4 px-4 py-2">
+	<div class="flex w-full flex-row gap-8 px-4 py-2">
 		<PurpleCategorySelector bind:region={$runFilters.region} bind:rank={$runFilters.rank} />
 	</div>
 	<Divider slim />

@@ -4,7 +4,8 @@ import { stringEnumValuesToList } from '$lib/utils/enum';
 export enum PartySize {
 	Solo = 'solo',
 	Duo = 'duo',
-	Party = 'party'
+	Party = 'party',
+	MultiParty = 'multi_party',
 }
 
 export const runCategoryValues = stringEnumValuesToList<PartySize>(PartySize);

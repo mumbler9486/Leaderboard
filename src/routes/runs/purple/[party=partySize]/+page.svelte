@@ -47,6 +47,13 @@
 				'common.playerCount.party'
 			)}`,
 		},
+		[PartySize.MultiParty]: {
+			filterSize: 8,
+			name: $t('common.playerCount.mpa'),
+			pageTitle: `${$t('shared.siteName')} | ${$t('leaderboard.purpleTriggers')} - ${$t(
+				'common.playerCount.mpa'
+			)}`,
+		},
 	} satisfies Record<string, PartySizeInfo>;
 
 	$: partySize = parsePartySize($page.params.party) ?? PartySize.Solo;

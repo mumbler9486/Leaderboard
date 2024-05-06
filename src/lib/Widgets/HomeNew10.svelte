@@ -32,6 +32,7 @@
 			[NgsRunCategories.Retem]: 'Purple Retem R.',
 			[NgsRunCategories.Kvaris]: 'Purple Kvaris R.',
 			[NgsRunCategories.Stia]: 'Purple Stia R.',
+			[NgsRunCategories.AelioIntruders]: 'Purple Aelio In. R.',
 		},
 		[NgsQuests.DfAegis]: {
 			[NgsRunCategories.UrgentQuest]: 'DF Aegis UQ R.',
