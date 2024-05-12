@@ -166,9 +166,13 @@ export const getRuns = async (
 	}
 
 	if (userFilters.partySize !== undefined && userFilters.partySize !== null) {
-		if (userFilters.partySize >= 3) {
-			//TODO temporary support for 3 player runs, provide enums
-			query += ` AND run.${runsDbFields.PartySize} >= @partySize`;
+		if (userFilters.partySize >= 3 && userFilters.partySize <= 4) {
+			//TODO temporary support for 3-4 player runs, future provide enums
+			query += ` AND run.${runsDbFields.PartySize} >= 3 AND run.${runsDbFields.PartySize} <= 4`;
+			request = request.input('partySize', sql.TinyInt, userFilters.partySize);
+		} else if (userFilters.partySize >= 5 && userFilters.partySize <= 8) {
+			//TODO temporary support for 5-8 player runs, future provide enums
+			query += ` AND run.${runsDbFields.PartySize} >= 5 AND run.${runsDbFields.PartySize} <= 8`;
 			request = request.input('partySize', sql.TinyInt, userFilters.partySize);
 		} else {
 			query += ` AND run.${runsDbFields.PartySize} = @partySize`;

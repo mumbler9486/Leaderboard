@@ -6,8 +6,11 @@
 	import RunFilterTags from '../../RunFilterTags.svelte';
 	import { runFilters } from '../../runFilter';
 	import RunRules from '../../RunRules.svelte';
+	import { PartySize } from '$lib/types/api/partySizes';
 
-	export let solo: boolean;
+	export let partySize: PartySize;
+
+	$: solo = partySize === PartySize.Solo;
 
 	const rules = ['Do not abuse bugs or exploits.'];
 </script>
@@ -15,8 +18,12 @@
 <div
 	class="-mx-6 flex grow flex-col rounded-md border border-secondary bg-secondary/25 p-1 md:mx-0"
 >
-	<div class="flex w-full flex-row gap-4 px-4 py-2">
-		<PurpleCategorySelector bind:region={$runFilters.region} bind:rank={$runFilters.rank} />
+	<div class="flex w-full flex-row gap-8 px-4 py-2">
+		<PurpleCategorySelector
+			{partySize}
+			bind:region={$runFilters.region}
+			bind:rank={$runFilters.rank}
+		/>
 	</div>
 	<Divider slim />
 	<div class="flex flex-row flex-wrap place-content-center items-stretch">

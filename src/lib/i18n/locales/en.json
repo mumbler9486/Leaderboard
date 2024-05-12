@@ -22,7 +22,8 @@
 			"aelio": "Aelio",
 			"retem": "Retem",
 			"kvaris": "Kvaris",
-			"stia": "Stia"
+			"stia": "Stia",
+			"aelio_intruders": "Aelio Intruders"
 		}
 	},
 	"pso2": {},
@@ -73,7 +74,7 @@
 			"trio": "Trio",
 			"quad": "Quad",
 			"party": "Full Party",
-			"mpa": "Full Multi-Party"
+			"mpa": "Multi-Party"
 		},
 		"region": "Region",
 		"regions": {
@@ -90,6 +91,7 @@
 				"header": {
 					"id": "Id",
 					"quest": "Quest",
+					"rank": "Rank",
 					"category": "Category",
 					"details": "Details",
 					"players": "Players",

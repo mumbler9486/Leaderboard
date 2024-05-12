@@ -5,6 +5,23 @@
 </script>
 
 <HomeNews
+	publicationDateIso="2024-05-05T13:00:00.000Z"
+	title="Leaderboard May 2024 Updates"
+	lastUpdatedIso="2024-05-06T13:00:00.000Z"
+>
+	<NewsSection sectionTitle="🟪 New Purple Region - Aelio Intruders">
+		A new purple trigger quest called "Aelio Intruders" will release on May 8th. A new leaderboard
+		has been prepared for this new purple quest. You will be able to submit solo, duo, party
+		4-players, and party 8-players. You can challenge this quest at the purple trigger gate in
+		Halphia Lake.
+	</NewsSection>
+	<NewsSection sectionTitle="⬆ Urgent Quest Ver. of Dark Falz Dalion">
+		NGS will have the release of the urgent quest version for Dark Falz Dalion on May 22. We will
+		prepare the leaderboard for this quest. Note that this is an 8 player quest and the boss has
+		relaxed failure conditions, HP, and Attack power.
+	</NewsSection>
+</HomeNews>
+<HomeNews
 	publicationDateIso="2024-04-05T13:00:00.000Z"
 	title="Leaderboard April 2024 Updates"
 	lastUpdatedIso="2024-04-10T14:00:00.000Z"
@@ -57,15 +74,5 @@
 				• Complete <a class="link" href="/info/news">news archive</a> page to de-clutter the home page.
 			</li>
 		</ul>
-	</NewsSection>
-</HomeNews>
-<HomeNews publicationDateIso="2024-01-01T00:00:00.000Z" title="Leaderboard January 2024 Updates">
-	<NewsSection sectionTitle="📅Patch Codes List">
-		Not much in terms of in-game content releasing this month. For the team at the leaderboards we
-		plan to add some new useful information pages for rules, submission guidelines, patch codes, and
-		other tips for the leaderboard. The patch codes info page has been released: <a
-			class="link"
-			href="/info">Check it out!</a
-		>
 	</NewsSection>
 </HomeNews>

@@ -32,6 +32,7 @@
 		},
 		{ label: $t('page.moderator.submissions.header.quest'), textAlign: 'center' },
 		{ label: $t('page.moderator.submissions.header.category'), textAlign: 'center' },
+		{ label: $t('page.moderator.submissions.header.rank'), textAlign: 'center' },
 		{ label: $t('page.moderator.submissions.header.details'), textAlign: 'default' },
 		{ label: $t('page.moderator.submissions.header.players'), textAlign: 'default' },
 		{ label: $t('page.moderator.submissions.header.class'), textAlign: 'center' },
@@ -98,6 +99,9 @@
 				</td>
 				<td class="break-all text-center font-bold">
 					{$t(`ngs.categories.${run.category}`)}
+				</td>
+				<td class="break-all text-center font-bold">
+					{run.questRank}
 				</td>
 				<td class="font-bold">
 					<RunDetailsCell {run} />

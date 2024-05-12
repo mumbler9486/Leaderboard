@@ -12,6 +12,7 @@ const regions = [
 	NgsRunCategories.Retem,
 	NgsRunCategories.Kvaris,
 	NgsRunCategories.Stia,
+	NgsRunCategories.AelioIntruders,
 ];
 
 const quest = [NgsQuests.Purples];
@@ -20,6 +21,7 @@ const validRanksMap: Record<string, number[]> = {
 	[PurpleRegion.Retem]: [1, 2, 3, 4],
 	[PurpleRegion.Kvaris]: [1, 2],
 	[PurpleRegion.Stia]: [1],
+	[PurpleRegion.AelioIntruders]: [1, 2],
 };
 
 export const purpleSubmissionSchema: ObjectSchema<RunSubmissionRequest> =
@@ -28,7 +30,7 @@ export const purpleSubmissionSchema: ObjectSchema<RunSubmissionRequest> =
 		quest: mixed<NgsQuests>().required().oneOf(quest),
 		questRank: yupQuestRank(validRanksMap),
 		category: mixed<NgsRunCategories>().required().oneOf(regions),
-		party: yupRunPartySchema(4),
+		party: yupRunPartySchema(8),
 		time: yupRunTime(1200),
 	});
 
