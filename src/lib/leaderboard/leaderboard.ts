@@ -13,10 +13,12 @@ import {
 	type RunsSearchFilter,
 } from '$lib/types/api/validation/runsSearchFilter';
 import type { TableHeader } from '$lib/Components/Tables/Table.svelte';
+import { PartySize } from '$lib/types/api/partySizes';
 
 const validGames = [Game.Ngs, Game.Pso2];
 const validQuests = listEnumValues(NgsQuests);
 const validCategories = listEnumValues(NgsRunCategories);
+const validPartySizes = listEnumValues(PartySize);
 
 const defaultRules: string[] = ['Do not abuse bugs or exploits.'];
 
@@ -30,6 +32,9 @@ const createLeaderboardSchema = <S extends RunSubmissionRequest, R extends RunsS
 		category: string().required().oneOf(validCategories),
 		maxQuestRank: number().integer().min(1).required(),
 		playerCap: number().integer().min(1).max(32).required(),
+		allowedPartySizes: array(mixed<PartySize>().oneOf(validPartySizes).required())
+			.min(1)
+			.required(),
 		maxSeconds: number().integer().min(1).max(1440).required(),
 		rules: array(string().required()).min(0).optional(),
 		runSubmissionSchema: mixed<ObjectSchema<S>>().nullable().required(),
@@ -51,6 +56,7 @@ interface LeaderBoardOptions<S extends RunSubmissionRequest, R extends RunsSearc
 	category: string;
 	maxQuestRank: number;
 	playerCap: number;
+	allowedPartySizes: PartySize[];
 	maxSeconds: number;
 	rules?: string[];
 	runSubmissionSchema?: ObjectSchema<S>;
@@ -76,6 +82,7 @@ export class LeaderboardDefinition<
 	public readonly category;
 	public readonly maxQuestRank;
 	public readonly playerCap;
+	public readonly allowedPartySizes;
 	public readonly maxSeconds;
 	public readonly rules;
 	public readonly runSubmissionSchema: ObjectSchema<S>;
@@ -95,6 +102,7 @@ export class LeaderboardDefinition<
 		this.category = validatedOptions.category;
 		this.maxQuestRank = validatedOptions.maxQuestRank;
 		this.playerCap = validatedOptions.playerCap;
+		this.allowedPartySizes = validatedOptions.allowedPartySizes;
 		this.maxSeconds = validatedOptions.maxSeconds;
 		this.rules = validatedOptions.rules ?? defaultRules;
 		this.runSubmissionSchema = validatedOptions.runSubmissionSchema ?? runSubmissionRequestSchema;

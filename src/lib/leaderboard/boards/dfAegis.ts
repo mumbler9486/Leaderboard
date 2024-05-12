@@ -7,6 +7,7 @@ import { NgsQuests } from '$lib/types/api/runs/quests';
 import { createDetailedRunSubmissionSchema } from '../submissionSchema';
 import { createDetailedRunSearchSchema, createRunSearchSchema } from '../runSearchSchema';
 import type { RunAttributeFilter } from '$lib/server/types/db/runs/runAttributeFilter';
+import { PartySize } from '$lib/types/api/partySizes';
 
 const supports = [
 	DfAegisSupport.AinaManon,
@@ -52,6 +53,7 @@ export const dfAegisQuest = new LeaderboardDefinition({
 	category: NgsRunCategories.Quest,
 	maxQuestRank: 1,
 	playerCap: 4,
+	allowedPartySizes: [PartySize.Solo, PartySize.Duo, PartySize.Party],
 	maxSeconds: 15 * 60,
 	runSubmissionSchema: createDetailedRunSubmissionSchema(
 		NgsQuests.DfAegis,
@@ -85,6 +87,7 @@ export const dfAegisUrgentQuest = new LeaderboardDefinition({
 	category: NgsRunCategories.UrgentQuest,
 	maxQuestRank: 1,
 	playerCap: 8,
+	allowedPartySizes: [PartySize.Solo, PartySize.Duo, PartySize.Party, PartySize.MultiParty],
 	maxSeconds: 20 * 60,
 	runSubmissionSchema: createDetailedRunSubmissionSchema(
 		NgsQuests.DfAegis,
@@ -128,6 +131,7 @@ export const dfAegisTrigger = new LeaderboardDefinition({
 	category: NgsRunCategories.Trigger,
 	maxQuestRank: 1,
 	playerCap: 4,
+	allowedPartySizes: [PartySize.Solo, PartySize.Duo, PartySize.Party],
 	maxSeconds: 20 * 60,
 	runSubmissionSchema: createDetailedRunSubmissionSchema(
 		NgsQuests.DfAegis,

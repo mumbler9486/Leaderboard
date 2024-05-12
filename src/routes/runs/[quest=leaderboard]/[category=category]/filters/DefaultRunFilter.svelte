@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
-	import PartySizeNavigation from '$lib/Components/PartySizeNavigation.svelte';
 	import RunFilterModal from '../../../RunFilterModal.svelte';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import RunFilterTags from '../../../RunFilterTags.svelte';
@@ -11,12 +10,34 @@
 	import { NgsQuests } from '$lib/types/api/runs/quests';
 	import type { ComponentType } from 'svelte';
 	import DfAegisSupportFilter from './DfAegisSupportFilter.svelte';
+	import { PartySize } from '$lib/types/api/partySizes';
 
 	export let solo: boolean;
 	export let rules: string[];
 	export let categories: NgsRunCategories[];
-	export let route: string;
 	export let boardInfo: LeaderboardDefinition<any, any>;
+
+	const partySizeOptions = [
+		{
+			label: 'Solo',
+			value: PartySize.Solo,
+		},
+		{
+			label: 'Duo',
+			value: PartySize.Duo,
+		},
+		{
+			label: 'Party (4p)',
+			value: PartySize.Party,
+		},
+		{
+			label: 'Multi-Party',
+			value: PartySize.MultiParty,
+		},
+	];
+	$: selectablePartySizes = partySizeOptions.filter((c) =>
+		boardInfo.allowedPartySizes.includes(c.value)
+	);
 
 	const categoryOptions = [
 		{ label: 'Quest', value: NgsRunCategories.Quest },
@@ -24,15 +45,6 @@
 		{ label: 'Trigger', value: NgsRunCategories.Trigger },
 	];
 	$: selectableCategories = categoryOptions.filter((c) => categories.includes(c.value));
-
-	$: questCategoryQuery =
-		$runFilters.category === NgsRunCategories.Quest ? '' : `?category=${$runFilters.category}`;
-	$: partyLabel = $runFilters.category === NgsRunCategories.Quest ? 'Party (4p)' : 'Party (8p)';
-	$: partyLinks = [
-		{ link: `/runs/${route}/solo${questCategoryQuery}`, label: 'Solo' },
-		{ link: `/runs/${route}/duo${questCategoryQuery}`, label: 'Duo' },
-		{ link: `/runs/${route}/party${questCategoryQuery}`, label: partyLabel },
-	];
 
 	interface FilterHandler {
 		filterComponent: ComponentType;
@@ -59,17 +71,16 @@
 	class="-mx-6 flex grow flex-col rounded-md border border-secondary bg-secondary/25 p-1 md:mx-0"
 >
 	<div class="flex flex-row flex-wrap place-content-center items-stretch gap-2">
-		<div class="grid w-full grid-cols-3 gap-4 px-4 py-2">
-			<PartySizeNavigation parties={partyLinks} />
-		</div>
-	</div>
-	<Divider slim />
-	<div class="flex flex-row flex-wrap place-content-center items-stretch gap-2">
-		<div class="w-full gap-4 px-4 py-2">
+		<div class=" flex w-full gap-4 px-4 py-2 lg:gap-8">
 			<RadioOptions
 				name="category"
-				bind:value={$runFilters.category}
 				options={selectableCategories}
+				bind:value={$runFilters.category}
+			/>
+			<RadioOptions
+				name="partySize"
+				options={selectablePartySizes}
+				bind:value={$runFilters.partySize}
 			/>
 		</div>
 	</div>

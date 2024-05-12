@@ -27,7 +27,7 @@
 			title: $t('navigation.bosses'),
 			image: '/icons/quests/uq.png',
 			items: [
-				{ label: 'Dark Falz Dalion', link: '/runs/dfdalion/solo' },
+				{ label: 'Dark Falz Dalion', link: '/runs/dfdalion/quest?partySize=solo' },
 				{ label: 'Dark Falz Solus', link: '/runs/dfsolus/solo' },
 				{ label: 'Venogia', link: '/runs/venogia/solo' },
 				{ label: 'Dark Falz Aegis', link: '/runs/dfaegis/solo' },

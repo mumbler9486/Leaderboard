@@ -21,6 +21,7 @@
 	import DefaultRunFilter from './filters/DefaultRunFilter.svelte';
 	import RunDetails from './details/RunDetails.svelte';
 	import type { NgsQuests } from '$lib/types/api/runs/quests';
+	import { validQuestCategories } from '../../../../params/category';
 
 	interface PartySizeInfo {
 		filterSize: number;
@@ -29,10 +30,11 @@
 	}
 
 	$: quest = $page.params.quest as NgsQuests;
-	$: boardInfo = allLeaderboards.find((b) => b.quest === quest)!;
+	$: category = validQuestCategories[$page.params.category?.toLowerCase()] as NgsRunCategories;
+	$: boardInfo = allLeaderboards.find((b) => b.quest === quest && b.category === category)!;
 	$: categories = lookupBoardsByQuest(quest).map((b) => b.category);
 
-	$: partySizeInfoMap = {
+	const partySizeInfoMap: Record<PartySize, PartySizeInfo> = {
 		[PartySize.Solo]: {
 			filterSize: 1,
 			name: $t('common.playerCount.solo'),
@@ -48,9 +50,14 @@
 			name: $t('common.playerCount.party'),
 			pageTitle: $t('common.playerCount.party'),
 		},
+		[PartySize.MultiParty]: {
+			filterSize: 8,
+			name: $t('common.playerCount.mpa'),
+			pageTitle: $t('common.playerCount.mpa'),
+		},
 	} satisfies Record<string, PartySizeInfo>;
 
-	$: partySize = parsePartySize($page.params.party) ?? PartySize.Solo;
+	$: partySize = parsePartySize($runFilters.partySize) ?? PartySize.Solo;
 	$: isSolo = partySize === PartySize.Solo;
 	$: partyInfo = partySizeInfoMap[partySize];
 
@@ -60,6 +67,7 @@
 	$: partySizeTitle = partyInfo.name;
 
 	const filterDef: UrlQueryParamRule<RunSearchFilters>[] = [
+		{ name: 'partySize', defaultValue: 'solo' },
 		{ name: 'server', undefinedValue: 'no_filter' },
 		{ name: 'class', undefinedValue: 'no_filter' },
 		{ name: 'rank', defaultValue: '1' },
@@ -71,7 +79,7 @@
 	const { cleanup } = useUrlFilterStore(runFilters, filterDef);
 
 	const fetchRuns = async (filters: RunSearchFilters) => {
-		const basePath = `/ngs-api/runs/${boardInfo.route}`;
+		const basePath = `/ngs-api/runs/${boardInfo.route}/${$page.params.category}`;
 		const runFilters = clearFilterValues(filters, filterDef);
 
 		const allFilters = {
@@ -83,7 +91,7 @@
 
 		return (await fetchGetApi<Run<unknown>[]>(basePath, copyQueryParams(allFilters))) ?? [];
 	};
-
+	$: console.log(boardInfo);
 	onDestroy(cleanup);
 </script>
 
@@ -98,13 +106,7 @@
 		<div
 			class="m-2 space-y-2 overflow-x-scroll rounded-md border border-secondary bg-base-100 p-4 px-8"
 		>
-			<DefaultRunFilter
-				solo={isSolo}
-				rules={boardInfo.rules}
-				route={boardInfo.route}
-				{boardInfo}
-				{categories}
-			/>
+			<DefaultRunFilter solo={isSolo} rules={boardInfo.rules} {boardInfo} {categories} />
 			{#await fetchRuns($runFilters)}
 				<LoadingBar />
 			{:then runs}

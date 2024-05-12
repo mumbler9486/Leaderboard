@@ -282,7 +282,7 @@ VALUES
 ;
 SET IDENTITY_INSERT [dbo].[RunParty] OFF;
 
--- Aegis Party
+-- Aelio Intruder multi Party
 SET IDENTITY_INSERT [dbo].[Runs] ON;
 INSERT INTO dbo.Runs
   (Id,SubmitterId,Game,Quest,Category,ServerRegion,Patch,QuestRank,PartySize,RunTime,Notes,SubmissionDate,SubmissionStatus,DateReviewed,ModNotes,Attributes,ReviewedBy)
