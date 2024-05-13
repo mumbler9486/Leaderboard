@@ -15,13 +15,13 @@
 	import { onDestroy } from 'svelte';
 	import type { Run } from '$lib/types/api/runs/run';
 	import RunsTable from '$lib/Components/Tables/RunsTable.svelte';
-	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import { allLeaderboards, lookupBoardsByQuest } from '$lib/leaderboard/boards';
 	import { runFilters, type RunSearchFilters } from '../../runFilter';
 	import DefaultRunFilter from './filters/DefaultRunFilter.svelte';
 	import RunDetails from './details/RunDetails.svelte';
 	import type { NgsQuests } from '$lib/types/api/runs/quests';
 	import { validQuestCategories } from '../../../../params/category';
+	import type { NgsRunCategories } from '$lib/types/api/runs/categories';
 
 	interface PartySizeInfo {
 		filterSize: number;
@@ -72,7 +72,6 @@
 		{ name: 'class', undefinedValue: 'no_filter' },
 		{ name: 'rank', defaultValue: '1' },
 		{ name: 'support', undefinedValue: 'no_filter' },
-		{ name: 'category', defaultValue: NgsRunCategories.Quest },
 	];
 
 	runFilters.resetFilters();

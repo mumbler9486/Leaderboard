@@ -37,6 +37,7 @@ export async function GET({ params, url }) {
 	if (!parsedFilter) {
 		return jsonError(400, validationError);
 	}
+	parsedFilter.category = category;
 
 	// Refine filters
 	const serverFilters: ServerSearchFilter = {
