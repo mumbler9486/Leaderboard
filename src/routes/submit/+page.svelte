@@ -2,7 +2,18 @@
 	import Divider from '$lib/Components/Divider.svelte';
 	import JumboButton from '$lib/Components/JumboButton.svelte';
 	import { allLeaderboards } from '$lib/leaderboard/boards';
+	import type { LeaderboardDefinition } from '$lib/leaderboard/leaderboard';
 	import { t } from 'svelte-i18n';
+
+	$: leaderboards = Object.values(
+		allLeaderboards.reduce(
+			(prev, curr) => {
+				prev[curr.route] = curr;
+				return prev;
+			},
+			{} as Record<string, LeaderboardDefinition>
+		)
+	);
 </script>
 
 <svelte:head>
@@ -18,7 +29,7 @@
 			<Divider />
 
 			<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
-				{#each allLeaderboards as board}
+				{#each leaderboards as board}
 					<JumboButton
 						label={$t(board.name)}
 						image={board.icon}
@@ -43,13 +54,6 @@
 					overlayColor="neutral"
 					buttonLabel="Submit"
 					badge="New Boss Ringwedge"
-				/>
-				<JumboButton
-					label="Dark Falz Aegis"
-					image="/icons/submit/dfaegis.jpg"
-					link="/submit/dfaegis"
-					overlayColor="neutral"
-					buttonLabel="Submit"
 				/>
 				<JumboButton
 					label="Dark Falz Solus"

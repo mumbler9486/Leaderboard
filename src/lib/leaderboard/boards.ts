@@ -65,7 +65,7 @@ export const dfDalionUrgentQuest = new LeaderboardDefinition({
 	},
 });
 
-export const allLeaderboards = [
+export const allLeaderboards: LeaderboardDefinition<any, any>[] = [
 	dfDalionQuest,
 	dfDalionUrgentQuest,
 	dfAegisQuest,
