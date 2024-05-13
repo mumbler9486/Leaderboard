@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { createEventDispatcher } from 'svelte';
 	import Badge from './Badge.svelte';
 
 	export let label: string;
@@ -10,18 +8,6 @@
 	export let overlayColor: 'red' | 'blue' | 'purple' | 'black' | 'neutral' = 'neutral';
 	export let badge: string | undefined = undefined;
 	export let buttonLabel: string;
-
-	const dispatcher = createEventDispatcher();
-
-	$: buttonAction = link ? gotoLink : dispatchClick;
-
-	const gotoLink = (e: MouseEvent) => {
-		goto(link!);
-	};
-
-	const dispatchClick = (e: MouseEvent) => {
-		dispatcher('click', e);
-	};
 
 	const overlayColorMap: Record<string, string> = {
 		red: 'bg-red-600',
@@ -44,9 +30,8 @@
 			<p class="mb-5">
 				{subtitle ?? ''}
 			</p>
-			<button
-				class="btn btn-primary h-16 px-10 text-xl lg:h-auto lg:px-4 lg:text-base"
-				on:click={buttonAction}>{buttonLabel}</button
+			<a href={link} class="btn btn-primary h-16 px-10 text-xl lg:h-auto lg:px-4 lg:text-base"
+				>{buttonLabel}</a
 			>
 		</div>
 	</div>
