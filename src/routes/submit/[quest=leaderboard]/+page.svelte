@@ -21,19 +21,27 @@
 	import { submitRun } from './submit';
 	import { questForm } from './questForm';
 	import { onMount } from 'svelte';
+	import { mapCategoryToRoute } from '../../../params/category';
 
 	let submitting: boolean = false;
 	let serverErrorMessage: string | undefined = undefined;
 	let submitFinish = false;
 
 	$: quest = $page.params.quest;
-	$: boardInfo = allLeaderboards.find((b) => b.quest === quest)!;
+	$: boards = allLeaderboards.filter((b) => b.quest === quest);
+	$: currentBoard =
+		allLeaderboards.find((b) => b.quest === quest && b.category === $questForm.category) ??
+		boards[0];
+	$: mainBoard = boards[0];
 
 	runForm.reset();
 	partyForm.setPartySize(1);
 	onMount(() => {
-		$questForm.category = boardInfo.category;
-		$questForm.questRank = boardInfo.maxQuestRank;
+		$questForm.category = boards[0].category;
+		$questForm.questRank = boards.reduce(
+			(max, board) => (board.maxQuestRank > max ? board.maxQuestRank : max),
+			1
+		);
 	});
 
 	async function submitRunToApi() {
@@ -44,10 +52,11 @@
 		try {
 			serverErrorMessage = undefined;
 			submitting = true;
-			const submitPath = `/ngs-api/runs/${boardInfo.route}`;
+			const category = mapCategoryToRoute($questForm.category);
+			const submitPath = `/ngs-api/runs/${mainBoard.route}/${category}`;
 			const response = await submitRun<unknown>(
 				submitPath,
-				boardInfo.quest,
+				mainBoard.quest,
 				$questForm.category,
 				$questForm.questRank
 			);
@@ -90,21 +99,21 @@
 			{:else}
 				<div id="submitForm" on:submit|preventDefault={submitRunToApi}>
 					<div class="m-2 gap-1 rounded-md border border-secondary bg-secondary/10 p-4 px-8">
-						<div class="text-center text-xl font-semibold">{$t(boardInfo.name)}</div>
+						<div class="text-center text-xl font-semibold">{$t(mainBoard.name)}</div>
 						<Divider />
 						<div class="text-center text-lg font-semibold">Information</div>
 						<div class="grid grid-cols-1 gap-2 md:grid-cols-4">
 							<ServerRegionSelector />
-							<CategoryOptions allowedCategories={[boardInfo.category]} />
-							<RankOptions maxRank={boardInfo.maxQuestRank} />
+							<CategoryOptions allowedCategories={boards.map((b) => b.category)} />
+							<RankOptions maxRank={currentBoard.maxQuestRank} />
 							<CurrentPatchLabel />
 						</div>
 						<div class="grid grid-cols-1 gap-2 md:grid-cols-4">
-							<PartySizeOptions sizes={[1, 2, 4]} />
-							<RunTimeInput maxMinutes={Math.floor(boardInfo.maxSeconds / 60)} />
+							<PartySizeOptions sizes={currentBoard.allowedPartySizes} />
+							<RunTimeInput maxMinutes={Math.floor(currentBoard.maxSeconds / 60)} />
 						</div>
 						<div class="form-control">
-							<RunOptions board={boardInfo} />
+							<RunOptions board={currentBoard} />
 						</div>
 					</div>
 					<PartyOptions />

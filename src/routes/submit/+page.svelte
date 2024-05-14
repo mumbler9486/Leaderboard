@@ -11,7 +11,7 @@
 				prev[curr.route] = curr;
 				return prev;
 			},
-			{} as Record<string, LeaderboardDefinition>
+			{} as Record<string, LeaderboardDefinition<any, any>>
 		)
 	);
 </script>

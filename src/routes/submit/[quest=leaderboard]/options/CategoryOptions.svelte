@@ -7,12 +7,12 @@
 
 	const allOptions = [
 		{ label: 'Quest', value: NgsRunCategories.Quest },
-		{ label: 'UrgentQuest', value: NgsRunCategories.UrgentQuest },
+		{ label: 'Urgent Quest', value: NgsRunCategories.UrgentQuest },
 		{ label: 'Trigger', value: NgsRunCategories.Trigger },
-		{ label: 'NexAelio', value: NgsRunCategories.NexAelio },
-		{ label: 'RenusRetem', value: NgsRunCategories.RenusRetem },
-		{ label: 'AmsKvaris', value: NgsRunCategories.AmsKvaris },
-		{ label: 'NilsStia', value: NgsRunCategories.NilsStia },
+		{ label: 'Nex Aelio', value: NgsRunCategories.NexAelio },
+		{ label: 'Renus Retem', value: NgsRunCategories.RenusRetem },
+		{ label: 'Ams Kvaris', value: NgsRunCategories.AmsKvaris },
+		{ label: 'Nils Stia', value: NgsRunCategories.NilsStia },
 		{ label: 'Halvaldi', value: NgsRunCategories.Halvaldi },
 		{ label: 'Zelvin', value: NgsRunCategories.Zelvin },
 		{ label: 'Ringwedge', value: NgsRunCategories.Ringwedge },
@@ -20,6 +20,7 @@
 		{ label: 'Retem', value: NgsRunCategories.Retem },
 		{ label: 'Kvaris', value: NgsRunCategories.Kvaris },
 		{ label: 'Stia', value: NgsRunCategories.Stia },
+		{ label: 'Aelio Intruders', value: NgsRunCategories.AelioIntruders },
 	];
 
 	$: selectableOptions = allOptions.filter((o) => allowedCategories.includes(o.value));
