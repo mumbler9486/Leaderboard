@@ -27,6 +27,8 @@
 	let serverErrorMessage: string | undefined = undefined;
 	let submitFinish = false;
 
+	let partySizeInput: PartySizeOptions;
+
 	$: quest = $page.params.quest;
 	$: boards = allLeaderboards.filter((b) => b.quest === quest);
 	$: currentBoard =
@@ -81,6 +83,10 @@
 			submitting = false;
 		}
 	}
+
+	const categoryChanged = () => {
+		partySizeInput?.reset();
+	};
 </script>
 
 <svelte:head>
@@ -104,12 +110,15 @@
 						<div class="text-center text-lg font-semibold">Information</div>
 						<div class="grid grid-cols-1 gap-2 md:grid-cols-4">
 							<ServerRegionSelector />
-							<CategoryOptions allowedCategories={boards.map((b) => b.category)} />
+							<CategoryOptions
+								allowedCategories={boards.map((b) => b.category)}
+								on:change={categoryChanged}
+							/>
 							<RankOptions maxRank={currentBoard.maxQuestRank} />
 							<CurrentPatchLabel />
 						</div>
 						<div class="grid grid-cols-1 gap-2 md:grid-cols-4">
-							<PartySizeOptions sizes={currentBoard.allowedPartySizes} />
+							<PartySizeOptions bind:this={partySizeInput} sizes={currentBoard.allowedPartySizes} />
 							<RunTimeInput maxMinutes={Math.floor(currentBoard.maxSeconds / 60)} />
 						</div>
 						<div class="form-control">

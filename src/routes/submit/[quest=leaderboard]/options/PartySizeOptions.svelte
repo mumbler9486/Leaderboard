@@ -5,29 +5,20 @@
 
 	export let sizes: PartySize[];
 
-	let selectedPartySize = sizes[0];
+	let selectedPartySize = $partyForm.length;
 
-	const partySizes: Record<PartySize, SelectValues<PartySize>> = {
-		[PartySize.Solo]: { label: 'Solo (1 Player)', value: PartySize.Solo },
-		[PartySize.Duo]: { label: 'Duo (2 Players)', value: PartySize.Duo },
-		[PartySize.Party]: { label: 'Party (4 Players)', value: PartySize.Party },
-		[PartySize.MultiParty]: { label: 'Full MPA (8 Players)', value: PartySize.MultiParty },
-	};
-
-	const partySizeMap: Record<PartySize, number> = {
-		[PartySize.Solo]: 1,
-		[PartySize.Duo]: 2,
-		[PartySize.Party]: 4,
-		[PartySize.MultiParty]: 8,
+	const partySizes: Record<PartySize, SelectValues<number>> = {
+		[PartySize.Solo]: { label: 'Solo (1 Player)', value: 1 },
+		[PartySize.Duo]: { label: 'Duo (2 Players)', value: 2 },
+		[PartySize.Party]: { label: 'Party (4 Players)', value: 4 },
+		[PartySize.MultiParty]: { label: 'Full MPA (8 Players)', value: 8 },
 	};
 
 	$: options = sizes.map((s) => partySizes[s]);
-	$: !!selectedPartySize
-		? partyForm.setPartySize(partySizeMap[selectedPartySize])
-		: partyForm.setPartySize(0);
+	$: !!selectedPartySize ? partyForm.setPartySize(selectedPartySize) : partyForm.setPartySize(0);
 
 	export const reset = () => {
-		selectedPartySize = sizes[0];
+		selectedPartySize = partySizes[sizes[0]].value;
 	};
 </script>
 

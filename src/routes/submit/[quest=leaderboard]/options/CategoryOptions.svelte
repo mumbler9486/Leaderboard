@@ -27,8 +27,8 @@
 </script>
 
 <Select
-	label="Mode"
-	placeholder="Select a mode"
+	label="Category"
+	placeholder="Select a category"
 	options={selectableOptions}
 	bind:value={$questForm.category}
 	on:change
