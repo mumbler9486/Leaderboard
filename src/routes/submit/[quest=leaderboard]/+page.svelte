@@ -40,10 +40,7 @@
 	partyForm.setPartySize(1);
 	onMount(() => {
 		$questForm.category = boards[0].category;
-		$questForm.questRank = boards.reduce(
-			(max, board) => (board.maxQuestRank > max ? board.maxQuestRank : max),
-			1
-		);
+		$questForm.questRank = currentBoard.maxQuestRank;
 	});
 
 	async function submitRunToApi() {
@@ -86,6 +83,7 @@
 
 	const categoryChanged = () => {
 		partySizeInput?.reset();
+		$questForm.questRank = currentBoard.maxQuestRank;
 	};
 </script>
 
