@@ -61,7 +61,11 @@ export async function GET({ params, url }) {
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ params, request, locals }) {
-	const boardInfo = allLeaderboards.find((b) => b.route === params.quest.toLowerCase());
+	const category = validQuestCategories[params.category?.toLowerCase()] as
+		| NgsRunCategories
+		| undefined;
+	const quest = params.quest as NgsQuests;
+	const boardInfo = allLeaderboards.find((b) => b.quest === quest && b.category === category);
 	if (!boardInfo) {
 		return jsonError(404, 'Not Found');
 	}
