@@ -34,7 +34,7 @@ const dfAegisDetailsSchema = object({
 		}),
 });
 
-const dfAegisRunSearchSchema = createDetailedRunSearchSchema(
+const dfAegisPartyRunSearchSchema = createDetailedRunSearchSchema(
 	NgsQuests.DfAegis,
 	NgsRunCategories.Quest,
 	1,
@@ -98,7 +98,15 @@ export const dfAegisUrgentQuest = new LeaderboardDefinition({
 		dfAegisDetailsSchema
 	),
 	runSearch: {
-		runSearchSchema: dfAegisRunSearchSchema,
+		runSearchSchema: createDetailedRunSearchSchema(
+			NgsQuests.DfAegis,
+			NgsRunCategories.Quest,
+			1,
+			8,
+			object({
+				support: mixed<DfAegisSupport>().nullable().oneOf(supports),
+			})
+		),
 		filterDefaults: (f) => {
 			f.quest = NgsQuests.DfAegis;
 			f.category = f.category ?? NgsRunCategories.UrgentQuest;
@@ -142,7 +150,7 @@ export const dfAegisTrigger = new LeaderboardDefinition({
 		dfAegisDetailsSchema
 	),
 	runSearch: {
-		runSearchSchema: dfAegisRunSearchSchema,
+		runSearchSchema: dfAegisPartyRunSearchSchema,
 		filterDefaults: (f) => {
 			f.quest = NgsQuests.DfAegis;
 			f.category = f.category ?? NgsRunCategories.Trigger;
