@@ -31,6 +31,7 @@
 
 	$: quest = $page.params.quest as NgsQuests;
 	$: category = validQuestCategories[$page.params.category?.toLowerCase()] as NgsRunCategories;
+	$: $runFilters.category = category;
 	$: boardInfo = allLeaderboards.find((b) => b.quest === quest && b.category === category)!;
 	$: categories = lookupBoardsByQuest(quest).map((b) => b.category);
 

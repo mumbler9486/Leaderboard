@@ -12,14 +12,12 @@
 	import DfAegisSupportFilter from './DfAegisSupportFilter.svelte';
 	import { PartySize } from '$lib/types/api/partySizes';
 	import { goto } from '$app/navigation';
-	import { mapCategoryToRoute, validQuestCategories } from '../../../../../params/category';
+	import { mapCategoryToRoute } from '../../../../../params/category';
 
 	export let solo: boolean;
 	export let rules: string[];
 	export let categories: NgsRunCategories[];
 	export let boardInfo: LeaderboardDefinition<any, any>;
-
-	let selectedCategory: NgsRunCategories = categories[0];
 
 	const partySizeOptions = [
 		{
@@ -86,7 +84,7 @@
 				name="category"
 				options={selectableCategories}
 				on:changed={categoryChanged}
-				bind:value={selectedCategory}
+				bind:value={$runFilters.category}
 			/>
 			<RadioOptions
 				name="partySize"
