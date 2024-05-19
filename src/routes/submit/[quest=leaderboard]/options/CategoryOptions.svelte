@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Select from '$lib/Components/Select.svelte';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
-	import { questForm } from '../questForm';
+	import { questForm } from '../forms/questForm';
 
 	export let allowedCategories: NgsRunCategories[] = [];
 

@@ -13,15 +13,15 @@
 	import PartySizeOptions from './options/PartySizeOptions.svelte';
 
 	import { t } from 'svelte-i18n';
-	import { partyForm } from './partyForm';
+	import { partyForm } from './forms/partyForm';
 	import { ErrorCodes, type BadRequestApiError } from '$lib/types/api/error';
 	import { allLeaderboards } from '$lib/leaderboard/boards';
 	import { page } from '$app/stores';
-	import { runForm } from './runForm';
 	import { submitRun } from './submit';
-	import { questForm } from './questForm';
 	import { onMount } from 'svelte';
 	import { mapCategoryToRoute } from '../../../params/category';
+	import { questForm } from './forms/questForm';
+	import { runForm } from './forms/runForm';
 
 	let submitting: boolean = false;
 	let serverErrorMessage: string | undefined = undefined;
@@ -53,7 +53,7 @@
 			submitting = true;
 			const category = mapCategoryToRoute($questForm.category);
 			const submitPath = `/ngs-api/runs/${mainBoard.route}/${category}`;
-			const response = await submitRun<unknown>(
+			const response = await submitRun(
 				submitPath,
 				mainBoard.quest,
 				$questForm.category,

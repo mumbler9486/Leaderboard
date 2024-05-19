@@ -9,17 +9,17 @@ import { fetchPostApi } from '$lib/utils/fetch';
 import type { SubmitResult } from '$lib/types/api/runs/submitResult';
 import type { BadRequestApiError } from '$lib/types/api/error';
 import { UserRole } from '$lib/types/api/users/userRole';
-import { partyForm } from './partyForm';
-import type { NgsQuests } from '$lib/types/api/runs/quests';
+import { partyForm } from './forms/partyForm';
+import { NgsQuests } from '$lib/types/api/runs/quests';
 import type { NgsRunCategories } from '$lib/types/api/runs/categories';
-import { runForm } from './runForm';
+import { runForm } from './forms/runForm';
+import { dfAegisRunForm } from './forms/dfAegisForm';
 
-export const submitRun = async <T>(
+export const submitRun = async (
 	submitPath: string,
 	quest: NgsQuests,
 	category: NgsRunCategories,
-	questRank: number,
-	details?: T
+	questRank: number
 ) => {
 	const clientPrincipal = get(clientPrincipleStore);
 	const playerInfo = get(playerInfoStore);
@@ -30,6 +30,7 @@ export const submitRun = async <T>(
 	const form = get(runForm);
 	const party = get(partyForm);
 
+	// Party Details
 	const submitParty = party.map((p, i) => {
 		p.povVideoLink = p.povVideoLink === '' ? undefined : p.povVideoLink;
 
@@ -44,7 +45,10 @@ export const submitRun = async <T>(
 		};
 	});
 
-	//Not moderator, force player 1 to be current user
+	// Category Specific details
+	const details = getCategoryFormDetails(quest);
+
+	// Not moderator, force player 1 to be current user
 	if (!clientPrincipleStore.hasRole(UserRole.Moderator)) {
 		submitParty[0].playerId = playerInfo.playerId;
 	}
@@ -64,4 +68,10 @@ export const submitRun = async <T>(
 
 	const response = await fetchPostApi<SubmitResult | BadRequestApiError>(submitPath, request);
 	return response;
+};
+
+const getCategoryFormDetails = (quest: NgsQuests) => {
+	if (quest === NgsQuests.DfAegis) {
+		return get(dfAegisRunForm);
+	}
 };

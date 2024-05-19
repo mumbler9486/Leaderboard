@@ -91,9 +91,9 @@ export const dfAegisUrgentQuest = new LeaderboardDefinition({
 	maxSeconds: 20 * 60,
 	runSubmissionSchema: createDetailedRunSubmissionSchema(
 		NgsQuests.DfAegis,
-		NgsRunCategories.Quest,
+		NgsRunCategories.UrgentQuest,
 		1,
-		4,
+		8,
 		20 * 60,
 		dfAegisDetailsSchema
 	),

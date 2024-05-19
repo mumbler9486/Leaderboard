@@ -2,7 +2,7 @@
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import Tooltip from '$lib/Components/Tooltip.svelte';
-	import { runForm } from '../runForm';
+	import { runForm } from '../forms/runForm';
 
 	export let maxMinutes: number = 59;
 	export let maxSeconds: number = 59;

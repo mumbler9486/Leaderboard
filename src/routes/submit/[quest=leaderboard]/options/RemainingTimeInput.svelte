@@ -1,7 +1,7 @@
 <script lang="ts">
 	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
-	import { runForm } from '../runForm';
+	import { runForm } from '../forms/runForm';
 
 	// The total allowable time for the quest
 	export let limitMinutes: number;

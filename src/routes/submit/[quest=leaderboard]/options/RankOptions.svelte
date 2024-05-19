@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Select from '$lib/Components/Select.svelte';
-	import { questForm } from '../questForm';
+	import { questForm } from '../forms/questForm';
 
 	export let maxRank: number;
 

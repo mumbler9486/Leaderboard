@@ -22,7 +22,6 @@ export async function GET({ params, url }) {
 		| NgsRunCategories
 		| undefined;
 	const quest = params.quest as NgsQuests;
-	console.log(category, quest);
 	const boardInfo = allLeaderboards.find((b) => b.quest === quest && b.category === category);
 	if (!boardInfo) {
 		return jsonError(404, 'Not Found');

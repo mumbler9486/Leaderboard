@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Select, { type SelectValues } from '$lib/Components/Select.svelte';
 	import { PartySize } from '$lib/types/api/partySizes';
-	import { partyForm } from '../partyForm';
+	import { partyForm } from '../forms/partyForm';
 
 	export let sizes: PartySize[];
 

@@ -90,7 +90,6 @@
 
 		return (await fetchGetApi<Run<unknown>[]>(basePath, copyQueryParams(allFilters))) ?? [];
 	};
-	$: console.log(boardInfo);
 	onDestroy(cleanup);
 </script>
 
