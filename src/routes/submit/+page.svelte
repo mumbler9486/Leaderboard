@@ -64,7 +64,6 @@
 						link={`/submit/${board.route}`}
 						overlayColor="neutral"
 						buttonLabel="Submit"
-						badge={`New Boss`}
 					/>
 				{/each}
 				<JumboButton
