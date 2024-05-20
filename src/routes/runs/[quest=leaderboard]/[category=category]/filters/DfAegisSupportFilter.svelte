@@ -16,6 +16,11 @@
 	];
 
 	$: isQuestCategory = $runFilters.category === NgsRunCategories.Quest;
+	$: {
+		if (isQuestCategory) {
+			selection = 'no_filter';
+		}
+	}
 </script>
 
 <div class="flex flex-row flex-wrap justify-center gap-1 md:justify-start">
