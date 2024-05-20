@@ -4,7 +4,6 @@
 	import ServerFilter from '$lib/Components/Filters/ServerFilter.svelte';
 	import Modal from '$lib/Components/Modal.svelte';
 	import { t } from 'svelte-i18n';
-	import DfAegisSupportFilter from './dfaegis_old/DfAegisSupportFilter.svelte';
 	import { runFilters } from './runFilter';
 	import { Funnel } from 'svelte-heros-v2';
 	import { createEventDispatcher } from 'svelte';
@@ -75,15 +74,6 @@
 	>
 	<ServerFilter bind:selectedServer={server} />
 	<Divider />
-
-	{#if dfAegisSupportFilter}
-		<span
-			class="text-base-100-content mb-2 flex flex-row justify-center font-semibold md:justify-start"
-			>Support</span
-		>
-		<DfAegisSupportFilter bind:selectedSupport={support} />
-		<Divider />
-	{/if}
 
 	<slot name="additionalFilters" />
 </Modal>
