@@ -12,10 +12,17 @@ import { getUserValidated } from '$lib/server/validation/authorization.js';
 import { UserRole } from '$lib/types/api/users/userRole.js';
 import type { ServerSearchFilter } from '$lib/server/types/api/runsSearch.js';
 import { allLeaderboards } from '$lib/leaderboard/boards.js';
+import type { NgsRunCategories } from '$lib/types/api/runs/categories.js';
+import type { NgsQuests } from '$lib/types/api/runs/quests.js';
+import { validQuestCategories } from '../../../../../params/category.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
-	const boardInfo = allLeaderboards.find((b) => b.route === params.quest.toLowerCase());
+	const category = validQuestCategories[params.category?.toLowerCase()] as
+		| NgsRunCategories
+		| undefined;
+	const quest = params.quest as NgsQuests;
+	const boardInfo = allLeaderboards.find((b) => b.quest === quest && b.category === category);
 	if (!boardInfo) {
 		return jsonError(404, 'Not Found');
 	}
@@ -29,6 +36,7 @@ export async function GET({ params, url }) {
 	if (!parsedFilter) {
 		return jsonError(400, validationError);
 	}
+	parsedFilter.category = category;
 
 	// Refine filters
 	const serverFilters: ServerSearchFilter = {
@@ -52,7 +60,11 @@ export async function GET({ params, url }) {
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ params, request, locals }) {
-	const boardInfo = allLeaderboards.find((b) => b.route === params.quest.toLowerCase());
+	const category = validQuestCategories[params.category?.toLowerCase()] as
+		| NgsRunCategories
+		| undefined;
+	const quest = params.quest as NgsQuests;
+	const boardInfo = allLeaderboards.find((b) => b.quest === quest && b.category === category);
 	if (!boardInfo) {
 		return jsonError(404, 'Not Found');
 	}

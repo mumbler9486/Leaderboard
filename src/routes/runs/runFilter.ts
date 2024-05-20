@@ -9,6 +9,7 @@ export interface RunSearchFilters {
 	trigger: string;
 	augments: string;
 	category: string;
+	partySize: string;
 }
 
 export const defaultRunFilter: RunSearchFilters = {
@@ -20,6 +21,7 @@ export const defaultRunFilter: RunSearchFilters = {
 	trigger: 'no_filter',
 	augments: 'no_filter',
 	category: 'no_filter',
+	partySize: 'solo',
 } as const;
 
 const searchFilterStore = writable<RunSearchFilters>({ ...defaultRunFilter });

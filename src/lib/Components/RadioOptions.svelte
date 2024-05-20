@@ -1,12 +1,20 @@
-<script lang="ts">
+<script lang="ts" generics="T">
+	import { createEventDispatcher } from 'svelte';
+
 	export let name: string; //Unique name for the group
 	export let label: string | undefined = undefined;
-	export let options: FilterOptions[];
-	export let value: string;
+	export let options: FilterOptions<T>[];
+	export let value: T;
 
-	interface FilterOptions {
+	const dispatch = createEventDispatcher();
+
+	interface FilterOptions<T> {
 		label: string;
-		value: string | number;
+		value: T;
+	}
+
+	$: {
+		dispatch('changed', value);
 	}
 </script>
 

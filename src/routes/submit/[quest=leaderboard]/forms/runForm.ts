@@ -1,7 +1,7 @@
 import type { RunTime } from '$lib/types/api/runTime';
 import { writable } from 'svelte/store';
 
-export interface Run {
+export interface RunForm {
 	userId: string;
 	username: string;
 	time: RunTime;
@@ -9,7 +9,7 @@ export interface Run {
 	notes: string;
 }
 
-const defaultRun: Run = {
+const defaultRun: RunForm = {
 	userId: '',
 	username: '',
 	time: {
@@ -22,10 +22,10 @@ const defaultRun: Run = {
 } as const;
 
 export const resetForm = () => {
-	runForm.set(structuredClone(defaultRun));
+	runFormStore.set(structuredClone(defaultRun));
 };
 
-const runFormStore = writable<Run>(structuredClone(defaultRun));
+const runFormStore = writable<RunForm>(structuredClone(defaultRun));
 
 export const runForm = {
 	...runFormStore,

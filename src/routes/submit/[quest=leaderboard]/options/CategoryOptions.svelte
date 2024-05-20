@@ -1,18 +1,18 @@
 <script lang="ts">
 	import Select from '$lib/Components/Select.svelte';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
-	import { questForm } from '../questForm';
+	import { questForm } from '../forms/questForm';
 
 	export let allowedCategories: NgsRunCategories[] = [];
 
 	const allOptions = [
 		{ label: 'Quest', value: NgsRunCategories.Quest },
-		{ label: 'UrgentQuest', value: NgsRunCategories.UrgentQuest },
+		{ label: 'Urgent Quest', value: NgsRunCategories.UrgentQuest },
 		{ label: 'Trigger', value: NgsRunCategories.Trigger },
-		{ label: 'NexAelio', value: NgsRunCategories.NexAelio },
-		{ label: 'RenusRetem', value: NgsRunCategories.RenusRetem },
-		{ label: 'AmsKvaris', value: NgsRunCategories.AmsKvaris },
-		{ label: 'NilsStia', value: NgsRunCategories.NilsStia },
+		{ label: 'Nex Aelio', value: NgsRunCategories.NexAelio },
+		{ label: 'Renus Retem', value: NgsRunCategories.RenusRetem },
+		{ label: 'Ams Kvaris', value: NgsRunCategories.AmsKvaris },
+		{ label: 'Nils Stia', value: NgsRunCategories.NilsStia },
 		{ label: 'Halvaldi', value: NgsRunCategories.Halvaldi },
 		{ label: 'Zelvin', value: NgsRunCategories.Zelvin },
 		{ label: 'Ringwedge', value: NgsRunCategories.Ringwedge },
@@ -20,14 +20,15 @@
 		{ label: 'Retem', value: NgsRunCategories.Retem },
 		{ label: 'Kvaris', value: NgsRunCategories.Kvaris },
 		{ label: 'Stia', value: NgsRunCategories.Stia },
+		{ label: 'Aelio Intruders', value: NgsRunCategories.AelioIntruders },
 	];
 
 	$: selectableOptions = allOptions.filter((o) => allowedCategories.includes(o.value));
 </script>
 
 <Select
-	label="Mode"
-	placeholder="Select a mode"
+	label="Category"
+	placeholder="Select a category"
 	options={selectableOptions}
 	bind:value={$questForm.category}
 	on:change

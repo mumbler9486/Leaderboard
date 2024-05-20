@@ -2,7 +2,19 @@
 	import Divider from '$lib/Components/Divider.svelte';
 	import JumboButton from '$lib/Components/JumboButton.svelte';
 	import { allLeaderboards } from '$lib/leaderboard/boards';
+	import type { LeaderboardDefinition } from '$lib/leaderboard/leaderboard';
+	import { NgsQuests } from '$lib/types/api/runs/quests';
 	import { t } from 'svelte-i18n';
+
+	$: leaderboards = Object.values(
+		allLeaderboards.reduce(
+			(prev, curr) => {
+				prev[curr.route] = curr;
+				return prev;
+			},
+			{} as Record<string, LeaderboardDefinition<any, any>>
+		)
+	);
 </script>
 
 <svelte:head>
@@ -18,10 +30,10 @@
 			<Divider />
 
 			<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
-				{#each allLeaderboards as board}
+				{#each leaderboards.filter((b) => b.quest === NgsQuests.DfDalion) as board}
 					<JumboButton
 						label={$t(board.name)}
-						image="/icons/submit/dfdalion.jpg"
+						image={board.icon}
 						link={`/submit/${board.route}`}
 						overlayColor="neutral"
 						buttonLabel="Submit"
@@ -44,13 +56,17 @@
 					buttonLabel="Submit"
 					badge="New Boss Ringwedge"
 				/>
-				<JumboButton
-					label="Dark Falz Aegis"
-					image="/icons/submit/dfaegis.jpg"
-					link="/submit/dfaegis"
-					overlayColor="neutral"
-					buttonLabel="Submit"
-				/>
+				<!-- TODO Temporary for ordering the boards in a particular order in new board format  -->
+				{#each leaderboards.filter((b) => b.quest === NgsQuests.DfAegis) as board}
+					<JumboButton
+						label={$t(board.name)}
+						image={board.icon}
+						link={`/submit/${board.route}`}
+						overlayColor="neutral"
+						buttonLabel="Submit"
+						badge={`New Boss`}
+					/>
+				{/each}
 				<JumboButton
 					label="Dark Falz Solus"
 					image="/icons/submit/dfsolus.jpg"

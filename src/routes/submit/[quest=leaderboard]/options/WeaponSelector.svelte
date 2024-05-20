@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { NgsWeapon } from '$lib/types/api/weapon';
-	import { partyForm } from '../partyForm';
+	import { partyForm } from '../forms/partyForm';
 
 	export let playerIndex: number;
 	export let maxSelections: number = 6;

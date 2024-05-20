@@ -13,27 +13,34 @@
 	import PartySizeOptions from './options/PartySizeOptions.svelte';
 
 	import { t } from 'svelte-i18n';
-	import { partyForm } from './partyForm';
+	import { partyForm } from './forms/partyForm';
 	import { ErrorCodes, type BadRequestApiError } from '$lib/types/api/error';
 	import { allLeaderboards } from '$lib/leaderboard/boards';
 	import { page } from '$app/stores';
-	import { runForm } from './runForm';
 	import { submitRun } from './submit';
-	import { questForm } from './questForm';
 	import { onMount } from 'svelte';
+	import { mapCategoryToRoute } from '../../../params/category';
+	import { questForm } from './forms/questForm';
+	import { runForm } from './forms/runForm';
 
 	let submitting: boolean = false;
 	let serverErrorMessage: string | undefined = undefined;
 	let submitFinish = false;
 
+	let partySizeInput: PartySizeOptions;
+
 	$: quest = $page.params.quest;
-	$: boardInfo = allLeaderboards.find((b) => b.quest === quest)!;
+	$: boards = allLeaderboards.filter((b) => b.quest === quest);
+	$: currentBoard =
+		allLeaderboards.find((b) => b.quest === quest && b.category === $questForm.category) ??
+		boards[0];
+	$: mainBoard = boards[0];
 
 	runForm.reset();
 	partyForm.setPartySize(1);
 	onMount(() => {
-		$questForm.category = boardInfo.category;
-		$questForm.questRank = boardInfo.maxQuestRank;
+		$questForm.category = boards[0].category;
+		$questForm.questRank = currentBoard.maxQuestRank;
 	});
 
 	async function submitRunToApi() {
@@ -44,10 +51,11 @@
 		try {
 			serverErrorMessage = undefined;
 			submitting = true;
-			const submitPath = `/ngs-api/runs/${boardInfo.route}`;
-			const response = await submitRun<unknown>(
+			const category = mapCategoryToRoute($questForm.category);
+			const submitPath = `/ngs-api/runs/${mainBoard.route}/${category}`;
+			const response = await submitRun(
 				submitPath,
-				boardInfo.quest,
+				mainBoard.quest,
 				$questForm.category,
 				$questForm.questRank
 			);
@@ -72,6 +80,11 @@
 			submitting = false;
 		}
 	}
+
+	const categoryChanged = () => {
+		partySizeInput?.reset();
+		$questForm.questRank = currentBoard.maxQuestRank;
+	};
 </script>
 
 <svelte:head>
@@ -90,21 +103,24 @@
 			{:else}
 				<div id="submitForm" on:submit|preventDefault={submitRunToApi}>
 					<div class="m-2 gap-1 rounded-md border border-secondary bg-secondary/10 p-4 px-8">
-						<div class="text-center text-xl font-semibold">{$t(boardInfo.name)}</div>
+						<div class="text-center text-xl font-semibold">{$t(mainBoard.name)}</div>
 						<Divider />
 						<div class="text-center text-lg font-semibold">Information</div>
 						<div class="grid grid-cols-1 gap-2 md:grid-cols-4">
 							<ServerRegionSelector />
-							<CategoryOptions allowedCategories={[boardInfo.category]} />
-							<RankOptions maxRank={boardInfo.maxQuestRank} />
+							<CategoryOptions
+								allowedCategories={boards.map((b) => b.category)}
+								on:change={categoryChanged}
+							/>
+							<RankOptions maxRank={currentBoard.maxQuestRank} />
 							<CurrentPatchLabel />
 						</div>
 						<div class="grid grid-cols-1 gap-2 md:grid-cols-4">
-							<PartySizeOptions sizes={[1, 2, 4]} />
-							<RunTimeInput maxMinutes={Math.floor(boardInfo.maxSeconds / 60)} />
+							<PartySizeOptions bind:this={partySizeInput} sizes={currentBoard.allowedPartySizes} />
+							<RunTimeInput maxMinutes={Math.floor(currentBoard.maxSeconds / 60)} />
 						</div>
 						<div class="form-control">
-							<RunOptions board={boardInfo} />
+							<RunOptions board={currentBoard} />
 						</div>
 					</div>
 					<PartyOptions />

@@ -4,12 +4,14 @@
 	import ServerFilter from '$lib/Components/Filters/ServerFilter.svelte';
 	import Modal from '$lib/Components/Modal.svelte';
 	import { t } from 'svelte-i18n';
-	import DfAegisSupportFilter from './dfaegis/DfAegisSupportFilter.svelte';
 	import { runFilters } from './runFilter';
 	import { Funnel } from 'svelte-heros-v2';
+	import { createEventDispatcher } from 'svelte';
 
 	export let classFilter: boolean = false;
 	export let dfAegisSupportFilter: boolean = false;
+
+	const dispatch = createEventDispatcher();
 
 	let server: string = 'no_filter';
 	let support: string = 'no_filter';
@@ -31,6 +33,7 @@
 			return f;
 		});
 		modal.close();
+		dispatch('applied');
 	};
 
 	runFilters.subscribe((f) => {
@@ -72,12 +75,5 @@
 	<ServerFilter bind:selectedServer={server} />
 	<Divider />
 
-	{#if dfAegisSupportFilter}
-		<span
-			class="text-base-100-content mb-2 flex flex-row justify-center font-semibold md:justify-start"
-			>Support</span
-		>
-		<DfAegisSupportFilter bind:selectedSupport={support} />
-		<Divider />
-	{/if}
+	<slot name="additionalFilters" />
 </Modal>

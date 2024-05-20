@@ -2,10 +2,10 @@
 	import RadioButton from '$lib/Components/RadioButton.svelte';
 	import { DfAegisSupport } from '$lib/types/api/dfAegis/dfAegisSupports';
 	import { t } from 'svelte-i18n';
-	import { runFilters } from '../runFilter';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
+	import { runFilters } from '../../../runFilter';
 
-	export let selectedSupport: string = 'no_filter';
+	export let selection: string = 'no_filter';
 
 	const filterSupports = [
 		{ name: 'No Filter', value: 'no_filter', icon: '/icons/class/class-unknown.png' },
@@ -16,12 +16,17 @@
 	];
 
 	$: isQuestCategory = $runFilters.category === NgsRunCategories.Quest;
+	$: {
+		if (isQuestCategory) {
+			selection = 'no_filter';
+		}
+	}
 </script>
 
 <div class="flex flex-row flex-wrap justify-center gap-1 md:justify-start">
 	{#each filterSupports as support}
 		<RadioButton
-			bind:group={selectedSupport}
+			bind:group={selection}
 			value={support.value}
 			name="filter-dfa-support"
 			icon={support.icon}

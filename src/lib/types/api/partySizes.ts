@@ -12,4 +12,4 @@ export const runCategoryValues = stringEnumValuesToList<PartySize>(PartySize);
 
 const runCategoryMap = stringEnumValuesToMap<PartySize>(PartySize);
 export const parsePartySize = (value: string | undefined) =>
-	value ? runCategoryMap[value.toLowerCase()] : undefined;
+	!!value ? runCategoryMap[value.toLowerCase()] : undefined;
