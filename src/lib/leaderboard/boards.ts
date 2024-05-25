@@ -3,6 +3,15 @@ import { PartySize } from '$lib/types/api/partySizes';
 import { NgsRunCategories } from '$lib/types/api/runs/categories';
 import { NgsQuests } from '$lib/types/api/runs/quests';
 import { dfAegisQuest, dfAegisTrigger, dfAegisUrgentQuest } from './boards/dfAegis';
+import {
+	duelNexAelioBoard,
+	duelRenusRetemBoard,
+	duelAmsKvarisBoard,
+	duelNilsStiaBoard,
+	duelHalvaldiBoard,
+	duelZelvinBoard,
+	duelRingwedgeBoard,
+} from './boards/duels';
 import { LeaderboardDefinition } from './leaderboard';
 import { createRunSearchSchema } from './runSearchSchema';
 import { createRunSubmissionSchema } from './submissionSchema';
@@ -68,9 +77,18 @@ export const dfDalionUrgentQuest = new LeaderboardDefinition({
 export const allLeaderboards: LeaderboardDefinition<any, any>[] = [
 	dfDalionQuest,
 	dfDalionUrgentQuest,
+
 	dfAegisQuest,
 	dfAegisUrgentQuest,
 	dfAegisTrigger,
+
+	duelNexAelioBoard,
+	duelRenusRetemBoard,
+	duelAmsKvarisBoard,
+	duelNilsStiaBoard,
+	duelHalvaldiBoard,
+	duelZelvinBoard,
+	duelRingwedgeBoard,
 ];
 
 export const lookupBoard = (quest: NgsQuests, category: NgsRunCategories) => {

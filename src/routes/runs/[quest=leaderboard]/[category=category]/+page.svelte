@@ -73,6 +73,7 @@
 		{ name: 'class', undefinedValue: 'no_filter' },
 		{ name: 'rank', defaultValue: '1' },
 		{ name: 'support', undefinedValue: 'no_filter' },
+		{ name: 'augments', undefinedValue: 'no_filter' },
 	];
 
 	runFilters.resetFilters();
@@ -105,7 +106,7 @@
 		<div
 			class="m-2 space-y-2 overflow-x-scroll rounded-md border border-secondary bg-base-100 p-4 px-8"
 		>
-			<DefaultRunFilter solo={isSolo} rules={boardInfo.rules} {boardInfo} {categories} />
+			<DefaultRunFilter solo={isSolo} {boardInfo} {categories} />
 			{#await fetchRuns($runFilters)}
 				<LoadingBar />
 			{:then runs}

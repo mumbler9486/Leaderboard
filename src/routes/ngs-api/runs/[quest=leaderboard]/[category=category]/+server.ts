@@ -44,7 +44,7 @@ export async function GET({ params, url }) {
 	};
 	boardInfo.assignRunSearchDefaults(parsedFilter);
 	const attributeFilter = boardInfo.createAttributeFilter(parsedFilter);
-
+	console.log(attributeFilter);
 	// Get runs
 	const pool = await leaderboardDb.connect();
 	const request = await pool.request();

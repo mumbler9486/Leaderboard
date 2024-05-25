@@ -139,18 +139,20 @@
 			"time": "Time",
 			"category": "Category"
 		},
-		"indomitableAmsKvaris": "Indomitable Ams Kvaris",
-		"indomitableNexAelio": "Indomitable Nex Aelio",
-		"indomitableNilsStia": "Indomitable Nils Stia",
-		"indomitableRenusRetem": "Indomitable Renus Retem",
-		"indomitableHalvaldi": "Indomitable Halvaldi",
+		"duels": {
+			"amsKvaris": "Indomitable Ams Kvaris",
+			"nexAelio": "Indomitable Nex Aelio",
+			"nilsStia": "Indomitable Nils Stia",
+			"renusRetem": "Indomitable Renus Retem",
+			"halvaldi": "Indomitable Halvaldi",
+			"zelvin": "Indomitable Zelvin",
+			"ringwedge": "Indomitable Ringwedge"
+		},
 		"duelsPageTitle": "Duels",
 		"dfDalion": "Dark Falz Dalion",
 		"dfAegis": "Dark Falz Aegis",
 		"dfSolus": "Dark Falz Solus",
-		"venogia": "Venogia",
-		"indomitableZelvin": "Indomitable Zelvin",
-		"indomitableRingwedge": "Indomitable Ringwedge"
+		"venogia": "Venogia"
 	},
 	"shared": {
 		"siteName": "Unofficial NGS Leaderboards",

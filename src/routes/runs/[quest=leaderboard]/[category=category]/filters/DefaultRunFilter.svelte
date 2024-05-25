@@ -13,9 +13,9 @@
 	import { PartySize } from '$lib/types/api/partySizes';
 	import { goto } from '$app/navigation';
 	import { mapCategoryToRoute } from '../../../../../params/category';
+	import DuelDetailsFilter from './DuelDetailsFilter.svelte';
 
 	export let solo: boolean;
-	export let rules: string[];
 	export let categories: NgsRunCategories[];
 	export let boardInfo: LeaderboardDefinition<any, any>;
 
@@ -80,12 +80,17 @@
 >
 	<div class="flex flex-row flex-wrap place-content-center items-stretch gap-2">
 		<div class=" flex w-full gap-4 px-4 py-2 lg:gap-8">
-			<RadioOptions
-				name="category"
-				options={selectableCategories}
-				on:changed={categoryChanged}
-				bind:value={$runFilters.category}
-			/>
+			{#if selectableCategories.length !== 0}
+				<RadioOptions
+					name="category"
+					options={selectableCategories}
+					on:changed={categoryChanged}
+					bind:value={$runFilters.category}
+				/>
+			{/if}
+			{#if boardInfo.quest === NgsQuests.Duels}
+				<DuelDetailsFilter />
+			{/if}
 			<RadioOptions
 				name="partySize"
 				options={selectablePartySizes}
@@ -112,7 +117,7 @@
 			</RunFilterModal>
 		</div>
 		<div class="m-1 md:flex-initial">
-			<RunRules {rules} />
+			<RunRules rules={boardInfo.rules} />
 		</div>
 	</div>
 
