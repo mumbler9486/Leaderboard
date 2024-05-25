@@ -63,3 +63,5 @@ export const dfDalionUrgentQuest = new LeaderboardDefinition({
 		attributeFilter: (f) => [],
 	},
 });
+
+export const dfSolusBoards = [dfDalionQuest, dfDalionUrgentQuest];

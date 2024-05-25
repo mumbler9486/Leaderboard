@@ -173,3 +173,5 @@ export const dfAegisTrigger = new LeaderboardDefinition({
 		textAlign: 'center',
 	},
 });
+
+export const dfAegisBoards = [dfAegisQuest, dfAegisUrgentQuest, dfAegisTrigger];

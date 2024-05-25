@@ -351,3 +351,13 @@ export const duelRingwedgeBoard = new LeaderboardDefinition({
 		},
 	},
 });
+
+export const duelBoards = [
+	duelNexAelioBoard,
+	duelRenusRetemBoard,
+	duelAmsKvarisBoard,
+	duelNilsStiaBoard,
+	duelHalvaldiBoard,
+	duelZelvinBoard,
+	duelRingwedgeBoard,
+];

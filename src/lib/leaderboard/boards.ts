@@ -1,33 +1,14 @@
 import type { NgsRunCategories } from '$lib/types/api/runs/categories';
 import type { NgsQuests } from '$lib/types/api/runs/quests';
-import { dfAegisQuest, dfAegisTrigger, dfAegisUrgentQuest } from './boards/dfAegis';
-import { dfDalionQuest, dfDalionUrgentQuest } from './boards/dfSolus';
-import {
-	duelNexAelioBoard,
-	duelRenusRetemBoard,
-	duelAmsKvarisBoard,
-	duelNilsStiaBoard,
-	duelHalvaldiBoard,
-	duelZelvinBoard,
-	duelRingwedgeBoard,
-} from './boards/duels';
+import { dfAegisBoards } from './boards/dfAegis';
+import { dfSolusBoards } from './boards/dfSolus';
+import { duelBoards } from './boards/duels';
 import type { LeaderboardDefinition } from './leaderboard';
 
 export const allLeaderboards: LeaderboardDefinition<any, any>[] = [
-	dfDalionQuest,
-	dfDalionUrgentQuest,
-
-	dfAegisQuest,
-	dfAegisUrgentQuest,
-	dfAegisTrigger,
-
-	duelNexAelioBoard,
-	duelRenusRetemBoard,
-	duelAmsKvarisBoard,
-	duelNilsStiaBoard,
-	duelHalvaldiBoard,
-	duelZelvinBoard,
-	duelRingwedgeBoard,
+	...dfSolusBoards,
+	...dfAegisBoards,
+	...duelBoards,
 ];
 
 export const lookupBoard = (quest: NgsQuests, category: NgsRunCategories) => {
