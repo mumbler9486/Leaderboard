@@ -14,10 +14,13 @@
 	import { goto } from '$app/navigation';
 	import { mapCategoryToRoute } from '../../../../../params/category';
 	import DuelDetailsFilter from './DuelDetailsFilter.svelte';
+	import QuestRankFilter from './QuestRankFilter.svelte';
 
 	export let solo: boolean;
 	export let categories: NgsRunCategories[];
 	export let boardInfo: LeaderboardDefinition<any, any>;
+
+	$: $runFilters.rank = boardInfo.maxQuestRank.toString();
 
 	const partySizeOptions = [
 		{
@@ -96,6 +99,7 @@
 				options={selectablePartySizes}
 				bind:value={$runFilters.partySize}
 			/>
+			<QuestRankFilter maxQuestRank={boardInfo.maxQuestRank} />
 		</div>
 	</div>
 

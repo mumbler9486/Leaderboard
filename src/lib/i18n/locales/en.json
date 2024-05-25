@@ -148,6 +148,13 @@
 			"zelvin": "Indomitable Zelvin",
 			"ringwedge": "Indomitable Ringwedge"
 		},
+		"purples": {
+			"aelio": "Aelio",
+			"retem": "Retem",
+			"kvaris": "Kvaris",
+			"stia": "Stia",
+			"aelioIntruders": "Aelio Intruders"
+		},
 		"duelsPageTitle": "Duels",
 		"dfDalion": "Dark Falz Dalion",
 		"dfAegis": "Dark Falz Aegis",

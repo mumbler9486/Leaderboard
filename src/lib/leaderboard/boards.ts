@@ -3,12 +3,14 @@ import type { NgsQuests } from '$lib/types/api/runs/quests';
 import { dfAegisBoards } from './boards/dfAegis';
 import { dfSolusBoards } from './boards/dfSolus';
 import { duelBoards } from './boards/duels';
+import { purpleBoards } from './boards/purples';
 import type { LeaderboardDefinition } from './leaderboard';
 
 export const allLeaderboards: LeaderboardDefinition<any, any>[] = [
 	...dfSolusBoards,
 	...dfAegisBoards,
 	...duelBoards,
+	...purpleBoards,
 ];
 
 export const lookupBoard = (quest: NgsQuests, category: NgsRunCategories) => {
