@@ -1,7 +1,7 @@
 import type { NgsRunCategories } from '$lib/types/api/runs/categories';
 import type { NgsQuests } from '$lib/types/api/runs/quests';
 import { dfAegisBoards } from './boards/dfAegis';
-import { dfSolusBoards } from './boards/dfSolus';
+import { dfSolusBoards } from './boards/dfDalion';
 import { duelBoards } from './boards/duels';
 import { purpleBoards } from './boards/purples';
 import { venogiaBoards } from './boards/venogia';
