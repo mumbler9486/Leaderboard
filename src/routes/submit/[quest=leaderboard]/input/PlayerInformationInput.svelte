@@ -3,7 +3,7 @@
 	import TextInput from '$lib/Components/TextInput.svelte';
 	import ClassSelector from './ClassSelector.svelte';
 	import WeaponSelector from './WeaponSelector.svelte';
-	import { partyForm } from './partyFormStore';
+	import { partyForm } from '../forms/partyForm';
 
 	export let playerIndex: number;
 </script>

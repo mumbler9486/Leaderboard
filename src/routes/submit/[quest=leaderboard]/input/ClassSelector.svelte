@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Select from '$lib/Components/Select.svelte';
 	import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
-	import { partyForm } from './partyFormStore';
+	import { partyForm } from '../forms/partyForm';
 
 	export let playerIndex: number;
 	export let selectedMainClass: string | undefined = undefined;

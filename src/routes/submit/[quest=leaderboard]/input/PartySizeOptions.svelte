@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Select from '$lib/Components/Select.svelte';
-	import { partyForm } from './partyFormStore';
+	import { partyForm } from '../forms/partyForm';
 
 	export let sizes: (1 | 2 | 4 | 8)[];
 
