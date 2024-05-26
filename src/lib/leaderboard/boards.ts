@@ -4,6 +4,7 @@ import { dfAegisBoards } from './boards/dfAegis';
 import { dfSolusBoards } from './boards/dfSolus';
 import { duelBoards } from './boards/duels';
 import { purpleBoards } from './boards/purples';
+import { venogiaBoards } from './boards/venogia';
 import type { LeaderboardDefinition } from './leaderboard';
 
 export const allLeaderboards: LeaderboardDefinition<any, any>[] = [
@@ -11,6 +12,7 @@ export const allLeaderboards: LeaderboardDefinition<any, any>[] = [
 	...dfAegisBoards,
 	...duelBoards,
 	...purpleBoards,
+	...venogiaBoards,
 ];
 
 export const lookupBoard = (quest: NgsQuests, category: NgsRunCategories) => {

@@ -35,7 +35,11 @@ const createLeaderboardSchema = <S extends RunSubmissionRequest, R extends RunsS
 		allowedPartySizes: array(mixed<PartySize>().oneOf(validPartySizes).required())
 			.min(1)
 			.required(),
-		maxSeconds: number().integer().min(1).max(1440).required(),
+		maxSeconds: number()
+			.integer()
+			.min(1)
+			.max(60 * 60)
+			.required(),
 		rules: array(string().required()).min(0).optional(),
 		runSubmissionSchema: mixed<ObjectSchema<S>>().nullable().required(),
 		runSearch: object({
