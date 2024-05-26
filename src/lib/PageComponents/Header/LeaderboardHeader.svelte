@@ -17,10 +17,11 @@
 			title: $t('navigation.purpleTriggers'),
 			image: '/icons/quests/trigger.png',
 			items: [
-				{ label: 'Solo', link: '/runs/purple/solo' },
-				{ label: 'Duo', link: '/runs/purple/duo' },
-				{ label: 'Party', link: '/runs/purple/party' },
-				{ label: 'Multi-Party', link: '/runs/purple/multi-party?rank=2&region=aelio_intruders' }, //TODO: temporary to support default region in MPA purples
+				{ label: 'Aelio Intruders', link: '/runs/purples/aelio-intruders' },
+				{ label: 'Stia', link: '/runs/purples/stia' },
+				{ label: 'Kvaris', link: '/runs/purples/kvaris' },
+				{ label: 'Retem', link: '/runs/purples/retem' },
+				{ label: 'Aelio', link: '/runs/purples/aelio' },
 			],
 		},
 		{
@@ -28,8 +29,8 @@
 			image: '/icons/quests/uq.png',
 			items: [
 				{ label: 'Dark Falz Dalion', link: '/runs/dfdalion/quest' },
-				{ label: 'Dark Falz Solus', link: '/runs/dfsolus/solo' },
-				{ label: 'Venogia', link: '/runs/venogia/solo' },
+				{ label: 'Dark Falz Solus', link: '/runs/dfsolus/quest' },
+				{ label: 'Venogia', link: '/runs/venogia/urgent-quest' },
 				{ label: 'Dark Falz Aegis', link: '/runs/dfaegis/quest' },
 			],
 		},

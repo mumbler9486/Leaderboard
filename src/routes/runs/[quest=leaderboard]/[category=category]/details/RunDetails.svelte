@@ -4,12 +4,14 @@
 	import type { LeaderboardDefinition } from '$lib/leaderboard/leaderboard';
 	import type { Run } from '$lib/types/api/runs/run';
 	import { NgsQuests } from '$lib/types/api/runs/quests';
+	import DuelDetails from './DuelDetails.svelte';
 
 	export let boardInfo: LeaderboardDefinition<any, any>;
 	export let runDetails: Run<unknown>['details'];
 
 	const detailsMap: Partial<Record<NgsQuests, ComponentType>> = {
 		[NgsQuests.DfAegis]: DfAegisDetails,
+		[NgsQuests.Duels]: DuelDetails,
 	};
 
 	$: detailsComponent = detailsMap[boardInfo.quest];

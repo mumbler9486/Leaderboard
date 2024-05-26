@@ -63,6 +63,6 @@ export interface DfAegisRunDetails {
 export interface DfAegisRun extends Run<DfAegisRunDetails> {}
 
 export interface DuelRunDetails {
-	augments: DfAegisSupport;
+	augments: boolean;
 }
 export interface DuelRun extends Run<DuelRunDetails> {}

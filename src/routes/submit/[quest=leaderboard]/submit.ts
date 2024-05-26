@@ -14,6 +14,7 @@ import { NgsQuests } from '$lib/types/api/runs/quests';
 import type { NgsRunCategories } from '$lib/types/api/runs/categories';
 import { runForm } from './forms/runForm';
 import { dfAegisRunForm } from './forms/dfAegisForm';
+import { duelsRunForm } from './forms/duelsForm';
 
 export const submitRun = async (
 	submitPath: string,
@@ -73,5 +74,7 @@ export const submitRun = async (
 const getCategoryFormDetails = (quest: NgsQuests) => {
 	if (quest === NgsQuests.DfAegis) {
 		return get(dfAegisRunForm);
+	} else if (quest === NgsQuests.Duels) {
+		return get(duelsRunForm);
 	}
 };
