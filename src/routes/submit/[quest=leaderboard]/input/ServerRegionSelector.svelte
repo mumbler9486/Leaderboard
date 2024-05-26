@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Select from '$lib/Components/Select.svelte';
 	import { ServerRegion } from '$lib/types/api/serverRegions';
-	import { runForm } from './runStore';
+	import { runForm } from '../forms/runForm';
 
 	const serverOptions = [
 		{

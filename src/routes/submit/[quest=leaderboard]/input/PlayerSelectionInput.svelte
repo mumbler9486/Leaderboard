@@ -6,7 +6,7 @@
 	import { mapPlayerInfoNamePref } from '$lib/types/api/mapNamePref';
 	import { clientPrincipleStore } from '$lib/stores/userLogin';
 	import { UserRole } from '$lib/types/api/users/userRole';
-	import { partyForm } from './partyFormStore';
+	import { partyForm } from '../forms/partyForm';
 	import type { PlayerSearchResult } from '$lib/types/api/players/playerInfoAutoFill';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import { onMount } from 'svelte';

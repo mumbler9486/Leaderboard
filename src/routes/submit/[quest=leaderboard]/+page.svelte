@@ -3,11 +3,11 @@
 	import ServerRegionSelector from './options/ServerRegionSelector.svelte';
 	import Alert from '$lib/Components/Alert.svelte';
 	import PartyOptions from './options/PartyOptions.svelte';
-	import SubmitFinish from '../SubmitFinish.svelte';
+	import SubmitFinish from './SubmitFinish.svelte';
 	import TextArea from '$lib/Components/TextArea.svelte';
 	import CategoryOptions from './options/CategoryOptions.svelte';
 	import RankOptions from './options/RankOptions.svelte';
-	import CurrentPatchLabel from '../CurrentPatchLabel.svelte';
+	import CurrentPatchLabel from './CurrentPatchLabel.svelte';
 	import RunOptions from './options/RunOptions.svelte';
 	import RunTimeInput from './options/RunTimeInput.svelte';
 	import PartySizeOptions from './options/PartySizeOptions.svelte';
