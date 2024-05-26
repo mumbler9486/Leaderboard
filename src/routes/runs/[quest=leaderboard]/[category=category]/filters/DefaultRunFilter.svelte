@@ -15,34 +15,13 @@
 	import { mapCategoryToRoute } from '../../../../../params/category';
 	import DuelDetailsFilter from './DuelDetailsFilter.svelte';
 	import QuestRankFilter from './QuestRankFilter.svelte';
+	import PartySizeFilter from './PartySizeFilter.svelte';
 
 	export let solo: boolean;
 	export let categories: NgsRunCategories[];
 	export let boardInfo: LeaderboardDefinition<any, any>;
 
 	$: $runFilters.rank = boardInfo.maxQuestRank.toString();
-
-	const partySizeOptions = [
-		{
-			label: 'Solo',
-			value: PartySize.Solo,
-		},
-		{
-			label: 'Duo',
-			value: PartySize.Duo,
-		},
-		{
-			label: 'Party (4p)',
-			value: PartySize.Party,
-		},
-		{
-			label: 'Multi-Party',
-			value: PartySize.MultiParty,
-		},
-	];
-	$: selectablePartySizes = partySizeOptions.filter((c) =>
-		boardInfo.allowedPartySizes.includes(c.value)
-	);
 
 	const categoryOptions = [
 		{ label: 'Quest', value: NgsRunCategories.Quest },
@@ -94,11 +73,7 @@
 			{#if boardInfo.quest === NgsQuests.Duels}
 				<DuelDetailsFilter />
 			{/if}
-			<RadioOptions
-				name="partySize"
-				options={selectablePartySizes}
-				bind:value={$runFilters.partySize}
-			/>
+			<PartySizeFilter allowedPartySizes={boardInfo.allowedPartySizes} />
 			<QuestRankFilter maxQuestRank={boardInfo.maxQuestRank} />
 		</div>
 	</div>
