@@ -6,28 +6,28 @@ import { LeaderboardDefinition } from '../leaderboard';
 import { createRunSearchSchema } from '../runSearchSchema';
 import { createRunSubmissionSchema } from '../submissionSchema';
 
-export const dfDalionQuest = new LeaderboardDefinition({
-	name: 'leaderboard.dfDalion',
-	route: 'dfdalion',
-	icon: '/icons/submit/dfdalion.jpg',
+export const dfSolusQuest = new LeaderboardDefinition({
+	name: 'leaderboard.dfSolus',
+	route: 'dfSolus',
+	icon: '/icons/submit/dfsolus.jpg',
 	game: Game.Ngs,
-	quest: NgsQuests.DfDalion,
+	quest: NgsQuests.DfSolus,
 	category: NgsRunCategories.Quest,
 	maxQuestRank: 1,
 	playerCap: 4,
 	allowedPartySizes: [PartySize.Solo, PartySize.Duo, PartySize.Party],
-	maxSeconds: 20 * 60,
+	maxSeconds: 15 * 60,
 	runSubmissionSchema: createRunSubmissionSchema(
-		NgsQuests.DfDalion,
+		NgsQuests.DfSolus,
 		NgsRunCategories.Quest,
 		1,
 		4,
-		20 * 60
+		15 * 60
 	),
 	runSearch: {
-		runSearchSchema: createRunSearchSchema(NgsQuests.DfDalion, NgsRunCategories.Quest, 1, 4),
+		runSearchSchema: createRunSearchSchema(NgsQuests.DfSolus, NgsRunCategories.Quest, 1, 4),
 		filterDefaults: (f) => {
-			f.quest = NgsQuests.DfDalion;
+			f.quest = NgsQuests.DfSolus;
 			f.category = f.category ?? NgsRunCategories.Quest;
 			f.partySize = f.partySize ?? 1;
 		},
@@ -35,28 +35,28 @@ export const dfDalionQuest = new LeaderboardDefinition({
 	},
 });
 
-export const dfDalionUrgentQuest = new LeaderboardDefinition({
-	name: 'leaderboard.dfDalion',
-	route: 'dfdalion',
-	icon: '/icons/submit/dfdalion.jpg',
+export const dfSolusUrgentQuest = new LeaderboardDefinition({
+	name: 'leaderboard.dfSolus',
+	route: 'dfSolus',
+	icon: '/icons/submit/dfsolus.jpg',
 	game: Game.Ngs,
-	quest: NgsQuests.DfDalion,
+	quest: NgsQuests.DfSolus,
 	category: NgsRunCategories.UrgentQuest,
 	maxQuestRank: 1,
 	playerCap: 8,
 	allowedPartySizes: [PartySize.Solo, PartySize.Duo, PartySize.Party, PartySize.MultiParty],
-	maxSeconds: 20 * 60,
+	maxSeconds: 60 * 60,
 	runSubmissionSchema: createRunSubmissionSchema(
-		NgsQuests.DfDalion,
+		NgsQuests.DfSolus,
 		NgsRunCategories.UrgentQuest,
 		1,
 		8,
 		60 * 60
 	),
 	runSearch: {
-		runSearchSchema: createRunSearchSchema(NgsQuests.DfDalion, NgsRunCategories.UrgentQuest, 1, 8),
+		runSearchSchema: createRunSearchSchema(NgsQuests.DfSolus, NgsRunCategories.UrgentQuest, 1, 8),
 		filterDefaults: (f) => {
-			f.quest = NgsQuests.DfDalion;
+			f.quest = NgsQuests.DfSolus;
 			f.category = f.category ?? NgsRunCategories.UrgentQuest;
 			f.partySize = f.partySize ?? 1;
 		},
@@ -64,4 +64,4 @@ export const dfDalionUrgentQuest = new LeaderboardDefinition({
 	},
 });
 
-export const dfDalionBoards = [dfDalionQuest, dfDalionUrgentQuest];
+export const dfSolusBoards = [dfSolusQuest, dfSolusUrgentQuest];

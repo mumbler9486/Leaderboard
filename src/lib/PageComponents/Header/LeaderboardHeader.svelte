@@ -29,7 +29,7 @@
 			image: '/icons/quests/uq.png',
 			items: [
 				{ label: 'Dark Falz Dalion', link: '/runs/dfdalion/quest' },
-				{ label: 'Dark Falz Solus', link: '/runs/dfsolus/solo' },
+				{ label: 'Dark Falz Solus', link: '/runs/dfsolus/quest' },
 				{ label: 'Venogia', link: '/runs/venogia/urgent-quest' },
 				{ label: 'Dark Falz Aegis', link: '/runs/dfaegis/quest' },
 			],
