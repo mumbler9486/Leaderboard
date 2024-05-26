@@ -28,11 +28,14 @@ export const loadUrlParams = <T extends Extract<string, string | undefined>>(
 	paramNames: Extract<keyof T, string>[]
 ): Record<Extract<keyof T, string>, string | null | undefined> => {
 	const pageStore = get(page);
-	const loadedFilters = paramNames.reduce((prev, paramKey) => {
-		const queryValue = pageStore.url.searchParams.get(paramKey);
-		prev[paramKey] = queryValue;
-		return prev;
-	}, {} as Record<Extract<keyof T, string>, string | null | undefined>);
+	const loadedFilters = paramNames.reduce(
+		(prev, paramKey) => {
+			const queryValue = pageStore.url.searchParams.get(paramKey);
+			prev[paramKey] = queryValue;
+			return prev;
+		},
+		{} as Record<Extract<keyof T, string>, string | null | undefined>
+	);
 
 	return loadedFilters;
 };
@@ -115,7 +118,7 @@ export const useUrlFilterStore = <T>(
 		);
 		if (browser) {
 			const pageStore = get(page);
-			goto(pageStore.url);
+			goto(pageStore.url, { replaceState: true });
 		}
 	});
 
@@ -126,7 +129,7 @@ export const useUrlFilterStore = <T>(
 	};
 
 	return {
-		cleanup
+		cleanup,
 	};
 };
 
