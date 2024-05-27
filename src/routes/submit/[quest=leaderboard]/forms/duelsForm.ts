@@ -5,7 +5,7 @@ export interface DuelsRunForm {
 }
 
 const defaultDuelsRunForm = {
-	augments: false,
+	augments: true,
 };
 
 export const resetForm = () => {
