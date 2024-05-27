@@ -1,16 +1,16 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
-	import ServerRegionSelector from './options/ServerRegionSelector.svelte';
+	import ServerRegionSelector from './input/ServerRegionSelector.svelte';
 	import Alert from '$lib/Components/Alert.svelte';
-	import PartyOptions from './options/PartyOptions.svelte';
+	import PartyOptions from './input/PartyOptions.svelte';
 	import SubmitFinish from './SubmitFinish.svelte';
 	import TextArea from '$lib/Components/TextArea.svelte';
-	import CategoryOptions from './options/CategoryOptions.svelte';
-	import RankOptions from './options/RankOptions.svelte';
+	import CategoryOptions from './input/CategoryOptions.svelte';
+	import RankOptions from './input/RankOptions.svelte';
 	import CurrentPatchLabel from './CurrentPatchLabel.svelte';
-	import RunOptions from './options/RunOptions.svelte';
-	import RunTimeInput from './options/RunTimeInput.svelte';
-	import PartySizeOptions from './options/PartySizeOptions.svelte';
+	import RunOptions from './input/RunOptions.svelte';
+	import RunTimeInput from './input/RunTimeInput.svelte';
+	import PartySizeOptions from './input/PartySizeOptions.svelte';
 
 	import { t } from 'svelte-i18n';
 	import { partyForm } from './forms/partyForm';

@@ -1,25 +1,24 @@
 <script lang="ts">
-	import Select from '$lib/Components/Select.svelte';
+	import Select, { type SelectValues } from '$lib/Components/Select.svelte';
+	import { PartySize } from '$lib/types/api/partySizes';
 	import { partyForm } from '../forms/partyForm';
 
-	export let sizes: (1 | 2 | 4 | 8)[];
+	export let sizes: PartySize[];
 
-	let selectedPartySize: number = sizes[0] ?? 1;
+	let selectedPartySize = $partyForm.length;
 
-	const partySizes: Record<number, { label: string; value: number; disabled?: boolean }> = {
-		[1]: { label: 'Solo (1 Player)', value: 1 },
-		[2]: { label: 'Duo (2 Players)', value: 2 },
-		[4]: { label: 'Party (4 Players)', value: 4 },
-		[8]: { label: 'Full MPA (8 Players)', value: 8 },
+	const partySizes: Record<PartySize, SelectValues<number>> = {
+		[PartySize.Solo]: { label: 'Solo (1 Player)', value: 1 },
+		[PartySize.Duo]: { label: 'Duo (2 Players)', value: 2 },
+		[PartySize.Party]: { label: 'Party (4 Players)', value: 4 },
+		[PartySize.MultiParty]: { label: 'Full MPA (8 Players)', value: 8 },
 	};
 
 	$: options = sizes.map((s) => partySizes[s]);
-	$: !!selectedPartySize && selectedPartySize != 0
-		? partyForm.setPartySize(selectedPartySize)
-		: partyForm.setPartySize(1);
+	$: !!selectedPartySize ? partyForm.setPartySize(selectedPartySize) : partyForm.setPartySize(0);
 
 	export const reset = () => {
-		selectedPartySize = sizes[0];
+		selectedPartySize = partySizes[sizes[0]].value;
 	};
 </script>
 

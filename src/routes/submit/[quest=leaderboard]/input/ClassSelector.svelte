@@ -1,13 +1,13 @@
 <script lang="ts">
-	import Select from '$lib/Components/Select.svelte';
+	import Select, { type SelectValues } from '$lib/Components/Select.svelte';
 	import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 	import { partyForm } from '../forms/partyForm';
 
 	export let playerIndex: number;
-	export let selectedMainClass: string | undefined = undefined;
-	export let selectedSubClass: string | undefined = undefined;
+	let selectedMainClass: NgsPlayerClass;
+	let selectedSubClass: NgsPlayerClass;
 
-	const options = {
+	const options: Partial<Record<NgsPlayerClass, SelectValues<NgsPlayerClass>>> = {
 		[NgsPlayerClass.Hunter]: {
 			label: 'Hunter',
 			value: NgsPlayerClass.Hunter,
@@ -78,8 +78,8 @@
 		...c,
 		disabled: selectedMainClass == c.value,
 	}));
-	$: $partyForm[playerIndex].mainClass = selectedMainClass ?? '';
-	$: $partyForm[playerIndex].subClass = selectedSubClass ?? '';
+	$: $partyForm[playerIndex].mainClass = selectedMainClass;
+	$: $partyForm[playerIndex].subClass = selectedSubClass;
 </script>
 
 <div class="form-control">
