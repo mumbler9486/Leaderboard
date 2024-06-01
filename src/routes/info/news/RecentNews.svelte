@@ -12,8 +12,8 @@
 			href="/info/patch-codes">patch codes</a
 		> list. You can always ask a moderator to update your submission's patch code.
 	</NewsSection>
-	<NewsSection sectionTitle="2️⃣ Rank 2 Dark Falz Dalion">
-		NGS will have the release a rank 2 Dark Falz Dalion quest version (4-players). We will prepare a
+	<NewsSection sectionTitle="2️⃣🌞 Rank 2 Dark Falz Solus">
+		NGS will have the release a rank 2 Dark Falz Solus quest version (4-players). We will prepare a
 		leaderboard for this around its release time on June 19th.
 	</NewsSection>
 </HomeNews>
