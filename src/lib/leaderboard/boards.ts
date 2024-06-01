@@ -17,8 +17,19 @@ export const allLeaderboards: LeaderboardDefinition<any, any>[] = [
 	...dfSolusBoards,
 ];
 
+/**
+ * Look up a board by quest and category
+ * @param quest Quest
+ * @param category Category
+ * @returns
+ */
 export const lookupBoard = (quest: NgsQuests, category: NgsRunCategories) => {
 	return allLeaderboards.find((l) => l.quest === quest && l.category === category);
+};
+
+export const lookupQuestByRoute = (route: string) => {
+	const matchingBoard = allLeaderboards.find((l) => l.route === route);
+	return matchingBoard?.quest;
 };
 
 /**

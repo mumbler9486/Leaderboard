@@ -15,7 +15,7 @@
 	import { onDestroy } from 'svelte';
 	import type { Run } from '$lib/types/api/runs/run';
 	import RunsTable from '$lib/Components/Tables/RunsTable.svelte';
-	import { allLeaderboards, lookupBoardsByQuest } from '$lib/leaderboard/boards';
+	import { lookupBoard, lookupBoardsByQuest } from '$lib/leaderboard/boards';
 	import { runFilters, type RunSearchFilters } from '../../runFilter';
 	import DefaultRunFilter from './filters/DefaultRunFilter.svelte';
 	import RunDetails from './details/RunDetails.svelte';
@@ -32,7 +32,7 @@
 	$: quest = $page.params.quest as NgsQuests;
 	$: category = validQuestCategories[$page.params.category?.toLowerCase()] as NgsRunCategories;
 	$: $runFilters.category = category;
-	$: boardInfo = allLeaderboards.find((b) => b.quest === quest && b.category === category)!;
+	$: boardInfo = lookupBoard(quest, category)!;
 	$: categories = lookupBoardsByQuest(quest).map((b) => b.category);
 
 	const partySizeInfoMap: Record<PartySize, PartySizeInfo> = {

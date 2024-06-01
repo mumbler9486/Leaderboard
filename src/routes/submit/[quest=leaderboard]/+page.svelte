@@ -15,13 +15,13 @@
 	import { t } from 'svelte-i18n';
 	import { partyForm } from './forms/partyForm';
 	import { ErrorCodes, type BadRequestApiError } from '$lib/types/api/error';
-	import { allLeaderboards } from '$lib/leaderboard/boards';
-	import { page } from '$app/stores';
 	import { submitRun } from './submit';
 	import { onMount } from 'svelte';
 	import { mapCategoryToRoute } from '../../../params/category';
 	import { questForm } from './forms/questForm';
 	import { runForm } from './forms/runForm';
+	import { lookupBoard, lookupBoardsByQuest, lookupQuestByRoute } from '$lib/leaderboard/boards';
+	import { page } from '$app/stores';
 
 	let submitting: boolean = false;
 	let serverErrorMessage: string | undefined = undefined;
@@ -29,12 +29,9 @@
 
 	let partySizeInput: PartySizeOptions;
 
-	$: quest = $page.params.quest;
-	$: boards = allLeaderboards.filter((b) => b.quest === quest);
-	$: currentBoard =
-		allLeaderboards.find((b) => b.quest === quest && b.category === $questForm.category) ??
-		boards[0];
-	$: mainBoard = boards[0];
+	$: quest = lookupQuestByRoute($page.params.quest)!;
+	$: boards = lookupBoardsByQuest(quest);
+	$: currentBoard = lookupBoard(quest, $questForm.category) ?? boards[0];
 
 	runForm.reset();
 	partyForm.setPartySize(1);
@@ -52,10 +49,10 @@
 			serverErrorMessage = undefined;
 			submitting = true;
 			const category = mapCategoryToRoute($questForm.category);
-			const submitPath = `/ngs-api/runs/${mainBoard.route}/${category}`;
+			const submitPath = `/ngs-api/runs/${currentBoard.route}/${category}`;
 			const response = await submitRun(
 				submitPath,
-				mainBoard.quest,
+				currentBoard.quest,
 				$questForm.category,
 				$questForm.questRank
 			);
@@ -103,7 +100,7 @@
 			{:else}
 				<div id="submitForm" on:submit|preventDefault={submitRunToApi}>
 					<div class="m-2 gap-1 rounded-md border border-secondary bg-secondary/10 p-4 px-8">
-						<div class="text-center text-xl font-semibold">{$t(mainBoard.name)}</div>
+						<div class="text-center text-xl font-semibold">{$t(currentBoard.name)}</div>
 						<Divider />
 						<div class="text-center text-lg font-semibold">Information</div>
 						<div class="grid grid-cols-1 gap-2 md:grid-cols-4">

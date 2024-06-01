@@ -11,7 +11,7 @@ import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus.js';
 import { getUserValidated } from '$lib/server/validation/authorization.js';
 import { UserRole } from '$lib/types/api/users/userRole.js';
 import type { ServerSearchFilter } from '$lib/server/types/api/runsSearch.js';
-import { allLeaderboards } from '$lib/leaderboard/boards.js';
+import { lookupBoard } from '$lib/leaderboard/boards.js';
 import type { NgsRunCategories } from '$lib/types/api/runs/categories.js';
 import type { NgsQuests } from '$lib/types/api/runs/quests.js';
 import { validQuestCategories } from '../../../../../params/category.js';
@@ -21,8 +21,12 @@ export async function GET({ params, url }) {
 	const category = validQuestCategories[params.category?.toLowerCase()] as
 		| NgsRunCategories
 		| undefined;
+	if (!category) {
+		return jsonError(404, 'Not Found');
+	}
+
 	const quest = params.quest as NgsQuests;
-	const boardInfo = allLeaderboards.find((b) => b.quest === quest && b.category === category);
+	const boardInfo = lookupBoard(quest, category);
 	if (!boardInfo) {
 		return jsonError(404, 'Not Found');
 	}
@@ -44,7 +48,7 @@ export async function GET({ params, url }) {
 	};
 	boardInfo.assignRunSearchDefaults(parsedFilter);
 	const attributeFilter = boardInfo.createAttributeFilter(parsedFilter);
-	console.log(attributeFilter);
+
 	// Get runs
 	const pool = await leaderboardDb.connect();
 	const request = await pool.request();
@@ -63,8 +67,12 @@ export async function POST({ params, request, locals }) {
 	const category = validQuestCategories[params.category?.toLowerCase()] as
 		| NgsRunCategories
 		| undefined;
+	if (!category) {
+		return jsonError(404, 'Not Found');
+	}
+
 	const quest = params.quest as NgsQuests;
-	const boardInfo = allLeaderboards.find((b) => b.quest === quest && b.category === category);
+	const boardInfo = lookupBoard(quest, category);
 	if (!boardInfo) {
 		return jsonError(404, 'Not Found');
 	}
