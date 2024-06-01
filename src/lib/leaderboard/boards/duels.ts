@@ -45,7 +45,8 @@ const duelSearchSchema = (category: NgsRunCategories) =>
 
 export const duelNexAelioBoard = new LeaderboardDefinition({
 	name: 'leaderboard.duels.nexAelio',
-	route: 'duels',
+	questRoute: 'duels',
+	categoryRoute: 'nex-aelio',
 	icon: '/icons/submit/duel_nils_stia.png',
 	game: Game.Ngs,
 	quest: NgsQuests.Duels,
@@ -89,7 +90,8 @@ export const duelNexAelioBoard = new LeaderboardDefinition({
 });
 export const duelRenusRetemBoard = new LeaderboardDefinition({
 	name: 'leaderboard.duels.renusRetem',
-	route: 'duels',
+	questRoute: 'duels',
+	categoryRoute: 'renus-retem',
 	icon: '/icons/submit/duel_nils_stia.png',
 	game: Game.Ngs,
 	quest: NgsQuests.Duels,
@@ -133,7 +135,8 @@ export const duelRenusRetemBoard = new LeaderboardDefinition({
 });
 export const duelAmsKvarisBoard = new LeaderboardDefinition({
 	name: 'leaderboard.duels.amsKvaris',
-	route: 'duels',
+	questRoute: 'duels',
+	categoryRoute: 'ams-kvaris',
 	icon: '/icons/submit/duel_nils_stia.png',
 	game: Game.Ngs,
 	quest: NgsQuests.Duels,
@@ -177,7 +180,8 @@ export const duelAmsKvarisBoard = new LeaderboardDefinition({
 });
 export const duelNilsStiaBoard = new LeaderboardDefinition({
 	name: 'leaderboard.duels.nilsStia',
-	route: 'duels',
+	questRoute: 'duels',
+	categoryRoute: 'nils-stia',
 	icon: '/icons/submit/duel_nils_stia.png',
 	game: Game.Ngs,
 	quest: NgsQuests.Duels,
@@ -221,7 +225,8 @@ export const duelNilsStiaBoard = new LeaderboardDefinition({
 });
 export const duelHalvaldiBoard = new LeaderboardDefinition({
 	name: 'leaderboard.duels.halvaldi',
-	route: 'duels',
+	questRoute: 'duels',
+	categoryRoute: 'halvaldi',
 	icon: '/icons/submit/duel_nils_stia.png',
 	game: Game.Ngs,
 	quest: NgsQuests.Duels,
@@ -265,7 +270,8 @@ export const duelHalvaldiBoard = new LeaderboardDefinition({
 });
 export const duelZelvinBoard = new LeaderboardDefinition({
 	name: 'leaderboard.duels.zelvin',
-	route: 'duels',
+	questRoute: 'duels',
+	categoryRoute: 'zelvin',
 	icon: '/icons/submit/duel_nils_stia.png',
 	game: Game.Ngs,
 	quest: NgsQuests.Duels,
@@ -309,7 +315,8 @@ export const duelZelvinBoard = new LeaderboardDefinition({
 });
 export const duelRingwedgeBoard = new LeaderboardDefinition({
 	name: 'leaderboard.duels.ringwedge',
-	route: 'duels',
+	questRoute: 'duels',
+	categoryRoute: 'ringwedge',
 	icon: '/icons/submit/duel_nils_stia.png',
 	game: Game.Ngs,
 	quest: NgsQuests.Duels,

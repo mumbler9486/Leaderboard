@@ -8,7 +8,8 @@ import { createRunSubmissionSchema } from '../submissionSchema';
 
 export const dfDalionQuest = new LeaderboardDefinition({
 	name: 'leaderboard.dfDalion',
-	route: 'dfdalion',
+	questRoute: 'dfdalion',
+	categoryRoute: 'quest',
 	icon: '/icons/submit/dfdalion.jpg',
 	game: Game.Ngs,
 	quest: NgsQuests.DfDalion,
@@ -37,7 +38,8 @@ export const dfDalionQuest = new LeaderboardDefinition({
 
 export const dfDalionUrgentQuest = new LeaderboardDefinition({
 	name: 'leaderboard.dfDalion',
-	route: 'dfdalion',
+	questRoute: 'dfdalion',
+	categoryRoute: 'urgent-quest',
 	icon: '/icons/submit/dfdalion.jpg',
 	game: Game.Ngs,
 	quest: NgsQuests.DfDalion,

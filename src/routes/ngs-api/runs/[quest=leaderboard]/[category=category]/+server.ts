@@ -11,22 +11,11 @@ import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus.js';
 import { getUserValidated } from '$lib/server/validation/authorization.js';
 import { UserRole } from '$lib/types/api/users/userRole.js';
 import type { ServerSearchFilter } from '$lib/server/types/api/runsSearch.js';
-import { lookupBoard } from '$lib/leaderboard/boards.js';
-import type { NgsRunCategories } from '$lib/types/api/runs/categories.js';
-import type { NgsQuests } from '$lib/types/api/runs/quests.js';
-import { validQuestCategories } from '../../../../../params/category.js';
+import { lookupBoardByRoute } from '$lib/leaderboard/boards.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
-	const category = validQuestCategories[params.category?.toLowerCase()] as
-		| NgsRunCategories
-		| undefined;
-	if (!category) {
-		return jsonError(404, 'Not Found');
-	}
-
-	const quest = params.quest as NgsQuests;
-	const boardInfo = lookupBoard(quest, category);
+	const boardInfo = lookupBoardByRoute(params.quest, params.category);
 	if (!boardInfo) {
 		return jsonError(404, 'Not Found');
 	}
@@ -40,7 +29,7 @@ export async function GET({ params, url }) {
 	if (!parsedFilter) {
 		return jsonError(400, validationError);
 	}
-	parsedFilter.category = category;
+	parsedFilter.category = boardInfo.category;
 
 	// Refine filters
 	const serverFilters: ServerSearchFilter = {
@@ -52,7 +41,6 @@ export async function GET({ params, url }) {
 	// Get runs
 	const pool = await leaderboardDb.connect();
 	const request = await pool.request();
-
 	try {
 		const runs = await getRuns(request, parsedFilter, serverFilters, attributeFilter);
 		const mappedRuns = mapRuns(runs);
@@ -64,15 +52,7 @@ export async function GET({ params, url }) {
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ params, request, locals }) {
-	const category = validQuestCategories[params.category?.toLowerCase()] as
-		| NgsRunCategories
-		| undefined;
-	if (!category) {
-		return jsonError(404, 'Not Found');
-	}
-
-	const quest = params.quest as NgsQuests;
-	const boardInfo = lookupBoard(quest, category);
+	const boardInfo = lookupBoardByRoute(params.quest, params.category);
 	if (!boardInfo) {
 		return jsonError(404, 'Not Found');
 	}

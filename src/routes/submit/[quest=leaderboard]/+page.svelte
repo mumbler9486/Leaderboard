@@ -11,16 +11,14 @@
 	import RunOptions from './input/RunOptions.svelte';
 	import RunTimeInput from './input/RunTimeInput.svelte';
 	import PartySizeOptions from './input/PartySizeOptions.svelte';
-
 	import { t } from 'svelte-i18n';
 	import { partyForm } from './forms/partyForm';
 	import { ErrorCodes, type BadRequestApiError } from '$lib/types/api/error';
 	import { submitRun } from './submit';
 	import { onMount } from 'svelte';
-	import { mapCategoryToRoute } from '../../../params/category';
 	import { questForm } from './forms/questForm';
 	import { runForm } from './forms/runForm';
-	import { lookupBoard, lookupBoardsByQuest, lookupQuestByRoute } from '$lib/leaderboard/boards';
+	import { lookupBoard, lookupBoardsByQuestRoute } from '$lib/leaderboard/boards';
 	import { page } from '$app/stores';
 
 	let submitting: boolean = false;
@@ -29,8 +27,8 @@
 
 	let partySizeInput: PartySizeOptions;
 
-	$: quest = lookupQuestByRoute($page.params.quest)!;
-	$: boards = lookupBoardsByQuest(quest);
+	$: boards = lookupBoardsByQuestRoute($page.params.quest);
+	$: quest = boards[0].quest!;
 	$: currentBoard = lookupBoard(quest, $questForm.category) ?? boards[0];
 
 	runForm.reset();
@@ -48,8 +46,7 @@
 		try {
 			serverErrorMessage = undefined;
 			submitting = true;
-			const category = mapCategoryToRoute($questForm.category);
-			const submitPath = `/ngs-api/runs/${currentBoard.route}/${category}`;
+			const submitPath = `/ngs-api/runs/${currentBoard.questRoute}/${currentBoard.categoryRoute}`;
 			const response = await submitRun(
 				submitPath,
 				currentBoard.quest,

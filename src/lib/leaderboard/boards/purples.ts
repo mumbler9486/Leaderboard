@@ -8,7 +8,8 @@ import { createRunSubmissionSchema } from '../submissionSchema';
 
 export const purplesAelioBoard = new LeaderboardDefinition({
 	name: 'leaderboard.purples.aelio',
-	route: 'purples',
+	questRoute: 'purples',
+	categoryRoute: 'aelio',
 	icon: 'icons/submit/purple_trigger_gate.jpg',
 	game: Game.Ngs,
 	quest: NgsQuests.Purples,
@@ -37,7 +38,8 @@ export const purplesAelioBoard = new LeaderboardDefinition({
 
 export const purplesRetemBoard = new LeaderboardDefinition({
 	name: 'leaderboard.purples.retem',
-	route: 'purples',
+	questRoute: 'purples',
+	categoryRoute: 'retem',
 	icon: 'icons/submit/purple_trigger_gate.jpg',
 	game: Game.Ngs,
 	quest: NgsQuests.Purples,
@@ -66,7 +68,8 @@ export const purplesRetemBoard = new LeaderboardDefinition({
 
 export const purplesKvarisBoard = new LeaderboardDefinition({
 	name: 'leaderboard.purples.kvaris',
-	route: 'purples',
+	questRoute: 'purples',
+	categoryRoute: 'kvaris',
 	icon: 'icons/submit/purple_trigger_gate.jpg',
 	game: Game.Ngs,
 	quest: NgsQuests.Purples,
@@ -95,7 +98,8 @@ export const purplesKvarisBoard = new LeaderboardDefinition({
 
 export const purplesStiaBoard = new LeaderboardDefinition({
 	name: 'leaderboard.purples.stia',
-	route: 'purples',
+	questRoute: 'purples',
+	categoryRoute: 'stia',
 	icon: 'icons/submit/purple_trigger_gate.jpg',
 	game: Game.Ngs,
 	quest: NgsQuests.Purples,
@@ -124,7 +128,8 @@ export const purplesStiaBoard = new LeaderboardDefinition({
 
 export const purplesAelioIntrudersBoard = new LeaderboardDefinition({
 	name: 'leaderboard.purples.aelioIntruders',
-	route: 'purples',
+	questRoute: 'purples',
+	categoryRoute: 'aelio-intruders',
 	icon: 'icons/submit/purple_trigger_gate.jpg',
 	game: Game.Ngs,
 	quest: NgsQuests.Purples,

@@ -25,7 +25,8 @@ const defaultRules: string[] = ['Do not abuse bugs or exploits.'];
 const createLeaderboardSchema = <S extends RunSubmissionRequest, R extends RunsSearchFilter>() => {
 	return object({
 		name: string().required(),
-		route: string().lowercase().required(),
+		questRoute: string().lowercase().required(),
+		categoryRoute: string().lowercase().required(),
 		game: mixed<Game>().required().oneOf(validGames),
 		icon: string().required(),
 		quest: mixed<NgsQuests>().required().oneOf(validQuests),
@@ -53,7 +54,8 @@ const createLeaderboardSchema = <S extends RunSubmissionRequest, R extends RunsS
 
 interface LeaderBoardOptions<S extends RunSubmissionRequest, R extends RunsSearchFilter> {
 	name: string;
-	route: string;
+	questRoute: string;
+	categoryRoute: string;
 	icon: string;
 	game: Game;
 	quest: NgsQuests;
@@ -79,7 +81,8 @@ export class LeaderboardDefinition<
 	R extends RunsSearchFilter = RunsSearchFilter,
 > {
 	public readonly name;
-	public readonly route;
+	public readonly questRoute;
+	public readonly categoryRoute;
 	public readonly game;
 	public readonly icon;
 	public readonly quest;
@@ -99,7 +102,8 @@ export class LeaderboardDefinition<
 		const validatedOptions = schema.validateSync(options);
 
 		this.name = validatedOptions.name;
-		this.route = validatedOptions.route;
+		this.questRoute = validatedOptions.questRoute;
+		this.categoryRoute = validatedOptions.categoryRoute;
 		this.game = validatedOptions.game;
 		this.icon = validatedOptions.icon;
 		this.quest = validatedOptions.quest;

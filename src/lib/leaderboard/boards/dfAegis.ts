@@ -46,7 +46,8 @@ const dfAegisPartyRunSearchSchema = createDetailedRunSearchSchema(
 
 export const dfAegisQuest = new LeaderboardDefinition({
 	name: 'leaderboard.dfAegis',
-	route: 'dfaegis',
+	questRoute: 'dfaegis',
+	categoryRoute: 'quest',
 	icon: '/icons/submit/dfaegis.jpg',
 	game: Game.Ngs,
 	quest: NgsQuests.DfAegis,
@@ -80,7 +81,8 @@ export const dfAegisQuest = new LeaderboardDefinition({
 
 export const dfAegisUrgentQuest = new LeaderboardDefinition({
 	name: 'leaderboard.dfAegis',
-	route: 'dfaegis',
+	questRoute: 'dfaegis',
+	categoryRoute: 'urgent-quest',
 	icon: '/icons/submit/dfaegis.jpg',
 	game: Game.Ngs,
 	quest: NgsQuests.DfAegis,
@@ -132,7 +134,8 @@ export const dfAegisUrgentQuest = new LeaderboardDefinition({
 
 export const dfAegisTrigger = new LeaderboardDefinition({
 	name: 'leaderboard.dfAegis',
-	route: 'dfaegis',
+	questRoute: 'dfaegis',
+	categoryRoute: 'trigger',
 	icon: '/icons/submit/dfaegis.jpg',
 	game: Game.Ngs,
 	quest: NgsQuests.DfAegis,

@@ -9,12 +9,12 @@
 	import type { ComponentType } from 'svelte';
 	import DfAegisSupportFilter from './DfAegisSupportFilter.svelte';
 	import { goto } from '$app/navigation';
-	import { mapCategoryToRoute } from '../../../../../params/category';
 	import DuelDetailsFilter from './DuelDetailsFilter.svelte';
 	import QuestRankFilter from './QuestRankFilter.svelte';
 	import PartySizeFilter from './PartySizeFilter.svelte';
 	import QuestCategoryFilter from './QuestCategoryFilter.svelte';
 	import type { NgsRunCategories } from '$lib/types/api/runs/categories';
+	import { lookupBoard } from '$lib/leaderboard/boards';
 
 	export let solo: boolean;
 	export let categories: NgsRunCategories[];
@@ -44,8 +44,13 @@
 
 	const categoryChanged = (e: CustomEvent<NgsRunCategories>) => {
 		const newCategory = e.detail;
-		const categoryRouteFragment = mapCategoryToRoute(newCategory);
-		goto(`/runs/${boardInfo.route}/${categoryRouteFragment}`);
+		const newBoard = lookupBoard(boardInfo.quest, newCategory);
+		if (!newBoard) {
+			console.error('Invalid category', boardInfo.quest, newCategory);
+			return;
+		}
+
+		goto(`/runs/${boardInfo.questRoute}/${newBoard.categoryRoute}`);
 	};
 </script>
 
