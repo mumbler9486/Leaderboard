@@ -81,7 +81,6 @@
 
 		const allFilters = {
 			...runFilters,
-			quest: boardInfo.quest,
 			rank: runFilters.rank,
 			partySize: partyInfo.filterSize,
 		};
