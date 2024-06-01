@@ -20,61 +20,17 @@ const classes = [
 	NgsPlayerClass.Slayer,
 ];
 
-const validCategories: Record<string, string[]> = {
-	[NgsQuests.Purples]: [
-		NgsRunCategories.Aelio,
-		NgsRunCategories.Retem,
-		NgsRunCategories.Kvaris,
-		NgsRunCategories.Stia,
-		NgsRunCategories.AelioIntruders,
-	],
-	[NgsQuests.DfSolus]: [NgsRunCategories.Quest, NgsRunCategories.UrgentQuest],
-	[NgsQuests.DfAegis]: [
-		NgsRunCategories.UrgentQuest,
-		NgsRunCategories.Trigger,
-		NgsRunCategories.Quest,
-	],
-	[NgsQuests.Duels]: [
-		NgsRunCategories.NexAelio,
-		NgsRunCategories.RenusRetem,
-		NgsRunCategories.AmsKvaris,
-		NgsRunCategories.NilsStia,
-		NgsRunCategories.Halvaldi,
-		NgsRunCategories.Zelvin,
-		NgsRunCategories.Ringwedge,
-	],
-	[NgsQuests.Venogia]: [NgsRunCategories.UrgentQuest],
-};
-
 const servers = [null, ServerRegion.Global, ServerRegion.Japan];
-const quests = [null, ...listEnumValues(NgsQuests)];
+const validCategories = [null, ...listEnumValues(NgsRunCategories)];
+const validQuests = [null, ...listEnumValues(NgsQuests)];
 const sortOrders: (string | null)[] = [
 	null,
 	...stringEnumValuesToList<RunSortOption>(RunSortOption),
 ];
 
 export const runsSearchFilterSchema = object({
-	quest: string().nullable().oneOf(quests),
-	category: string()
-		.nullable()
-		.test(
-			'valid_quest_category',
-			(category) => `Quest category is invalid for the selected quest.`,
-			(category, ctx) => {
-				if (!category) {
-					return true;
-				}
-
-				const validQuestCategories = validCategories[ctx.parent.quest] ?? [];
-				const isValid = validQuestCategories.includes(category) ?? false;
-				if (!isValid) {
-					return ctx.createError({
-						message: `Quest category is invalid. Must be one of: ${validQuestCategories.join(',')}`,
-					});
-				}
-				return isValid;
-			}
-		),
+	quest: string().nullable().oneOf(validQuests),
+	category: string().nullable().oneOf(validCategories),
 	server: string().lowercase().nullable().oneOf(servers),
 	class: string()
 		.lowercase()
