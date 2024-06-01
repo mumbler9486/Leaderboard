@@ -12,6 +12,7 @@ export const patchCodeLabelMap = {
 	['lvl80grind']: '+80 Weap. Release',
 	['level85r']: 'Level 85 Release',
 	['apr2024xover']: 'Apr. 2024 PA Customs',
+	['level90r']: 'Level 90 Release',
 } as const satisfies Record<string, string>;
 
 export type PatchCodes = keyof typeof patchCodeLabelMap;
