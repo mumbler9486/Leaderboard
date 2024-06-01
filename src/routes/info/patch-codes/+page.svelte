@@ -130,6 +130,12 @@
 							to various classes that we think would have an impact on the way players approach bosses
 							with their classes. Such as Slayer's Regulus PA and changes to Hunter's PAs.
 						</TimelineNode>
+						<TimelineNode title="Level 90 Release" time="June 5, 2024" side="right" fillLineStart>
+							Known as the {patchCodeLabelMap['level90r']} patch, the player level cap has been updated
+							to 90. This alongside the 11⭐ Eredim series weapons, level 90 weapon/armor grind, 7 augment
+							slots, new class skills, Augment and Special Ability transfer, and EX Special Ability augmentations.
+							was released on this patch as well.
+						</TimelineNode>
 					</Timeline>
 				</div>
 			</div>

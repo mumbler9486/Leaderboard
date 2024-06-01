@@ -4,6 +4,19 @@
 	import NewsSection from '$lib/PageComponents/News/NewsSection.svelte';
 </script>
 
+<HomeNews publicationDateIso="2024-06-01T02:00:00.000Z" title="Leaderboard June 2024 Updates">
+	<NewsSection sectionTitle="⤴ Patch Bump">
+		Patch code has been bumped to "Level 90 Release". All runs submitted from June 5th (after game
+		maintenance) and beyond will be on the new patch code. For more details see the <a
+			class="link"
+			href="/info/patch-codes">patch codes</a
+		> list. You can always ask a moderator to update your submission's patch code.
+	</NewsSection>
+	<NewsSection sectionTitle="2️⃣ Rank 2 Dark Falz Dalion">
+		NGS will have the release a rank 2 Dark Falz Dalion quest version (4-players). We will prepare a
+		leaderboard for this around its release time on June 19th.
+	</NewsSection>
+</HomeNews>
 <HomeNews
 	publicationDateIso="2024-05-05T13:00:00.000Z"
 	title="Leaderboard May 2024 Updates"
@@ -52,27 +65,5 @@
 		Release of the Ringwedge Duel boss. Actual in game quest will be released after the maintenance
 		on March 13, 2023. We will prepare a leaderboard in time for this quest. Hope to see some
 		bell-ringing times!
-	</NewsSection>
-</HomeNews>
-<HomeNews publicationDateIso="2024-02-10T00:00:00.000Z" title="Leaderboard February 2024 Updates">
-	<NewsSection sectionTitle="⤴ Patch Bump">
-		Patch code has been bumped to Level 85. All runs submitted from Jan 31st and beyond will be on
-		the new patch code. This also includes the various changes to Ranger and Gunner as well as the
-		new weapons. For more details see the <a class="link" href="/info/patch-codes">patch codes</a> list.
-	</NewsSection>
-	<NewsSection sectionTitle="💄Ongoing UI Improvements">
-		This month and beyond, we're continuing to improve the leaderboard UI. Let us know what you
-		think or if you have any feedback at our <DiscordContact />.
-	</NewsSection>
-	<NewsSection>
-		You may have already noticed some UI changes. Some of these are:
-		<ul class="ml-2">
-			<li>• Improved navigation bar, better support for mobile.</li>
-			<li>• Leaderboards using buttons for category selection.</li>
-			<li>• Improved player selection when entering multi party members.</li>
-			<li>
-				• Complete <a class="link" href="/info/news">news archive</a> page to de-clutter the home page.
-			</li>
-		</ul>
 	</NewsSection>
 </HomeNews>
