@@ -9,7 +9,7 @@
 	$: leaderboards = Object.values(
 		allLeaderboards.reduce(
 			(prev, curr) => {
-				prev[curr.route] = curr;
+				prev[curr.questRoute] = curr;
 				return prev;
 			},
 			{} as Record<string, LeaderboardDefinition<any, any>>
@@ -34,7 +34,7 @@
 					<JumboButton
 						label={$t(board.name)}
 						image={board.icon}
-						link={`/submit/${board.route}`}
+						link={`/submit/${board.questRoute}`}
 						overlayColor="neutral"
 						buttonLabel="Submit"
 						badge={`New Boss`}
@@ -61,7 +61,7 @@
 					<JumboButton
 						label={$t(board.name)}
 						image={board.icon}
-						link={`/submit/${board.route}`}
+						link={`/submit/${board.questRoute}`}
 						overlayColor="neutral"
 						buttonLabel="Submit"
 					/>

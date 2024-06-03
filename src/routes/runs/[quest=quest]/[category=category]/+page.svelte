@@ -1,7 +1,6 @@
 <script lang="ts">
 	import LeaderboardTitle from '$lib/Components/LeaderboardTitle.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
-
 	import { page } from '$app/stores';
 	import { t } from 'svelte-i18n';
 	import { fetchGetApi } from '$lib/utils/fetch';
@@ -15,13 +14,10 @@
 	import { onDestroy } from 'svelte';
 	import type { Run } from '$lib/types/api/runs/run';
 	import RunsTable from '$lib/Components/Tables/RunsTable.svelte';
-	import { allLeaderboards, lookupBoardsByQuest } from '$lib/leaderboard/boards';
+	import { lookupBoardByRoute, lookupBoardsByQuest } from '$lib/leaderboard/boards';
 	import { runFilters, type RunSearchFilters } from '../../runFilter';
 	import DefaultRunFilter from './filters/DefaultRunFilter.svelte';
 	import RunDetails from './details/RunDetails.svelte';
-	import type { NgsQuests } from '$lib/types/api/runs/quests';
-	import { validQuestCategories } from '../../../../params/category';
-	import type { NgsRunCategories } from '$lib/types/api/runs/categories';
 
 	interface PartySizeInfo {
 		filterSize: number;
@@ -29,11 +25,11 @@
 		pageTitle: string;
 	}
 
-	$: quest = $page.params.quest as NgsQuests;
-	$: category = validQuestCategories[$page.params.category?.toLowerCase()] as NgsRunCategories;
-	$: $runFilters.category = category;
-	$: boardInfo = allLeaderboards.find((b) => b.quest === quest && b.category === category)!;
+	$: boardInfo = lookupBoardByRoute($page.params.quest, $page.params.category)!;
 	$: categories = lookupBoardsByQuest(quest).map((b) => b.category);
+	$: quest = boardInfo.quest;
+	$: category = boardInfo.category;
+	$: $runFilters.category = category;
 
 	const partySizeInfoMap: Record<PartySize, PartySizeInfo> = {
 		[PartySize.Solo]: {
@@ -80,12 +76,11 @@
 	const { cleanup } = useUrlFilterStore(runFilters, filterDef);
 
 	const fetchRuns = async (filters: RunSearchFilters) => {
-		const basePath = `/ngs-api/runs/${boardInfo.route}/${$page.params.category}`;
+		const basePath = `/ngs-api/runs/${boardInfo.questRoute}/${boardInfo.categoryRoute}`;
 		const runFilters = clearFilterValues(filters, filterDef);
 
 		const allFilters = {
 			...runFilters,
-			quest: boardInfo.quest,
 			rank: runFilters.rank,
 			partySize: partyInfo.filterSize,
 		};

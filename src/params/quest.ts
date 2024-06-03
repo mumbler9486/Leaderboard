@@ -3,7 +3,7 @@ import type { ParamMatcher } from '@sveltejs/kit';
 
 const validRoutes = allLeaderboards.reduce(
 	(prev, curr) => {
-		prev[curr.route] = true;
+		prev[curr.questRoute] = true;
 		return prev;
 	},
 	{} as Record<string, boolean>

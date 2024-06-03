@@ -8,7 +8,8 @@ import { createRunSubmissionSchema } from '../submissionSchema';
 
 export const venogiaUrgentQuest = new LeaderboardDefinition({
 	name: 'leaderboard.venogia',
-	route: 'venogia',
+	questRoute: 'venogia',
+	categoryRoute: 'urgent-quest',
 	icon: '/icons/submit/venogia.jpg',
 	game: Game.Ngs,
 	quest: NgsQuests.Venogia,

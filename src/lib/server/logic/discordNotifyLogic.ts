@@ -1,51 +1,19 @@
-import { NgsRunCategories } from '$lib/types/api/runs/categories';
-import { NgsQuests } from '$lib/types/api/runs/quests';
+import { lookupBoard } from '$lib/leaderboard/boards';
+import { PartySize, partySizeTranslationMap } from '$lib/types/api/partySizes';
+import { NgsRunCategories, ngsCategoryTranslationMap } from '$lib/types/api/runs/categories';
+import type { NgsQuests } from '$lib/types/api/runs/quests';
 import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmission';
+import { formatString } from '$lib/utils/string';
 import { notifyDiscordNewRunApproved, notifyDiscordNewRunSubmitted } from '../discordNotify';
+import { unwrapFunctionStore, format } from 'svelte-i18n';
 
-const partyTypeMap: Record<string, string> = {
-	1: 'Solo',
-	2: 'Duo',
-	3: 'Party',
-	4: 'Party',
-	5: 'MPA',
-	6: 'MPA',
-	7: 'MPA',
-	8: 'Full MPA',
-};
-
-const questTypeMap: Record<string, string> = {
-	[NgsQuests.DfDalion]: 'Dark Falz Dalion',
-	[NgsQuests.DfAegis]: 'Dark Falz Aegis',
-	[NgsQuests.DfSolus]: 'Dark Falz Solus',
-	[NgsQuests.Purples]: 'Purple Trigger',
-	[NgsQuests.Duels]: 'Duel',
-	[NgsQuests.Venogia]: 'Venogia',
-};
-
-const categoryTypeMap: Record<string, string> = {
-	[NgsRunCategories.Quest]: 'Quest',
-	[NgsRunCategories.Aelio]: 'Aelio',
-	[NgsRunCategories.Retem]: 'Retem',
-	[NgsRunCategories.Kvaris]: 'Kvaris',
-	[NgsRunCategories.Stia]: 'Stia',
-	[NgsRunCategories.AelioIntruders]: 'Aelio Intruders',
-	[NgsRunCategories.UrgentQuest]: 'UQ',
-	[NgsRunCategories.Trigger]: 'Trigger',
-	[NgsRunCategories.NexAelio]: 'Nex Aelio',
-	[NgsRunCategories.RenusRetem]: 'Renus Retem',
-	[NgsRunCategories.AmsKvaris]: 'Ams Kvaris',
-	[NgsRunCategories.NilsStia]: 'Nils Stia',
-	[NgsRunCategories.Halvaldi]: 'Halvaldi',
-	[NgsRunCategories.Zelvin]: 'Zelvin',
-	[NgsRunCategories.Ringwedge]: 'Ringwedge',
-};
+const locale = 'en';
+const t = unwrapFunctionStore(format);
 
 export const notifyDiscordNewRun = async (submitter: string, run: RunSubmissionRequest) => {
 	const submitterName = submitter;
-	const questName = getQuestName(run.quest, run.category);
-	const partySizeName = getPartySizeName(run.party.length);
-	notifyDiscordNewRunSubmitted(submitterName, `${questName} (${partySizeName})`);
+	const questLabel = getQuestName(run.quest, run.category, run.party.length);
+	notifyDiscordNewRunSubmitted(submitterName, questLabel);
 };
 
 export const notifyDiscordNewRunApprovedLogic = async (
@@ -55,23 +23,32 @@ export const notifyDiscordNewRunApprovedLogic = async (
 	category: NgsRunCategories,
 	partySize: number
 ) => {
-	const questName = getQuestName(quest, category);
+	const questLabel = getQuestName(quest, category, partySize);
+	notifyDiscordNewRunApproved(moderatorName, runnerName ?? '<Player_Name>', questLabel);
+};
+
+const getQuestName = (quest: NgsQuests, category: NgsRunCategories, partySize: number) => {
+	const boardInfo = lookupBoard(quest, category);
+	if (!boardInfo) {
+		console.error('Invalid quest/category', quest, category);
+		return `<unknown_quest> [<unknown_category>]`;
+	}
+
+	const nameTemplate = boardInfo.discordNotifyTemplate ?? '{boardName} [{category}] ({partySize})';
 	const partySizeName = getPartySizeName(partySize);
-	notifyDiscordNewRunApproved(
-		moderatorName,
-		runnerName ?? '<Player_Name>',
-		`${questName} (${partySizeName})`
-	);
+	const boardName = t(boardInfo.name, { locale });
+	const categoryName = t(ngsCategoryTranslationMap[category], { locale });
+	return formatString(nameTemplate, {
+		boardName,
+		category: categoryName,
+		partySize: partySizeName,
+	});
 };
 
 const getPartySizeName = (size: number) => {
-	if (size == 0) return '<unknown_party_size>';
-	const partySizeName = partyTypeMap[size];
-	return !partySizeName ? partyTypeMap[4] : partySizeName;
-};
-
-const getQuestName = (quest: NgsQuests, category: NgsRunCategories) => {
-	const questName = questTypeMap[quest] ?? '<unknown_quest>';
-	const categoryName = categoryTypeMap[category] ?? '<unknown_category>';
-	return `${questName} [${categoryName}]`;
+	if (size === 1) return t(partySizeTranslationMap[PartySize.Solo], { locale });
+	if (size === 2) return t(partySizeTranslationMap[PartySize.Duo], { locale });
+	if (size === 3 || size === 4) return t(partySizeTranslationMap[PartySize.Party], { locale });
+	if (size >= 5) return t(partySizeTranslationMap[PartySize.MultiParty], { locale });
+	return '<unknown_party_size>';
 };

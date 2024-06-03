@@ -17,8 +17,24 @@ export const allLeaderboards: LeaderboardDefinition<any, any>[] = [
 	...dfSolusBoards,
 ];
 
+/**
+ * Look up a board by quest and category
+ * @param quest Quest
+ * @param category Category
+ * @returns
+ */
 export const lookupBoard = (quest: NgsQuests, category: NgsRunCategories) => {
 	return allLeaderboards.find((l) => l.quest === quest && l.category === category);
+};
+
+export const lookupBoardByRoute = (
+	questRoute: string | null | undefined,
+	categoryRoute: string | null | undefined
+) => {
+	return allLeaderboards.find(
+		(l) =>
+			l.questRoute === questRoute?.toLowerCase() && l.categoryRoute === categoryRoute?.toLowerCase()
+	);
 };
 
 /**
@@ -29,4 +45,14 @@ export const lookupBoard = (quest: NgsQuests, category: NgsRunCategories) => {
  */
 export const lookupBoardsByQuest = (quest: NgsQuests) => {
 	return allLeaderboards.filter((l) => l.quest === quest);
+};
+
+/**
+ * Looks up all leaderboards by a quest. This primarily
+ * is used to get all the categories for a given quest
+ * @param quest Quest to search
+ * @returns List of boards matching the quest
+ */
+export const lookupBoardsByQuestRoute = (quest: string | undefined) => {
+	return allLeaderboards.filter((l) => l.questRoute === quest?.toLowerCase());
 };

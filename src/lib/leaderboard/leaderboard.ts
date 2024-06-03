@@ -25,7 +25,8 @@ const defaultRules: string[] = ['Do not abuse bugs or exploits.'];
 const createLeaderboardSchema = <S extends RunSubmissionRequest, R extends RunsSearchFilter>() => {
 	return object({
 		name: string().required(),
-		route: string().lowercase().required(),
+		questRoute: string().lowercase().required(),
+		categoryRoute: string().lowercase().required(),
 		game: mixed<Game>().required().oneOf(validGames),
 		icon: string().required(),
 		quest: mixed<NgsQuests>().required().oneOf(validQuests),
@@ -40,6 +41,7 @@ const createLeaderboardSchema = <S extends RunSubmissionRequest, R extends RunsS
 			.min(1)
 			.max(60 * 60)
 			.required(),
+		discordNotifyTemplate: string().optional(),
 		rules: array(string().required()).min(0).optional(),
 		runSubmissionSchema: mixed<ObjectSchema<S>>().nullable().required(),
 		runSearch: object({
@@ -53,7 +55,8 @@ const createLeaderboardSchema = <S extends RunSubmissionRequest, R extends RunsS
 
 interface LeaderBoardOptions<S extends RunSubmissionRequest, R extends RunsSearchFilter> {
 	name: string;
-	route: string;
+	questRoute: string;
+	categoryRoute: string;
 	icon: string;
 	game: Game;
 	quest: NgsQuests;
@@ -62,6 +65,7 @@ interface LeaderBoardOptions<S extends RunSubmissionRequest, R extends RunsSearc
 	playerCap: number;
 	allowedPartySizes: PartySize[];
 	maxSeconds: number;
+	discordNotifyTemplate?: string; // Allows overriding the default discord notification template
 	rules?: string[];
 	runSubmissionSchema?: ObjectSchema<S>;
 	runSearch: RunSearchValidator<R>;
@@ -79,7 +83,8 @@ export class LeaderboardDefinition<
 	R extends RunsSearchFilter = RunsSearchFilter,
 > {
 	public readonly name;
-	public readonly route;
+	public readonly questRoute;
+	public readonly categoryRoute;
 	public readonly game;
 	public readonly icon;
 	public readonly quest;
@@ -88,6 +93,7 @@ export class LeaderboardDefinition<
 	public readonly playerCap;
 	public readonly allowedPartySizes;
 	public readonly maxSeconds;
+	public readonly discordNotifyTemplate;
 	public readonly rules;
 	public readonly runSubmissionSchema: ObjectSchema<S>;
 	public readonly runSearchSchema;
@@ -99,7 +105,8 @@ export class LeaderboardDefinition<
 		const validatedOptions = schema.validateSync(options);
 
 		this.name = validatedOptions.name;
-		this.route = validatedOptions.route;
+		this.questRoute = validatedOptions.questRoute;
+		this.categoryRoute = validatedOptions.categoryRoute;
 		this.game = validatedOptions.game;
 		this.icon = validatedOptions.icon;
 		this.quest = validatedOptions.quest;
@@ -108,6 +115,7 @@ export class LeaderboardDefinition<
 		this.playerCap = validatedOptions.playerCap;
 		this.allowedPartySizes = validatedOptions.allowedPartySizes;
 		this.maxSeconds = validatedOptions.maxSeconds;
+		this.discordNotifyTemplate = validatedOptions.discordNotifyTemplate;
 		this.rules = validatedOptions.rules ?? defaultRules;
 		this.runSubmissionSchema = validatedOptions.runSubmissionSchema ?? runSubmissionRequestSchema;
 		this.runSearchSchema = validatedOptions.runSearch.runSearchSchema ?? runsSearchFilterSchema;

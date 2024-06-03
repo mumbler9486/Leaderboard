@@ -1,36 +1,17 @@
-import { NgsRunCategories } from '$lib/types/api/runs/categories';
+import { allLeaderboards } from '$lib/leaderboard/boards';
 import type { ParamMatcher } from '@sveltejs/kit';
 
-export const validQuestCategories: Record<string, NgsRunCategories> = {
-	['quest']: NgsRunCategories.Quest,
-	['urgent-quest']: NgsRunCategories.UrgentQuest,
-	['trigger']: NgsRunCategories.Trigger,
-	['nex-aelio']: NgsRunCategories.NexAelio,
-	['renus-retem']: NgsRunCategories.RenusRetem,
-	['ams-kvaris']: NgsRunCategories.AmsKvaris,
-	['nils-stia']: NgsRunCategories.NilsStia,
-	['halvaldi']: NgsRunCategories.Halvaldi,
-	['zelvin']: NgsRunCategories.Zelvin,
-	['ringwedge']: NgsRunCategories.Ringwedge,
-	['aelio']: NgsRunCategories.Aelio,
-	['retem']: NgsRunCategories.Retem,
-	['kvaris']: NgsRunCategories.Kvaris,
-	['stia']: NgsRunCategories.Stia,
-	['aelio-intruders']: NgsRunCategories.AelioIntruders,
-};
-
-const reverseMap = Object.entries(validQuestCategories).reduce(
+const validCategories = allLeaderboards.reduce(
 	(prev, curr) => {
-		prev[curr[1]] = curr[0];
+		prev[curr.categoryRoute] = true;
 		return prev;
 	},
-	{} as Record<NgsRunCategories, string>
+	{} as Record<string, boolean>
 );
-export const mapCategoryToRoute = (category: NgsRunCategories) => {
-	return reverseMap[category];
-};
 
+// Note just because they are valid categories doesn't mean they are valid
+// for the quest quest categories. Pair with the specific quest.
 export const match = ((param) => {
-	const validCategory = validQuestCategories[param.toLowerCase()];
+	const validCategory = validCategories[param.toLowerCase()];
 	return !!validCategory;
 }) satisfies ParamMatcher;

@@ -8,7 +8,8 @@ import { createRunSubmissionSchema } from '../submissionSchema';
 
 export const dfSolusQuest = new LeaderboardDefinition({
 	name: 'leaderboard.dfSolus',
-	route: 'dfSolus',
+	questRoute: 'dfsolus',
+	categoryRoute: 'quest',
 	icon: '/icons/submit/dfsolus.jpg',
 	game: Game.Ngs,
 	quest: NgsQuests.DfSolus,
@@ -37,7 +38,8 @@ export const dfSolusQuest = new LeaderboardDefinition({
 
 export const dfSolusUrgentQuest = new LeaderboardDefinition({
 	name: 'leaderboard.dfSolus',
-	route: 'dfSolus',
+	questRoute: 'dfsolus',
+	categoryRoute: 'urgent-quest',
 	icon: '/icons/submit/dfsolus.jpg',
 	game: Game.Ngs,
 	quest: NgsQuests.DfSolus,

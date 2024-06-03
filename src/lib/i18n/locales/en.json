@@ -134,26 +134,49 @@
 		"meteornRecords": "Meteorn Records",
 		"purpleTriggers": "Purple Triggers",
 		"halphiaLake": "Dark Falz Aegis",
+		"categories": {
+			"quest": "Quest",
+			"urgent_quest": "Urgent Quest",
+			"trigger": "Trigger",
+			"nex_aelio": "Nex Aelio",
+			"renus_retem": "Renus Retem",
+			"ams_kvaris": "Ams Kvaris",
+			"nils_stia": "Nils Stia",
+			"halvaldi": "Halvaldi",
+			"zelvin": "Zelvin",
+			"ringwedge": "Ringwedge",
+			"aelio": "Aelio",
+			"retem": "Retem",
+			"kvaris": "Kvaris",
+			"stia": "Stia",
+			"aelio_intruders": "Aelio Intruders"
+		},
+		"partySizes": {
+			"solo": "Solo",
+			"duo": "Duo",
+			"party": "Party",
+			"multi-party": "Multi-Party"
+		},
 		"shared": {
 			"player": "Player",
 			"time": "Time",
 			"category": "Category"
 		},
 		"duels": {
-			"amsKvaris": "Indomitable Ams Kvaris",
-			"nexAelio": "Indomitable Nex Aelio",
-			"nilsStia": "Indomitable Nils Stia",
-			"renusRetem": "Indomitable Renus Retem",
-			"halvaldi": "Indomitable Halvaldi",
-			"zelvin": "Indomitable Zelvin",
-			"ringwedge": "Indomitable Ringwedge"
+			"amsKvaris": "Duel Ams Kvaris",
+			"nexAelio": "Duel Nex Aelio",
+			"nilsStia": "Duel Nils Stia",
+			"renusRetem": "Duel Renus Retem",
+			"halvaldi": "Duel Halvaldi",
+			"zelvin": "Duel Zelvin",
+			"ringwedge": "Duel Ringwedge"
 		},
 		"purples": {
-			"aelio": "Aelio",
-			"retem": "Retem",
-			"kvaris": "Kvaris",
-			"stia": "Stia",
-			"aelioIntruders": "Aelio Intruders"
+			"aelio": "Purple Aelio",
+			"retem": "Purple Retem",
+			"kvaris": "Purple Kvaris",
+			"stia": "Purple Stia",
+			"aelioIntruders": "Purple Aelio Intruders"
 		},
 		"duelsPageTitle": "Duels",
 		"dfDalion": "Dark Falz Dalion",
