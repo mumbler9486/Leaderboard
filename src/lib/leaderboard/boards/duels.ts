@@ -56,6 +56,7 @@ export const duelNexAelioBoard = new LeaderboardDefinition({
 	allowedPartySizes: [PartySize.Solo],
 	maxSeconds: 10 * 60,
 	rules: rules,
+	discordNotifyTemplate: '{boardName}',
 	runSubmissionSchema: createDetailedRunSubmissionSchema(
 		NgsQuests.Duels,
 		NgsRunCategories.NexAelio,
@@ -101,6 +102,7 @@ export const duelRenusRetemBoard = new LeaderboardDefinition({
 	allowedPartySizes: [PartySize.Solo],
 	maxSeconds: 10 * 60,
 	rules: rules,
+	discordNotifyTemplate: '{boardName}',
 	runSubmissionSchema: createDetailedRunSubmissionSchema(
 		NgsQuests.Duels,
 		NgsRunCategories.RenusRetem,
@@ -146,6 +148,7 @@ export const duelAmsKvarisBoard = new LeaderboardDefinition({
 	allowedPartySizes: [PartySize.Solo],
 	maxSeconds: 10 * 60,
 	rules: rules,
+	discordNotifyTemplate: '{boardName}',
 	runSubmissionSchema: createDetailedRunSubmissionSchema(
 		NgsQuests.Duels,
 		NgsRunCategories.AmsKvaris,
@@ -191,6 +194,7 @@ export const duelNilsStiaBoard = new LeaderboardDefinition({
 	allowedPartySizes: [PartySize.Solo],
 	maxSeconds: 10 * 60,
 	rules: rules,
+	discordNotifyTemplate: '{boardName}',
 	runSubmissionSchema: createDetailedRunSubmissionSchema(
 		NgsQuests.Duels,
 		NgsRunCategories.NilsStia,
@@ -236,6 +240,7 @@ export const duelHalvaldiBoard = new LeaderboardDefinition({
 	allowedPartySizes: [PartySize.Solo],
 	maxSeconds: 10 * 60,
 	rules: rules,
+	discordNotifyTemplate: '{boardName}',
 	runSubmissionSchema: createDetailedRunSubmissionSchema(
 		NgsQuests.Duels,
 		NgsRunCategories.Halvaldi,
@@ -281,6 +286,7 @@ export const duelZelvinBoard = new LeaderboardDefinition({
 	allowedPartySizes: [PartySize.Solo],
 	maxSeconds: 10 * 60,
 	rules: rules,
+	discordNotifyTemplate: '{boardName}',
 	runSubmissionSchema: createDetailedRunSubmissionSchema(
 		NgsQuests.Duels,
 		NgsRunCategories.Zelvin,
@@ -326,6 +332,7 @@ export const duelRingwedgeBoard = new LeaderboardDefinition({
 	allowedPartySizes: [PartySize.Solo],
 	maxSeconds: 10 * 60,
 	rules: rules,
+	discordNotifyTemplate: '{boardName}',
 	runSubmissionSchema: createDetailedRunSubmissionSchema(
 		NgsQuests.Duels,
 		NgsRunCategories.Ringwedge,

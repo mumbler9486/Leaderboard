@@ -41,6 +41,7 @@ const createLeaderboardSchema = <S extends RunSubmissionRequest, R extends RunsS
 			.min(1)
 			.max(60 * 60)
 			.required(),
+		discordNotifyTemplate: string().optional(),
 		rules: array(string().required()).min(0).optional(),
 		runSubmissionSchema: mixed<ObjectSchema<S>>().nullable().required(),
 		runSearch: object({
@@ -64,6 +65,7 @@ interface LeaderBoardOptions<S extends RunSubmissionRequest, R extends RunsSearc
 	playerCap: number;
 	allowedPartySizes: PartySize[];
 	maxSeconds: number;
+	discordNotifyTemplate?: string; // Allows overriding the default discord notification template
 	rules?: string[];
 	runSubmissionSchema?: ObjectSchema<S>;
 	runSearch: RunSearchValidator<R>;
@@ -91,6 +93,7 @@ export class LeaderboardDefinition<
 	public readonly playerCap;
 	public readonly allowedPartySizes;
 	public readonly maxSeconds;
+	public readonly discordNotifyTemplate;
 	public readonly rules;
 	public readonly runSubmissionSchema: ObjectSchema<S>;
 	public readonly runSearchSchema;
@@ -112,6 +115,7 @@ export class LeaderboardDefinition<
 		this.playerCap = validatedOptions.playerCap;
 		this.allowedPartySizes = validatedOptions.allowedPartySizes;
 		this.maxSeconds = validatedOptions.maxSeconds;
+		this.discordNotifyTemplate = validatedOptions.discordNotifyTemplate;
 		this.rules = validatedOptions.rules ?? defaultRules;
 		this.runSubmissionSchema = validatedOptions.runSubmissionSchema ?? runSubmissionRequestSchema;
 		this.runSearchSchema = validatedOptions.runSearch.runSearchSchema ?? runsSearchFilterSchema;
