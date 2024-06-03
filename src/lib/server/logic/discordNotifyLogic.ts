@@ -48,7 +48,7 @@ const getQuestName = (quest: NgsQuests, category: NgsRunCategories, partySize: n
 const getPartySizeName = (size: number) => {
 	if (size === 1) return t(partySizeTranslationMap[PartySize.Solo], { locale });
 	if (size === 2) return t(partySizeTranslationMap[PartySize.Duo], { locale });
-	if (size >= 3 && size <= 7) return t(partySizeTranslationMap[PartySize.Party], { locale });
-	if (size >= 8) return t(partySizeTranslationMap[PartySize.MultiParty], { locale });
+	if (size === 3 || size === 4) return t(partySizeTranslationMap[PartySize.Party], { locale });
+	if (size >= 5) return t(partySizeTranslationMap[PartySize.MultiParty], { locale });
 	return '<unknown_party_size>';
 };
