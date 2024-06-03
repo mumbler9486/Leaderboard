@@ -151,6 +151,12 @@
 			"stia": "Stia",
 			"aelio_intruders": "Aelio Intruders"
 		},
+		"partySizes": {
+			"solo": "Solo",
+			"duo": "Duo",
+			"party": "Party",
+			"multi-party": "Multi-Party"
+		},
 		"shared": {
 			"player": "Player",
 			"time": "Time",

@@ -18,7 +18,7 @@ export const purplesAelioBoard = new LeaderboardDefinition({
 	playerCap: 4,
 	allowedPartySizes: [PartySize.Solo, PartySize.Duo, PartySize.Party],
 	maxSeconds: 20 * 60,
-	discordNotifyTemplate: '{boardName}',
+	discordNotifyTemplate: '{boardName} ({partySize})',
 	runSubmissionSchema: createRunSubmissionSchema(
 		NgsQuests.Purples,
 		NgsRunCategories.Aelio,
@@ -49,7 +49,7 @@ export const purplesRetemBoard = new LeaderboardDefinition({
 	playerCap: 4,
 	allowedPartySizes: [PartySize.Solo, PartySize.Duo, PartySize.Party],
 	maxSeconds: 20 * 60,
-	discordNotifyTemplate: '{boardName}',
+	discordNotifyTemplate: '{boardName} ({partySize})',
 
 	runSubmissionSchema: createRunSubmissionSchema(
 		NgsQuests.Purples,
@@ -81,7 +81,7 @@ export const purplesKvarisBoard = new LeaderboardDefinition({
 	playerCap: 4,
 	allowedPartySizes: [PartySize.Solo, PartySize.Duo, PartySize.Party],
 	maxSeconds: 20 * 60,
-	discordNotifyTemplate: '{boardName}',
+	discordNotifyTemplate: '{boardName} ({partySize})',
 
 	runSubmissionSchema: createRunSubmissionSchema(
 		NgsQuests.Purples,
@@ -113,7 +113,7 @@ export const purplesStiaBoard = new LeaderboardDefinition({
 	playerCap: 4,
 	allowedPartySizes: [PartySize.Solo, PartySize.Duo, PartySize.Party],
 	maxSeconds: 20 * 60,
-	discordNotifyTemplate: '{boardName}',
+	discordNotifyTemplate: '{boardName} ({partySize})',
 
 	runSubmissionSchema: createRunSubmissionSchema(
 		NgsQuests.Purples,
@@ -145,7 +145,7 @@ export const purplesAelioIntrudersBoard = new LeaderboardDefinition({
 	playerCap: 4,
 	allowedPartySizes: [PartySize.Solo, PartySize.Duo, PartySize.Party, PartySize.MultiParty],
 	maxSeconds: 20 * 60,
-	discordNotifyTemplate: '{boardName}',
+	discordNotifyTemplate: '{boardName} ({partySize})',
 
 	runSubmissionSchema: createRunSubmissionSchema(
 		NgsQuests.Purples,

@@ -8,6 +8,13 @@ export enum PartySize {
 	MultiParty = 'multi-party',
 }
 
+export const partySizeTranslationMap: Record<PartySize, string> = {
+	[PartySize.Solo]: `leaderboard.partySizes.${PartySize.Solo}`,
+	[PartySize.Duo]: `leaderboard.partySizes.${PartySize.Duo}`,
+	[PartySize.Party]: `leaderboard.partySizes.${PartySize.Party}`,
+	[PartySize.MultiParty]: `leaderboard.partySizes.${PartySize.MultiParty}`,
+};
+
 export const runCategoryValues = stringEnumValuesToList<PartySize>(PartySize);
 
 const runCategoryMap = stringEnumValuesToMap<PartySize>(PartySize);
