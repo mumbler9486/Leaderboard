@@ -1,7 +1,12 @@
-import { NgsRunCategories } from '$lib/types/api/runs/categories';
-import { NgsQuests } from '$lib/types/api/runs/quests';
+import { lookupBoard } from '$lib/leaderboard/boards';
+import { NgsRunCategories, ngsCategoryTranslationMap } from '$lib/types/api/runs/categories';
+import type { NgsQuests } from '$lib/types/api/runs/quests';
 import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmission';
 import { notifyDiscordNewRunApproved, notifyDiscordNewRunSubmitted } from '../discordNotify';
+import { unwrapFunctionStore, format } from 'svelte-i18n';
+
+const locale = 'en';
+const t = unwrapFunctionStore(format);
 
 const partyTypeMap: Record<string, string> = {
 	1: 'Solo',
@@ -12,33 +17,6 @@ const partyTypeMap: Record<string, string> = {
 	6: 'MPA',
 	7: 'MPA',
 	8: 'Full MPA',
-};
-
-const questTypeMap: Record<string, string> = {
-	[NgsQuests.DfDalion]: 'Dark Falz Dalion',
-	[NgsQuests.DfAegis]: 'Dark Falz Aegis',
-	[NgsQuests.DfSolus]: 'Dark Falz Solus',
-	[NgsQuests.Purples]: 'Purple Trigger',
-	[NgsQuests.Duels]: 'Duel',
-	[NgsQuests.Venogia]: 'Venogia',
-};
-
-const categoryTypeMap: Record<string, string> = {
-	[NgsRunCategories.Quest]: 'Quest',
-	[NgsRunCategories.Aelio]: 'Aelio',
-	[NgsRunCategories.Retem]: 'Retem',
-	[NgsRunCategories.Kvaris]: 'Kvaris',
-	[NgsRunCategories.Stia]: 'Stia',
-	[NgsRunCategories.AelioIntruders]: 'Aelio Intruders',
-	[NgsRunCategories.UrgentQuest]: 'UQ',
-	[NgsRunCategories.Trigger]: 'Trigger',
-	[NgsRunCategories.NexAelio]: 'Nex Aelio',
-	[NgsRunCategories.RenusRetem]: 'Renus Retem',
-	[NgsRunCategories.AmsKvaris]: 'Ams Kvaris',
-	[NgsRunCategories.NilsStia]: 'Nils Stia',
-	[NgsRunCategories.Halvaldi]: 'Halvaldi',
-	[NgsRunCategories.Zelvin]: 'Zelvin',
-	[NgsRunCategories.Ringwedge]: 'Ringwedge',
 };
 
 export const notifyDiscordNewRun = async (submitter: string, run: RunSubmissionRequest) => {
@@ -71,7 +49,13 @@ const getPartySizeName = (size: number) => {
 };
 
 const getQuestName = (quest: NgsQuests, category: NgsRunCategories) => {
-	const questName = questTypeMap[quest] ?? '<unknown_quest>';
-	const categoryName = categoryTypeMap[category] ?? '<unknown_category>';
-	return `${questName} [${categoryName}]`;
+	const boardInfo = lookupBoard(quest, category);
+	if (!boardInfo) {
+		console.error('Invalid quest/category', quest, category);
+		return `<unknown_quest> [<unknown_category>]`;
+	}
+
+	const boardName = t(boardInfo.name, { locale: locale });
+	const categoryName = t(ngsCategoryTranslationMap[category], { locale: locale });
+	return `${boardName} [${categoryName}]`;
 };
