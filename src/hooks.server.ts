@@ -2,10 +2,17 @@
 import type { Handle, HandleServerError } from '@sveltejs/kit';
 import { dev } from '$app/environment';
 import { initYupLocale } from '$lib/types/api/validation/schemaInitLocale';
+import { locale, register } from 'svelte-i18n';
 
 initYupLocale();
 
+// Setup i18n for server globally
+const lang = 'en';
+register(lang, () => import('./lib/i18n/locales/en.json'));
+locale.set(lang);
+
 export const handle: Handle = async ({ event, resolve }) => {
+	// For server mocking
 	const isMswEnabled = dev && import.meta.env.VITE_MSW_ENABLED === 'true';
 	if (isMswEnabled) {
 		const mockClientPrincipal = await import('./mocks/client/auth.handlers').then(
@@ -25,6 +32,6 @@ export const handleError = (({ error, event }) => {
 	console.error(error);
 	return {
 		message: 'Internal Server Error',
-		code: 'unexpected'
+		code: 'unexpected',
 	};
 }) satisfies HandleServerError;
