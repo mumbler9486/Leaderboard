@@ -39,7 +39,7 @@ export const approveRunSubmission = async (
 	const playerRequest = pool.request();
 	const { playerName } = await getRunPlayer(playerRequest, parseInt(runData.RunSubmitterId));
 	if (!playerName) {
-		console.error('Player name is null on approval. Aborting approval.');
+		console.warn('Player name is null on approval. Aborting approval.');
 		return jsonError(400, { error: 'bad_request', details: ['Unknown player in run'] });
 	}
 
