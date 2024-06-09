@@ -204,7 +204,7 @@ export const getRuns = async (
 	query += ` OFFSET 0 ROWS`;
 
 	request = request.input('groupNumLower', sql.Int, skipAmount);
-	request = request.input('groupNumUpper', sql.Int, skipAmount + takeRange);
+	request = request.input('groupNumUpper', sql.Int, skipAmount + takeRange - 1);
 
 	const limitQueryFilter = ` 
     AND runSearchRanked.${getRunDbFields.RunMetaGroupNum} BETWEEN @groupNumLower AND @groupNumUpper`;
