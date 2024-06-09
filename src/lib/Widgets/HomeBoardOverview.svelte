@@ -19,7 +19,7 @@
 	const take = 10;
 	let tabIndex = 0;
 
-	let btnLink: string | null = null;
+	let boardLink: string | null = null;
 
 	interface Boards {
 		boardInfo: LeaderboardDefinition<any, any> | null | undefined;
@@ -45,9 +45,10 @@
 	const getRuns = async (tabIndex: number) => {
 		const boardTab = tabs[tabIndex];
 		if (!boardTab.boardInfo || tabIndex === 0) {
+			boardLink = null;
 			return fetchRecentRuns();
 		}
-		btnLink = `/runs/${boardTab.boardInfo.questRoute}/${boardTab.boardInfo.categoryRoute}`;
+		boardLink = `/runs/${boardTab.boardInfo.questRoute}/${boardTab.boardInfo.categoryRoute}`;
 		return fetchRuns(boardTab.boardInfo.quest, boardTab.boardInfo.category);
 	};
 
@@ -98,7 +99,7 @@
 				<HomeBoardRankTable {runs} />
 			{/if}
 			<div class="flex justify-end">
-				<Button size="xs" href={btnLink} disabled={!btnLink} class="btn btn-primary mt-4"
+				<Button size="xs" href={boardLink} disabled={!boardLink} class="btn btn-primary mt-4"
 					>Go to Board <ArrowRight size="16" /></Button
 				>
 			</div>
