@@ -107,7 +107,7 @@
 					{/each}
 				</td>
 				<td class="text-center">
-					<Button primary on:click={() => runInfoOpen(run.runId)}>
+					<Button size="sm" modifier="primary" on:click={() => runInfoOpen(run.runId)}>
 						<InformationCircle size="20" />
 					</Button>
 				</td>

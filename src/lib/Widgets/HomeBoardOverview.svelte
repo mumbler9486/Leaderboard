@@ -12,31 +12,43 @@
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import { lookupBoard } from '$lib/leaderboard/boards';
 	import HomeBoardRecentsTable from './HomeBoardRecentsTable.svelte';
+	import type { LeaderboardDefinition } from '$lib/leaderboard/leaderboard';
+	import Button from '$lib/Components/Button.svelte';
+	import { ArrowRight } from 'svelte-heros-v2';
 
 	const take = 10;
 	let tabIndex = 0;
 
-	const tabs: TabOptions[] = [
-		{ name: '✨Recent', color: 'yellow' },
-		{ name: 'Dark Falz Dalion' },
-		{ name: 'Dark Falz Solus' },
-		{ name: 'Aelio Intruders' },
-		{ name: 'Ringwedge' },
+	let btnLink: string | null = null;
+
+	interface Boards {
+		boardInfo: LeaderboardDefinition<any, any> | null | undefined;
+		name: string;
+		href?: string;
+		color?: TabOptions['color'];
+	}
+
+	const tabs: Boards[] = [
+		{ boardInfo: null, name: '✨Recent', color: 'yellow' },
+		{
+			boardInfo: lookupBoard(NgsQuests.DfDalion, NgsRunCategories.Quest),
+			name: 'Dark Falz Dalion',
+		},
+		{ boardInfo: lookupBoard(NgsQuests.DfSolus, NgsRunCategories.Quest), name: 'Dark Falz Solus' },
+		{
+			boardInfo: lookupBoard(NgsQuests.Purples, NgsRunCategories.AelioIntruders),
+			name: 'Aelio Intruders',
+		},
+		{ boardInfo: lookupBoard(NgsQuests.Duels, NgsRunCategories.Ringwedge), name: 'Ringwedge' },
 	];
 
 	const getRuns = async (tabIndex: number) => {
-		if (tabIndex === 0) {
+		const boardTab = tabs[tabIndex];
+		if (!boardTab.boardInfo || tabIndex === 0) {
 			return fetchRecentRuns();
-		} else if (tabIndex === 1) {
-			return fetchRuns(NgsQuests.DfDalion, NgsRunCategories.Quest);
-		} else if (tabIndex === 2) {
-			return fetchRuns(NgsQuests.DfSolus, NgsRunCategories.Quest);
-		} else if (tabIndex === 3) {
-			return fetchRuns(NgsQuests.Purples, NgsRunCategories.AelioIntruders, 2);
-		} else if (tabIndex === 4) {
-			return fetchRuns(NgsQuests.Duels, NgsRunCategories.Ringwedge);
 		}
-		return [];
+		btnLink = `/runs/${boardTab.boardInfo.questRoute}/${boardTab.boardInfo.categoryRoute}`;
+		return fetchRuns(boardTab.boardInfo.quest, boardTab.boardInfo.category);
 	};
 
 	const fetchRuns = async (quest: NgsQuests, category: NgsRunCategories, rank?: number) => {
@@ -85,6 +97,11 @@
 			{:else}
 				<HomeBoardRankTable {runs} />
 			{/if}
+			<div class="flex justify-end">
+				<Button size="xs" href={btnLink} disabled={!btnLink} class="btn btn-primary mt-4"
+					>Go to Board <ArrowRight size="16" /></Button
+				>
+			</div>
 		{:catch err}
 			<p>Error, please try again later</p>
 		{/await}

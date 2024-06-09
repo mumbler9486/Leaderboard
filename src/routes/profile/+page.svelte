@@ -32,6 +32,7 @@
 	<ArksId player={$playerInfoStore} {isLoading}>
 		<svelte:fragment slot="actions">
 			<Button
+				size="sm"
 				class="mr-2 mt-2 justify-self-end bg-[#54a851] text-white hover:bg-[#54a851] hover:brightness-75"
 				on:click={modalEdit.show}
 			>

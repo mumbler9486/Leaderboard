@@ -167,9 +167,11 @@
 				</td>
 				<td class="text-center">
 					{#if run.submissionStatus === RunSubmissionStatus.AwaitingApproval}
-						<Button primary on:click={() => runInfoOpen(run.runId)}>Review</Button>
+						<Button size="sm" modifier="primary" on:click={() => runInfoOpen(run.runId)}
+							>Review</Button
+						>
 					{:else}
-						<Button primary on:click={() => runInfoOpen(run.runId)}>
+						<Button size="sm" modifier="primary" on:click={() => runInfoOpen(run.runId)}>
 							<InformationCircle size="20" />
 						</Button>
 					{/if}

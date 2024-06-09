@@ -98,10 +98,20 @@
 	<div class="container m-8 mx-auto flex grow rounded-md border border-secondary bg-base-100/75">
 		<div class="m-0 grow space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8 md:m-2">
 			<div class="join mb-4">
-				<Button class="join-item" primary={showSubmissions} on:click={() => changeTab(true)}>
+				<Button
+					size="sm"
+					class="join-item"
+					modifier={showSubmissions ? 'primary' : 'default'}
+					on:click={() => changeTab(true)}
+				>
 					📩 {submissionCount < 0 ? '-' : submissionCount} Submissions
 				</Button>
-				<Button class="join-item" primary={!showSubmissions} on:click={() => changeTab(false)}>
+				<Button
+					size="sm"
+					class="join-item"
+					modifier={!showSubmissions ? 'primary' : 'default'}
+					on:click={() => changeTab(false)}
+				>
 					👥 {runCount < 0 ? '-' : runCount} Participated Runs
 				</Button>
 			</div>
