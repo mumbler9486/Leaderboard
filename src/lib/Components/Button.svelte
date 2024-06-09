@@ -56,7 +56,7 @@
 </script>
 
 {#if href}
-	<a class="btn {btnClasses[modifier]} {$$props.class}" class:loading {href}>
+	<a class="btn {btnClasses[modifier]} {$$props.class} {sizeClasses[size]}" class:loading {href}>
 		<slot />
 	</a>
 {:else}
