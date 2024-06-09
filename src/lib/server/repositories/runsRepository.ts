@@ -11,18 +11,19 @@ import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilte
 import type { RunAttributeFilter } from '../types/db/runs/runAttributeFilter';
 import type { PlayersDbModel } from '../types/db/users/players';
 import type { Game } from '$lib/types/api/game';
-import type { CountSolosDbModel } from '../types/db/runs/countSolo';
+import type { CountRunsDbModel } from '../types/db/runs/countStats';
 import { parseServerRegion } from '$lib/types/api/serverRegions';
 import { parseNgsWeapon } from '$lib/types/api/weapon';
 import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus';
 import type { GetRunDbModel } from '../types/db/runs/getRun';
 import type { ServerSearchFilter } from '../types/api/runsSearch';
+import { PartySize } from '$lib/types/api/partySizes';
 
 const runsDbFields = fields<RunDbModel>();
 const runPartyDbFields = fields<RunPartyDbModel>();
 const playersDbFields = fields<PlayersDbModel>();
 const getRunDbFields = fields<GetRunDbModel>();
-const countSoloFields = fields<CountSolosDbModel>();
+const countRunsFields = fields<CountRunsDbModel>();
 
 const RunQuery = `
 	SELECT
@@ -478,14 +479,32 @@ const appendAttributeFilter = (
 	};
 };
 
-export const countSoloRuns = async (request: Request) => {
+export const countRuns = async (request: Request) => {
 	const sqlQuery = `
-			SELECT COUNT(*) AS ${countSoloFields.SoloRunsCount}
-			FROM dbo.Runs
-			WHERE dbo.Runs.${runsDbFields.PartySize} = 1
+		SELECT
+			CASE
+				WHEN PartySize = 1 THEN 'Solo'
+				WHEN PartySize = 2 THEN 'Duo'
+				WHEN PartySize >= 3 AND PartySize <= 4 THEN 'Party'
+				ELSE 'Other'
+			END AS ${countRunsFields.GroupName},
+			COUNT(*) AS ${countRunsFields.Count}
+		FROM runs
+		GROUP BY
+			CASE
+				WHEN PartySize = 1 THEN 'Solo'
+				WHEN PartySize = 2 THEN 'Duo'
+				WHEN PartySize >= 3 AND PartySize <= 4 THEN 'Party'
+				ELSE 'Other'
+			END
     `;
 
 	const results = await request.query(sqlQuery);
-	const counts = results.recordset[0] as CountSolosDbModel;
-	return counts;
+	const counts = results.recordset as CountRunsDbModel[];
+
+	return {
+		soloCount: parseInt(counts.find((x) => x.GroupName === 'Solo')?.Count ?? '-1'),
+		duoCount: parseInt(counts.find((x) => x.GroupName === 'Duo')?.Count ?? '-1'),
+		partyCount: parseInt(counts.find((x) => x.GroupName === 'Party')?.Count ?? '-1'),
+	};
 };

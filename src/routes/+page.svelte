@@ -8,7 +8,7 @@
 	import RecentNews from './info/news/RecentNews.svelte';
 	import Panel from '$lib/Components/Panel.svelte';
 	import HomeBoardOverview from '$lib/Widgets/HomeBoardOverview.svelte';
-	import RunStats from '$lib/Widgets/SoloStats.svelte';
+	import RunStats from '$lib/Widgets/RunStats.svelte';
 </script>
 
 <svelte:head>
