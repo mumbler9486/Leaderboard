@@ -5,6 +5,7 @@
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import { lookupBoard } from '$lib/leaderboard/boards';
 	import { mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
+	import { getPartySize, partySizeTranslationMap } from '$lib/types/api/partySizes';
 	import type { Run } from '$lib/types/api/runs/run';
 	import { t } from 'svelte-i18n';
 
@@ -32,6 +33,12 @@
 		const questLabel = `${$t(boardName)} R${run.questRank}`;
 		return questLabel;
 	};
+
+	const getPartySizeLabel = (partySize: number) => {
+		const tKey = getPartySize(partySize);
+		if (!tKey) return '';
+		return $t(partySizeTranslationMap[tKey]);
+	};
 </script>
 
 <Table size="xs" zebra {headers}>
@@ -51,7 +58,7 @@
 			<td>
 				<TimeDisplay time={run.time} />
 			</td>
-			<td>{getQuestLabel(run)}</td>
+			<td class="break-words">[{getPartySizeLabel(run.party.length)}] {getQuestLabel(run)}</td>
 		</tr>
 	{/each}
 </Table>
