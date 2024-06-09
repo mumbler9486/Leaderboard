@@ -89,7 +89,7 @@
 			target="_blank"
 			rel="noreferrer noopener"
 			role="button"
-			class="btn btn-outline btn-secondary btn-sm rounded-md">Connect</a
+			class="btn btn-outline btn-secondary btn-sm rounded-md">Join</a
 		>
 	</div>
 </Panel>

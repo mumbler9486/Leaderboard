@@ -36,8 +36,10 @@
 	import Tooltip from './Tooltip.svelte';
 
 	export let player: PlayerNameDisplay | string | undefined;
+	export let showInGameName: boolean = true;
 	export let showLink: boolean = false;
 	export let showShipFlag: boolean = true;
+	export let size: 'xs' | 'sm' | 'base' | 'lg' = 'sm';
 
 	let primaryName: string;
 	let secondaryName: string;
@@ -103,7 +105,13 @@
 	};
 </script>
 
-<div class="flex items-center">
+<div
+	class="flex items-center"
+	class:text-xs={size === 'xs'}
+	class:text-sm={size === 'sm'}
+	class:text-base={size === 'base'}
+	class:text-lg={size === 'lg'}
+>
 	{#if playerNameDisplay?.flag}
 		<Tooltip class="flex" tip={countryName}>
 			<span class="flag {flagClass}" />
@@ -130,7 +138,7 @@
 			on:keyup
 		>
 			{primaryName}
-			{#if secondaryName && secondaryName != primaryName}
+			{#if showInGameName && secondaryName && secondaryName != primaryName}
 				<p class="ml-1 truncate text-xs">
 					({secondaryName})
 				</p>

@@ -4,14 +4,16 @@ import type { NgsPlayerClass } from '../ngsPlayerClass';
 import type { RunTime } from '../runTime';
 import type { ServerRegion } from '../serverRegions';
 import type { NgsWeapon } from '../weapon';
+import type { NgsRunCategories } from './categories';
+import type { NgsQuests } from './quests';
 
 export interface Run<T = void> {
 	rank: number;
 	runId: number;
 	game: Game;
 	serverRegion: ServerRegion;
-	quest: string;
-	category: string;
+	quest: NgsQuests;
+	category: NgsRunCategories;
 	patch: string;
 	party: PartyMember[];
 	time: RunTime;

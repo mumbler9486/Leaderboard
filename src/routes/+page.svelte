@@ -4,28 +4,41 @@
 	import { t } from 'svelte-i18n';
 
 	import DiscordWidget from '$lib/Widgets/Discord/DiscordWidget.svelte';
-	import RunStatsWidget from '$lib/Widgets/RunStatsWidget.svelte';
 	import { consentDiscord, consentSelected } from '$lib/stores/consent';
 	import RecentNews from './info/news/RecentNews.svelte';
 	import Panel from '$lib/Components/Panel.svelte';
+	import HomeBoardOverview from '$lib/Widgets/HomeBoardOverview.svelte';
+	import RunStats from '$lib/Widgets/SoloStats.svelte';
 </script>
 
 <svelte:head>
 	<title>{$t('shared.siteName')}</title>
 </svelte:head>
 <LeaderboardBanner />
-<div class="grid grid-cols-1 lg:grid-cols-3">
-	<div class="col-span-2 row-span-2 mt-2 lg:mr-2 lg:mt-0">
+<div class="my-4 flex grow flex-col gap-2 lg:grid lg:flex-none lg:grid-cols-3 lg:px-2">
+	<div class="flex flex-col gap-2 lg:col-span-2">
+		<Panel>
+			<HomeBoardOverview />
+		</Panel>
+		<RunStats />
+		<div class="hidden lg:block">
+			<Panel title="News">
+				<div class="px-4 pb-4 sm:px-8">
+					<RecentNews />
+				</div>
+			</Panel>
+		</div>
+	</div>
+	<div class="flex flex-col gap-4 lg:hidden">
 		<Panel title="News">
 			<div class="px-4 pb-4 sm:px-8">
 				<RecentNews />
 			</div>
 		</Panel>
 	</div>
-	<div class="row-start-1 flex w-full flex-col items-start gap-2 lg:col-start-3">
-		<RunStatsWidget />
-		{#if $consentSelected && $consentDiscord}
+	{#if $consentSelected && $consentDiscord}
+		<div>
 			<DiscordWidget />
-		{/if}
-	</div>
+		</div>
+	{/if}
 </div>
