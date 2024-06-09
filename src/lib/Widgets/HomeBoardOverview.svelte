@@ -45,22 +45,21 @@
 		const runsSearchFilter: RunsSearchFilter = {
 			page: 0,
 			take: take,
-			partySize: 1,
 			sort: RunSortOption.Ranking,
+			partySize: 1,
 			rank: rank,
 		};
 		const runsPath = `/ngs-api/runs/${board?.questRoute}/${board?.categoryRoute}`;
-		const soloRuns =
+		const runs =
 			(await fetchGetApi<Run<unknown>[]>(runsPath, copyQueryParams(runsSearchFilter))) ?? [];
 
-		return soloRuns;
+		return runs;
 	};
 
 	const fetchRecentRuns = async () => {
 		const runsSearchFilter: RunsSearchFilter = {
 			page: 0,
 			take: take,
-			partySize: 1,
 			sort: RunSortOption.Recent,
 		};
 		const runsPath = '/ngs-api/runs';
