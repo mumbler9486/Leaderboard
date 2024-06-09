@@ -1,14 +1,19 @@
 <script lang="ts">
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
+	import RunInfoModal from '$lib/Components/RunInfoModal.svelte';
 	import Table, { type TableHeader } from '$lib/Components/Tables/Table.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import { lookupBoard } from '$lib/leaderboard/boards';
 	import { mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import { getPartySize, partySizeTranslationMap } from '$lib/types/api/partySizes';
+	import { ngsCategoryTranslationMap } from '$lib/types/api/runs/categories';
 	import type { Run } from '$lib/types/api/runs/run';
+	import { formatString } from '$lib/utils/string';
 	import { t } from 'svelte-i18n';
 
 	export let runs: Run<unknown>[] = [];
+
+	let modal: RunInfoModal;
 
 	const headers: TableHeader[] = [
 		{
@@ -21,15 +26,27 @@
 			label: 'Time',
 		},
 		{
-			label: 'Category',
+			label: 'Quest',
+		},
+		{
+			label: '',
 		},
 	];
 
 	const getQuestLabel = (run: Run<unknown>) => {
 		const board = lookupBoard(run.quest, run.category);
+		if (!board) {
+			return '<unknown_quest>';
+		}
 		const boardName = !board?.name ? '<unknown_quest>' : $t(board.name);
-		const questLabel = `${$t(boardName)} R${run.questRank}`;
-		return questLabel;
+		const nameTemplate = board.discordNotifyTemplate ?? '{boardName} [{category}] ({partySize})';
+		const partySizeName = getPartySizeLabel(run.party.length);
+		const categoryName = $t(ngsCategoryTranslationMap[board.category]);
+		return formatString(nameTemplate, {
+			boardName,
+			category: categoryName,
+			partySize: partySizeName,
+		});
 	};
 
 	const getPartySizeLabel = (partySize: number) => {
@@ -59,7 +76,17 @@
 			<td>
 				<TimeDisplay time={run.time} />
 			</td>
-			<td class="break-words">[{getPartySizeLabel(run.party.length)}] {getQuestLabel(run)}</td>
+			<td class="break-words">{getQuestLabel(run)}</td>
+			<td>
+				<button
+					class="link text-primary"
+					on:click={() => modal.showModal(run)}
+					on:keyup={() => modal.showModal(run)}
+				>
+					Link
+				</button>
+			</td>
 		</tr>
 	{/each}
 </Table>
+<RunInfoModal bind:this={modal} />

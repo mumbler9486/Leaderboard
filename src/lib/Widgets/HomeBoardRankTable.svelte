@@ -1,6 +1,7 @@
 <script lang="ts">
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
 	import RankingBadge from '$lib/Components/RankingBadge.svelte';
+	import RunInfoModal from '$lib/Components/RunInfoModal.svelte';
 	import Table, { type TableHeader } from '$lib/Components/Tables/Table.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import { lookupBoard } from '$lib/leaderboard/boards';
@@ -10,6 +11,8 @@
 	import { t } from 'svelte-i18n';
 
 	export let runs: Run<unknown>[] = [];
+
+	let modal: RunInfoModal;
 
 	const headers: TableHeader[] = [
 		{
@@ -24,6 +27,9 @@
 		},
 		{
 			label: 'Category',
+		},
+		{
+			label: '',
 		},
 	];
 
@@ -58,7 +64,17 @@
 			<td>
 				<TimeDisplay time={run.time} />
 			</td>
-			<td class="break-words">[{getPartySizeLabel(run.party.length)}] {getQuestLabel(run)}</td>
+			<td class="break-words">{getQuestLabel(run)} ({getPartySizeLabel(run.party.length)})</td>
+			<td>
+				<button
+					class="link text-primary"
+					on:click={() => modal.showModal(run)}
+					on:keyup={() => modal.showModal(run)}
+				>
+					Link
+				</button>
+			</td>
 		</tr>
 	{/each}
 </Table>
+<RunInfoModal bind:this={modal} />

@@ -6,7 +6,6 @@
 
 	import { mapPlayerInfoNamePref, mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import type { Run } from '$lib/types/api/runs/run';
-	import Button from './Button.svelte';
 	import YouTubeIcon from './Icons/YouTubeIcon.svelte';
 
 	let run: Run | undefined;
