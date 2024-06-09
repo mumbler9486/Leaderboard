@@ -350,8 +350,11 @@
 		{#if serverError}
 			<Alert type="error" message={serverError} />
 		{/if}
-		<Button class="btn-outline btn-secondary" on:click={close} on:keyup={close}>Close</Button>
+		<Button size="sm" class="btn-outline btn-secondary" on:click={close} on:keyup={close}
+			>Close</Button
+		>
 		<Button
+			size="sm"
 			class="btn-outline btn-success"
 			on:click={saveChanges}
 			disabled={isLoading || isSubmitting}>Save</Button

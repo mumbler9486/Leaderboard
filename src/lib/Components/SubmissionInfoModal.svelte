@@ -223,18 +223,21 @@
 	{/if}
 	<svelte:fragment slot="actions">
 		<Button
+			size="sm"
 			class="btn-outline btn-error"
 			disabled={!canReview || processing}
 			on:click={denyRun}
 			on:keyup={denyRun}>Deny</Button
 		>
 		<Button
+			size="sm"
 			class="btn-outline btn-success"
 			disabled={!canReview || processing}
 			on:click={approveRun}
 			on:keyup={approveRun}>Approve</Button
 		>
 		<Button
+			size="sm"
 			class="btn-outline btn-secondary"
 			on:click={closeModal}
 			on:keyup={closeModal}

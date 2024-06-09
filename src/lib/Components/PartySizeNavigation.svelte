@@ -20,7 +20,8 @@
 </script>
 
 {#each parties as party}
-	<Button primary={party.link.startsWith(currentLinkPath)} on:click={() => linkClick(party.link)}
-		>{party.label}</Button
+	<Button
+		modifier={party.link.startsWith(currentLinkPath) ? 'primary' : 'default'}
+		on:click={() => linkClick(party.link)}>{party.label}</Button
 	>
 {/each}

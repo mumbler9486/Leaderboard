@@ -64,10 +64,18 @@
 	<div class="container m-8 mx-auto flex grow rounded-md border border-secondary bg-base-100/75">
 		<div class="m-0 grow space-y-2 rounded-md border border-secondary bg-base-100 p-4 px-8 md:m-2">
 			<div class="join mb-4">
-				<Button class="join-item" primary={showUnapproved} on:click={() => changeTab(true)}>
+				<Button
+					class="join-item"
+					modifier={showUnapproved ? 'primary' : 'default'}
+					on:click={() => changeTab(true)}
+				>
 					📩 {unapprovedCount < 0 ? '-' : unapprovedCount} Unapproved
 				</Button>
-				<Button class="join-item" primary={!showUnapproved} on:click={() => changeTab(false)}>
+				<Button
+					class="join-item"
+					modifier={!showUnapproved ? 'primary' : 'default'}
+					on:click={() => changeTab(false)}
+				>
 					🧾 Recent
 				</Button>
 			</div>
