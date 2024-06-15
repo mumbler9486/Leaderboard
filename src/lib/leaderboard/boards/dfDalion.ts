@@ -47,7 +47,7 @@ export const dfDalionUrgentQuest = new LeaderboardDefinition({
 	maxQuestRank: 1,
 	playerCap: 8,
 	allowedPartySizes: [PartySize.Solo, PartySize.Duo, PartySize.Party, PartySize.MultiParty],
-	maxSeconds: 20 * 60,
+	maxSeconds: 60 * 60,
 	runSubmissionSchema: createRunSubmissionSchema(
 		NgsQuests.DfDalion,
 		NgsRunCategories.UrgentQuest,
