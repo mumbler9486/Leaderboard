@@ -14,19 +14,19 @@ export const dfDalionQuest = new LeaderboardDefinition({
 	game: Game.Ngs,
 	quest: NgsQuests.DfDalion,
 	category: NgsRunCategories.Quest,
-	maxQuestRank: 1,
+	maxQuestRank: 2,
 	playerCap: 4,
 	allowedPartySizes: [PartySize.Solo, PartySize.Duo, PartySize.Party],
-	maxSeconds: 20 * 60,
+	maxSeconds: 15 * 60,
 	runSubmissionSchema: createRunSubmissionSchema(
 		NgsQuests.DfDalion,
 		NgsRunCategories.Quest,
-		1,
+		2,
 		4,
-		20 * 60
+		15 * 60
 	),
 	runSearch: {
-		runSearchSchema: createRunSearchSchema(NgsQuests.DfDalion, NgsRunCategories.Quest, 1, 4),
+		runSearchSchema: createRunSearchSchema(NgsQuests.DfDalion, NgsRunCategories.Quest, 2, 4),
 		filterDefaults: (f) => {
 			f.quest = NgsQuests.DfDalion;
 			f.category = f.category ?? NgsRunCategories.Quest;
