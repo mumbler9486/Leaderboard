@@ -14,19 +14,19 @@ export const dfSolusQuest = new LeaderboardDefinition({
 	game: Game.Ngs,
 	quest: NgsQuests.DfSolus,
 	category: NgsRunCategories.Quest,
-	maxQuestRank: 1,
+	maxQuestRank: 2,
 	playerCap: 4,
 	allowedPartySizes: [PartySize.Solo, PartySize.Duo, PartySize.Party],
 	maxSeconds: 15 * 60,
 	runSubmissionSchema: createRunSubmissionSchema(
 		NgsQuests.DfSolus,
 		NgsRunCategories.Quest,
-		1,
+		2,
 		4,
 		15 * 60
 	),
 	runSearch: {
-		runSearchSchema: createRunSearchSchema(NgsQuests.DfSolus, NgsRunCategories.Quest, 1, 4),
+		runSearchSchema: createRunSearchSchema(NgsQuests.DfSolus, NgsRunCategories.Quest, 2, 4),
 		filterDefaults: (f) => {
 			f.quest = NgsQuests.DfSolus;
 			f.category = f.category ?? NgsRunCategories.Quest;
