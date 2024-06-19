@@ -49,7 +49,11 @@
 			return fetchRecentRuns();
 		}
 		boardLink = `/runs/${boardTab.boardInfo.questRoute}/${boardTab.boardInfo.categoryRoute}`;
-		return fetchRuns(boardTab.boardInfo.quest, boardTab.boardInfo.category);
+		return fetchRuns(
+			boardTab.boardInfo.quest,
+			boardTab.boardInfo.category,
+			boardTab.boardInfo.maxQuestRank
+		);
 	};
 
 	const fetchRuns = async (quest: NgsQuests, category: NgsRunCategories, rank?: number) => {
