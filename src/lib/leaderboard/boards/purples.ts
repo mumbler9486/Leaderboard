@@ -141,7 +141,7 @@ export const purplesAelioIntrudersBoard = new LeaderboardDefinition({
 	game: Game.Ngs,
 	quest: NgsQuests.Purples,
 	category: NgsRunCategories.AelioIntruders,
-	maxQuestRank: 2,
+	maxQuestRank: 3,
 	playerCap: 4,
 	allowedPartySizes: [PartySize.Solo, PartySize.Duo, PartySize.Party, PartySize.MultiParty],
 	maxSeconds: 20 * 60,
@@ -150,7 +150,7 @@ export const purplesAelioIntrudersBoard = new LeaderboardDefinition({
 	runSubmissionSchema: createRunSubmissionSchema(
 		NgsQuests.Purples,
 		NgsRunCategories.AelioIntruders,
-		2,
+		3,
 		8,
 		20 * 60
 	),
@@ -158,7 +158,7 @@ export const purplesAelioIntrudersBoard = new LeaderboardDefinition({
 		runSearchSchema: createRunSearchSchema(
 			NgsQuests.Purples,
 			NgsRunCategories.AelioIntruders,
-			2,
+			3,
 			8
 		),
 		filterDefaults: (f) => {
