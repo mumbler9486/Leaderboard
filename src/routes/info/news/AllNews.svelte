@@ -7,6 +7,20 @@
 
 <RecentNews />
 
+<HomeNews publicationDateIso="2024-03-04T13:00:00.000Z" title="Leaderboard March 2024 Updates">
+	<NewsSection sectionTitle="⏳ Time Extension Quests">
+		As you may have already seen in the Feb 2024 NGS Headline, there is going to be a new type of
+		quest called "Time Extension Quests". It appears to be an arcade-like version of a quest where
+		you earn time from completing objectives. We are currently considering if we will make a
+		leaderboard out of this quest. If you would like to join in on this discussion join us on our <DiscordContact
+		/>!
+	</NewsSection>
+	<NewsSection sectionTitle="⚔ Duel Boss Ringwedge">
+		Release of the Ringwedge Duel boss. Actual in game quest will be released after the maintenance
+		on March 13, 2023. We will prepare a leaderboard in time for this quest. Hope to see some
+		bell-ringing times!
+	</NewsSection>
+</HomeNews>
 <HomeNews publicationDateIso="2024-02-10T00:00:00.000Z" title="Leaderboard February 2024 Updates">
 	<NewsSection sectionTitle="⤴ Patch Bump">
 		Patch code has been bumped to Level 85. All runs submitted from Jan 31st and beyond will be on
