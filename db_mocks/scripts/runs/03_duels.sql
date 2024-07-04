@@ -390,3 +390,58 @@ VALUES
   (37019,37019,5000000,0,'https://youtu.be/a20726410a91',N'trying_to_rid_this_name','ngs_bouncer','ngs_slayer','["ngs_launcher","ngs_twin_machine_guns","ngs_jet_boots"]')
 ;
 SET IDENTITY_INSERT [dbo].[RunParty] OFF;
+
+-- Duel Venogia
+SET IDENTITY_INSERT [dbo].[Runs] ON;
+INSERT INTO dbo.Runs
+  (Id,SubmitterId,Game,Quest,Category,ServerRegion,Patch,QuestRank,PartySize,RunTime,Notes,SubmissionDate,SubmissionStatus,DateReviewed,ModNotes,Attributes,ReviewedBy)
+VALUES
+  (38000,1001,'ngs','duels','venogia','global','slayer',1,1,'00:05:35','Test notes','2023-02-13T00:48:42Z',1,'2023-02-13T12:03:25Z','Test Mod Notes','{"augments":false}','Tall Mommy Cool'),
+  (38001,1017,'ngs','duels','venogia','global','lvl80grind',1,1,'00:05:02','Test notes','2023-11-02T04:03:24Z',1,'2023-11-02T08:20:53Z','Test Mod Notes','{"augments":false}','Tall Mommy Cool'),
+  (38002,1011,'ngs','duels','venogia','japan','slayer',1,1,'00:09:35','Test notes','2023-05-09T18:30:59Z',1,'2023-05-09T21:18:35Z','Test Mod Notes','{"augments":false}','Tall Mommy Cool'),
+  (38003,1013,'ngs','duels','venogia','japan','slayer',1,1,'00:09:50','Test notes','2023-03-14T05:40:35Z',1,'2023-03-14T16:43:19Z','Test Mod Notes','{"augments":false}','Tall Mommy Cool'),
+  (38004,5000000,'ngs','duels','venogia','global','level75r',1,1,'00:08:01','Test notes','2023-04-15T11:55:34Z',1,'2023-04-15T19:59:48Z','Test Mod Notes','{"augments":false}','Tall Mommy Cool'),
+  (38005,1011,'ngs','duels','venogia','global','level75r',1,1,'00:08:56','Test notes','2023-04-06T12:24:55Z',1,'2023-04-06T17:05:42Z','Test Mod Notes','{"augments":false}','Tall Mommy Cool'),
+  (38006,1012,'ngs','duels','venogia','japan','level80r',1,1,'00:06:32','Test notes','2023-07-07T17:09:48Z',1,'2023-07-08T06:05:06Z','Test Mod Notes','{"augments":false}','Tall Mommy Cool'),
+  (38007,1013,'ngs','duels','venogia','global','pre60r',1,1,'00:02:33','Test notes','2023-10-18T03:21:57Z',1,'2023-10-18T14:34:49Z','Test Mod Notes','{"augments":false}','Tall Mommy Cool'),
+  (38008,1014,'ngs','duels','venogia','global','60r',1,1,'00:03:13','Test notes','2023-10-12T20:37:33Z',1,'2023-10-13T08:42:21Z','Test Mod Notes','{"augments":true}','Tall Mommy Cool'),
+  (38009,1013,'ngs','duels','venogia','global','lvl80grind',1,1,'00:07:16','Test notes','2023-10-11T03:49:37Z',1,'2023-10-11T11:24:53Z','Test Mod Notes','{"augments":true}','Tall Mommy Cool'),
+  (38010,1015,'ngs','duels','venogia','japan','pre60r',1,1,'00:08:42','Test notes','2023-03-18T04:02:50Z',1,'2023-03-18T11:05:26Z','Test Mod Notes','{"augments":true}','Tall Mommy Cool'),
+  (38011,1014,'ngs','duels','venogia','global','level75r',1,1,'00:08:44','Test notes','2023-06-07T11:22:32Z',1,'2023-06-07T19:08:47Z','Test Mod Notes','{"augments":true}','Tall Mommy Cool'),
+  (38012,1017,'ngs','duels','venogia','japan','lvl80grind',1,1,'00:09:11','Test notes','2023-04-19T09:44:06Z',1,'2023-04-19T20:19:41Z','Test Mod Notes','{"augments":false}','Tall Mommy Cool'),
+  (38013,1016,'ngs','duels','venogia','global','level80r',1,1,'00:04:51','Test notes','2023-08-23T18:11:58Z',1,'2023-08-24T06:11:17Z','Test Mod Notes','{"augments":false}','Tall Mommy Cool'),
+  (38014,1011,'ngs','duels','venogia','global','60r',1,1,'00:02:23','Test notes','2023-07-15T05:32:31Z',1,'2023-07-15T16:59:29Z','Test Mod Notes','{"augments":true}','Tall Mommy Cool'),
+  (38015,1012,'ngs','duels','venogia','japan','level80r',1,1,'00:07:55','Test notes','2023-03-19T02:41:01Z',1,'2023-03-19T10:30:37Z','Test Mod Notes','{"augments":false}','Tall Mommy Cool'),
+  (38016,1012,'ngs','duels','venogia','japan','slayer',1,1,'00:04:57','New Time succeeds old run','2023-07-13T11:33:12Z',1,'2023-07-13T22:41:52Z','Test Mod Notes','{"augments":false}','Tall Mommy Cool'),
+  (38017,5000000,'ngs','duels','venogia','japan','slayer',1,1,'00:04:35','Test not yet approved run','2023-09-05T22:50:16Z',0,NULL,NULL,'{"augments":true}',NULL),
+  (38018,5000000,'ngs','duels','venogia','japan','level80r',1,1,'00:08:39','Test not yet approved run 2','2023-03-27T00:30:49Z',0,NULL,NULL,'{"augments":true}',NULL),
+  (38019,5000000,'ngs','duels','venogia','global','slayer',1,1,'00:03:18','Test reject run','2023-12-03T00:17:40Z',9,'2023-12-03T00:27:57Z','Rejected run','{"augments":false}','Tall Mommy Cool')
+;
+SET IDENTITY_INSERT [dbo].[Runs] OFF;
+
+SET IDENTITY_INSERT [dbo].[RunParty] ON;
+INSERT INTO dbo.RunParty
+  (Id,RunId,PlayerId,Ordinal,PovLink,RunCharacterName,MainClass,SubClass,Weapons)
+VALUES
+  (38000,38000,1001,0,'https://youtu.be/8iw3Cmr41n16L',N'trying_to_rid_this_name','ngs_ranger','ngs_bouncer','["ngs_sword","ngs_gunblade","ngs_assault_rifle"]'),
+  (38001,38001,1017,0,'https://youtu.be/hpr22RNm43T5Z',N'trying_to_rid_this_name','ngs_force','ngs_fighter','["ngs_double_sabers","ngs_assault_rifle","ngs_wand"]'),
+  (38002,38002,1011,0,'https://youtu.be/6j8YfkCrBirfP',N'trying_to_rid_this_name','ngs_gunner','ngs_ranger','["ngs_soaring_blades","ngs_launcher","ngs_talis"]'),
+  (38003,38003,1013,0,'https://youtu.be/K547XqrCt3pPK',N'trying_to_rid_this_name','ngs_slayer','ngs_gunner','["ngs_twin_daggers","ngs_gunblade","ngs_harmonizer"]'),
+  (38004,38004,5000000,0,'https://youtu.be/aVg7q6tOf93qZ',N'trying_to_rid_this_name','ngs_ranger','ngs_braver','["ngs_partisan","ngs_bow","ngs_wand"]'),
+  (38005,38005,1011,0,'https://youtu.be/K37Yg33W7HWzY',N'trying_to_rid_this_name','ngs_techter','ngs_bouncer','["ngs_twin_daggers","ngs_knuckles","ngs_rod"]'),
+  (38006,38006,1012,0,'https://youtu.be/b57839jv037sN',N'trying_to_rid_this_name','ngs_techter','ngs_hunter','["ngs_sword","ngs_assault_rifle","ngs_twin_machine_guns"]'),
+  (38007,38007,1013,0,'https://youtu.be/ktLES6V0GgzjC',N'trying_to_rid_this_name','ngs_waker','ngs_techter','["ngs_partisan","ngs_soaring_blades","ngs_bow"]'),
+  (38008,38008,1014,0,'https://youtu.be/xN34QY4grxDQZ',N'trying_to_rid_this_name','ngs_slayer','ngs_gunner','["ngs_partisan","ngs_bow","ngs_talis"]'),
+  (38009,38009,1013,0,'https://youtu.be/6KH76yxC9T0nW',N'trying_to_rid_this_name','ngs_gunner','ngs_force','["ngs_sword","ngs_double_sabers","ngs_twin_machine_guns"]'),
+  (38010,38010,1015,0,'https://youtu.be/TKty8z7iH57OW',N'trying_to_rid_this_name','ngs_waker','ngs_gunner','["ngs_wired_lance","ngs_twin_daggers","ngs_jet_boots"]'),
+  (38011,38011,1014,0,'https://youtu.be/V39CaZRz73U2C',N'trying_to_rid_this_name','ngs_gunner','ngs_force','["ngs_soaring_blades","ngs_gunblade","ngs_bow"]'),
+  (38012,38012,1017,0,'https://youtu.be/Av109O492j5rD',N'trying_to_rid_this_name','ngs_techter','ngs_ranger','["ngs_sword","ngs_launcher","ngs_talis"]'),
+  (38013,38013,1016,0,'https://youtu.be/8k0C2sXR738VV',N'trying_to_rid_this_name','ngs_fighter','ngs_slayer','["ngs_twin_daggers","ngs_knuckles","ngs_rod"]'),
+  (38014,38014,1011,0,'https://youtu.be/zB091o7M16OBO',N'trying_to_rid_this_name','ngs_force','ngs_bouncer','["ngs_double_sabers","ngs_twin_machine_guns","ngs_wand"]'),
+  (38015,38015,1012,0,'https://youtu.be/4GWnrHY594BVD',N'trying_to_rid_this_name','ngs_ranger','ngs_braver','["ngs_knuckles","ngs_assault_rifle","ngs_harmonizer"]'),
+  (38016,38016,1012,0,'https://youtu.be/uag2Dh4G94kqN',N'trying_to_rid_this_name','ngs_bouncer','ngs_ranger','["ngs_twin_daggers","ngs_knuckles","ngs_twin_machine_guns"]'),
+  (38017,38017,5000000,0,'https://youtu.be/21STG9AZsbV4W',N'trying_to_rid_this_name','ngs_braver','ngs_techter','["ngs_partisan","ngs_soaring_blades","ngs_wand"]'),
+  (38018,38018,5000000,0,'https://youtu.be/iOMz19atSQP2K',N'trying_to_rid_this_name','ngs_hunter','ngs_waker','["ngs_double_sabers","ngs_knuckles","ngs_soaring_blades"]'),
+  (38019,38019,5000000,0,'https://youtu.be/zu6sd19S9jtSP',N'trying_to_rid_this_name','ngs_bouncer','ngs_slayer','["ngs_launcher","ngs_twin_machine_guns","ngs_jet_boots"]')
+;
+SET IDENTITY_INSERT [dbo].[RunParty] OFF;

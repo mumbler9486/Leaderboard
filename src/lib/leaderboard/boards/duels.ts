@@ -319,6 +319,7 @@ export const duelZelvinBoard = new LeaderboardDefinition({
 		},
 	},
 });
+
 export const duelRingwedgeBoard = new LeaderboardDefinition({
 	name: 'leaderboard.duels.ringwedge',
 	questRoute: 'duels',
@@ -366,6 +367,53 @@ export const duelRingwedgeBoard = new LeaderboardDefinition({
 	},
 });
 
+export const duelVenogiaBoard = new LeaderboardDefinition({
+	name: 'leaderboard.duels.venogia',
+	questRoute: 'duels',
+	categoryRoute: 'venogia',
+	icon: '/icons/submit/duel_nils_stia.png',
+	game: Game.Ngs,
+	quest: NgsQuests.Duels,
+	category: NgsRunCategories.Venogia,
+	maxQuestRank: 1,
+	playerCap: 1,
+	allowedPartySizes: [PartySize.Solo],
+	maxSeconds: 10 * 60,
+	rules: rules,
+	discordNotifyTemplate: '{boardName} ({partySize})',
+	runSubmissionSchema: createDetailedRunSubmissionSchema(
+		NgsQuests.Duels,
+		NgsRunCategories.Venogia,
+		1,
+		1,
+		10 * 60,
+		duelDetailsSchema
+	),
+	detailsTableHeader: {
+		label: 'Augments',
+		textAlign: 'center',
+	},
+	runSearch: {
+		runSearchSchema: duelSearchSchema(NgsRunCategories.Venogia),
+		filterDefaults: (f) => {
+			f.quest = NgsQuests.Duels;
+			f.partySize = 1;
+		},
+		attributeFilter: (f) => {
+			const augmentFilterValue = convertFilterToBoolean(f.augments as string);
+			return augmentFilterValue === null || augmentFilterValue === undefined
+				? undefined
+				: ([
+						{
+							path: 'augments',
+							type: 'boolean',
+							value: augmentFilterValue,
+						},
+				  ] satisfies RunAttributeFilter[]);
+		},
+	},
+});
+
 export const duelBoards = [
 	duelNexAelioBoard,
 	duelRenusRetemBoard,
@@ -374,4 +422,5 @@ export const duelBoards = [
 	duelHalvaldiBoard,
 	duelZelvinBoard,
 	duelRingwedgeBoard,
+	duelVenogiaBoard,
 ];

@@ -23,7 +23,8 @@
 			"retem": "Retem",
 			"kvaris": "Kvaris",
 			"stia": "Stia",
-			"aelio_intruders": "Aelio Intruders"
+			"aelio_intruders": "Aelio Intruders",
+			"venogia": "Venogia"
 		}
 	},
 	"pso2": {},
@@ -149,7 +150,8 @@
 			"retem": "Retem",
 			"kvaris": "Kvaris",
 			"stia": "Stia",
-			"aelio_intruders": "Aelio Intruders"
+			"aelio_intruders": "Aelio Intruders",
+			"venogia": "Venogia"
 		},
 		"partySizes": {
 			"solo": "Solo",
@@ -169,7 +171,8 @@
 			"renusRetem": "Duel Renus Retem",
 			"halvaldi": "Duel Halvaldi",
 			"zelvin": "Duel Zelvin",
-			"ringwedge": "Duel Ringwedge"
+			"ringwedge": "Duel Ringwedge",
+			"venogia": "Duel Venogia"
 		},
 		"purples": {
 			"aelio": "Purple Aelio",
