@@ -136,6 +136,11 @@
 							slots, new class skills, Augment and Special Ability transfer, and EX Special Ability augmentations.
 							was released on this patch as well.
 						</TimelineNode>
+						<TimelineNode title="MARS Release" time="July 31, 2024" side="left" fillLineStart>
+							Known as the {patchCodeLabelMap['marsRelease']} patch, the MARS combat system was released.
+							From August 10⭐ Ektasis Armor will was released. And then from August 28, 11⭐Exelio weapon
+							series was released.
+						</TimelineNode>
 					</Timeline>
 				</div>
 			</div>
