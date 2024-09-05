@@ -34,16 +34,6 @@ const dfAegisDetailsSchema = object({
 		}),
 });
 
-const dfAegisPartyRunSearchSchema = createDetailedRunSearchSchema(
-	NgsQuests.DfAegis,
-	NgsRunCategories.Quest,
-	1,
-	4,
-	object({
-		support: mixed<DfAegisSupport>().nullable().oneOf(supports),
-	})
-);
-
 export const dfAegisQuest = new LeaderboardDefinition({
 	name: 'leaderboard.dfAegis',
 	questRoute: 'dfaegis',
@@ -140,20 +130,28 @@ export const dfAegisTrigger = new LeaderboardDefinition({
 	game: Game.Ngs,
 	quest: NgsQuests.DfAegis,
 	category: NgsRunCategories.Trigger,
-	maxQuestRank: 1,
+	maxQuestRank: 2,
 	playerCap: 4,
 	allowedPartySizes: [PartySize.Solo, PartySize.Duo, PartySize.Party],
 	maxSeconds: 20 * 60,
 	runSubmissionSchema: createDetailedRunSubmissionSchema(
 		NgsQuests.DfAegis,
 		NgsRunCategories.Trigger,
-		1,
+		2,
 		4,
 		20 * 60,
 		dfAegisDetailsSchema
 	),
 	runSearch: {
-		runSearchSchema: dfAegisPartyRunSearchSchema,
+		runSearchSchema: createDetailedRunSearchSchema(
+			NgsQuests.DfAegis,
+			NgsRunCategories.Quest,
+			2,
+			4,
+			object({
+				support: mixed<DfAegisSupport>().nullable().oneOf(supports),
+			})
+		),
 		filterDefaults: (f) => {
 			f.quest = NgsQuests.DfAegis;
 			f.category = f.category ?? NgsRunCategories.Trigger;

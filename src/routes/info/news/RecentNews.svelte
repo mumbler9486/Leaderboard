@@ -9,11 +9,19 @@
 		We have added a Dalion Rank 2 (standing quest) leaderboard. That's all for this month!
 	</NewsSection>
 </HomeNews>
-<HomeNews publicationDateIso="2024-08-01T08:00:00.000Z" title="Leaderboard August 2024 Updates">
+<HomeNews
+	publicationDateIso="2024-08-01T08:00:00.000Z"
+	lastUpdatedIso="2024-09-05T08:00:00.000Z"
+	title="Leaderboard August 2024 Updates"
+>
 	<NewsSection sectionTitle="⚒⤴ M.A.R.S. Release Patch code">
 		We will be adding a patch bump for MARS starting on July 31st. A new weapon series and armor
 		will be coming later this month but will be considered part of the same patch code as MARS. For
 		more information see our <a class="link" href="/info/patch-codes">patch codes</a> list.
+	</NewsSection>
+	<NewsSection sectionTitle="🏞 Dark Falz Aegis Rank 2 Trigger Quest">
+		Dark Falz Aegis trigger quest will gain a new rank on July 31st. The new rank will have a
+		leaderboard.
 	</NewsSection>
 </HomeNews>
 <HomeNews publicationDateIso="2024-07-02T08:00:00.000Z" title="Leaderboard July 2024 Updates">
