@@ -30,14 +30,6 @@
 			<Divider />
 
 			<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
-				<JumboButton
-					label="Duels"
-					image="/icons/submit/ringwedge.jpg"
-					link="/submit/duels"
-					overlayColor="neutral"
-					buttonLabel="Submit"
-					badge="New Boss Venogia"
-				/>
 				{#each leaderboards.filter((b) => b.quest === NgsQuests.DfDalion) as board}
 					<JumboButton
 						label={$t(board.name)}
@@ -45,16 +37,22 @@
 						link={`/submit/${board.questRoute}`}
 						overlayColor="neutral"
 						buttonLabel="Submit"
-						badge={`New Boss`}
+						badge={`New Rank`}
 					/>
 				{/each}
+				<JumboButton
+					label="Duels"
+					image="/icons/submit/ringwedge.jpg"
+					link="/submit/duels"
+					overlayColor="neutral"
+					buttonLabel="Submit"
+				/>
 				<JumboButton
 					label="Purples"
 					image="/icons/submit/purple_trigger_gate.jpg"
 					link="/submit/purples"
 					overlayColor="purple"
 					buttonLabel="Submit"
-					badge="New Region"
 				/>
 				<!-- TODO Temporary for ordering the boards in a particular order in new board format  -->
 				{#each leaderboards.filter((b) => b.quest === NgsQuests.DfAegis) as board}

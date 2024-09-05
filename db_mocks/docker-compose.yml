@@ -3,7 +3,7 @@ name: pso2-lebrd-local
 
 services:
   sql-db:
-    image: mcr.microsoft.com/azure-sql-edge
+    image: mcr.microsoft.com/azure-sql-edge:2.0.0
     container_name: pso2-lebrd-sql-db
     environment:
       ACCEPT_EULA: 1 # Please read the EULA, it has been accepted

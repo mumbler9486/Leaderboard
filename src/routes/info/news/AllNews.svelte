@@ -8,6 +8,23 @@
 <RecentNews />
 
 <HomeNews
+	publicationDateIso="2024-05-05T13:00:00.000Z"
+	title="Leaderboard May 2024 Updates"
+	lastUpdatedIso="2024-05-06T13:00:00.000Z"
+>
+	<NewsSection sectionTitle="🟪 New Purple Region - Aelio Intruders">
+		A new purple trigger quest called "Aelio Intruders" will release on May 8th. A new leaderboard
+		has been prepared for this new purple quest. You will be able to submit solo, duo, party
+		4-players, and party 8-players. You can challenge this quest at the purple trigger gate in
+		Halphia Lake.
+	</NewsSection>
+	<NewsSection sectionTitle="⬆ Urgent Quest Ver. of Dark Falz Dalion">
+		NGS will have the release of the urgent quest version for Dark Falz Dalion on May 22. We will
+		prepare the leaderboard for this quest. Note that this is an 8 player quest and the boss has
+		relaxed failure conditions, HP, and Attack power.
+	</NewsSection>
+</HomeNews>
+<HomeNews
 	publicationDateIso="2024-04-05T13:00:00.000Z"
 	title="Leaderboard April 2024 Updates"
 	lastUpdatedIso="2024-04-10T14:00:00.000Z"

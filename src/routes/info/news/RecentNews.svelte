@@ -4,6 +4,11 @@
 	import NewsSection from '$lib/PageComponents/News/NewsSection.svelte';
 </script>
 
+<HomeNews publicationDateIso="2024-09-05T08:00:00.000Z" title="Leaderboard September 2024 Updates">
+	<NewsSection sectionTitle="🦁2️⃣ Dalion Rank 2 Quest">
+		We have added a Dalion Rank 2 (standing quest) leaderboard. That's all for this month!
+	</NewsSection>
+</HomeNews>
 <HomeNews publicationDateIso="2024-08-01T08:00:00.000Z" title="Leaderboard August 2024 Updates">
 	<NewsSection sectionTitle="⚒⤴ M.A.R.S. Release Patch code">
 		We will be adding a patch bump for MARS starting on July 31st. A new weapon series and armor
@@ -43,22 +48,5 @@
 	<NewsSection sectionTitle="2️⃣🌞 Rank 2 Dark Falz Solus">
 		NGS will have the release a rank 2 Dark Falz Solus quest version (4-players). We will prepare a
 		leaderboard for this around its release time on June 19th.
-	</NewsSection>
-</HomeNews>
-<HomeNews
-	publicationDateIso="2024-05-05T13:00:00.000Z"
-	title="Leaderboard May 2024 Updates"
-	lastUpdatedIso="2024-05-06T13:00:00.000Z"
->
-	<NewsSection sectionTitle="🟪 New Purple Region - Aelio Intruders">
-		A new purple trigger quest called "Aelio Intruders" will release on May 8th. A new leaderboard
-		has been prepared for this new purple quest. You will be able to submit solo, duo, party
-		4-players, and party 8-players. You can challenge this quest at the purple trigger gate in
-		Halphia Lake.
-	</NewsSection>
-	<NewsSection sectionTitle="⬆ Urgent Quest Ver. of Dark Falz Dalion">
-		NGS will have the release of the urgent quest version for Dark Falz Dalion on May 22. We will
-		prepare the leaderboard for this quest. Note that this is an 8 player quest and the boss has
-		relaxed failure conditions, HP, and Attack power.
 	</NewsSection>
 </HomeNews>
