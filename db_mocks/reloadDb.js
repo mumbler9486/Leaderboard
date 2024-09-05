@@ -37,7 +37,14 @@ const execSqlFile = (sqlFile) => {
 // Config database
 shell.echo('');
 shell.echo('Creating DB if not already');
-execSqlFile('scripts/create_db.sql');
+dockerExecAzureSql(
+	dbContainerName,
+	workDir,
+	databaseUser,
+	databasePassword,
+	undefined,
+	'scripts/create_db.sql'
+);
 
 // Drop old tables
 shell.echo('');
