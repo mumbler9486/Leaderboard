@@ -5,7 +5,7 @@
 </script>
 
 <HomeNews publicationDateIso="2024-10-02T08:00:00.000Z" title="Leaderboard October 2024 Updates">
-	<NewsSection sectionTitle="⚒⤴ Level 95 Release Patch code">
+	<NewsSection sectionTitle="⤴ Level 95 Release Patch code">
 		We have increased the patch code for the level 95 cap release. For more information see our <a
 			class="link"
 			href="/info/patch-codes">patch codes</a
