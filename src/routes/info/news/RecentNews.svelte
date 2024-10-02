@@ -4,6 +4,14 @@
 	import NewsSection from '$lib/PageComponents/News/NewsSection.svelte';
 </script>
 
+<HomeNews publicationDateIso="2024-10-02T08:00:00.000Z" title="Leaderboard October 2024 Updates">
+	<NewsSection sectionTitle="⤴ Level 95 Release Patch code">
+		We have increased the patch code for the level 95 cap release. For more information see our <a
+			class="link"
+			href="/info/patch-codes">patch codes</a
+		> list.
+	</NewsSection>
+</HomeNews>
 <HomeNews publicationDateIso="2024-09-05T08:00:00.000Z" title="Leaderboard September 2024 Updates">
 	<NewsSection sectionTitle="🦁2️⃣ Dalion Rank 2 Quest">
 		We have added a Dalion Rank 2 (standing quest) leaderboard. That's all for this month!
@@ -43,18 +51,5 @@
 		We don't know what impact it will have on runs but for now we will play by ear and see how it
 		affects running. We may create a patch bump for it. If you would like to join in on this
 		discussion join us on our <DiscordContact />.
-	</NewsSection>
-</HomeNews>
-<HomeNews publicationDateIso="2024-06-01T02:00:00.000Z" title="Leaderboard June 2024 Updates">
-	<NewsSection sectionTitle="⤴ Patch Bump">
-		Patch code has been bumped to "Level 90 Release". All runs submitted from June 5th (after game
-		maintenance) and beyond will be on the new patch code. For more details see the <a
-			class="link"
-			href="/info/patch-codes">patch codes</a
-		> list. You can always ask a moderator to update your submission's patch code.
-	</NewsSection>
-	<NewsSection sectionTitle="2️⃣🌞 Rank 2 Dark Falz Solus">
-		NGS will have the release a rank 2 Dark Falz Solus quest version (4-players). We will prepare a
-		leaderboard for this around its release time on June 19th.
 	</NewsSection>
 </HomeNews>

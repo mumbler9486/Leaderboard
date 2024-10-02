@@ -141,6 +141,11 @@
 							From August 10⭐ Ektasis Armor will was released. And then from August 28, 11⭐Exelio weapon
 							series was released.
 						</TimelineNode>
+						<TimelineNode title="Level 95 Release" time="Oct 2, 2024" side="right" fillLineStart>
+							Known as the {patchCodeLabelMap['level95r']} patch, the player level cap was increased
+							to 95 for all classes. This release also included techter class balance adjustments for
+							wands and new class skills.
+						</TimelineNode>
 					</Timeline>
 				</div>
 			</div>

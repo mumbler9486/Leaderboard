@@ -37,7 +37,6 @@
 						link={`/submit/${board.questRoute}`}
 						overlayColor="neutral"
 						buttonLabel="Submit"
-						badge={`New Rank`}
 					/>
 				{/each}
 				<JumboButton
