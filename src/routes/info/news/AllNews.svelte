@@ -7,6 +7,19 @@
 
 <RecentNews />
 
+<HomeNews publicationDateIso="2024-06-01T02:00:00.000Z" title="Leaderboard June 2024 Updates">
+	<NewsSection sectionTitle="⤴ Patch Bump">
+		Patch code has been bumped to "Level 90 Release". All runs submitted from June 5th (after game
+		maintenance) and beyond will be on the new patch code. For more details see the <a
+			class="link"
+			href="/info/patch-codes">patch codes</a
+		> list. You can always ask a moderator to update your submission's patch code.
+	</NewsSection>
+	<NewsSection sectionTitle="2️⃣🌞 Rank 2 Dark Falz Solus">
+		NGS will have the release a rank 2 Dark Falz Solus quest version (4-players). We will prepare a
+		leaderboard for this around its release time on June 19th.
+	</NewsSection>
+</HomeNews>
 <HomeNews
 	publicationDateIso="2024-05-05T13:00:00.000Z"
 	title="Leaderboard May 2024 Updates"
