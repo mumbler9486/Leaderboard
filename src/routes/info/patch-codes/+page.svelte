@@ -144,7 +144,8 @@
 						<TimelineNode title="Level 95 Release" time="Oct 2, 2024" side="right" fillLineStart>
 							Known as the {patchCodeLabelMap['level95r']} patch, the player level cap was increased
 							to 95 for all classes. A new weapon series "Duo Selio" was released. This release also
-							included techter class balance adjustments for wands and new class skills.
+							included techter class balance adjustments for wands and new class skills. Update: Oct
+							16, 2024 update introduced Highstira Domina and Giga Triyal augments that can be obtained.
 						</TimelineNode>
 					</Timeline>
 				</div>
