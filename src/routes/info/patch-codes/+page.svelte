@@ -2,7 +2,7 @@
 	import Divider from '$lib/Components/Divider.svelte';
 	import Timeline from '$lib/Components/Timeline.svelte';
 	import TimelineNode from '$lib/Components/TimelineNode.svelte';
-	import { patchCodeLabelMap } from '$lib/constants/patchCodes';
+	import { currentPatchLabel, patchCodeLabelMap } from '$lib/constants/patchCodes';
 </script>
 
 <div class="flex flex-col content-center">
@@ -11,6 +11,9 @@
 			<div class="text-center text-4xl font-light">Patch Code History</div>
 			<Divider />
 			<div class="flex flex-col items-center">
+				<div class="mb-4 text-xl">
+					The current patch is <span class="font-bold text-primary">{currentPatchLabel}</span>
+				</div>
 				<div class="flex max-w-4xl flex-col gap-2">
 					<p>
 						Patch codes are a common staple in speed-running. They denote eras of a game for a
@@ -51,7 +54,7 @@
 							entered in the leaderboard.
 						</TimelineNode>
 						<TimelineNode
-							title="Slayer Class Release"
+							title={patchCodeLabelMap['slayer']}
 							time="April 12, 2023"
 							side="left"
 							fillLineEnd
@@ -63,7 +66,7 @@
 							available to fight.
 						</TimelineNode>
 						<TimelineNode
-							title="Weapon Potential Lv6 Release"
+							title={patchCodeLabelMap['pot6r']}
 							time="April 19, 2023"
 							side="right"
 							fillLineEnd
@@ -72,7 +75,7 @@
 							Weapon potential level 6 was released which required Photon Chunk II A & B to unlock.
 						</TimelineNode>
 						<TimelineNode
-							title="Level 75 Cap release"
+							title={patchCodeLabelMap['level75r']}
 							time="June 14, 2023"
 							side="left"
 							fillLineEnd
@@ -85,7 +88,7 @@
 							first time.
 						</TimelineNode>
 						<TimelineNode
-							title="Level 80 Cap release"
+							title={patchCodeLabelMap['level80r']}
 							time="October 11, 2023"
 							side="right"
 							fillLineEnd
@@ -108,7 +111,7 @@
 							Bouncer re-balance was released.
 						</TimelineNode>
 						<TimelineNode
-							title="Level 85 Release"
+							title={patchCodeLabelMap['level85r']}
 							time="January 31, 2024"
 							side="right"
 							fillLineStart
@@ -130,23 +133,49 @@
 							to various classes that we think would have an impact on the way players approach bosses
 							with their classes. Such as Slayer's Regulus PA and changes to Hunter's PAs.
 						</TimelineNode>
-						<TimelineNode title="Level 90 Release" time="June 5, 2024" side="right" fillLineStart>
+						<TimelineNode
+							title={patchCodeLabelMap['level90r']}
+							time="June 5, 2024"
+							side="right"
+							fillLineStart
+						>
 							Known as the {patchCodeLabelMap['level90r']} patch, the player level cap has been updated
 							to 90. This alongside the 11⭐ Eredim series weapons, level 90 weapon/armor grind, 7 augment
 							slots, new class skills, Augment and Special Ability transfer, and EX Special Ability augmentations.
 							was released on this patch as well.
 						</TimelineNode>
-						<TimelineNode title="MARS Release" time="July 31, 2024" side="left" fillLineStart>
+						<TimelineNode
+							title={patchCodeLabelMap['marsRelease']}
+							time="July 31, 2024"
+							side="left"
+							fillLineStart
+						>
 							Known as the {patchCodeLabelMap['marsRelease']} patch, the MARS combat system was released.
 							From August 10⭐ Ektasis Armor will was released. And then from August 28, 11⭐Exelio weapon
 							series was released.
 						</TimelineNode>
-						<TimelineNode title="Level 95 Release" time="Oct 2, 2024" side="right" fillLineStart>
+						<TimelineNode
+							title={patchCodeLabelMap['level95r']}
+							time="Oct 2, 2024"
+							side="right"
+							fillLineStart
+						>
 							Known as the {patchCodeLabelMap['level95r']} patch, the player level cap was increased
 							to 95 for all classes. A new weapon series "Duo Selio" was released. This release also
 							included techter class balance adjustments for wands and new class skills. Update: Oct
 							16, 2024 update introduced the Highstira Domina augment. Update two: Oct 23, 2024 introduced
 							the Giga Triyal augment.
+						</TimelineNode>
+						<TimelineNode
+							title={patchCodeLabelMap['forceRebalance']}
+							time="Dec 4, 2024"
+							side="left"
+							fillLineStart
+						>
+							Known as the {patchCodeLabelMap['forceRebalance']} patch, the force class was rebalanced.
+							Later in the month, a new 12-star weapon series "Twaalv" was released (Dec 18th). This
+							release also introduced new EX Augments EX Turnover H, EX Evade HP Gain H, EX Bring Down
+							PB Boost H, and EX Maintain Balance H.
 						</TimelineNode>
 					</Timeline>
 				</div>
