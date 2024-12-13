@@ -5,7 +5,7 @@
 </script>
 
 <HomeNews publicationDateIso="2024-12-13T08:00:00.000Z" title="Leaderboard December 2024 Updates">
-	<NewsSection sectionTitle="New Patch: Force Class Balance Adjustments">
+	<NewsSection sectionTitle="⤴ New Patch: Force Class Balance Adjustments">
 		On December 4th we will be getting a major class balance update focused on the Force class.
 		Following, new 12-star Twaalv series will release on December 18th. This new series will also
 		include new EX augments. Ruine Masquerader is expected to arrive next month in January so we
