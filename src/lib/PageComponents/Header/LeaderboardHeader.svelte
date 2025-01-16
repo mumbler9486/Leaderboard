@@ -46,6 +46,7 @@
 				{ label: 'Zelvin', link: '/runs/duels/zelvin' },
 				{ label: 'Ringwedge', link: '/runs/duels/ringwedge' },
 				{ label: 'Venogia', link: '/runs/duels/venogia' },
+				{ label: 'Masquerade', link: '/runs/extra-duels/masquerade' },
 			],
 		},
 	] satisfies MenuGroup[];

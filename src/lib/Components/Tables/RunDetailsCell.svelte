@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { NgsQuests } from '$lib/types/api/runs/quests';
+	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import type { DfAegisRunDetails, Run } from '$lib/types/api/runs/run';
 	import DfAegisSupportIcon from '../DfAegisSupportIcon.svelte';
 
@@ -19,6 +20,8 @@
 
 {#if run.quest === NgsQuests.DfAegis}
 	<DfAegisSupportIcon support={run.details?.support} />
+{:else if run.quest === NgsQuests.ExtraDuels && run.category === NgsRunCategories.Masquerade}
+	<span class="text-xs">Depth: {run.details?.depth}, Rank: {run.questRank}</span>
 {:else if run.quest === NgsQuests.Duels}
 	Augments: {run.details?.augments ? 'Yes' : 'No'}
 {:else}

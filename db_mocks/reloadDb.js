@@ -79,6 +79,9 @@ execSqlFile('scripts/runs/05_venogia.sql');
 shell.echo('Creating Dalion runs.');
 execSqlFile('scripts/runs/06_dfdalion.sql');
 
+shell.echo('Creating Duel Masq runs.');
+execSqlFile('scripts/runs/07_duel_masq.sql');
+
 // Run creation cleanup
 shell.echo('Cleaning up run creation.');
 execSqlFile('scripts/runs/99_cleanup.sql');

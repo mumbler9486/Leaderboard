@@ -227,6 +227,14 @@ export const getRuns = async (
 	return results.recordset as GetRunDbModel[];
 };
 
+export const getMasqRuns = async (
+	request: Request,
+	userFilters: RunsSearchFilter,
+	serverFilters: ServerSearchFilter,
+	attributeFilters?: RunAttributeFilter[]) => {
+		return getRuns(request,userFilters,serverFilters,attributeFilters);
+}
+
 export const insertRun = async (
 	transaction: sql.Transaction,
 	game: Game,
