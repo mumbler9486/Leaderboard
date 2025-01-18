@@ -9,7 +9,7 @@
 	import MasqDetails from './MasqDetails.svelte';
 
 	export let boardInfo: LeaderboardDefinition<any, any>;
-	export let runDetails: Run<unknown>['details'];
+	export let run: Run<unknown>;
 
 	const detailsMap: Partial<Record<NgsQuests, ComponentType>> = {
 		[NgsQuests.DfAegis]: DfAegisDetails,
@@ -20,7 +20,7 @@
 </script>
 
 {#if boardInfo.quest === NgsQuests.ExtraDuels && boardInfo.category === NgsRunCategories.Masquerade}
-	<MasqDetails details={runDetails} />
+	<MasqDetails questRank={run.questRank} details={run.details} />
 {:else if !!detailsComponent}
-	<svelte:component this={detailsComponent} details={runDetails} />
+	<svelte:component this={detailsComponent} details={run.details} />
 {/if}

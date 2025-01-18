@@ -25,7 +25,7 @@ export const duelMasqDepthsBoard = new LeaderboardDefinition({
 	game: Game.Ngs,
 	quest: NgsQuests.ExtraDuels,
 	category: NgsRunCategories.Masquerade,
-	maxQuestRank: 1,
+	maxQuestRank: 10,
 	playerCap: 1,
 	allowedPartySizes: [PartySize.Solo],
 	maxSeconds: 10 * 60,
@@ -34,7 +34,7 @@ export const duelMasqDepthsBoard = new LeaderboardDefinition({
 	runSubmissionSchema: createDetailedRunSubmissionSchema(
 		NgsQuests.ExtraDuels,
 		NgsRunCategories.Masquerade,
-		1,
+		10,
 		1,
 		10 * 60,
 		duelDetailsSchema
@@ -47,7 +47,7 @@ export const duelMasqDepthsBoard = new LeaderboardDefinition({
 		runSearchSchema: createDetailedRunSearchSchema(
 			NgsQuests.ExtraDuels,
 			NgsRunCategories.Masquerade,
-			1,
+			10,
 			1,
 			object({
 				depth: number().nullable().min(1).max(10),
