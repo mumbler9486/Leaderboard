@@ -31,6 +31,10 @@
 	const tabs: Boards[] = [
 		{ boardInfo: null, name: '✨Recent', color: 'yellow' },
 		{
+			boardInfo: lookupBoard(NgsQuests.ExtraDuels, NgsRunCategories.Masquerade),
+			name: 'Masquerade',
+		},
+		{
 			boardInfo: lookupBoard(NgsQuests.DfDalion, NgsRunCategories.Quest),
 			name: 'Dark Falz Dalion',
 		},
