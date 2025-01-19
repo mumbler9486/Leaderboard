@@ -4,26 +4,26 @@ SET IDENTITY_INSERT [dbo].[Runs] ON;
 INSERT INTO dbo.Runs
   (Id,SubmitterId,Game,Quest,Category,ServerRegion,Patch,QuestRank,PartySize,RunTime,Notes,SubmissionDate,SubmissionStatus,DateReviewed,ModNotes,Attributes,ReviewedBy)
 VALUES
-  (71000,1001,'ngs','extra-duels','masquerade','global','lvl80grind',1,1,'00:04:50','Test notes','2023-09-06T00:36:57Z',1,'2023-09-06T11:59:25Z','Test Mod Notes','{"augments":false,"depth":10}','Tall Mommy Cool'),
-  (71001,1017,'ngs','extra-duels','masquerade','global','level75r',2,1,'00:06:47','Test notes','2023-03-07T13:03:53Z',1,'2023-03-07T23:12:56Z','Test Mod Notes','{"augments":true,"depth":8}','Tall Mommy Cool'),
-  (71002,1011,'ngs','extra-duels','masquerade','global','level80r',2,1,'00:03:46','Test notes','2023-04-28T08:07:35Z',1,'2023-04-28T16:28:28Z','Test Mod Notes','{"augments":false,"depth":4}','Tall Mommy Cool'),
-  (71003,1013,'ngs','extra-duels','masquerade','global','slayer',1,1,'00:02:25','Test notes','2023-06-22T23:39:31Z',1,'2023-06-23T11:44:13Z','Test Mod Notes','{"augments":false,"depth":5}','Tall Mommy Cool'),
-  (71004,5000000,'ngs','extra-duels','masquerade','global','pot6r',2,1,'00:02:00','Test notes','2023-04-30T13:49:42Z',1,'2023-05-01T02:18:36Z','Test Mod Notes','{"augments":true,"depth":3}','Tall Mommy Cool'),
-  (71005,1011,'ngs','extra-duels','masquerade','japan','pot6r',1,1,'00:07:09','Test notes','2023-12-05T05:30:07Z',1,'2023-12-05T10:21:04Z','Test Mod Notes','{"augments":true,"depth":9}','Tall Mommy Cool'),
-  (71006,1012,'ngs','extra-duels','masquerade','global','lvl80grind',2,1,'00:09:18','Test notes','2023-08-01T09:46:47Z',1,'2023-08-01T21:38:34Z','Test Mod Notes','{"augments":false,"depth":5}','Tall Mommy Cool'),
-  (71007,1013,'ngs','extra-duels','masquerade','global','pot6r',1,1,'00:09:54','Test notes','2023-08-14T20:19:52Z',1,'2023-08-15T01:32:18Z','Test Mod Notes','{"augments":false,"depth":1}','Tall Mommy Cool'),
-  (71008,1014,'ngs','extra-duels','masquerade','japan','pot6r',1,1,'00:07:09','Test notes','2023-03-23T16:25:10Z',1,'2023-03-23T16:50:54Z','Test Mod Notes','{"augments":true,"depth":7}','Tall Mommy Cool'),
-  (71009,1013,'ngs','extra-duels','masquerade','global','60r',2,1,'00:04:18','Test notes','2023-12-30T04:04:17Z',1,'2023-12-30T16:24:34Z','Test Mod Notes','{"augments":true,"depth":4}','Tall Mommy Cool'),
-  (71010,1015,'ngs','extra-duels','masquerade','japan','pre60r',1,1,'00:02:17','Test notes','2023-12-19T18:35:06Z',1,'2023-12-20T05:56:14Z','Test Mod Notes','{"augments":false,"depth":1}','Tall Mommy Cool'),
-  (71011,1014,'ngs','extra-duels','masquerade','global','level75r',2,1,'00:05:17','Test notes','2023-11-19T20:02:57Z',1,'2023-11-20T07:55:36Z','Test Mod Notes','{"augments":false,"depth":7}','Tall Mommy Cool'),
-  (71012,1017,'ngs','extra-duels','masquerade','japan','level75r',1,1,'00:09:07','Test notes','2023-12-24T01:57:38Z',1,'2023-12-24T04:39:40Z','Test Mod Notes','{"augments":true,"depth":8}','Tall Mommy Cool'),
-  (71013,1016,'ngs','extra-duels','masquerade','global','level80r',2,1,'00:06:19','Test notes','2023-02-12T08:38:37Z',1,'2023-02-12T14:17:42Z','Test Mod Notes','{"augments":false,"depth":9}','Tall Mommy Cool'),
-  (71014,1011,'ngs','extra-duels','masquerade','japan','level75r',1,1,'00:09:49','Test notes','2023-06-04T23:37:19Z',1,'2023-06-05T01:21:53Z','Test Mod Notes','{"augments":false,"depth":4}','Tall Mommy Cool'),
-  (71015,1012,'ngs','extra-duels','masquerade','global','pre60r',1,1,'00:10:00','Test notes','2023-11-21T21:24:38Z',1,'2023-11-22T09:17:32Z','Test Mod Notes','{"augments":false,"depth":10}','Tall Mommy Cool'),
-  (71016,1012,'ngs','extra-duels','masquerade','global','pre60r',2,1,'00:03:37','New Time succeeds old run','2023-01-27T09:23:05Z',1,'2023-01-27T17:37:18Z','Test Mod Notes','{"augments":true,"depth":10}','Tall Mommy Cool'),
-  (71017,5000000,'ngs','extra-duels','masquerade','global','level80r',1,1,'00:03:40','Test not yet approved run','2024-01-06T05:14:05Z',0,NULL,NULL,'{"augments":true,"depth":2}',NULL),
-  (71018,5000000,'ngs','extra-duels','masquerade','global','lvl80grind',2,1,'00:02:46','Test not yet approved run 2','2023-02-27T13:08:04Z',0,NULL,NULL,'{"augments":true,"depth":8}',NULL),
-  (71019,5000000,'ngs','extra-duels','masquerade','global','level75r',1,1,'00:04:44','Test reject run','2023-10-28T23:18:50Z',9,'2023-10-29T08:04:06Z','Rejected run','{"augments":false,"depth":2}','Tall Mommy Cool')
+  (71000,1001,'ngs','extra-duels','masquerade','global','lvl80grind',1,1,'00:04:50','Test notes','2023-09-06T00:36:57Z',1,'2023-09-06T11:59:25Z','Test Mod Notes','{"depth":10}','Tall Mommy Cool'),
+  (71001,1017,'ngs','extra-duels','masquerade','global','level75r',2,1,'00:06:47','Test notes','2023-03-07T13:03:53Z',1,'2023-03-07T23:12:56Z','Test Mod Notes','{"depth":8}','Tall Mommy Cool'),
+  (71002,1011,'ngs','extra-duels','masquerade','global','level80r',2,1,'00:03:46','Test notes','2023-04-28T08:07:35Z',1,'2023-04-28T16:28:28Z','Test Mod Notes','{"depth":4}','Tall Mommy Cool'),
+  (71003,1013,'ngs','extra-duels','masquerade','global','slayer',1,1,'00:02:25','Test notes','2023-06-22T23:39:31Z',1,'2023-06-23T11:44:13Z','Test Mod Notes','{"depth":5}','Tall Mommy Cool'),
+  (71004,5000000,'ngs','extra-duels','masquerade','global','pot6r',2,1,'00:02:00','Test notes','2023-04-30T13:49:42Z',1,'2023-05-01T02:18:36Z','Test Mod Notes','{"depth":3}','Tall Mommy Cool'),
+  (71005,1011,'ngs','extra-duels','masquerade','japan','pot6r',1,1,'00:07:09','Test notes','2023-12-05T05:30:07Z',1,'2023-12-05T10:21:04Z','Test Mod Notes','{"depth":9}','Tall Mommy Cool'),
+  (71006,1012,'ngs','extra-duels','masquerade','global','lvl80grind',2,1,'00:09:18','Test notes','2023-08-01T09:46:47Z',1,'2023-08-01T21:38:34Z','Test Mod Notes','{"depth":5}','Tall Mommy Cool'),
+  (71007,1013,'ngs','extra-duels','masquerade','global','pot6r',1,1,'00:09:54','Test notes','2023-08-14T20:19:52Z',1,'2023-08-15T01:32:18Z','Test Mod Notes','{"depth":1}','Tall Mommy Cool'),
+  (71008,1014,'ngs','extra-duels','masquerade','japan','pot6r',1,1,'00:07:09','Test notes','2023-03-23T16:25:10Z',1,'2023-03-23T16:50:54Z','Test Mod Notes','{"depth":7}','Tall Mommy Cool'),
+  (71009,1013,'ngs','extra-duels','masquerade','global','60r',2,1,'00:04:18','Test notes','2023-12-30T04:04:17Z',1,'2023-12-30T16:24:34Z','Test Mod Notes','{"depth":4}','Tall Mommy Cool'),
+  (71010,1015,'ngs','extra-duels','masquerade','japan','pre60r',1,1,'00:02:17','Test notes','2023-12-19T18:35:06Z',1,'2023-12-20T05:56:14Z','Test Mod Notes','{"depth":1}','Tall Mommy Cool'),
+  (71011,1014,'ngs','extra-duels','masquerade','global','level75r',2,1,'00:05:17','Test notes','2023-11-19T20:02:57Z',1,'2023-11-20T07:55:36Z','Test Mod Notes','{"depth":7}','Tall Mommy Cool'),
+  (71012,1017,'ngs','extra-duels','masquerade','japan','level75r',1,1,'00:09:07','Test notes','2023-12-24T01:57:38Z',1,'2023-12-24T04:39:40Z','Test Mod Notes','{"depth":8}','Tall Mommy Cool'),
+  (71013,1016,'ngs','extra-duels','masquerade','global','level80r',2,1,'00:06:19','Test notes','2023-02-12T08:38:37Z',1,'2023-02-12T14:17:42Z','Test Mod Notes','{"depth":9}','Tall Mommy Cool'),
+  (71014,1011,'ngs','extra-duels','masquerade','japan','level75r',1,1,'00:09:49','Test notes','2023-06-04T23:37:19Z',1,'2023-06-05T01:21:53Z','Test Mod Notes','{"depth":4}','Tall Mommy Cool'),
+  (71015,1012,'ngs','extra-duels','masquerade','global','pre60r',1,1,'00:10:00','Test notes','2023-11-21T21:24:38Z',1,'2023-11-22T09:17:32Z','Test Mod Notes','{"depth":10}','Tall Mommy Cool'),
+  (71016,1012,'ngs','extra-duels','masquerade','global','pre60r',2,1,'00:03:37','New Time succeeds old run','2023-01-27T09:23:05Z',1,'2023-01-27T17:37:18Z','Test Mod Notes','{"depth":10}','Tall Mommy Cool'),
+  (71017,5000000,'ngs','extra-duels','masquerade','global','level80r',1,1,'00:03:40','Test not yet approved run','2024-01-06T05:14:05Z',0,NULL,NULL,'{"depth":2}',NULL),
+  (71018,5000000,'ngs','extra-duels','masquerade','global','lvl80grind',2,1,'00:02:46','Test not yet approved run 2','2023-02-27T13:08:04Z',0,NULL,NULL,'{"depth":8}',NULL),
+  (71019,5000000,'ngs','extra-duels','masquerade','global','level75r',1,1,'00:04:44','Test reject run','2023-10-28T23:18:50Z',9,'2023-10-29T08:04:06Z','Rejected run','{"depth":2}','Tall Mommy Cool')
 ;
 SET IDENTITY_INSERT [dbo].[Runs] OFF;
 

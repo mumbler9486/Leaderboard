@@ -23,10 +23,7 @@ const classes = [
 const servers = [null, ServerRegion.Global, ServerRegion.Japan];
 const validCategories = [null, ...listEnumValues(NgsRunCategories)];
 const validQuests = [null, ...listEnumValues(NgsQuests)];
-const sortOrders: (string | null)[] = [
-	null,
-	...stringEnumValuesToList<RunSortOption>(RunSortOption),
-];
+const sortOrders: (string | null)[] = [null, RunSortOption.Ranking, RunSortOption.Recent];
 
 export const runsSearchFilterSchema = object({
 	quest: string().nullable().oneOf(validQuests),
@@ -53,7 +50,7 @@ export const runsSearchFilterSchema = object({
 	rank: number().integer().nullable().min(0).max(30),
 	page: number().min(0).max(30000).default(0).nullable(),
 	take: number().min(1).max(1000).nullable(),
-	sort: string().lowercase().nullable().default('ranking').oneOf(sortOrders),
+	sort: string().lowercase().nullable().default(RunSortOption.Ranking).oneOf(sortOrders),
 	partySize: number().min(1).max(24).nullable(),
 	userId: number().min(1).nullable(),
 });

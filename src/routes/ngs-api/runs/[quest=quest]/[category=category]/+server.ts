@@ -3,7 +3,7 @@ import { leaderboardDb } from '$lib/server/db/db';
 import { jsonError } from '$lib/server/error.js';
 import { parseToRawSchema } from '$lib/utils/schemaValidation.js';
 import { validateApiRequest } from '$lib/server/validation/requestValidation.js';
-import { getMasqRuns, getRuns } from '$lib/server/repositories/runsRepository.js';
+import { getRuns } from '$lib/server/repositories/runsRepository.js';
 import { mapRuns } from '$lib/server/mappers/api/runMapper.js';
 import { submitRun } from '$lib/server/logic/submitRunLogic.js';
 import { Game } from '$lib/types/api/game.js';
@@ -17,6 +17,7 @@ import { RunAttributeFilter } from '$lib/server/types/db/runs/runAttributeFilter
 import sql, { type Request } from 'mssql';
 import { NgsQuests } from '$lib/types/api/runs/quests';
 import { NgsRunCategories } from '$lib/types/api/runs/categories';
+import { RunSortOption } from '$lib/types/api/runs/sortOptions.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
@@ -91,7 +92,11 @@ const getRunsByQuest = async (
 		userFilters.quest === NgsQuests.ExtraDuels &&
 		userFilters.category === NgsRunCategories.Masquerade
 	) {
-		return await getMasqRuns(request, userFilters, serverFilters, attributeFilters);
+		userFilters.sort =
+			!userFilters.sort || userFilters.sort === RunSortOption.Ranking
+				? RunSortOption.MasqDepthRanking
+				: userFilters.sort;
+		return await getRuns(request, userFilters, serverFilters, attributeFilters);
 	}
 
 	return await getRuns(request, userFilters, serverFilters, attributeFilters);
