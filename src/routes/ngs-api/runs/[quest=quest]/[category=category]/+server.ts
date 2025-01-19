@@ -12,6 +12,12 @@ import { getUserValidated } from '$lib/server/validation/authorization.js';
 import { UserRole } from '$lib/types/api/users/userRole.js';
 import type { ServerSearchFilter } from '$lib/server/types/api/runsSearch.js';
 import { lookupBoardByRoute } from '$lib/leaderboard/boards.js';
+import { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
+import { RunAttributeFilter } from '$lib/server/types/db/runs/runAttributeFilter';
+import sql, { type Request } from 'mssql';
+import { NgsQuests } from '$lib/types/api/runs/quests';
+import { NgsRunCategories } from '$lib/types/api/runs/categories';
+import { RunSortOption } from '$lib/types/api/runs/sortOptions.js';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params, url }) {
@@ -42,7 +48,7 @@ export async function GET({ params, url }) {
 	const pool = await leaderboardDb.connect();
 	const request = await pool.request();
 	try {
-		const runs = await getRuns(request, parsedFilter, serverFilters, attributeFilter);
+		const runs = await getRunsByQuest(request, parsedFilter, serverFilters, attributeFilter);
 		const mappedRuns = mapRuns(runs);
 		return json(mappedRuns);
 	} catch (err) {
@@ -74,3 +80,23 @@ export async function POST({ params, request, locals }) {
 
 	return submitRun(Game.Ngs, user, parsedRun);
 }
+
+const getRunsByQuest = async (
+	request: Request,
+	userFilters: RunsSearchFilter,
+	serverFilters: ServerSearchFilter,
+	attributeFilters?: RunAttributeFilter[]
+) => {
+	if (
+		userFilters.quest === NgsQuests.ExtraDuels &&
+		userFilters.category === NgsRunCategories.Masquerade
+	) {
+		userFilters.sort =
+			!userFilters.sort || userFilters.sort === RunSortOption.Ranking
+				? RunSortOption.MasqDepthRanking
+				: userFilters.sort;
+		return await getRuns(request, userFilters, serverFilters, attributeFilters);
+	}
+
+	return await getRuns(request, userFilters, serverFilters, attributeFilters);
+};

@@ -6,7 +6,8 @@
 			"dfaegis": "Dark Falz Aegis",
 			"purples": "Purple Triggers",
 			"duels": "Duels",
-			"venogia": "Venogia"
+			"venogia": "Venogia",
+			"extra-duels": "Extra Duels"
 		},
 		"categories": {
 			"quest": "Quest",
@@ -24,7 +25,8 @@
 			"kvaris": "Kvaris",
 			"stia": "Stia",
 			"aelio_intruders": "Aelio Intruders",
-			"venogia": "Venogia"
+			"venogia": "Venogia",
+			"masquerade": "Ruine Masquerade"
 		}
 	},
 	"pso2": {},
@@ -151,7 +153,8 @@
 			"kvaris": "Kvaris",
 			"stia": "Stia",
 			"aelio_intruders": "Aelio Intruders",
-			"venogia": "Venogia"
+			"venogia": "Venogia",
+			"masquerade": "Ruine Masquerade"
 		},
 		"partySizes": {
 			"solo": "Solo",
@@ -172,7 +175,8 @@
 			"halvaldi": "Duel Halvaldi",
 			"zelvin": "Duel Zelvin",
 			"ringwedge": "Duel Ringwedge",
-			"venogia": "Duel Venogia"
+			"venogia": "Duel Venogia",
+			"duel_masq": "Ruine Masquerade"
 		},
 		"purples": {
 			"aelio": "Purple Aelio",

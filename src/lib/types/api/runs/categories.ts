@@ -15,6 +15,7 @@ export enum NgsRunCategories {
 	Stia = 'stia',
 	AelioIntruders = 'aelio_intruders',
 	Venogia = 'venogia',
+	Masquerade = 'masquerade',
 }
 
 export const ngsCategoryTranslationMap: Record<NgsRunCategories, string> = {
@@ -34,4 +35,5 @@ export const ngsCategoryTranslationMap: Record<NgsRunCategories, string> = {
 	[NgsRunCategories.Stia]: `leaderboard.categories.${NgsRunCategories.Stia}`,
 	[NgsRunCategories.AelioIntruders]: `leaderboard.categories.${NgsRunCategories.AelioIntruders}`,
 	[NgsRunCategories.Venogia]: `leaderboard.categories.${NgsRunCategories.Venogia}`,
+	[NgsRunCategories.Masquerade]: `leaderboard.categories.${NgsRunCategories.Masquerade}`,
 };

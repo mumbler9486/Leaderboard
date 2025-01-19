@@ -31,6 +31,10 @@
 	const tabs: Boards[] = [
 		{ boardInfo: null, name: '✨Recent', color: 'yellow' },
 		{
+			boardInfo: lookupBoard(NgsQuests.ExtraDuels, NgsRunCategories.Masquerade),
+			name: 'Masquerade',
+		},
+		{
 			boardInfo: lookupBoard(NgsQuests.DfDalion, NgsRunCategories.Quest),
 			name: 'Dark Falz Dalion',
 		},
@@ -40,7 +44,6 @@
 			name: 'Aelio Intruders',
 		},
 		{ boardInfo: lookupBoard(NgsQuests.Duels, NgsRunCategories.Ringwedge), name: 'Ringwedge' },
-		{ boardInfo: lookupBoard(NgsQuests.Duels, NgsRunCategories.Venogia), name: 'Duel Venogia' },
 	];
 
 	const getRuns = async (tabIndex: number) => {
@@ -50,10 +53,13 @@
 			return fetchRecentRuns();
 		}
 		boardLink = `/runs/${boardTab.boardInfo.questRoute}/${boardTab.boardInfo.categoryRoute}`;
+		const isDuelMasq =
+			boardTab.boardInfo.quest === NgsQuests.ExtraDuels &&
+			boardTab.boardInfo.category === NgsRunCategories.Masquerade;
 		return fetchRuns(
 			boardTab.boardInfo.quest,
 			boardTab.boardInfo.category,
-			boardTab.boardInfo.maxQuestRank
+			isDuelMasq ? undefined : boardTab.boardInfo.maxQuestRank
 		);
 	};
 

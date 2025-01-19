@@ -30,6 +30,14 @@
 			<Divider />
 
 			<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+				<JumboButton
+					label="Ruine Masquerade Extra Duel"
+					image="/icons/submit/extra_duel_masq.jpg"
+					link="/submit/extra-duels"
+					overlayColor="neutral"
+					badge="New Extra Duel"
+					buttonLabel="Submit"
+				/>
 				{#each leaderboards.filter((b) => b.quest === NgsQuests.DfDalion) as board}
 					<JumboButton
 						label={$t(board.name)}

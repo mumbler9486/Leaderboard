@@ -13,6 +13,7 @@ import type { PlayersDbModel } from '../types/db/users/players';
 import type { ServerUser } from '../types/auth/serverUser';
 import type { NgsQuests } from '$lib/types/api/runs/quests';
 import type { NgsRunCategories } from '$lib/types/api/runs/categories';
+import { mapRuns } from '../mappers/api/runMapper';
 
 export const approveRunSubmission = async (
 	requestUser: ServerUser,
@@ -47,14 +48,13 @@ export const approveRunSubmission = async (
 
 	try {
 		await approveRun(pool.request(), approveRequest.runId, moderatorName, approveRequest.modNotes);
+		const runData = await getRunById(pool.request(), approveRequest.runId);
+		if (!runData) {
+			throw new Error('Approved run not found.');
+		}
+		const run = mapRuns([runData])[0];
 
-		notifyDiscordNewRunApprovedLogic(
-			moderatorName,
-			playerName ?? '<unknown_player>',
-			runData.RunQuest as NgsQuests,
-			runData.RunCategory as NgsRunCategories,
-			parseInt(runData.RunPartySize)
-		);
+		notifyDiscordNewRunApprovedLogic(moderatorName, playerName ?? '<unknown_player>', run);
 		return json({ data: 'success' });
 	} catch (err) {
 		console.error(err);

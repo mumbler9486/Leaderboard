@@ -1,4 +1,3 @@
-version: '3.8'
 name: pso2-lebrd-local
 
 services:

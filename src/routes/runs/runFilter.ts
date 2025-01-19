@@ -10,6 +10,7 @@ export interface RunSearchFilters {
 	augments: string;
 	category: string;
 	partySize: string;
+	depth: string;
 }
 
 export const defaultRunFilter: RunSearchFilters = {
@@ -22,6 +23,7 @@ export const defaultRunFilter: RunSearchFilters = {
 	augments: 'no_filter',
 	category: 'no_filter',
 	partySize: 'solo',
+	depth: 'no_filter',
 } as const;
 
 const searchFilterStore = writable<RunSearchFilters>({ ...defaultRunFilter });

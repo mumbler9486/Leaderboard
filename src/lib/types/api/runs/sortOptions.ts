@@ -1,4 +1,5 @@
 export enum RunSortOption {
 	Recent = 'recent',
-	Ranking = 'ranking'
+	Ranking = 'ranking',
+	MasqDepthRanking = 'masq-depth-ranking',
 }

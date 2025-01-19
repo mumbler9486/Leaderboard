@@ -67,9 +67,10 @@
 		{ name: 'partySize', defaultValue: 'solo' },
 		{ name: 'server', undefinedValue: 'no_filter' },
 		{ name: 'class', undefinedValue: 'no_filter' },
-		{ name: 'rank', defaultValue: '1' },
+		{ name: 'rank', undefinedValue: 'no_filter' },
 		{ name: 'support', undefinedValue: 'no_filter' },
 		{ name: 'augments', undefinedValue: 'no_filter' },
+		{ name: 'depth', undefinedValue: 'no_filter' },
 	];
 
 	runFilters.resetFilters();
@@ -108,7 +109,7 @@
 				<div class="-mx-6 md:mx-0">
 					<RunsTable {runs} solosOnly={isSolo} detailsColumn={boardInfo.detailsTableHeader}>
 						<svelte:fragment slot="detailsItem" let:run>
-							<RunDetails {boardInfo} runDetails={run.details} />
+							<RunDetails {boardInfo} {run} />
 						</svelte:fragment>
 					</RunsTable>
 				</div>

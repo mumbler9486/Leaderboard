@@ -18,6 +18,7 @@ import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus';
 import type { GetRunDbModel } from '../types/db/runs/getRun';
 import type { ServerSearchFilter } from '../types/api/runsSearch';
 import { PartySize } from '$lib/types/api/partySizes';
+import { RunSortOption } from '$lib/types/api/runs/sortOptions';
 
 const runsDbFields = fields<RunDbModel>();
 const runPartyDbFields = fields<RunPartyDbModel>();
@@ -183,9 +184,12 @@ export const getRuns = async (
 
 	// Sorting and Pagination
 	let rankSorting = '';
-	if (userFilters.sort === 'recent') {
+	if (userFilters.sort === RunSortOption.Recent) {
 		rankSorting = `runSearch.${getRunDbFields.RunSubmissionDate} DESC, runSearch.${getRunDbFields.RunId} ASC`;
 		query += ` ORDER BY run.${runsDbFields.SubmissionDate} DESC, run.${runsDbFields.Id} ASC`;
+	} else if (userFilters.sort === RunSortOption.MasqDepthRanking) {
+		rankSorting = `CAST(JSON_VALUE(runSearch.${getRunDbFields.RunAttributes},'$.depth') AS INT) DESC, runSearch.${getRunDbFields.RunQuestRank} DESC, runSearch.${getRunDbFields.RunTime} ASC, runSearch.${getRunDbFields.RunSubmissionDate} ASC, runSearch.${getRunDbFields.RunId} ASC`;
+		query += ` ORDER BY CAST(JSON_VALUE(run.${runsDbFields.Attributes},'$.depth') AS INT) DESC, run.${runsDbFields.QuestRank} DESC, run.${runsDbFields.RunTime} ASC, run.${runsDbFields.SubmissionDate} ASC, run.${runsDbFields.Id} ASC`;
 	} else {
 		// Ranking sort order
 		rankSorting = `runSearch.${getRunDbFields.RunTime} ASC, runSearch.${getRunDbFields.RunSubmissionDate} ASC, runSearch.${getRunDbFields.RunId} ASC`;

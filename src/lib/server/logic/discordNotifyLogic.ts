@@ -6,6 +6,8 @@ import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmissi
 import { formatString } from '$lib/utils/string';
 import { unwrapFunctionStore, format } from 'svelte-i18n';
 import { sendDiscordNotification, type DiscordMessage } from '../repositories/discordRepository';
+import { MasqDuelRunDetails, Run } from '$lib/types/api/runs/run';
+import { LeaderboardDefinition } from '$lib/leaderboard/leaderboard';
 
 const locale = 'en';
 const t = unwrapFunctionStore(format);
@@ -19,7 +21,7 @@ const RunApprovalDiscordWebhookUrl = process.env.RUN_APPROVAL_DISCORD_WEBHOOK_UR
 
 export const notifyDiscordNewRun = async (submitter: string, run: RunSubmissionRequest) => {
 	const submitterName = submitter;
-	const questLabel = getQuestName(run.quest, run.category, run.party.length);
+	const questLabel = getQuestName(run);
 
 	const message: DiscordMessage = {
 		username: username,
@@ -38,11 +40,9 @@ export const notifyDiscordNewRun = async (submitter: string, run: RunSubmissionR
 export const notifyDiscordNewRunApprovedLogic = async (
 	moderatorName: string,
 	runnerName: string,
-	quest: NgsQuests,
-	category: NgsRunCategories,
-	partySize: number
+	run: Run<unknown>
 ) => {
-	const questLabel = getQuestName(quest, category, partySize);
+	const questLabel = getQuestName(run);
 
 	const message: DiscordMessage = {
 		username: username,
@@ -51,28 +51,35 @@ export const notifyDiscordNewRunApprovedLogic = async (
 		description: `A new **${questLabel}** run from \`${runnerName}\` has been approved by \`${moderatorName}\` and added to the leaderboard.`,
 		color: 54300,
 		thumbnailUrl: WebhookUserThumbnailUrl,
-		imageUrl: getThumbnailUrl(quest),
+		imageUrl: getThumbnailUrl(run.quest),
 		footerText: username,
 	};
 
 	await sendDiscordNotification(RunApprovalDiscordWebhookUrl, message);
 };
 
-const getQuestName = (quest: NgsQuests, category: NgsRunCategories, partySize: number) => {
-	const boardInfo = lookupBoard(quest, category);
+const getQuestName = (run: Run<unknown> | RunSubmissionRequest) => {
+	const boardInfo = lookupBoard(run.quest, run.category);
 	if (!boardInfo) {
-		console.error('Invalid quest/category', quest, category);
+		console.error('Invalid quest/category', run.quest, run.category);
 		return `<unknown_quest> [<unknown_category>]`;
 	}
 
 	const nameTemplate = boardInfo.discordNotifyTemplate ?? '{boardName} [{category}] ({partySize})';
-	const partySizeName = getPartySizeName(partySize);
+	const partySizeName = getPartySizeName(run.party.length);
 	const boardName = t(boardInfo.name, { locale });
-	const categoryName = t(ngsCategoryTranslationMap[category], { locale });
+	const categoryName = t(ngsCategoryTranslationMap[run.category], { locale });
+	const masqDepth =
+		run.quest === NgsQuests.ExtraDuels && run.category === NgsRunCategories.Masquerade
+			? (run.details as MasqDuelRunDetails).depth?.toString()
+			: '';
+
 	return formatString(nameTemplate, {
 		boardName,
 		category: categoryName,
 		partySize: partySizeName,
+		questRank: run.questRank.toString(),
+		masqDepth: masqDepth,
 	});
 };
 

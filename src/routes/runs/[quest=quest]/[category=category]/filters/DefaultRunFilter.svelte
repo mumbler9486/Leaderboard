@@ -13,14 +13,17 @@
 	import QuestRankFilter from './QuestRankFilter.svelte';
 	import PartySizeFilter from './PartySizeFilter.svelte';
 	import QuestCategoryFilter from './QuestCategoryFilter.svelte';
-	import type { NgsRunCategories } from '$lib/types/api/runs/categories';
+	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import { lookupBoard } from '$lib/leaderboard/boards';
+	import MasqDepthFilter from './MasqDepthFilter.svelte';
 
 	export let solo: boolean;
 	export let categories: NgsRunCategories[];
 	export let boardInfo: LeaderboardDefinition<any, any>;
 
-	$: $runFilters.rank = boardInfo.maxQuestRank.toString();
+	$: isMasquerade =
+		boardInfo.quest === NgsQuests.ExtraDuels && boardInfo.category === NgsRunCategories.Masquerade;
+	$: $runFilters.rank = isMasquerade ? 'no_filter' : boardInfo.maxQuestRank.toString();
 
 	interface FilterHandler {
 		filterComponent: ComponentType;
@@ -64,7 +67,10 @@
 				<DuelDetailsFilter />
 			{/if}
 			<PartySizeFilter allowedPartySizes={boardInfo.allowedPartySizes} />
-			<QuestRankFilter maxQuestRank={boardInfo.maxQuestRank} />
+			{#if boardInfo.quest === NgsQuests.ExtraDuels && boardInfo.category === NgsRunCategories.Masquerade}
+				<MasqDepthFilter />
+			{/if}
+			<QuestRankFilter allowNoFilter={isMasquerade} maxQuestRank={boardInfo.maxQuestRank} />
 		</div>
 	</div>
 

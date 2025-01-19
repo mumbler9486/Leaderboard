@@ -68,3 +68,8 @@ export interface DuelRunDetails {
 	augments: boolean;
 }
 export interface DuelRun extends Run<DuelRunDetails> {}
+
+export interface MasqDuelRunDetails {
+	depth: number;
+}
+export interface MasqDuelRun extends Run<MasqDuelRunDetails> {}
