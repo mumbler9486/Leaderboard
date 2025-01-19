@@ -32,7 +32,7 @@
 			<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
 				<JumboButton
 					label="Ruine Masquerade Extra Duel"
-					image="/icons/submit/ringwedge.jpg"
+					image="/icons/submit/extra_duel_masq.jpg"
 					link="/submit/extra-duels"
 					overlayColor="neutral"
 					badge="New Extra Duel"
