@@ -6,8 +6,9 @@
 	import { lookupBoard } from '$lib/leaderboard/boards';
 	import { mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import { getPartySize, partySizeTranslationMap } from '$lib/types/api/partySizes';
-	import { ngsCategoryTranslationMap } from '$lib/types/api/runs/categories';
-	import type { Run } from '$lib/types/api/runs/run';
+	import { ngsCategoryTranslationMap, NgsRunCategories } from '$lib/types/api/runs/categories';
+	import { NgsQuests } from '$lib/types/api/runs/quests';
+	import type { MasqDuelRunDetails, Run } from '$lib/types/api/runs/run';
 	import { formatString } from '$lib/utils/string';
 	import { t } from 'svelte-i18n';
 
@@ -42,10 +43,17 @@
 		const nameTemplate = board.discordNotifyTemplate ?? '{boardName} [{category}] ({partySize})';
 		const partySizeName = getPartySizeLabel(run.party.length);
 		const categoryName = $t(ngsCategoryTranslationMap[board.category]);
+		const masqDepth =
+			run.quest === NgsQuests.ExtraDuels && run.category === NgsRunCategories.Masquerade
+				? (run.details as MasqDuelRunDetails).depth?.toString()
+				: '';
+
 		return formatString(nameTemplate, {
 			boardName,
 			category: categoryName,
 			partySize: partySizeName,
+			questRank: run.questRank.toString(),
+			masqDepth: masqDepth,
 		});
 	};
 

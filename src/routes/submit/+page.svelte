@@ -31,11 +31,11 @@
 
 			<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
 				<JumboButton
-					label="Duels"
+					label="Ruine Masquerade Extra Duel"
 					image="/icons/submit/ringwedge.jpg"
-					link="/submit/duels"
+					link="/submit/extra-duels"
 					overlayColor="neutral"
-					badge="New Ruine Masquerade"
+					badge="New Extra Duel"
 					buttonLabel="Submit"
 				/>
 				{#each leaderboards.filter((b) => b.quest === NgsQuests.DfDalion) as board}
@@ -47,6 +47,13 @@
 						buttonLabel="Submit"
 					/>
 				{/each}
+				<JumboButton
+					label="Duels"
+					image="/icons/submit/ringwedge.jpg"
+					link="/submit/duels"
+					overlayColor="neutral"
+					buttonLabel="Submit"
+				/>
 				<JumboButton
 					label="Purples"
 					image="/icons/submit/purple_trigger_gate.jpg"

@@ -28,15 +28,15 @@ export const duelMasqDepthsBoard = new LeaderboardDefinition({
 	maxQuestRank: 10,
 	playerCap: 1,
 	allowedPartySizes: [PartySize.Solo],
-	maxSeconds: 10 * 60,
+	maxSeconds: 15 * 60,
 	rules: rules,
-	discordNotifyTemplate: '{boardName} ({partySize})',
+	discordNotifyTemplate: '{boardName} D{masqDepth} R{questRank}',
 	runSubmissionSchema: createDetailedRunSubmissionSchema(
 		NgsQuests.ExtraDuels,
 		NgsRunCategories.Masquerade,
 		10,
 		1,
-		10 * 60,
+		15 * 60,
 		duelDetailsSchema
 	),
 	detailsTableHeader: {

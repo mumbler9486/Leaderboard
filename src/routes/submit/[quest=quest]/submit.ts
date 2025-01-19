@@ -11,10 +11,11 @@ import type { BadRequestApiError } from '$lib/types/api/error';
 import { UserRole } from '$lib/types/api/users/userRole';
 import { partyForm } from './forms/partyForm';
 import { NgsQuests } from '$lib/types/api/runs/quests';
-import type { NgsRunCategories } from '$lib/types/api/runs/categories';
+import { NgsRunCategories } from '$lib/types/api/runs/categories';
 import { runForm } from './forms/runForm';
 import { dfAegisRunForm } from './forms/dfAegisForm';
 import { duelsRunForm } from './forms/duelsForm';
+import { duelMasqRunForm } from './forms/duelMasqForm';
 
 export const submitRun = async (
 	submitPath: string,
@@ -47,7 +48,7 @@ export const submitRun = async (
 	});
 
 	// Category Specific details
-	const details = getCategoryFormDetails(quest);
+	const details = getCategoryFormDetails(quest, category);
 
 	// Not moderator, force player 1 to be current user
 	if (!clientPrincipleStore.hasRole(UserRole.Moderator)) {
@@ -71,10 +72,12 @@ export const submitRun = async (
 	return response;
 };
 
-const getCategoryFormDetails = (quest: NgsQuests) => {
+const getCategoryFormDetails = (quest: NgsQuests, category: NgsRunCategories) => {
 	if (quest === NgsQuests.DfAegis) {
 		return get(dfAegisRunForm);
 	} else if (quest === NgsQuests.Duels) {
 		return get(duelsRunForm);
+	} else if (quest === NgsQuests.ExtraDuels && category === NgsRunCategories.Masquerade) {
+		return get(duelMasqRunForm);
 	}
 };
