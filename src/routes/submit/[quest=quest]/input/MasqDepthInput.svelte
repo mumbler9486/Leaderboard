@@ -1,6 +1,6 @@
 <script>
 	import Select from '$lib/Components/Select.svelte';
-	import { duelMasqRunForm } from '../forms/duelMasqform';
+	import { duelMasqRunForm } from '../forms/duelMasqForm';
 </script>
 
 <div class="grid grid-cols-1 gap-2 md:grid-cols-4">
