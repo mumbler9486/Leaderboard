@@ -54,10 +54,13 @@
 			return fetchRecentRuns();
 		}
 		boardLink = `/runs/${boardTab.boardInfo.questRoute}/${boardTab.boardInfo.categoryRoute}`;
+		const isDuelMasq =
+			boardTab.boardInfo.quest === NgsQuests.ExtraDuels &&
+			boardTab.boardInfo.category === NgsRunCategories.Masquerade;
 		return fetchRuns(
 			boardTab.boardInfo.quest,
 			boardTab.boardInfo.category,
-			boardTab.boardInfo.maxQuestRank
+			isDuelMasq ? undefined : boardTab.boardInfo.maxQuestRank
 		);
 	};
 
