@@ -61,7 +61,7 @@
 	class="-mx-6 flex grow flex-col rounded-md border border-secondary bg-secondary/25 p-1 md:mx-0"
 >
 	<div class="flex flex-row flex-wrap place-content-center items-stretch gap-2">
-		<div class=" flex w-full gap-4 px-4 py-2 lg:gap-8">
+		<div class="flex w-full flex-wrap gap-4 px-4 py-2 lg:gap-8">
 			<QuestCategoryFilter {categories} on:categoryChanged={categoryChanged} />
 			{#if boardInfo.quest === NgsQuests.Duels}
 				<DuelDetailsFilter />
