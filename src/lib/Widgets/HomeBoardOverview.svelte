@@ -44,7 +44,6 @@
 			name: 'Aelio Intruders',
 		},
 		{ boardInfo: lookupBoard(NgsQuests.Duels, NgsRunCategories.Ringwedge), name: 'Ringwedge' },
-		{ boardInfo: lookupBoard(NgsQuests.Duels, NgsRunCategories.Venogia), name: 'Duel Venogia' },
 	];
 
 	const getRuns = async (tabIndex: number) => {
