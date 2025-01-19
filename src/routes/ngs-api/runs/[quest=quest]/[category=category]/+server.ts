@@ -87,7 +87,6 @@ const getRunsByQuest = async (
 	serverFilters: ServerSearchFilter,
 	attributeFilters?: RunAttributeFilter[]
 ) => {
-	console.log(userFilters, attributeFilters);
 	if (
 		userFilters.quest === NgsQuests.ExtraDuels &&
 		userFilters.category === NgsRunCategories.Masquerade

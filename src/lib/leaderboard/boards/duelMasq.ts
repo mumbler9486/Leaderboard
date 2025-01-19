@@ -30,7 +30,7 @@ export const duelMasqDepthsBoard = new LeaderboardDefinition({
 	allowedPartySizes: [PartySize.Solo],
 	maxSeconds: 15 * 60,
 	rules: rules,
-	discordNotifyTemplate: '{boardName} D{masqDepth} R{questRank}',
+	discordNotifyTemplate: '{boardName} (D{masqDepth},R{questRank})',
 	runSubmissionSchema: createDetailedRunSubmissionSchema(
 		NgsQuests.ExtraDuels,
 		NgsRunCategories.Masquerade,
