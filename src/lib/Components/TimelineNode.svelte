@@ -3,7 +3,9 @@
 	export let time: string;
 	export let side: 'left' | 'right' = 'left';
 	export let fillLineStart: boolean = false;
-	export let fillLineEnd: boolean = false;
+	export let current: boolean = false;
+
+	$: formattedTitle = current ? `(Current) ${title}` : title;
 </script>
 
 <li>
@@ -24,7 +26,7 @@
 		class:md:text-end={side === 'left'}
 	>
 		<time class="font-mono italic">{time}</time>
-		<div class="text-lg font-black">{title}</div>
+		<div class="text-lg font-black">{formattedTitle}</div>
 		<slot />
 	</div>
 	<hr class:bg-primary={fillLineStart} />

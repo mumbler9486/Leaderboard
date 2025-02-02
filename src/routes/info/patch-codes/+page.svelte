@@ -2,7 +2,11 @@
 	import Divider from '$lib/Components/Divider.svelte';
 	import Timeline from '$lib/Components/Timeline.svelte';
 	import TimelineNode from '$lib/Components/TimelineNode.svelte';
-	import { currentPatchLabel, patchCodeLabelMap } from '$lib/constants/patchCodes';
+	import {
+		currentPatchLabel,
+		CurrentSubmissionPatchCode,
+		patchCodeLabelMap,
+	} from '$lib/constants/patchCodes';
 </script>
 
 <div class="flex flex-col content-center">
@@ -46,7 +50,6 @@
 							title="Leaderboard Started"
 							time="Jan 12, 2023"
 							side="right"
-							fillLineEnd
 							fillLineStart
 						>
 							PSO2 Central's Leaderboard website established and began accepting runs. Speed-runs of
@@ -57,7 +60,6 @@
 							title={patchCodeLabelMap['slayer']}
 							time="April 12, 2023"
 							side="left"
-							fillLineEnd
 							fillLineStart
 						>
 							Slayer class was released. It opened new possibilities for sub-classing and critical
@@ -69,7 +71,6 @@
 							title={patchCodeLabelMap['pot6r']}
 							time="April 19, 2023"
 							side="right"
-							fillLineEnd
 							fillLineStart
 						>
 							Weapon potential level 6 was released which required Photon Chunk II A & B to unlock.
@@ -78,7 +79,6 @@
 							title={patchCodeLabelMap['level75r']}
 							time="June 14, 2023"
 							side="left"
-							fillLineEnd
 							fillLineStart
 						>
 							A skill re-balance from June 7th for several classes was released. On the 14th the
@@ -91,7 +91,6 @@
 							title={patchCodeLabelMap['level80r']}
 							time="October 11, 2023"
 							side="right"
-							fillLineEnd
 							fillLineStart
 						>
 							The maximum player level was increased to level 80 and a few classes gained some new
@@ -102,7 +101,7 @@
 							released later on October 18th.
 						</TimelineNode>
 						<TimelineNode
-							title="+80 Weapon Release"
+							title={patchCodeLabelMap['lvl80grind']}
 							time="December 6, 2023"
 							side="left"
 							fillLineStart
@@ -171,11 +170,26 @@
 							time="Dec 4, 2024"
 							side="left"
 							fillLineStart
+							current={CurrentSubmissionPatchCode === 'forceRebalance'}
 						>
 							Known as the {patchCodeLabelMap['forceRebalance']} patch, the force class was rebalanced.
 							Later in the month, a new 12-star weapon series "Twaalv" was released (Dec 18th). This
 							release also introduced new EX Augments EX Turnover H, EX Evade HP Gain H, EX Bring Down
 							PB Boost H, and EX Maintain Balance H.
+						</TimelineNode>
+						<TimelineNode
+							title={patchCodeLabelMap['level100r']}
+							time="Feb 5, 2024"
+							side="right"
+							fillLineStart
+							current={CurrentSubmissionPatchCode === 'level100r'}
+						>
+							Known as the {patchCodeLabelMap['level100r']} patch, the player level cap was increased
+							to level 100. The hunter class was also rebalanced with new class skills, effects, and
+							balance adjustments. Tri-Selios can be upgraded to the 12⭐ Akroselio weapon series. Also
+							the cool down time for active skills at the current = {CurrentSubmissionPatchCode ===
+								'level100r'} start of any quests will be reduced to 10 seconds for ALL classes. Later
+							that month on Feb 19 we also got the 11⭐ Akrotasis Armor series.
 						</TimelineNode>
 					</Timeline>
 				</div>
