@@ -7,6 +7,11 @@
 
 <RecentNews />
 
+<HomeNews publicationDateIso="2024-09-05T08:00:00.000Z" title="Leaderboard September 2024 Updates">
+	<NewsSection sectionTitle="🦁2️⃣ Dalion Rank 2 Quest">
+		We have added a Dalion Rank 2 (standing quest) leaderboard. That's all for this month!
+	</NewsSection>
+</HomeNews>
 <HomeNews
 	publicationDateIso="2024-08-01T08:00:00.000Z"
 	lastUpdatedIso="2024-09-05T08:00:00.000Z"
