@@ -28,6 +28,7 @@
 			title: $t('navigation.bosses'),
 			image: '/icons/quests/uq.png',
 			items: [
+				{ label: 'Dark Falz Vael', link: '/runs/dfvael/urgent-quest' },
 				{ label: 'Dark Falz Dalion', link: '/runs/dfdalion/quest' },
 				{ label: 'Dark Falz Solus', link: '/runs/dfsolus/quest' },
 				{ label: 'Venogia', link: '/runs/venogia/urgent-quest' },
@@ -53,7 +54,7 @@
 
 	$: loginTitle = (() => {
 		if (isLoadingLogin) return 'Loading...';
-		return !isLoggedIn ? 'Login' : $playerInfoStore?.playerName ?? '<Unknown>';
+		return !isLoggedIn ? 'Login' : ($playerInfoStore?.playerName ?? '<Unknown>');
 	})();
 	$: loginMenu = {
 		title: loginTitle,
@@ -66,7 +67,7 @@
 					{ label: 'Profile', link: '/profile', icon: 'profile' },
 					{ label: 'Settings', link: '/settings', icon: 'gear' },
 					{ label: 'Logout', link: '/logout', icon: 'logout' },
-			  ]
+				]
 			: [],
 	} satisfies MenuGroup;
 

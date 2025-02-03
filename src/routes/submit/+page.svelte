@@ -31,6 +31,14 @@
 
 			<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
 				<JumboButton
+					label="Dark Falz Vael"
+					image="/icons/submit/extra_duel_masq.jpg"
+					link="/submit/dfvael"
+					overlayColor="neutral"
+					badge="New Urgent Quest"
+					buttonLabel="Submit"
+				/>
+				<JumboButton
 					label="Ruine Masquerade Extra Duel"
 					image="/icons/submit/extra_duel_masq.jpg"
 					link="/submit/extra-duels"
