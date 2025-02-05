@@ -1,5 +1,5 @@
 // The current patch code for all submissions
-export const CurrentSubmissionPatchCode: keyof typeof patchCodeLabelMap = 'forceRebalance';
+export const CurrentSubmissionPatchCode: keyof typeof patchCodeLabelMap = 'level100r';
 
 // Keep patch codes under 30 chars
 export const patchCodeLabelMap = {
