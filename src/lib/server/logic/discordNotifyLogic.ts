@@ -7,7 +7,6 @@ import { formatString } from '$lib/utils/string';
 import { unwrapFunctionStore, format } from 'svelte-i18n';
 import { sendDiscordNotification, type DiscordMessage } from '../repositories/discordRepository';
 import { MasqDuelRunDetails, Run } from '$lib/types/api/runs/run';
-import { LeaderboardDefinition } from '$lib/leaderboard/leaderboard';
 
 const locale = 'en';
 const t = unwrapFunctionStore(format);

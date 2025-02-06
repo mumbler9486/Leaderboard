@@ -7,7 +7,8 @@
 			"purples": "Purple Triggers",
 			"duels": "Duels",
 			"venogia": "Venogia",
-			"extra-duels": "Extra Duels"
+			"extra-duels": "Extra Duels",
+			"dfvael": "Dark Falz Vael"
 		},
 		"categories": {
 			"quest": "Quest",
@@ -137,6 +138,7 @@
 		"meteornRecords": "Meteorn Records",
 		"purpleTriggers": "Purple Triggers",
 		"halphiaLake": "Dark Falz Aegis",
+		"dfVael": "Dark Falz Vael",
 		"categories": {
 			"quest": "Quest",
 			"urgent_quest": "Urgent Quest",

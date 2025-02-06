@@ -61,26 +61,29 @@ execSqlFile('scripts/players.sql');
 
 shell.echo('Creating runs.');
 
-shell.echo('Creating Purple runs.');
+shell.echo('1. Creating Purple runs.');
 execSqlFile('scripts/runs/01_purples.sql');
 
-shell.echo('Creating DF Aegis runs.');
+shell.echo('2. Creating DF Aegis runs.');
 execSqlFile('scripts/runs/02_dfaegis.sql');
 
-shell.echo('Creating Duel runs.');
+shell.echo('3. Creating Duel runs.');
 execSqlFile('scripts/runs/03_duels.sql');
 
-shell.echo('Creating Solus runs.');
+shell.echo('4. Creating Solus runs.');
 execSqlFile('scripts/runs/04_dfsolus.sql');
 
-shell.echo('Creating Venogia runs.');
+shell.echo('5. Creating Venogia runs.');
 execSqlFile('scripts/runs/05_venogia.sql');
 
-shell.echo('Creating Dalion runs.');
+shell.echo('6. Creating Dalion runs.');
 execSqlFile('scripts/runs/06_dfdalion.sql');
 
-shell.echo('Creating Duel Masq runs.');
+shell.echo('7. Creating Duel Masq runs.');
 execSqlFile('scripts/runs/07_duel_masq.sql');
+
+shell.echo('8. Creating Vael runs.');
+execSqlFile('scripts/runs/08_dfvael.sql');
 
 // Run creation cleanup
 shell.echo('Cleaning up run creation.');
