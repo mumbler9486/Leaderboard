@@ -11,8 +11,6 @@ import { getUser } from '../repositories/userRepository';
 import { UserRole } from '$lib/types/api/users/userRole';
 import type { PlayersDbModel } from '../types/db/users/players';
 import type { ServerUser } from '../types/auth/serverUser';
-import type { NgsQuests } from '$lib/types/api/runs/quests';
-import type { NgsRunCategories } from '$lib/types/api/runs/categories';
 import { mapRuns } from '../mappers/api/runMapper';
 
 export const approveRunSubmission = async (
@@ -52,7 +50,7 @@ export const approveRunSubmission = async (
 		if (!runData) {
 			throw new Error('Approved run not found.');
 		}
-		const run = mapRuns([runData])[0];
+		const run = mapRuns(runData)[0];
 
 		notifyDiscordNewRunApprovedLogic(moderatorName, playerName ?? '<unknown_player>', run);
 		return json({ data: 'success' });
@@ -87,7 +85,7 @@ const checkRunData = async (run: ApproveRequest, moderator: PlayersDbModel) => {
 
 	// Run exists
 	const request = pool.request();
-	const submissionResult = await getRunById(request, run.runId, false);
+	const submissionResult = ((await getRunById(request, run.runId, false)) ?? [])[0];
 
 	if (!submissionResult) {
 		errorList.push(`Unknown run id`);

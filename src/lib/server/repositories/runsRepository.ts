@@ -88,7 +88,7 @@ export const getRunById = async (
 	request: Request,
 	runId: number,
 	approved: boolean = true
-): Promise<GetRunDbModel | undefined> => {
+): Promise<GetRunDbModel[] | undefined> => {
 	let query = RunQuery;
 
 	query += ` AND run.${runsDbFields.SubmissionStatus} = @approved`;
@@ -99,7 +99,7 @@ export const getRunById = async (
 
 	const results = await request.query(query);
 	const runs = results.recordset as GetRunDbModel[];
-	return runs[0];
+	return runs;
 };
 
 export const getRuns = async (
