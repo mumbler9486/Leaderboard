@@ -34,7 +34,7 @@
 					label="Dark Falz Vael"
 					image="/icons/submit/dfvael.jpg"
 					link="/submit/dfvael"
-					overlayColor="neutral"
+					overlayColor="blue"
 					badge="New Urgent Quest"
 					buttonLabel="Submit"
 				/>
