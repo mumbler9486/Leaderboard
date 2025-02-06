@@ -19,7 +19,7 @@
 		these changes we will do a patch bump for these changes. See the <a
 			class="link"
 			href="/info/patch-codes">patch codes</a
-		> page for more information.
+		> page for more information and details.
 	</NewsSection>
 </HomeNews>
 <HomeNews publicationDateIso="2025-01-19T08:00:00.000Z" title="Leaderboard Jan 2025 Updates">
