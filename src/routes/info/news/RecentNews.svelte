@@ -4,6 +4,11 @@
 	import NewsSection from '$lib/PageComponents/News/NewsSection.svelte';
 </script>
 
+<HomeNews publicationDateIso="2025-03-17T23:00:00.000Z" title="Leaderboard March 2025 Updates">
+	<NewsSection sectionTitle="😶 Another quiet month">
+		No major updates for NGS this month. We are expecting some content updates next month.
+	</NewsSection>
+</HomeNews>
 <HomeNews publicationDateIso="2025-02-01T23:00:00.000Z" title="Leaderboard February 2025 Updates">
 	<NewsSection sectionTitle="🎭🗼↗ Ruine Masquerade Depths Added">
 		This month, SEGA brings additional depths to the Ruine Masquerade quest. Depths 5-6 were

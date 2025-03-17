@@ -7,6 +7,14 @@
 
 <RecentNews />
 
+<HomeNews publicationDateIso="2024-10-02T08:00:00.000Z" title="Leaderboard October 2024 Updates">
+	<NewsSection sectionTitle="⤴ Level 95 Release Patch code">
+		We have increased the patch code for the level 95 cap release. For more information see our <a
+			class="link"
+			href="/info/patch-codes">patch codes</a
+		> list.
+	</NewsSection>
+</HomeNews>
 <HomeNews publicationDateIso="2024-09-05T08:00:00.000Z" title="Leaderboard September 2024 Updates">
 	<NewsSection sectionTitle="🦁2️⃣ Dalion Rank 2 Quest">
 		We have added a Dalion Rank 2 (standing quest) leaderboard. That's all for this month!
