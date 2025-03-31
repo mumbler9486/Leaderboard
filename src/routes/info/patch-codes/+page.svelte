@@ -191,6 +191,18 @@
 								'level100r'} start of any quests will be reduced to 10 seconds for ALL classes. Later
 							that month on Feb 19 we also got the 11⭐ Akrotasis Armor series.
 						</TimelineNode>
+						<TimelineNode
+							title={patchCodeLabelMap['braverRebalance']}
+							time="Apr 2, 2025"
+							side="left"
+							fillLineStart
+							current={CurrentSubmissionPatchCode === 'braverRebalance'}
+						>
+							Known as the {patchCodeLabelMap['braverRebalance']} patch, the Braver class was rebalanced
+							with new adjustments, new effects, and new class skills. Additionally new Legendios weapons
+							and 12⭐ Klirodim weapons were introduced. New EX Augments were also released. Later that
+							month on April 23rd new Defi Augments such as C/Majis Gigas Maste were introduced.
+						</TimelineNode>
 					</Timeline>
 				</div>
 			</div>

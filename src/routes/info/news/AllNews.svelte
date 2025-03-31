@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import DiscordContact from '$lib/Components/DiscordContact.svelte';
 	import HomeNews from '$lib/PageComponents/News/HomeNews.svelte';
 	import NewsSection from '$lib/PageComponents/News/NewsSection.svelte';
@@ -7,6 +7,12 @@
 
 <RecentNews />
 
+<HomeNews publicationDateIso="2024-11-10T08:00:00.000Z" title="Leaderboard November 2024 Updates">
+	<NewsSection sectionTitle="😶 A quiet month">
+		No major updates for NGS this month. We are expecting some content updates next month. Have a
+		great Thanksgiving! 🦃
+	</NewsSection>
+</HomeNews>
 <HomeNews publicationDateIso="2024-10-02T08:00:00.000Z" title="Leaderboard October 2024 Updates">
 	<NewsSection sectionTitle="⤴ Level 95 Release Patch code">
 		We have increased the patch code for the level 95 cap release. For more information see our <a
