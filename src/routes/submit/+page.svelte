@@ -35,7 +35,7 @@
 					image="/icons/submit/dfvael.jpg"
 					link="/submit/dfvael"
 					overlayColor="blue"
-					badge="New Urgent Quest"
+					badge="New Standing Quest Ver."
 					buttonLabel="Submit"
 				/>
 				<JumboButton
@@ -43,7 +43,6 @@
 					image="/icons/submit/extra_duel_masq.jpg"
 					link="/submit/extra-duels"
 					overlayColor="neutral"
-					badge="New Extra Duel"
 					buttonLabel="Submit"
 				/>
 				{#each leaderboards.filter((b) => b.quest === NgsQuests.DfDalion) as board}
