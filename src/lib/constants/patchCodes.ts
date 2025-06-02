@@ -1,5 +1,5 @@
 // The current patch code for all submissions
-export const CurrentSubmissionPatchCode: keyof typeof patchCodeLabelMap = 'braverRebalance';
+export const CurrentSubmissionPatchCode: keyof typeof patchCodeLabelMap = 'level105r';
 
 // Keep patch codes under 30 chars
 export const patchCodeLabelMap = {
