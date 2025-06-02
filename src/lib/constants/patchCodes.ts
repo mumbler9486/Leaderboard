@@ -18,6 +18,7 @@ export const patchCodeLabelMap = {
 	['forceRebalance']: 'Force 2024 Rebalance',
 	['level100r']: 'Level 100 Release',
 	['braverRebalance']: 'Braver 2025 Rebalance',
+	['level105r']: 'Level 105 Release',
 } as const satisfies Record<string, string>;
 
 export type PatchCodes = keyof typeof patchCodeLabelMap;

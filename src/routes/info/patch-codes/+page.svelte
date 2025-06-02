@@ -203,6 +203,20 @@
 							and 12⭐ Klirodim weapons were introduced. New EX Augments were also released. Later that
 							month on April 23rd new Defi Augments such as C/Majis Gigas Maste were introduced.
 						</TimelineNode>
+						<TimelineNode
+							title={patchCodeLabelMap['level105r']}
+							time="June 4, 2025"
+							side="right"
+							fillLineStart
+							current={CurrentSubmissionPatchCode === 'level105r'}
+						>
+							Known as the {patchCodeLabelMap['level105r']} patch, player level cap has been increased
+							to level 105. In addition, weapons and armor can now be affixed with up to 8 augments.
+							12⭐ Progre Armor was released alongside a new augment C/Ultia Domina. Following the release
+							of the High difficulty Dark Falz Vael quest on June 10th, 13⭐ Cres series weapon was also
+							released. The weapon has a Potential that raises Potency and reduces PP consumption when
+							attacking enemies.
+						</TimelineNode>
 					</Timeline>
 				</div>
 			</div>

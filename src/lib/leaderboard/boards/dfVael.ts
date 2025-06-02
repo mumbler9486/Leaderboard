@@ -36,4 +36,34 @@ export const dfVaelUrgentQuest = new LeaderboardDefinition({
 	},
 });
 
-export const dfVaelBoards = [dfVaelUrgentQuest];
+export const dfVaelStandingQuest = new LeaderboardDefinition({
+	name: 'leaderboard.dfVael',
+	questRoute: 'dfvael',
+	categoryRoute: 'quest',
+	icon: '/icons/submit/dfvael.jpg',
+	game: Game.Ngs,
+	quest: NgsQuests.DfVael,
+	category: NgsRunCategories.Quest,
+	maxQuestRank: 1,
+	playerCap: 4,
+	allowedPartySizes: [PartySize.Solo, PartySize.Duo, PartySize.Party],
+	maxSeconds: 60 * 60,
+	runSubmissionSchema: createRunSubmissionSchema(
+		NgsQuests.DfVael,
+		NgsRunCategories.Quest,
+		1,
+		4,
+		60 * 60
+	),
+	runSearch: {
+		runSearchSchema: createRunSearchSchema(NgsQuests.DfVael, NgsRunCategories.Quest, 1, 4),
+		filterDefaults: (f) => {
+			f.quest = NgsQuests.DfVael;
+			f.category = f.category ?? NgsRunCategories.Quest;
+			f.partySize = f.partySize ?? 1;
+		},
+		attributeFilter: (f) => [],
+	},
+});
+
+export const dfVaelBoards = [dfVaelUrgentQuest, dfVaelStandingQuest];

@@ -4,8 +4,6 @@
 	export let side: 'left' | 'right' = 'left';
 	export let fillLineStart: boolean = false;
 	export let current: boolean = false;
-
-	$: formattedTitle = current ? `(Current) ${title}` : title;
 </script>
 
 <li>
@@ -20,13 +18,16 @@
 		>
 	</div>
 	<div
-		class=" mb-10 md:text-end"
+		class="mb-10 md:text-end"
 		class:timeline-start={side === 'left'}
 		class:timeline-end={side === 'right'}
 		class:md:text-end={side === 'left'}
 	>
 		<time class="font-mono italic">{time}</time>
-		<div class="text-lg font-black">{formattedTitle}</div>
+		<div class="text-lg font-black">{title}</div>
+		{#if current}
+			<div class="italic text-info">Current patch</div>
+		{/if}
 		<slot />
 	</div>
 	<hr class:bg-primary={fillLineStart} />

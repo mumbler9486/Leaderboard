@@ -1,24 +1,24 @@
--- Dalion Solo
+-- Vael Solo
 SET IDENTITY_INSERT [dbo].[Runs] ON;
 INSERT INTO dbo.Runs
   (Id,SubmitterId,Game,Quest,Category,ServerRegion,Patch,QuestRank,PartySize,RunTime,Notes,SubmissionDate,SubmissionStatus,DateReviewed,ModNotes,Attributes,ReviewedBy)
 VALUES
   (81000,1001,'ngs','dfvael','urgent_quest','global','level80r',1,1,'0:17:24','Test notes','2023-09-16T02:13:24Z',1,'2023-09-16T04:49:27Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (81001,1017,'ngs','dfvael','urgent_quest','japan','level80r',1,1,'0:10:01','Test notes','2023-01-22T06:37:21Z',1,'2023-01-22T07:45:49Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
-  (81002,1011,'ngs','dfvael','urgent_quest','global','60r',1,1,'0:12:49','Test notes','2023-06-17T02:31:16Z',1,'2023-06-17T04:31:41Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
+  (81002,1011,'ngs','dfvael','quest','global','60r',1,1,'0:12:49','Test notes','2023-06-17T02:31:16Z',1,'2023-06-17T04:31:41Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (81003,1013,'ngs','dfvael','urgent_quest','global','pre60r',1,1,'0:14:35','Test notes','2023-02-28T07:19:54Z',1,'2023-02-28T11:31:21Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (81004,5000000,'ngs','dfvael','urgent_quest','global','pot6r',1,1,'0:14:04','Test notes','2023-03-19T09:49:23Z',1,'2023-03-19T21:21:04Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (81005,1011,'ngs','dfvael','urgent_quest','japan','pre60r',1,1,'0:16:05','Test notes','2023-02-25T06:18:33Z',1,'2023-02-25T09:49:59Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (81006,1012,'ngs','dfvael','urgent_quest','global','level75r',1,1,'0:13:37','Test notes','2023-07-16T16:46:12Z',1,'2023-07-17T02:15:40Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (81007,1013,'ngs','dfvael','urgent_quest','global','lvl80grind',1,1,'0:13:16','Test notes','2023-04-17T11:19:35Z',1,'2023-04-17T16:15:31Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
-  (81008,1014,'ngs','dfvael','urgent_quest','japan','60r',1,1,'0:17:31','Test notes','2023-04-10T00:05:01Z',1,'2023-04-10T11:53:40Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
+  (81008,1014,'ngs','dfvael','quest','japan','60r',1,1,'0:17:31','Test notes','2023-04-10T00:05:01Z',1,'2023-04-10T11:53:40Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (81009,1013,'ngs','dfvael','urgent_quest','japan','60r',1,1,'0:16:14','Test notes','2023-01-14T11:56:00Z',1,'2023-01-14T16:36:32Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (81010,1015,'ngs','dfvael','urgent_quest','global','pre60r',1,1,'0:19:01','Test notes','2023-07-21T07:13:58Z',1,'2023-07-21T10:07:12Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
-  (81011,1014,'ngs','dfvael','urgent_quest','japan','level75r',1,1,'0:15:02','Test notes','2023-09-30T13:05:45Z',1,'2023-09-30T15:01:39Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
+  (81011,1014,'ngs','dfvael','quest','japan','level75r',1,1,'0:15:02','Test notes','2023-09-30T13:05:45Z',1,'2023-09-30T15:01:39Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (81012,1017,'ngs','dfvael','urgent_quest','global','level75r',1,1,'0:12:58','Test notes','2023-08-20T05:17:44Z',1,'2023-08-20T07:05:39Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (81013,1016,'ngs','dfvael','urgent_quest','global','level80r',1,1,'0:14:18','Test notes','2023-03-28T16:43:09Z',1,'2023-03-29T03:57:58Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (81014,1011,'ngs','dfvael','urgent_quest','japan','60r',1,1,'0:18:18','Test notes','2023-07-13T09:16:42Z',1,'2023-07-13T12:51:03Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
-  (81015,1012,'ngs','dfvael','urgent_quest','global','pre60r',1,1,'0:18:44','Test notes','2023-08-26T12:15:50Z',1,'2023-08-26T22:25:37Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
+  (81015,1012,'ngs','dfvael','quest','global','pre60r',1,1,'0:18:44','Test notes','2023-08-26T12:15:50Z',1,'2023-08-26T22:25:37Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (81016,1012,'ngs','dfvael','urgent_quest','global','level80r',1,1,'0:16:28','New Time succeeds old run','2023-03-28T04:14:49Z',1,'2023-03-28T11:42:55Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (81017,5000000,'ngs','dfvael','urgent_quest','global','level80r',1,1,'0:13:52','Test not yet approved run','2023-05-10T02:14:07Z',0,NULL,NULL,NULL,NULL),
   (81018,5000000,'ngs','dfvael','urgent_quest','japan','level80r',1,1,'0:18:19','Test not yet approved run 2','2023-03-03T02:59:29Z',0,NULL,NULL,NULL,NULL),
@@ -53,27 +53,27 @@ VALUES
 ;
 SET IDENTITY_INSERT [dbo].[RunParty] OFF;
 
--- Dalion Duo
+-- Vael Duo
 SET IDENTITY_INSERT [dbo].[Runs] ON;
 INSERT INTO dbo.Runs
   (Id,SubmitterId,Game,Quest,Category,ServerRegion,Patch,QuestRank,PartySize,RunTime,Notes,SubmissionDate,SubmissionStatus,DateReviewed,ModNotes,Attributes,ReviewedBy)
 VALUES
   (82000,1001,'ngs','dfvael','urgent_quest','global','level80r',1,2,'0:15:58','Test notes','2023-06-20T00:28:45Z',1,'2023-06-20T13:02:39Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (82001,1017,'ngs','dfvael','urgent_quest','japan','level80r',1,2,'0:12:23','Test notes','2023-09-18T03:43:52Z',1,'2023-09-18T09:57:28Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
-  (82002,1011,'ngs','dfvael','urgent_quest','global','60r',1,2,'0:11:32','Test notes','2023-12-14T01:27:22Z',1,'2023-12-14T07:55:52Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
+  (82002,1011,'ngs','dfvael','quest','global','60r',1,2,'0:11:32','Test notes','2023-12-14T01:27:22Z',1,'2023-12-14T07:55:52Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (82003,1013,'ngs','dfvael','urgent_quest','global','pre60r',1,2,'0:11:08','Test notes','2023-10-11T05:12:53Z',1,'2023-10-11T17:51:59Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (82004,5000000,'ngs','dfvael','urgent_quest','global','pot6r',1,2,'0:16:59','Test notes','2023-04-11T04:31:56Z',1,'2023-04-11T15:43:12Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (82005,1011,'ngs','dfvael','urgent_quest','japan','pre60r',1,2,'0:15:53','Test notes','2023-06-06T02:40:36Z',1,'2023-06-06T04:59:33Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (82006,1012,'ngs','dfvael','urgent_quest','global','level75r',1,2,'0:10:30','Test notes','2023-03-29T11:19:44Z',1,'2023-03-29T22:05:15Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
-  (82007,1013,'ngs','dfvael','urgent_quest','global','lvl80grind',1,2,'0:16:16','Test notes','2023-05-20T03:59:53Z',1,'2023-05-20T04:21:43Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
+  (82007,1013,'ngs','dfvael','quest','global','lvl80grind',1,2,'0:16:16','Test notes','2023-05-20T03:59:53Z',1,'2023-05-20T04:21:43Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (82008,1014,'ngs','dfvael','urgent_quest','japan','60r',1,2,'0:13:04','Test notes','2023-08-08T16:33:24Z',1,'2023-08-09T01:39:32Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
-  (82009,1013,'ngs','dfvael','urgent_quest','japan','60r',1,2,'0:10:03','Test notes','2023-06-25T03:07:28Z',1,'2023-06-25T13:35:32Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
+  (82009,1013,'ngs','dfvael','quest','japan','60r',1,2,'0:10:03','Test notes','2023-06-25T03:07:28Z',1,'2023-06-25T13:35:32Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (82010,1015,'ngs','dfvael','urgent_quest','global','pre60r',1,2,'0:16:21','Test notes','2023-08-19T05:38:38Z',1,'2023-08-19T17:14:17Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (82011,1014,'ngs','dfvael','urgent_quest','japan','level75r',1,2,'0:12:48','Test notes','2023-03-27T02:09:54Z',1,'2023-03-27T03:46:14Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
-  (82012,1017,'ngs','dfvael','urgent_quest','global','level75r',1,2,'0:16:43','Test notes','2023-03-05T08:07:47Z',1,'2023-03-05T08:50:36Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
+  (82012,1017,'ngs','dfvael','quest','global','level75r',1,2,'0:16:43','Test notes','2023-03-05T08:07:47Z',1,'2023-03-05T08:50:36Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (82013,1016,'ngs','dfvael','urgent_quest','global','level80r',1,2,'0:12:53','Test notes','2023-09-15T05:38:19Z',1,'2023-09-15T17:34:06Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (82014,1011,'ngs','dfvael','urgent_quest','japan','60r',1,2,'0:13:47','Test notes','2023-09-24T06:24:03Z',1,'2023-09-24T17:51:32Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
-  (82015,1012,'ngs','dfvael','urgent_quest','global','pre60r',1,2,'0:13:32','Test notes','2023-03-24T05:07:21Z',1,'2023-03-24T10:40:03Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
+  (82015,1012,'ngs','dfvael','quest','global','pre60r',1,2,'0:13:32','Test notes','2023-03-24T05:07:21Z',1,'2023-03-24T10:40:03Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (82016,1012,'ngs','dfvael','urgent_quest','global','level80r',1,2,'0:12:44','New Time succeeds old run','2023-07-07T03:22:31Z',1,'2023-07-07T06:32:52Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (82017,5000000,'ngs','dfvael','urgent_quest','global','level80r',1,2,'0:12:42','Test not yet approved run','2023-08-16T19:13:59Z',0,NULL,NULL,NULL,NULL),
   (82018,5000000,'ngs','dfvael','urgent_quest','japan','level80r',1,2,'0:14:19','Test not yet approved run 2','2023-09-10T16:43:37Z',0,NULL,NULL,NULL,NULL),
@@ -148,26 +148,26 @@ VALUES
 ;
 SET IDENTITY_INSERT [dbo].[RunParty] OFF;
 
--- Dalion Party
+-- Vael Party
 SET IDENTITY_INSERT [dbo].[Runs] ON;
 INSERT INTO dbo.Runs
   (Id,SubmitterId,Game,Quest,Category,ServerRegion,Patch,QuestRank,PartySize,RunTime,Notes,SubmissionDate,SubmissionStatus,DateReviewed,ModNotes,Attributes,ReviewedBy)
 VALUES
   (83000,1001,'ngs','dfvael','urgent_quest','global','level80r',1,4,'0:16:32','Test notes','2023-10-01T14:09:28Z',1,'2023-10-01T18:35:44Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
-  (83001,1017,'ngs','dfvael','urgent_quest','japan','level80r',1,4,'0:14:23','Test notes','2023-11-27T06:28:43Z',1,'2023-11-27T11:06:11Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
-  (83002,1011,'ngs','dfvael','urgent_quest','global','60r',1,4,'0:16:56','Test notes','2023-10-05T10:22:44Z',1,'2023-10-05T23:03:58Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
+  (83001,1017,'ngs','dfvael','quest','japan','level80r',1,4,'0:14:23','Test notes','2023-11-27T06:28:43Z',1,'2023-11-27T11:06:11Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
+  (83002,1011,'ngs','dfvael','quest','global','60r',1,4,'0:16:56','Test notes','2023-10-05T10:22:44Z',1,'2023-10-05T23:03:58Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (83003,1013,'ngs','dfvael','urgent_quest','global','pre60r',1,4,'0:14:36','Test notes','2023-09-11T10:31:58Z',1,'2023-09-11T14:01:48Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (83004,5000000,'ngs','dfvael','urgent_quest','global','pot6r',1,4,'0:10:38','Test notes','2023-03-22T20:45:15Z',1,'2023-03-22T21:52:06Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (83005,1011,'ngs','dfvael','urgent_quest','japan','pre60r',1,4,'0:11:58','Test notes','2023-08-25T16:38:00Z',1,'2023-08-26T02:07:46Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
-  (83006,1012,'ngs','dfvael','urgent_quest','global','level75r',1,4,'0:18:58','Test notes','2023-07-11T22:43:51Z',1,'2023-07-12T04:04:07Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
+  (83006,1012,'ngs','dfvael','quest','global','level75r',1,4,'0:18:58','Test notes','2023-07-11T22:43:51Z',1,'2023-07-12T04:04:07Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (83007,1013,'ngs','dfvael','urgent_quest','global','lvl80grind',1,4,'0:12:02','Test notes','2023-08-18T02:28:59Z',1,'2023-08-18T13:18:22Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (83008,1014,'ngs','dfvael','urgent_quest','japan','60r',1,4,'0:16:17','Test notes','2023-04-16T02:06:41Z',1,'2023-04-16T14:19:57Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
-  (83009,1013,'ngs','dfvael','urgent_quest','japan','60r',1,4,'0:17:58','Test notes','2023-12-27T08:53:09Z',1,'2023-12-27T14:17:58Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
+  (83009,1013,'ngs','dfvael','quest','japan','60r',1,4,'0:17:58','Test notes','2023-12-27T08:53:09Z',1,'2023-12-27T14:17:58Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (83010,1015,'ngs','dfvael','urgent_quest','global','pre60r',1,4,'0:16:15','Test notes','2023-10-29T15:25:08Z',1,'2023-10-30T00:46:43Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
-  (83011,1014,'ngs','dfvael','urgent_quest','japan','level75r',1,4,'0:12:58','Test notes','2023-05-01T15:06:13Z',1,'2023-05-02T00:07:28Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
+  (83011,1014,'ngs','dfvael','quest','japan','level75r',1,4,'0:12:58','Test notes','2023-05-01T15:06:13Z',1,'2023-05-02T00:07:28Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (83012,1017,'ngs','dfvael','urgent_quest','global','level75r',1,4,'0:14:16','Test notes','2023-01-27T21:01:37Z',1,'2023-01-27T22:06:46Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (83013,1016,'ngs','dfvael','urgent_quest','global','level80r',1,4,'0:16:42','Test notes','2023-05-31T10:37:01Z',1,'2023-05-31T16:39:46Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
-  (83014,1011,'ngs','dfvael','urgent_quest','japan','60r',1,4,'0:15:09','Test notes','2023-06-27T07:53:54Z',1,'2023-06-27T15:56:03Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
+  (83014,1011,'ngs','dfvael','quest','japan','60r',1,4,'0:15:09','Test notes','2023-06-27T07:53:54Z',1,'2023-06-27T15:56:03Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (83015,1012,'ngs','dfvael','urgent_quest','global','pre60r',1,4,'0:18:13','Test notes','2023-09-24T23:10:35Z',1,'2023-09-25T03:28:02Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (83016,1012,'ngs','dfvael','urgent_quest','global','level80r',1,4,'0:17:52','New Time succeeds old run','2023-05-27T16:24:07Z',1,'2023-05-28T00:41:36Z','Test Mod Notes',NULL,'Tall Mommy Cool'),
   (83017,5000000,'ngs','dfvael','urgent_quest','global','level80r',1,4,'0:19:16','Test not yet approved run','2023-03-13T18:45:39Z',0,NULL,NULL,NULL,NULL),

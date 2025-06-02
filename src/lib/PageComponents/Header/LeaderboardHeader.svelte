@@ -54,7 +54,7 @@
 
 	$: loginTitle = (() => {
 		if (isLoadingLogin) return 'Loading...';
-		return !isLoggedIn ? 'Login' : ($playerInfoStore?.playerName ?? '<Unknown>');
+		return !isLoggedIn ? 'Login' : $playerInfoStore?.playerName ?? '<Unknown>';
 	})();
 	$: loginMenu = {
 		title: loginTitle,
@@ -67,7 +67,7 @@
 					{ label: 'Profile', link: '/profile', icon: 'profile' },
 					{ label: 'Settings', link: '/settings', icon: 'gear' },
 					{ label: 'Logout', link: '/logout', icon: 'logout' },
-				]
+			  ]
 			: [],
 	} satisfies MenuGroup;
 
