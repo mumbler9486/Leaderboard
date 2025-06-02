@@ -6,11 +6,6 @@
 
 	export let allowedCategories: NgsRunCategories[] = [];
 
-	// Maps NgsRunCategories to translation key
-	const allOptions = (
-		Object.entries(ngsCategoryTranslationMap) as [NgsRunCategories, string][]
-	).map(([key, value]) => ({ label: $t(value), value: key }));
-
 	$: selectableOptions = allowedCategories.map((c) => ({
 		label: $t(ngsCategoryTranslationMap[c]),
 		value: c,
