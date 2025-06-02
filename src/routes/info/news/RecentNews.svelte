@@ -4,6 +4,21 @@
 	import NewsSection from '$lib/PageComponents/News/NewsSection.svelte';
 </script>
 
+<HomeNews publicationDateIso="2025-06-02T01:00:00.000Z" title="Leaderboard June 2025 Updates">
+	<NewsSection sectionTitle="5️⃣⤴ Level 105 Patch and 8 Augment Affixes">
+		On June 4th we will be getting a player level cap increase to level 105 and weapons+armor can be
+		affixed with up to 8 augments. For more details about the patch see the <a
+			class="link"
+			href="/info/patch-codes">patch codes</a
+		> page for more information and details.
+	</NewsSection>
+	<NewsSection sectionTitle="🔥🐉 High Difficulty Dark Falz Vael">
+		On June 10th we will also be getting a higher difficulty Dark Falz Vael quest which will feature
+		a limited number of incapacitations and be available for up to 4 players. We will prepare a
+		leaderboard for this quest. With the release of this quest a new 13⭐ Cres series weapon will
+		also be released.
+	</NewsSection>
+</HomeNews>
 <HomeNews publicationDateIso="2025-05-01T01:00:00.000Z" title="Leaderboard May 2025 Updates">
 	<NewsSection sectionTitle="😶 A quiet month">
 		No major updates for NGS this month. We are expecting some content updates next month.
