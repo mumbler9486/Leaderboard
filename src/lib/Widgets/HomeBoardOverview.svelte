@@ -31,7 +31,7 @@
 	const tabs: Boards[] = [
 		{ boardInfo: null, name: '✨Recent', color: 'yellow' },
 		{
-			boardInfo: lookupBoard(NgsQuests.DfVael, NgsRunCategories.UrgentQuest),
+			boardInfo: lookupBoard(NgsQuests.DfVael, NgsRunCategories.Quest),
 			name: 'Dark Falz Vael',
 		},
 		{

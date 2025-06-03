@@ -66,4 +66,4 @@ export const dfVaelStandingQuest = new LeaderboardDefinition({
 	},
 });
 
-export const dfVaelBoards = [dfVaelUrgentQuest, dfVaelStandingQuest];
+export const dfVaelBoards = [dfVaelStandingQuest, dfVaelUrgentQuest];

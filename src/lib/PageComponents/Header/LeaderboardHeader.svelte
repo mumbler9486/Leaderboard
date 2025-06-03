@@ -28,7 +28,7 @@
 			title: $t('navigation.bosses'),
 			image: '/icons/quests/uq.png',
 			items: [
-				{ label: 'Dark Falz Vael', link: '/runs/dfvael/urgent-quest' },
+				{ label: 'Dark Falz Vael', link: '/runs/dfvael/quest' },
 				{ label: 'Dark Falz Dalion', link: '/runs/dfdalion/quest' },
 				{ label: 'Dark Falz Solus', link: '/runs/dfsolus/quest' },
 				{ label: 'Venogia', link: '/runs/venogia/urgent-quest' },
