@@ -1,5 +1,5 @@
 // The current patch code for all submissions
-export const CurrentSubmissionPatchCode: keyof typeof patchCodeLabelMap = 'level105r';
+export const CurrentSubmissionPatchCode: keyof typeof patchCodeLabelMap = 'july2025juvolg';
 
 // Keep patch codes under 30 chars
 export const patchCodeLabelMap = {
@@ -19,6 +19,7 @@ export const patchCodeLabelMap = {
 	['level100r']: 'Level 100 Release',
 	['braverRebalance']: 'Braver 2025 Rebalance',
 	['level105r']: 'Level 105 Release',
+	['july2025juvolg']: 'July 2025 Juvolg',
 } as const satisfies Record<string, string>;
 
 export type PatchCodes = keyof typeof patchCodeLabelMap;

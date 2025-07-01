@@ -4,6 +4,14 @@
 	import NewsSection from '$lib/PageComponents/News/NewsSection.svelte';
 </script>
 
+<HomeNews publicationDateIso="2025-07-01T01:00:00.000Z" title="Leaderboard July 2025 Updates">
+	<NewsSection sectionTitle="⤴ Small patch bump for the Juvolg Series">
+		This patch bump is like any other, but considerably not as big as the previous patch bump. The
+		Juvolg series weapons will be released on July 2nd and the Eskul Armor on July 16th. For more
+		details about the patch see the <a class="link" href="/info/patch-codes">patch codes</a> page for
+		details.
+	</NewsSection>
+</HomeNews>
 <HomeNews publicationDateIso="2025-06-02T01:00:00.000Z" title="Leaderboard June 2025 Updates">
 	<NewsSection sectionTitle="5️⃣⤴ Level 105 Patch and 8 Augment Affixes">
 		On June 4th we will be getting a player level cap increase to level 105 and weapons+armor can be
@@ -62,13 +70,5 @@
 		Happy (belated) new year! Starting Jan 14th, SEGA will release a new duel quest: Ruine
 		Masquerade. Tentatively the way the board will be ranked by Depth &gt; Quest Rank &gt; Time. If
 		you have any feedback contact us at our <DiscordContact />.
-	</NewsSection>
-</HomeNews>
-<HomeNews publicationDateIso="2024-12-13T08:00:00.000Z" title="Leaderboard December 2024 Updates">
-	<NewsSection sectionTitle="⤴ New Patch: Force Class Balance Adjustments">
-		On December 4th we will be getting a major class balance update focused on the Force class.
-		Following, new 12-star Twaalv series will release on December 18th. This new series will also
-		include new EX augments. Ruine Masquerader is expected to arrive next month in January so we
-		will likely prepare a leaderboard for that update when it comes. Have a happy holiday! 🎅
 	</NewsSection>
 </HomeNews>
