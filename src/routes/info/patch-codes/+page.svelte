@@ -217,6 +217,17 @@
 							released. The weapon has a Potential that raises Potency and reduces PP consumption when
 							attacking enemies.
 						</TimelineNode>
+						<TimelineNode
+							title={patchCodeLabelMap['july2025juvolg']}
+							time="July 2, 2025"
+							side="left"
+							fillLineStart
+							current={CurrentSubmissionPatchCode === 'july2025juvolg'}
+						>
+							Known as the {patchCodeLabelMap['july2025juvolg']} patch, a minor patch for the release
+							of the new 13⭐ Juvolg weapon series released on July 2nd. Then the release of the 12⭐
+							Eskul Armor on July 16th.
+						</TimelineNode>
 					</Timeline>
 				</div>
 			</div>
