@@ -98,9 +98,9 @@ const checkRunData = async (run: ApproveRequest, moderator: PlayersDbModel) => {
 		errorList.push(`Submission already denied/approved`);
 	}
 
-	if (moderator.Id === submissionResult.RunSubmitterId) {
-		errorList.push(`Cannot approve a run submitted by one's self.`);
-	}
+	// if (moderator.Id === submissionResult.RunSubmitterId) {
+	// 	errorList.push(`Cannot approve a run submitted by one's self.`);
+	// }
 
 	return {
 		errorList,
