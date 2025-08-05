@@ -228,6 +228,18 @@
 							of the new 13⭐ Juvolg weapon series released on July 2nd. Then the release of the 12⭐
 							Eskul Armor on July 16th.
 						</TimelineNode>
+						<TimelineNode
+							title={patchCodeLabelMap['wakerRebalance']}
+							time="August 6, 2025"
+							side="right"
+							fillLineStart
+							current={CurrentSubmissionPatchCode === 'wakerRebalance'}
+						>
+							Known as the {patchCodeLabelMap['wakerRebalance']} patch, the Waker class will be rebalanced
+							and a new class skill will be added. Fighter and Gunner adjustments will also be made.
+							In addition a new 13⭐ Volgen weapon series and Legend.2 Lygend weapon series will be released.
+							Two new EX special abilities EX Pain Provoke II H and EX Evade Onslaught II H will be released.
+						</TimelineNode>
 					</Timeline>
 				</div>
 			</div>

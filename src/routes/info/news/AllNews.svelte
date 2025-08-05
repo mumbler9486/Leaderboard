@@ -7,6 +7,13 @@
 
 <RecentNews />
 
+<HomeNews publicationDateIso="2025-01-19T08:00:00.000Z" title="Leaderboard Jan 2025 Updates">
+	<NewsSection sectionTitle="🎭🗼 Ruine Masquerade Depths">
+		Happy (belated) new year! Starting Jan 14th, SEGA will release a new duel quest: Ruine
+		Masquerade. Tentatively the way the board will be ranked by Depth &gt; Quest Rank &gt; Time. If
+		you have any feedback contact us at our <DiscordContact />.
+	</NewsSection>
+</HomeNews>
 <HomeNews publicationDateIso="2024-12-13T08:00:00.000Z" title="Leaderboard December 2024 Updates">
 	<NewsSection sectionTitle="⤴ New Patch: Force Class Balance Adjustments">
 		On December 4th we will be getting a major class balance update focused on the Force class.

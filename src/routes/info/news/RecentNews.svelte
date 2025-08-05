@@ -4,6 +4,15 @@
 	import NewsSection from '$lib/PageComponents/News/NewsSection.svelte';
 </script>
 
+<HomeNews publicationDateIso="2025-08-06T01:00:00.000Z" title="Leaderboard August 2025 Updates">
+	<NewsSection sectionTitle="⤴🐕 Waker Rebalance 2025 Patch Bump">
+		This month brings changes to the Waker class, adjustments to the Fighter and Gunner classes, new
+		weapon series (Volgen and Legend), and new EX Special augments. For details see the <a
+			class="link"
+			href="/info/patch-codes">patch codes</a
+		> page.
+	</NewsSection>
+</HomeNews>
 <HomeNews publicationDateIso="2025-07-01T01:00:00.000Z" title="Leaderboard July 2025 Updates">
 	<NewsSection sectionTitle="⤴ Small patch bump for the Juvolg Series">
 		This patch bump is like any other, but considerably not as big as the previous patch bump. The
@@ -63,12 +72,5 @@
 			class="link"
 			href="/info/patch-codes">patch codes</a
 		> page for more information and details.
-	</NewsSection>
-</HomeNews>
-<HomeNews publicationDateIso="2025-01-19T08:00:00.000Z" title="Leaderboard Jan 2025 Updates">
-	<NewsSection sectionTitle="🎭🗼 Ruine Masquerade Depths">
-		Happy (belated) new year! Starting Jan 14th, SEGA will release a new duel quest: Ruine
-		Masquerade. Tentatively the way the board will be ranked by Depth &gt; Quest Rank &gt; Time. If
-		you have any feedback contact us at our <DiscordContact />.
 	</NewsSection>
 </HomeNews>
