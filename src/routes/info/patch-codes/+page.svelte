@@ -239,6 +239,18 @@
 							and a new class skill will be added. Fighter and Gunner adjustments will also be made.
 							In addition a new 13⭐ Volgen weapon series and Legend.2 Lygend weapon series will be released.
 							Two new EX special abilities EX Pain Provoke II H and EX Evade Onslaught II H will be released.
+							Later on September 3rd, the 13⭐ Zenit weapon series was was released
+						</TimelineNode>
+						<TimelineNode
+							title={patchCodeLabelMap['level110r']}
+							time="October 1, 2025"
+							side="left"
+							fillLineStart
+							current={CurrentSubmissionPatchCode === 'level110r'}
+						>
+							Known as the {patchCodeLabelMap['level110r']} patch, level cap was raised to 110. EX Style
+							enhancement system was released. C/Tera Triyal augment was also released. Later on the
+							22nd of October, Skill Rings were released with Type 1 and Type 2 varieties.
 						</TimelineNode>
 					</Timeline>
 				</div>

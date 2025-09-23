@@ -21,6 +21,7 @@ export const patchCodeLabelMap = {
 	['level105r']: 'Level 105 Release',
 	['july2025juvolg']: 'July 2025 Juvolg',
 	['wakerRebalance']: 'Waker 2025 Rebalance',
+	['level110r']: 'Level 110 Release',
 } as const satisfies Record<string, string>;
 
 export type PatchCodes = keyof typeof patchCodeLabelMap;
