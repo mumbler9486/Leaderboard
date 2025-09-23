@@ -4,6 +4,14 @@
 	import NewsSection from '$lib/PageComponents/News/NewsSection.svelte';
 </script>
 
+<HomeNews publicationDateIso="2025-09-23T01:00:00.000Z" title="Leaderboard October 2025 Updates">
+	<NewsSection sectionTitle="⤴🕺 Level 110 Patch Bump">
+		September didn't have significant changes for the boards (aside from the 13⭐ Zenit series from
+		September 3rd) but October brings in some new combat systems. Level 110, new "EX Style", and
+		Skill Rings are to be released in October. This will naturally bring about a new patch bump on
+		October 1st. For details see the <a class="link" href="/info/patch-codes">patch codes</a> page.
+	</NewsSection>
+</HomeNews>
 <HomeNews publicationDateIso="2025-08-06T01:00:00.000Z" title="Leaderboard August 2025 Updates">
 	<NewsSection sectionTitle="⤴🐕 Waker Rebalance 2025 Patch Bump">
 		This month brings changes to the Waker class, adjustments to the Fighter and Gunner classes, new
@@ -54,23 +62,5 @@
 <HomeNews publicationDateIso="2025-03-17T23:00:00.000Z" title="Leaderboard March 2025 Updates">
 	<NewsSection sectionTitle="😶 Another quiet month">
 		No major updates for NGS this month. We are expecting some content updates next month.
-	</NewsSection>
-</HomeNews>
-<HomeNews publicationDateIso="2025-02-01T23:00:00.000Z" title="Leaderboard February 2025 Updates">
-	<NewsSection sectionTitle="🎭🗼↗ Ruine Masquerade Depths Added">
-		This month, SEGA brings additional depths to the Ruine Masquerade quest. Depths 5-6 were
-		released on Jan 28th. Depth 7-8 will be released on Feb 11th. And the final depths 9-10 will be
-		released on Feb 25th. All these depths are available to submit to the leaderboard.
-	</NewsSection>
-	<NewsSection sectionTitle="🐉 Dark Falz Vael">
-		Dark Falz Vael is a new 8-player urgent quest that will be released in the next maintenance on
-		Feb 5th. Since this is a new non-limited Urgent Quest we will prepare a leaderboard.
-	</NewsSection>
-	<NewsSection sectionTitle="💯⚖ Level 100 Patch & Hunter Rebalance">
-		On Feb 5th we will also receive a new level 100 cap and Hunter class re-balances. Because of
-		these changes we will do a patch bump for these changes. See the <a
-			class="link"
-			href="/info/patch-codes">patch codes</a
-		> page for more information and details.
 	</NewsSection>
 </HomeNews>
