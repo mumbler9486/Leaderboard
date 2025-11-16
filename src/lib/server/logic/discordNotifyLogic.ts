@@ -6,7 +6,8 @@ import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmissi
 import { formatString } from '$lib/utils/string';
 import { unwrapFunctionStore, format } from 'svelte-i18n';
 import { sendDiscordNotification, type DiscordMessage } from '../repositories/discordRepository';
-import { MasqDuelRunDetails, Run } from '$lib/types/api/runs/run';
+import { MasqDuelRunDetails, PlanetfallStrikeRunDetails, Run } from '$lib/types/api/runs/run';
+import { planetfallStageBossNameMappings } from '$lib/leaderboard/boards/duelPlanetfall';
 
 const locale = 'en';
 const t = unwrapFunctionStore(format);
@@ -72,6 +73,11 @@ const getQuestName = (run: Run<unknown> | RunSubmissionRequest) => {
 		run.quest === NgsQuests.ExtraDuels && run.category === NgsRunCategories.Masquerade
 			? (run.details as MasqDuelRunDetails).depth?.toString()
 			: '';
+	const planetfallStageNumber =
+		run.quest === NgsQuests.ExtraDuels && run.category === NgsRunCategories.PlanetfallStrike
+			? (run.details as PlanetfallStrikeRunDetails).stage
+			: -1;
+	const planetFallStageName = planetfallStageBossNameMappings[planetfallStageNumber] ?? '';
 
 	return formatString(nameTemplate, {
 		boardName,
@@ -79,6 +85,7 @@ const getQuestName = (run: Run<unknown> | RunSubmissionRequest) => {
 		partySize: partySizeName,
 		questRank: run.questRank.toString(),
 		masqDepth: masqDepth,
+		planetfallStage: `Stage ${planetfallStageNumber}: ${planetFallStageName}`,
 	});
 };
 

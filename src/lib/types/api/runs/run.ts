@@ -73,3 +73,8 @@ export interface MasqDuelRunDetails {
 	depth: number;
 }
 export interface MasqDuelRun extends Run<MasqDuelRunDetails> {}
+
+export interface PlanetfallStrikeRunDetails {
+	stage: number;
+}
+export interface PlanetfallStrikeRun extends Run<PlanetfallStrikeRunDetails> {}

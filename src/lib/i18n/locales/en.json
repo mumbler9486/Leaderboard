@@ -27,7 +27,8 @@
 			"stia": "Stia",
 			"aelio_intruders": "Aelio Intruders",
 			"venogia": "Venogia",
-			"masquerade": "Ruine Masquerade"
+			"masquerade": "Ruine Masquerade",
+			"planetfall_strike": "Planetfall Strike"
 		}
 	},
 	"pso2": {},
@@ -156,7 +157,8 @@
 			"stia": "Stia",
 			"aelio_intruders": "Aelio Intruders",
 			"venogia": "Venogia",
-			"masquerade": "Ruine Masquerade"
+			"masquerade": "Ruine Masquerade",
+			"planetfall_strike": "Planetfall Strike"
 		},
 		"partySizes": {
 			"solo": "Solo",
@@ -178,7 +180,8 @@
 			"zelvin": "Duel Zelvin",
 			"ringwedge": "Duel Ringwedge",
 			"venogia": "Duel Venogia",
-			"duel_masq": "Ruine Masquerade"
+			"duel_masq": "Ruine Masquerade",
+			"planetfall_strike": "Planetfall Strike"
 		},
 		"purples": {
 			"aelio": "Purple Aelio",

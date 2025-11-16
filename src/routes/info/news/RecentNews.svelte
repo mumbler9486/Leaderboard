@@ -4,6 +4,15 @@
 	import NewsSection from '$lib/PageComponents/News/NewsSection.svelte';
 </script>
 
+<HomeNews publicationDateIso="2025-11-15T01:00:00.000Z" title="Leaderboard November 2025 Updates">
+	<NewsSection sectionTitle="🪐 Extra Duel: Planetfall Strike">
+		New Extra Duel: Planetfall Strike was released on October 28th with stages 1 and 2. Stages 3 and
+		4 was released on November 11th. And finally stages 5 and 6 will be released November 25th. A
+		new leaderboard for this duel quest was added with all stages available for submission. From
+		November 5th also brought some gear releases with 13⭐ Fortscha Armor and C/Argant Gigas Maste
+		capsules.
+	</NewsSection>
+</HomeNews>
 <HomeNews publicationDateIso="2025-09-23T01:00:00.000Z" title="Leaderboard October 2025 Updates">
 	<NewsSection sectionTitle="⤴🕺 Level 110 Patch Bump">
 		September didn't have significant changes for the boards (aside from the 13⭐ Zenit series from
@@ -57,10 +66,5 @@
 			class="link"
 			href="/info/patch-codes">patch codes</a
 		> page for more information and details.
-	</NewsSection>
-</HomeNews>
-<HomeNews publicationDateIso="2025-03-17T23:00:00.000Z" title="Leaderboard March 2025 Updates">
-	<NewsSection sectionTitle="😶 Another quiet month">
-		No major updates for NGS this month. We are expecting some content updates next month.
 	</NewsSection>
 </HomeNews>

@@ -85,6 +85,9 @@ execSqlFile('scripts/runs/07_duel_masq.sql');
 shell.echo('8. Creating Vael runs.');
 execSqlFile('scripts/runs/08_dfvael.sql');
 
+shell.echo('9. Creating Planetfall Strike runs.');
+execSqlFile('scripts/runs/09_duel_planetfall_strike.sql');
+
 // Run creation cleanup
 shell.echo('Cleaning up run creation.');
 execSqlFile('scripts/runs/99_cleanup.sql');

@@ -31,11 +31,18 @@
 
 			<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
 				<JumboButton
+					label="Planetfall Strike"
+					image="/icons/submit/planetfall_strike_max_vang.jpg"
+					link="/submit/extra-duels"
+					overlayColor="red"
+					badge="New Stages 1-6"
+					buttonLabel="Submit"
+				/>
+				<JumboButton
 					label="Dark Falz Vael"
 					image="/icons/submit/dfvael.jpg"
 					link="/submit/dfvael"
 					overlayColor="blue"
-					badge="New Standing Quest Ver."
 					buttonLabel="Submit"
 				/>
 				<JumboButton

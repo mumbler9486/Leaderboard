@@ -250,7 +250,8 @@
 						>
 							Known as the {patchCodeLabelMap['level110r']} patch, level cap was raised to 110. EX Style
 							enhancement system was released. C/Tera Triyal augment was also released. Later on the
-							22nd of October, Skill Rings were released with Type 1 and Type 2 varieties.
+							22nd of October, Skill Rings were released with Type 1 and Type 2 varieties. November 5th
+							also brought some gear releases with 13⭐ Fortscha Armor and C/Argant Gigas Maste capsules.
 						</TimelineNode>
 					</Timeline>
 				</div>

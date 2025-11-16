@@ -5,6 +5,7 @@ import { dfDalionBoards } from './boards/dfDalion';
 import { dfSolusBoards } from './boards/dfSolus';
 import { dfVaelBoards } from './boards/dfVael';
 import { duelMasqBoards } from './boards/duelMasq';
+import { planetfallStrikeBoards } from './boards/duelPlanetfall';
 import { duelBoards } from './boards/duels';
 import { purpleBoards } from './boards/purples';
 import { venogiaBoards } from './boards/venogia';
@@ -19,6 +20,7 @@ export const allLeaderboards: LeaderboardDefinition<any, any>[] = [
 	...dfSolusBoards,
 	...duelMasqBoards,
 	...dfVaelBoards,
+	...planetfallStrikeBoards,
 ];
 
 /**

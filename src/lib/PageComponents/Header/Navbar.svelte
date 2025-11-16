@@ -7,7 +7,7 @@
 		link?: string;
 		disabled?: boolean;
 		disabledTooltip?: string;
-		items?: MenuItem[];
+		items?: MenuItem | MenuGroup;
 	}
 
 	export interface MenuItem {

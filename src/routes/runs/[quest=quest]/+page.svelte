@@ -1,5 +1,5 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 
-	goto('/runs/dfdalion/solo', { replaceState: true });
+	goto('/runs/extra-duels/planetfall-strike', { replaceState: true });
 </script>

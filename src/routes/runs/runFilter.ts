@@ -11,6 +11,7 @@ export interface RunSearchFilters {
 	category: string;
 	partySize: string;
 	depth: string;
+	stage: string;
 }
 
 export const defaultRunFilter: RunSearchFilters = {
@@ -24,6 +25,7 @@ export const defaultRunFilter: RunSearchFilters = {
 	category: 'no_filter',
 	partySize: 'solo',
 	depth: 'no_filter',
+	stage: '1',
 } as const;
 
 const searchFilterStore = writable<RunSearchFilters>({ ...defaultRunFilter });

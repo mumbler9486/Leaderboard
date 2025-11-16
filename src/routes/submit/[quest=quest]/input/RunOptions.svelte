@@ -5,6 +5,7 @@
 	import DfAegisOptions from './DfAegisOptions.svelte';
 	import DuelOptions from './DuelOptions.svelte';
 	import MasqDepthInput from './MasqDepthInput.svelte';
+	import PlanetfallStrikeInput from './PlanetfallStrikeInput.svelte';
 
 	export let board: LeaderboardDefinition<any, any>;
 </script>
@@ -15,4 +16,6 @@
 	<DuelOptions />
 {:else if board.quest === NgsQuests.ExtraDuels && board.category === NgsRunCategories.Masquerade}
 	<MasqDepthInput />
+{:else if board.quest === NgsQuests.ExtraDuels && board.category === NgsRunCategories.PlanetfallStrike}
+	<PlanetfallStrikeInput />
 {/if}
