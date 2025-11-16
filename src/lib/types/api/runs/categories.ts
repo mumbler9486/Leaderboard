@@ -16,6 +16,7 @@ export enum NgsRunCategories {
 	AelioIntruders = 'aelio_intruders',
 	Venogia = 'venogia',
 	Masquerade = 'masquerade',
+	PlanetfallStrike = 'planetfall_strike',
 }
 
 export const ngsCategoryTranslationMap: Record<NgsRunCategories, string> = {
@@ -36,4 +37,5 @@ export const ngsCategoryTranslationMap: Record<NgsRunCategories, string> = {
 	[NgsRunCategories.AelioIntruders]: `leaderboard.categories.${NgsRunCategories.AelioIntruders}`,
 	[NgsRunCategories.Venogia]: `leaderboard.categories.${NgsRunCategories.Venogia}`,
 	[NgsRunCategories.Masquerade]: `leaderboard.categories.${NgsRunCategories.Masquerade}`,
+	[NgsRunCategories.PlanetfallStrike]: `leaderboard.categories.${NgsRunCategories.PlanetfallStrike}`,
 };

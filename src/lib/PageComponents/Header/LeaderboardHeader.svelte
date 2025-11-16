@@ -48,6 +48,7 @@
 				{ label: 'Ringwedge', link: '/runs/duels/ringwedge' },
 				{ label: 'Venogia', link: '/runs/duels/venogia' },
 				{ label: 'Masquerade', link: '/runs/extra-duels/masquerade' },
+				{ label: 'Planetfall Strike', link: '/runs/extra-duels/planetfall-strike' },
 			],
 		},
 	] satisfies MenuGroup[];

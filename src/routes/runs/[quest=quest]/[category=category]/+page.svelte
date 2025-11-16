@@ -71,6 +71,7 @@
 		{ name: 'support', undefinedValue: 'no_filter' },
 		{ name: 'augments', undefinedValue: 'no_filter' },
 		{ name: 'depth', undefinedValue: 'no_filter' },
+		{ name: 'stage', defaultValue: '1' },
 	];
 
 	runFilters.resetFilters();

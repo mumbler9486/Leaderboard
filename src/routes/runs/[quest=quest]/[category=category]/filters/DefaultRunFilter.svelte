@@ -16,6 +16,7 @@
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import { lookupBoard } from '$lib/leaderboard/boards';
 	import MasqDepthFilter from './MasqDepthFilter.svelte';
+	import PlanetfallStrikeFilter from './PlanetfallStrikeFilter.svelte';
 
 	export let solo: boolean;
 	export let categories: NgsRunCategories[];
@@ -69,6 +70,8 @@
 			<PartySizeFilter allowedPartySizes={boardInfo.allowedPartySizes} />
 			{#if boardInfo.quest === NgsQuests.ExtraDuels && boardInfo.category === NgsRunCategories.Masquerade}
 				<MasqDepthFilter />
+			{:else if boardInfo.quest === NgsQuests.ExtraDuels && boardInfo.category === NgsRunCategories.PlanetfallStrike}
+				<PlanetfallStrikeFilter />
 			{/if}
 			<QuestRankFilter allowNoFilter={isMasquerade} maxQuestRank={boardInfo.maxQuestRank} />
 		</div>

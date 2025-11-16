@@ -16,6 +16,7 @@ import { runForm } from './forms/runForm';
 import { dfAegisRunForm } from './forms/dfAegisForm';
 import { duelsRunForm } from './forms/duelsForm';
 import { duelMasqRunForm } from './forms/duelMasqForm';
+import { planetfallStrikeRunForm } from './forms/planetfallStrikeForm';
 
 export const submitRun = async (
 	submitPath: string,
@@ -79,5 +80,7 @@ const getCategoryFormDetails = (quest: NgsQuests, category: NgsRunCategories) =>
 		return get(duelsRunForm);
 	} else if (quest === NgsQuests.ExtraDuels && category === NgsRunCategories.Masquerade) {
 		return get(duelMasqRunForm);
+	} else if (quest === NgsQuests.ExtraDuels && category === NgsRunCategories.PlanetfallStrike) {
+		return get(planetfallStrikeRunForm);
 	}
 };

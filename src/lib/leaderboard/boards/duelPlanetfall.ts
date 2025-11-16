@@ -13,31 +13,39 @@ const rules = [
 	'Runs in this category will be ranked by Depth, then by Rank, then by Time.',
 ];
 
-const duelDetailsSchema = object({
-	depth: number().required(),
+const stageDetailsSchema = object({
+	stage: number().required(),
 });
 
-export const duelMasqDepthsBoard = new LeaderboardDefinition({
-	name: 'leaderboard.duels.duel_masq',
+export const planetfallStageBossNameMappings: Record<number, string> = {
+	1: 'Rasetsu',
+	2: 'Max Vang',
+	3: 'Raveed',
+	4: 'Gil Zaver',
+	5: 'Val Zagga',
+	6: 'Plutineide',
+};
+
+export const planetfallStrikeBoard = new LeaderboardDefinition({
+	name: 'leaderboard.duels.planetfall_strike',
 	questRoute: 'extra-duels',
-	categoryRoute: 'masquerade',
-	icon: '/icons/submit/extra_duel_masq.jpg',
+	categoryRoute: 'planetfall-strike',
+	icon: '/icons/submit/planetfall_strike_max_vang.jpg',
 	game: Game.Ngs,
 	quest: NgsQuests.ExtraDuels,
-	category: NgsRunCategories.Masquerade,
-	maxQuestRank: 10,
+	category: NgsRunCategories.PlanetfallStrike,
+	maxQuestRank: 5,
 	playerCap: 1,
 	allowedPartySizes: [PartySize.Solo],
-	maxSeconds: 15 * 60,
-	rules: rules,
-	discordNotifyTemplate: '{boardName} (D{masqDepth},R{questRank})',
+	maxSeconds: 10 * 60,
+	discordNotifyTemplate: '{boardName} (D{planetfallStage},R{questRank})',
 	runSubmissionSchema: createDetailedRunSubmissionSchema(
 		NgsQuests.ExtraDuels,
-		NgsRunCategories.Masquerade,
-		10,
+		NgsRunCategories.PlanetfallStrike,
+		5,
 		1,
-		15 * 60,
-		duelDetailsSchema
+		10 * 60,
+		stageDetailsSchema
 	),
 	detailsTableHeader: {
 		label: 'Quest Info',
@@ -46,11 +54,11 @@ export const duelMasqDepthsBoard = new LeaderboardDefinition({
 	runSearch: {
 		runSearchSchema: createDetailedRunSearchSchema(
 			NgsQuests.ExtraDuels,
-			NgsRunCategories.Masquerade,
-			10,
+			NgsRunCategories.PlanetfallStrike,
+			5,
 			1,
 			object({
-				depth: number().nullable().min(1).max(10),
+				stage: number().nullable().min(1).max(6),
 			})
 		),
 
@@ -59,17 +67,19 @@ export const duelMasqDepthsBoard = new LeaderboardDefinition({
 			f.partySize = 1;
 		},
 		attributeFilter: (f) => {
-			return f.depth === null || f.depth === undefined
+			return f.stage === null ||
+				f.stage === undefined ||
+				!planetfallStageBossNameMappings[f.stage as number]
 				? []
 				: ([
 						{
-							path: 'depth',
+							path: 'stage',
 							type: 'number',
-							value: f.depth as number,
+							value: f.stage as number,
 						},
-				  ] satisfies RunAttributeFilter[]);
+					] satisfies RunAttributeFilter[]);
 		},
 	},
 });
 
-export const duelMasqBoards = [duelMasqDepthsBoard];
+export const planetfallStrikeBoards = [planetfallStrikeBoard];

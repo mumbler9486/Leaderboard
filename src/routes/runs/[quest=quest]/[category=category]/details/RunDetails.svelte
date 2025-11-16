@@ -7,6 +7,7 @@
 	import DfAegisDetails from './DfAegisDetails.svelte';
 	import DuelDetails from './DuelDetails.svelte';
 	import MasqDetails from './MasqDetails.svelte';
+	import PlanetfallStrikeDetails from './PlanetfallStrikeDetails.svelte';
 
 	export let boardInfo: LeaderboardDefinition<any, any>;
 	export let run: Run<unknown>;
@@ -21,6 +22,8 @@
 
 {#if boardInfo.quest === NgsQuests.ExtraDuels && boardInfo.category === NgsRunCategories.Masquerade}
 	<MasqDetails questRank={run.questRank} details={run.details} />
+{:else if boardInfo.quest === NgsQuests.ExtraDuels && boardInfo.category === NgsRunCategories.PlanetfallStrike}
+	<PlanetfallStrikeDetails details={run.details} />
 {:else if !!detailsComponent}
 	<svelte:component this={detailsComponent} details={run.details} />
 {/if}

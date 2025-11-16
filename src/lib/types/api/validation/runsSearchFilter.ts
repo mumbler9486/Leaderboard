@@ -53,6 +53,7 @@ export const runsSearchFilterSchema = object({
 	sort: string().lowercase().nullable().default(RunSortOption.Ranking).oneOf(sortOrders),
 	partySize: number().min(1).max(24).nullable(),
 	userId: number().min(1).nullable(),
+	stage: number().min(1).max(6).nullable(),
 });
 
 export type RunsSearchFilter = InferType<typeof runsSearchFilterSchema>;
