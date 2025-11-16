@@ -1,5 +1,6 @@
 import { playerInfoStore } from '$lib/stores/userLogin';
 import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
+import { NgsPlayerStyleClass } from '$lib/types/api/ngsPlayerStyleClass';
 import { get, writable } from 'svelte/store';
 
 interface PlayerSubmissionInfo {
@@ -10,6 +11,7 @@ interface PlayerSubmissionInfo {
 	inVideoName: string;
 	mainClass: NgsPlayerClass;
 	subClass: NgsPlayerClass;
+	styleClass: NgsPlayerStyleClass;
 	weapons: string[];
 }
 
@@ -29,6 +31,7 @@ const setPartySize = (playerCount: number) => {
 			inVideoName: '',
 			mainClass: NgsPlayerClass.Unknown,
 			subClass: NgsPlayerClass.Unknown,
+			styleClass: NgsPlayerStyleClass.None,
 			weapons: [],
 		}));
 
@@ -41,6 +44,7 @@ const setPartySize = (playerCount: number) => {
 			inVideoName: '',
 			mainClass: NgsPlayerClass.Unknown,
 			subClass: NgsPlayerClass.Unknown,
+			styleClass: NgsPlayerStyleClass.None,
 			weapons: [],
 		};
 

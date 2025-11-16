@@ -2,6 +2,7 @@ import { convertTimeToRunTime } from '$lib/server/db/util/datetime';
 import type { GetRunDbModel } from '$lib/server/types/db/runs/getRun';
 import { Game, parseGame } from '$lib/types/api/game';
 import { NgsPlayerClass, parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
+import { NgsPlayerStyleClass, parseNgsPlayerStyleClass } from '$lib/types/api/ngsPlayerStyleClass';
 import { runTimeEqual, type RunTime } from '$lib/types/api/runTime';
 import type { PartyMember, PlayerInfo, Run } from '$lib/types/api/runs/run';
 import { parseServerRegion } from '$lib/types/api/serverRegions';
@@ -60,6 +61,7 @@ export const mapRuns = (getRun: GetRunDbModel[]): Run<unknown>[] => {
 				runCharacterName: rg.PartyRunCharacterName,
 				mainClass: parseNgsPlayerClass(rg.PartyMainClass) ?? NgsPlayerClass.Unknown,
 				subClass: parseNgsPlayerClass(rg.PartySubClass) ?? NgsPlayerClass.Unknown,
+				styleClass: parseNgsPlayerStyleClass(rg.PartyStyleClass) ?? NgsPlayerStyleClass.None,
 				linkPov: rg.PartyPovLink,
 				weapons: weapons,
 				//TODO make player info nullable as player may not exist

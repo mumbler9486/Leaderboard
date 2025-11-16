@@ -1,13 +1,15 @@
 <script lang="ts">
 	import Select, { type SelectValues } from '$lib/Components/Select.svelte';
 	import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
+	import { NgsPlayerStyleClass } from '$lib/types/api/ngsPlayerStyleClass';
 	import { partyForm } from '../forms/partyForm';
 
 	export let playerIndex: number;
 	let selectedMainClass: NgsPlayerClass;
 	let selectedSubClass: NgsPlayerClass;
+	let selectedStyleClass: NgsPlayerStyleClass;
 
-	const options: Partial<Record<NgsPlayerClass, SelectValues<NgsPlayerClass>>> = {
+	const classOptions: Partial<Record<NgsPlayerClass, SelectValues<NgsPlayerClass>>> = {
 		[NgsPlayerClass.Hunter]: {
 			label: 'Hunter',
 			value: NgsPlayerClass.Hunter,
@@ -70,16 +72,45 @@
 		},
 	};
 
-	$: selectableMainClasses = Object.values(options).map((c) => ({
+	const styleOptions: Partial<Record<NgsPlayerStyleClass, SelectValues<NgsPlayerStyleClass>>> = {
+		[NgsPlayerStyleClass.Adras]: {
+			label: 'Adras',
+			value: NgsPlayerStyleClass.Adras,
+			icon: '/icons/styles/style-adras.png',
+			disabled: false,
+		},
+		[NgsPlayerStyleClass.Blitz]: {
+			label: 'Blitz',
+			value: NgsPlayerStyleClass.Blitz,
+			icon: '/icons/styles/style-blitz.png',
+			disabled: false,
+		},
+		[NgsPlayerStyleClass.Celeste]: {
+			label: 'Celeste',
+			value: NgsPlayerStyleClass.Celeste,
+			icon: '/icons/styles/style-celeste.png',
+			disabled: false,
+		},
+		[NgsPlayerStyleClass.None]: {
+			label: 'None',
+			value: NgsPlayerStyleClass.None,
+			icon: '/icons/styles/style-none.png',
+			disabled: false,
+		},
+	};
+
+	$: selectableMainClasses = Object.values(classOptions).map((c) => ({
 		...c,
 		disabled: selectedSubClass == c.value,
 	}));
-	$: selectableSubClasses = Object.values(options).map((c) => ({
+	$: selectableSubClasses = Object.values(classOptions).map((c) => ({
 		...c,
 		disabled: selectedMainClass == c.value,
 	}));
+	$: selectableStyleClasses = Object.values(styleOptions);
 	$: $partyForm[playerIndex].mainClass = selectedMainClass;
 	$: $partyForm[playerIndex].subClass = selectedSubClass;
+	$: $partyForm[playerIndex].styleClass = selectedStyleClass;
 </script>
 
 <div class="form-control">
@@ -97,5 +128,14 @@
 		placeholder="Select a sub class"
 		options={selectableSubClasses}
 		bind:value={selectedSubClass}
+	/>
+</div>
+
+<div class="form-control">
+	<Select
+		label="Style"
+		placeholder="Select a style"
+		options={selectableStyleClasses}
+		bind:value={selectedStyleClass}
 	/>
 </div>

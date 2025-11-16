@@ -7,5 +7,6 @@ export interface RunPartyDbModel {
 	RunCharacterName: string;
 	MainClass: string;
 	SubClass: string;
+	StyleClass: string;
 	Weapons: string;
 }

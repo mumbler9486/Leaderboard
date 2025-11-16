@@ -15,7 +15,7 @@ CREATE TABLE dbo.[Runs] (
     [DateReviewed] datetime2 NULL,
     [ModNotes] nvarchar(500) NULL,
     [Attributes] nvarchar(4000) NULL,
-		[ReviewedBy] nvarchar(30) NULL,
+	[ReviewedBy] nvarchar(30) NULL,
     CONSTRAINT [PK_Runs] PRIMARY KEY CLUSTERED (
         [Id] ASC
     )
@@ -30,6 +30,7 @@ CREATE TABLE dbo.[RunParty] (
     [RunCharacterName] nvarchar(30) NOT NULL,
     [MainClass] nvarchar(30) NOT NULL,
     [SubClass] nvarchar(30) NOT NULL,
+    [StyleClass] nvarchar(30) NOT NULL,
     [Weapons] nvarchar(4000) NULL,
     CONSTRAINT [PK_Party] PRIMARY KEY CLUSTERED (
         [Id] ASC

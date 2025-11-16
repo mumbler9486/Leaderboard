@@ -17,6 +17,7 @@ import { dfAegisRunForm } from './forms/dfAegisForm';
 import { duelsRunForm } from './forms/duelsForm';
 import { duelMasqRunForm } from './forms/duelMasqForm';
 import { planetfallStrikeRunForm } from './forms/planetfallStrikeForm';
+import { NgsPlayerStyleClass, parseNgsPlayerStyleClass } from '$lib/types/api/ngsPlayerStyleClass';
 
 export const submitRun = async (
 	submitPath: string,
@@ -44,6 +45,7 @@ export const submitRun = async (
 			inVideoName: p.inVideoName,
 			mainClass: parseNgsPlayerClass(p.mainClass) ?? NgsPlayerClass.Unknown,
 			subClass: parseNgsPlayerClass(p.subClass) ?? NgsPlayerClass.Unknown,
+			styleClass: parseNgsPlayerStyleClass(p.styleClass) ?? NgsPlayerStyleClass.None,
 			weapons: p.weapons.map((w) => parseNgsWeapon(w) ?? NgsWeapon.Unknown),
 		};
 	});

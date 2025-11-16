@@ -12,6 +12,14 @@
 		November 5th also brought some gear releases with 13⭐ Fortscha Armor and C/Argant Gigas Maste
 		capsules.
 	</NewsSection>
+	<NewsSection sectionTitle="😎 Style Classes Added">
+		Styles have been in the game for a while now since October 5th. We have finally added the style
+		classes to the leaderboards. If you have a run that involves a style and would like to add style
+		information to it, then let us know on our <DiscordContact /> and we'll update the style for you!
+		Styles are "optional" when submitting a run but as much as possible please enter the style you used
+		for the run. All legacy runs prior to the release of combat styles will have their default class
+		style set to "None".
+	</NewsSection>
 </HomeNews>
 <HomeNews publicationDateIso="2025-09-23T01:00:00.000Z" title="Leaderboard October 2025 Updates">
 	<NewsSection sectionTitle="⤴🕺 Level 110 Patch Bump">

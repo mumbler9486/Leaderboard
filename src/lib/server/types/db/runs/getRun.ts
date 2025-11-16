@@ -30,6 +30,7 @@ export interface GetRunDbModel {
 	PartyRunCharacterName: string;
 	PartyMainClass: string;
 	PartySubClass: string;
+	PartyStyleClass: string;
 	PartyWeapons: string;
 
 	// Players

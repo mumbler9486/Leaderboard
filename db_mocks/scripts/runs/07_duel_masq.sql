@@ -29,27 +29,27 @@ SET IDENTITY_INSERT [dbo].[Runs] OFF;
 
 SET IDENTITY_INSERT [dbo].[RunParty] ON;
 INSERT INTO dbo.RunParty
-  (Id,RunId,PlayerId,Ordinal,PovLink,RunCharacterName,MainClass,SubClass,Weapons)
+  (Id,RunId,PlayerId,Ordinal,PovLink,RunCharacterName,MainClass,SubClass,StyleClass,Weapons)
 VALUES
-  (71000,71000,1001,0,'https://youtu.be/2r3vz6Spa9mwk',N'trying_to_rid_this_name','ngs_fighter','ngs_force','["ngs_sword","ngs_double_sabers","ngs_jet_boots"]'),
-  (71001,71001,1017,0,'https://youtu.be/Tg036DpGFFsE3',N'trying_to_rid_this_name','ngs_slayer','ngs_force','["ngs_knuckles","ngs_launcher","ngs_harmonizer"]'),
-  (71002,71002,1011,0,'https://youtu.be/LRuAV7Kxah8on',N'trying_to_rid_this_name','ngs_waker','ngs_braver','["ngs_assault_rifle","ngs_twin_machine_guns","ngs_bow"]'),
-  (71003,71003,1013,0,'https://youtu.be/0jQ2pYa4DhS55',N'trying_to_rid_this_name','ngs_slayer','ngs_force','["ngs_wired_lance","ngs_double_sabers","ngs_bow"]'),
-  (71004,71004,5000000,0,'https://youtu.be/39ABhH6YjO622',N'trying_to_rid_this_name','ngs_techter','ngs_braver','["ngs_sword","ngs_knuckles","ngs_rod"]'),
-  (71005,71005,1011,0,'https://youtu.be/69Rs5p63FfOA8',N'trying_to_rid_this_name','ngs_waker','ngs_slayer','["ngs_sword","ngs_assault_rifle","ngs_harmonizer"]'),
-  (71006,71006,1012,0,'https://youtu.be/Ry0Jx22gtUezh',N'trying_to_rid_this_name','ngs_hunter','ngs_ranger','["ngs_partisan","ngs_soaring_blades","ngs_talis"]'),
-  (71007,71007,1013,0,'https://youtu.be/54VC3r1D069Rg',N'trying_to_rid_this_name','ngs_waker','ngs_force','["ngs_wired_lance","ngs_launcher","ngs_talis"]'),
-  (71008,71008,1014,0,'https://youtu.be/87x9Q9aPqKrvf',N'trying_to_rid_this_name','ngs_braver','ngs_waker','["ngs_katana","ngs_twin_machine_guns","ngs_rod"]'),
-  (71009,71009,1013,0,'https://youtu.be/001YDHbpV1RW5',N'trying_to_rid_this_name','ngs_braver','ngs_fighter','["ngs_wired_lance","ngs_katana","ngs_twin_machine_guns"]'),
-  (71010,71010,1015,0,'https://youtu.be/1JALu7Jj9sqxg',N'trying_to_rid_this_name','ngs_hunter','ngs_braver','["ngs_twin_daggers","ngs_launcher","ngs_twin_machine_guns"]'),
-  (71011,71011,1014,0,'https://youtu.be/p5Oua80zF36Z4',N'trying_to_rid_this_name','ngs_waker','ngs_hunter','["ngs_gunblade","ngs_launcher","ngs_harmonizer"]'),
-  (71012,71012,1017,0,'https://youtu.be/BXtfH9e8Wi04C',N'trying_to_rid_this_name','ngs_slayer','ngs_hunter','["ngs_partisan","ngs_launcher","ngs_talis"]'),
-  (71013,71013,1016,0,'https://youtu.be/6NSYPiEiZMAie',N'trying_to_rid_this_name','ngs_force','ngs_braver','["ngs_wired_lance","ngs_knuckles","ngs_rod"]'),
-  (71014,71014,1011,0,'https://youtu.be/VGb0j5u5O1FOn',N'trying_to_rid_this_name','ngs_slayer','ngs_waker','["ngs_gunblade","ngs_rod","ngs_wand"]'),
-  (71015,71015,1012,0,'https://youtu.be/g2fA7Vit06Vpo',N'trying_to_rid_this_name','ngs_ranger','ngs_braver','["ngs_knuckles","ngs_assault_rifle","ngs_twin_machine_guns"]'),
-  (71016,71016,1012,0,'https://youtu.be/62EYh015LfKMm',N'trying_to_rid_this_name','ngs_ranger','ngs_waker','["ngs_double_sabers","ngs_launcher","ngs_wand"]'),
-  (71017,71017,5000000,0,'https://youtu.be/OyZq5jQfbj3Rd',N'trying_to_rid_this_name','ngs_hunter','ngs_ranger','["ngs_double_sabers","ngs_bow","ngs_talis"]'),
-  (71018,71018,5000000,0,'https://youtu.be/MLpcsrA241ij5',N'trying_to_rid_this_name','ngs_waker','ngs_bouncer','["ngs_sword","ngs_twin_daggers","ngs_katana"]'),
-  (71019,71019,5000000,0,'https://youtu.be/7F9pxg4sbHCUu',N'trying_to_rid_this_name','ngs_braver','ngs_hunter','["ngs_knuckles","ngs_katana","ngs_bow"]')
+  (71000,71000,1001,0,'https://youtu.be/2r3vz6Spa9mwk',N'trying_to_rid_this_name','ngs_fighter','ngs_force','ngs_none','["ngs_sword","ngs_double_sabers","ngs_jet_boots"]'),
+  (71001,71001,1017,0,'https://youtu.be/Tg036DpGFFsE3',N'trying_to_rid_this_name','ngs_slayer','ngs_force','ngs_none','["ngs_knuckles","ngs_launcher","ngs_harmonizer"]'),
+  (71002,71002,1011,0,'https://youtu.be/LRuAV7Kxah8on',N'trying_to_rid_this_name','ngs_waker','ngs_braver','ngs_none','["ngs_assault_rifle","ngs_twin_machine_guns","ngs_bow"]'),
+  (71003,71003,1013,0,'https://youtu.be/0jQ2pYa4DhS55',N'trying_to_rid_this_name','ngs_slayer','ngs_force','ngs_none','["ngs_wired_lance","ngs_double_sabers","ngs_bow"]'),
+  (71004,71004,5000000,0,'https://youtu.be/39ABhH6YjO622',N'trying_to_rid_this_name','ngs_techter','ngs_braver','ngs_none','["ngs_sword","ngs_knuckles","ngs_rod"]'),
+  (71005,71005,1011,0,'https://youtu.be/69Rs5p63FfOA8',N'trying_to_rid_this_name','ngs_waker','ngs_slayer','ngs_none','["ngs_sword","ngs_assault_rifle","ngs_harmonizer"]'),
+  (71006,71006,1012,0,'https://youtu.be/Ry0Jx22gtUezh',N'trying_to_rid_this_name','ngs_hunter','ngs_ranger','ngs_none','["ngs_partisan","ngs_soaring_blades","ngs_talis"]'),
+  (71007,71007,1013,0,'https://youtu.be/54VC3r1D069Rg',N'trying_to_rid_this_name','ngs_waker','ngs_force','ngs_none','["ngs_wired_lance","ngs_launcher","ngs_talis"]'),
+  (71008,71008,1014,0,'https://youtu.be/87x9Q9aPqKrvf',N'trying_to_rid_this_name','ngs_braver','ngs_waker','ngs_none','["ngs_katana","ngs_twin_machine_guns","ngs_rod"]'),
+  (71009,71009,1013,0,'https://youtu.be/001YDHbpV1RW5',N'trying_to_rid_this_name','ngs_braver','ngs_fighter','ngs_none','["ngs_wired_lance","ngs_katana","ngs_twin_machine_guns"]'),
+  (71010,71010,1015,0,'https://youtu.be/1JALu7Jj9sqxg',N'trying_to_rid_this_name','ngs_hunter','ngs_braver','ngs_none','["ngs_twin_daggers","ngs_launcher","ngs_twin_machine_guns"]'),
+  (71011,71011,1014,0,'https://youtu.be/p5Oua80zF36Z4',N'trying_to_rid_this_name','ngs_waker','ngs_hunter','ngs_none','["ngs_gunblade","ngs_launcher","ngs_harmonizer"]'),
+  (71012,71012,1017,0,'https://youtu.be/BXtfH9e8Wi04C',N'trying_to_rid_this_name','ngs_slayer','ngs_hunter','ngs_none','["ngs_partisan","ngs_launcher","ngs_talis"]'),
+  (71013,71013,1016,0,'https://youtu.be/6NSYPiEiZMAie',N'trying_to_rid_this_name','ngs_force','ngs_braver','ngs_none','["ngs_wired_lance","ngs_knuckles","ngs_rod"]'),
+  (71014,71014,1011,0,'https://youtu.be/VGb0j5u5O1FOn',N'trying_to_rid_this_name','ngs_slayer','ngs_waker','ngs_none','["ngs_gunblade","ngs_rod","ngs_wand"]'),
+  (71015,71015,1012,0,'https://youtu.be/g2fA7Vit06Vpo',N'trying_to_rid_this_name','ngs_ranger','ngs_braver','ngs_none','["ngs_knuckles","ngs_assault_rifle","ngs_twin_machine_guns"]'),
+  (71016,71016,1012,0,'https://youtu.be/62EYh015LfKMm',N'trying_to_rid_this_name','ngs_ranger','ngs_waker','ngs_none','["ngs_double_sabers","ngs_launcher","ngs_wand"]'),
+  (71017,71017,5000000,0,'https://youtu.be/OyZq5jQfbj3Rd',N'trying_to_rid_this_name','ngs_hunter','ngs_ranger','ngs_none','["ngs_double_sabers","ngs_bow","ngs_talis"]'),
+  (71018,71018,5000000,0,'https://youtu.be/MLpcsrA241ij5',N'trying_to_rid_this_name','ngs_waker','ngs_bouncer','ngs_none','["ngs_sword","ngs_twin_daggers","ngs_katana"]'),
+  (71019,71019,5000000,0,'https://youtu.be/7F9pxg4sbHCUu',N'trying_to_rid_this_name','ngs_braver','ngs_hunter','ngs_none','["ngs_knuckles","ngs_katana","ngs_bow"]')
 ;
 SET IDENTITY_INSERT [dbo].[RunParty] OFF;

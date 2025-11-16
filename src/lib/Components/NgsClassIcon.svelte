@@ -27,7 +27,7 @@
 	<Tooltip tip={classInfo.name}>
 		<img
 			src={classInfo.icon}
-			class="pointer-events-none inline w-[16px] object-none"
+			class="pointer-events-none h-[16px] w-[16px] object-cover"
 			alt={classInfo.name}
 		/>
 		{#if showLabel}
@@ -37,7 +37,7 @@
 {:else}
 	<img
 		src={classInfo.icon}
-		class="pointer-events-none inline w-[16px] object-none"
+		class="pointer-events-none h-[16px] w-[16px] object-cover"
 		alt={classInfo.name}
 	/>
 	{#if showLabel}
