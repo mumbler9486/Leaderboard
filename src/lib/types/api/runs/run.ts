@@ -1,6 +1,7 @@
 import type { DfAegisSupport } from '../dfAegis/dfAegisSupports';
 import type { Game } from '../game';
 import type { NgsPlayerClass } from '../ngsPlayerClass';
+import { NgsPlayerStyleClass } from '../ngsPlayerStyleClass';
 import type { RunTime } from '../runTime';
 import type { ServerRegion } from '../serverRegions';
 import type { NgsWeapon } from '../weapon';
@@ -34,6 +35,7 @@ export interface PartyMember {
 	runCharacterName: string;
 	mainClass: NgsPlayerClass;
 	subClass: NgsPlayerClass;
+	styleClass: NgsPlayerStyleClass;
 	linkPov?: string;
 	weapons: NgsWeapon[];
 	//TODO make player info nullable as playerID may be null

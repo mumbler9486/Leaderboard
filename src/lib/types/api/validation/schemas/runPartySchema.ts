@@ -3,6 +3,7 @@ import { NgsPlayerClass } from '../../ngsPlayerClass';
 import { youtubeUrlRegex } from '$lib/utils/youtube';
 import { findDuplicates } from '../utils/duplicate';
 import { NgsWeapon } from '../../weapon';
+import { NgsPlayerStyleClass } from '../../ngsPlayerStyleClass';
 
 const mainClasses = [
 	NgsPlayerClass.Hunter,
@@ -14,9 +15,16 @@ const mainClasses = [
 	NgsPlayerClass.Braver,
 	NgsPlayerClass.Bouncer,
 	NgsPlayerClass.Waker,
-	NgsPlayerClass.Slayer
+	NgsPlayerClass.Slayer,
 ];
 const subClasses = mainClasses;
+
+const styleClasses = [
+	NgsPlayerStyleClass.Adras,
+	NgsPlayerStyleClass.Blitz,
+	NgsPlayerStyleClass.Celeste,
+	NgsPlayerStyleClass.None,
+];
 
 const weapons = [
 	NgsWeapon.Sword,
@@ -36,7 +44,7 @@ const weapons = [
 	NgsWeapon.Talis,
 	NgsWeapon.Wand,
 	NgsWeapon.JetBoots,
-	NgsWeapon.Harmonizer
+	NgsWeapon.Harmonizer,
 ];
 
 export const yupRunPartySchema = (maxPlayers: number = 4) => {
@@ -60,15 +68,14 @@ export const yupRunPartySchema = (maxPlayers: number = 4) => {
 						return ctx.parent.mainClass != subClass;
 					}
 				),
-			weapons: array(mixed<NgsWeapon>().required().oneOf(weapons)).max(6).ensure().required()
+			styleClass: mixed<NgsPlayerStyleClass>().required().oneOf(styleClasses),
+			weapons: array(mixed<NgsWeapon>().required().oneOf(weapons)).max(6).ensure().required(),
 		})
 	)
 		.min(1)
 		.max(maxPlayers)
-		.test(
-			'has_video',
-			'At least one player must have a video',
-			(players) => players?.some((p) => p.povLink !== undefined)
+		.test('has_video', 'At least one player must have a video', (players) =>
+			players?.some((p) => p.povLink !== undefined)
 		)
 		.test(
 			'player1_has_id',
@@ -90,7 +97,7 @@ export const yupRunPartySchema = (maxPlayers: number = 4) => {
 
 			const playerNames = duplicates.map((d) => d.inVideoName).join(',');
 			return testCtx.createError({
-				message: `Duplicate party members (same player/character name) not allowed`
+				message: `Duplicate party members (same player/character name) not allowed`,
 			});
 		})
 		.test(
@@ -108,7 +115,7 @@ export const yupRunPartySchema = (maxPlayers: number = 4) => {
 
 				const playerNames = duplicates.map((d) => d.inVideoName).join(',');
 				return testCtx.createError({
-					message: `Duplicate party members not allowed: ${playerNames}`
+					message: `Duplicate party members not allowed: ${playerNames}`,
 				});
 			}
 		)

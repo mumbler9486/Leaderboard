@@ -54,6 +54,7 @@ const RunQuery = `
 		rp.${runPartyDbFields.RunCharacterName} AS ${getRunDbFields.PartyRunCharacterName},
 		rp.${runPartyDbFields.MainClass} AS ${getRunDbFields.PartyMainClass},
 		rp.${runPartyDbFields.SubClass} AS ${getRunDbFields.PartySubClass},
+		rp.${runPartyDbFields.StyleClass} AS ${getRunDbFields.PartyStyleClass},
 		rp.${runPartyDbFields.Weapons} AS ${getRunDbFields.PartyWeapons},
 
 		player.${playersDbFields.PlayerName} AS ${getRunDbFields.PlayerName},
@@ -319,6 +320,7 @@ const insertRunParty = async (
 		const weapons = member.weapons.map((w) => parseNgsWeapon(w)!);
 		const mainClass = member.mainClass;
 		const subClass = member.subClass;
+		const styleClass = member.styleClass;
 
 		partyInsertRequest = partyInsertRequest
 			.input(`playerId${i}`, sql.Int, member.playerId)
@@ -327,10 +329,11 @@ const insertRunParty = async (
 			.input(`runCharacterName${i}`, sql.NVarChar(30), member.inVideoName)
 			.input(`mainClass${i}`, sql.NVarChar(30), mainClass)
 			.input(`subClass${i}`, sql.NVarChar(30), subClass)
+			.input(`styleClass${i}`, sql.NVarChar(30), styleClass)
 			.input(`weapons${i}`, sql.NVarChar(4000), JSON.stringify(weapons));
 
 		insertValueRows.push(`
-      (@runId,@playerId${i},@ordinal${i},@povLink${i},@runCharacterName${i},@mainClass${i},@subClass${i},@weapons${i})
+      (@runId,@playerId${i},@ordinal${i},@povLink${i},@runCharacterName${i},@mainClass${i},@subClass${i},@styleClass${i},@weapons${i})
     `);
 	});
 
@@ -344,6 +347,7 @@ const insertRunParty = async (
       ${runPartyDbFields.RunCharacterName},
       ${runPartyDbFields.MainClass},
       ${runPartyDbFields.SubClass},
+			${runPartyDbFields.StyleClass},
       ${runPartyDbFields.Weapons})
     VALUES
       ${insertValueRows.join(',')}

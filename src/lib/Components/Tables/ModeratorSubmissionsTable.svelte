@@ -16,6 +16,7 @@
 	import PartySizeLabel from '../PartySizeLabel.svelte';
 	import PatchLabel from '../PatchLabel.svelte';
 	import { InformationCircle } from 'svelte-heros-v2';
+	import NgsStyleClassIcon from '../NgsStyleClassIcon.svelte';
 
 	export let submissions: Run<unknown>[];
 
@@ -120,6 +121,7 @@
 						<p class="flex">
 							<NgsClassIcon showTooltip combatClass={player.mainClass} />
 							<NgsClassIcon showTooltip combatClass={player.subClass} />
+							<NgsStyleClassIcon showTooltip styleClass={player.styleClass} />
 						</p>
 					{/each}
 				</td>

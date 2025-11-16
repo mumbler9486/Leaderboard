@@ -5,6 +5,7 @@
 	import { InformationCircle } from 'svelte-heros-v2';
 	import Button from '../Button.svelte';
 	import NgsClassIcon from '../NgsClassIcon.svelte';
+	import NgsStyleClassIcon from '../NgsStyleClassIcon.svelte';
 	import PlayerNameBadge from '../PlayerNameBadge.svelte';
 	import RankingBadge from '../RankingBadge.svelte';
 	import RunInfoModal from '../RunInfoModal.svelte';
@@ -77,6 +78,7 @@
 						<p>
 							<NgsClassIcon showTooltip combatClass={player.mainClass} />
 							<NgsClassIcon showTooltip combatClass={player.subClass} />
+							<NgsStyleClassIcon showTooltip styleClass={player.styleClass} />
 						</p>
 					{/each}
 				</td>
