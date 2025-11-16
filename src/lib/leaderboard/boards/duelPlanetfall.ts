@@ -38,7 +38,7 @@ export const planetfallStrikeBoard = new LeaderboardDefinition({
 	playerCap: 1,
 	allowedPartySizes: [PartySize.Solo],
 	maxSeconds: 10 * 60,
-	discordNotifyTemplate: '{boardName} (D{planetfallStage},R{questRank})',
+	discordNotifyTemplate: '{boardName} ({planetfallStage},R{questRank})',
 	runSubmissionSchema: createDetailedRunSubmissionSchema(
 		NgsQuests.ExtraDuels,
 		NgsRunCategories.PlanetfallStrike,

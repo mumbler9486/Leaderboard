@@ -4,11 +4,16 @@
 	import Table, { type TableHeader } from '$lib/Components/Tables/Table.svelte';
 	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
 	import { lookupBoard } from '$lib/leaderboard/boards';
+	import { planetfallStageBossNameMappings } from '$lib/leaderboard/boards/duelPlanetfall';
 	import { mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import { getPartySize, partySizeTranslationMap } from '$lib/types/api/partySizes';
 	import { ngsCategoryTranslationMap, NgsRunCategories } from '$lib/types/api/runs/categories';
 	import { NgsQuests } from '$lib/types/api/runs/quests';
-	import type { MasqDuelRunDetails, Run } from '$lib/types/api/runs/run';
+	import type {
+		MasqDuelRunDetails,
+		PlanetfallStrikeRunDetails,
+		Run,
+	} from '$lib/types/api/runs/run';
 	import { formatString } from '$lib/utils/string';
 	import { t } from 'svelte-i18n';
 
@@ -47,6 +52,11 @@
 			run.quest === NgsQuests.ExtraDuels && run.category === NgsRunCategories.Masquerade
 				? (run.details as MasqDuelRunDetails).depth?.toString()
 				: '';
+		const planetfallStageNumber =
+			run.quest === NgsQuests.ExtraDuels && run.category === NgsRunCategories.PlanetfallStrike
+				? (run.details as PlanetfallStrikeRunDetails).stage
+				: -1;
+		const planetfallStageName = planetfallStageBossNameMappings[planetfallStageNumber] ?? '';
 
 		return formatString(nameTemplate, {
 			boardName,
@@ -54,6 +64,7 @@
 			partySize: partySizeName,
 			questRank: run.questRank.toString(),
 			masqDepth: masqDepth,
+			planetfallStage: `S${planetfallStageNumber}: ${planetfallStageName}`,
 		});
 	};
 

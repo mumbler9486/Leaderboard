@@ -31,6 +31,10 @@
 	const tabs: Boards[] = [
 		{ boardInfo: null, name: '✨Recent', color: 'yellow' },
 		{
+			boardInfo: lookupBoard(NgsQuests.ExtraDuels, NgsRunCategories.PlanetfallStrike),
+			name: 'Planetfall',
+		},
+		{
 			boardInfo: lookupBoard(NgsQuests.DfVael, NgsRunCategories.Quest),
 			name: 'Dark Falz Vael',
 		},
@@ -47,7 +51,6 @@
 			boardInfo: lookupBoard(NgsQuests.Purples, NgsRunCategories.AelioIntruders),
 			name: 'Aelio Intruders',
 		},
-		{ boardInfo: lookupBoard(NgsQuests.Duels, NgsRunCategories.Ringwedge), name: 'Ringwedge' },
 	];
 
 	const getRuns = async (tabIndex: number) => {
