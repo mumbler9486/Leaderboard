@@ -134,7 +134,7 @@
 <div class="form-control">
 	<Select
 		label="Style"
-		placeholder="Select a style"
+		placeholder="Select a style class"
 		options={selectableStyleClasses}
 		bind:value={selectedStyleClass}
 	/>
