@@ -47,10 +47,6 @@ export const planetfallStrikeBoard = new LeaderboardDefinition({
 		10 * 60,
 		stageDetailsSchema
 	),
-	detailsTableHeader: {
-		label: 'Quest Info',
-		textAlign: 'center',
-	},
 	runSearch: {
 		runSearchSchema: createDetailedRunSearchSchema(
 			NgsQuests.ExtraDuels,
