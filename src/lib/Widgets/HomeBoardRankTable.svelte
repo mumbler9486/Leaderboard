@@ -60,13 +60,14 @@
 				? (run.details as PlanetfallStrikeRunDetails).stage
 				: -1;
 		const planetfallStageName = planetfallStageBossNameMappings[planetfallStageNumber] ?? '';
+
 		return formatString(nameTemplate, {
 			boardName,
 			category: categoryName,
 			partySize: partySizeName,
 			questRank: run.questRank.toString(),
 			masqDepth: masqDepth,
-			planetfallStage: `S${planetfallStageNumber}: ${planetfallStageName}`,
+			planetfallStage: `${planetfallStageNumber}: ${planetfallStageName}`,
 		});
 	};
 

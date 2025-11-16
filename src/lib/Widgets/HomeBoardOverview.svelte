@@ -24,30 +24,40 @@
 	interface Boards {
 		boardInfo: LeaderboardDefinition<any, any> | null | undefined;
 		name: string;
+		boardType: 'ranking' | 'recent';
 		href?: string;
 		color?: TabOptions['color'];
 	}
 
 	const tabs: Boards[] = [
-		{ boardInfo: null, name: '✨Recent', color: 'yellow' },
+		{ boardType: 'recent', boardInfo: null, name: '✨Recent', color: 'yellow' },
 		{
+			boardType: 'recent',
 			boardInfo: lookupBoard(NgsQuests.ExtraDuels, NgsRunCategories.PlanetfallStrike),
 			name: 'Planetfall',
 		},
 		{
+			boardType: 'ranking',
 			boardInfo: lookupBoard(NgsQuests.DfVael, NgsRunCategories.Quest),
 			name: 'Dark Falz Vael',
 		},
 		{
+			boardType: 'ranking',
 			boardInfo: lookupBoard(NgsQuests.ExtraDuels, NgsRunCategories.Masquerade),
 			name: 'Masquerade',
 		},
 		{
+			boardType: 'ranking',
 			boardInfo: lookupBoard(NgsQuests.DfDalion, NgsRunCategories.Quest),
 			name: 'Dark Falz Dalion',
 		},
-		{ boardInfo: lookupBoard(NgsQuests.DfSolus, NgsRunCategories.Quest), name: 'Dark Falz Solus' },
 		{
+			boardType: 'ranking',
+			boardInfo: lookupBoard(NgsQuests.DfSolus, NgsRunCategories.Quest),
+			name: 'Dark Falz Solus',
+		},
+		{
+			boardType: 'ranking',
 			boardInfo: lookupBoard(NgsQuests.Purples, NgsRunCategories.AelioIntruders),
 			name: 'Aelio Intruders',
 		},
@@ -111,7 +121,7 @@
 		{:then runs}
 			{#if runs.length === 0}
 				<p class="p-4">No results. Perhaps you could submit one? (〜￣▽￣)〜</p>
-			{:else if tabIndex === 0}
+			{:else if tabIndex === 0 || tabs[tabIndex].boardType === 'recent'}
 				<HomeBoardRecentsTable {runs} />
 			{:else}
 				<HomeBoardRankTable {runs} />

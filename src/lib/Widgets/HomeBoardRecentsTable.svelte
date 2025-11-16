@@ -64,7 +64,7 @@
 			partySize: partySizeName,
 			questRank: run.questRank.toString(),
 			masqDepth: masqDepth,
-			planetfallStage: `S${planetfallStageNumber}: ${planetfallStageName}`,
+			planetfallStage: `${planetfallStageNumber}: ${planetfallStageName}`,
 		});
 	};
 
