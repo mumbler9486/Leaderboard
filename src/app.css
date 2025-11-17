@@ -1,27 +1,26 @@
 @import url('https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@plugin "daisyui";
 
 ::-webkit-scrollbar {
-  width: 10px;
+	width: 10px;
 }
 ::-webkit-scrollbar-thumb,
 ::-webkit-scrollbar-track-piece {
-  background-clip: padding-box;
-  border: 3px solid transparent;
-  border-radius: 5px;
+	background-clip: padding-box;
+	border: 3px solid transparent;
+	border-radius: 5px;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: hsla(0, 0%, 100%, 0.1);
+	background-color: hsla(0, 0%, 100%, 0.1);
 }
 ::-webkit-scrollbar-track-piece {
-  background-color: transparent;
+	background-color: transparent;
 }
 
 body {
-  overflow: scroll;
-  scrollbar-color: hsla(0, 0%, 100%, 0.1);
-  scrollbar-width: thin;
+	overflow: scroll;
+	scrollbar-color: hsla(0, 0%, 100%, 0.1);
+	scrollbar-width: thin;
 }

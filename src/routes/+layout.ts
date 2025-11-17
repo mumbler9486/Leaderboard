@@ -5,7 +5,7 @@ import { locale, waitLocale } from 'svelte-i18n';
 import type { LayoutLoad } from './$types';
 import { consentPreferences } from '$lib/stores/consent';
 import { get } from 'svelte/store';
-var savedLanguage = browser ? localStorage.getItem('language') ?? null : null;
+var savedLanguage = browser ? (localStorage.getItem('language') ?? null) : null;
 
 const englishHandler = [
 	'en',
@@ -21,7 +21,7 @@ const englishHandler = [
 	'en-TT',
 	'en-US',
 	'en-ZA',
-	'en-ZW'
+	'en-ZW',
 ];
 
 export const load: LayoutLoad = async () => {
