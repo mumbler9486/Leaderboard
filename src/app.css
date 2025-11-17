@@ -1,7 +1,52 @@
 @import url('https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css');
 
 @import 'tailwindcss';
-@plugin "daisyui";
+@plugin "daisyui" {
+	themes: false;
+}
+@plugin "daisyui/theme" {
+	name: 'ngs-theme';
+	default: true; /* set as default */
+	prefersdark: true; /* set as default dark mode (prefers-color-scheme:dark) */
+	color-scheme: dark; /* color of browser-provided UI */
+
+	--color-base-100: #212529;
+	--color-base-200: #343a40;
+	--color-base-300: #495057;
+	--color-base-content: #dee2e6;
+	--color-primary: #3cb1f5;
+	--color-primary-content: #212529;
+	--color-secondary: #6c757d;
+	--color-secondary-content: #212529;
+	--color-accent: #f8f9fa;
+	--color-accent-content: #212529;
+	--color-neutral: #0c274b;
+	--color-neutral-content: #212529;
+	--color-info: #4367e1;
+	--color-info-content: #212529;
+	--color-success: #b1f53c;
+	--color-success-content: #212529;
+	--color-warning: #ebaf3b;
+	--color-warning-content: #212529;
+	--color-error: #e14343;
+	--color-error-content: #212529;
+
+	/* border radius */
+	--radius-selector: 1rem;
+	--radius-field: 0.25rem;
+	--radius-box: 0.5rem;
+
+	/* base sizes */
+	--size-selector: 0.25rem;
+	--size-field: 0.25rem;
+
+	/* border size */
+	--border: 1px;
+
+	/* effects */
+	--depth: 1;
+	--noise: 0;
+}
 
 ::-webkit-scrollbar {
 	width: 10px;
