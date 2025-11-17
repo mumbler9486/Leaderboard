@@ -2,7 +2,11 @@
 	import Tooltip from '$lib/Components/Tooltip.svelte';
 	import type { Trophy } from '$lib/types/api/players/trophy';
 
-	export let trophy: Trophy;
+	interface Props {
+		trophy: Trophy;
+	}
+
+	let { trophy }: Props = $props();
 </script>
 
 <Tooltip tip={trophy.description}>

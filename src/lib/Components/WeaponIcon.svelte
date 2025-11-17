@@ -2,8 +2,12 @@
 	import { NgsWeapon } from '$lib/types/api/weapon';
 	import Tooltip from './Tooltip.svelte';
 
-	export let weapon: NgsWeapon | undefined;
-	export let showLabel: boolean = false;
+	interface Props {
+		weapon: NgsWeapon | undefined;
+		showLabel?: boolean;
+	}
+
+	let { weapon, showLabel = false }: Props = $props();
 
 	const weaponsMap = {
 		[NgsWeapon.Sword]: { name: 'Sword', icon: '/icons/weapon/weapon-sword.png' },
@@ -30,7 +34,7 @@
 		[NgsWeapon.Unknown]: { name: 'Unknown', icon: '' },
 	};
 
-	$: weaponInfo = weaponsMap[weapon ?? NgsWeapon.Unknown];
+	let weaponInfo = $derived(weaponsMap[weapon ?? NgsWeapon.Unknown]);
 </script>
 
 <Tooltip tip={weaponInfo.name}>

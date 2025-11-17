@@ -25,22 +25,12 @@
 
 	const dispatcher = createEventDispatcher();
 
-	let modal: Modal;
+	let modal: Modal = $state();
 
-	let isLoading = false;
-	let isSubmitting = false;
-	let serverError: string | undefined = undefined;
+	let isLoading = $state(false);
+	let isSubmitting = $state(false);
+	let serverError: string | undefined = $state(undefined);
 
-	$: nameOptions = [
-		{
-			label: `Player Name (${namePreview.playerName})`,
-			value: PreferredName.Player.toString(),
-		},
-		{
-			label: `Character Name (${namePreview.characterName})`,
-			value: PreferredName.Character.toString(),
-		},
-	] satisfies { label: string; value: string }[];
 
 	const nameEffectOptions = [
 		{ label: 'No Effect', value: NameStyle.None.toString() },
@@ -57,28 +47,6 @@
 		{ label: 'Japan', value: ServerRegion.Japan },
 	] satisfies { label: string; value: string }[];
 
-	$: shipOptions =
-		$form.serverRegion === ServerRegion.Global
-			? [
-					{ label: '(None)', value: '' },
-					{ label: 'Ship 1 (global)', value: 'global_1' },
-					{ label: 'Ship 2 (global)', value: 'global_2' },
-					{ label: 'Ship 3 (global)', value: 'global_3' },
-					{ label: 'Ship 4 (global)', value: 'global_4' },
-			  ]
-			: [
-					{ label: '(None)', value: '' },
-					{ label: 'Ship 1 (japan)', value: 'japan_1' },
-					{ label: 'Ship 2 (japan)', value: 'japan_2' },
-					{ label: 'Ship 3 (japan)', value: 'japan_3' },
-					{ label: 'Ship 4 (japan)', value: 'japan_4' },
-					{ label: 'Ship 5 (japan)', value: 'japan_5' },
-					{ label: 'Ship 6 (japan)', value: 'japan_6' },
-					{ label: 'Ship 7 (japan)', value: 'japan_7' },
-					{ label: 'Ship 8 (japan)', value: 'japan_8' },
-					{ label: 'Ship 9 (japan)', value: 'japan_9' },
-					{ label: 'Ship 10 (japan)', value: 'japan_10' },
-			  ];
 
 	const shipOptionsInfo: {
 		[shipOption: string]: { region: ServerRegion.Global | ServerRegion.Japan; ship: number };
@@ -98,7 +66,6 @@
 		japan_9: { region: ServerRegion.Japan, ship: 9 },
 		japan_10: { region: ServerRegion.Japan, ship: 10 },
 	};
-	$: selectedShip = shipOptionsInfo[$form.ship ?? ''];
 
 	const defaultSettings: ProfileUpdateRequest = {
 		mainCharacterName: '',
@@ -116,19 +83,6 @@
 		description: '',
 	};
 
-	$: namePreview = {
-		playerId: -1,
-		flag: $form.playerCountry?.toLowerCase(),
-		ship: selectedShip?.ship,
-		serverRegion: selectedShip?.region,
-		playerName: $playerInfoStore?.playerName ?? '<Unknown>',
-		runCharacterName: 'Run character name',
-		characterName: $form.mainCharacterName,
-		namePreference: parseInt($form.preferredName ?? '0'),
-		nameEffectType: parseInt($form.nameEffect ?? '0'),
-		nameColor1: $form.primaryColor?.substring(1),
-		nameColor2: $form.secondaryColor?.substring(1),
-	} satisfies PlayerNameDisplay;
 
 	export const show = async () => {
 		resetForm();
@@ -225,6 +179,52 @@
 		dispatcher('profileUpdated');
 		close();
 	};
+	let selectedShip = $derived(shipOptionsInfo[$form.ship ?? '']);
+	let namePreview = $derived({
+		playerId: -1,
+		flag: $form.playerCountry?.toLowerCase(),
+		ship: selectedShip?.ship,
+		serverRegion: selectedShip?.region,
+		playerName: $playerInfoStore?.playerName ?? '<Unknown>',
+		runCharacterName: 'Run character name',
+		characterName: $form.mainCharacterName,
+		namePreference: parseInt($form.preferredName ?? '0'),
+		nameEffectType: parseInt($form.nameEffect ?? '0'),
+		nameColor1: $form.primaryColor?.substring(1),
+		nameColor2: $form.secondaryColor?.substring(1),
+	} satisfies PlayerNameDisplay);
+	let nameOptions = $derived([
+		{
+			label: `Player Name (${namePreview.playerName})`,
+			value: PreferredName.Player.toString(),
+		},
+		{
+			label: `Character Name (${namePreview.characterName})`,
+			value: PreferredName.Character.toString(),
+		},
+	] satisfies { label: string; value: string }[]);
+	let shipOptions =
+		$derived($form.serverRegion === ServerRegion.Global
+			? [
+					{ label: '(None)', value: '' },
+					{ label: 'Ship 1 (global)', value: 'global_1' },
+					{ label: 'Ship 2 (global)', value: 'global_2' },
+					{ label: 'Ship 3 (global)', value: 'global_3' },
+					{ label: 'Ship 4 (global)', value: 'global_4' },
+			  ]
+			: [
+					{ label: '(None)', value: '' },
+					{ label: 'Ship 1 (japan)', value: 'japan_1' },
+					{ label: 'Ship 2 (japan)', value: 'japan_2' },
+					{ label: 'Ship 3 (japan)', value: 'japan_3' },
+					{ label: 'Ship 4 (japan)', value: 'japan_4' },
+					{ label: 'Ship 5 (japan)', value: 'japan_5' },
+					{ label: 'Ship 6 (japan)', value: 'japan_6' },
+					{ label: 'Ship 7 (japan)', value: 'japan_7' },
+					{ label: 'Ship 8 (japan)', value: 'japan_8' },
+					{ label: 'Ship 9 (japan)', value: 'japan_9' },
+					{ label: 'Ship 10 (japan)', value: 'japan_10' },
+			  ]);
 </script>
 
 <Modal
@@ -342,22 +342,24 @@
 		<div class="flex flex-col place-content-center place-items-center gap-1">
 			Loading - Please Wait...<br /><progress
 				class="progress progress-primary w-56 border border-neutral-content/20"
-			/>
+			></progress>
 		</div>
 	{/if}
 
-	<svelte:fragment slot="actions">
-		{#if serverError}
-			<Alert type="error" message={serverError} />
-		{/if}
-		<Button size="sm" class="btn-outline btn-secondary" on:click={close} on:keyup={close}
-			>Close</Button
-		>
-		<Button
-			size="sm"
-			class="btn-outline btn-success"
-			on:click={saveChanges}
-			disabled={isLoading || isSubmitting}>Save</Button
-		>
-	</svelte:fragment>
+	{#snippet actions()}
+	
+			{#if serverError}
+				<Alert type="error" message={serverError} />
+			{/if}
+			<Button size="sm" class="btn-outline btn-secondary" on:click={close} on:keyup={close}
+				>Close</Button
+			>
+			<Button
+				size="sm"
+				class="btn-outline btn-success"
+				on:click={saveChanges}
+				disabled={isLoading || isSubmitting}>Save</Button
+			>
+		
+	{/snippet}
 </Modal>

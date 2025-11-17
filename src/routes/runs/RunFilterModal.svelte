@@ -8,16 +8,21 @@
 	import { Funnel } from 'svelte-heros-v2';
 	import { createEventDispatcher } from 'svelte';
 
-	export let classFilter: boolean = false;
-	export let dfAegisSupportFilter: boolean = false;
+	interface Props {
+		classFilter?: boolean;
+		dfAegisSupportFilter?: boolean;
+		additionalFilters?: import('svelte').Snippet;
+	}
+
+	let { classFilter = false, dfAegisSupportFilter = false, additionalFilters }: Props = $props();
 
 	const dispatch = createEventDispatcher();
 
-	let server: string = 'no_filter';
+	let server: string = $state('no_filter');
 	let support: string = 'no_filter';
-	let mainClass: string = 'no_filter';
+	let mainClass: string = $state('no_filter');
 
-	let modal: Modal;
+	let modal: Modal = $state();
 
 	export const resetFilters = () => {
 		server = 'no_filter';
@@ -45,8 +50,8 @@
 
 <button
 	class="btn btn-outline btn-primary btn-sm rounded"
-	on:click={modal.show}
-	on:keyup={modal.show}
+	onclick={modal.show}
+	onkeyup={modal.show}
 >
 	<Funnel />Filters
 </button>
@@ -75,5 +80,5 @@
 	<ServerFilter bind:selectedServer={server} />
 	<Divider />
 
-	<slot name="additionalFilters" />
+	{@render additionalFilters?.()}
 </Modal>

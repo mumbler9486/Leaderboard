@@ -1,7 +1,11 @@
 <script lang="ts">
 	import YouTubeIcon from './Icons/YouTubeIcon.svelte';
 
-	export let url: string | undefined;
+	interface Props {
+		url: string | undefined;
+	}
+
+	let { url }: Props = $props();
 </script>
 
 <a href={url} target="_blank" rel="noreferrer noopener" class="link link-accent no-underline">

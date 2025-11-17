@@ -4,10 +4,14 @@
 	import { NgsPlayerStyleClass } from '$lib/types/api/ngsPlayerStyleClass';
 	import { partyForm } from '../forms/partyForm';
 
-	export let playerIndex: number;
-	let selectedMainClass: NgsPlayerClass;
-	let selectedSubClass: NgsPlayerClass;
-	let selectedStyleClass: NgsPlayerStyleClass;
+	interface Props {
+		playerIndex: number;
+	}
+
+	let { playerIndex }: Props = $props();
+	let selectedMainClass: NgsPlayerClass = $state();
+	let selectedSubClass: NgsPlayerClass = $state();
+	let selectedStyleClass: NgsPlayerStyleClass = $derived(selectedStyleClass);
 
 	const classOptions: Partial<Record<NgsPlayerClass, SelectValues<NgsPlayerClass>>> = {
 		[NgsPlayerClass.Hunter]: {
@@ -99,18 +103,18 @@
 		},
 	};
 
-	$: selectableMainClasses = Object.values(classOptions).map((c) => ({
+	let selectableMainClasses = $derived(Object.values(classOptions).map((c) => ({
 		...c,
 		disabled: selectedSubClass == c.value,
-	}));
-	$: selectableSubClasses = Object.values(classOptions).map((c) => ({
+	})));
+	let selectableSubClasses = $derived(Object.values(classOptions).map((c) => ({
 		...c,
 		disabled: selectedMainClass == c.value,
-	}));
-	$: selectableStyleClasses = Object.values(styleOptions);
-	$: $partyForm[playerIndex].mainClass = selectedMainClass;
-	$: $partyForm[playerIndex].subClass = selectedSubClass;
-	$: $partyForm[playerIndex].styleClass = selectedStyleClass;
+	})));
+	let selectableStyleClasses = $derived(Object.values(styleOptions));
+	let $partyForm[playerIndex].mainClass = $derived(selectedMainClass);
+	let $partyForm[playerIndex].subClass = $derived(selectedSubClass);
+	
 </script>
 
 <div class="form-control">

@@ -3,7 +3,11 @@
 	import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 	import { t } from 'svelte-i18n';
 
-	export let selectedClass: string = 'no_filter';
+	interface Props {
+		selectedClass?: string;
+	}
+
+	let { selectedClass = $bindable('no_filter') }: Props = $props();
 
 	const filterClasses = [
 		{ name: 'No Filter', value: 'no_filter', icon: '/icons/class/class-unknown.png' },

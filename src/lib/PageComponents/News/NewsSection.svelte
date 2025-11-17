@@ -1,5 +1,10 @@
 <script lang="ts">
-	export let sectionTitle: string | undefined = undefined;
+	interface Props {
+		sectionTitle?: string | undefined;
+		children?: import('svelte').Snippet;
+	}
+
+	let { sectionTitle = undefined, children }: Props = $props();
 </script>
 
 <div class="py-2">
@@ -7,6 +12,6 @@
 		<strong>{sectionTitle}</strong>
 	{/if}
 	<p>
-		<slot />
+		{@render children?.()}
 	</p>
 </div>

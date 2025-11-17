@@ -1,9 +1,13 @@
 <script lang="ts" generics="T">
 	import type { DuelRunDetails, Run } from '$lib/types/api/runs/run';
 
-	export let details: Run<unknown>['details'];
-	$: usingDuelAugment = (details as DuelRunDetails).augments;
-	$: duelAugmentLabel = usingDuelAugment ? 'Yes' : 'No';
+	interface Props {
+		details: Run<unknown>['details'];
+	}
+
+	let { details }: Props = $props();
+	let usingDuelAugment = $derived((details as DuelRunDetails).augments);
+	let duelAugmentLabel = $derived(usingDuelAugment ? 'Yes' : 'No');
 </script>
 
 <span>{duelAugmentLabel}</span>

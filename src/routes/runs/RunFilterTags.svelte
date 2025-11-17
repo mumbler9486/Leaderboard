@@ -5,7 +5,7 @@
 	import { parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 	import { runFilters } from './runFilter';
 
-	$: playerClassFilterTag = parseNgsPlayerClass($runFilters.class);
+	let playerClassFilterTag = $derived(parseNgsPlayerClass($runFilters.class));
 </script>
 
 {#if !!playerClassFilterTag}

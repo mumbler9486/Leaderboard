@@ -1,15 +1,20 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { equippableWeaponsMap } from '$lib/types/api/ngsPlayerClass';
 	import { NgsWeapon } from '$lib/types/api/weapon';
 	import { partyForm } from '../forms/partyForm';
 
-	export let playerIndex: number;
-	export let maxSelections: number = 6;
+	interface Props {
+		playerIndex: number;
+		maxSelections?: number;
+	}
 
-	let selectedWeapons: { [weaponKey: string]: boolean } = {};
+	let { playerIndex, maxSelections = 6 }: Props = $props();
+
+	let selectedWeapons: { [weaponKey: string]: boolean } = $state({});
 	let selectionHistory: string[] = [];
 
-	$: updateForm(selectedWeapons);
 	const updateForm = (...watch: any) => {
 		partyForm.update((p) => {
 			p[playerIndex].weapons = selectionHistory;
@@ -117,7 +122,7 @@
 			});
 	};
 
-	let selectableWeapons = updateWeaponSelection();
+	let selectableWeapons = $state(updateWeaponSelection());
 
 	partyForm.subscribe((p) => {
 		const mainClass = p[playerIndex].mainClass;
@@ -144,6 +149,9 @@
 			if (lastAdded) selectedWeapons[lastAdded] = false;
 		}
 	};
+	run(() => {
+		updateForm(selectedWeapons);
+	});
 </script>
 
 <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
@@ -162,7 +170,7 @@
 				value={weaponKey}
 				class="checkbox rounded"
 				bind:checked={selectedWeapons[weaponKey]}
-				on:change={() => maintainMaximum(weaponKey)}
+				onchange={() => maintainMaximum(weaponKey)}
 			/>
 		</label>
 	{/each}

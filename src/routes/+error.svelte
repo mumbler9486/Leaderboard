@@ -3,8 +3,8 @@
 	import { page } from '$app/stores';
 	import ErrorSplash from '$lib/PageComponents/Error/ErrorSplash.svelte';
 
-	$: pageStatus = $page.status;
-	$: pageErrorMessage = $page.error?.message ?? 'Error';
+	let pageStatus = $derived($page.status);
+	let pageErrorMessage = $derived($page.error?.message ?? 'Error');
 </script>
 
 <svelte:head>

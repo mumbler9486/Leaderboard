@@ -6,9 +6,14 @@
 	import BackgroundRandomizer from '$lib/PageComponents/BackgroundRandomizer.svelte';
 	import { dev } from '$app/environment';
 	import { t } from 'svelte-i18n';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 
 	const isMswEnabled = dev && import.meta.env.VITE_MSW_ENABLED === 'true';
-	let isReady = !isMswEnabled;
+	let isReady = $state(!isMswEnabled);
 
 	if (isMswEnabled) {
 		// Lazy load so we tree shake it out
@@ -27,7 +32,7 @@
 	<BackgroundRandomizer />
 	<LeaderboardHeader>
 		<div class="container mx-auto">
-			<slot />
+			{@render children?.()}
 		</div>
 	</LeaderboardHeader>
 	<LeaderboardFooter />

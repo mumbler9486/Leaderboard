@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	export interface PlayerNameDisplay {
 		playerId?: number;
 		flag?: string;
@@ -29,49 +29,38 @@
 </script>
 
 <script lang="ts">
+	import { run, createBubbler } from 'svelte/legacy';
+
+	const bubble = createBubbler();
 	import { countriesMap } from '$lib/types/api/countries';
 	import { NameStyle } from '$lib/types/api/players/nameStyle';
 	import { PreferredName } from '$lib/types/api/players/preferredName';
 	import { ServerRegion } from '$lib/types/api/serverRegions';
 	import Tooltip from './Tooltip.svelte';
 
-	export let player: PlayerNameDisplay | string | undefined;
-	export let showInGameName: boolean = true;
-	export let showLink: boolean = false;
-	export let showShipFlag: boolean = true;
-	export let size: 'xs' | 'sm' | 'base' | 'lg' = 'sm';
+	interface Props {
+		player: PlayerNameDisplay | string | undefined;
+		showInGameName?: boolean;
+		showLink?: boolean;
+		showShipFlag?: boolean;
+		size?: 'xs' | 'sm' | 'base' | 'lg';
+	}
 
-	let primaryName: string;
-	let secondaryName: string;
+	let {
+		player,
+		showInGameName = true,
+		showLink = false,
+		showShipFlag = true,
+		size = 'sm'
+	}: Props = $props();
+
+	let primaryName: string = $state();
+	let secondaryName: string = $state();
 
 	const unknownPlayerName = '<Unknown>';
 
-	$: isPlayerAnon = !player || typeof player === 'string' || (!player.playerId ? true : false);
-	$: playerNameDisplay = (() => {
-		if (!player) {
-			return stringToNameDisplay(unknownPlayerName);
-		} else if (typeof player === 'string') {
-			return stringToNameDisplay(player);
-		}
-		return player;
-	})();
-	$: playerLink = `/users/${playerNameDisplay.playerId}`;
 
-	$: flagClass = playerNameDisplay.flag ? `fi fi-${playerNameDisplay.flag}` : '';
-	$: countryName = playerNameDisplay?.flag
-		? countriesMap[playerNameDisplay.flag.toUpperCase()].name ?? '<Unknown>'
-		: undefined;
-	$: shipImageUrl =
-		playerNameDisplay.ship &&
-		playerNameDisplay.serverRegion &&
-		playerNameDisplay.serverRegion != ServerRegion.Unknown
-			? `/icons/ships/ship${playerNameDisplay.ship}-${playerNameDisplay.serverRegion}.png`
-			: '';
 
-	$: nameColor1 = playerNameDisplay.nameColor1 ?? 'ffffff';
-	$: nameColor2 = playerNameDisplay.nameColor2 ?? 'ffffff';
-	$: playerNameStyle = getNameColorStyle(playerNameDisplay);
-	$: setPlayerNames(playerNameDisplay);
 
 	const setPlayerNames = (playerNameDisplay: PlayerNameDisplay) => {
 		switch (playerNameDisplay.namePreference) {
@@ -103,6 +92,32 @@
 				return '';
 		}
 	};
+	let isPlayerAnon = $derived(!player || typeof player === 'string' || (!player.playerId ? true : false));
+	let playerNameDisplay = $derived((() => {
+		if (!player) {
+			return stringToNameDisplay(unknownPlayerName);
+		} else if (typeof player === 'string') {
+			return stringToNameDisplay(player);
+		}
+		return player;
+	})());
+	let playerLink = $derived(`/users/${playerNameDisplay.playerId}`);
+	let flagClass = $derived(playerNameDisplay.flag ? `fi fi-${playerNameDisplay.flag}` : '');
+	let countryName = $derived(playerNameDisplay?.flag
+		? countriesMap[playerNameDisplay.flag.toUpperCase()].name ?? '<Unknown>'
+		: undefined);
+	let shipImageUrl =
+		$derived(playerNameDisplay.ship &&
+		playerNameDisplay.serverRegion &&
+		playerNameDisplay.serverRegion != ServerRegion.Unknown
+			? `/icons/ships/ship${playerNameDisplay.ship}-${playerNameDisplay.serverRegion}.png`
+			: '');
+	let nameColor1 = $derived(playerNameDisplay.nameColor1 ?? 'ffffff');
+	let nameColor2 = $derived(playerNameDisplay.nameColor2 ?? 'ffffff');
+	let playerNameStyle = $derived(getNameColorStyle(playerNameDisplay));
+	run(() => {
+		setPlayerNames(playerNameDisplay);
+	});
 </script>
 
 <div
@@ -114,7 +129,7 @@
 >
 	{#if playerNameDisplay?.flag}
 		<Tooltip class="flex" tip={countryName}>
-			<span class="flag {flagClass}" />
+			<span class="flag {flagClass}"></span>
 		</Tooltip>
 	{/if}
 	{#if showShipFlag && playerNameDisplay.serverRegion && playerNameDisplay.ship}
@@ -134,8 +149,8 @@
 		<span
 			style={playerNameStyle}
 			class="primary-name cursor-pointer truncate transition ease-in-out hover:brightness-125"
-			on:click
-			on:keyup
+			onclick={bubble('click')}
+			onkeyup={bubble('keyup')}
 		>
 			{primaryName}
 			{#if showInGameName && secondaryName && secondaryName != primaryName}

@@ -3,22 +3,26 @@
 	import { onDestroy } from 'svelte';
 	import { date } from 'svelte-i18n';
 
-	export let recordType: string;
 
-	export let endDate: string;
 
-	export let linkActive: boolean = false;
+	interface Props {
+		recordType: string;
+		endDate: string;
+		linkActive?: boolean;
+	}
+
+	let { recordType, endDate, linkActive = false }: Props = $props();
 
 	var dateEnd = new Date(endDate).getTime();
 
-	let recordID: string;
-	let recordDescription: string;
-	let recordLink: string;
+	let recordID: string = $state();
+	let recordDescription: string = $state();
+	let recordLink: string = $state();
 
-	var days = 0;
-	var hours = 0;
-	var minutes = 0;
-	var seconds = 0;
+	var days = $state(0);
+	var hours = $state(0);
+	var minutes = $state(0);
+	var seconds = $state(0);
 
 	onMount(async () => {
 		switch (recordType) {
@@ -95,7 +99,7 @@
 						class="flex flex-col rounded-md border border-secondary/50 bg-base-100/90 p-2 text-base-content"
 					>
 						<span class="countdown font-mono text-5xl">
-							<span style="--value:{days};" />
+							<span style="--value:{days};"></span>
 						</span>
 						days
 					</div>
@@ -103,7 +107,7 @@
 						class="flex flex-col rounded-md border border-secondary/50 bg-base-100/90 p-2 text-base-content"
 					>
 						<span class="countdown font-mono text-5xl">
-							<span style="--value:{hours};" />
+							<span style="--value:{hours};"></span>
 						</span>
 						hours
 					</div>
@@ -111,7 +115,7 @@
 						class="flex flex-col rounded-md border border-secondary/50 bg-base-100/90 p-2 text-base-content"
 					>
 						<span class="countdown font-mono text-5xl">
-							<span style="--value:{minutes};" />
+							<span style="--value:{minutes};"></span>
 						</span>
 						min
 					</div>
@@ -119,7 +123,7 @@
 						class="flex flex-col rounded-md border border-secondary/50 bg-base-100/90 p-2 text-base-content"
 					>
 						<span class="countdown font-mono text-5xl">
-							<span style="--value:{seconds};" />
+							<span style="--value:{seconds};"></span>
 						</span>
 						sec
 					</div>
@@ -162,7 +166,7 @@
 						class="flex flex-col rounded-md border border-secondary/50 bg-base-100/90 p-2 text-base-content"
 					>
 						<span class="countdown font-mono text-5xl">
-							<span style="--value:{days};" />
+							<span style="--value:{days};"></span>
 						</span>
 						days
 					</div>
@@ -170,7 +174,7 @@
 						class="flex flex-col rounded-md border border-secondary/50 bg-base-100/90 p-2 text-base-content"
 					>
 						<span class="countdown font-mono text-5xl">
-							<span style="--value:{hours};" />
+							<span style="--value:{hours};"></span>
 						</span>
 						hours
 					</div>
@@ -178,7 +182,7 @@
 						class="flex flex-col rounded-md border border-secondary/50 bg-base-100/90 p-2 text-base-content"
 					>
 						<span class="countdown font-mono text-5xl">
-							<span style="--value:{minutes};" />
+							<span style="--value:{minutes};"></span>
 						</span>
 						min
 					</div>
@@ -186,7 +190,7 @@
 						class="flex flex-col rounded-md border border-secondary/50 bg-base-100/90 p-2 text-base-content"
 					>
 						<span class="countdown font-mono text-5xl">
-							<span style="--value:{seconds};" />
+							<span style="--value:{seconds};"></span>
 						</span>
 						sec
 					</div>

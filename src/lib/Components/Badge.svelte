@@ -1,6 +1,10 @@
 <script lang="ts">
-	export let color: 'neutral' | 'primary' | 'secondary' | 'accent' | 'ghost' | undefined | null =
-		undefined;
+	interface Props {
+		color?: 'neutral' | 'primary' | 'secondary' | 'accent' | 'ghost' | undefined | null;
+		children?: import('svelte').Snippet;
+	}
+
+	let { color = undefined, children }: Props = $props();
 
 	const colorClassMap: Record<string, string> = {
 		neutral: 'badge-neutral',
@@ -10,9 +14,9 @@
 		ghost: 'badge-ghost',
 	};
 
-	$: colorClass = !color ? '' : colorClassMap[color];
+	let colorClass = $derived(!color ? '' : colorClassMap[color]);
 </script>
 
 <div class="badge {colorClass}">
-	<slot />
+	{@render children?.()}
 </div>

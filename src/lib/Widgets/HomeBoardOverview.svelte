@@ -17,9 +17,9 @@
 	import { ArrowRight } from 'svelte-heros-v2';
 
 	const take = 10;
-	let tabIndex = 0;
+	let tabIndex = $state(0);
 
-	let boardLink: string | null = null;
+	let boardLink: string | null = $state(null);
 
 	interface Boards {
 		boardInfo: LeaderboardDefinition<any, any> | null | undefined;

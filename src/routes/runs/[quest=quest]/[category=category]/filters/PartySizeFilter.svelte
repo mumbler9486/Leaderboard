@@ -3,7 +3,11 @@
 	import { PartySize } from '$lib/types/api/partySizes';
 	import { runFilters } from '../../../runFilter';
 
-	export let allowedPartySizes: PartySize[] = [];
+	interface Props {
+		allowedPartySizes?: PartySize[];
+	}
+
+	let { allowedPartySizes = [] }: Props = $props();
 
 	const partySizeOptions = [
 		{
@@ -23,7 +27,7 @@
 			value: PartySize.MultiParty,
 		},
 	];
-	$: selectablePartySizes = partySizeOptions.filter((c) => allowedPartySizes.includes(c.value));
+	let selectablePartySizes = $derived(partySizeOptions.filter((c) => allowedPartySizes.includes(c.value)));
 </script>
 
 <RadioOptions name="partySize" options={selectablePartySizes} bind:value={$runFilters.partySize} />

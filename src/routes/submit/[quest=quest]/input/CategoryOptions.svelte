@@ -4,12 +4,16 @@
 	import { questForm } from '../forms/questForm';
 	import { t } from 'svelte-i18n';
 
-	export let allowedCategories: NgsRunCategories[] = [];
+	interface Props {
+		allowedCategories?: NgsRunCategories[];
+	}
 
-	$: selectableOptions = allowedCategories.map((c) => ({
+	let { allowedCategories = [] }: Props = $props();
+
+	let selectableOptions = $derived(allowedCategories.map((c) => ({
 		label: $t(ngsCategoryTranslationMap[c]),
 		value: c,
-	}));
+	})));
 </script>
 
 <Select

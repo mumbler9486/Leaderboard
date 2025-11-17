@@ -7,7 +7,7 @@
 		consentDiscord
 	} from '$lib/stores/consent';
 
-	let customize: boolean = false;
+	let customize: boolean = $state(false);
 
 	const setConsent = (type: string) => {
 		switch (type) {
@@ -31,7 +31,7 @@
 		}
 	};
 
-	let showConsentCurrent = false;
+	let showConsentCurrent = $state(false);
 	consentSelected.subscribe((consent) => {
 		console.debug(`Consent loaded. Value=${consent}`);
 		showConsentCurrent = !consent;
@@ -57,7 +57,7 @@
 					<p class="mb-4 font-bold text-neutral-content">
 						Expand a section to read more about each setting.
 					</p>
-					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+					<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 					<div
 						tabindex="0"
 						class="collapse-plus rounded-box collapse w-full border border-neutral-content/50 bg-neutral"
@@ -86,7 +86,7 @@
 						>
 						<input type="checkbox" class="toggle-primary toggle" disabled checked />
 					</label>
-					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+					<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 					<div
 						tabindex="0"
 						class="collapse-plus rounded-box collapse w-full border border-neutral-content/50 bg-neutral"
@@ -121,7 +121,7 @@
 							bind:checked={$consentPreferences}
 						/>
 					</label>
-					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+					<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 					<div
 						tabindex="0"
 						class="collapse-plus rounded-box collapse w-full border border-neutral-content/50 bg-neutral"
@@ -173,24 +173,24 @@
 					</label>
 					<button
 						class="btn-warning btn-sm btn mb-4 rounded-none md:btn-md"
-						on:click={() => setConsent('selected')}>Allow Selected</button
+						onclick={() => setConsent('selected')}>Allow Selected</button
 					>
 				{/if}
 				<p class="font-semibold text-neutral-content">We do NOT share your personal information.</p>
 			</div>
-			<div class="divider" />
+			<div class="divider"></div>
 			<div>
 				<button
 					class="btn-secondary btn-sm btn rounded-none md:btn-md"
-					on:click={() => setConsent('necessary')}>Deny</button
+					onclick={() => setConsent('necessary')}>Deny</button
 				>
 				<button
 					class="btn-secondary btn-sm btn rounded-none md:btn-md"
-					on:click={() => setConsent('all')}>Allow All</button
+					onclick={() => setConsent('all')}>Allow All</button
 				>
 				<button
 					class="btn-secondary btn-sm btn rounded-none md:btn-md"
-					on:click={() => (customize = true)}>Customize</button
+					onclick={() => (customize = true)}>Customize</button
 				>
 			</div>
 		</div>

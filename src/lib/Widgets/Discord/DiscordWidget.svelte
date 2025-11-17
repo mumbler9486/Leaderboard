@@ -5,18 +5,18 @@
 	import DiscordUser from '$lib/Widgets/Discord/DiscordUser.svelte';
 	import { onMount } from 'svelte';
 
-	let discordServer: DiscordServerInfo = {
+	let discordServer: DiscordServerInfo = $state({
 		id: '0',
 		name: 'PSO2 Central',
 		instant_invite: '',
 		presence_count: 0,
 		channels: [],
 		members: [],
-	};
+	});
 
-	$: presenseCount = `${discordServer?.presence_count} Member${
+	let presenseCount = $derived(`${discordServer?.presence_count} Member${
 		discordServer?.presence_count > 1 ? 's' : ''
-	} Online`;
+	} Online`);
 
 	interface DiscordServerInfo {
 		id: string;

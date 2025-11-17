@@ -7,7 +7,11 @@
 	import MasqDepthInput from './MasqDepthInput.svelte';
 	import PlanetfallStrikeInput from './PlanetfallStrikeInput.svelte';
 
-	export let board: LeaderboardDefinition<any, any>;
+	interface Props {
+		board: LeaderboardDefinition<any, any>;
+	}
+
+	let { board }: Props = $props();
 </script>
 
 {#if board.quest === NgsQuests.DfAegis}

@@ -1,11 +1,17 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import RadioButton from '$lib/Components/RadioButton.svelte';
 	import { DfAegisSupport } from '$lib/types/api/dfAegis/dfAegisSupports';
 	import { t } from 'svelte-i18n';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import { runFilters } from '../../../runFilter';
 
-	export let selection: string = 'no_filter';
+	interface Props {
+		selection?: string;
+	}
+
+	let { selection = $bindable('no_filter') }: Props = $props();
 
 	const filterSupports = [
 		{ name: 'No Filter', value: 'no_filter', icon: '/icons/class/class-unknown.png' },
@@ -15,12 +21,12 @@
 		{ name: 'Glen', value: DfAegisSupport.Glen, icon: '/icons/dfaegis/glen.png' },
 	];
 
-	$: isQuestCategory = $runFilters.category === NgsRunCategories.Quest;
-	$: {
+	let isQuestCategory = $derived($runFilters.category === NgsRunCategories.Quest);
+	run(() => {
 		if (isQuestCategory) {
 			selection = 'no_filter';
 		}
-	}
+	});
 </script>
 
 <div class="flex flex-row flex-wrap justify-center gap-1 md:justify-start">

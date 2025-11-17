@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	export interface PartySizeLink {
 		link: string;
 		label: string;
@@ -10,9 +10,13 @@
 	import { page } from '$app/stores';
 	import Button from '$lib/Components/Button.svelte';
 
-	export let parties: PartySizeLink[];
+	interface Props {
+		parties: PartySizeLink[];
+	}
 
-	$: currentLinkPath = $page.url.pathname;
+	let { parties }: Props = $props();
+
+	let currentLinkPath = $derived($page.url.pathname);
 
 	const linkClick = (href: string) => {
 		goto(href);

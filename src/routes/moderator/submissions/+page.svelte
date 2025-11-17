@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { t } from 'svelte-i18n';
 	import ModeratorSubmissionsTable from '$lib/Components/Tables/ModeratorSubmissionsTable.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
@@ -13,8 +15,8 @@
 
 	const HistoryCount = 50;
 
-	let unapprovedCount = -1;
-	let showUnapproved = true;
+	let unapprovedCount = $state(-1);
+	let showUnapproved = $state(true);
 
 	const fetchRuns = async (): Promise<Run<unknown>[]> => {
 		const filter: SubmissionSearchFilter = {
@@ -43,7 +45,10 @@
 		}
 		return [];
 	};
-	$: submissionPromise = fetchRuns();
+	let submissionPromise;
+	run(() => {
+		submissionPromise = fetchRuns();
+	});
 
 	const refreshRuns = () => {
 		submissionPromise = fetchRuns();

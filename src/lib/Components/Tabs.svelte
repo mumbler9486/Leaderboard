@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts" module>
 	export interface TabOptions {
 		name: string;
 		color?: keyof typeof colorMap;
@@ -16,9 +16,13 @@
 </script>
 
 <script lang="ts">
-	export let tabs: TabOptions[];
-	export let bold: boolean = false;
-	export let activeTab: number = 0;
+	interface Props {
+		tabs: TabOptions[];
+		bold?: boolean;
+		activeTab?: number;
+	}
+
+	let { tabs, bold = false, activeTab = $bindable(0) }: Props = $props();
 </script>
 
 <div role="tablist" class="tabs tabs-bordered flex flex-wrap">
@@ -29,8 +33,8 @@
 			class:tab-active={i === activeTab}
 			class:font-bold={bold}
 			tabindex={i + 1}
-			on:keyup={() => (activeTab = i)}
-			on:click={() => (activeTab = i)}
+			onkeyup={() => (activeTab = i)}
+			onclick={() => (activeTab = i)}
 		>
 			{tab.name}
 		</div>

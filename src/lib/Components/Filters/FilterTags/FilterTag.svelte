@@ -1,12 +1,19 @@
 <script lang="ts">
-	export let icon: string | undefined = undefined;
-	export let label: string;
+	import { createBubbler } from 'svelte/legacy';
+
+	const bubble = createBubbler();
+	interface Props {
+		icon?: string | undefined;
+		label: string;
+	}
+
+	let { icon = undefined, label }: Props = $props();
 </script>
 
 <span class="badge badge-lg rounded border border-neutral-content/25 py-4">
 	<img class="pointer-events-none mr-1" src={icon} alt={label} />
 	{label}
-	<button class="btn btn-square btn-xs ml-1 rounded" on:click>
+	<button class="btn btn-square btn-xs ml-1 rounded" onclick={bubble('click')}>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			class="h-6 w-6"

@@ -2,11 +2,15 @@
 	import Select from '$lib/Components/Select.svelte';
 	import { questForm } from '../forms/questForm';
 
-	export let maxRank: number;
+	interface Props {
+		maxRank: number;
+	}
 
-	$: selectableOptions = new Array(maxRank)
+	let { maxRank }: Props = $props();
+
+	let selectableOptions = $derived(new Array(maxRank)
 		.fill(0)
-		.map((_, i) => ({ label: (i + 1).toString(), value: i + 1 }));
+		.map((_, i) => ({ label: (i + 1).toString(), value: i + 1 })));
 </script>
 
 <Select

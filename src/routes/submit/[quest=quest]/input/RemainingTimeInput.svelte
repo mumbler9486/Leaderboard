@@ -4,19 +4,23 @@
 	import { runForm } from '../forms/runForm';
 
 	// The total allowable time for the quest
-	export let limitMinutes: number;
-	export let limitSeconds: number = 0;
+	interface Props {
+		limitMinutes: number;
+		limitSeconds?: number;
+	}
 
-	let minutes = limitMinutes;
-	let seconds = limitSeconds;
+	let { limitMinutes, limitSeconds = 0 }: Props = $props();
 
-	$: remainingSeconds = minutes * 60 + seconds;
-	$: actualSeconds = Math.max(limitMinutes * 60 + limitSeconds - remainingSeconds - 1, 0);
-	$: $runForm.time = {
+	let minutes = $state(limitMinutes);
+	let seconds = $state(limitSeconds);
+
+	let remainingSeconds = $derived(minutes * 60 + seconds);
+	let actualSeconds = $derived(Math.max(limitMinutes * 60 + limitSeconds - remainingSeconds - 1, 0));
+	let $runForm.time = $derived({
 		hours: 0,
 		minutes: Math.floor(actualSeconds / 60),
 		seconds: actualSeconds % 60,
-	};
+	});
 
 	export const resetForm = () => {
 		minutes = limitMinutes;

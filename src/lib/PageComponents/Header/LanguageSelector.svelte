@@ -5,7 +5,7 @@
 	import { Language } from 'svelte-heros-v2';
 	import TranslateIcon from '$lib/Components/Icons/TranslateIcon.svelte';
 
-	let modal: Modal;
+	let modal: Modal = $state();
 
 	const languageOptions: Record<string, { label: string }> = {
 		en: { label: 'English (Global)' },
@@ -20,7 +20,7 @@
 
 <!-- TODO icon -->
 
-<button class="btn btn-ghost" on:click={modal.show} on:keyup={modal.show}>
+<button class="btn btn-ghost" onclick={modal.show} onkeyup={modal.show}>
 	<TranslateIcon />
 </button>
 
@@ -47,7 +47,7 @@
 					name="language-pref-selection"
 					value={availableLocaleCode}
 					bind:group={$siteLanguage}
-					on:change={updatePreferences}
+					onchange={updatePreferences}
 				/>
 			</label>
 		{/each}

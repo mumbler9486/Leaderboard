@@ -1,10 +1,21 @@
 <script lang="ts" generics="T">
+	import { run } from 'svelte/legacy';
+
 	import { createEventDispatcher } from 'svelte';
 
-	export let name: string; //Unique name for the group
-	export let label: string | undefined = undefined;
-	export let options: FilterOptions<T>[];
-	export let value: T;
+	interface Props {
+		name: string;
+		label?: string | undefined;
+		options: FilterOptions<T>[];
+		value: T;
+	}
+
+	let {
+		name,
+		label = undefined,
+		options,
+		value = $bindable()
+	}: Props = $props();
 
 	const dispatch = createEventDispatcher();
 
@@ -13,9 +24,9 @@
 		value: T;
 	}
 
-	$: {
+	run(() => {
 		dispatch('changed', value);
-	}
+	});
 </script>
 
 <div class="form-control">

@@ -14,12 +14,22 @@
 	import WeaponIcon from '../WeaponIcon.svelte';
 	import Table, { type TableHeader } from './Table.svelte';
 
-	export let runs: Run<T>[];
-	export let solosOnly: boolean = false;
-	export let detailsColumn: TableHeader | undefined = undefined;
-	let modal: RunInfoModal;
+	interface Props {
+		runs: Run<T>[];
+		solosOnly?: boolean;
+		detailsColumn?: TableHeader | undefined;
+		detailsItem?: import('svelte').Snippet<[any]>;
+	}
 
-	$: headerDef = (
+	let {
+		runs,
+		solosOnly = false,
+		detailsColumn = undefined,
+		detailsItem
+	}: Props = $props();
+	let modal: RunInfoModal = $state();
+
+	let headerDef = $derived((
 		[
 			{ label: '#', textAlign: 'center', class: 'w-2' },
 			{ label: 'Player', textAlign: 'default' },
@@ -31,9 +41,9 @@
 			{ label: 'Video', textAlign: 'center' },
 			{ label: '', textAlign: 'center', class: 'w-2' },
 		] satisfies (TableHeader | undefined)[]
-	).filter((h): h is TableHeader => !!h);
+	).filter((h): h is TableHeader => !!h));
 
-	$: headers = solosOnly ? headerDef : headerDef.filter((x, i) => i !== 3);
+	let headers = $derived(solosOnly ? headerDef : headerDef.filter((x, i) => i !== 3));
 
 	const runInfoOpen = (runId: number) => {
 		const run = runs.find((r) => r.runId == runId);
@@ -64,13 +74,13 @@
 						/>
 					{/each}
 				</td>
-				{#if !!detailsColumn && $$slots.detailsItem}
+				{#if !!detailsColumn && detailsItem}
 					<td
 						class="text-center font-bold"
 						class:text-right={detailsColumn?.textAlign === 'right'}
 						class:text-center={detailsColumn?.textAlign === 'center'}
 					>
-						<slot name="detailsItem" {run} />
+						{@render detailsItem?.({ run, })}
 					</td>
 				{/if}
 				<td class="text-center">

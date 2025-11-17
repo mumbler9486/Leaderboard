@@ -2,7 +2,11 @@
 	import { ServerRegion } from '$lib/types/api/serverRegions';
 	import RadioButton from '../RadioButton.svelte';
 
-	export let selectedServer: string = 'no_filter';
+	interface Props {
+		selectedServer?: string;
+	}
+
+	let { selectedServer = $bindable('no_filter') }: Props = $props();
 
 	const filterServers = [
 		{ name: 'No Filter', value: 'no_filter' },

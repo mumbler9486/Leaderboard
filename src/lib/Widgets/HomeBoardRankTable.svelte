@@ -18,9 +18,13 @@
 	import { formatString } from '$lib/utils/string';
 	import { t } from 'svelte-i18n';
 
-	export let runs: Run<unknown>[] = [];
+	interface Props {
+		runs?: Run<unknown>[];
+	}
 
-	let modal: RunInfoModal;
+	let { runs = [] }: Props = $props();
+
+	let modal: RunInfoModal = $state();
 
 	const headers: TableHeader[] = [
 		{
@@ -99,8 +103,8 @@
 			<td>
 				<button
 					class="link text-primary"
-					on:click={() => modal.showModal(run)}
-					on:keyup={() => modal.showModal(run)}
+					onclick={() => modal.showModal(run)}
+					onkeyup={() => modal.showModal(run)}
 				>
 					Link
 				</button>

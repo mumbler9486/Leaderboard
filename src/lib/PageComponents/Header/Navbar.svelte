@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	export interface MenuGroup {
 		title: string;
 		icon?: string;
@@ -35,14 +35,19 @@
 	import LanguageSelector from '$lib/PageComponents/Header/LanguageSelector.svelte';
 	import { browser } from '$app/environment';
 
-	export let groups: MenuGroup[];
+	interface Props {
+		groups: MenuGroup[];
+		children?: import('svelte').Snippet;
+	}
 
-	const dropdowns: Record<number, HTMLDetailsElement> = {};
+	let { groups, children }: Props = $props();
+
+	const dropdowns: Record<number, HTMLDetailsElement> = $state({});
 	const dropdownSummaries: Record<number, HTMLElement> = {};
-	$: allDropdowns = Object.values(dropdowns);
-	$: allDropdownSummaries = Object.values(dropdownSummaries);
+	let allDropdowns = $derived(Object.values(dropdowns));
+	let allDropdownSummaries = $derived(Object.values(dropdownSummaries));
 
-	let drawerOpen = false;
+	let drawerOpen = $state(false);
 
 	const iconMap: Record<string, ComponentType> = {
 		'info-circle': AlertInfoIcon,
@@ -126,11 +131,12 @@
 							{#if !group.disabled}
 								<!-- Menu without children -->
 								<li>
-									<a href={group.link} on:click={closeMenuAfterClick}>
+									<a href={group.link} onclick={closeMenuAfterClick}>
 										{#if group.image}
 											<img src={group.image} class="pointer-events-none mr-2" alt={group.title} />
 										{:else if group.icon}
-											<svelte:component this={iconMap[group.icon]} />
+											{@const SvelteComponent = iconMap[group.icon]}
+											<SvelteComponent />
 										{/if}
 										{group.title}
 									</a>
@@ -143,7 +149,8 @@
 											{#if group.image}
 												<img src={group.image} class="pointer-events-none mr-2" alt={group.title} />
 											{:else if group.icon}
-												<svelte:component this={iconMap[group.icon]} />
+												{@const SvelteComponent_1 = iconMap[group.icon]}
+												<SvelteComponent_1 />
 											{/if}
 											{group.title}
 										</div>
@@ -156,13 +163,14 @@
 								<details
 									class="menu-group"
 									bind:this={dropdowns[groupIndex]}
-									on:toggle={(e) => closeOtherMenus(e, groupIndex)}
+									ontoggle={(e) => closeOtherMenus(e, groupIndex)}
 								>
 									<summary bind:this={allDropdownSummaries[groupIndex]}
 										>{#if group.image}
 											<img src={group.image} class="pointer-events-none mr-2" alt={group.title} />
 										{:else if group.icon}
-											<svelte:component this={iconMap[group.icon]} />
+											{@const SvelteComponent_2 = iconMap[group.icon]}
+											<SvelteComponent_2 />
 										{/if}
 										{group.title}
 									</summary>
@@ -170,9 +178,10 @@
 										<!-- Submenu -->
 										{#each group.items as item}
 											<li>
-												<a href={item.link} on:click={closeMenuAfterClick}>
+												<a href={item.link} onclick={closeMenuAfterClick}>
 													{#if item.icon}
-														<svelte:component this={iconMap[item.icon]} />
+														{@const SvelteComponent_3 = iconMap[item.icon]}
+														<SvelteComponent_3 />
 													{/if}
 													{item.label}
 												</a>
@@ -189,7 +198,7 @@
 		</div>
 		<!-- Page content here -->
 		<div>
-			<slot />
+			{@render children?.()}
 		</div>
 	</div>
 	<div class="drawer-side z-10">
@@ -204,11 +213,12 @@
 					{#if !group.disabled}
 						<!-- Menu without children -->
 						<li>
-							<a href={group.link} on:click={closeSidebarAfterClick}>
+							<a href={group.link} onclick={closeSidebarAfterClick}>
 								{#if group.image}
 									<img src={group.image} class="pointer-events-none mr-2" alt={group.title} />
 								{:else if group.icon}
-									<svelte:component this={iconMap[group.icon]} />
+									{@const SvelteComponent_4 = iconMap[group.icon]}
+									<SvelteComponent_4 />
 								{/if}
 								{group.title}
 							</a>
@@ -221,7 +231,8 @@
 									{#if group.image}
 										<img src={group.image} class="pointer-events-none mr-2" alt={group.title} />
 									{:else if group.icon}
-										<svelte:component this={iconMap[group.icon]} />
+										{@const SvelteComponent_5 = iconMap[group.icon]}
+										<SvelteComponent_5 />
 									{/if}
 									{group.title}
 								</div>
@@ -236,7 +247,8 @@
 								>{#if group.image}
 									<img src={group.image} class="pointer-events-none ml-1 mr-1" alt={group.title} />
 								{:else if group.icon}
-									<svelte:component this={iconMap[group.icon]} />
+									{@const SvelteComponent_6 = iconMap[group.icon]}
+									<SvelteComponent_6 />
 								{/if}
 								{group.title}
 							</summary>
@@ -244,9 +256,10 @@
 								<!-- Submenu -->
 								{#each group.items as item}
 									<li>
-										<a href={item.link} on:click={closeSidebarAfterClick}>
+										<a href={item.link} onclick={closeSidebarAfterClick}>
 											{#if item.icon}
-												<svelte:component this={iconMap[item.icon]} />
+												{@const SvelteComponent_7 = iconMap[item.icon]}
+												<SvelteComponent_7 />
 											{/if}
 											{item.label}
 										</a>

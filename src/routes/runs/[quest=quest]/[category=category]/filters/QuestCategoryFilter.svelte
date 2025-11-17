@@ -4,7 +4,11 @@
 	import { createEventDispatcher } from 'svelte';
 	import { runFilters } from '../../../runFilter';
 
-	export let categories: NgsRunCategories[];
+	interface Props {
+		categories: NgsRunCategories[];
+	}
+
+	let { categories }: Props = $props();
 
 	const dispatch = createEventDispatcher();
 
@@ -13,7 +17,7 @@
 		{ label: 'Urgent Quest', value: NgsRunCategories.UrgentQuest },
 		{ label: 'Trigger', value: NgsRunCategories.Trigger },
 	];
-	$: selectableCategories = categoryOptions.filter((c) => categories.includes(c.value));
+	let selectableCategories = $derived(categoryOptions.filter((c) => categories.includes(c.value)));
 
 	const onCategoryChanged = (e: CustomEvent<NgsRunCategories>) => {
 		const newCategory = e.detail;

@@ -5,7 +5,11 @@
 	import WeaponSelector from './WeaponSelector.svelte';
 	import { partyForm } from '../forms/partyForm';
 
-	export let playerIndex: number;
+	interface Props {
+		playerIndex: number;
+	}
+
+	let { playerIndex }: Props = $props();
 </script>
 
 <div>
