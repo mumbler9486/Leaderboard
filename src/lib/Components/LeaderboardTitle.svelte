@@ -1,8 +1,12 @@
 <script lang="ts">
 	import Divider from './Divider.svelte';
 
-	export let category: string = 'No Assigned Title';
-	export let subCategory: string = '';
+	interface Props {
+		category?: string;
+		subCategory?: string;
+	}
+
+	let { category = 'No Assigned Title', subCategory = '' }: Props = $props();
 </script>
 
 <div

@@ -14,19 +14,24 @@
 	import DiscordIcon from '$lib/Components/Icons/DiscordIcon.svelte';
 	import { Share } from 'svelte-heros-v2';
 
-	export let player: PlayerProfile | undefined;
-	export let isLoading: boolean;
+	interface Props {
+		player: PlayerProfile | undefined;
+		isLoading: boolean;
+		actions?: import('svelte').Snippet;
+	}
+
+	let { player, isLoading, actions }: Props = $props();
 
 	const serverRegionMap: Record<string, string> = {
 		global: 'Global',
 		japan: 'Japan',
 	};
 
-	$: playerCountry = player?.flag
+	let playerCountry = $derived(player?.flag
 		? countriesMap[player.flag.toUpperCase()].name ?? '<Unknown>'
-		: undefined;
+		: undefined);
 
-	$: serverRegion = player?.server ? serverRegionMap[player.server] : '';
+	let serverRegion = $derived(player?.server ? serverRegionMap[player.server] : '');
 </script>
 
 <div class="container m-16 mx-auto flex grow rounded-md border border-secondary bg-base-100/75">
@@ -57,7 +62,7 @@
 						<span class="flexs text-2xl md:justify-start md:text-4xl">
 							<PlayerNameBadge player={mapPlayerToNamePref(player)} />
 						</span>
-						<slot name="actions" />
+						{@render actions?.()}
 					</div>
 					<div class="flex flex-col items-start place-self-stretch">
 						{#if player.preferredName !== PreferredName.Player}
@@ -131,7 +136,7 @@
 			<div class="flex flex-col place-content-center place-items-center gap-1">
 				Loading - Please Wait...<br /><progress
 					class="progress progress-primary w-56 border border-neutral-content/20"
-				/>
+				></progress>
 			</div>
 		{/if}
 	</div>

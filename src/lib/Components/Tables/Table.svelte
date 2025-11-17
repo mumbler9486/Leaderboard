@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts" module>
 	export interface TableHeader {
 		label: string;
 		tooltip?: string;
@@ -10,11 +10,25 @@
 <script lang="ts">
 	import InfoTooltip from '../InfoTooltip.svelte';
 
-	export let headers: TableHeader[];
-	export let zebra: boolean = false;
-	export let pinRows: boolean = false;
-	export let pinCols: boolean = false;
-	export let size: 'xs' | 'sm' | 'md' | 'lg' = 'md';
+	interface Props {
+		headers: TableHeader[];
+		zebra?: boolean;
+		pinRows?: boolean;
+		pinCols?: boolean;
+		size?: 'xs' | 'sm' | 'md' | 'lg';
+		children?: import('svelte').Snippet;
+		[key: string]: any
+	}
+
+	let {
+		headers,
+		zebra = false,
+		pinRows = false,
+		pinCols = false,
+		size = 'md',
+		children,
+		...rest
+	}: Props = $props();
 
 	const sizeClasses = {
 		xs: 'table-xs',
@@ -25,7 +39,7 @@
 </script>
 
 <table
-	class="table {sizeClasses[size]} {$$restProps.class}"
+	class="table {sizeClasses[size]} {rest.class}"
 	class:table-zebra={zebra}
 	class:table-pin-rows={pinRows}
 	class:table-pin-cols={pinCols}
@@ -47,6 +61,6 @@
 		</tr>
 	</thead>
 	<tbody>
-		<slot />
+		{@render children?.()}
 	</tbody>
 </table>

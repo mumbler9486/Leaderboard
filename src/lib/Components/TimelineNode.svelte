@@ -1,9 +1,21 @@
 <script lang="ts">
-	export let title: string;
-	export let time: string;
-	export let side: 'left' | 'right' = 'left';
-	export let fillLineStart: boolean = false;
-	export let current: boolean = false;
+	interface Props {
+		title: string;
+		time: string;
+		side?: 'left' | 'right';
+		fillLineStart?: boolean;
+		current?: boolean;
+		children?: import('svelte').Snippet;
+	}
+
+	let {
+		title,
+		time,
+		side = 'left',
+		fillLineStart = false,
+		current = false,
+		children
+	}: Props = $props();
 </script>
 
 <li>
@@ -28,7 +40,7 @@
 		{#if current}
 			<div class="italic text-info">Current patch</div>
 		{/if}
-		<slot />
+		{@render children?.()}
 	</div>
 	<hr class:bg-primary={fillLineStart} />
 </li>

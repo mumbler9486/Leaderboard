@@ -6,7 +6,7 @@
 	import { NgsQuests } from '$lib/types/api/runs/quests';
 	import { t } from 'svelte-i18n';
 
-	$: leaderboards = Object.values(
+	let leaderboards = $derived(Object.values(
 		allLeaderboards.reduce(
 			(prev, curr) => {
 				prev[curr.questRoute] = curr;
@@ -14,7 +14,7 @@
 			},
 			{} as Record<string, LeaderboardDefinition<any, any>>
 		)
-	);
+	));
 </script>
 
 <svelte:head>

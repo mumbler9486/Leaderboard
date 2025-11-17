@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { preventDefault } from 'svelte/legacy';
+
 	import Divider from '$lib/Components/Divider.svelte';
 	import ServerRegionSelector from './input/ServerRegionSelector.svelte';
 	import Alert from '$lib/Components/Alert.svelte';
@@ -21,15 +23,15 @@
 	import { lookupBoard, lookupBoardsByQuestRoute } from '$lib/leaderboard/boards';
 	import { page } from '$app/stores';
 
-	let submitting: boolean = false;
-	let serverErrorMessage: string | undefined = undefined;
-	let submitFinish = false;
+	let submitting: boolean = $state(false);
+	let serverErrorMessage: string | undefined = $state(undefined);
+	let submitFinish = $state(false);
 
-	let partySizeInput: PartySizeOptions;
+	let partySizeInput: PartySizeOptions = $state();
 
-	$: boards = lookupBoardsByQuestRoute($page.params.quest);
-	$: quest = boards[0].quest!;
-	$: currentBoard = lookupBoard(quest, $questForm.category) ?? boards[0];
+	let boards = $derived(lookupBoardsByQuestRoute($page.params.quest));
+	let quest = $derived(boards[0].quest!);
+	let currentBoard = $derived(lookupBoard(quest, $questForm.category) ?? boards[0]);
 
 	runForm.reset();
 	partyForm.setPartySize(1);
@@ -91,11 +93,11 @@
 			class="m-2 flex grow flex-col gap-1 rounded-md border border-secondary bg-base-100 p-4 px-8"
 		>
 			<div class="text-center text-4xl font-light">Submit a Run</div>
-			<div class="divider -mx-8" />
+			<div class="divider -mx-8"></div>
 			{#if submitFinish}
 				<SubmitFinish />
 			{:else}
-				<div id="submitForm" on:submit|preventDefault={submitRunToApi}>
+				<div id="submitForm" onsubmit={preventDefault(submitRunToApi)}>
 					<div class="m-2 gap-1 rounded-md border border-secondary bg-secondary/10 p-4 px-8">
 						<div class="text-center text-xl font-semibold">{$t(currentBoard.name)}</div>
 						<Divider />
@@ -139,14 +141,14 @@
 						<div class="flex flex-col place-content-center place-items-center gap-1">
 							Submitting - Please Wait...<br /><progress
 								class="progress progress-primary w-56 border border-neutral-content/20"
-							/>
+							></progress>
 						</div>
 					{/if}
 					<div class="grid grid-cols-1 text-center">
 						<button
 							disabled={submitting}
 							class="btn btn-outline btn-success mt-4 w-1/2 justify-self-center"
-							on:click={submitRunToApi}>Submit Run</button
+							onclick={submitRunToApi}>Submit Run</button
 						>
 					</div>
 				</div>

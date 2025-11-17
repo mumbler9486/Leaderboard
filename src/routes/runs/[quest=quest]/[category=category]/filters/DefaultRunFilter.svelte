@@ -18,20 +18,24 @@
 	import MasqDepthFilter from './MasqDepthFilter.svelte';
 	import PlanetfallStrikeFilter from './PlanetfallStrikeFilter.svelte';
 
-	export let solo: boolean;
-	export let categories: NgsRunCategories[];
-	export let boardInfo: LeaderboardDefinition<any, any>;
+	interface Props {
+		solo: boolean;
+		categories: NgsRunCategories[];
+		boardInfo: LeaderboardDefinition<any, any>;
+	}
 
-	$: isMasquerade =
-		boardInfo.quest === NgsQuests.ExtraDuels && boardInfo.category === NgsRunCategories.Masquerade;
-	$: $runFilters.rank = isMasquerade ? 'no_filter' : boardInfo.maxQuestRank.toString();
+	let { solo, categories, boardInfo }: Props = $props();
+
+	let isMasquerade =
+		$derived(boardInfo.quest === NgsQuests.ExtraDuels && boardInfo.category === NgsRunCategories.Masquerade);
+	let $runFilters.rank = $derived(isMasquerade ? 'no_filter' : boardInfo.maxQuestRank.toString());
 
 	interface FilterHandler {
 		filterComponent: ComponentType;
 		handler: (value: string | undefined) => void;
 	}
 
-	let filterSelection: string | undefined = undefined;
+	let filterSelection: string | undefined = $state(undefined);
 
 	const detailsFilterMap: Partial<Record<NgsQuests, FilterHandler>> = {
 		[NgsQuests.DfAegis]: {
@@ -44,7 +48,7 @@
 		},
 	};
 
-	$: detailsFilterComponent = detailsFilterMap[boardInfo.quest];
+	let detailsFilterComponent = $derived(detailsFilterMap[boardInfo.quest]);
 
 	const categoryChanged = (e: CustomEvent<NgsRunCategories>) => {
 		const newCategory = e.detail;
@@ -84,14 +88,15 @@
 				classFilter={solo}
 				on:applied={() => detailsFilterComponent?.handler(filterSelection)}
 			>
-				<svelte:fragment slot="additionalFilters">
-					{#if !!detailsFilterComponent}
-						<svelte:component
-							this={detailsFilterComponent.filterComponent}
-							bind:selection={filterSelection}
-						/>
-					{/if}
-				</svelte:fragment>
+				{#snippet additionalFilters()}
+							
+						{#if !!detailsFilterComponent}
+							<detailsFilterComponent.filterComponent
+								bind:selection={filterSelection}
+							/>
+						{/if}
+					
+							{/snippet}
 			</RunFilterModal>
 		</div>
 		<div class="m-1 md:flex-initial">

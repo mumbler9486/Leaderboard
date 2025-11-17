@@ -5,8 +5,12 @@
 	import AlertWarningIcon from './Icons/AlertWarningIcon.svelte';
 	import AlertErrorIcon from './Icons/AlertErrorIcon.svelte';
 
-	export let type: 'info' | 'success' | 'warning' | 'error' | 'default' = 'default';
-	export let message: string;
+	interface Props {
+		type?: 'info' | 'success' | 'warning' | 'error' | 'default';
+		message: string;
+	}
+
+	let { type = 'default', message }: Props = $props();
 
 	const alertIcons: Record<typeof type, ComponentType> = {
 		info: AlertInfoIcon,
@@ -15,6 +19,8 @@
 		error: AlertErrorIcon,
 		default: AlertInfoIcon,
 	};
+
+	const SvelteComponent = $derived(alertIcons[type]);
 </script>
 
 <div
@@ -25,6 +31,6 @@
 	class:alert-warning={type === 'warning'}
 	class:alert-error={type === 'error'}
 >
-	<svelte:component this={alertIcons[type]} />
+	<SvelteComponent />
 	<span>{message}</span>
 </div>

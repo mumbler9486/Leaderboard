@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run, preventDefault } from 'svelte/legacy';
+
 	import Modal from '$lib/Components/Modal.svelte';
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
 	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
@@ -11,22 +13,29 @@
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import { onMount } from 'svelte';
 
-	export let playerIndex: number;
-	export let playerNameSelection: string | undefined = $partyForm[playerIndex].playerName;
+	interface Props {
+		playerIndex: number;
+		playerNameSelection?: string | undefined;
+	}
 
-	let modal: Modal;
-	let searchInput: HTMLInputElement;
+	let { playerIndex, playerNameSelection = $bindable($partyForm[playerIndex].playerName) }: Props = $props();
+
+	let modal: Modal = $state();
+	let searchInput: HTMLInputElement = $state();
 
 	let error: string | undefined = undefined;
-	let searchTerms: string = '';
-	let playerNameChanged: boolean = true;
-	let firstSearched = false;
+	let searchTerms: string = $state('');
+	let playerNameChanged: boolean = $state(true);
+	let firstSearched = $state(false);
 
-	$: isModerator = $clientPrincipleStore?.userRoles.includes(UserRole.Moderator);
-	$: isPlayer1 = playerIndex == 0;
-	$: isAnonymousPlayer = playerNameChanged && (playerNameSelection?.length ?? -1 > 0);
+	let isModerator = $derived($clientPrincipleStore?.userRoles.includes(UserRole.Moderator));
+	let isPlayer1 = $derived(playerIndex == 0);
+	let isAnonymousPlayer = $derived(playerNameChanged && (playerNameSelection?.length ?? -1 > 0));
 
-	$: searchResultPromise = new Promise<PlayerSearchResult[]>((resolve) => resolve([]));
+	let searchResultPromise;
+	run(() => {
+		searchResultPromise = new Promise<PlayerSearchResult[]>((resolve) => resolve([]));
+	});
 
 	const playerSelected = (player: PlayerSearchResult) => {
 		playerNameSelection = player.playerName;
@@ -102,14 +111,14 @@
 				readonly={isPlayer1 && !isModerator}
 				class:player-exists={!playerNameChanged}
 				bind:value={playerNameSelection}
-				on:change={textChanged}
-				on:keypress={textChanged}
-				on:paste={textChanged}
-				on:input={textChanged}
+				onchange={textChanged}
+				onkeypress={textChanged}
+				onpaste={textChanged}
+				oninput={textChanged}
 			/>
 		</div>
 		<div class="indicator">
-			<button class="btn join-item" on:click={showModal} disabled={isPlayer1 && !isModerator}
+			<button class="btn join-item" onclick={showModal} disabled={isPlayer1 && !isModerator}
 				>Search</button
 			>
 		</div>
@@ -145,14 +154,14 @@
 					bind:this={searchInput}
 					class="input join-item input-bordered w-72"
 					placeholder="Enter a player name"
-					on:keyup={searchEntered}
+					onkeyup={searchEntered}
 					bind:value={searchTerms}
 				/>
 			</div>
 			<div class="indicator">
 				<button
 					class="btn join-item"
-					on:click|preventDefault={() => (searchResultPromise = searchName())}>Search</button
+					onclick={preventDefault(() => (searchResultPromise = searchName()))}>Search</button
 				>
 			</div>
 		</div>
@@ -180,7 +189,7 @@
 								<td><PlayerNameBadge showLink player={mapPlayerInfoNamePref(user.playerInfo)} /></td
 								>
 								<td class="float-right">
-									<button class="btn btn-neutral btn-sm" on:click={() => playerSelected(user)}>
+									<button class="btn btn-neutral btn-sm" onclick={() => playerSelected(user)}>
 										Select
 									</button>
 								</td>

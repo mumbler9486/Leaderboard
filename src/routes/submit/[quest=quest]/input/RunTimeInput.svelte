@@ -4,13 +4,17 @@
 	import Tooltip from '$lib/Components/Tooltip.svelte';
 	import { runForm } from '../forms/runForm';
 
-	export let maxMinutes: number = 59;
-	export let maxSeconds: number = 59;
+	interface Props {
+		maxMinutes?: number;
+		maxSeconds?: number;
+	}
 
-	let minutes = 0;
-	let seconds = 0;
+	let { maxMinutes = 59, maxSeconds = 59 }: Props = $props();
 
-	$: $runForm.time = { hours: 0, minutes, seconds };
+	let minutes = $state(0);
+	let seconds = $state(0);
+
+	let $runForm.time = $derived({ hours: 0, minutes, seconds });
 
 	export const resetForm = () => {
 		minutes = 0;

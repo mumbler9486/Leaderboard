@@ -2,9 +2,12 @@
 	import { DfAegisSupport } from '$lib/types/api/dfAegis/dfAegisSupports';
 	import FilterTag from './FilterTag.svelte';
 
-	export let support: string;
+	interface Props {
+		support: string;
+	}
 
-	$: supportInfo = supportMap[support];
+	let { support }: Props = $props();
+
 
 	const supportMap: Record<string, { label: string; icon: string }> = {
 		[DfAegisSupport.Ilma]: { label: 'Ilma', icon: '/icons/dfaegis/ilma.png' },
@@ -12,6 +15,7 @@
 		[DfAegisSupport.Nadereh]: { label: 'Nadereh', icon: '/icons/dfaegis/nadereh.png' },
 		[DfAegisSupport.Glen]: { label: 'Glen', icon: '/icons/dfaegis/glen.png' }
 	};
+	let supportInfo = $derived(supportMap[support]);
 </script>
 
 <FilterTag icon={supportInfo.icon} label={supportInfo.label} on:click />

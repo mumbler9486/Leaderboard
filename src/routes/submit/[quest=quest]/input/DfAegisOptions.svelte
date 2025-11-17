@@ -1,18 +1,12 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import Select from '$lib/Components/Select.svelte';
 	import { DfAegisSupport } from '$lib/types/api/dfAegis/dfAegisSupports';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import { dfAegisRunForm } from '../forms/dfAegisForm';
 	import { questForm } from '../forms/questForm';
 
-	$: {
-		if ($questForm.category === NgsRunCategories.Quest) {
-			$dfAegisRunForm.support = DfAegisSupport.None;
-		} else {
-			$dfAegisRunForm.support = DfAegisSupport.AinaManon;
-		}
-	}
-	$: supportOptions = supportOptionsDropdowns[$questForm.category] ?? [];
 
 	const supportOptionsDropdowns: Record<string, { label: string; value: string }[]> = {
 		[NgsRunCategories.Quest]: [{ label: 'N/A', value: DfAegisSupport.None }],
@@ -29,6 +23,14 @@
 			{ label: 'Glen', value: DfAegisSupport.Glen },
 		],
 	};
+	run(() => {
+		if ($questForm.category === NgsRunCategories.Quest) {
+			$dfAegisRunForm.support = DfAegisSupport.None;
+		} else {
+			$dfAegisRunForm.support = DfAegisSupport.AinaManon;
+		}
+	});
+	let supportOptions = $derived(supportOptionsDropdowns[$questForm.category] ?? []);
 </script>
 
 <div class="grid grid-cols-1 gap-2 md:grid-cols-4">

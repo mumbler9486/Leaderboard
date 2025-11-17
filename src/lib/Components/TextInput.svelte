@@ -1,12 +1,28 @@
 <script lang="ts">
-	export let value: string | undefined;
-	export let maxlength: number;
-	export let placeholder: string = '';
-	export let prompt: string | undefined = undefined;
-	export let error: string | undefined = undefined;
-	export let alt: string | undefined = undefined;
-	export let primary: boolean = false;
-	export let disabled: boolean = false;
+	import { createBubbler } from 'svelte/legacy';
+
+	const bubble = createBubbler();
+	interface Props {
+		value: string | undefined;
+		maxlength: number;
+		placeholder?: string;
+		prompt?: string | undefined;
+		error?: string | undefined;
+		alt?: string | undefined;
+		primary?: boolean;
+		disabled?: boolean;
+	}
+
+	let {
+		value = $bindable(),
+		maxlength,
+		placeholder = '',
+		prompt = undefined,
+		error = undefined,
+		alt = undefined,
+		primary = false,
+		disabled = false
+	}: Props = $props();
 </script>
 
 <label class="form-control w-full">
@@ -23,7 +39,7 @@
 		{placeholder}
 		{disabled}
 		bind:value
-		on:keyup
+		onkeyup={bubble('keyup')}
 	/>
 	{#if !!error && error.length > 0}
 		<div class="label">

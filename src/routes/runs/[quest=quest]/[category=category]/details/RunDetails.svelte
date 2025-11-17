@@ -8,19 +8,24 @@
 	import DuelDetails from './DuelDetails.svelte';
 	import MasqDetails from './MasqDetails.svelte';
 
-	export let boardInfo: LeaderboardDefinition<any, any>;
-	export let run: Run<unknown>;
+	interface Props {
+		boardInfo: LeaderboardDefinition<any, any>;
+		run: Run<unknown>;
+	}
+
+	let { boardInfo, run }: Props = $props();
 
 	const detailsMap: Partial<Record<NgsQuests, ComponentType>> = {
 		[NgsQuests.DfAegis]: DfAegisDetails,
 		[NgsQuests.Duels]: DuelDetails,
 	};
 
-	$: detailsComponent = detailsMap[boardInfo.quest];
+	let detailsComponent = $derived(detailsMap[boardInfo.quest]);
 </script>
 
 {#if boardInfo.quest === NgsQuests.ExtraDuels && boardInfo.category === NgsRunCategories.Masquerade}
 	<MasqDetails questRank={run.questRank} details={run.details} />
 {:else if !!detailsComponent}
-	<svelte:component this={detailsComponent} details={run.details} />
+	{@const SvelteComponent = detailsComponent}
+	<SvelteComponent details={run.details} />
 {/if}

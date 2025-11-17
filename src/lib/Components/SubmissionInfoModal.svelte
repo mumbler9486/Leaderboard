@@ -18,15 +18,15 @@
 
 	const dispatcher = createEventDispatcher();
 
-	let submission: Run | undefined;
+	let submission: Run | undefined = $state();
 
-	let modal: Modal;
-	let modNotes: string;
+	let modal: Modal = $state();
+	let modNotes: string = $state();
 
-	let processing = false;
-	let errorMessage = '';
+	let processing = $state(false);
+	let errorMessage = $state('');
 
-	$: canReview = submission?.submissionStatus === RunSubmissionStatus.AwaitingApproval;
+	let canReview = $derived(submission?.submissionStatus === RunSubmissionStatus.AwaitingApproval);
 
 	export const showModal = (viewRun: Run<any>) => {
 		submission = viewRun;
@@ -118,8 +118,8 @@
 		modal.close();
 	};
 
-	const videoPlayers: Record<string, VideoPlayer> = {};
-	$: videoPlayersList = Object.values(videoPlayers) ?? [];
+	const videoPlayers: Record<string, VideoPlayer> = $state({});
+	let videoPlayersList = $derived(Object.values(videoPlayers) ?? []);
 
 	const stopAllVideoPlayers = () => {
 		videoPlayersList.forEach((v) => v?.stop());
@@ -221,27 +221,29 @@
 			</div>
 		</div>
 	{/if}
-	<svelte:fragment slot="actions">
-		<Button
-			size="sm"
-			class="btn-outline btn-error"
-			disabled={!canReview || processing}
-			on:click={denyRun}
-			on:keyup={denyRun}>Deny</Button
-		>
-		<Button
-			size="sm"
-			class="btn-outline btn-success"
-			disabled={!canReview || processing}
-			on:click={approveRun}
-			on:keyup={approveRun}>Approve</Button
-		>
-		<Button
-			size="sm"
-			class="btn-outline btn-secondary"
-			on:click={closeModal}
-			on:keyup={closeModal}
-			disabled={processing}>Close</Button
-		>
-	</svelte:fragment>
+	{#snippet actions()}
+	
+			<Button
+				size="sm"
+				class="btn-outline btn-error"
+				disabled={!canReview || processing}
+				on:click={denyRun}
+				on:keyup={denyRun}>Deny</Button
+			>
+			<Button
+				size="sm"
+				class="btn-outline btn-success"
+				disabled={!canReview || processing}
+				on:click={approveRun}
+				on:keyup={approveRun}>Approve</Button
+			>
+			<Button
+				size="sm"
+				class="btn-outline btn-secondary"
+				on:click={closeModal}
+				on:keyup={closeModal}
+				disabled={processing}>Close</Button
+			>
+		
+	{/snippet}
 </Modal>

@@ -2,9 +2,12 @@
 	import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 	import FilterTag from './FilterTag.svelte';
 
-	export let ngsClass: NgsPlayerClass;
+	interface Props {
+		ngsClass: NgsPlayerClass;
+	}
 
-	$: classInfo = classMap[ngsClass] ?? classMap[NgsPlayerClass.Unknown];
+	let { ngsClass }: Props = $props();
+
 
 	const classMap: Record<NgsPlayerClass, any> = {
 		[NgsPlayerClass.Hunter]: { label: 'Hunter Only', icon: '/icons/class/class-hunter.png' },
@@ -19,6 +22,7 @@
 		[NgsPlayerClass.Slayer]: { label: 'Slayer Only', icon: '/icons/class/class-slayer.png' },
 		[NgsPlayerClass.Unknown]: { label: 'Unknown', icon: '/icons/class/class-unknown.png' }
 	};
+	let classInfo = $derived(classMap[ngsClass] ?? classMap[NgsPlayerClass.Unknown]);
 </script>
 
 <FilterTag icon={classInfo.icon} label={classInfo.label} on:click />

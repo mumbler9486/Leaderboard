@@ -11,10 +11,10 @@
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
 	import { ErrorCodes } from '$lib/types/api/error';
 
-	let characterName = '';
+	let characterName = $state('');
 
-	let isLoading = true;
-	let serverError: string | undefined = undefined;
+	let isLoading = $state(true);
+	let serverError: string | undefined = $state(undefined);
 
 	onMount(async () => {
 		isLoading = true;

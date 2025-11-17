@@ -1,13 +1,20 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 
-	export let avatar: string;
-	export let name: string;
-	export let status: string;
-	export let game: string | undefined = undefined;
+	interface Props {
+		avatar: string;
+		name: string;
+		status: string;
+		game?: string | undefined;
+	}
 
-	$: statusBadgeClass = getStatusClass(status);
-	$: isStreamerMode = getStreamerMode();
+	let {
+		avatar,
+		name,
+		status,
+		game = undefined
+	}: Props = $props();
+
 
 	const getStatusClass = (status: string) => {
 		switch (status) {
@@ -28,13 +35,15 @@
 		}
 		return false;
 	};
+	let statusBadgeClass = $derived(getStatusClass(status));
+	let isStreamerMode = $derived(getStreamerMode());
 </script>
 
 <div class="flex flex-row items-center gap-1">
 	<div class="indicator">
 		<span
 			class="indicator-center indicator-bottom badge indicator-item badge-xs h-2 w-4 border-2 border-base-100 {statusBadgeClass}"
-		/>
+		></span>
 		<div class="avatar">
 			<div class="w-4 rounded-full">
 				{#if isStreamerMode}

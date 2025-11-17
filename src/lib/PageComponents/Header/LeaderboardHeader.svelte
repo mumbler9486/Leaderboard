@@ -6,8 +6,73 @@
 	import { afterNavigate, goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Navbar, { type MenuGroup } from '$lib/PageComponents/Header/Navbar.svelte';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
 
-	$: staticMenuItems = [
+	let { children }: Props = $props();
+
+
+
+
+
+
+
+
+	let isLoadingLogin: boolean = $state(false);
+
+
+
+	const loadLogin = async () => {
+		isLoadingLogin = true;
+		const userInfo = await clientPrincipleStore.fetchClientPrinciple();
+		if (!userInfo) {
+			//User not logged in
+			isLoadingLogin = false;
+			return;
+		}
+
+		if (isNotCompleteAccountSetup && !accountSetupIgnoredPage) {
+			isLoadingLogin = false;
+			goto('/account-setup');
+			return;
+		}
+
+		await playerInfoStore.refreshInfo();
+		isLoadingLogin = false;
+	};
+
+
+	const accountSetupIgnorePaths = [
+		'/login',
+		'/logout',
+		'/account-setup',
+		'/privacy-policy',
+		'/tos',
+	];
+	afterNavigate(() => {
+		if (accountSetupIgnorePaths.some((path) => $page.url.pathname.startsWith(path))) {
+			return;
+		}
+		if (!$clientPrincipleStore) {
+			return;
+		}
+
+		const isFinishedAccountSetup =
+			$clientPrincipleStore.userRoles?.includes(UserRole.User) ?? false;
+		if (!isFinishedAccountSetup) {
+			console.log('User account not finished setup. Redirecting to account setup page.');
+			goto('/account-setup');
+		}
+	});
+
+	// This will load when this script is loaded
+	consentSelected.subscribe((consentSelection) => {
+		if (consentSelection && !isLoadingLogin) {
+			loadLogin();
+		}
+	});
+	let staticMenuItems = $derived([
 		{
 			title: 'Info',
 			icon: 'info-circle',
@@ -51,13 +116,20 @@
 				{ label: 'Planetfall Strike', link: '/runs/extra-duels/planetfall-strike' },
 			],
 		},
-	] satisfies MenuGroup[];
-
-	$: loginTitle = (() => {
+	] satisfies MenuGroup[]);
+	let isLoggedIn =
+		$derived($consentSelected &&
+		!!$clientPrincipleStore &&
+		($clientPrincipleStore.userRoles?.includes(UserRole.User) ?? false) &&
+		!!$playerInfoStore);
+	let loginTitle = $derived((() => {
 		if (isLoadingLogin) return 'Loading...';
 		return !isLoggedIn ? 'Login' : $playerInfoStore?.playerName ?? '<Unknown>';
-	})();
-	$: loginMenu = {
+	})());
+	let isNotCompleteAccountSetup =
+		$derived(!!$clientPrincipleStore &&
+		!($clientPrincipleStore?.userRoles?.includes(UserRole.User) ?? false));
+	let loginMenu = $derived({
 		title: loginTitle,
 		link: !isLoggedIn ? '/login' : undefined,
 		show: $consentSelected && !isNotCompleteAccountSetup,
@@ -70,113 +142,46 @@
 					{ label: 'Logout', link: '/logout', icon: 'logout' },
 			  ]
 			: [],
-	} satisfies MenuGroup;
-
-	$: consentMenu = {
+	} satisfies MenuGroup);
+	let consentMenu = $derived({
 		title: 'Login',
 		link: '/',
 		icon: 'login',
 		disabled: true,
 		disabledTooltip: 'Accept cookies to use Account features',
 		show: !$consentSelected,
-	} satisfies MenuGroup;
-
-	$: accountSetupMenu = {
+	} satisfies MenuGroup);
+	let accountSetupMenu = $derived({
 		title: $clientPrincipleStore?.userDetails ?? '<Unknown>',
 		show: isNotCompleteAccountSetup,
 		items: [{ label: 'Logout', link: '/logout', icon: 'box-arrow-right' }],
-	};
-
-	$: submitMenu = {
+	});
+	let submitMenu = $derived({
 		title: 'Submit a Run',
 		show: isLoggedIn,
 		icon: 'envelope-paper',
 		link: '/submit',
-	} satisfies MenuGroup;
-
-	$: moderationMenu = {
+	} satisfies MenuGroup);
+	let isMod = $derived($clientPrincipleStore?.userRoles?.includes(UserRole.Moderator) ?? false);
+	let moderationMenu = $derived({
 		title: 'Moderation',
 		show: isMod && isLoggedIn,
 		icon: 'shield',
 		link: '/moderator/submissions',
-	} satisfies MenuGroup;
-
-	$: dynamicMenuItems = [
+	} satisfies MenuGroup);
+	let dynamicMenuItems = $derived([
 		submitMenu,
 		moderationMenu,
 		consentMenu,
 		loginMenu,
 		accountSetupMenu,
-	] satisfies MenuGroup[];
-	$: headerMenuItems = [...staticMenuItems, ...dynamicMenuItems];
-
-	let isLoadingLogin: boolean = false;
-
-	$: isLoggedIn =
-		$consentSelected &&
-		!!$clientPrincipleStore &&
-		($clientPrincipleStore.userRoles?.includes(UserRole.User) ?? false) &&
-		!!$playerInfoStore;
-
-	$: isNotCompleteAccountSetup =
-		!!$clientPrincipleStore &&
-		!($clientPrincipleStore?.userRoles?.includes(UserRole.User) ?? false);
-	$: isMod = $clientPrincipleStore?.userRoles?.includes(UserRole.Moderator) ?? false;
-
-	const loadLogin = async () => {
-		isLoadingLogin = true;
-		const userInfo = await clientPrincipleStore.fetchClientPrinciple();
-		if (!userInfo) {
-			//User not logged in
-			isLoadingLogin = false;
-			return;
-		}
-
-		if (isNotCompleteAccountSetup && !accountSetupIgnoredPage) {
-			isLoadingLogin = false;
-			goto('/account-setup');
-			return;
-		}
-
-		await playerInfoStore.refreshInfo();
-		isLoadingLogin = false;
-	};
-
-	$: accountSetupIgnoredPage = accountSetupIgnorePaths.some((path) =>
+	] satisfies MenuGroup[]);
+	let headerMenuItems = $derived([...staticMenuItems, ...dynamicMenuItems]);
+	let accountSetupIgnoredPage = $derived(accountSetupIgnorePaths.some((path) =>
 		$page.url.pathname.startsWith(path)
-	);
-
-	const accountSetupIgnorePaths = [
-		'/login',
-		'/logout',
-		'/account-setup',
-		'/privacy-policy',
-		'/tos',
-	];
-	afterNavigate(() => {
-		if (accountSetupIgnorePaths.some((path) => $page.url.pathname.startsWith(path))) {
-			return;
-		}
-		if (!$clientPrincipleStore) {
-			return;
-		}
-
-		const isFinishedAccountSetup =
-			$clientPrincipleStore.userRoles?.includes(UserRole.User) ?? false;
-		if (!isFinishedAccountSetup) {
-			console.log('User account not finished setup. Redirecting to account setup page.');
-			goto('/account-setup');
-		}
-	});
-
-	// This will load when this script is loaded
-	consentSelected.subscribe((consentSelection) => {
-		if (consentSelection && !isLoadingLogin) {
-			loadLogin();
-		}
-	});
+	));
 </script>
 
 <Navbar groups={headerMenuItems}>
-	<slot />
+	{@render children?.()}
 </Navbar>

@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { patchCodeLabelMap } from '$lib/constants/patchCodes';
 
-	export let code: string;
+	interface Props {
+		code: string;
+	}
+
+	let { code }: Props = $props();
 </script>
 
 {patchCodeLabelMap[code] ?? 'Invalid Code'}

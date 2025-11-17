@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import WallpaperImage from '$lib/Components/WallpaperImage.svelte';
 	import { onMount } from 'svelte';
 
-	let wallpaper: Wallpaper | null = null;
-	let upcomingWallpaper: Wallpaper | null = null;
+	let wallpaper: Wallpaper | null = $state(null);
+	let upcomingWallpaper: Wallpaper | null = $state(null);
 
 	interface Wallpaper {
 		src: string;
@@ -65,7 +65,7 @@
 	});
 
 	const getWallpaperSet = () => {
-		const pathname = $page.url.pathname;
+		const pathname = page.url.pathname;
 		const wallpaperSet =
 			wallpaperSetsMap.find((w) => pathname.startsWith(w.route))?.wallpapers ?? backgrounds;
 

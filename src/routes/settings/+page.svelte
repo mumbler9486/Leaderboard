@@ -20,10 +20,10 @@
 			class="m-2 flex grow flex-col rounded-md border border-secondary bg-base-100 p-4 px-8 md:flex-col"
 		>
 			<div class="text-center text-4xl font-light">Settings</div>
-			<div class="divider -mx-8" />
+			<div class="divider -mx-8"></div>
 			<div class="text-center text-2xl font-medium">
 				User Settings
-				<div class="divider -mx-8" />
+				<div class="divider -mx-8"></div>
 			</div>
 			<span class="mb-4 text-center text-warning"
 				>User Settings can only be saved if Preference Cookies are enabled.</span
@@ -37,10 +37,10 @@
 				>We don't allow overly NSFW content, but this can help add peace of mind if you want to show
 				the leaderboard in live content!</span
 			>
-			<div class="divider -mx-8" />
+			<div class="divider -mx-8"></div>
 			<div class="text-center text-2xl font-medium">
 				Cookies
-				<div class="divider -mx-8" />
+				<div class="divider -mx-8"></div>
 			</div>
 			<div class="flex flex-col place-items-center">
 				<p class="mb-4 text-2xl font-light md:text-3xl">This website uses cookies.</p>
@@ -51,7 +51,7 @@
 					>Please review our Privacy Policy for more information.</a
 				>
 
-				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+				<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 				<div
 					tabindex="0"
 					class="collapse collapse-plus w-full rounded-box border border-neutral-content/50 bg-neutral"
@@ -78,7 +78,7 @@
 					<span class="label-text font-semibold">Enable Necessary Cookies</span>
 					<input type="checkbox" class="toggle toggle-primary" disabled checked />
 				</label>
-				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+				<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 				<div
 					tabindex="0"
 					class="collapse collapse-plus w-full rounded-box border border-neutral-content/50 bg-neutral"
@@ -107,7 +107,7 @@
 					<span class="label-text font-semibold">Enable Preference Cookies</span>
 					<input type="checkbox" class="toggle toggle-primary" bind:checked={$consentPreferences} />
 				</label>
-				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+				<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 				<div
 					tabindex="0"
 					class="collapse collapse-plus w-full rounded-box border border-neutral-content/50 bg-neutral"
@@ -158,14 +158,14 @@
 				</label>
 				<button
 					class="btn btn-warning btn-sm mb-4 rounded-none md:btn-md"
-					on:click={() => {
+					onclick={() => {
 						$consentSelected = true;
 					}}>Update Cookie Settings</button
 				>
 
 				<p class="font-semibold">We do NOT share your personal information.</p>
 			</div>
-			<div class="divider" />
+			<div class="divider"></div>
 		</div>
 	</div>
 </div>

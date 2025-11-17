@@ -2,7 +2,11 @@
 	import type { Trophy } from '$lib/types/api/players/trophy';
 	import TrophyBadge from './TrophyBadge.svelte';
 
-	export let trophies: string[];
+	interface Props {
+		trophies: string[];
+	}
+
+	let { trophies }: Props = $props();
 
 	const unknownTrophy: Trophy = {
 		name: '<Unknown>',
@@ -192,7 +196,7 @@
 		}
 	};
 
-	$: mappedTrophies = trophies.map((t) => {
+	let mappedTrophies = $derived(trophies.map((t) => {
 		const trophy = trophyMap[t];
 		if (!trophy) {
 			console.warn(`Unknown trophy ${t}`);
@@ -200,7 +204,7 @@
 		}
 
 		return trophy;
-	});
+	}));
 </script>
 
 <div class="flex gap-4">

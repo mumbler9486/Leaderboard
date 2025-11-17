@@ -1,12 +1,22 @@
 <script lang="ts">
 	import Divider from '$lib/Components/Divider.svelte';
 
-	export let publicationDateIso: string; // UTC time, iso format
-	export let lastUpdatedIso: string | undefined = undefined; // UTC time, iso format
-	export let title: string;
+	interface Props {
+		publicationDateIso: string;
+		lastUpdatedIso?: string | undefined;
+		title: string;
+		children?: import('svelte').Snippet;
+	}
 
-	$: publicationDateObj = new Date(publicationDateIso);
-	$: lastUpdatedObj = new Date(lastUpdatedIso ?? '');
+	let {
+		publicationDateIso,
+		lastUpdatedIso = undefined,
+		title,
+		children
+	}: Props = $props();
+
+	let publicationDateObj = $derived(new Date(publicationDateIso));
+	let lastUpdatedObj = $derived(new Date(lastUpdatedIso ?? ''));
 </script>
 
 <div>
@@ -22,7 +32,7 @@
 			{/if}
 		</em>
 	</p>
-	<slot>
+	{#if children}{@render children()}{:else}
 		<em>No content</em>
-	</slot>
+	{/if}
 </div>

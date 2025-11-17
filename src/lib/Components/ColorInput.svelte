@@ -1,7 +1,11 @@
 <script lang="ts">
-	export let prompt: string | undefined = undefined;
-	export let error: string | undefined = undefined;
-	export let value: string = '#ffffff';
+	interface Props {
+		prompt?: string | undefined;
+		error?: string | undefined;
+		value?: string;
+	}
+
+	let { prompt = undefined, error = undefined, value = $bindable('#ffffff') }: Props = $props();
 </script>
 
 <label class="form-control w-full">

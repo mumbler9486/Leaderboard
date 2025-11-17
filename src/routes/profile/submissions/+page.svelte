@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import LoadingBar from '$lib/Components/LoadingBar.svelte';
 	import LeaderboardTitle from '$lib/Components/LeaderboardTitle.svelte';
 	import { t } from 'svelte-i18n';
@@ -13,9 +15,9 @@
 	import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
 	import DiscordContact from '$lib/Components/DiscordContact.svelte';
 
-	let submissionCount = -1;
-	let runCount = -1;
-	let showSubmissions = true;
+	let submissionCount = $state(-1);
+	let runCount = $state(-1);
+	let showSubmissions = $state(true);
 
 	const fetchRuns = (): Promise<Run<unknown>[]> => {
 		if (showSubmissions) {
@@ -77,7 +79,10 @@
 		return [];
 	};
 
-	$: submissionPromise = fetchRuns();
+	let submissionPromise;
+	run(() => {
+		submissionPromise = fetchRuns();
+	});
 
 	const refreshRuns = () => {
 		submissionPromise = fetchRuns();

@@ -25,11 +25,6 @@
 		pageTitle: string;
 	}
 
-	$: boardInfo = lookupBoardByRoute($page.params.quest, $page.params.category)!;
-	$: categories = lookupBoardsByQuest(quest).map((b) => b.category);
-	$: quest = boardInfo.quest;
-	$: category = boardInfo.category;
-	$: $runFilters.category = category;
 
 	const partySizeInfoMap: Record<PartySize, PartySizeInfo> = {
 		[PartySize.Solo]: {
@@ -54,14 +49,7 @@
 		},
 	} satisfies Record<string, PartySizeInfo>;
 
-	$: partySize = parsePartySize($runFilters.partySize) ?? PartySize.Solo;
-	$: isSolo = partySize === PartySize.Solo;
-	$: partyInfo = partySizeInfoMap[partySize];
 
-	$: partyPageTitle = partyInfo.pageTitle;
-	$: boardPageTitle = $t(boardInfo.name);
-	$: pageTitle = `${$t('shared.siteName')} | ${boardPageTitle} - ${partyPageTitle}`;
-	$: partySizeTitle = partyInfo.name;
 
 	const filterDef: UrlQueryParamRule<RunSearchFilters>[] = [
 		{ name: 'partySize', defaultValue: 'solo' },
@@ -90,6 +78,18 @@
 		return (await fetchGetApi<Run<unknown>[]>(basePath, copyQueryParams(allFilters))) ?? [];
 	};
 	onDestroy(cleanup);
+	let boardInfo = $derived(lookupBoardByRoute($page.params.quest, $page.params.category)!);
+	let quest = $derived(boardInfo.quest);
+	let categories = $derived(lookupBoardsByQuest(quest).map((b) => b.category));
+	let category = $derived(boardInfo.category);
+	let $runFilters.category = $derived(category);
+	let partySize = $derived(parsePartySize($runFilters.partySize) ?? PartySize.Solo);
+	let isSolo = $derived(partySize === PartySize.Solo);
+	let partyInfo = $derived(partySizeInfoMap[partySize]);
+	let partyPageTitle = $derived(partyInfo.pageTitle);
+	let boardPageTitle = $derived($t(boardInfo.name));
+	let pageTitle = $derived(`${$t('shared.siteName')} | ${boardPageTitle} - ${partyPageTitle}`);
+	let partySizeTitle = $derived(partyInfo.name);
 </script>
 
 <svelte:head>
@@ -109,9 +109,11 @@
 			{:then runs}
 				<div class="-mx-6 md:mx-0">
 					<RunsTable {runs} solosOnly={isSolo} detailsColumn={boardInfo.detailsTableHeader}>
-						<svelte:fragment slot="detailsItem" let:run>
-							<RunDetails {boardInfo} {run} />
-						</svelte:fragment>
+						{#snippet detailsItem({ run })}
+											
+								<RunDetails {boardInfo} {run} />
+							
+											{/snippet}
 					</RunsTable>
 				</div>
 			{:catch err}

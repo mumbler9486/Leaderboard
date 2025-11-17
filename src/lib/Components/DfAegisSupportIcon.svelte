@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { DfAegisSupport } from '$lib/types/api/dfAegis/dfAegisSupports';
 
-	export let support: DfAegisSupport;
+	interface Props {
+		support: DfAegisSupport;
+	}
+
+	let { support }: Props = $props();
 
 	const supportMap: { [support: string]: { label: string; icon: string } } = {
 		[DfAegisSupport.Ilma]: { label: 'Ilma', icon: 'ilma.png' },
@@ -11,7 +15,7 @@
 		[DfAegisSupport.None]: { label: 'N/A', icon: '' },
 	};
 
-	$: supportInfo = supportMap[support];
+	let supportInfo = $derived(supportMap[support]);
 </script>
 
 {#if !support}
