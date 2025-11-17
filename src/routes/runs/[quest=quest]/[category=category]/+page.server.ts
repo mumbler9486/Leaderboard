@@ -5,6 +5,6 @@ export function load({ params }) {
 	const boardInfo = lookupBoardByRoute(params.quest, params.category)!;
 
 	if (!boardInfo) {
-		throw error(404, 'Unknown leaderboard');
+		error(404, 'Unknown leaderboard');
 	}
 }
