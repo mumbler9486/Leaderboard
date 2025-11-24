@@ -1,3 +1,9 @@
 {
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "my-worker",
+	"main": "src/index.js",
 	"compatibility_flags": ["nodejs_compat"],
+	"workers_dev": false,
+	"kv_namespaces": [],
+	"env": {},
 }
