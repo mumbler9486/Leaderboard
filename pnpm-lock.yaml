@@ -7,22 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      dotenv:
-        specifier: ^16.3.1
-        version: 16.6.1
-      mssql:
-        specifier: ^10.0.1
-        version: 10.0.4
-      svelte-i18n:
-        specifier: ^4.0.0
-        version: 4.0.1(svelte@5.43.8)
-      svelte-local-storage-store:
-        specifier: ^0.6.4
-        version: 0.6.4(svelte@5.43.8)
-      yup:
-        specifier: ^1.3.2
-        version: 1.7.1
     devDependencies:
       '@sveltejs/adapter-cloudflare':
         specifier: ^7.2.4
@@ -48,8 +32,14 @@ importers:
       daisyui:
         specifier: ^5.0.43
         version: 5.0.43
+      dotenv:
+        specifier: ^16.3.1
+        version: 16.6.1
+      mssql:
+        specifier: ^10.0.1
+        version: 10.0.4
       msw:
-        specifier: ^2.12.2
+        specifier: ^2.4.9
         version: 2.12.2(@types/node@24.10.1)(typescript@5.9.3)
       prettier:
         specifier: ^3.6.2
@@ -75,6 +65,12 @@ importers:
       svelte-heros-v2:
         specifier: 2.0.1
         version: 2.0.1(svelte@5.43.8)
+      svelte-i18n:
+        specifier: ^4.0.0
+        version: 4.0.1(svelte@5.43.8)
+      svelte-local-storage-store:
+        specifier: ^0.6.4
+        version: 0.6.4(svelte@5.43.8)
       tailwindcss:
         specifier: ^4.1.17
         version: 4.1.17
@@ -87,6 +83,9 @@ importers:
       vitest:
         specifier: 3.2.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(msw@2.12.2(@types/node@24.10.1)(typescript@5.9.3))
+      yup:
+        specifier: ^1.3.2
+        version: 1.7.1
 
 packages:
 

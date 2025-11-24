@@ -1,9 +1,9 @@
 {
-	"name": "leaderboard",
+	"name": "pso2-ngs-leaderboard",
 	"version": "0.0.1",
 	"private": true,
 	"engines": {
-		"node": "22"
+		"node": ">=22"
 	},
 	"scripts": {
 		"dev:mock": "cross-env VITE_MSW_ENABLED=true vite dev",
@@ -23,6 +23,8 @@
 		"@types/mssql": "^9.1.4",
 		"cross-env": "^7.0.3",
 		"daisyui": "^5.0.43",
+		"dotenv": "^16.3.1",
+		"mssql": "^10.0.1",
 		"msw": "^2.4.9",
 		"prettier": "^3.6.2",
 		"prettier-plugin-svelte": "^3.4.0",
@@ -32,19 +34,15 @@
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
 		"svelte-heros-v2": "2.0.1",
+		"svelte-i18n": "^4.0.0",
+		"svelte-local-storage-store": "^0.6.4",
 		"tailwindcss": "^4.1.17",
 		"typescript": "^5.9.3",
 		"vite": "^6.3.5",
-		"vitest": "3.2.4"
-	},
-	"type": "module",
-	"dependencies": {
-		"dotenv": "^16.3.1",
-		"mssql": "^10.0.1",
-		"svelte-i18n": "^4.0.0",
-		"svelte-local-storage-store": "^0.6.4",
+		"vitest": "3.2.4",
 		"yup": "^1.3.2"
 	},
+	"type": "module",
 	"msw": {
 		"workerDirectory": "static"
 	}

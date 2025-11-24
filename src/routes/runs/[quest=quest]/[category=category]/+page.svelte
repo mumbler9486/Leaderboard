@@ -25,7 +25,6 @@
 		pageTitle: string;
 	}
 
-
 	const partySizeInfoMap: Record<PartySize, PartySizeInfo> = {
 		[PartySize.Solo]: {
 			filterSize: 1,
@@ -48,8 +47,6 @@
 			pageTitle: $t('common.playerCount.mpa'),
 		},
 	} satisfies Record<string, PartySizeInfo>;
-
-
 
 	const filterDef: UrlQueryParamRule<RunSearchFilters>[] = [
 		{ name: 'partySize', defaultValue: 'solo' },
@@ -82,7 +79,7 @@
 	let quest = $derived(boardInfo.quest);
 	let categories = $derived(lookupBoardsByQuest(quest).map((b) => b.category));
 	let category = $derived(boardInfo.category);
-	let $runFilters.category = $derived(category);
+	// let $runFilters.category = $derived(category);
 	let partySize = $derived(parsePartySize($runFilters.partySize) ?? PartySize.Solo);
 	let isSolo = $derived(partySize === PartySize.Solo);
 	let partyInfo = $derived(partySizeInfoMap[partySize]);
@@ -99,9 +96,9 @@
 <LeaderboardTitle category={$t(boardInfo.name)} subCategory={partySizeTitle} />
 
 <div class="grow content-center">
-	<div class="container mx-auto mb-16 mt-2 rounded-md border border-secondary bg-base-100/75">
+	<div class="border-secondary bg-base-100/75 container mx-auto mt-2 mb-16 rounded-md border">
 		<div
-			class="m-2 space-y-2 overflow-x-scroll rounded-md border border-secondary bg-base-100 p-4 px-8"
+			class="border-secondary bg-base-100 m-2 space-y-2 overflow-x-scroll rounded-md border p-4 px-8"
 		>
 			<DefaultRunFilter solo={isSolo} {boardInfo} {categories} />
 			{#await fetchRuns($runFilters)}
@@ -110,10 +107,8 @@
 				<div class="-mx-6 md:mx-0">
 					<RunsTable {runs} solosOnly={isSolo} detailsColumn={boardInfo.detailsTableHeader}>
 						{#snippet detailsItem({ run })}
-											
-								<RunDetails {boardInfo} {run} />
-							
-											{/snippet}
+							<RunDetails {boardInfo} {run} />
+						{/snippet}
 					</RunsTable>
 				</div>
 			{:catch err}

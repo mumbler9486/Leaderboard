@@ -14,7 +14,7 @@
 	let minutes = $state(0);
 	let seconds = $state(0);
 
-	let $runForm.time = $derived({ hours: 0, minutes, seconds });
+	// let $runForm.time = $derived({ hours: 0, minutes, seconds });
 
 	export const resetForm = () => {
 		minutes = 0;
@@ -40,7 +40,7 @@
 			maxlength="2"
 			bind:value={minutes}
 		/>
-		<span class="border-fallback join-item select-none border-b border-t border-primary px-4 pt-2"
+		<span class="border-fallback join-item border-primary border-t border-b px-4 pt-2 select-none"
 			>:</span
 		>
 		<input
@@ -53,7 +53,7 @@
 			bind:value={seconds}
 		/>
 		<span
-			class="border-fallback join-item select-none border border-primary bg-neutral px-4 pt-2 text-center"
+			class="border-fallback join-item border-primary bg-neutral border px-4 pt-2 text-center select-none"
 			><Tooltip left tip="Round your time down to nearest second">.000</Tooltip></span
 		>
 	</label>

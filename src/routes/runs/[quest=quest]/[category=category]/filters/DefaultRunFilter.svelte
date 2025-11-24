@@ -26,9 +26,10 @@
 
 	let { solo, categories, boardInfo }: Props = $props();
 
-	let isMasquerade =
-		$derived(boardInfo.quest === NgsQuests.ExtraDuels && boardInfo.category === NgsRunCategories.Masquerade);
-	let $runFilters.rank = $derived(isMasquerade ? 'no_filter' : boardInfo.maxQuestRank.toString());
+	let isMasquerade = $derived(
+		boardInfo.quest === NgsQuests.ExtraDuels && boardInfo.category === NgsRunCategories.Masquerade
+	);
+	// let $runFilters.rank = $derived(isMasquerade ? 'no_filter' : boardInfo.maxQuestRank.toString());
 
 	interface FilterHandler {
 		filterComponent: ComponentType;
@@ -63,7 +64,7 @@
 </script>
 
 <div
-	class="-mx-6 flex grow flex-col rounded-md border border-secondary bg-secondary/25 p-1 md:mx-0"
+	class="border-secondary bg-secondary/25 -mx-6 flex grow flex-col rounded-md border p-1 md:mx-0"
 >
 	<div class="flex flex-row flex-wrap place-content-center items-stretch gap-2">
 		<div class="flex w-full flex-wrap gap-4 px-4 py-2 lg:gap-8">
@@ -89,14 +90,10 @@
 				on:applied={() => detailsFilterComponent?.handler(filterSelection)}
 			>
 				{#snippet additionalFilters()}
-							
-						{#if !!detailsFilterComponent}
-							<detailsFilterComponent.filterComponent
-								bind:selection={filterSelection}
-							/>
-						{/if}
-					
-							{/snippet}
+					{#if !!detailsFilterComponent}
+						<detailsFilterComponent.filterComponent bind:selection={filterSelection} />
+					{/if}
+				{/snippet}
 			</RunFilterModal>
 		</div>
 		<div class="m-1 md:flex-initial">

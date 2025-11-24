@@ -103,18 +103,21 @@
 		},
 	};
 
-	let selectableMainClasses = $derived(Object.values(classOptions).map((c) => ({
-		...c,
-		disabled: selectedSubClass == c.value,
-	})));
-	let selectableSubClasses = $derived(Object.values(classOptions).map((c) => ({
-		...c,
-		disabled: selectedMainClass == c.value,
-	})));
+	let selectableMainClasses = $derived(
+		Object.values(classOptions).map((c) => ({
+			...c,
+			disabled: selectedSubClass == c.value,
+		}))
+	);
+	let selectableSubClasses = $derived(
+		Object.values(classOptions).map((c) => ({
+			...c,
+			disabled: selectedMainClass == c.value,
+		}))
+	);
 	let selectableStyleClasses = $derived(Object.values(styleOptions));
-	let $partyForm[playerIndex].mainClass = $derived(selectedMainClass);
-	let $partyForm[playerIndex].subClass = $derived(selectedSubClass);
-	
+	// let $partyForm[playerIndex].mainClass = $derived(selectedMainClass);
+	// let $partyForm[playerIndex].subClass = $derived(selectedSubClass);
 </script>
 
 <div class="form-control">
