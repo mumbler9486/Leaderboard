@@ -22,7 +22,6 @@
 		"@testing-library/svelte": "^5.2.9",
 		"cross-env": "^7.0.3",
 		"daisyui": "^5.0.43",
-		"dotenv": "^16.3.1",
 		"msw": "^2.4.9",
 		"prettier": "^3.6.2",
 		"prettier-plugin-svelte": "^3.4.0",

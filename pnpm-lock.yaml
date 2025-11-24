@@ -29,9 +29,6 @@ importers:
       daisyui:
         specifier: ^5.0.43
         version: 5.5.5
-      dotenv:
-        specifier: ^16.3.1
-        version: 16.6.1
       msw:
         specifier: ^2.4.9
         version: 2.12.3(@types/node@24.10.1)(typescript@5.9.3)
@@ -1285,10 +1282,6 @@ packages:
 
   dom-accessibility-api@0.5.16:
     resolution: {integrity: sha512-X7BJ2yElsnOJ30pZF4uIIDfBEVgF4XEBxL9Bxhy6dnrm5hkzqmsWHGTiHqRiITNhMyFLyAiWndIJP7Z1NTteDg==}
-
-  dotenv@16.6.1:
-    resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
-    engines: {node: '>=12'}
 
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
@@ -3047,8 +3040,6 @@ snapshots:
   devalue@5.5.0: {}
 
   dom-accessibility-api@0.5.16: {}
-
-  dotenv@16.6.1: {}
 
   eastasianwidth@0.2.0: {}
 

@@ -15,6 +15,16 @@
 	"observability": {
 		"enabled": true,
 	},
+	"vars": {
+		"DB_SERVER": "localhost",
+		"DB_PORT": "6969",
+		"DB_NAME": "pso2_leaderboard_local",
+		"DB_USER": "sa",
+		"DB_PASSWORD": "local_dev_password5#",
+		"SITE_DOMAIN": "https://leaderboard.pso2central.com",
+		"RUN_APPROVAL_DISCORD_WEBHOOK_URL": "",
+		"RUN_SUBMITTED_DISCORD_WEBHOOK_URL": "",
+	},
 	/**
 	 * Smart Placement
 	 * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
