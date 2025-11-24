@@ -1,4 +1,4 @@
-import sql, { type Request } from 'mssql';
+// import sql, { type Request } from 'mssql';
 import type { RunPartyDbModel } from '../types/db/runs/runParty';
 import type { RunDbModel } from '../types/db/runs/run';
 import { fields } from '../util/nameof';
@@ -86,17 +86,17 @@ const RunQuery = `
 `;
 
 export const getRunById = async (
-	request: Request,
+	request: any,
 	runId: number,
 	approved: boolean = true
 ): Promise<GetRunDbModel[] | undefined> => {
 	let query = RunQuery;
 
 	query += ` AND run.${runsDbFields.SubmissionStatus} = @approved`;
-	request = request.input('approved', sql.TinyInt, approved);
+	request = request.input('approved', 1, approved);
 
 	query += ` AND run.${runsDbFields.Id} = @runId`;
-	request = request.input('runId', sql.Int, runId);
+	request = request.input('runId', 1, runId);
 
 	const results = await request.query(query);
 	const runs = results.recordset as GetRunDbModel[];
@@ -104,7 +104,7 @@ export const getRunById = async (
 };
 
 export const getRuns = async (
-	request: Request,
+	request: any,
 	userFilters: RunsSearchFilter,
 	serverFilters: ServerSearchFilter,
 	attributeFilters?: RunAttributeFilter[]
@@ -114,13 +114,13 @@ export const getRuns = async (
 	// Build filters
 	if (serverFilters.submitterId) {
 		query += ` AND run.${runsDbFields.SubmitterId} = @submitterId`;
-		request = request.input('submitterId', sql.Int, serverFilters.submitterId);
+		request = request.input('submitterId', 1, serverFilters.submitterId);
 	}
 
 	if (serverFilters.submissionStatus !== undefined && serverFilters.submissionStatus !== null) {
 		const approvedInt = serverFilters.submissionStatus ? 1 : 0;
 		query += ` AND run.${runsDbFields.SubmissionStatus} = @approved`;
-		request = request.input('approved', sql.TinyInt, approvedInt);
+		request = request.input('approved', 1, approvedInt);
 	}
 
 	if (userFilters.userId) {
@@ -129,33 +129,33 @@ export const getRuns = async (
 			FROM RunParty
 			WHERE ${runPartyDbFields.PlayerId} = @participatingPlayerId
 		)`;
-		request = request.input('participatingPlayerId', sql.Int, userFilters.userId);
+		request = request.input('participatingPlayerId', 1, userFilters.userId);
 	}
 
 	if (userFilters.class) {
 		const mappedClass = userFilters.class;
 		query += ` AND run.${runsDbFields.PartySize} = 1 AND rp.${runPartyDbFields.MainClass} = @class`;
-		request = request.input('class', sql.NVarChar, mappedClass);
+		request = request.input('class', 1, mappedClass);
 	}
 
 	if (userFilters.quest) {
 		query += ` AND run.${runsDbFields.Quest} = @quest`;
-		request = request.input('quest', sql.NVarChar, userFilters.quest);
+		request = request.input('quest', 1, userFilters.quest);
 	}
 
 	if (userFilters.category) {
 		query += ` AND run.${runsDbFields.Category} = @category`;
-		request = request.input('category', sql.NVarChar, userFilters.category);
+		request = request.input('category', 1, userFilters.category);
 	}
 
 	if (userFilters.rank) {
 		query += ` AND run.${runsDbFields.QuestRank} = @rank`;
-		request = request.input('rank', sql.TinyInt, userFilters.rank);
+		request = request.input('rank', 1, userFilters.rank);
 	}
 
 	if (userFilters.server) {
 		query += ` AND run.${runsDbFields.ServerRegion} = @server`;
-		request = request.input('server', sql.NVarChar, userFilters.server);
+		request = request.input('server', 1, userFilters.server);
 	}
 
 	if (!!attributeFilters && attributeFilters.length > 0) {
@@ -172,14 +172,14 @@ export const getRuns = async (
 		if (userFilters.partySize >= 3 && userFilters.partySize <= 4) {
 			//TODO temporary support for 3-4 player runs, future provide enums
 			query += ` AND run.${runsDbFields.PartySize} >= 3 AND run.${runsDbFields.PartySize} <= 4`;
-			request = request.input('partySize', sql.TinyInt, userFilters.partySize);
+			request = request.input('partySize', 1, userFilters.partySize);
 		} else if (userFilters.partySize >= 5 && userFilters.partySize <= 8) {
 			//TODO temporary support for 5-8 player runs, future provide enums
 			query += ` AND run.${runsDbFields.PartySize} >= 5 AND run.${runsDbFields.PartySize} <= 8`;
-			request = request.input('partySize', sql.TinyInt, userFilters.partySize);
+			request = request.input('partySize', 1, userFilters.partySize);
 		} else {
 			query += ` AND run.${runsDbFields.PartySize} = @partySize`;
-			request = request.input('partySize', sql.TinyInt, userFilters.partySize);
+			request = request.input('partySize', 1, userFilters.partySize);
 		}
 	}
 
@@ -209,8 +209,8 @@ export const getRuns = async (
 
 	query += ` OFFSET 0 ROWS`;
 
-	request = request.input('groupNumLower', sql.Int, skipAmount);
-	request = request.input('groupNumUpper', sql.Int, skipAmount + takeRange - 1);
+	request = request.input('groupNumLower', 1, skipAmount);
+	request = request.input('groupNumUpper', 1, skipAmount + takeRange - 1);
 
 	const limitQueryFilter = ` 
     AND runSearchRanked.${getRunDbFields.RunMetaGroupNum} BETWEEN @groupNumLower AND @groupNumUpper`;
@@ -233,7 +233,7 @@ export const getRuns = async (
 };
 
 export const insertRun = async (
-	transaction: sql.Transaction,
+	transaction: any,
 	game: Game,
 	run: RunSubmissionRequest,
 	submitterId: number
@@ -246,21 +246,21 @@ export const insertRun = async (
 
 	const serializedRunTime = serializeTimeToSqlTime(run.time);
 	const insertRequest = request
-		.input('submitterId', sql.Int, submitterId)
-		.input('game', sql.NVarChar(3), game)
-		.input('quest', sql.NVarChar(50), run.quest)
-		.input('category', sql.NVarChar(30), run.category)
-		.input('serverRegion', sql.NVarChar(10), serverRegion)
-		.input('partySize', sql.TinyInt, run.party.length)
-		.input('patch', sql.NVarChar(30), run.patch)
-		.input('rank', sql.TinyInt, run.questRank)
-		.input('runTime', sql.NVarChar, serializedRunTime)
-		.input('notes', sql.NVarChar(500), run.notes)
-		.input('submissionDate', sql.DateTime2, new Date())
-		.input('submissionStatus', sql.TinyInt, RunSubmissionStatus.AwaitingApproval)
-		.input('dateApproved', sql.DateTime2, null)
-		.input('modNotes', sql.NVarChar(500), null)
-		.input('attributes', sql.NVarChar(4000), runDetails);
+		.input('submitterId', 1, submitterId)
+		.input('game', 3, game) //Nvarchar
+		.input('quest', 50, run.quest) //Nvarchar
+		.input('category', 30, run.category) //Nvarchar
+		.input('serverRegion', 10, serverRegion) //Nvarchar
+		.input('partySize', 1, run.party.length)
+		.input('patch', 30, run.patch) //Nvarchar
+		.input('rank', 1, run.questRank)
+		.input('runTime', 1, serializedRunTime)
+		.input('notes', 500, run.notes) //Nvarchar
+		.input('submissionDate', 1, new Date())
+		.input('submissionStatus', 1, RunSubmissionStatus.AwaitingApproval)
+		.input('dateApproved', 1, null)
+		.input('modNotes', 500, null) //Nvarchar
+		.input('attributes', 4000, runDetails); //Nvarchar
 
 	const runInsertResult = await insertRequest.query(`
     INSERT INTO dbo.Runs (
@@ -307,11 +307,7 @@ export const insertRun = async (
 	await insertRunParty(request, insertedRunId, run.party);
 };
 
-const insertRunParty = async (
-	request: Request,
-	runId: number,
-	partyMembers: RunSubmissionParty[]
-) => {
+const insertRunParty = async (request: any, runId: number, partyMembers: RunSubmissionParty[]) => {
 	let partyInsertRequest = request;
 	const insertValueRows: string[] = [];
 	partyMembers.forEach((member, i) => {
@@ -323,21 +319,21 @@ const insertRunParty = async (
 		const styleClass = member.styleClass;
 
 		partyInsertRequest = partyInsertRequest
-			.input(`playerId${i}`, sql.Int, member.playerId)
-			.input(`ordinal${i}`, sql.Int, member.ordinal)
-			.input(`povLink${i}`, sql.NVarChar(100), normalizedPovLink)
-			.input(`runCharacterName${i}`, sql.NVarChar(30), member.inVideoName)
-			.input(`mainClass${i}`, sql.NVarChar(30), mainClass)
-			.input(`subClass${i}`, sql.NVarChar(30), subClass)
-			.input(`styleClass${i}`, sql.NVarChar(30), styleClass)
-			.input(`weapons${i}`, sql.NVarChar(4000), JSON.stringify(weapons));
+			.input(`playerId${i}`, 1, member.playerId)
+			.input(`ordinal${i}`, 1, member.ordinal)
+			.input(`povLink${i}`, 100, normalizedPovLink) //nvarchar
+			.input(`runCharacterName${i}`, 30, member.inVideoName) //nvarchar
+			.input(`mainClass${i}`, 30, mainClass) //nvarchar
+			.input(`subClass${i}`, 30, subClass) //nvarchar
+			.input(`styleClass${i}`, 30, styleClass) //nvarchar
+			.input(`weapons${i}`, 4000, JSON.stringify(weapons)); //nvarchar
 
 		insertValueRows.push(`
       (@runId,@playerId${i},@ordinal${i},@povLink${i},@runCharacterName${i},@mainClass${i},@subClass${i},@styleClass${i},@weapons${i})
     `);
 	});
 
-	partyInsertRequest = partyInsertRequest.input(`runId`, sql.Int, runId);
+	partyInsertRequest = partyInsertRequest.input(`runId`, 1, runId);
 	const result = await partyInsertRequest.query(`
     INSERT INTO dbo.RunParty (
       ${runPartyDbFields.RunId},
@@ -358,7 +354,7 @@ const insertRunParty = async (
 	}
 };
 
-export const checkRunVideoExists = async (request: sql.Request, videoLinks: string[]) => {
+export const checkRunVideoExists = async (request: any, videoLinks: string[]) => {
 	let videoLinkRequest = request;
 
 	const paramNames: string[] = [];
@@ -379,8 +375,8 @@ export const checkRunVideoExists = async (request: sql.Request, videoLinks: stri
 	return duplicateLinks.length > 0 ? duplicateLinks.map((r) => r.PovLink as string) : [];
 };
 
-export const checkRunExists = async (request: sql.Request, runId: number) => {
-	const runResult = await request.input('runId', sql.Int, runId).query(`
+export const checkRunExists = async (request: any, runId: number) => {
+	const runResult = await request.input('runId', 1, runId).query(`
       SELECT
 				${runsDbFields.Id},
 				${runsDbFields.SubmissionStatus},
@@ -401,17 +397,17 @@ export const checkRunExists = async (request: sql.Request, runId: number) => {
 };
 
 export const approveRun = async (
-	request: Request,
+	request: any,
 	runId: number,
 	reviewerName: string,
 	modNotes: string | null | undefined
 ) => {
 	const submissionResult = await request
-		.input('approveStatus', sql.TinyInt, RunSubmissionStatus.Approved)
-		.input('approvalDate', sql.DateTime2, new Date())
-		.input('reviewerName', sql.NVarChar(30), reviewerName)
-		.input('modNotes', sql.NVarChar(500), modNotes)
-		.input('runId', sql.Int, runId).query(`
+		.input('approveStatus', 1, RunSubmissionStatus.Approved)
+		.input('approvalDate', 1, new Date())
+		.input('reviewerName', 30, reviewerName) //nvarchar
+		.input('modNotes', 500, modNotes) //nvarchar
+		.input('runId', 1, runId).query(`
       UPDATE dbo.Runs
       SET 
 				${runsDbFields.SubmissionStatus} = @approveStatus,
@@ -427,17 +423,17 @@ export const approveRun = async (
 };
 
 export const denyRun = async (
-	request: Request,
+	request: any,
 	runId: number,
 	reviewerName: string,
 	modNotes: string | null | undefined
 ) => {
 	const submissionResult = await request
-		.input('denyStatus', sql.TinyInt, RunSubmissionStatus.Rejected)
-		.input('approvalDate', sql.DateTime2, new Date())
-		.input('modNotes', sql.NVarChar(500), modNotes)
-		.input('reviewerName', sql.NVarChar(30), reviewerName)
-		.input('runId', sql.Int, runId).query(`
+		.input('denyStatus', 1, RunSubmissionStatus.Rejected)
+		.input('approvalDate', 1, new Date())
+		.input('modNotes', 500, modNotes) //nvarchar
+		.input('reviewerName', 30, reviewerName) //nvarchar
+		.input('runId', 1, runId).query(`
       UPDATE dbo.Runs
 			SET 
 				${runsDbFields.SubmissionStatus} = @denyStatus,
@@ -458,7 +454,7 @@ const serializeTimeToSqlTime = (runTime: RunSubmissionRequest['time']) =>
 		.padStart(2)}:${runTime.seconds.toString().padStart(2)}`;
 
 const appendAttributeFilter = (
-	request: Request,
+	request: any,
 	queryString: string,
 	attributeFilters: RunAttributeFilter[]
 ) => {
@@ -467,27 +463,27 @@ const appendAttributeFilter = (
 		const attrPath = `attr_path${i}`;
 		queryString += ` AND JSON_VALUE(run.${runsDbFields.Attributes}, @${attrPath})= @${paramName}`;
 
-		request = request.input(attrPath, sql.NVarChar, `$.${f.path}`);
+		request = request.input(attrPath, 1, `$.${f.path}`);
 
 		if (f.type === 'string') {
-			request = request.input(paramName, sql.NVarChar, f.value);
+			request = request.input(paramName, 1, f.value);
 		} else if (f.type === 'number') {
-			request = request.input(paramName, sql.Int, f.value);
+			request = request.input(paramName, 1, f.value);
 		} else if (f.type === 'boolean') {
 			//TODO what type should JSOn boolean be?
-			request = request.input(paramName, sql.Bit, f.value);
+			request = request.input(paramName, 1, f.value);
 		} else {
 			throw new Error('Unknown attribute type');
 		}
 	});
 
 	return {
-		request: request,
+		request,
 		query: queryString,
 	};
 };
 
-export const countRuns = async (request: Request) => {
+export const countRuns = async (request: any) => {
 	const sqlQuery = `
 		SELECT
 			CASE

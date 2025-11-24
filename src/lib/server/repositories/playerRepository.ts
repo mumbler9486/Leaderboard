@@ -1,4 +1,4 @@
-import sql, { type Request } from 'mssql';
+// import sql, { type Request } from 'mssql';
 import { fields } from '../util/nameof';
 import type { CreateAccountRequest } from '../types/api/createAccount';
 import type { PlayersDbModel } from '../types/db/users/players';
@@ -7,8 +7,8 @@ import type { PlayerSearchSchema } from '$lib/types/api/validation/playerSearch'
 
 const playerDbFields = fields<PlayersDbModel>();
 
-export const getRunPlayer = async (request: Request, playerId: number) => {
-	const playerResult = await request.input('playerId', sql.Int, playerId).query(`
+export const getRunPlayer = async (request: any, playerId: number) => {
+	const playerResult = await request.input('playerId', 1, playerId).query(`
     SELECT
 			pi.${playerDbFields.Id}, 
 			pi.${playerDbFields.PlayerName}
@@ -27,7 +27,7 @@ export const getRunPlayer = async (request: Request, playerId: number) => {
 	};
 };
 
-export const getPlayers = async (request: Request, playerIds: number[]) => {
+export const getPlayers = async (request: any, playerIds: number[]) => {
 	let playerLookupRequest = request;
 
 	const paramNames: string[] = [];
@@ -54,8 +54,8 @@ export const getPlayers = async (request: Request, playerIds: number[]) => {
 	}));
 };
 
-export const getPlayerByGuid = async (request: Request, userIdGuid: string) => {
-	const submissionResults = await request.input('userIdGuid', sql.NVarChar, userIdGuid).query(`
+export const getPlayerByGuid = async (request: any, userIdGuid: string) => {
+	const submissionResults = await request.input('userIdGuid', 1, userIdGuid).query(`
 			SELECT
 				pi.${playerDbFields.Id},
 				pi.${playerDbFields.PlayerName},
@@ -82,8 +82,8 @@ export const getPlayerByGuid = async (request: Request, userIdGuid: string) => {
 	return player;
 };
 
-export const getPlayerById = async (request: Request, playerId: number) => {
-	const submissionResults = await request.input('playerId', sql.Int, playerId).query(`
+export const getPlayerById = async (request: any, playerId: number) => {
+	const submissionResults = await request.input('playerId', 1, playerId).query(`
 			SELECT
 				pi.${playerDbFields.Id},
 				pi.${playerDbFields.PlayerName},
@@ -110,7 +110,7 @@ export const getPlayerById = async (request: Request, playerId: number) => {
 	return player;
 };
 
-export const searchPlayers = async (request: Request, playerSearch: PlayerSearchSchema) => {
+export const searchPlayers = async (request: any, playerSearch: PlayerSearchSchema) => {
 	const playerListQuery = `
 		SELECT
 			pi.${playerDbFields.Id},
@@ -131,13 +131,13 @@ export const searchPlayers = async (request: Request, playerSearch: PlayerSearch
 		FETCH NEXT @take ROWS ONLY;`;
 
 	const results = await request
-		.input('searchTerm', sql.NVarChar(50), playerSearch.name)
-		.input('take', sql.Int, playerSearch.take)
+		.input('searchTerm', 50, playerSearch.name) // Nvarchar(50)
+		.input('take', 1, playerSearch.take)
 		.query(playerListQuery);
 	return results.recordset as PlayersDbModel[];
 };
 
-export const isPlayerNameUnique = async (request: Request, playerName: string) => {
+export const isPlayerNameUnique = async (request: any, playerName: string) => {
 	const playerListQuery = `
 		SELECT
 			pi.${playerDbFields.Id},
@@ -148,18 +148,17 @@ export const isPlayerNameUnique = async (request: Request, playerName: string) =
 		WHERE pi.${playerDbFields.PlayerName} = @playerName
 		ORDER BY PlayerName ASC`;
 
-	const results = await request
-		.input('playerName', sql.NVarChar, playerName)
-		.query(playerListQuery);
+	const results = await request.input('playerName', 1, playerName).query(playerListQuery);
 
 	const players = results.recordset as PlayersDbModel[];
 
-	return players?.length === 0 ?? false;
+	// return players?.length === 0 ?? false;
+	return true;
 };
 
 const DefaultUserRoles = ['user'];
 export const createAccount = async (
-	request: Request,
+	request: any,
 	userGuid: string,
 	createAccountRequest: CreateAccountRequest
 ) => {
@@ -186,13 +185,13 @@ export const createAccount = async (
 
 	// Insert player info
 	const insertPlayerResult = await request
-		.input('userId', sql.NVarChar, userGuid)
-		.input('playerName', sql.NVarChar, createAccountRequest.username)
-		.input('characterName', sql.NVarChar, createAccountRequest.characterName)
-		.input('roles', sql.NVarChar, JSON.stringify(DefaultUserRoles))
-		.input('nameEffectType', sql.TinyInt, NameStyle.None)
-		.input('nameColor1', sql.NVarChar, 'ffffff')
-		.input('nameColor2', sql.NVarChar, 'ffffff')
+		.input('userId', 1, userGuid)
+		.input('playerName', 1, createAccountRequest.username)
+		.input('characterName', 1, createAccountRequest.characterName)
+		.input('roles', 1, JSON.stringify(DefaultUserRoles))
+		.input('nameEffectType', 1, NameStyle.None)
+		.input('nameColor1', 1, 'ffffff')
+		.input('nameColor2', 1, 'ffffff')
 		.query(insertInfoQuery);
 
 	if (insertPlayerResult.rowsAffected[0] == 0) {

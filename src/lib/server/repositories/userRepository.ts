@@ -1,17 +1,17 @@
-import sql, { Request } from 'mssql';
+// import sql, { Request } from 'mssql';
 import { fields } from '../util/nameof';
 import type { PlayersDbModel } from '../types/db/users/players';
 
 const playersDbFields = fields<PlayersDbModel>();
 
-export const getUserExists = async (request: Request, userGuid: string) => {
+export const getUserExists = async (request: any, userGuid: string) => {
 	const user = await getUser(request, userGuid);
 	const playerId = parseInt(user?.UserId ?? '-1');
 	return playerId > 0;
 };
 
-export const getUser = async (request: Request, userGuid: string) => {
-	const results = await request.input('userGuid', sql.NVarChar, userGuid).query(`
+export const getUser = async (request: any, userGuid: string) => {
+	const results = await request.input('userGuid', 1, userGuid).query(`
 			SELECT 
 				pi.${playersDbFields.Id},
 				pi.${playersDbFields.PlayerName},
@@ -24,8 +24,8 @@ export const getUser = async (request: Request, userGuid: string) => {
 	return user;
 };
 
-export const getUserRoles = async (request: Request, userGuid: string) => {
-	const results = await request.input('userGuid', sql.NVarChar, userGuid).query(`
+export const getUserRoles = async (request: any, userGuid: string) => {
+	const results = await request.input('userGuid', 1, userGuid).query(`
 			SELECT 
         pi.${playersDbFields.Roles}
 			FROM dbo.Players AS pi

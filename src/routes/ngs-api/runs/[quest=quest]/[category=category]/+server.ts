@@ -14,7 +14,7 @@ import type { ServerSearchFilter } from '$lib/server/types/api/runsSearch.js';
 import { lookupBoardByRoute } from '$lib/leaderboard/boards.js';
 import { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
 import { RunAttributeFilter } from '$lib/server/types/db/runs/runAttributeFilter';
-import sql, { type Request } from 'mssql';
+// import sql, { type Request } from 'mssql';
 import { NgsQuests } from '$lib/types/api/runs/quests';
 import { NgsRunCategories } from '$lib/types/api/runs/categories';
 import { RunSortOption } from '$lib/types/api/runs/sortOptions.js';
@@ -82,7 +82,7 @@ export async function POST({ params, request, locals }) {
 }
 
 const getRunsByQuest = async (
-	request: Request,
+	request: any,
 	userFilters: RunsSearchFilter,
 	serverFilters: ServerSearchFilter,
 	attributeFilters?: RunAttributeFilter[]

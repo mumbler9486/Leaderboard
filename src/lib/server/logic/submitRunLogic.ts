@@ -1,6 +1,6 @@
 import type { RunSubmissionRequest } from '$lib/types/api/validation/runSubmission';
-import sql from 'mssql';
-import type { Request } from 'mssql';
+// import sql from 'mssql';
+// import type { Request } from 'mssql';
 import { leaderboardDb } from '../db/db';
 import { jsonError } from '../error';
 import { checkRunVideoExists, insertRun } from '../repositories/runsRepository';
