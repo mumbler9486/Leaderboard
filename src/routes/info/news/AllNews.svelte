@@ -7,6 +7,16 @@
 
 <RecentNews />
 
+<HomeNews publicationDateIso="2025-04-02T13:00:00.000Z" title="Leaderboard April 2025 Updates">
+	<NewsSection sectionTitle="🏹⤴ Braver Updates and New Equipment Patch Bump">
+		Braver class is getting balance adjustments, new effects, and new class skills. In addition new
+		Ex Augments, Legendios series weapons, and Klirodim series weapons will arrive April 2nd.
+		Because of these extensive changes we will issue a new patch bump. See the <a
+			class="link"
+			href="/info/patch-codes">patch codes</a
+		> page for more information and details.
+	</NewsSection>
+</HomeNews>
 <HomeNews publicationDateIso="2025-03-17T23:00:00.000Z" title="Leaderboard March 2025 Updates">
 	<NewsSection sectionTitle="😶 Another quiet month">
 		No major updates for NGS this month. We are expecting some content updates next month.

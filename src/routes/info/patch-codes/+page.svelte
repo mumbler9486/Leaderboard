@@ -10,13 +10,13 @@
 </script>
 
 <div class="flex flex-col content-center">
-	<div class="container m-16 mx-auto rounded-md border border-secondary bg-base-100/75">
-		<div class="m-2 flex flex-col rounded-md border border-secondary bg-base-100 p-4 px-8">
+	<div class="border-secondary bg-base-100/75 container m-16 mx-auto rounded-md border">
+		<div class="border-secondary bg-base-100 m-2 flex flex-col rounded-md border p-4 px-8">
 			<div class="text-center text-4xl font-light">Patch Code History</div>
 			<Divider />
 			<div class="flex flex-col items-center">
 				<div class="mb-4 text-xl">
-					The current patch is <span class="font-bold text-primary">{currentPatchLabel}</span>
+					The current patch is <span class="text-primary font-bold">{currentPatchLabel}</span>
 				</div>
 				<div class="flex max-w-4xl flex-col gap-2">
 					<p>
@@ -252,6 +252,8 @@
 							enhancement system was released. C/Tera Triyal augment was also released. Later on the
 							22nd of October, Skill Rings were released with Type 1 and Type 2 varieties. November 5th
 							also brought some gear releases with 13⭐ Fortscha Armor and C/Argant Gigas Maste capsules.
+							From December 3rd Legend.3 weapons will be available. From December 17th we will also got
+							the release of C/Argant Gladia Soul.
 						</TimelineNode>
 					</Timeline>
 				</div>

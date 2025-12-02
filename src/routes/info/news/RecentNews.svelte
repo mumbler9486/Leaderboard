@@ -4,6 +4,14 @@
 	import NewsSection from '$lib/PageComponents/News/NewsSection.svelte';
 </script>
 
+<HomeNews publicationDateIso="2025-12-02T11:00:00.000Z" title="Leaderboard November 2025 Updates">
+	<NewsSection sectionTitle="➕ Planetfall Strike Stages 7 & 8">
+		New Extra Duel: Planetfall Strike stages 7 (Zelvin) and 8 (Ringwedge) are to be released on
+		December 9th. We will have boards prepared in advance. Additionally from December 3rd Legend.3
+		weapons will be available. From December 17th we will also get the release of C/Argant Gladia
+		Soul.
+	</NewsSection>
+</HomeNews>
 <HomeNews publicationDateIso="2025-11-15T01:00:00.000Z" title="Leaderboard November 2025 Updates">
 	<NewsSection sectionTitle="🪐 Extra Duel: Planetfall Strike">
 		New Extra Duel: Planetfall Strike was released on October 28th with stages 1 and 2. Stages 3 and
@@ -64,15 +72,5 @@
 <HomeNews publicationDateIso="2025-05-01T01:00:00.000Z" title="Leaderboard May 2025 Updates">
 	<NewsSection sectionTitle="😶 A quiet month">
 		No major updates for NGS this month. We are expecting some content updates next month.
-	</NewsSection>
-</HomeNews>
-<HomeNews publicationDateIso="2025-04-02T13:00:00.000Z" title="Leaderboard April 2025 Updates">
-	<NewsSection sectionTitle="🏹⤴ Braver Updates and New Equipment Patch Bump">
-		Braver class is getting balance adjustments, new effects, and new class skills. In addition new
-		Ex Augments, Legendios series weapons, and Klirodim series weapons will arrive April 2nd.
-		Because of these extensive changes we will issue a new patch bump. See the <a
-			class="link"
-			href="/info/patch-codes">patch codes</a
-		> page for more information and details.
 	</NewsSection>
 </HomeNews>
