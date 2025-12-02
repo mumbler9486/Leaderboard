@@ -4,9 +4,9 @@
 	import { runFilters } from '../../../runFilter';
 
 	const augmentFilterOptions = [
-		...Array.from({ length: 6 }, (_, i) => ({
-			label: `${i + 1}: ${planetfallStageBossNameMappings[i + 1]}`,
-			value: `${i + 1}`,
+		Object.values(planetfallStageBossNameMappings).map((bossName, i) => ({
+			label: `${i + 1}: ${bossName}`,
+			value: i + 1,
 		})),
 	];
 </script>

@@ -8,8 +8,8 @@
 	<Select
 		label="Planetfall Strike Stage"
 		placeholder="Select a Planetfall Strike stage"
-		options={Array.from({ length: 6 }, (_, i) => ({
-			label: `${i + 1}: ${planetfallStageBossNameMappings[i + 1]}`,
+		options={Object.values(planetfallStageBossNameMappings).map((bossName, i) => ({
+			label: `${i + 1}: ${bossName}`,
 			value: i + 1,
 		}))}
 		bind:value={$planetfallStrikeRunForm.stage}
