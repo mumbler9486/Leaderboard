@@ -8,15 +8,6 @@ import { createDetailedRunSearchSchema } from '../runSearchSchema';
 import { createDetailedRunSubmissionSchema } from '../submissionSchema';
 import type { RunAttributeFilter } from '$lib/server/types/db/runs/runAttributeFilter';
 
-const rules = [
-	'Do not abuse bugs or exploits.',
-	'Runs in this category will be ranked by Depth, then by Rank, then by Time.',
-];
-
-const stageDetailsSchema = object({
-	stage: number().required(),
-});
-
 export const planetfallStageBossNameMappings: Record<number, string> = {
 	1: 'Rasetsu',
 	2: 'Max Vang',
@@ -24,7 +15,14 @@ export const planetfallStageBossNameMappings: Record<number, string> = {
 	4: 'Gil Zaver',
 	5: 'Val Zagga',
 	6: 'Plutineide',
+	7: 'Zelvin',
+	8: 'Ringwedge',
 };
+const TotalPlanetfallStageBosses = Object.keys(planetfallStageBossNameMappings).length;
+
+const stageDetailsSchema = object({
+	stage: number().required().min(1).max(TotalPlanetfallStageBosses),
+});
 
 export const planetfallStrikeBoard = new LeaderboardDefinition({
 	name: 'leaderboard.duels.planetfall_strike',
@@ -54,7 +52,7 @@ export const planetfallStrikeBoard = new LeaderboardDefinition({
 			5,
 			1,
 			object({
-				stage: number().nullable().min(1).max(6),
+				stage: number().nullable().min(1).max(TotalPlanetfallStageBosses),
 			})
 		),
 
