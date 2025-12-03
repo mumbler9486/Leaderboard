@@ -4,7 +4,7 @@
 	import NewsSection from '$lib/PageComponents/News/NewsSection.svelte';
 </script>
 
-<HomeNews publicationDateIso="2025-12-02T11:00:00.000Z" title="Leaderboard November 2025 Updates">
+<HomeNews publicationDateIso="2025-12-02T11:00:00.000Z" title="Leaderboard December 2025 Updates">
 	<NewsSection sectionTitle="➕ Planetfall Strike Stages 7 & 8">
 		New Extra Duel: Planetfall Strike stages 7 (Zelvin) and 8 (Ringwedge) are to be released on
 		December 9th. We will have boards prepared in advance. Additionally from December 3rd Legend.3
