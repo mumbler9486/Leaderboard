@@ -15,8 +15,8 @@
 		"reload-db": "node ./db_mocks/reloadDb.js"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-cloudflare": "^7.2.4",
-		"@sveltejs/kit": "^2.5.27",
+		"@sveltejs/adapter-cloudflare": "^7.2.5",
+		"@sveltejs/kit": "^2.50.0",
 		"@sveltejs/vite-plugin-svelte": "^5.1.0",
 		"@tailwindcss/vite": "^4.1.17",
 		"@testing-library/svelte": "^5.2.9",
@@ -28,7 +28,7 @@
 		"prettier-plugin-tailwindcss": "^0.6.13",
 		"rimraf": "^5.0.5",
 		"shelljs": "^0.8.5",
-		"svelte": "^5.0.0",
+		"svelte": "^5.46.4",
 		"svelte-check": "^4.0.0",
 		"svelte-heros-v2": "2.0.1",
 		"svelte-i18n": "^4.0.0",
