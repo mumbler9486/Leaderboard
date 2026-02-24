@@ -9,9 +9,12 @@
 		Belated new years! On Feb 4th, 2026 the level cap increased to 115. So that means we will do a
 		patch bump. For details see the <a class="link" href="/info/patch-codes">patch codes</a> page.
 	</NewsSection>
-	<NewsSection sectionTitle="⚔️ High Agni Leaderboard Released">
-		Added New leaderboard for High Agni. This quest is available to submit to under the Planetfall
-		Strike stage 11 leaderboard.
+	<NewsSection sectionTitle="➕ Planetfall Strike Stages 9,10,11">
+		New Extra Duel: Planetfall Strike stages 9 (Chaos Xaver) and 10 (Hanumad) and 11 (High Agni)
+		were released on December 24th 2025. Leaderboards have been added for all these stages from
+		today. If you have runs prior to the 115 level cap patch bump we will automatically adjust the
+		patch for you when you submit based on the video's publication date. If you have concerns just
+		let us know in our Discord and we can adjust the patch code for your run.
 	</NewsSection>
 	<NewsSection sectionTitle="❔March updates">
 		I'm writing this just before the headline so I will update this later with new details for the

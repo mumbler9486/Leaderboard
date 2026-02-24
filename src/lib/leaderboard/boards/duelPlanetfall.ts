@@ -17,6 +17,9 @@ export const planetfallStageBossNameMappings: Record<number, string> = {
 	6: 'Plutineide',
 	7: 'Zelvin',
 	8: 'Ringwedge',
+	9: 'Chaos Xaver',
+	10: 'Hanumad',
+	11: 'High Agni',
 };
 const TotalPlanetfallStageBosses = Object.keys(planetfallStageBossNameMappings).length;
 

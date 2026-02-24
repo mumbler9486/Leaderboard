@@ -35,7 +35,7 @@
 					image="/icons/submit/planetfall_strike_max_vang.jpg"
 					link="/submit/extra-duels"
 					overlayColor="red"
-					badge="New Stages 7-8"
+					badge="New Stages 9,10,11"
 					buttonLabel="Submit"
 				/>
 				<JumboButton
