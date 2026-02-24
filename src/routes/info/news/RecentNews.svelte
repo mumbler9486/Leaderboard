@@ -4,6 +4,23 @@
 	import NewsSection from '$lib/PageComponents/News/NewsSection.svelte';
 </script>
 
+<HomeNews publicationDateIso="2025-02-24T10:00:00.000Z" title="Leaderboard Feb/March 2026 Updates">
+	<NewsSection sectionTitle="⤴💌 Level 115 Patch Bump">
+		Belated new years! On Feb 4th, 2026 the level cap increased to 115. So that means we will do a
+		patch bump. For details see the <a class="link" href="/info/patch-codes">patch codes</a> page.
+	</NewsSection>
+	<NewsSection sectionTitle="➕ Planetfall Strike Stages 9,10,11">
+		New Extra Duel: Planetfall Strike stages 9 (Chaos Xaver) and 10 (Hanumad) and 11 (High Agni)
+		were released on December 24th 2025. Leaderboards have been added for all these stages from
+		today. If you have runs prior to the 115 level cap patch bump we will automatically adjust the
+		patch for you when you submit based on the video's publication date. If you have concerns just
+		let us know in our Discord and we can adjust the patch code for your run.
+	</NewsSection>
+	<NewsSection sectionTitle="❔March updates">
+		I'm writing this just before the headline so I will update this later with new details for the
+		march updates. Check back soon.
+	</NewsSection>
+</HomeNews>
 <HomeNews publicationDateIso="2025-12-02T11:00:00.000Z" title="Leaderboard December 2025 Updates">
 	<NewsSection sectionTitle="➕ Planetfall Strike Stages 7 & 8">
 		New Extra Duel: Planetfall Strike stages 7 (Zelvin) and 8 (Ringwedge) are to be released on
@@ -67,10 +84,5 @@
 		a limited number of incapacitations and be available for up to 4 players. We will prepare a
 		leaderboard for this quest. With the release of this quest a new 13⭐ Cres series weapon will
 		also be released.
-	</NewsSection>
-</HomeNews>
-<HomeNews publicationDateIso="2025-05-01T01:00:00.000Z" title="Leaderboard May 2025 Updates">
-	<NewsSection sectionTitle="😶 A quiet month">
-		No major updates for NGS this month. We are expecting some content updates next month.
 	</NewsSection>
 </HomeNews>

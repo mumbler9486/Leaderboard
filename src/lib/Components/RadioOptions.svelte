@@ -24,7 +24,7 @@
 			<span class="label-text">{label}</span>
 		</div>
 	{/if}
-	<div class="join">
+	<div class="join flex-wrap">
 		{#each options as opt}
 			<input
 				class="btn join-item"
