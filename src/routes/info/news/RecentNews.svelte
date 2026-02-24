@@ -4,6 +4,20 @@
 	import NewsSection from '$lib/PageComponents/News/NewsSection.svelte';
 </script>
 
+<HomeNews publicationDateIso="2025-02-24T10:00:00.000Z" title="Leaderboard Feb/March 2026 Updates">
+	<NewsSection sectionTitle="⤴💌 Level 115 Patch Bump">
+		Belated new years! On Feb 4th, 2026 the level cap increased to 115. So that means we will do a
+		patch bump. For details see the <a class="link" href="/info/patch-codes">patch codes</a> page.
+	</NewsSection>
+	<NewsSection sectionTitle="⚔️ High Agni Leaderboard Released">
+		Added New leaderboard for High Agni. This quest is available to submit to under the Planetfall
+		Strike stage 11 leaderboard.
+	</NewsSection>
+	<NewsSection sectionTitle="❔March updates">
+		I'm writing this just before the headline so I will update this later with new details for the
+		march updates. Check back soon.
+	</NewsSection>
+</HomeNews>
 <HomeNews publicationDateIso="2025-12-02T11:00:00.000Z" title="Leaderboard December 2025 Updates">
 	<NewsSection sectionTitle="➕ Planetfall Strike Stages 7 & 8">
 		New Extra Duel: Planetfall Strike stages 7 (Zelvin) and 8 (Ringwedge) are to be released on
@@ -67,10 +81,5 @@
 		a limited number of incapacitations and be available for up to 4 players. We will prepare a
 		leaderboard for this quest. With the release of this quest a new 13⭐ Cres series weapon will
 		also be released.
-	</NewsSection>
-</HomeNews>
-<HomeNews publicationDateIso="2025-05-01T01:00:00.000Z" title="Leaderboard May 2025 Updates">
-	<NewsSection sectionTitle="😶 A quiet month">
-		No major updates for NGS this month. We are expecting some content updates next month.
 	</NewsSection>
 </HomeNews>

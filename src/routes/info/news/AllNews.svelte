@@ -7,6 +7,11 @@
 
 <RecentNews />
 
+<HomeNews publicationDateIso="2025-05-01T01:00:00.000Z" title="Leaderboard May 2025 Updates">
+	<NewsSection sectionTitle="😶 A quiet month">
+		No major updates for NGS this month. We are expecting some content updates next month.
+	</NewsSection>
+</HomeNews>
 <HomeNews publicationDateIso="2025-04-02T13:00:00.000Z" title="Leaderboard April 2025 Updates">
 	<NewsSection sectionTitle="🏹⤴ Braver Updates and New Equipment Patch Bump">
 		Braver class is getting balance adjustments, new effects, and new class skills. In addition new
