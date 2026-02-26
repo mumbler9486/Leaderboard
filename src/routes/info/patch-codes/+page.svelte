@@ -264,6 +264,7 @@
 						>
 							Known as the {patchCodeLabelMap['level115r']} patch, level cap was raised to 115. New 14⭐
 							Spradio weapons were released that can be dropped in Nameless City: Entertainment District.
+							Leafladio 14⭐ series weapons were also released on March 4, 2026.
 						</TimelineNode>
 					</Timeline>
 				</div>

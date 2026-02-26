@@ -4,7 +4,11 @@
 	import NewsSection from '$lib/PageComponents/News/NewsSection.svelte';
 </script>
 
-<HomeNews publicationDateIso="2025-02-24T10:00:00.000Z" title="Leaderboard Feb/March 2026 Updates">
+<HomeNews
+	publicationDateIso="2025-02-24T10:00:00.000Z"
+	lastUpdatedIso="2025-02-26T10:40:00.000Z"
+	title="Leaderboard Feb/March 2026 Updates"
+>
 	<NewsSection sectionTitle="⤴💌 Level 115 Patch Bump">
 		Belated new years! On Feb 4th, 2026 the level cap increased to 115. So that means we will do a
 		patch bump. For details see the <a class="link" href="/info/patch-codes">patch codes</a> page.
@@ -16,10 +20,10 @@
 		patch for you when you submit based on the video's publication date. If you have concerns just
 		let us know in our Discord and we can adjust the patch code for your run.
 	</NewsSection>
-	<NewsSection sectionTitle="❔March updates">
-		I'm writing this just before the headline so I will update this later with new details for the
-		march updates. Check back soon.
-	</NewsSection>
+	<NewsSection sectionTitle="0️⃣ March updates"
+		>It appears there are no major updates for March. April might possibly have a new boss to run.
+		Stay tuned for more information.</NewsSection
+	>
 </HomeNews>
 <HomeNews publicationDateIso="2025-12-02T11:00:00.000Z" title="Leaderboard December 2025 Updates">
 	<NewsSection sectionTitle="➕ Planetfall Strike Stages 7 & 8">
