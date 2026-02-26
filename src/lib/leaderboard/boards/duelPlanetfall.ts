@@ -74,7 +74,7 @@ export const planetfallStrikeBoard = new LeaderboardDefinition({
 							type: 'number',
 							value: f.stage as number,
 						},
-					] satisfies RunAttributeFilter[]);
+				  ] satisfies RunAttributeFilter[]);
 		},
 	},
 });

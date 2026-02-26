@@ -106,7 +106,7 @@
 								allowedCategories={boards.map((b) => b.category)}
 								on:change={categoryChanged}
 							/>
-							<RankOptions maxRank={currentBoard.maxQuestRank} />
+							<RankOptions {currentBoard} />
 							<CurrentPatchLabel />
 						</div>
 						<div class="grid grid-cols-1 gap-2 md:grid-cols-4">
