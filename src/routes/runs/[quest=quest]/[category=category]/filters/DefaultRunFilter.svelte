@@ -26,6 +26,21 @@
 		boardInfo.quest === NgsQuests.ExtraDuels && boardInfo.category === NgsRunCategories.Masquerade;
 	$: $runFilters.rank = isMasquerade ? 'no_filter' : boardInfo.maxQuestRank.toString();
 
+	$: {
+		if (
+			boardInfo.quest === NgsQuests.ExtraDuels &&
+			boardInfo.category === NgsRunCategories.PlanetfallStrike &&
+			$runFilters.stage === '11'
+		) {
+			$runFilters.rank = '1';
+		} else if (
+			boardInfo.quest === NgsQuests.ExtraDuels &&
+			boardInfo.category === NgsRunCategories.PlanetfallStrike
+		) {
+			$runFilters.rank = '5';
+		}
+	}
+
 	interface FilterHandler {
 		filterComponent: ComponentType;
 		handler: (value: string | undefined) => void;
@@ -73,7 +88,12 @@
 			{:else if boardInfo.quest === NgsQuests.ExtraDuels && boardInfo.category === NgsRunCategories.PlanetfallStrike}
 				<PlanetfallStrikeFilter />
 			{/if}
-			<QuestRankFilter allowNoFilter={isMasquerade} maxQuestRank={boardInfo.maxQuestRank} />
+
+			{#if boardInfo.quest === NgsQuests.ExtraDuels && boardInfo.category === NgsRunCategories.PlanetfallStrike && $runFilters.stage === '11'}
+				<QuestRankFilter allowNoFilter={isMasquerade} maxQuestRank={1} />
+			{:else}
+				<QuestRankFilter allowNoFilter={isMasquerade} maxQuestRank={boardInfo.maxQuestRank} />
+			{/if}
 		</div>
 	</div>
 
