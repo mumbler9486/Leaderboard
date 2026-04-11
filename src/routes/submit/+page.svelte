@@ -31,6 +31,14 @@
 
 			<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
 				<JumboButton
+					label="Malignant Ruine Luther"
+					image="/icons/submit/malignant_ruine_luther.png"
+					link="/submit/malignant-ruine-luther"
+					overlayColor="neutral"
+					badge="New High Difficulty Quest"
+					buttonLabel="Submit"
+				/>
+				<JumboButton
 					label="Planetfall Strike"
 					image="/icons/submit/planetfall_strike_max_vang.jpg"
 					link="/submit/extra-duels"

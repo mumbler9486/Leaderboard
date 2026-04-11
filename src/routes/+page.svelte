@@ -9,6 +9,8 @@
 	import Panel from '$lib/Components/Panel.svelte';
 	import HomeBoardOverview from '$lib/Widgets/HomeBoardOverview.svelte';
 	import RunStats from '$lib/Widgets/RunStats.svelte';
+	import Button from '$lib/Components/Button.svelte';
+	import { ArrowRight } from 'svelte-heros-v2';
 </script>
 
 <svelte:head>
@@ -25,6 +27,11 @@
 			<Panel title="News">
 				<div class="px-4 pb-4 sm:px-8">
 					<RecentNews />
+					<div class="flex justify-end">
+						<Button size="xs" href="/info/news" class="btn btn-secondary mt-4"
+							>All News <ArrowRight size="16" /></Button
+						>
+					</div>
 				</div>
 			</Panel>
 		</div>
@@ -33,6 +40,11 @@
 		<Panel title="News">
 			<div class="px-4 pb-4 sm:px-8">
 				<RecentNews />
+				<div class="flex justify-end">
+					<Button size="xs" href="/info/news" class="btn btn-secondary mt-4"
+						>All News <ArrowRight size="16" /></Button
+					>
+				</div>
 			</div>
 		</Panel>
 	</div>

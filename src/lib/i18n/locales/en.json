@@ -8,7 +8,8 @@
 			"duels": "Duels",
 			"venogia": "Venogia",
 			"extra-duels": "Extra Duels",
-			"dfvael": "Dark Falz Vael"
+			"dfvael": "Dark Falz Vael",
+			"malignant-ruine-luther": "Malignant Ruine Luther"
 		},
 		"categories": {
 			"quest": "Quest",
@@ -140,6 +141,7 @@
 		"purpleTriggers": "Purple Triggers",
 		"halphiaLake": "Dark Falz Aegis",
 		"dfVael": "Dark Falz Vael",
+		"malignantRuineLuther": "Malignant Ruine Luther",
 		"categories": {
 			"quest": "Quest",
 			"urgent_quest": "Urgent Quest",

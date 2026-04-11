@@ -257,7 +257,7 @@
 						</TimelineNode>
 						<TimelineNode
 							title={patchCodeLabelMap['level115r']}
-							time="February 4, 2025"
+							time="February 4, 2026"
 							side="right"
 							fillLineStart
 							current={CurrentSubmissionPatchCode === 'level115r'}
@@ -265,6 +265,19 @@
 							Known as the {patchCodeLabelMap['level115r']} patch, level cap was raised to 115. New 14⭐
 							Spradio weapons were released that can be dropped in Nameless City: Entertainment District.
 							Leafladio 14⭐ series weapons were also released on March 4, 2026.
+						</TimelineNode>
+						<TimelineNode
+							title={patchCodeLabelMap['slayerRebalance']}
+							time="April 1st, 2026"
+							side="left"
+							fillLineStart
+							current={CurrentSubmissionPatchCode === 'slayerRebalance'}
+						>
+							Known as the {patchCodeLabelMap['slayerRebalance']} patch, brings about new active class
+							skills and class rebalances. New 14⭐ Arbaradio series weapons were released. New skill
+							rings and augments were released as well. Legend.4 Rarity Lexio Series, Skill ring Type
+							1/Count Amp, Skill ring Type 2/Count Follow, and augment C/Telphia Domina were released
+							on April 7th.
 						</TimelineNode>
 					</Timeline>
 				</div>

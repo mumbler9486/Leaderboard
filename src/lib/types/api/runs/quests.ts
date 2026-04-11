@@ -7,4 +7,5 @@ export enum NgsQuests {
 	DfDalion = 'dfdalion',
 	ExtraDuels = 'extra-duels',
 	DfVael = 'dfvael',
+	MalignantRuineLuther = 'malignant-ruine-luther',
 }
