@@ -32,6 +32,11 @@
 	const tabs: Boards[] = [
 		{ boardType: 'recent', boardInfo: null, name: '✨Recent', color: 'yellow' },
 		{
+			boardType: 'ranking',
+			boardInfo: lookupBoard(NgsQuests.MalignantRuineLuther, NgsRunCategories.Quest),
+			name: 'Malignant Ruine Luther',
+		},
+		{
 			boardType: 'recent',
 			boardInfo: lookupBoard(NgsQuests.ExtraDuels, NgsRunCategories.PlanetfallStrike),
 			name: 'Planetfall',
@@ -55,11 +60,6 @@
 			boardType: 'ranking',
 			boardInfo: lookupBoard(NgsQuests.DfSolus, NgsRunCategories.Quest),
 			name: 'Dark Falz Solus',
-		},
-		{
-			boardType: 'ranking',
-			boardInfo: lookupBoard(NgsQuests.Purples, NgsRunCategories.AelioIntruders),
-			name: 'Aelio Intruders',
 		},
 	];
 

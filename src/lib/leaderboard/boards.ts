@@ -8,6 +8,7 @@ import { duelMasqBoards } from './boards/duelMasq';
 import { planetfallStrikeBoards } from './boards/duelPlanetfall';
 import { duelBoards } from './boards/duels';
 import { purpleBoards } from './boards/purples';
+import { malignantRuineLutherBoards } from './boards/ruineLuther';
 import { venogiaBoards } from './boards/venogia';
 import type { LeaderboardDefinition } from './leaderboard';
 
@@ -21,6 +22,7 @@ export const allLeaderboards: LeaderboardDefinition<any, any>[] = [
 	...duelMasqBoards,
 	...dfVaelBoards,
 	...planetfallStrikeBoards,
+	...malignantRuineLutherBoards,
 ];
 
 /**

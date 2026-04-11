@@ -7,6 +7,47 @@
 
 <RecentNews />
 
+<HomeNews publicationDateIso="2025-09-23T01:00:00.000Z" title="Leaderboard October 2025 Updates">
+	<NewsSection sectionTitle="⤴🕺 Level 110 Patch Bump">
+		September didn't have significant changes for the boards (aside from the 13⭐ Zenit series from
+		September 3rd) but October brings in some new combat systems. Level 110, new "EX Style", and
+		Skill Rings are to be released in October. This will naturally bring about a new patch bump on
+		October 1st. For details see the <a class="link" href="/info/patch-codes">patch codes</a> page.
+	</NewsSection>
+</HomeNews>
+<HomeNews publicationDateIso="2025-08-06T01:00:00.000Z" title="Leaderboard August 2025 Updates">
+	<NewsSection sectionTitle="⤴🐕 Waker Rebalance 2025 Patch Bump">
+		This month brings changes to the Waker class, adjustments to the Fighter and Gunner classes, new
+		weapon series (Volgen and Legend), and new EX Special augments. For details see the <a
+			class="link"
+			href="/info/patch-codes">patch codes</a
+		> page.
+	</NewsSection>
+</HomeNews>
+<HomeNews publicationDateIso="2025-07-01T01:00:00.000Z" title="Leaderboard July 2025 Updates">
+	<NewsSection sectionTitle="⤴ Small patch bump for the Juvolg Series">
+		This patch bump is like any other, but considerably not as big as the previous patch bump. The
+		Juvolg series weapons will be released on July 2nd and the Eskul Armor on July 16th. For more
+		details about the patch see the <a class="link" href="/info/patch-codes">patch codes</a> page for
+		details.
+	</NewsSection>
+</HomeNews>
+<HomeNews publicationDateIso="2025-06-02T01:00:00.000Z" title="Leaderboard June 2025 Updates">
+	<NewsSection sectionTitle="5️⃣⤴ Level 105 Patch and 8 Augment Affixes">
+		On June 4th we will be getting a player level cap increase to level 105 and weapons+armor can be
+		affixed with up to 8 augments. For more details about the patch see the <a
+			class="link"
+			href="/info/patch-codes">patch codes</a
+		> page for more information and details.
+	</NewsSection>
+	<NewsSection sectionTitle="🔥🐉 High Difficulty Dark Falz Vael">
+		On June 10th we will also be getting a higher difficulty Dark Falz Vael quest which will feature
+		a limited number of incapacitations and be available for up to 4 players. We will prepare a
+		leaderboard for this quest. With the release of this quest a new 13⭐ Cres series weapon will
+		also be released.
+	</NewsSection>
+</HomeNews>
+
 <HomeNews publicationDateIso="2025-05-01T01:00:00.000Z" title="Leaderboard May 2025 Updates">
 	<NewsSection sectionTitle="😶 A quiet month">
 		No major updates for NGS this month. We are expecting some content updates next month.

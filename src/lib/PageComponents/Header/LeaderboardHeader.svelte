@@ -33,6 +33,7 @@
 				{ label: 'Dark Falz Solus', link: '/runs/dfsolus/quest' },
 				{ label: 'Venogia', link: '/runs/venogia/urgent-quest' },
 				{ label: 'Dark Falz Aegis', link: '/runs/dfaegis/quest' },
+				{ label: 'Malignant Ruine Luther', link: '/runs/malignant-ruine-luther/quest' },
 			],
 		},
 		{
