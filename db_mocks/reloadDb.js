@@ -88,6 +88,9 @@ execSqlFile('scripts/runs/08_dfvael.sql');
 shell.echo('9. Creating Planetfall Strike runs.');
 execSqlFile('scripts/runs/09_duel_planetfall_strike.sql');
 
+shell.echo('10. Creating Malignant Ruine Luther runs.');
+execSqlFile('scripts/runs/10_malignant_ruine_luther.sql');
+
 // Run creation cleanup
 shell.echo('Cleaning up run creation.');
 execSqlFile('scripts/runs/99_cleanup.sql');
