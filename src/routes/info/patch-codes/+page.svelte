@@ -10,13 +10,13 @@
 </script>
 
 <div class="flex flex-col content-center">
-	<div class="container m-16 mx-auto rounded-md border border-secondary bg-base-100/75">
-		<div class="m-2 flex flex-col rounded-md border border-secondary bg-base-100 p-4 px-8">
+	<div class="border-secondary bg-base-100/75 container m-16 mx-auto rounded-md border">
+		<div class="border-secondary bg-base-100 m-2 flex flex-col rounded-md border p-4 px-8">
 			<div class="text-center text-4xl font-light">Patch Code History</div>
 			<Divider />
 			<div class="flex flex-col items-center">
 				<div class="mb-4 text-xl">
-					The current patch is <span class="font-bold text-primary">{currentPatchLabel}</span>
+					The current patch is <span class="text-primary font-bold">{currentPatchLabel}</span>
 				</div>
 				<div class="flex max-w-4xl flex-col gap-2">
 					<p>
@@ -254,30 +254,6 @@
 							also brought some gear releases with 13⭐ Fortscha Armor and C/Argant Gigas Maste capsules.
 							From December 3rd Legend.3 weapons will be available. From December 17th we will also got
 							the release of C/Argant Gladia Soul.
-						</TimelineNode>
-						<TimelineNode
-							title={patchCodeLabelMap['level115r']}
-							time="February 4, 2026"
-							side="right"
-							fillLineStart
-							current={CurrentSubmissionPatchCode === 'level115r'}
-						>
-							Known as the {patchCodeLabelMap['level115r']} patch, level cap was raised to 115. New 14⭐
-							Spradio weapons were released that can be dropped in Nameless City: Entertainment District.
-							Leafladio 14⭐ series weapons were also released on March 4, 2026.
-						</TimelineNode>
-						<TimelineNode
-							title={patchCodeLabelMap['slayerRebalance']}
-							time="April 1st, 2026"
-							side="left"
-							fillLineStart
-							current={CurrentSubmissionPatchCode === 'slayerRebalance'}
-						>
-							Known as the {patchCodeLabelMap['slayerRebalance']} patch, brings about new active class
-							skills and class rebalances. New 14⭐ Arbaradio series weapons were released. New skill
-							rings and augments were released as well. Legend.4 Rarity Lexio Series, Skill ring Type
-							1/Count Amp, Skill ring Type 2/Count Follow, and augment C/Telphia Domina were released
-							on April 7th.
 						</TimelineNode>
 					</Timeline>
 				</div>

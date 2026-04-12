@@ -1,13 +1,25 @@
 <script lang="ts">
 	import Badge from './Badge.svelte';
 
-	export let label: string;
-	export let subtitle: string | undefined = undefined;
-	export let image: string | undefined = undefined;
-	export let link: string | undefined = undefined;
-	export let overlayColor: 'red' | 'blue' | 'purple' | 'black' | 'neutral' = 'neutral';
-	export let badge: string | undefined = undefined;
-	export let buttonLabel: string;
+	interface Props {
+		label: string;
+		subtitle?: string | undefined;
+		image?: string | undefined;
+		link?: string | undefined;
+		overlayColor?: 'red' | 'blue' | 'purple' | 'black' | 'neutral';
+		badge?: string | undefined;
+		buttonLabel: string;
+	}
+
+	let {
+		label,
+		subtitle = undefined,
+		image = undefined,
+		link = undefined,
+		overlayColor = 'neutral',
+		badge = undefined,
+		buttonLabel
+	}: Props = $props();
 
 	const overlayColorMap: Record<string, string> = {
 		red: 'bg-red-600',
@@ -16,11 +28,11 @@
 		black: 'bg-black',
 		neutral: '',
 	};
-	$: overlayColorClass = overlayColorMap[overlayColor] ?? overlayColorMap['white'];
+	let overlayColorClass = $derived(overlayColorMap[overlayColor] ?? overlayColorMap['white']);
 </script>
 
 <div class="hero h-96 w-full rounded-md" style="background-image: url({image});">
-	<div class="hero-overlay bg-opacity-20 {overlayColorClass}" />
+	<div class="hero-overlay bg-opacity-20 {overlayColorClass}"></div>
 	<div class="hero-content text-center text-neutral-content">
 		<div class="max-w-md">
 			{#if !!badge}

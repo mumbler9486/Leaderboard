@@ -7,13 +7,6 @@
 			"request": "launch",
 			"url": "http://localhost:5173",
 			"webRoot": "${workspaceFolder}"
-		},
-		{
-			"name": "Debug Chrome w/SWA",
-			"type": "chrome",
-			"request": "launch",
-			"url": "http://localhost:4280",
-			"webRoot": "${workspaceFolder}"
 		}
 	]
 }

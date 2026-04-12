@@ -1,22 +1,28 @@
 <script lang="ts">
+	import { run as run_1 } from 'svelte/legacy';
+
 	import { NgsQuests } from '$lib/types/api/runs/quests';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import type { DfAegisRunDetails, Run } from '$lib/types/api/runs/run';
 	import DfAegisSupportIcon from '../DfAegisSupportIcon.svelte';
 	import { planetfallStageBossNameMappings } from '$lib/leaderboard/boards/duelPlanetfall';
 
-	export let run: Run<unknown>;
+	interface Props {
+		run: Run<unknown>;
+	}
 
-	let label: string = '-';
+	let { run }: Props = $props();
 
-	$: {
+	let label: string = $state('-');
+
+	run_1(() => {
 		if (run.quest === NgsQuests.DfAegis) {
 			const details = run.details as DfAegisRunDetails;
 			label = details.support;
 		}
 
 		label = '-';
-	}
+	});
 </script>
 
 {#if run.quest === NgsQuests.DfAegis}

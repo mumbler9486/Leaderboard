@@ -6,14 +6,14 @@
 
 	import { mapPlayerInfoNamePref, mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
 	import type { Run } from '$lib/types/api/runs/run';
-	import YouTubeIcon from './Icons/YouTubeIcon.svelte';
+	import YouTubeIcon from './icons/YouTubeIcon.svelte';
 
-	let run: Run | undefined;
+	let run: Run | undefined = $state();
 
-	$: isSolo = run?.party.length == 0;
-	$: partySize = run?.party.length ?? 0;
+	let isSolo = $derived(run?.party.length == 0);
+	let partySize = $derived(run?.party.length ?? 0);
 
-	let modal: Modal;
+	let modal: Modal = $state();
 
 	let errorMessage = '';
 
@@ -26,8 +26,8 @@
 		modal.close();
 	};
 
-	const videoPlayers: Record<string, VideoPlayer> = {};
-	$: videoPlayersList = Object.values(videoPlayers) ?? [];
+	const videoPlayers: Record<string, VideoPlayer> = $state({});
+	let videoPlayersList = $derived(Object.values(videoPlayers) ?? []);
 
 	const stopAllVideoPlayers = () => {
 		videoPlayersList.forEach((v) => v?.stop());

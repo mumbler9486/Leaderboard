@@ -1,5 +1,9 @@
 <script lang="ts">
-	export let size: number | undefined;
+	interface Props {
+		size: number | undefined;
+	}
+
+	let { size }: Props = $props();
 
 	const mapPartySizeName = (size: number) => {
 		if (size == 1) {
@@ -14,7 +18,7 @@
 		return 'Invalid';
 	};
 
-	$: sizeLabel = mapPartySizeName(size ?? -1);
+	let sizeLabel = $derived(mapPartySizeName(size ?? -1));
 </script>
 
 {sizeLabel}

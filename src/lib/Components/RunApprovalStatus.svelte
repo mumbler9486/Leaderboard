@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus';
 
-	export let submissionStatus: RunSubmissionStatus;
+	interface Props {
+		submissionStatus: RunSubmissionStatus;
+	}
+
+	let { submissionStatus }: Props = $props();
 
 	const statusMap = {
 		[RunSubmissionStatus.Approved]: { label: 'Approved', class: 'text-success' },
@@ -9,7 +13,7 @@
 		[RunSubmissionStatus.Rejected]: { label: 'Rejected', class: 'text-error' },
 	};
 
-	$: statusInfo = statusMap[submissionStatus];
+	let statusInfo = $derived(statusMap[submissionStatus]);
 </script>
 
 <span class={statusInfo.class}>{statusInfo.label}</span>

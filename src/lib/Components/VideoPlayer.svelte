@@ -2,9 +2,13 @@
 	import { getYoutubeEmbedUrl } from '$lib/utils/youtube';
 	import { tick } from 'svelte';
 
-	export let url: string | undefined;
+	interface Props {
+		url: string | undefined;
+	}
 
-	$: videoUrl = url ? getYoutubeEmbedUrl(url) : '';
+	let { url = $bindable() }: Props = $props();
+
+	let videoUrl = $derived(url ? getYoutubeEmbedUrl(url) : '');
 
 	export const stop = async () => {
 		const oldUrl = url;
@@ -21,4 +25,4 @@
 	frameborder="0"
 	allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 	allowfullscreen
-/>
+></iframe>

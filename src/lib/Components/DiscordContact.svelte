@@ -1,5 +1,5 @@
 <script>
-	import DiscordIcon from './Icons/DiscordIcon.svelte';
+	import DiscordIcon from './icons/DiscordIcon.svelte';
 </script>
 
 <a

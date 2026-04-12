@@ -1,7 +1,9 @@
 {
 	"editor.formatOnSave": true,
 	"debug.toolBarLocation": "docked",
+	"npm.packageManager": "pnpm",
 	"i18n-ally.localesPaths": ["src/lib/i18n", "src/lib/i18n/locales"],
+	"i18n-ally.keystyle": "nested",
 	"[svelte]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
@@ -14,5 +16,7 @@
 	"[typescript]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
-	"i18n-ally.keystyle": "nested"
+	"files.associations": {
+		"*.css": "tailwindcss"
+	}
 }

@@ -1,16 +1,12 @@
 <script lang="ts">
-	import LeaderboardBanner from '../lib/Components/LeaderboardBanner.svelte';
-
 	import { t } from 'svelte-i18n';
 
-	import DiscordWidget from '$lib/Widgets/Discord/DiscordWidget.svelte';
 	import { consentDiscord, consentSelected } from '$lib/stores/consent';
-	import RecentNews from './info/news/RecentNews.svelte';
-	import Panel from '$lib/Components/Panel.svelte';
-	import HomeBoardOverview from '$lib/Widgets/HomeBoardOverview.svelte';
-	import RunStats from '$lib/Widgets/RunStats.svelte';
-	import Button from '$lib/Components/Button.svelte';
-	import { ArrowRight } from 'svelte-heros-v2';
+	import LeaderboardBanner from '$lib/components/LeaderboardBanner.svelte';
+	import HomeBoardOverview from '$lib/components/widgets/HomeBoardOverview.svelte';
+	import Panel from '$lib/components/Panel.svelte';
+	import RunStats from '$lib/components/widgets/RunStats.svelte';
+	import DiscordWidget from '$lib/components/widgets/discord/DiscordWidget.svelte';
 </script>
 
 <svelte:head>
@@ -27,11 +23,6 @@
 			<Panel title="News">
 				<div class="px-4 pb-4 sm:px-8">
 					<RecentNews />
-					<div class="flex justify-end">
-						<Button size="xs" href="/info/news" class="btn btn-secondary mt-4"
-							>All News <ArrowRight size="16" /></Button
-						>
-					</div>
 				</div>
 			</Panel>
 		</div>
@@ -40,11 +31,6 @@
 		<Panel title="News">
 			<div class="px-4 pb-4 sm:px-8">
 				<RecentNews />
-				<div class="flex justify-end">
-					<Button size="xs" href="/info/news" class="btn btn-secondary mt-4"
-						>All News <ArrowRight size="16" /></Button
-					>
-				</div>
 			</div>
 		</Panel>
 	</div>

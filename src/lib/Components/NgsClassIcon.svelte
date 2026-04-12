@@ -2,9 +2,13 @@
 	import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 	import Tooltip from './Tooltip.svelte';
 
-	export let combatClass: NgsPlayerClass | undefined;
-	export let showLabel: boolean = false;
-	export let showTooltip: boolean = false;
+	interface Props {
+		combatClass: NgsPlayerClass | undefined;
+		showLabel?: boolean;
+		showTooltip?: boolean;
+	}
+
+	let { combatClass, showLabel = false, showTooltip = false }: Props = $props();
 
 	const classMap = {
 		[NgsPlayerClass.Hunter]: { name: 'Hunter', icon: '/icons/class/class-hunter.png' },
@@ -20,7 +24,7 @@
 		[NgsPlayerClass.Unknown]: { name: 'Unknown', icon: '/icons/class/class-unknown.png' },
 	};
 
-	$: classInfo = classMap[combatClass ?? NgsPlayerClass.Unknown];
+	let classInfo = $derived(classMap[combatClass ?? NgsPlayerClass.Unknown]);
 </script>
 
 {#if showTooltip}

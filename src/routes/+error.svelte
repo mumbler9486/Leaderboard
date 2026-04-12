@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 	import { page } from '$app/stores';
-	import ErrorSplash from '$lib/PageComponents/Error/ErrorSplash.svelte';
+	import ErrorSplash from '$lib/components/page/error/ErrorSplash.svelte';
 
-	$: pageStatus = $page.status;
-	$: pageErrorMessage = $page.error?.message ?? 'Error';
+	let pageStatus = $derived($page.status);
+	let pageErrorMessage = $derived($page.error?.message ?? 'Error');
 </script>
 
 <svelte:head>
@@ -17,7 +17,7 @@
 	{/if}
 </svelte:head>
 <div class="flex grow flex-col content-center">
-	<div class="container mx-auto mt-8 flex grow rounded-md border border-secondary bg-base-100/75">
+	<div class="border-secondary bg-base-100/75 container mx-auto mt-8 flex grow rounded-md border">
 		{#if pageStatus == 404}
 			<ErrorSplash status={404} message={'Page not found'} />
 		{:else if pageStatus == 401}

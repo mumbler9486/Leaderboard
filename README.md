@@ -1,38 +1,42 @@
-[![Build Status](https://github.com/mumbler9486/Leaderboard/actions/workflows/azure-staticwebapp.yml/badge.svg)](https://github.com/mumbler9486/Leaderboard/actions/workflows/azure-staticwebapp.yml)
+# sv
 
-# Leaderboard
+Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
-Unofficial Leaderboard for PSO2:NGS.
+## Creating a project
 
-# Questions, Suggestions, Issues
+If you're seeing this, you've probably already done this step. Congrats!
 
-Please visit our Discord for any questions, suggestions, or issues regarding the website. [Discord Invite](https://discord.com/invite/fFtEEJHuFp)
+```sh
+# create a new project
+npx sv create my-app
+```
 
-**Do not submit Github issues regarding run disputes or run submissions. Please contact us on Discord.**
+To recreate this project with the same configuration:
 
-# Setup Local
+```sh
+# recreate this project
+pnpm dlx sv@0.15.1 create --template minimal --types ts --add prettier eslint vitest="usages:unit,component" tailwindcss="plugins:none" sveltekit-adapter="adapter:cloudflare+cfTarget:pages" drizzle="database:d1" --install pnpm pso2-leaderboard
+```
 
-This project is developed in VS Code.
+## Developing
 
-1. Open repository in VS Code as a folder.
-2. VS code will suggest extensions to install as prescribed by the workspace, install them.
-3. Run `npm install` to install the required dependencies on your local machine.
-4. Run the `npm run dev:mock` command. This starts the server with the API mock.
-5. On VS code, click on the "Run and Debug" icon on the left, select the configuration "Debug Chrome w/Mock" and run it
-6. A development chrome instance opens and you should see the Leaderboard.
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
-# Development
+```sh
+npm run dev
 
-Please adhere to the following when developing:
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
+```
 
-- Use "Format on Save" so we have consistent code throughout the code.
+## Building
 
-# Environment
+To create a production version of your app:
 
-To develop locally, first configure a `.env` file in the root of this repository. You may make a copy of `env.local.example` to get started. The values are already pre-configured for a local DB running in docker. See `/db_mocks` for more information on how to get a local DB running.
+```sh
+npm run build
+```
 
-Please do not commit config values to this repository.
+You can preview the production build with `npm run preview`.
 
-## Discord Webhooks
-
-It is recommended to test with Discord webhooks. Create a private discord server for yourself and in the server settings, create a webhook to dump webhook messages to. Thumbnail can be left blank.
+> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.

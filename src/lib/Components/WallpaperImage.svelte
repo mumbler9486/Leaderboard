@@ -2,14 +2,24 @@
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	export let src: string;
-	export let thumb: string;
-	export let alt: string;
-	export let loading: 'eager' | 'lazy' | null | undefined;
-	export let decoding: 'async' | 'sync' | 'auto' | null | undefined;
+	interface Props {
+		src: string;
+		thumb: string;
+		alt: string;
+		loading: 'eager' | 'lazy' | null | undefined;
+		decoding: 'async' | 'sync' | 'auto' | null | undefined;
+	}
 
-	let loaded = false;
-	let ref: any;
+	let {
+		src,
+		thumb,
+		alt,
+		loading,
+		decoding
+	}: Props = $props();
+
+	let loaded = $state(false);
+	let ref: any = $state();
 
 	onMount(() => {
 		if (ref.complete) loaded = true;
@@ -24,7 +34,7 @@
 	{decoding}
 	role="presentation"
 	bind:this={ref}
-	on:load={() => (loaded = true)}
+	onload={() => (loaded = true)}
 	transition:fade|global
 />
 {#if !loaded}

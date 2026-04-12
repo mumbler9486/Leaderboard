@@ -16,11 +16,15 @@
 	import { InformationCircle } from 'svelte-heros-v2';
 	import NgsStyleClassIcon from '../NgsStyleClassIcon.svelte';
 
-	export let submissions: Run<unknown>[];
+	interface Props {
+		submissions: Run<unknown>[];
+	}
 
-	let modal: RunInfoModal;
+	let { submissions }: Props = $props();
 
-	$: headerDef = [
+	let modal: RunInfoModal = $state();
+
+	let headerDef = $derived([
 		{ label: $t('page.moderator.submissions.header.id'), textAlign: 'center', class: 'w-4' },
 		{
 			label: $t('page.moderator.submissions.header.serverRegion'),
@@ -62,7 +66,7 @@
 			textAlign: 'center',
 			class: 'w-2 text-lg',
 		},
-	] satisfies (TableHeader | undefined)[];
+	] satisfies (TableHeader | undefined)[]);
 
 	const runInfoOpen = (runId: number) => {
 		const run = submissions.find((r) => r.runId == runId);

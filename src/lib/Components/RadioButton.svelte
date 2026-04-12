@@ -1,10 +1,23 @@
 <script lang="ts">
-	export let icon: string | undefined = undefined;
-	export let alt: string;
-	export let value: string;
-	export let name: string;
-	export let group: any;
-	export let disabled: boolean = false;
+	interface Props {
+		icon?: string | undefined;
+		alt: string;
+		value: string;
+		name: string;
+		group: any;
+		disabled?: boolean;
+		children?: import('svelte').Snippet;
+	}
+
+	let {
+		icon = undefined,
+		alt,
+		value,
+		name,
+		group = $bindable(),
+		disabled = false,
+		children
+	}: Props = $props();
 </script>
 
 <div class="form-control">
@@ -14,7 +27,7 @@
 		{#if !!icon}
 			<img class="pointer-events-none" src={icon} {alt} />
 		{/if}
-		<span class="label-text"><slot /></span>
+		<span class="label-text">{@render children?.()}</span>
 		<input
 			type="radio"
 			class="radio radio-sm rounded border-neutral-content/25 checked:bg-neutral-content"
