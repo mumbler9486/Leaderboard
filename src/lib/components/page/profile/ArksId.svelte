@@ -1,8 +1,8 @@
 <script lang="ts">
 	import TrophyList from '$lib/components/page/profile/TrophyList.svelte';
-	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
-	import SocialBadge from '$lib/Components/SocialBadge.svelte';
-	import Divider from '$lib/Components/Divider.svelte';
+	import PlayerNameBadge from '$lib/components/PlayerNameBadge.svelte';
+	import SocialBadge from '$lib/components/SocialBadge.svelte';
+	import Divider from '$lib/components/Divider.svelte';
 	import type { PlayerProfile } from '$lib/types/api/players/player';
 	import { isNullOrEmpty } from '$lib/utils/string';
 	import { countriesMap } from '$lib/types/api/countries';
@@ -34,12 +34,12 @@
 	let serverRegion = $derived(player?.server ? serverRegionMap[player.server] : '');
 </script>
 
-<div class="border-secondary bg-base-100/75 container m-16 mx-auto flex grow rounded-md border">
-	<div class="border-secondary bg-base-100 m-2 flex grow flex-col gap-1 rounded-md border p-4 px-8">
+<div class="container m-16 mx-auto flex grow rounded-md border border-secondary bg-base-100/75">
+	<div class="m-2 flex grow flex-col gap-1 rounded-md border border-secondary bg-base-100 p-4 px-8">
 		<div class="text-center text-4xl font-light">Your ARKs ID</div>
 		<Divider />
 		{#if player && !isLoading}
-			<div class="border-secondary bg-secondary/25 flex rounded-md border p-2 md:flex-row">
+			<div class="flex rounded-md border border-secondary bg-secondary/25 p-2 md:flex-row">
 				<div class="avatar mr-0 place-self-center md:mr-2 md:place-self-auto">
 					<div class="w-32 rounded">
 						{#if false}
@@ -112,11 +112,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="border-secondary bg-secondary/25 flex justify-center rounded-md border p-2">
+			<div class="flex justify-center rounded-md border border-secondary bg-secondary/25 p-2">
 				<div class="flex grow flex-col">
 					<span class="text-center text-lg font-semibold">Profile:</span>
 					<div
-						class="break-anywhere bg-base-100 w-full rounded p-2 text-sm whitespace-pre-wrap md:text-base"
+						class="break-anywhere w-full rounded bg-base-100 p-2 text-sm whitespace-pre-wrap md:text-base"
 					>
 						{isNullOrEmpty(player.bio)
 							? `We don't have a profile for ${player.playerName} but they're definitely cool!`
@@ -125,7 +125,7 @@
 				</div>
 			</div>
 			{#if player.trophies.length > 0}
-				<div class="border-secondary bg-secondary/25 flex justify-center rounded-md border p-2">
+				<div class="flex justify-center rounded-md border border-secondary bg-secondary/25 p-2">
 					<div class="flex grow flex-col">
 						<span class="text-center text-lg font-semibold">Trophies:</span>
 						<TrophyList trophies={player.trophies} />
@@ -135,7 +135,7 @@
 		{:else}
 			<div class="flex flex-col place-content-center place-items-center gap-1">
 				Loading - Please Wait...<br /><progress
-					class="progress progress-primary border-neutral-content/20 w-56 border"
+					class="progress w-56 border border-neutral-content/20 progress-primary"
 				></progress>
 			</div>
 		{/if}

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import PlayerNameBadge from '$lib/Components/PlayerNameBadge.svelte';
-	import RankingBadge from '$lib/Components/RankingBadge.svelte';
-	import RunInfoModal from '$lib/Components/RunInfoModal.svelte';
-	import Table, { type TableHeader } from '$lib/Components/Tables/Table.svelte';
-	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
+	import PlayerNameBadge from '$lib/components/PlayerNameBadge.svelte';
+	import RankingBadge from '$lib/components/RankingBadge.svelte';
+	import RunInfoModal from '$lib/components/RunInfoModal.svelte';
+	import Table, { type TableHeader } from '$lib/components/Tables/Table.svelte';
+	import TimeDisplay from '$lib/components/TimeDisplay.svelte';
 	import { lookupBoard } from '$lib/leaderboard/boards';
 	import { planetfallStageBossNameMappings } from '$lib/leaderboard/boards/duelPlanetfall';
 	import { mapPartyMemberToNamePref } from '$lib/types/api/mapNamePref';
@@ -13,7 +13,7 @@
 	import type {
 		MasqDuelRunDetails,
 		PlanetfallStrikeRunDetails,
-		Run,
+		Run
 	} from '$lib/types/api/runs/run';
 	import { formatString } from '$lib/utils/string';
 	import { t } from 'svelte-i18n';
@@ -29,20 +29,20 @@
 	const headers: TableHeader[] = [
 		{
 			label: '#',
-			textAlign: 'center',
+			textAlign: 'center'
 		},
 		{
-			label: 'Player',
+			label: 'Player'
 		},
 		{
-			label: 'Time',
+			label: 'Time'
 		},
 		{
-			label: 'Category',
+			label: 'Category'
 		},
 		{
-			label: '',
-		},
+			label: ''
+		}
 	];
 
 	const getQuestLabel = (run: Run<unknown>) => {
@@ -71,7 +71,7 @@
 			partySize: partySizeName,
 			questRank: run.questRank.toString(),
 			masqDepth: masqDepth,
-			planetfallStage: `${planetfallStageNumber}: ${planetfallStageName}`,
+			planetfallStage: `${planetfallStageNumber}: ${planetfallStageName}`
 		});
 	};
 

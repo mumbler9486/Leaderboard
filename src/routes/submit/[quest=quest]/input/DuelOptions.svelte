@@ -1,10 +1,10 @@
 <script lang="ts">
-	import Select from '$lib/Components/Select.svelte';
+	import Select from '$lib/components/Select.svelte';
 	import { duelsRunForm } from '../forms/duelsForm';
 
 	const supportOptions = [
 		{ label: 'Yes, at least one', value: true },
-		{ label: 'No, not at all', value: false },
+		{ label: 'No, not at all', value: false }
 	];
 </script>
 

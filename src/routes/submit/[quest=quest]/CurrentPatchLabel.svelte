@@ -1,5 +1,5 @@
 <script lang="ts">
-	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
+	import InfoTooltip from '$lib/components/InfoTooltip.svelte';
 	import { currentPatchLabel } from '$lib/constants/patchCodes';
 </script>
 
@@ -14,7 +14,7 @@
 	</div>
 	<input
 		type="text"
-		class="input input-bordered w-full bg-neutral"
+		class="input-bordered input w-full bg-neutral"
 		value={currentPatchLabel}
 		readonly
 	/>

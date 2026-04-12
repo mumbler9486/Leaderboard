@@ -1,20 +1,20 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 	import { onMount } from 'svelte';
-	import Button from '$lib/Components/Button.svelte';
+	import Button from '$lib/components/Button.svelte';
 	import type { CreateAccountRequest } from '$lib/server/types/api/createAccount';
 	import { fetchPostApi } from '$lib/utils/fetch';
 	import { goto } from '$app/navigation';
 	import { clientPrincipleStore } from '$lib/stores/userLogin';
 	import { UserRole } from '$lib/types/api/users/userRole';
-	import Alert from '$lib/Components/Alert.svelte';
-	import LoadingBar from '$lib/Components/LoadingBar.svelte';
+	import Alert from '$lib/components/Alert.svelte';
+	import LoadingBar from '$lib/components/LoadingBar.svelte';
 	import { ErrorCodes } from '$lib/types/api/error';
 
-	let characterName = '';
+	let characterName = $state('');
 
-	let isLoading = true;
-	let serverError: string | undefined = undefined;
+	let isLoading = $state(true);
+	let serverError: string | undefined = $state(undefined);
 
 	onMount(async () => {
 		isLoading = true;
@@ -45,7 +45,7 @@
 
 		const createAccountRequest: CreateAccountRequest = {
 			username: $clientPrincipleStore.userDetails,
-			characterName: characterName,
+			characterName: characterName
 		} satisfies CreateAccountRequest;
 
 		isLoading = true;
@@ -97,7 +97,7 @@
 					<input
 						type="text"
 						placeholder="Please enter a character name..."
-						class="input input-bordered"
+						class="input-bordered input"
 						maxlength="25"
 						bind:value={characterName}
 					/>

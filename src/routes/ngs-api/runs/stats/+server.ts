@@ -1,5 +1,5 @@
 import { leaderboardDb } from '$lib/server/db/db.js';
-import { countRuns } from '$lib/server/repositories/runsRepository.js';
+import { countRuns } from '$lib/server/repositories/runsRepositoryLegacy';
 import { PartySize } from '$lib/types/api/partySizes.js';
 import type { RunStats } from '$lib/types/api/runs/runStats.js';
 import { json } from '@sveltejs/kit';
@@ -12,7 +12,7 @@ export async function GET({}) {
 		const response: RunStats = {
 			soloCount: counts.soloCount,
 			duoCount: counts.duoCount,
-			partyCount: counts.partyCount,
+			partyCount: counts.partyCount
 		};
 
 		return json(response);

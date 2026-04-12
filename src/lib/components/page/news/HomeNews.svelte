@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Divider from '$lib/Components/Divider.svelte';
+	import Divider from '$lib/components/Divider.svelte';
 
 	interface Props {
 		publicationDateIso: string;
@@ -8,12 +8,7 @@
 		children?: import('svelte').Snippet;
 	}
 
-	let {
-		publicationDateIso,
-		lastUpdatedIso = undefined,
-		title,
-		children
-	}: Props = $props();
+	let { publicationDateIso, lastUpdatedIso = undefined, title, children }: Props = $props();
 
 	let publicationDateObj = $derived(new Date(publicationDateIso));
 	let lastUpdatedObj = $derived(new Date(lastUpdatedIso ?? ''));

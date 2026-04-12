@@ -1,22 +1,32 @@
 <script lang="ts">
-	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
-	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
+	import { run } from 'svelte/legacy';
+
+	import InfoTooltip from '$lib/components/InfoTooltip.svelte';
+	import TimeDisplay from '$lib/components/TimeDisplay.svelte';
 	import { runForm } from '../forms/runForm';
 
-	// The total allowable time for the quest
-	export let limitMinutes: number;
-	export let limitSeconds: number = 0;
+	interface Props {
+		// The total allowable time for the quest
+		limitMinutes: number;
+		limitSeconds?: number;
+	}
 
-	let minutes = limitMinutes;
-	let seconds = limitSeconds;
+	let { limitMinutes, limitSeconds = 0 }: Props = $props();
 
-	$: remainingSeconds = minutes * 60 + seconds;
-	$: actualSeconds = Math.max(limitMinutes * 60 + limitSeconds - remainingSeconds - 1, 0);
-	$: $runForm.time = {
-		hours: 0,
-		minutes: Math.floor(actualSeconds / 60),
-		seconds: actualSeconds % 60,
-	};
+	let minutes = $state(limitMinutes);
+	let seconds = $state(limitSeconds);
+
+	let remainingSeconds = $derived(minutes * 60 + seconds);
+	let actualSeconds = $derived(
+		Math.max(limitMinutes * 60 + limitSeconds - remainingSeconds - 1, 0)
+	);
+	run(() => {
+		$runForm.time = {
+			hours: 0,
+			minutes: Math.floor(actualSeconds / 60),
+			seconds: actualSeconds % 60
+		};
+	});
 
 	export const resetForm = () => {
 		minutes = limitMinutes;
@@ -36,26 +46,26 @@
 		<input
 			placeholder="MM"
 			type="number"
-			class="input join-item input-bordered w-full"
+			class="input-bordered input join-item w-full"
 			min="0"
 			max={limitMinutes}
 			maxlength="2"
 			bind:value={minutes}
 		/>
-		<span class="border-fallback join-item select-none border-b border-t border-primary px-4 pt-2"
+		<span class="border-fallback join-item border-t border-b border-primary px-4 pt-2 select-none"
 			>:</span
 		>
 		<input
 			placeholder="SS"
 			type="number"
-			class="input join-item input-bordered w-full"
+			class="input-bordered input join-item w-full"
 			min="0"
 			max="60"
 			maxlength="2"
 			bind:value={seconds}
 		/>
 		<span
-			class="border-fallback join-item select-none border border-primary bg-neutral px-4 pt-2 text-center"
+			class="border-fallback join-item border border-primary bg-neutral px-4 pt-2 text-center select-none"
 			>/{limitMinutes}:{limitSeconds.toString().padStart(2, '0')}</span
 		>
 	</label>

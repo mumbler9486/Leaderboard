@@ -3,7 +3,7 @@
 	import { clientPrincipleStore, playerInfoStore } from '$lib/stores/userLogin';
 	import { consentSelected } from '$lib/stores/consent';
 	import { afterNavigate, goto } from '$app/navigation';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import Navbar, { type MenuGroup } from '$lib/components/page/header/Navbar.svelte';
 	import { UserRole } from '$lib/types/api/users/userRole';
 	interface Props {
@@ -41,7 +41,7 @@
 		'/tos'
 	];
 	afterNavigate(() => {
-		if (accountSetupIgnorePaths.some((path) => $page.url.pathname.startsWith(path))) {
+		if (accountSetupIgnorePaths.some((path) => page.url.pathname.startsWith(path))) {
 			return;
 		}
 		if (!$clientPrincipleStore) {
@@ -171,7 +171,7 @@
 	] satisfies MenuGroup[]);
 	let headerMenuItems = $derived([...staticMenuItems, ...dynamicMenuItems]);
 	let accountSetupIgnoredPage = $derived(
-		accountSetupIgnorePaths.some((path) => $page.url.pathname.startsWith(path))
+		accountSetupIgnorePaths.some((path) => page.url.pathname.startsWith(path))
 	);
 </script>
 

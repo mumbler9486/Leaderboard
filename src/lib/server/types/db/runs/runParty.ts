@@ -1,8 +1,8 @@
 export interface RunPartyDbModel {
-	Id: number;
-	RunId: number;
-	PlayerId: number;
-	Ordinal: number;
+	Id: string;
+	RunId: string;
+	PlayerId: string;
+	Ordinal: string;
 	PovLink: string;
 	RunCharacterName: string;
 	MainClass: string;

@@ -1,18 +1,18 @@
 export interface RunDbModel {
-	Id: number;
-	SubmitterId: number;
+	Id: string;
+	SubmitterId: string;
 	Game: string;
 	Quest: string;
 	Category: string;
 	ServerRegion: string;
 	Patch: string;
-	QuestRank: number;
-	PartySize: number;
-	RunTime: Date;
+	QuestRank: string;
+	PartySize: string;
+	RunTime: string;
 	Notes: string;
-	SubmissionDate: Date;
-	SubmissionStatus: number;
-	DateReviewed: Date;
+	SubmissionDate: string;
+	SubmissionStatus: string;
+	DateReviewed: string;
 	ModNotes: string;
 	Attributes: string;
 	ReviewedBy: string;

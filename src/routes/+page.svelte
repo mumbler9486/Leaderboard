@@ -7,6 +7,7 @@
 	import Panel from '$lib/components/Panel.svelte';
 	import RunStats from '$lib/components/widgets/RunStats.svelte';
 	import DiscordWidget from '$lib/components/widgets/discord/DiscordWidget.svelte';
+	import RecentNews from './info/news/RecentNews.svelte';
 </script>
 
 <svelte:head>

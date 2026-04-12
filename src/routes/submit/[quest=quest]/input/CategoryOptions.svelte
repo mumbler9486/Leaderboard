@@ -1,15 +1,21 @@
 <script lang="ts">
-	import Select from '$lib/Components/Select.svelte';
+	import Select from '$lib/components/Select.svelte';
 	import { ngsCategoryTranslationMap, NgsRunCategories } from '$lib/types/api/runs/categories';
 	import { questForm } from '../forms/questForm';
 	import { t } from 'svelte-i18n';
 
-	export let allowedCategories: NgsRunCategories[] = [];
+	interface Props {
+		allowedCategories?: NgsRunCategories[];
+	}
 
-	$: selectableOptions = allowedCategories.map((c) => ({
-		label: $t(ngsCategoryTranslationMap[c]),
-		value: c,
-	}));
+	let { allowedCategories = [] }: Props = $props();
+
+	let selectableOptions = $derived(
+		allowedCategories.map((c) => ({
+			label: $t(ngsCategoryTranslationMap[c]),
+			value: c
+		}))
+	);
 </script>
 
 <Select

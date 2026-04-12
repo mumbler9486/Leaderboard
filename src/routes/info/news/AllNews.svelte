@@ -1,7 +1,7 @@
 <script lang="ts">
-	import DiscordContact from '$lib/Components/DiscordContact.svelte';
-	import HomeNews from '$lib/PageComponents/News/HomeNews.svelte';
-	import NewsSection from '$lib/PageComponents/News/NewsSection.svelte';
+	import DiscordContact from '$lib/components/DiscordContact.svelte';
+	import HomeNews from '$lib/components/page/news/HomeNews.svelte';
+	import NewsSection from '$lib/components/page/news/NewsSection.svelte';
 	import RecentNews from './RecentNews.svelte';
 </script>
 
@@ -368,9 +368,9 @@
 		</div>
 	</NewsSection>
 	<NewsSection sectionTitle="💄 New Submission Landing Page">
-		The <a href="/submit">Submit a Run</a> page has got a new makeover with a new landing page. This
-		will make it easier for us to implement quest specific logic and have more leaderboard categories
-		in the future.
+		The <a href="/submit">Submit a Run</a> page has got a new makeover with a new landing page. This will
+		make it easier for us to implement quest specific logic and have more leaderboard categories in the
+		future.
 	</NewsSection>
 </HomeNews>
 <HomeNews publicationDateIso="2023-04-18T00:00:00.000Z" title="Leaderboard 3.1 Update">

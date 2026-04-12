@@ -1,11 +1,14 @@
-<!-- @migration-task Error while migrating Svelte code: $$props is used together with named props in a way that cannot be automatically migrated. -->
 <script lang="ts">
-	export let showLabel: boolean = true;
+	interface Props {
+		showLabel: boolean;
+	}
+
+	const { showLabel = true }: Props = $props();
 </script>
 
-<div class="flex flex-col place-content-center place-items-center gap-1 {$$props.class}">
+<div class="flex flex-col place-content-center place-items-center gap-1">
 	{#if showLabel}
 		Loading - Please Wait...<br />
 	{/if}
-	<progress class="progress progress-primary w-56 border border-neutral-content/20" />
+	<progress class="progress w-56 border border-neutral-content/20 progress-primary"></progress>
 </div>

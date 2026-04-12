@@ -1,5 +1,5 @@
 <script>
-	import Select from '$lib/Components/Select.svelte';
+	import Select from '$lib/components/Select.svelte';
 	import { duelMasqRunForm } from '../forms/duelMasqForm';
 </script>
 

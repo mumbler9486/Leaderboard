@@ -1,11 +1,15 @@
 <script lang="ts">
 	import PlayerSelectionInput from './PlayerSelectionInput.svelte';
-	import TextInput from '$lib/Components/TextInput.svelte';
+	import TextInput from '$lib/components/TextInput.svelte';
 	import ClassSelector from './ClassSelector.svelte';
 	import WeaponSelector from './WeaponSelector.svelte';
 	import { partyForm } from '../forms/partyForm';
 
-	export let playerIndex: number;
+	interface Props {
+		playerIndex: number;
+	}
+
+	let { playerIndex }: Props = $props();
 </script>
 
 <div>

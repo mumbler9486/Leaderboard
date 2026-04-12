@@ -1,9 +1,9 @@
 <script>
-	import DiscordContact from '$lib/Components/DiscordContact.svelte';
+	import DiscordContact from '$lib/components/DiscordContact.svelte';
 </script>
 
 <footer class="border-t border-t-secondary">
-	<div class="container mx-auto px-2 pb-4 pt-4">
+	<div class="container mx-auto px-2 pt-4 pb-4">
 		<div class="grid grid-cols-3">
 			<div class="text-left text-xs text-neutral-content">
 				<strong>This website has no affiliation with SEGA, and is not an official website.</strong>
@@ -27,10 +27,10 @@
 				<br />
 				PSO2Central Arks Star by Niles.
 				<br />
-				<a href="/privacy-policy" rel="noreferrer noopener" class="link-primary link no-underline"
+				<a href="/privacy-policy" rel="noreferrer noopener" class="link link-primary no-underline"
 					>Privacy Policy</a
 				>
-				<a href="/tos" rel="noreferrer noopener" class="link-primary link no-underline"
+				<a href="/tos" rel="noreferrer noopener" class="link link-primary no-underline"
 					>Terms of Service</a
 				>
 			</div>

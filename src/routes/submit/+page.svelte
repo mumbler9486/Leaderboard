@@ -1,18 +1,20 @@
 <script lang="ts">
-	import Divider from '$lib/Components/Divider.svelte';
-	import JumboButton from '$lib/Components/JumboButton.svelte';
+	import Divider from '$lib/components/Divider.svelte';
+	import JumboButton from '$lib/components/JumboButton.svelte';
 	import { allLeaderboards } from '$lib/leaderboard/boards';
 	import type { LeaderboardDefinition } from '$lib/leaderboard/leaderboard';
 	import { NgsQuests } from '$lib/types/api/runs/quests';
 	import { t } from 'svelte-i18n';
 
-	$: leaderboards = Object.values(
-		allLeaderboards.reduce(
-			(prev, curr) => {
-				prev[curr.questRoute] = curr;
-				return prev;
-			},
-			{} as Record<string, LeaderboardDefinition<any, any>>
+	let leaderboards = $derived(
+		Object.values(
+			allLeaderboards.reduce(
+				(prev, curr) => {
+					prev[curr.questRoute] = curr;
+					return prev;
+				},
+				{} as Record<string, LeaderboardDefinition<any, any>>
+			)
 		)
 	);
 </script>

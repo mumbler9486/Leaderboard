@@ -1,21 +1,21 @@
 <script lang="ts">
-	import ArksId from '$lib/PageComponents/Profile/ArksId.svelte';
+	import ArksId from '$lib/components/page/profile/ArksId.svelte';
 	import { t } from 'svelte-i18n';
 	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import type { PlayerProfile } from '$lib/types/api/players/player';
 	import { fetchGetApi } from '$lib/utils/fetch';
 
-	let isLoading: boolean = false;
-	let player: PlayerProfile;
-	let error: string | undefined;
+	let isLoading: boolean = $state(false);
+	let player: PlayerProfile = $state();
+	let error: string | undefined = $state();
 
 	const reloadProfile = async () => {
 		isLoading = true;
 		error = undefined;
 
 		try {
-			const playerId = parseInt($page.params.playerId);
+			const playerId = parseInt(page.params.playerId);
 			const result = await fetchGetApi<PlayerProfile>(`/ngs-api/users/${playerId}`);
 
 			if (typeof result == 'string') {

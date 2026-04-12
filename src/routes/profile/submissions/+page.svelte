@@ -1,6 +1,6 @@
 <script lang="ts">
-	import LoadingBar from '$lib/Components/LoadingBar.svelte';
-	import LeaderboardTitle from '$lib/Components/LeaderboardTitle.svelte';
+	import LoadingBar from '$lib/components/LoadingBar.svelte';
+	import LeaderboardTitle from '$lib/components/LeaderboardTitle.svelte';
 	import { t } from 'svelte-i18n';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import type { Run } from '$lib/types/api/runs/run';
@@ -8,14 +8,14 @@
 	import { copyQueryParams } from '$lib/utils/queryParams';
 	import { RunSortOption } from '$lib/types/api/runs/sortOptions';
 	import { playerInfoStore } from '$lib/stores/userLogin';
-	import PlayerSubmissionsTable from '$lib/Components/Tables/PlayerSubmissionsTable.svelte';
-	import Button from '$lib/Components/Button.svelte';
+	import PlayerSubmissionsTable from '$lib/components/Tables/PlayerSubmissionsTable.svelte';
+	import Button from '$lib/components/Button.svelte';
 	import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
-	import DiscordContact from '$lib/Components/DiscordContact.svelte';
+	import DiscordContact from '$lib/components/DiscordContact.svelte';
 
-	let submissionCount = -1;
-	let runCount = -1;
-	let showSubmissions = true;
+	let submissionCount = $state(-1);
+	let runCount = $state(-1);
+	let showSubmissions = $state(true);
 
 	const fetchRuns = (): Promise<Run<unknown>[]> => {
 		if (showSubmissions) {
@@ -30,7 +30,7 @@
 		const filter: SubmissionSearchFilter = {
 			sort: RunSortOption.Recent,
 			page: 0,
-			submitterId: $playerInfoStore?.playerId,
+			submitterId: $playerInfoStore?.playerId
 		};
 
 		try {
@@ -56,7 +56,7 @@
 		const filter: RunsSearchFilter = {
 			sort: RunSortOption.Recent,
 			page: 0,
-			userId: $playerInfoStore?.playerId,
+			userId: $playerInfoStore?.playerId
 		};
 
 		try {
@@ -77,7 +77,7 @@
 		return [];
 	};
 
-	$: submissionPromise = fetchRuns();
+	let submissionPromise = $derived(fetchRuns());
 
 	const refreshRuns = () => {
 		submissionPromise = fetchRuns();

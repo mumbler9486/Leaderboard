@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import ModeratorSubmissionsTable from '$lib/Components/Tables/ModeratorSubmissionsTable.svelte';
-	import LoadingBar from '$lib/Components/LoadingBar.svelte';
+	import ModeratorSubmissionsTable from '$lib/components/Tables/ModeratorSubmissionsTable.svelte';
+	import LoadingBar from '$lib/components/LoadingBar.svelte';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import type { Run } from '$lib/types/api/runs/run';
-	import LeaderboardTitle from '$lib/Components/LeaderboardTitle.svelte';
-	import Button from '$lib/Components/Button.svelte';
+	import LeaderboardTitle from '$lib/components/LeaderboardTitle.svelte';
+	import Button from '$lib/components/Button.svelte';
 	import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus';
 	import type { SubmissionSearchFilter } from '$lib/types/api/validation/submissionSearchFilter';
 	import { copyQueryParams } from '$lib/utils/queryParams';
@@ -13,15 +13,15 @@
 
 	const HistoryCount = 50;
 
-	let unapprovedCount = -1;
-	let showUnapproved = true;
+	let unapprovedCount = $state(-1);
+	let showUnapproved = $state(true);
 
 	const fetchRuns = async (): Promise<Run<unknown>[]> => {
 		const filter: SubmissionSearchFilter = {
 			status: showUnapproved ? RunSubmissionStatus.AwaitingApproval : undefined,
 			take: HistoryCount,
 			sort: RunSortOption.Recent,
-			page: 0,
+			page: 0
 		};
 
 		try {
@@ -43,7 +43,7 @@
 		}
 		return [];
 	};
-	$: submissionPromise = fetchRuns();
+	let submissionPromise = $derived(fetchRuns());
 
 	const refreshRuns = () => {
 		submissionPromise = fetchRuns();

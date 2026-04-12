@@ -1,17 +1,17 @@
 <script lang="ts">
-	import Select from '$lib/Components/Select.svelte';
+	import Select from '$lib/components/Select.svelte';
 	import { ServerRegion } from '$lib/types/api/serverRegions';
 	import { runForm } from '../forms/runForm';
 
 	const serverOptions = [
 		{
 			label: 'Global',
-			value: ServerRegion.Global,
+			value: ServerRegion.Global
 		},
 		{
 			label: 'Japan',
-			value: ServerRegion.Japan,
-		},
+			value: ServerRegion.Japan
+		}
 	];
 </script>
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Tooltip from '$lib/Components/Tooltip.svelte';
+	import Tooltip from '$lib/components/Tooltip.svelte';
 	import type { Trophy } from '$lib/types/api/players/trophy';
 
 	interface Props {

@@ -1,16 +1,16 @@
 <script lang="ts">
-	import Select from '$lib/Components/Select.svelte';
+	import Select from '$lib/components/Select.svelte';
 	import { LeaderboardDefinition } from '$lib/leaderboard/leaderboard';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import { NgsQuests } from '$lib/types/api/runs/quests';
 	import { planetfallStrikeRunForm } from '../forms/planetfallStrikeForm';
 	import { questForm } from '../forms/questForm';
 
-	export let currentBoard: LeaderboardDefinition<any, any>;
+	interface Props {
+		currentBoard: LeaderboardDefinition<any, any>;
+	}
 
-	$: selectableOptions = new Array(getMaxRank(currentBoard, $planetfallStrikeRunForm.stage))
-		.fill(0)
-		.map((_, i) => ({ label: (i + 1).toString(), value: i + 1 }));
+	let { currentBoard }: Props = $props();
 
 	const getMaxRank = (board: LeaderboardDefinition<any, any>, ...watchForms: unknown[]) => {
 		if (
@@ -27,6 +27,11 @@
 
 		return board.maxQuestRank;
 	};
+	let selectableOptions = $derived(
+		new Array(getMaxRank(currentBoard, $planetfallStrikeRunForm.stage))
+			.fill(0)
+			.map((_, i) => ({ label: (i + 1).toString(), value: i + 1 }))
+	);
 </script>
 
 <Select

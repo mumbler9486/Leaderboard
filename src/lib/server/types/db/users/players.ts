@@ -1,5 +1,5 @@
 export interface PlayersDbModel {
-	Id: number;
+	Id: string;
 	UserId: string;
 	Roles: string;
 	PlayerName: string;
@@ -10,11 +10,11 @@ export interface PlayersDbModel {
 	Discord: string;
 	Twitter: string;
 	Trophies: string;
-	PreferredNameType: number;
+	PreferredNameType: string;
 	Server: string;
-	Ship: number;
+	Ship: string;
 	Flag: string;
-	NameEffectType: number;
+	NameEffectType: string;
 	NameColor1: string;
 	NameColor2: string;
 }

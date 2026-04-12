@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { afterNavigate } from '$app/navigation';
 	import DiscordIcon from '$lib/components/icons/DiscordIcon.svelte';
-	import Panel from '$lib/Components/Panel.svelte';
+	import Panel from '$lib/components/Panel.svelte';
 	import DiscordUser from '$lib/components/widgets/discord/DiscordUser.svelte';
 	import { onMount } from 'svelte';
 

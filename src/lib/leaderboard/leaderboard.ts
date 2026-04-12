@@ -3,16 +3,16 @@ import { NgsRunCategories } from '$lib/types/api/runs/categories';
 import { NgsQuests } from '$lib/types/api/runs/quests';
 import {
 	runSubmissionRequestSchema,
-	type RunSubmissionRequest,
+	type RunSubmissionRequest
 } from '$lib/types/api/validation/runSubmission';
 import { listEnumValues } from '$lib/utils/enum';
 import { object, string, number, mixed, type ObjectSchema, array, type AnyObject } from 'yup';
 import type { RunAttributeFilter } from '$lib/server/types/db/runs/runAttributeFilter';
 import {
 	runsSearchFilterSchema,
-	type RunsSearchFilter,
+	type RunsSearchFilter
 } from '$lib/types/api/validation/runsSearchFilter';
-import type { TableHeader } from '$lib/Components/Tables/Table.svelte';
+import type { TableHeader } from '$lib/components/Tables/Table.svelte';
 import { PartySize } from '$lib/types/api/partySizes';
 
 const validGames = [Game.Ngs, Game.Pso2];
@@ -47,9 +47,9 @@ const createLeaderboardSchema = <S extends RunSubmissionRequest, R extends RunsS
 		runSearch: object({
 			runSearchSchema: mixed<ObjectSchema<R>>().nullable().required(),
 			filterDefaults: mixed<RunSearchValidator<R>['filterDefaults']>().required(),
-			attributeFilter: mixed<RunSearchValidator<R>['attributeFilter']>().required(),
+			attributeFilter: mixed<RunSearchValidator<R>['attributeFilter']>().required()
 		}).required() satisfies ObjectSchema<RunSearchValidator<R>>,
-		detailsTableHeader: mixed<TableHeader>().optional(),
+		detailsTableHeader: mixed<TableHeader>().optional()
 	}) satisfies ObjectSchema<LeaderBoardOptions<S, R>>;
 };
 
@@ -80,7 +80,7 @@ interface RunSearchValidator<R extends AnyObject> {
 
 export class LeaderboardDefinition<
 	S extends RunSubmissionRequest = RunSubmissionRequest,
-	R extends RunsSearchFilter = RunsSearchFilter,
+	R extends RunsSearchFilter = RunsSearchFilter
 > {
 	public readonly name;
 	public readonly questRoute;

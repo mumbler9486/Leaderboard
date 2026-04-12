@@ -1,17 +1,23 @@
 <script lang="ts">
-	import RadioOptions from '$lib/Components/RadioOptions.svelte';
+	import RadioOptions from '$lib/components/RadioOptions.svelte';
 	import { runFilters } from '../../../runFilter';
 
-	export let allowNoFilter: boolean = false;
-	export let maxQuestRank: number;
+	interface Props {
+		allowNoFilter?: boolean;
+		maxQuestRank: number;
+	}
 
-	$: noFilterOption = allowNoFilter ? [{ label: 'No Filter', value: 'no_filter' }] : [];
+	let { allowNoFilter = false, maxQuestRank }: Props = $props();
 
-	$: rankFilterOptions = noFilterOption.concat(
-		Array.from({ length: maxQuestRank }, (_, i) => ({
-			label: `R${i + 1}`,
-			value: `${i + 1}`,
-		}))
+	let noFilterOption = $derived(allowNoFilter ? [{ label: 'No Filter', value: 'no_filter' }] : []);
+
+	let rankFilterOptions = $derived(
+		noFilterOption.concat(
+			Array.from({ length: maxQuestRank }, (_, i) => ({
+				label: `R${i + 1}`,
+				value: `${i + 1}`
+			}))
+		)
 	);
 </script>
 

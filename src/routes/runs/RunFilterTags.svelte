@@ -1,11 +1,11 @@
 <script lang="ts">
-	import DfAegisSupportFilterTag from '$lib/Components/Filters/FilterTags/DfAegisSupportFilterTag.svelte';
-	import NgsClassFilterTag from '$lib/Components/Filters/FilterTags/NgsClassFilterTag.svelte';
-	import ServerRegionFilterTag from '$lib/Components/Filters/FilterTags/ServerRegionFilterTag.svelte';
+	import DfAegisSupportFilterTag from '$lib/components/Filters/FilterTags/DfAegisSupportFilterTag.svelte';
+	import NgsClassFilterTag from '$lib/components/Filters/FilterTags/NgsClassFilterTag.svelte';
+	import ServerRegionFilterTag from '$lib/components/Filters/FilterTags/ServerRegionFilterTag.svelte';
 	import { parseNgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 	import { runFilters } from './runFilter';
 
-	$: playerClassFilterTag = parseNgsPlayerClass($runFilters.class);
+	let playerClassFilterTag = $derived(parseNgsPlayerClass($runFilters.class));
 </script>
 
 {#if !!playerClassFilterTag}

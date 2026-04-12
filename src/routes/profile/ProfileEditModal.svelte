@@ -1,52 +1,41 @@
 <script lang="ts">
-	import ColorInput from '$lib/Components/ColorInput.svelte';
-	import Select from '$lib/Components/Select.svelte';
-	import Modal from '$lib/Components/Modal.svelte';
-	import PlayerNameBadge, { type PlayerNameDisplay } from '$lib/Components/PlayerNameBadge.svelte';
+	import ColorInput from '$lib/components/ColorInput.svelte';
+	import Select from '$lib/components/Select.svelte';
+	import Modal from '$lib/components/Modal.svelte';
+	import PlayerNameBadge, { type PlayerNameDisplay } from '$lib/components/PlayerNameBadge.svelte';
 	import { clientPrincipleStore, playerInfoStore } from '$lib/stores/userLogin';
 	import { countries } from '$lib/types/api/countries';
 	import {
 		profileUpdateRequestSchema,
-		type ProfileUpdateRequest,
+		type ProfileUpdateRequest
 	} from '$lib/types/api/validation/profileUpdate';
 	import { fetchPutApi } from '$lib/utils/fetch';
 	import { createEventDispatcher } from 'svelte';
 	import { t } from 'svelte-i18n';
-	import Alert from '$lib/Components/Alert.svelte';
-	import Button from '$lib/Components/Button.svelte';
-	import Divider from '$lib/Components/Divider.svelte';
-	import TextInput from '$lib/Components/TextInput.svelte';
+	import Alert from '$lib/components/Alert.svelte';
+	import Button from '$lib/components/Button.svelte';
+	import Divider from '$lib/components/Divider.svelte';
+	import TextInput from '$lib/components/TextInput.svelte';
 	import { useValidation } from '$lib/types/api/formValidation';
 	import { BadRequestError, InternalServerError } from '$lib/types/api/error';
 	import { NameStyle } from '$lib/types/api/players/nameStyle';
 	import { PreferredName } from '$lib/types/api/players/preferredName';
 	import { ServerRegion } from '$lib/types/api/serverRegions';
-	import TextArea from '$lib/Components/TextArea.svelte';
+	import TextArea from '$lib/components/TextArea.svelte';
 
 	const dispatcher = createEventDispatcher();
 
-	let modal: Modal;
+	let modal: Modal = $state();
 
-	let isLoading = false;
-	let isSubmitting = false;
-	let serverError: string | undefined = undefined;
-
-	$: nameOptions = [
-		{
-			label: `Player Name (${namePreview.playerName})`,
-			value: PreferredName.Player.toString(),
-		},
-		{
-			label: `Character Name (${namePreview.characterName})`,
-			value: PreferredName.Character.toString(),
-		},
-	] satisfies { label: string; value: string }[];
+	let isLoading = $state(false);
+	let isSubmitting = $state(false);
+	let serverError: string | undefined = $state(undefined);
 
 	const nameEffectOptions = [
 		{ label: 'No Effect', value: NameStyle.None.toString() },
 		{ label: 'Solid Color', value: NameStyle.Solid.toString() },
 		{ label: 'Gradient', value: NameStyle.Gradient.toString() },
-		{ label: 'Glowing', value: NameStyle.Glow.toString() },
+		{ label: 'Glowing', value: NameStyle.Glow.toString() }
 	] satisfies { label: string; value: string }[];
 
 	const countryOptions = countries.map((c) => ({ label: c.name, value: c.code.toLowerCase() }));
@@ -54,31 +43,8 @@
 	const serverRegionOptions = [
 		{ label: '(None)', value: '' },
 		{ label: 'Global', value: ServerRegion.Global },
-		{ label: 'Japan', value: ServerRegion.Japan },
+		{ label: 'Japan', value: ServerRegion.Japan }
 	] satisfies { label: string; value: string }[];
-
-	$: shipOptions =
-		$form.serverRegion === ServerRegion.Global
-			? [
-					{ label: '(None)', value: '' },
-					{ label: 'Ship 1 (global)', value: 'global_1' },
-					{ label: 'Ship 2 (global)', value: 'global_2' },
-					{ label: 'Ship 3 (global)', value: 'global_3' },
-					{ label: 'Ship 4 (global)', value: 'global_4' },
-			  ]
-			: [
-					{ label: '(None)', value: '' },
-					{ label: 'Ship 1 (japan)', value: 'japan_1' },
-					{ label: 'Ship 2 (japan)', value: 'japan_2' },
-					{ label: 'Ship 3 (japan)', value: 'japan_3' },
-					{ label: 'Ship 4 (japan)', value: 'japan_4' },
-					{ label: 'Ship 5 (japan)', value: 'japan_5' },
-					{ label: 'Ship 6 (japan)', value: 'japan_6' },
-					{ label: 'Ship 7 (japan)', value: 'japan_7' },
-					{ label: 'Ship 8 (japan)', value: 'japan_8' },
-					{ label: 'Ship 9 (japan)', value: 'japan_9' },
-					{ label: 'Ship 10 (japan)', value: 'japan_10' },
-			  ];
 
 	const shipOptionsInfo: {
 		[shipOption: string]: { region: ServerRegion.Global | ServerRegion.Japan; ship: number };
@@ -96,9 +62,8 @@
 		japan_7: { region: ServerRegion.Japan, ship: 7 },
 		japan_8: { region: ServerRegion.Japan, ship: 8 },
 		japan_9: { region: ServerRegion.Japan, ship: 9 },
-		japan_10: { region: ServerRegion.Japan, ship: 10 },
+		japan_10: { region: ServerRegion.Japan, ship: 10 }
 	};
-	$: selectedShip = shipOptionsInfo[$form.ship ?? ''];
 
 	const defaultSettings: ProfileUpdateRequest = {
 		mainCharacterName: '',
@@ -113,22 +78,8 @@
 		primaryColor: '#ffffff',
 		secondaryColor: '#ffffff',
 		nameEffect: 0,
-		description: '',
+		description: ''
 	};
-
-	$: namePreview = {
-		playerId: -1,
-		flag: $form.playerCountry?.toLowerCase(),
-		ship: selectedShip?.ship,
-		serverRegion: selectedShip?.region,
-		playerName: $playerInfoStore?.playerName ?? '<Unknown>',
-		runCharacterName: 'Run character name',
-		characterName: $form.mainCharacterName,
-		namePreference: parseInt($form.preferredName ?? '0'),
-		nameEffectType: parseInt($form.nameEffect ?? '0'),
-		nameColor1: $form.primaryColor?.substring(1),
-		nameColor2: $form.secondaryColor?.substring(1),
-	} satisfies PlayerNameDisplay;
 
 	export const show = async () => {
 		resetForm();
@@ -158,7 +109,7 @@
 			primaryColor: `#${player.nameColor1}`,
 			secondaryColor: `#${player.nameColor2}`,
 			nameEffect: player.nameType.toString(),
-			description: player.bio,
+			description: player.bio
 		});
 
 		isLoading = false;
@@ -188,7 +139,7 @@
 			primaryColor: $form.primaryColor?.substring(1),
 			secondaryColor: $form.secondaryColor?.substring(1),
 			nameEffect: $form.nameEffect,
-			description: $form.description,
+			description: $form.description
 		};
 
 		clearAllErrors();
@@ -225,6 +176,53 @@
 		dispatcher('profileUpdated');
 		close();
 	};
+	let selectedShip = $derived(shipOptionsInfo[$form.ship ?? '']);
+	let namePreview = $derived({
+		playerId: -1,
+		flag: $form.playerCountry?.toLowerCase(),
+		ship: selectedShip?.ship,
+		serverRegion: selectedShip?.region,
+		playerName: $playerInfoStore?.playerName ?? '<Unknown>',
+		runCharacterName: 'Run character name',
+		characterName: $form.mainCharacterName,
+		namePreference: parseInt($form.preferredName ?? '0'),
+		nameEffectType: parseInt($form.nameEffect ?? '0'),
+		nameColor1: $form.primaryColor?.substring(1),
+		nameColor2: $form.secondaryColor?.substring(1)
+	} satisfies PlayerNameDisplay);
+	let nameOptions = $derived([
+		{
+			label: `Player Name (${namePreview.playerName})`,
+			value: PreferredName.Player.toString()
+		},
+		{
+			label: `Character Name (${namePreview.characterName})`,
+			value: PreferredName.Character.toString()
+		}
+	] satisfies { label: string; value: string }[]);
+	let shipOptions = $derived(
+		$form.serverRegion === ServerRegion.Global
+			? [
+					{ label: '(None)', value: '' },
+					{ label: 'Ship 1 (global)', value: 'global_1' },
+					{ label: 'Ship 2 (global)', value: 'global_2' },
+					{ label: 'Ship 3 (global)', value: 'global_3' },
+					{ label: 'Ship 4 (global)', value: 'global_4' }
+				]
+			: [
+					{ label: '(None)', value: '' },
+					{ label: 'Ship 1 (japan)', value: 'japan_1' },
+					{ label: 'Ship 2 (japan)', value: 'japan_2' },
+					{ label: 'Ship 3 (japan)', value: 'japan_3' },
+					{ label: 'Ship 4 (japan)', value: 'japan_4' },
+					{ label: 'Ship 5 (japan)', value: 'japan_5' },
+					{ label: 'Ship 6 (japan)', value: 'japan_6' },
+					{ label: 'Ship 7 (japan)', value: 'japan_7' },
+					{ label: 'Ship 8 (japan)', value: 'japan_8' },
+					{ label: 'Ship 9 (japan)', value: 'japan_9' },
+					{ label: 'Ship 10 (japan)', value: 'japan_10' }
+				]
+	);
 </script>
 
 <Modal
@@ -341,12 +339,12 @@
 	{:else}
 		<div class="flex flex-col place-content-center place-items-center gap-1">
 			Loading - Please Wait...<br /><progress
-				class="progress progress-primary w-56 border border-neutral-content/20"
-			/>
+				class="progress w-56 border border-neutral-content/20 progress-primary"
+			></progress>
 		</div>
 	{/if}
 
-	<svelte:fragment slot="actions">
+	{#snippet actions()}
 		{#if serverError}
 			<Alert type="error" message={serverError} />
 		{/if}
@@ -359,5 +357,5 @@
 			on:click={saveChanges}
 			disabled={isLoading || isSubmitting}>Save</Button
 		>
-	</svelte:fragment>
+	{/snippet}
 </Modal>

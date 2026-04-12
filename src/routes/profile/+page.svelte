@@ -1,14 +1,14 @@
 <script lang="ts">
 	import ProfileEditModal from './ProfileEditModal.svelte';
-	import Button from '$lib/Components/Button.svelte';
-	import ArksId from '$lib/PageComponents/Profile/ArksId.svelte';
+	import Button from '$lib/components/Button.svelte';
+	import ArksId from '$lib/components/page/profile/ArksId.svelte';
 	import { t } from 'svelte-i18n';
 	import { playerInfoStore } from '$lib/stores/userLogin';
 	import { onMount } from 'svelte';
 	import { Cog8Tooth } from 'svelte-heros-v2';
 
-	let modalEdit: ProfileEditModal;
-	let isLoading: boolean = false;
+	let modalEdit: ProfileEditModal = $state();
+	let isLoading: boolean = $state(false);
 
 	const reloadProfile = async () => {
 		isLoading = true;
@@ -30,15 +30,15 @@
 
 <div class="flex grow flex-col content-center">
 	<ArksId player={$playerInfoStore} {isLoading}>
-		<svelte:fragment slot="actions">
+		{#snippet actions()}
 			<Button
 				size="sm"
-				class="mr-2 mt-2 justify-self-end bg-[#54a851] text-white hover:bg-[#54a851] hover:brightness-75"
+				class="mt-2 mr-2 justify-self-end bg-[#54a851] text-white hover:bg-[#54a851] hover:brightness-75"
 				on:click={modalEdit.show}
 			>
 				<Cog8Tooth size="18" />Edit Profile
 			</Button>
-		</svelte:fragment>
+		{/snippet}
 	</ArksId>
 </div>
 

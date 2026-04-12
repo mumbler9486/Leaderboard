@@ -1,4 +1,4 @@
-import type { PlayerNameDisplay } from '$lib/Components/PlayerNameBadge.svelte';
+import type { PlayerNameDisplay } from '$lib/components/PlayerNameBadge.svelte';
 import type { PlayerProfile } from './players/player';
 import type { PartyMember, PlayerInfo } from './runs/run';
 

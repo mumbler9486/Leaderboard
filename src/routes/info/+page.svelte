@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Divider from '$lib/Components/Divider.svelte';
-	import JumboButton from '$lib/Components/JumboButton.svelte';
+	import Divider from '$lib/components/Divider.svelte';
+	import JumboButton from '$lib/components/JumboButton.svelte';
 	import { t } from 'svelte-i18n';
 </script>
 

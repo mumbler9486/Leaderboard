@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import ErrorSplash from '$lib/components/page/error/ErrorSplash.svelte';
 
-	let pageStatus = $derived($page.status);
-	let pageErrorMessage = $derived($page.error?.message ?? 'Error');
+	let pageStatus = $derived(page.status);
+	let pageErrorMessage = $derived(page.error?.message ?? 'Error');
 </script>
 
 <svelte:head>

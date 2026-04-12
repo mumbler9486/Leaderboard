@@ -7,8 +7,8 @@
 
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
-	import Button from '$lib/Components/Button.svelte';
+	import { page } from '$app/state';
+	import Button from '$lib/components/Button.svelte';
 
 	interface Props {
 		parties: PartySizeLink[];
@@ -16,7 +16,7 @@
 
 	let { parties }: Props = $props();
 
-	let currentLinkPath = $derived($page.url.pathname);
+	let currentLinkPath = $derived(page.url.pathname);
 
 	const linkClick = (href: string) => {
 		goto(href);

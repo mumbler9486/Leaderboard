@@ -3,7 +3,7 @@ import { leaderboardDb } from '$lib/server/db/db';
 import { jsonError } from '$lib/server/error.js';
 import { parseToRawSchema } from '$lib/utils/schemaValidation.js';
 import { validateApiRequest } from '$lib/server/validation/requestValidation.js';
-import { getRuns } from '$lib/server/repositories/runsRepository.js';
+import { getRuns } from '$lib/server/repositories/runsRepositoryLegacy';
 import { mapRuns } from '$lib/server/mappers/api/runMapper.js';
 import { submitRun } from '$lib/server/logic/submitRunLogic.js';
 import { Game } from '$lib/types/api/game.js';
@@ -12,9 +12,9 @@ import { getUserValidated } from '$lib/server/validation/authorization.js';
 import { UserRole } from '$lib/types/api/users/userRole.js';
 import type { ServerSearchFilter } from '$lib/server/types/api/runsSearch.js';
 import { lookupBoardByRoute } from '$lib/leaderboard/boards.js';
-import { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
-import { RunAttributeFilter } from '$lib/server/types/db/runs/runAttributeFilter';
-import sql, { type Request } from 'mssql';
+import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
+import type { RunAttributeFilter } from '$lib/server/types/db/runs/runAttributeFilter';
+// import sql, { type Request } from 'mssql';
 import { NgsQuests } from '$lib/types/api/runs/quests';
 import { NgsRunCategories } from '$lib/types/api/runs/categories';
 import { RunSortOption } from '$lib/types/api/runs/sortOptions.js';
@@ -39,7 +39,7 @@ export async function GET({ params, url }) {
 
 	// Refine filters
 	const serverFilters: ServerSearchFilter = {
-		submissionStatus: RunSubmissionStatus.Approved,
+		submissionStatus: RunSubmissionStatus.Approved
 	};
 	boardInfo.assignRunSearchDefaults(parsedFilter);
 	const attributeFilter = boardInfo.createAttributeFilter(parsedFilter);

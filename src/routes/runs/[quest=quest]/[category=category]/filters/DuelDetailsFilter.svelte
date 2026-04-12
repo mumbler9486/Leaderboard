@@ -1,11 +1,11 @@
 <script lang="ts">
-	import RadioOptions from '$lib/Components/RadioOptions.svelte';
+	import RadioOptions from '$lib/components/RadioOptions.svelte';
 	import { runFilters } from '../../../runFilter';
 
 	const augmentFilterOptions = [
 		{ label: 'No Filter', value: 'no_filter' },
 		{ label: 'Yes', value: 'yes' },
-		{ label: 'No', value: 'no' },
+		{ label: 'No', value: 'no' }
 	];
 </script>
 

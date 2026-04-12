@@ -1,23 +1,28 @@
 <script lang="ts">
-	import Divider from '$lib/Components/Divider.svelte';
-	import ClassFilter from '$lib/Components/Filters/ClassFilter.svelte';
-	import ServerFilter from '$lib/Components/Filters/ServerFilter.svelte';
-	import Modal from '$lib/Components/Modal.svelte';
+	import Divider from '$lib/components/Divider.svelte';
+	import ClassFilter from '$lib/components/Filters/ClassFilter.svelte';
+	import ServerFilter from '$lib/components/Filters/ServerFilter.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 	import { t } from 'svelte-i18n';
 	import { runFilters } from './runFilter';
 	import { Funnel } from 'svelte-heros-v2';
 	import { createEventDispatcher } from 'svelte';
 
-	export let classFilter: boolean = false;
-	export let dfAegisSupportFilter: boolean = false;
+	interface Props {
+		classFilter?: boolean;
+		dfAegisSupportFilter?: boolean;
+		additionalFilters?: import('svelte').Snippet;
+	}
+
+	let { classFilter = false, dfAegisSupportFilter = false, additionalFilters }: Props = $props();
 
 	const dispatch = createEventDispatcher();
 
-	let server: string = 'no_filter';
+	let server: string = $state('no_filter');
 	let support: string = 'no_filter';
-	let mainClass: string = 'no_filter';
+	let mainClass: string = $state('no_filter');
 
-	let modal: Modal;
+	let modal: Modal = $state();
 
 	export const resetFilters = () => {
 		server = 'no_filter';
@@ -44,9 +49,9 @@
 </script>
 
 <button
-	class="btn btn-outline btn-primary btn-sm rounded"
-	on:click={modal.show}
-	on:keyup={modal.show}
+	class="btn rounded btn-outline btn-sm btn-primary"
+	onclick={modal.show}
+	onkeyup={modal.show}
 >
 	<Funnel />Filters
 </button>
@@ -75,5 +80,5 @@
 	<ServerFilter bind:selectedServer={server} />
 	<Divider />
 
-	<slot name="additionalFilters" />
+	{@render additionalFilters?.()}
 </Modal>

@@ -1,5 +1,5 @@
 <script>
-	import Select from '$lib/Components/Select.svelte';
+	import Select from '$lib/components/Select.svelte';
 	import { planetfallStageBossNameMappings } from '$lib/leaderboard/boards/duelPlanetfall';
 	import { planetfallStrikeRunForm } from '../forms/planetfallStrikeForm';
 </script>
@@ -10,7 +10,7 @@
 		placeholder="Select a Planetfall Strike stage"
 		options={Object.values(planetfallStageBossNameMappings).map((bossName, i) => ({
 			label: `${i + 1}: ${bossName}`,
-			value: i + 1,
+			value: i + 1
 		}))}
 		bind:value={$planetfallStrikeRunForm.stage}
 	/>

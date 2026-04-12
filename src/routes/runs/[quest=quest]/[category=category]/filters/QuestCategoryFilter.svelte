@@ -1,19 +1,23 @@
 <script lang="ts">
-	import RadioOptions from '$lib/Components/RadioOptions.svelte';
+	import RadioOptions from '$lib/components/RadioOptions.svelte';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import { createEventDispatcher } from 'svelte';
 	import { runFilters } from '../../../runFilter';
 
-	export let categories: NgsRunCategories[];
+	interface Props {
+		categories: NgsRunCategories[];
+	}
+
+	let { categories }: Props = $props();
 
 	const dispatch = createEventDispatcher();
 
 	const categoryOptions = [
 		{ label: 'Quest', value: NgsRunCategories.Quest },
 		{ label: 'Urgent Quest', value: NgsRunCategories.UrgentQuest },
-		{ label: 'Trigger', value: NgsRunCategories.Trigger },
+		{ label: 'Trigger', value: NgsRunCategories.Trigger }
 	];
-	$: selectableCategories = categoryOptions.filter((c) => categories.includes(c.value));
+	let selectableCategories = $derived(categoryOptions.filter((c) => categories.includes(c.value)));
 
 	const onCategoryChanged = (e: CustomEvent<NgsRunCategories>) => {
 		const newCategory = e.detail;

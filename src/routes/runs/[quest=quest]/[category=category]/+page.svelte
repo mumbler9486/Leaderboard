@@ -1,6 +1,8 @@
 <script lang="ts">
-	import LeaderboardTitle from '$lib/Components/LeaderboardTitle.svelte';
-	import LoadingBar from '$lib/Components/LoadingBar.svelte';
+	import { run as run_1 } from 'svelte/legacy';
+
+	import LeaderboardTitle from '$lib/components/LeaderboardTitle.svelte';
+	import LoadingBar from '$lib/components/LoadingBar.svelte';
 	import { page } from '$app/stores';
 	import { t } from 'svelte-i18n';
 	import { fetchGetApi } from '$lib/utils/fetch';
@@ -9,11 +11,11 @@
 		copyQueryParams,
 		useUrlFilterStore,
 		clearFilterValues,
-		type UrlQueryParamRule,
+		type UrlQueryParamRule
 	} from '$lib/utils/queryParams';
 	import { onDestroy } from 'svelte';
 	import type { Run } from '$lib/types/api/runs/run';
-	import RunsTable from '$lib/Components/Tables/RunsTable.svelte';
+	import RunsTable from '$lib/components/Tables/RunsTable.svelte';
 	import { lookupBoardByRoute, lookupBoardsByQuest } from '$lib/leaderboard/boards';
 	import { runFilters, type RunSearchFilters } from '../../runFilter';
 	import DefaultRunFilter from './filters/DefaultRunFilter.svelte';
@@ -25,43 +27,28 @@
 		pageTitle: string;
 	}
 
-	$: boardInfo = lookupBoardByRoute($page.params.quest, $page.params.category)!;
-	$: categories = lookupBoardsByQuest(quest).map((b) => b.category);
-	$: quest = boardInfo.quest;
-	$: category = boardInfo.category;
-	$: $runFilters.category = category;
-
 	const partySizeInfoMap: Record<PartySize, PartySizeInfo> = {
 		[PartySize.Solo]: {
 			filterSize: 1,
 			name: $t('common.playerCount.solo'),
-			pageTitle: $t('common.playerCount.solo'),
+			pageTitle: $t('common.playerCount.solo')
 		},
 		[PartySize.Duo]: {
 			filterSize: 2,
 			name: $t('common.playerCount.duo'),
-			pageTitle: $t('common.playerCount.duo'),
+			pageTitle: $t('common.playerCount.duo')
 		},
 		[PartySize.Party]: {
 			filterSize: 4,
 			name: $t('common.playerCount.party'),
-			pageTitle: $t('common.playerCount.party'),
+			pageTitle: $t('common.playerCount.party')
 		},
 		[PartySize.MultiParty]: {
 			filterSize: 8,
 			name: $t('common.playerCount.mpa'),
-			pageTitle: $t('common.playerCount.mpa'),
-		},
+			pageTitle: $t('common.playerCount.mpa')
+		}
 	} satisfies Record<string, PartySizeInfo>;
-
-	$: partySize = parsePartySize($runFilters.partySize) ?? PartySize.Solo;
-	$: isSolo = partySize === PartySize.Solo;
-	$: partyInfo = partySizeInfoMap[partySize];
-
-	$: partyPageTitle = partyInfo.pageTitle;
-	$: boardPageTitle = $t(boardInfo.name);
-	$: pageTitle = `${$t('shared.siteName')} | ${boardPageTitle} - ${partyPageTitle}`;
-	$: partySizeTitle = partyInfo.name;
 
 	const filterDef: UrlQueryParamRule<RunSearchFilters>[] = [
 		{ name: 'partySize', defaultValue: 'solo' },
@@ -71,7 +58,7 @@
 		{ name: 'support', undefinedValue: 'no_filter' },
 		{ name: 'augments', undefinedValue: 'no_filter' },
 		{ name: 'depth', undefinedValue: 'no_filter' },
-		{ name: 'stage', defaultValue: '1' },
+		{ name: 'stage', defaultValue: '1' }
 	];
 
 	runFilters.resetFilters();
@@ -84,12 +71,26 @@
 		const allFilters = {
 			...runFilters,
 			rank: runFilters.rank,
-			partySize: partyInfo.filterSize,
+			partySize: partyInfo.filterSize
 		};
 
 		return (await fetchGetApi<Run<unknown>[]>(basePath, copyQueryParams(allFilters))) ?? [];
 	};
 	onDestroy(cleanup);
+	let boardInfo = $derived(lookupBoardByRoute($page.params.quest, $page.params.category)!);
+	let quest = $derived(boardInfo.quest);
+	let categories = $derived(lookupBoardsByQuest(quest).map((b) => b.category));
+	let category = $derived(boardInfo.category);
+	run_1(() => {
+		$runFilters.category = category;
+	});
+	let partySize = $derived(parsePartySize($runFilters.partySize) ?? PartySize.Solo);
+	let isSolo = $derived(partySize === PartySize.Solo);
+	let partyInfo = $derived(partySizeInfoMap[partySize]);
+	let partyPageTitle = $derived(partyInfo.pageTitle);
+	let boardPageTitle = $derived($t(boardInfo.name));
+	let pageTitle = $derived(`${$t('shared.siteName')} | ${boardPageTitle} - ${partyPageTitle}`);
+	let partySizeTitle = $derived(partyInfo.name);
 </script>
 
 <svelte:head>
@@ -99,7 +100,7 @@
 <LeaderboardTitle category={$t(boardInfo.name)} subCategory={partySizeTitle} />
 
 <div class="grow content-center">
-	<div class="container mx-auto mb-16 mt-2 rounded-md border border-secondary bg-base-100/75">
+	<div class="container mx-auto mt-2 mb-16 rounded-md border border-secondary bg-base-100/75">
 		<div
 			class="m-2 space-y-2 overflow-x-scroll rounded-md border border-secondary bg-base-100 p-4 px-8"
 		>
@@ -109,9 +110,9 @@
 			{:then runs}
 				<div class="-mx-6 md:mx-0">
 					<RunsTable {runs} solosOnly={isSolo} detailsColumn={boardInfo.detailsTableHeader}>
-						<svelte:fragment slot="detailsItem" let:run>
+						{#snippet detailsItem({ run })}
 							<RunDetails {boardInfo} {run} />
-						</svelte:fragment>
+						{/snippet}
 					</RunsTable>
 				</div>
 			{:catch err}

@@ -1,16 +1,24 @@
 <script lang="ts">
-	import InfoTooltip from '$lib/Components/InfoTooltip.svelte';
-	import TimeDisplay from '$lib/Components/TimeDisplay.svelte';
-	import Tooltip from '$lib/Components/Tooltip.svelte';
+	import { run } from 'svelte/legacy';
+
+	import InfoTooltip from '$lib/components/InfoTooltip.svelte';
+	import TimeDisplay from '$lib/components/TimeDisplay.svelte';
+	import Tooltip from '$lib/components/Tooltip.svelte';
 	import { runForm } from '../forms/runForm';
 
-	export let maxMinutes: number = 59;
-	export let maxSeconds: number = 59;
+	interface Props {
+		maxMinutes?: number;
+		maxSeconds?: number;
+	}
 
-	let minutes = 0;
-	let seconds = 0;
+	let { maxMinutes = 59, maxSeconds = 59 }: Props = $props();
 
-	$: $runForm.time = { hours: 0, minutes, seconds };
+	let minutes = $state(0);
+	let seconds = $state(0);
+
+	run(() => {
+		$runForm.time = { hours: 0, minutes, seconds };
+	});
 
 	export const resetForm = () => {
 		minutes = 0;
@@ -30,26 +38,26 @@
 		<input
 			placeholder="MM"
 			type="number"
-			class="input join-item input-bordered w-full"
+			class="input-bordered input join-item w-full"
 			min="0"
 			max={maxMinutes}
 			maxlength="2"
 			bind:value={minutes}
 		/>
-		<span class="border-fallback join-item select-none border-b border-t border-primary px-4 pt-2"
+		<span class="border-fallback join-item border-t border-b border-primary px-4 pt-2 select-none"
 			>:</span
 		>
 		<input
 			placeholder="SS"
 			type="number"
-			class="input join-item input-bordered w-full"
+			class="input-bordered input join-item w-full"
 			min="0"
 			max={maxSeconds}
 			maxlength="2"
 			bind:value={seconds}
 		/>
 		<span
-			class="border-fallback join-item select-none border border-primary bg-neutral px-4 pt-2 text-center"
+			class="border-fallback join-item border border-primary bg-neutral px-4 pt-2 text-center select-none"
 			><Tooltip left tip="Round your time down to nearest second">.000</Tooltip></span
 		>
 	</label>

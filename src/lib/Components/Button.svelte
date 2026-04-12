@@ -19,15 +19,31 @@
 </script>
 
 <script lang="ts">
-	export let modifier: ButtonModifier = 'default';
-	export let loading: boolean = false;
-	export let href: string | null = null;
-	export let size: ButtonSize = 'default';
-	export let disabled: boolean = false; //Not supported on link buttons
-	export let wide: boolean = false;
-	export let block: boolean = false;
-	export let circle: boolean = false;
-	export let square: boolean = false;
+	// 1. Define the Props Interface
+	interface Props {
+		modifier: ButtonModifier;
+		loading?: boolean;
+		href?: string | null;
+		size?: ButtonSize;
+		disabled?: boolean;
+		wide?: boolean;
+		block?: boolean;
+		circle?: boolean;
+		square?: boolean;
+	}
+
+	// 2. Use $props() to get typed props
+	const {
+		modifier = 'default',
+		loading = false,
+		href = null,
+		size = 'default',
+		disabled = false,
+		wide = false,
+		block = false,
+		circle = false,
+		square = false
+	}: Props = $props();
 
 	const btnClasses: Record<ButtonModifier, string> = {
 		primary: 'btn-primary',
@@ -43,7 +59,7 @@
 		outline: 'btn-outline',
 		active: 'btn-active',
 		disabled: 'btn-disabled',
-		default: '',
+		default: ''
 	};
 
 	const sizeClasses: Record<ButtonSize, string> = {
@@ -51,17 +67,17 @@
 		md: 'btn-md',
 		sm: 'btn-sm',
 		xs: 'btn-xs',
-		default: '',
+		default: ''
 	};
 </script>
 
 {#if href}
-	<a class="btn {btnClasses[modifier]} {$$props.class} {sizeClasses[size]}" class:loading {href}>
+	<a class="btn {btnClasses[modifier]} {sizeClasses[size]}" class:loading {href}>
 		<slot />
 	</a>
 {:else}
 	<button
-		class="btn {btnClasses[modifier]} {$$props.class} {sizeClasses[size]}"
+		class="btn {btnClasses[modifier]} {sizeClasses[size]}"
 		class:loading
 		class:btn-disabled={disabled}
 		class:btn-wide={wide}

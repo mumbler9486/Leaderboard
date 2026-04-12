@@ -3,11 +3,11 @@ import { leaderboardDb } from '$lib/server/db/db';
 import { jsonError } from '$lib/server/error.js';
 import { parseToRawSchema } from '$lib/utils/schemaValidation.js';
 import { validateApiRequest } from '$lib/server/validation/requestValidation.js';
-import { getRuns } from '$lib/server/repositories/runsRepository.js';
+import { getRuns } from '$lib/server/repositories/runsRepositoryLegacy';
 import { mapRuns } from '$lib/server/mappers/api/runMapper.js';
 import {
 	runsSearchFilterSchema,
-	type RunsSearchFilter,
+	type RunsSearchFilter
 } from '$lib/types/api/validation/runsSearchFilter.js';
 import { RunSubmissionStatus } from '$lib/types/api/runs/submissionStatus.js';
 import type { ServerSearchFilter } from '$lib/server/types/api/runsSearch.js';
@@ -25,7 +25,7 @@ export async function GET({ params, url }) {
 	}
 
 	const serverFilters: ServerSearchFilter = {
-		submissionStatus: RunSubmissionStatus.Approved,
+		submissionStatus: RunSubmissionStatus.Approved
 	};
 
 	const pool = await leaderboardDb.connect();

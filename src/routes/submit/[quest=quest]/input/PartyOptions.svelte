@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Divider from '$lib/Components/Divider.svelte';
+	import Divider from '$lib/components/Divider.svelte';
 	import PlayerInformationInput from './PlayerInformationInput.svelte';
 	import { partyForm } from '../forms/partyForm';
 </script>

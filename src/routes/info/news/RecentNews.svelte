@@ -1,7 +1,7 @@
 <script lang="ts">
-	import DiscordContact from '$lib/Components/DiscordContact.svelte';
-	import HomeNews from '$lib/PageComponents/News/HomeNews.svelte';
-	import NewsSection from '$lib/PageComponents/News/NewsSection.svelte';
+	import DiscordContact from '$lib/components/DiscordContact.svelte';
+	import HomeNews from '$lib/components/page/news/HomeNews.svelte';
+	import NewsSection from '$lib/components/page/news/NewsSection.svelte';
 </script>
 
 <HomeNews publicationDateIso="2025-12-02T11:00:00.000Z" title="Leaderboard December 2025 Updates">

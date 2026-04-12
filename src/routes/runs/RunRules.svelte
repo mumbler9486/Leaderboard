@@ -1,16 +1,19 @@
 <script lang="ts">
-	import Modal from '$lib/Components/Modal.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 	import { ListBullet } from 'svelte-heros-v2';
 
-	export let rules: string[] = [];
+	interface Props {
+		rules?: string[];
+		children?: import('svelte').Snippet;
+	}
 
-	let modal: Modal;
+	let { rules = [], children }: Props = $props();
+
+	let modal: Modal = $state();
 </script>
 
-<button
-	class="btn btn-outline btn-primary btn-sm rounded"
-	on:click={modal.show}
-	on:keyup={modal.show}><ListBullet />Rules</button
+<button class="btn rounded btn-outline btn-sm btn-primary" onclick={modal.show} onkeyup={modal.show}
+	><ListBullet />Rules</button
 >
 <Modal
 	bind:this={modal}
@@ -20,7 +23,7 @@
 	btn2="Close"
 	on:btn2Click={modal.close}
 >
-	<slot />
+	{@render children?.()}
 	{#each rules as rule}
 		<ul class="list-inside list-disc space-y-2">
 			<li>{rule}</li>

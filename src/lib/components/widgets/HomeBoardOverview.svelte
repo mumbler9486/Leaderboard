@@ -1,19 +1,19 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import LoadingBar from '$lib/Components/LoadingBar.svelte';
+	import LoadingBar from '$lib/components/LoadingBar.svelte';
 	import { fetchGetApi } from '$lib/utils/fetch';
 	import { copyQueryParams } from '$lib/utils/queryParams';
 	import type { Run } from '$lib/types/api/runs/run';
 	import type { RunsSearchFilter } from '$lib/types/api/validation/runsSearchFilter';
 	import { RunSortOption } from '$lib/types/api/runs/sortOptions';
-	import Tabs, { type TabOptions } from '$lib/Components/Tabs.svelte';
+	import Tabs, { type TabOptions } from '$lib/components/Tabs.svelte';
 	import HomeBoardRankTable from './HomeBoardRankTable.svelte';
 	import { NgsQuests } from '$lib/types/api/runs/quests';
 	import { NgsRunCategories } from '$lib/types/api/runs/categories';
 	import { lookupBoard } from '$lib/leaderboard/boards';
 	import HomeBoardRecentsTable from './HomeBoardRecentsTable.svelte';
 	import type { LeaderboardDefinition } from '$lib/leaderboard/leaderboard';
-	import Button from '$lib/Components/Button.svelte';
+	import Button from '$lib/components/Button.svelte';
 	import { ArrowRight } from 'svelte-heros-v2';
 
 	const take = 10;
@@ -34,33 +34,33 @@
 		{
 			boardType: 'recent',
 			boardInfo: lookupBoard(NgsQuests.ExtraDuels, NgsRunCategories.PlanetfallStrike),
-			name: 'Planetfall',
+			name: 'Planetfall'
 		},
 		{
 			boardType: 'ranking',
 			boardInfo: lookupBoard(NgsQuests.DfVael, NgsRunCategories.Quest),
-			name: 'Dark Falz Vael',
+			name: 'Dark Falz Vael'
 		},
 		{
 			boardType: 'ranking',
 			boardInfo: lookupBoard(NgsQuests.ExtraDuels, NgsRunCategories.Masquerade),
-			name: 'Masquerade',
+			name: 'Masquerade'
 		},
 		{
 			boardType: 'ranking',
 			boardInfo: lookupBoard(NgsQuests.DfDalion, NgsRunCategories.Quest),
-			name: 'Dark Falz Dalion',
+			name: 'Dark Falz Dalion'
 		},
 		{
 			boardType: 'ranking',
 			boardInfo: lookupBoard(NgsQuests.DfSolus, NgsRunCategories.Quest),
-			name: 'Dark Falz Solus',
+			name: 'Dark Falz Solus'
 		},
 		{
 			boardType: 'ranking',
 			boardInfo: lookupBoard(NgsQuests.Purples, NgsRunCategories.AelioIntruders),
-			name: 'Aelio Intruders',
-		},
+			name: 'Aelio Intruders'
+		}
 	];
 
 	const getRuns = async (tabIndex: number) => {
@@ -88,7 +88,7 @@
 			take: take,
 			sort: RunSortOption.Ranking,
 			partySize: 1,
-			rank: rank,
+			rank: rank
 		};
 		const runsPath = `/ngs-api/runs/${board?.questRoute}/${board?.categoryRoute}`;
 		const runs =
@@ -101,7 +101,7 @@
 		const runsSearchFilter: RunsSearchFilter = {
 			page: 0,
 			take: take,
-			sort: RunSortOption.Recent,
+			sort: RunSortOption.Recent
 		};
 		const runsPath = '/ngs-api/runs';
 		const soloRuns =
@@ -127,7 +127,7 @@
 				<HomeBoardRankTable {runs} />
 			{/if}
 			<div class="flex justify-end">
-				<Button size="xs" href={boardLink} disabled={!boardLink} class="btn btn-primary mt-4"
+				<Button size="xs" href={boardLink} disabled={!boardLink} class="btn mt-4 btn-primary"
 					>Go to Board <ArrowRight size="16" /></Button
 				>
 			</div>

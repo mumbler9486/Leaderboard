@@ -1,5 +1,5 @@
 <script lang="ts">
-	import RadioButton from '$lib/Components/RadioButton.svelte';
+	import RadioButton from '$lib/components/RadioButton.svelte';
 	import { NgsPlayerClass } from '$lib/types/api/ngsPlayerClass';
 	import { t } from 'svelte-i18n';
 

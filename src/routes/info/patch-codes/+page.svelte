@@ -1,22 +1,22 @@
 <script lang="ts">
-	import Divider from '$lib/Components/Divider.svelte';
-	import Timeline from '$lib/Components/Timeline.svelte';
-	import TimelineNode from '$lib/Components/TimelineNode.svelte';
+	import Divider from '$lib/components/Divider.svelte';
+	import Timeline from '$lib/components/Timeline.svelte';
+	import TimelineNode from '$lib/components/TimelineNode.svelte';
 	import {
 		currentPatchLabel,
 		CurrentSubmissionPatchCode,
-		patchCodeLabelMap,
+		patchCodeLabelMap
 	} from '$lib/constants/patchCodes';
 </script>
 
 <div class="flex flex-col content-center">
-	<div class="border-secondary bg-base-100/75 container m-16 mx-auto rounded-md border">
-		<div class="border-secondary bg-base-100 m-2 flex flex-col rounded-md border p-4 px-8">
+	<div class="container m-16 mx-auto rounded-md border border-secondary bg-base-100/75">
+		<div class="m-2 flex flex-col rounded-md border border-secondary bg-base-100 p-4 px-8">
 			<div class="text-center text-4xl font-light">Patch Code History</div>
 			<Divider />
 			<div class="flex flex-col items-center">
 				<div class="mb-4 text-xl">
-					The current patch is <span class="text-primary font-bold">{currentPatchLabel}</span>
+					The current patch is <span class="font-bold text-primary">{currentPatchLabel}</span>
 				</div>
 				<div class="flex max-w-4xl flex-col gap-2">
 					<p>
@@ -159,11 +159,11 @@
 							side="right"
 							fillLineStart
 						>
-							Known as the {patchCodeLabelMap['level95r']} patch, the player level cap was increased
-							to 95 for all classes. A new weapon series "Duo Selio" was released. This release also
-							included techter class balance adjustments for wands and new class skills. Update: Oct
-							16, 2024 update introduced the Highstira Domina augment. Update two: Oct 23, 2024 introduced
-							the Giga Triyal augment.
+							Known as the {patchCodeLabelMap['level95r']} patch, the player level cap was increased to
+							95 for all classes. A new weapon series "Duo Selio" was released. This release also included
+							techter class balance adjustments for wands and new class skills. Update: Oct 16, 2024 update
+							introduced the Highstira Domina augment. Update two: Oct 23, 2024 introduced the Giga Triyal
+							augment.
 						</TimelineNode>
 						<TimelineNode
 							title={patchCodeLabelMap['forceRebalance']}
@@ -173,9 +173,9 @@
 							current={CurrentSubmissionPatchCode === 'forceRebalance'}
 						>
 							Known as the {patchCodeLabelMap['forceRebalance']} patch, the force class was rebalanced.
-							Later in the month, a new 12-star weapon series "Twaalv" was released (Dec 18th). This
-							release also introduced new EX Augments EX Turnover H, EX Evade HP Gain H, EX Bring Down
-							PB Boost H, and EX Maintain Balance H.
+							Later in the month, a new 12-star weapon series "Twaalv" was released (Dec 18th). This release
+							also introduced new EX Augments EX Turnover H, EX Evade HP Gain H, EX Bring Down PB Boost
+							H, and EX Maintain Balance H.
 						</TimelineNode>
 						<TimelineNode
 							title={patchCodeLabelMap['level100r']}
@@ -185,9 +185,9 @@
 							current={CurrentSubmissionPatchCode === 'level100r'}
 						>
 							Known as the {patchCodeLabelMap['level100r']} patch, the player level cap was increased
-							to level 100. The hunter class was also rebalanced with new class skills, effects, and
-							balance adjustments. Tri-Selios can be upgraded to the 12⭐ Akroselio weapon series. Also
-							the cool down time for active skills at the current = {CurrentSubmissionPatchCode ===
+							to level 100. The hunter class was also rebalanced with new class skills, effects, and balance
+							adjustments. Tri-Selios can be upgraded to the 12⭐ Akroselio weapon series. Also the cool
+							down time for active skills at the current = {CurrentSubmissionPatchCode ===
 								'level100r'} start of any quests will be reduced to 10 seconds for ALL classes. Later
 							that month on Feb 19 we also got the 11⭐ Akrotasis Armor series.
 						</TimelineNode>
@@ -211,8 +211,8 @@
 							current={CurrentSubmissionPatchCode === 'level105r'}
 						>
 							Known as the {patchCodeLabelMap['level105r']} patch, player level cap has been increased
-							to level 105. In addition, weapons and armor can now be affixed with up to 8 augments.
-							12⭐ Progre Armor was released alongside a new augment C/Ultia Domina. Following the release
+							to level 105. In addition, weapons and armor can now be affixed with up to 8 augments. 12⭐
+							Progre Armor was released alongside a new augment C/Ultia Domina. Following the release
 							of the High difficulty Dark Falz Vael quest on June 10th, 13⭐ Cres series weapon was also
 							released. The weapon has a Potential that raises Potency and reduces PP consumption when
 							attacking enemies.
@@ -236,8 +236,8 @@
 							current={CurrentSubmissionPatchCode === 'wakerRebalance'}
 						>
 							Known as the {patchCodeLabelMap['wakerRebalance']} patch, the Waker class will be rebalanced
-							and a new class skill will be added. Fighter and Gunner adjustments will also be made.
-							In addition a new 13⭐ Volgen weapon series and Legend.2 Lygend weapon series will be released.
+							and a new class skill will be added. Fighter and Gunner adjustments will also be made. In
+							addition a new 13⭐ Volgen weapon series and Legend.2 Lygend weapon series will be released.
 							Two new EX special abilities EX Pain Provoke II H and EX Evade Onslaught II H will be released.
 							Later on September 3rd, the 13⭐ Zenit weapon series was was released
 						</TimelineNode>
@@ -249,11 +249,11 @@
 							current={CurrentSubmissionPatchCode === 'level110r'}
 						>
 							Known as the {patchCodeLabelMap['level110r']} patch, level cap was raised to 110. EX Style
-							enhancement system was released. C/Tera Triyal augment was also released. Later on the
-							22nd of October, Skill Rings were released with Type 1 and Type 2 varieties. November 5th
-							also brought some gear releases with 13⭐ Fortscha Armor and C/Argant Gigas Maste capsules.
-							From December 3rd Legend.3 weapons will be available. From December 17th we will also got
-							the release of C/Argant Gladia Soul.
+							enhancement system was released. C/Tera Triyal augment was also released. Later on the 22nd
+							of October, Skill Rings were released with Type 1 and Type 2 varieties. November 5th also
+							brought some gear releases with 13⭐ Fortscha Armor and C/Argant Gigas Maste capsules. From
+							December 3rd Legend.3 weapons will be available. From December 17th we will also got the
+							release of C/Argant Gladia Soul.
 						</TimelineNode>
 					</Timeline>
 				</div>
