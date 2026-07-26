@@ -1,0 +1,65 @@
+# Automated PR code review via Claude Code on Microsoft Foundry (Entra OIDC).
+# Model: claude-sonnet-4-6 on ai-account-f2bte3uevcxc6 (keys disabled → OIDC only).
+name: Claude PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: claude-pr-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  id-token: write # required for Azure OIDC
+
+jobs:
+  review:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Claude code review (Foundry)
+        uses: anthropics/claude-code-action@v1
+        with:
+          use_foundry: "true"
+          track_progress: "true"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: |
+            Review this pull request for the PSO2:NGS Leaderboard (SvelteKit + Azure Static Web Apps + Azure SQL).
+
+            Focus on:
+            - Correctness bugs and regressions
+            - Security (auth/roles, SQL injection, secrets, trustServerCertificate, webhook misuse)
+            - API validation and authorization gaps on /ngs-api routes
+            - Error handling that swallows failures (missing JSON 500 responses)
+            - Breaking changes to submit/approve/deny run flows
+
+            Skip pure style/nits unless they hide a bug. Be concise.
+            Post inline comments for specific issues when possible, plus a short summary.
+          claude_args: |
+            --model claude-sonnet-4-6
+            --max-turns 12
+        env:
+          CLAUDE_CODE_USE_FOUNDRY: "1"
+          # Prefer resource name (Claude Code builds .../anthropic). Do not also rely on BASE_URL alone.
+          ANTHROPIC_FOUNDRY_RESOURCE: ${{ vars.AZURE_FOUNDRY_RESOURCE }}
+          ANTHROPIC_DEFAULT_SONNET_MODEL: claude-sonnet-4-6
+          # Only Sonnet is deployed; map other roles to the same deployment so Claude Code does not fail looking for Haiku/Opus.
+          ANTHROPIC_DEFAULT_HAIKU_MODEL: claude-sonnet-4-6
+          ANTHROPIC_DEFAULT_OPUS_MODEL: claude-sonnet-4-6
